@@ -14,7 +14,7 @@ script:
 - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 - npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
 before_deploy:
-  - npm run build -- --prod --configuration=$space_sandbox
+  - npm run build -- --prod --configuration=development
   - cd dist
   - cp index.html 404.html
 deploy:
@@ -22,10 +22,10 @@ deploy:
     username: $username
     password: $password
     api: $api
-    organization: $organisation
-    space: $space_sandbox
+    organization: $org
+    space: $space_uat
     manifest: ../manifest.yml
     skip-cleanup: true
-    repo: Crown-Commercial-Service/conclave-ssso-ui
+    #repo: Crown-Commercial-Service/conclave-ssso-ui
     on:
-      branch: main
+      branch: travis
