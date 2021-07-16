@@ -1,8 +1,8 @@
 ---
 applications:
-- name: sand-ccs-sso
+- name: dev1-ccs-sso
   instances: 1
-  memory: 50M
+  memory: 512M
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack
   routes:
-    - route: sand-ccs-sso.london.cloudapps.digital
+    - route: dev1-ccs-sso.london.cloudapps.digital
