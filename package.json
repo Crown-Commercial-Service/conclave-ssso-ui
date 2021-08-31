@@ -41,7 +41,7 @@
     "ngx-intl-tel-input": "^3.1.1",
     "node-vault": "^0.9.21",
     "rollbar": "^2.21.1",
-    "rxjs": "~6.6.0",
+    "rxjs": "~6.6.7",
     "rxjs-compat": "^6.6.3",
     "save-dev": "0.0.1-security",
     "tslib": "^2.0.0",
