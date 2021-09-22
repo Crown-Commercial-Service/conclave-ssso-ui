@@ -24,7 +24,7 @@ export class WrapperUserService {
   createUser(userRequest: UserProfileRequestInfo): Observable<any> {
     const url = `${this.url}`;
     return this.http.post<UserEditResponseInfo>(url, userRequest, this.options).pipe(
-      map((data : UserEditResponseInfo) => {
+      map((data: UserEditResponseInfo) => {
         return data;
       }), catchError(error => {
         return throwError(error);
@@ -33,7 +33,7 @@ export class WrapperUserService {
   }
 
   deleteUser(userName: string): Observable<any> {
-    const url = `${this.url}?userId=${userName}`;
+    const url = `${this.url}?userId=${encodeURIComponent(userName)}`;
     return this.http.delete(url, this.options).pipe(
       map(() => {
         return true;
@@ -44,7 +44,7 @@ export class WrapperUserService {
   }
 
   getUser(userName: string): Observable<UserProfileResponseInfo> {
-    const url = `${this.url}?userId=${userName}`;
+    const url = `${this.url}?userId=${encodeURIComponent(userName)}`;
     return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
       map((data: UserProfileResponseInfo) => {
         return data;
@@ -55,7 +55,7 @@ export class WrapperUserService {
   }
 
   updateUser(userName: string, userRequest: UserProfileRequestInfo): Observable<any> {
-    const url = `${this.url}?userId=${userName}`;
+    const url = `${this.url}?userId=${encodeURIComponent(userName)}`;
     return this.http.put<UserEditResponseInfo>(url, userRequest, this.options).pipe(
       map((data: UserEditResponseInfo) => {
         return data;
@@ -66,7 +66,7 @@ export class WrapperUserService {
   }
 
   resetUserPassword(userName: string, component: string): Observable<any> {
-    const url = `${this.url}/change-password?userId=${userName}&component=${component}`;
+    const url = `${this.url}/reset-password?userId=${encodeURIComponent(userName)}&component=${component}`;
     return this.http.put(url, null).pipe(
       map(() => {
         return true;
@@ -77,7 +77,7 @@ export class WrapperUserService {
   }
 
   removeAdminRoles(userName: string): Observable<any> {
-    const url = `${this.url}/remove-admin-roles?userId=${userName}`;
+    const url = `${this.url}/remove-admin-roles?userId=${encodeURIComponent(userName)}`;
     return this.http.put(url, {}, this.options).pipe(
       map(() => {
         return true;
@@ -88,7 +88,7 @@ export class WrapperUserService {
   }
 
   addAdminRole(userName: string): Observable<any> {
-    const url = `${this.url}/add-admin-role?userId=${userName}`;
+    const url = `${this.url}/add-admin-role?userId=${encodeURIComponent(userName)}`;
     return this.http.put(url, {}, this.options).pipe(
       map(() => {
         return true;

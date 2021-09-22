@@ -30,7 +30,7 @@ export class WrapperOrganisationGroupService {
   }
 
   getOrganisationGroups(organisationId: string, searchString: string = ''): Observable<any> {
-    const url = `${this.url}/${organisationId}/groups?searchString=${searchString}`;
+    const url = `${this.url}/${organisationId}/groups?searchString=${encodeURIComponent(searchString)}`;
     return this.http.get<GroupList>(url).pipe(
       map((data: GroupList) => {
         return data;

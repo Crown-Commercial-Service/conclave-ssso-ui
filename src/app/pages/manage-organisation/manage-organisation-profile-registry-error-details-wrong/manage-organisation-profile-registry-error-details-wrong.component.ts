@@ -10,6 +10,7 @@ import { Data } from 'src/app/models/data';
 import { dataService } from 'src/app/services/data/data.service';
 import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-organisation-profile-registry-error-details-wrong',
@@ -26,17 +27,18 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 })
 export class ManageOrganisationRegistryDetailsWrongComponent extends BaseComponent implements OnInit {
 
-  public organisationId!: number;
-
+  public organisationId!: string;
+  ccsContactUrl : string = environment.uri.ccsContactUrl;
+  
   constructor(private dataService: dataService, private location: Location, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
-    this.organisationId = parseInt(this.route.snapshot.paramMap.get('organisationId') || '0');
+    this.organisationId = this.route.snapshot.paramMap.get('organisationId') || "";
   }
 
   ngOnInit() { }
 
-  public goBack(){
-    this.location.back();
+  public goToSearch() {
+    this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/search`);
   }
 
 }

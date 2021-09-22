@@ -7,19 +7,38 @@
   <div class="govuk-error-summary__body">
     <ul class="govuk-list govuk-error-summary__list">
       <li *ngIf="errorCode=='CHANGE_PASSWORD'; else elseBlock">
-        <a href="{{this.mainPageUrl}}/forgot-password">Please click here to reset your password</a>
+        <a href="{{this.mainPageUrl}}/forgot-password">Please click here to reset your password.</a>
       </li>
       <ng-template #elseBlock>
         <li *ngIf="errorCode=='USER_NOT_FOUND'; else elseBlock2">
-          <a (click)="signoutUser()"> You don't have a valid conclave account. Please navigate to login page </a>
+          <a href="javascript:;" (click)="signoutUser()"> You don't have a valid conclave account. Please navigate to login page. </a>
         </li>
       </ng-template>
-    <ng-template #elseBlock2>
-      <li *ngIf="errorCode=='INVALID_CONNECTION'; else elseBlock3">
-        <a (click)="signoutUser()"> You are not authorized to login using this authentication provider. Please navigate to login page </a>
-      </li>
-    </ng-template>
+      <ng-template #elseBlock2>
+        <li *ngIf="errorCode=='INVALID_CONNECTION'; else elseBlock3">
+          <a href="javascript:;" (click)="signoutUser()"> You are not authorized to login using this authentication provider. Please
+            navigate to login page. </a>
+        </li>
+      </ng-template>
       <ng-template #elseBlock3>
+        <li *ngIf="errorCode=='PENDING_PASSWORD_CHANGE'; else elseBlock4">
+          <a href="javascript:;" (click)="signoutUser()"> You need to change the password. An email has already been sent with instructions.
+            Please navigate to login page. </a>
+        </li>
+      </ng-template>
+      <ng-template #elseBlock4>
+        <li *ngIf="errorCode=='PENDING_MFA_VERIFICATION'; else elseBlock5">
+          <a href="javascript:;" (click)="signoutUser()"> You need to verify the Procurement Gateway Authenticator reset request. An email has already been sent with instructions.
+            Please navigate to login page. </a>
+        </li>
+      </ng-template>
+      <ng-template #elseBlock5>
+        <li *ngIf="errorCode=='ERROR_INVALID_INPUT_CHARACTER'; else elseBlock6">
+          <a href="javascript:;" (click)="goToDashboard()"> You have tried to enter a prohibited character in one of the input fields.
+            Please go to the home page. </a>
+        </li>
+      </ng-template>
+      <ng-template #elseBlock6>
         <li><a href="{{this.mainPageUrl}}">{{errorCode}}</a></li>
       </ng-template>
     </ul>

@@ -1,35 +1,25 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
-import { slideAnimation } from 'src/app/animations/slide.animation';
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { UIState } from 'src/app/store/ui.states';
-import { Organisation } from 'src/app/models/organisation';
-import { ContactDetails, Address, ContactType } from 'src/app/models/contactDetail';
-import { contactService } from 'src/app/services/contact/contact.service';
-import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { ciiService } from 'src/app/services/cii/cii.service';
-import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
-import { User } from 'src/app/models/user';
 import { TokenService } from 'src/app/services/auth/token.service';
-import { WebsiteService } from 'src/app/services/postgres/website.service';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
-import { Role } from 'src/app/models/organisationGroup';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
-import { share } from 'rxjs/operators';
-import { IdentityProvider, IdentityProviderSummary } from 'src/app/models/identityProvider';
+import { IdentityProviderSummary } from 'src/app/models/identityProvider';
 import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { WrapperOrganisationContactService } from 'src/app/services/wrapper/wrapper-org-contact-service';
-import { ContactGridInfo, OrganisationContactInfoList } from 'src/app/models/contactInfo';
+import { ContactGridInfo } from 'src/app/models/contactInfo';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
-import { OrganisationSite, OrganisationSiteInfoList, SiteGridInfo } from 'src/app/models/site';
+import { OrganisationSite, SiteGridInfo } from 'src/app/models/site';
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-import { FormGroup } from '@angular/forms';
-import { CiiDto } from 'src/app/models/org';
+import { environment } from 'src/environments/environment';
+import { OrganisationDto } from 'src/app/models/organisation';
+import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
 
 @Component({
     selector: 'app-manage-organisation-profile',
@@ -38,16 +28,14 @@ import { CiiDto } from 'src/app/models/org';
 })
 export class ManageOrganisationProfileComponent extends BaseComponent implements OnInit {
 
-    org: any;
-    organisationId!: number;
+    org: OrganisationDto;
     ciiOrganisationId: string;
     contactData: ContactGridInfo[];
-    organisationAddress: Address;
     siteData: SiteGridInfo[];
-    registries: any[];
-    additionalIdentifiers: any[];
-    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER'];
-    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber'];
+    registries: CiiOrgIdentifiersDto;
+    additionalIdentifiers: CiiAdditionalIdentifier[];
+    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'FAX', 'WEB_URL'];
+    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
     siteTableHeaders = ['SITE_NAME', 'STREET_ADDRESS', 'POSTAL_CODE', 'COUNTRY_CODE'];
     siteColumnsToDisplay = ['siteName', 'streetAddress', 'postalCode', 'countryCode'];
     registriesTableDisplayedColumns: string[] = ['authority', 'id', 'type', 'actions'];
@@ -55,56 +43,38 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     public idps: any;
     public orgIdps: any[] = [];
     changedIdpList: { id: number, enabled: boolean, connectionName: string, name: string }[] = [];
+    ccsContactUrl : string = environment.uri.ccsContactUrl;
 
-    constructor(private contactService: contactService, private websiteService: WebsiteService,
-        private organisationService: OrganisationService, private ciiService: ciiService,
-        private configWrapperService: WrapperConfigurationService, private wrapperService: WrapperUserService,
-        private router: Router, private route: ActivatedRoute, private contactHelper: ContactHelper,
-        protected uiStore: Store<UIState>, private readonly tokenService: TokenService,
-        private organisationGroupService: WrapperOrganisationGroupService,
-        private orgContactService: WrapperOrganisationContactService,
-        private wrapperOrgSiteService: WrapperOrganisationSiteService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
+        private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
+        protected uiStore: Store<UIState>, private readonly tokenService: TokenService, private organisationGroupService: WrapperOrganisationGroupService,
+        private orgContactService: WrapperOrganisationContactService, private wrapperOrgSiteService: WrapperOrganisationSiteService,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
         this.contactData = [];
-        this.organisationAddress = {};
         this.siteData = [];
-        this.registries = [];
+        this.registries = {};
         this.additionalIdentifiers = [];
         this.ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
+        this.org = {};
     }
 
     async ngOnInit() {
         const ciiOrgId = this.tokenService.getCiiOrgId();
 
-        var org = await this.organisationService.getById(ciiOrgId).toPromise().catch(e => {
+        var org = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
         });
         if (org) {
-            this.organisationId = org.organisationId;
-            this.organisationAddress = org.address;
             this.org = org;
             this.idps = await this.configWrapperService.getIdentityProviders().toPromise().catch();
             this.orgIdps = await this.organisationGroupService.getOrganisationIdentityProviders(ciiOrgId).toPromise().catch();
 
             this.idps.forEach((idp: any) => {
-                // console.log(element);
-                // idp.enabled = true;
                 this.orgIdps.forEach((element: any) => {
                     if (idp.connectionName == element.connectionName) {
                         idp.enabled = true;
                     }
                 });
-            });
-
-            // this.organisation$ = this.organisationService.getById(this.organisationId);
-            localStorage.setItem('organisation_id', this.organisationId + '');
-            await this.contactService.getContacts(org.organisationId).toPromise().then(data => {
-                if (data && data.length > 0) {
-                    var orgContact = data.find(c => c.contactType == ContactType.Organisation);
-                    if (orgContact && orgContact.address) {
-                        this.organisationAddress = orgContact.address;
-                    }
-                }
-            }).catch(e => {
             });
 
             await this.orgContactService.getOrganisationContacts(this.ciiOrganisationId).toPromise().then(orgContactListInfo => {
@@ -115,10 +85,10 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             });
 
 
-            await this.ciiService.getOrgs(ciiOrgId).toPromise().then((data: any) => {
+            await this.ciiService.getOrgDetails(ciiOrgId).toPromise().then((data: any) => {
                 localStorage.setItem('cii_registries', JSON.stringify(data));
                 this.registries = data;
-                this.additionalIdentifiers = data[0].additionalIdentifiers;
+                this.additionalIdentifiers = data.additionalIdentifiers;
             }).catch(e => {
             });
 
@@ -176,22 +146,18 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     }
 
     public onRegistryAddClick() {
-        this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/search`);
+        this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/search`);
     }
 
     public onRegistryEditClick(row: any) {
-        this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/${row.scheme}/${row.id}`);
+        this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/${row.scheme}/${row.id}`);
     }
 
     public onRegistryRemoveClick(row: any) {
-        this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/delete/${row.scheme}/${row.id}`);
+        this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/delete/${row.scheme}/${row.id}`);
     }
 
     public onIdentityProviderChange(e: any, row: any) {
-        // const accesstoken = this.tokenService.getDecodedAccessToken();
-        // this.organisationGroupService.enableIdentityProvider(accesstoken.ciiOrgId, row.connectionName, !row.enabled).subscribe(data => {
-
-        // });
         var dataIndex = this.changedIdpList.map(function (item) { return item.id; }).indexOf(row.id);
         if (dataIndex > -1) {
             this.changedIdpList.splice(dataIndex, 1);
@@ -217,18 +183,6 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         this.router.navigateByUrl(`home`);
     }
 
-    public isPrimary(row: any): boolean {
-        if (!this.registries) return true;
-        let index = this.registries.indexOf(row);
-        if (index === -1) {
-            return false;
-        }
-        if (index >= 1) {
-            return false;
-        }
-        return true;
-    }
-
     public getSchemaName(schema: string): string {
         switch (schema) {
             case 'GB-COH': {
@@ -251,5 +205,12 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             }
         }
     }
+
+    public onContactAssignClick() {
+        let data = {
+          'assigningOrgId': this.ciiOrganisationId
+        };
+        this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
+      }
 
 }

@@ -3,8 +3,6 @@ import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 
 import { AuthGuard } from './services/auth/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { TokenComponent } from './pages/token/token.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
@@ -33,7 +31,6 @@ import { ManageOrgRegErrorGenericComponent } from './pages/manage-organisation/m
 import { UserContactEditComponent } from './pages/user-contact/user-contact-edit/user-contact-edit.component';
 import { OperationSuccessComponent } from './pages/operation-success/operation-success.component';
 import { OperationFailedComponent } from './pages/operation-failed/operation-failed.component';
-import { ManageOrganisationRegistryComponent } from './pages/manage-organisation/manage-organisation-profile-registry/manage-organisation-profile-registry.component';
 import { ManageOrganisationRegistrySearchComponent } from './pages/manage-organisation/manage-organisation-profile-registry-search/manage-organisation-profile-registry-search.component';
 import { ManageOrganisationRegistryConfirmComponent } from './pages/manage-organisation/manage-organisation-profile-registry-confirm/manage-organisation-profile-registry-confirm.component';
 import { ManageOrganisationRegistryDetailsWrongComponent } from './pages/manage-organisation/manage-organisation-profile-registry-error-details-wrong/manage-organisation-profile-registry-error-details-wrong.component';
@@ -65,9 +62,6 @@ import { OrgSupportSuccessComponent } from './pages/org-support/success/success.
 import { OrgSupportConfirmComponent } from './pages/org-support/confirm/confirm.component';
 import { OrgSupportDetailsComponent } from './pages/org-support/details/details.component';
 import { OrgSupportSearchComponent } from './pages/org-support/search/search.component';
-import { OrgSupportConfirmResetPasswordComponent } from './pages/org-support/confirm-reset-password/confirm.component';
-import { OrgSupportSuccessResetPasswordComponent } from './pages/org-support/success-reset-password/success.component';
-import { OrgSupportSuccessChangedRoleComponent } from './pages/org-support/success-changed-role/success.component';
 import { ManageGroupListComponent } from './pages/manage-group/manage-group-list/manage-group-list-component';
 import { ManageGroupEditNameComponent } from './pages/manage-group/manage-group-edit-name/manage-group-edit-name-component';
 import { ManageGroupEditUsersComponent } from './pages/manage-group/manage-group-edit-users/manage-group-edit-users-component';
@@ -86,94 +80,118 @@ import { BuyerErrorComponent } from './pages/buyer/error/error.component';
 import { OrgSupportErrorComponent } from './pages/org-support/error/error.component';
 import { ForgotPasswordSuccessComponent } from './pages/forgot-password-success/forgot-password-success';
 import { AuthErrorComponent } from './pages/auth-error/auth-error.component';
+import { ContactAssignSelectionComponent } from './pages/contact/contact-assign-selection/contact-assign-selection-component';
+import { ContactAssignUserSearchComponent } from './pages/contact/contact-assign-user-search/contact-assign-user-search-component';
+import { ContactAssignSiteSearchComponent } from './pages/contact/contact-assign-site-search/contact-assign-site-searchcomponent';
+import { ContactAssignComponent } from './pages/contact/contact-assign/contact-assign-component';
+import { ContactAssignConfirmComponent } from './pages/contact/contact-assign-confirm/contact-assign-confirm-component';
+import { ContactAssignSuccessComponent } from './pages/contact/contact-assign-success/contact-assign-success-component';
+import { ContactUnassignConfirmComponent } from './pages/contact/contact-unassign-confirm/contact-unassign-confirm-component';
+import { ContactUnassignSuccessComponent } from './pages/contact/contact-unassign-success/contact-unassign-success-component';
+import { ContactAssignErrorComponent } from './pages/contact/contact-assign-error/contact-assign-error-component';
+import { ManageGroupErrorComponent } from './pages/manage-group/manage-group-error/manage-group-error.component';
+import { HelpAndSupportComponent } from './pages/help-support/help-support-component';
+import { MFAResetComponent } from './pages/mfa-reset/mfa-reset-component';
+import { SendMFAResetNotificationComponent } from './pages/mfa-reset/send-notification/send-mfa-reset-notification';
+import { SendMFAResetNotificationSuccessComponent } from './pages/mfa-reset/send-notification-success/send-mfa-reset-notification-success';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'renewtkn', pathMatch: 'full',component: AuthErrorComponent }, 
+  { path: 'renewtkn', pathMatch: 'full', component: AuthErrorComponent },
   { path: 'home', data: { title: 'Dashboard' }, canActivate: [AuthGuard], pathMatch: 'full', component: HomeComponent },
   { path: 'error', data: { title: 'Error' }, pathMatch: 'full', component: ErrorComponent },
-  { path: 'contactus', data: { title: 'Contact Us' }, pathMatch: 'full', component: ContactUsComponent},
-  { path: 'profile', data: { title: 'My Profile',roles: ['MANAGE_MY_ACCOUNT']}, canActivate: [AuthGuard, RoleGuard], pathMatch: 'full', component: UserProfileComponent },
+  { path: 'contactus', data: { title: 'Contact Us' }, pathMatch: 'full', component: ContactUsComponent },
+  { path: 'profile', data: { title: 'My Profile', roles: ['MANAGE_MY_ACCOUNT'] }, canActivate: [AuthGuard, RoleGuard], pathMatch: 'full', component: UserProfileComponent },
   { path: 'operation-success/:operation', data: { title: 'Success' }, canActivate: [AuthGuard], pathMatch: 'full', component: OperationSuccessComponent },
-  { path: 'operation-failed/:operation', data: { title: 'Failed' }, pathMatch: 'full', component: OperationFailedComponent },
-  { path: 'change-password-success/:operation', data: { title: 'Change Password' }, pathMatch: 'full', component: OperationSuccessComponent },
-  { path: 'change-password-failed/:operation', data: { title: 'Change Password' }, pathMatch: 'full', component: OperationFailedComponent },
-  { path: 'user-contact-edit', data: { title: 'User Contact' }, canActivate: [AuthGuard], pathMatch: 'full', component: UserContactEditComponent },
-  { path: 'user-contact-delete', data: { title: 'User Contact' }, canActivate: [AuthGuard], pathMatch: 'full', component: UserContactDeleteConfirmComponent },
-  { path: 'register', data: { title: 'Register' }, pathMatch: 'full', component: RegisterComponent },
+  { path: 'change-password-success/:operation', data: { title: 'Success - Change Password' }, pathMatch: 'full', component: OperationSuccessComponent },
+  { path: 'change-password-failed/:operation', data: { title: 'Error - Change Password' }, pathMatch: 'full', component: OperationFailedComponent },
+  { path: 'user-contact-edit', data: { title: 'Add/Edit - User Contact' }, canActivate: [AuthGuard], pathMatch: 'full', component: UserContactEditComponent },
+  { path: 'user-contact-delete', data: { title: 'Delete - User Contact' }, canActivate: [AuthGuard], pathMatch: 'full', component: UserContactDeleteConfirmComponent },
   { path: 'forgot-password', data: { title: 'Forgot Password' }, pathMatch: 'full', component: ForgotPasswordComponent },
-  { path: 'forgot-password-success', data: { title: 'Forgot Password Success' }, pathMatch: 'full', component: ForgotPasswordSuccessComponent },
+  { path: 'forgot-password-success', data: { title: 'Success - Forgot Password' }, pathMatch: 'full', component: ForgotPasswordSuccessComponent },
   { path: 'change-password', data: { title: 'Change Password' }, canActivate: [AuthGuard], pathMatch: 'full', component: ChangePasswordComponent },
   { path: 'token', data: { title: 'Token' }, canActivate: [AuthGuard], pathMatch: 'full', component: TokenComponent },
   { path: 'authsuccess', data: { title: 'Auth Success' }, component: AuthSuccessComponent },
-  { path: 'registration/success', data: { title: 'Registration Successfull' }, component: RegistrationSuccessComponent },
+  { path: 'registration/success', data: { title: 'Success' }, component: RegistrationSuccessComponent },
   { path: 'manage-org/login', data: { title: 'Login' }, pathMatch: 'full', component: ManageOrganisationLoginComponent },
   { path: 'manage-org/register', data: { title: 'Register' }, pathMatch: 'full', component: ManageOrgRegStep1Component },
-  { path: 'manage-org/register/start', data: { title: 'Start Registration' }, pathMatch: 'full', component: ManageOrgRegStep1BComponent },
-  { path: 'manage-org/register/search', data: { title: 'Registration Search' }, pathMatch: 'full', component: ManageOrgRegStep2Component },
-  { path: 'manage-org/register/search/:scheme/:id', data: { title: 'Search Results' }, pathMatch: 'full', component: ManageOrgRegStep3Component },
-  { path: 'manage-org/register/search/:scheme/:id/additional-identifiers', data: { title: 'Additional Identifiers Search Results' }, pathMatch: 'full', component: ManageOrgRegAdditionalIdentifiersComponent },
-  { path: 'manage-org/register/user', data: { title: 'Register User' }, pathMatch: 'full', component: ManageOrgRegAddUserComponent },
-  { path: 'manage-org/register/confirm', data: { title: 'Confirm Registration' }, pathMatch: 'full', component: ManageOrgRegConfirmComponent },
-  { path: 'manage-org/register/success', data: { title: 'Registration Successfull' }, pathMatch: 'full', component: ManageOrgRegSuccessComponent },
-  { path: 'manage-org/error/:reason', data: { title: 'Registration Error' }, pathMatch: 'full', component: ManageOrganisationErrorComponent },
-  { path: 'manage-org/register/error', data: { title: 'Registration Error' }, pathMatch: 'full', component: ManageOrgRegErrorComponent },
-  { path: 'manage-org/register/error/generic', data: { title: 'Registration Error' }, pathMatch: 'full', component: ManageOrgRegErrorGenericComponent },
-  { path: 'manage-org/register/error/username', data: { title: 'Registration Error' }, pathMatch: 'full', component: ManageOrgRegErrorUsernameExistsComponent },
-  { path: 'manage-org/register/error/notfound', data: { title: 'Registration Error' }, pathMatch: 'full', component: ManageOrgRegErrorNotFoundComponent },
-  { path: 'manage-org/register/error/reg-id-exists', data: { title: 'Registration Error' }, pathMatch: 'full', component: ManageOrgRegFailureComponent },
-  { path: 'manage-org/register/error/wrong-details', data: { title: 'Registration Error' }, pathMatch: 'full', component: ManageOrgRegDetailsWrongComponent },
-  { path: 'manage-org/register/error/not-my-details', data: { title: 'Registration Error' }, pathMatch: 'full', component: ManageOrgRegOrgNotFoundComponent },
-  { path: 'manage-org/profile', data: { title: 'Profile', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationProfileComponent },
-  { path: 'manage-org/profile/contact-edit', data: { title: 'Contact Add/Update', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationContactEditComponent },
-  { path: 'manage-org/profile/contact-delete', data: { title: 'Contact Delete', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationContactDeleteComponent },
-  { path: 'manage-org/profile/contact-operation-success/:operation', data: { title: 'Update Successfull', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationContactOperationSuccessComponent },
-  { path: 'manage-org/profile/:organisationId/registry', data: { title: 'Organisation Registry', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryComponent },
-  { path: 'manage-org/profile/:organisationId/registry/error/:reason', data: { title: 'Registration Error', roles: ['MANAGE_ORGS'] }, canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryErrorComponent },
-  { path: 'manage-org/profile/success', data: { title: 'Profile Success', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationProfileSuccessComponent },
+  { path: 'manage-org/register/type', data: { title: 'Buyer/Supplier Type - Registration' }, pathMatch: 'full', component: ManageOrgRegRightToBuyComponent },
+  { path: 'manage-org/register/buyer-type', data: { title: 'Buyer Type - Registration' }, pathMatch: 'full', component: ManageOrgRegBuyerTypeComponent },
+  { path: 'manage-org/register/start', data: { title: 'Start - Registration' }, pathMatch: 'full', component: ManageOrgRegStep1BComponent },
+  { path: 'manage-org/register/search', data: { title: 'Enter Details - Registration' }, pathMatch: 'full', component: ManageOrgRegStep2Component },
+  { path: 'manage-org/register/search/:scheme', data: { title: 'Confirm Organisation Details - Registration' }, pathMatch: 'full', component: ManageOrgRegStep3Component },
+  { path: 'manage-org/register/search/:scheme/:id/additional-identifiers', data: { title: 'Confirm Additional Identifiers - Registration' }, pathMatch: 'full', component: ManageOrgRegAdditionalIdentifiersComponent },
+  { path: 'manage-org/register/user', data: { title: 'Admin Details - Registration' }, pathMatch: 'full', component: ManageOrgRegAddUserComponent },
+  { path: 'manage-org/register/confirm', data: { title: 'Confirm - Registration' }, pathMatch: 'full', component: ManageOrgRegConfirmComponent },
+  { path: 'manage-org/register/success', data: { title: 'Success - Registration' }, pathMatch: 'full', component: ManageOrgRegSuccessComponent },
+  { path: 'manage-org/error/:reason', data: { title: 'Error' }, pathMatch: 'full', component: ManageOrganisationErrorComponent },
+  { path: 'manage-org/register/error', data: { title: 'Error - Registration' }, pathMatch: 'full', component: ManageOrgRegErrorComponent },
+  { path: 'manage-org/register/error/generic', data: { title: 'Error - Registration' }, pathMatch: 'full', component: ManageOrgRegErrorGenericComponent },
+  { path: 'manage-org/register/error/username', data: { title: 'Error - Registration' }, pathMatch: 'full', component: ManageOrgRegErrorUsernameExistsComponent },
+  { path: 'manage-org/register/error/notfound', data: { title: 'Error - Registration' }, pathMatch: 'full', component: ManageOrgRegErrorNotFoundComponent },
+  { path: 'manage-org/register/error/reg-id-exists', data: { title: 'Error - Registration' }, pathMatch: 'full', component: ManageOrgRegFailureComponent },
+  { path: 'manage-org/register/error/wrong-details', data: { title: 'Wrong Company Details - Registration' }, pathMatch: 'full', component: ManageOrgRegDetailsWrongComponent },
+  { path: 'manage-org/register/error/not-my-details', data: { title: 'Not My Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegOrgNotFoundComponent },
+  { path: 'manage-org/profile', data: { title: 'Manage Organisation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationProfileComponent },
+  { path: 'manage-org/profile/contact-edit', data: { title: 'Add/Edit - Organisation Contact', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationContactEditComponent },
+  { path: 'manage-org/profile/contact-delete', data: { title: 'Delete Organisation Contact', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationContactDeleteComponent },
+  { path: 'manage-org/profile/site/contact-edit', data: { title: 'Add/Edit - Site Contact', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationContactEditComponent },
+  { path: 'manage-org/profile/site/contact-delete', data: { title: 'Delete - Site Contact', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationContactDeleteComponent },
+  { path: 'manage-org/profile/contact-operation-success/:operation', data: { title: 'Success', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationContactOperationSuccessComponent },
+  { path: 'manage-org/profile/:organisationId/registry/error/:reason', data: { title: 'Error - Add Registry', roles: ['MANAGE_ORGS'] }, canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryErrorComponent },
+  { path: 'manage-org/profile/success', data: { title: 'Success - Edit - Manage Organisation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationProfileSuccessComponent },
   { path: 'manage-org/profile/registry/search', data: { title: 'Registry Search', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistrySearchComponent },
-  { path: 'manage-org/profile/:organisationId/registry/search', data: { title: 'Registry Search', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistrySearchComponent },
-  { path: 'manage-org/profile/:organisationId/registry/search/:scheme/:id/additional-identifiers', data: { title: 'Registry Additional Identifiers Search', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryConfirmAdditionalDetailsComponent },
-  { path: 'manage-org/profile/:organisationId/registry/search/:scheme/:id', data: { title: 'Registry Search Results', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryConfirmComponent },
-  { path: 'manage-org/profile/:organisationId/registry/confirmation/:scheme/:id', data: { title: 'Registry Search Results Confirmation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryAddConfirmationComponent },
-  { path: 'manage-org/profile/:organisationId/registry/search/wrong-details', data: { title: 'Registration Error', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryDetailsWrongComponent },
-  { path: 'manage-org/profile/:organisationId/registry/search/not-my-org', data: { title: 'Registration Error', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryOrgNotFoundComponent },
-  { path: 'manage-org/profile/:organisationId/registry/delete/:scheme/:id', data: { title: 'Registration Delete', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryDeleteComponent },
-  { path: 'manage-org/profile/:organisationId/registry/delete/confirmation/:scheme/:id', data: { title: 'Registration Delete Confirmation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryDeleteConfirmationComponent },
+  { path: 'manage-org/profile/:organisationId/registry/search', data: { title: 'Add Registry - Manage Organisation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistrySearchComponent },
+  { path: 'manage-org/profile/:organisationId/registry/search/:scheme/:id/additional-identifiers', data: { title: 'Confirm Additional Identifiers - Add Registry - Manage Organisation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryConfirmAdditionalDetailsComponent },
+  { path: 'manage-org/profile/:organisationId/registry/search_confirm/:scheme', data: { title: 'Confirm Registry - Add Registry - Manage Organisation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryConfirmComponent },
+  { path: 'manage-org/profile/:organisationId/registry/confirmation/:scheme/:id', data: { title: 'Success - Add Registry - Manage Organisation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryAddConfirmationComponent },
+  { path: 'manage-org/profile/:organisationId/registry/search/wrong-details', data: { title: 'Wrong Company Details - Add Registry - Manage Organisation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryDetailsWrongComponent },
+  { path: 'manage-org/profile/:organisationId/registry/search/not-my-org', data: { title: 'Not My Organisation - Add Registry - Manage Organisation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryOrgNotFoundComponent },
+  { path: 'manage-org/profile/:organisationId/registry/delete/:scheme/:id', data: { title: 'Remove Registry - Manage Organisation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryDeleteComponent },
+  { path: 'manage-org/profile/:organisationId/registry/delete/confirmation/:scheme/:id', data: { title: 'Success - Remove Registry - Manage Organisation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryDeleteConfirmationComponent },
   { path: 'manage-users', data: { title: 'Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserProfilesComponent },
-  { path: 'manage-users/add-user-selection', data: { title: 'Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserAddSelectionComponent },
-  { path: 'manage-users/add-user/details', data: { title: 'Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserAddSingleUserDetailComponent },
-  { path: 'manage-users/confirm-reset-password', data: { title: 'Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserConfirmResetPasswordComponent },
-  { path: 'manage-users/confirm-user-delete', data: { title: 'Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserDeleteConfirmComponent },
-  { path: 'manage-org/profile/site/edit', data: { title: 'Manage Sites', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationSiteEditComponent },
-  { path: 'manage-org/profile/site/delete', data: { title: 'Manage Sites', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationSiteDeleteComponent },
+  { path: 'manage-users/add-user-selection', data: { title: 'Select - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserAddSelectionComponent },
+  { path: 'manage-users/add-user/details', data: { title: 'Add/Edit - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserAddSingleUserDetailComponent },
+  { path: 'manage-users/confirm-reset-password', data: { title: 'Reset Password - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserConfirmResetPasswordComponent },
+  { path: 'manage-users/confirm-user-delete', data: { title: 'Delete - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserDeleteConfirmComponent },
+  { path: 'manage-org/profile/site/edit', data: { title: 'Add/Edit - Site', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationSiteEditComponent },
+  { path: 'manage-org/profile/site/delete', data: { title: 'Delete - Site', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationSiteDeleteComponent },
   { path: 'nominate', data: { title: 'Nominate' }, pathMatch: 'full', component: NominateComponent },
-  { path: 'nominate/success', data: { title: 'Nominate' }, pathMatch: 'full', component: NominateSuccessComponent },
+  { path: 'nominate/success', data: { title: 'Success - Nominate' }, pathMatch: 'full', component: NominateSuccessComponent },
   { path: 'buyer/search', data: { title: 'Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerSearchComponent },
-  { path: 'buyer/details/:id', data: { title: 'Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerDetailsComponent },
-  { path: 'buyer/confirm/:id', data: { title: 'Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerConfirmComponent },
-  { path: 'buyer/confirm-changes/:id', data: { title: 'Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerConfirmChangesComponent },
-  { path: 'buyer/error', data: { title: 'Manage Buyers Error', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerErrorComponent },
-  { path: 'buyer/success', data: { title: 'Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerSuccessComponent },
-  { path: 'org-support/search', data: { title: 'Org Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportSearchComponent },
-  { path: 'org-support/details/:id', data: { title: 'Org Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportDetailsComponent },
-  { path: 'org-support/confirm/:userName', data: { title: 'Org Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportConfirmComponent },
-  { path: 'org-support/success/:id', data: { title: 'Org Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportSuccessComponent },
-  { path: 'org-support/confirm-reset-password/:userName', data: { title: 'Org Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportConfirmResetPasswordComponent },
-  { path: 'org-support/success-reset-password/:id', data: { title: 'Org Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportSuccessResetPasswordComponent },
-  { path: 'org-support/success-changed-role/:id', data: { title: 'Org Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportSuccessChangedRoleComponent },
+  { path: 'buyer/details/:id', data: { title: 'Confirm Organisation - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerDetailsComponent },
+  { path: 'buyer/confirm/:id', data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerConfirmComponent },
+  { path: 'buyer/confirm-changes/:id', data: { title: 'Confirm Changes - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerConfirmChangesComponent },
+  { path: 'buyer/error', data: { title: 'Error - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerErrorComponent },
+  { path: 'buyer/success', data: { title: 'Success - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerSuccessComponent },
+  { path: 'org-support/search', data: { title: 'Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportSearchComponent },
+  { path: 'org-support/details/:id', data: { title: 'Update User - Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportDetailsComponent },
+  { path: 'org-support/confirm/:userName', data: { title: 'Confirm - Update User - Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportConfirmComponent },
+  { path: 'org-support/success/:userName', data: { title: 'Success - Update User - Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportSuccessComponent },
+  { path: 'org-support/error', data: { title: 'Error - Update User - Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportErrorComponent },
   { path: 'manage-groups', data: { title: 'Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupListComponent },
-  { path: 'manage-groups/view', data: { title: 'Manage Groups', roles: ['MANAGE_USERS','MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupViewComponent },
-  { path: 'manage-groups/edit-name', data: { title: 'Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupEditNameComponent },
-  { path: 'manage-groups/edit-users', data: { title: 'Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupEditUsersComponent },
-  { path: 'manage-groups/edit-users-confirm', data: { title: 'Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupEditUsersConfirmComponent },
-  { path: 'manage-groups/edit-roles', data: { title: 'Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupEditRolesComponent },
-  { path: 'manage-groups/edit-roles-confirm', data: { title: 'Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupEditRolesConfirmComponent },
-  { path: 'manage-groups/operation-success/:operation', data: { title: 'Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupOperationSuccessComponent },
-  { path: 'manage-groups/delete-group-confirm', data: { title: 'Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupDeleteConfirmComponent },  
-  { path: 'org-support/error', data: { title: 'Org Support Error', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportErrorComponent },
-  { path: 'manage-org/register/type', data: { title: 'Registration' }, pathMatch: 'full', component: ManageOrgRegRightToBuyComponent },
-  { path: 'manage-org/register/buyer-type', data: { title: 'Registration' }, pathMatch: 'full', component: ManageOrgRegBuyerTypeComponent },
+  { path: 'manage-groups/view', data: { title: 'Manage Groups', roles: ['MANAGE_USERS', 'MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupViewComponent },
+  { path: 'manage-groups/edit-name', data: { title: 'Add/Edit Name - Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupEditNameComponent },
+  { path: 'manage-groups/edit-users', data: { title: 'Add/Edit Users - Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupEditUsersComponent },
+  { path: 'manage-groups/edit-users-confirm', data: { title: 'Confirm - Add/Edit Users - Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupEditUsersConfirmComponent },
+  { path: 'manage-groups/edit-roles', data: { title: 'Add/Edit Roles - Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupEditRolesComponent },
+  { path: 'manage-groups/edit-roles-confirm', data: { title: 'Confirm - Add/Edit Roles - Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupEditRolesConfirmComponent },
+  { path: 'manage-groups/operation-success/:operation', data: { title: 'Success', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupOperationSuccessComponent },
+  { path: 'manage-groups/delete-group-confirm', data: { title: 'Delete - Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupDeleteConfirmComponent },
+  { path: 'manage-groups/error', data: { title: 'Error - Edit - Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupErrorComponent },
+  { path: 'contact-assign/select', data: { title: 'Select Contact Type - Assign Contacts', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ContactAssignSelectionComponent },
+  { path: 'contact-assign/user-search', data: { title: 'Search User - Assign Contacts', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ContactAssignUserSearchComponent },
+  { path: 'contact-assign/site-search', data: { title: 'Search Site - Assign Contacts', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ContactAssignSiteSearchComponent },
+  { path: 'contact-assign', data: { title: 'Assign Contacts', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ContactAssignComponent },
+  { path: 'contact-assign/confirm', data: { title: 'Confirm - Assign Contacts', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ContactAssignConfirmComponent },
+  { path: 'contact-assign/success', data: { title: 'Success - Assign Contacts', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ContactAssignSuccessComponent },
+  { path: 'contact-unassign/confirm', data: { title: 'Confirm - Unassign Contact', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ContactUnassignConfirmComponent },
+  { path: 'contact-unassign/success', data: { title: 'Success - Unassign Contact', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ContactUnassignSuccessComponent },
+  { path: 'contact-assign/error', data: { title: 'Error - Assign Contacts', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ContactAssignErrorComponent },
+  { path: 'help-support', data: { title: 'Help and support' }, pathMatch: 'full', component: HelpAndSupportComponent },
+  { path: 'mfaresetnotification', data: { title: 'Email - Procurement Gateway Authenticator Reset' }, pathMatch: 'full', component: SendMFAResetNotificationComponent },
+  { path: 'mfaresetnotification/success', data: { title: 'Success - Email - Procurement Gateway Authenticator Reset' }, pathMatch: 'full', component: SendMFAResetNotificationSuccessComponent },
+  { path: 'mfareset', data: { title: 'Procurement Gateway Authenticator Reset' }, pathMatch: 'full', component: MFAResetComponent },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

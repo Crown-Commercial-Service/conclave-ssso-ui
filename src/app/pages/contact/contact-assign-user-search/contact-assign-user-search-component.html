@@ -1,0 +1,62 @@
+<div class="contact-assign-user-search-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' |
+                            translate}}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{
+                            'MANAGE_YOUR_ORGANISATION'
+                            |translate}}</a>
+                    </li>
+                    <li *ngIf="assigningSiteId != 0" class="govuk-breadcrumbs__list-item">
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
+                            translate
+                            }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'CONTACT_ASSIGN_SELECTION'
+                            |translate}}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link"> {{ 'SEARCH_USERS' | translate }}</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl page-title"> {{ 'SELECT_USER_FOR_CONTACTS' | translate }}</h1>
+            <p class="govuk-heading-s ">{{ 'SEARCH_AND_SELECT_USER' | translate }}</p>
+
+            <div class="govuk-form-group" id="search-form-group">
+                <label class="govuk-label" for="search"> {{ 'SEARCH_USERS_BY_EMAIL' | translate }} </label>
+                <app-search-box [(searchText)]="searchingUserName" (onSearchClickEvent)="onSearchClick()">
+                </app-search-box>
+            </div>
+        </div>
+    </div>
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="user-table">
+                <app-govuk-table [headerTextKeys]="usersTableHeaders" [data]="userList.userList"
+                    [dataKeys]="usersColumnsToDisplay" [isRadioVisible]="true" (radioClickEvent)="onSelectRow($event)"
+                    [useServerPagination]="true" [serverPageCount]="pageCount" [serverPageCurrentPage]="currentPage"
+                    (changeCurrentPageEvent)="setPage($event)"></app-govuk-table>
+            </div>
+        </div>
+    </div>
+
+    <div class="govuk-button-group continue-button-group">
+        <button type="button" [disabled]="selectedUserName == ''" class="govuk-button" data-module="govuk-button"
+            (click)="onContinue()">
+            {{ 'CONTINUE_BTN' | translate }}
+        </button>
+        <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+            data-module="govuk-button">
+            {{ 'CANCEL_BTN' | translate }}
+        </button>
+    </div>
+
+</div>

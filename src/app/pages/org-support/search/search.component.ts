@@ -36,6 +36,9 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
   public data: OrganisationUserDto[] = [];
   public pageOfItems!: any;
   public organisationId!: number;
+  searchText: string = "";
+  tableHeaders = ['NAME','ORGANISATION', 'USER_EMAIL'];
+  tableColumnsToDisplay = ['name', 'organisationLegalName', 'userName'];
 
   constructor(private cf: ChangeDetectorRef, private formBuilder: FormBuilder, private translateService: TranslateService, private organisationService: OrganisationService, private wrapperOrganisationService: WrapperOrganisationService, private readonly tokenService: TokenService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
@@ -48,24 +51,15 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
     // TODO This api call required a refactoring since its suppose to give a lot of data records (entire users in the system)
     // Suggestions:-
     // 1. Server side pagination
-    // 2. Filter out the logged in organisation from backend (check whether core api authentication working correctly)
     let org = await this.organisationService.getById(this.tokenService.getCiiOrgId()).toPromise();
     if (org) {
       this.organisationId = org.organisationId;
       this.data = await this.organisationService.getUsers('').toPromise();
-      this.data = this.data.filter((r: any) => r.organisationId != this.organisationId);
     }
   }
 
   async onSearch() {
-    let orgName = this.formGroup.get('search')?.value;
-    let results = await this.organisationService.getUsers(orgName).toPromise();
-    this.data = results.filter((r: any) => r.organisationId != this.organisationId);
-  }
-
-  public onSelect(item: any) {
-    this.selectedRow = item;
-    this.selectedRowId = item.userName;
+    this.data = await this.organisationService.getUsers(this.searchText).toPromise();
   }
 
   public onContinueClick() {
@@ -76,8 +70,8 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl('home');
   }
 
-  onChangePage(pageOfItems: Array<any>) {
-    this.pageOfItems = pageOfItems;
+  onSelectRow(dataRow: any) {
+    this.selectedRowId = dataRow?.userName ?? '';
   }
 
 }

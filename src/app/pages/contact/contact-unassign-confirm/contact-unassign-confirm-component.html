@@ -1,0 +1,38 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' |
+                            translate}}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{ 'MANAGE_YOUR_ORGANISATION' | translate
+                            }}</a>
+                    </li>
+                    <li *ngIf="unassignSiteId != 0" class="govuk-breadcrumbs__list-item">
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'EDIT_SITE' | translate
+                          }}</a>
+                      </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link"> {{ 'UNASSIGN_CONTACT' | translate }}</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl"> {{ 'CONFIRM_UNASSIGN_CONTACT' | translate }}</h1>
+            <div class="govuk-button-group continue-cancel-button-group">
+                <button type="submit" (click)="onDeleteConfirmClick()" class="govuk-button govuk-button--warning"
+                    data-module="govuk-button">
+                    {{ 'CONFIRM_UNASSIGN_BTN' | translate }}
+                </button>
+                <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                    data-module="govuk-button">
+                    {{ 'CANCEL_BTN' | translate }}
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

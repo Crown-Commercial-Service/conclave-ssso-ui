@@ -123,8 +123,10 @@
             </app-govuk-table>
           </div>
           <div class="govuk-form-group govuk-button-group">
-            <button class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onContactAddClick()">
+            <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onContactAddClick()">
               {{ 'ADD_ANOTHER_CONTACT_BTN' | translate }}</button>
+            <button  type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onContactAssignClick()">
+                {{ 'FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
           </div>
         </div>
       </div>
@@ -140,7 +142,7 @@
               {{ 'CANCEL_BTN' | translate }}
             </button>
           </div>
-          <a *ngIf="isEdit==true" (click)="onDeleteClick()" class="govuk-link delete-link">{{ 'DELETE_SITE'
+          <a href="javascript:;" *ngIf="isEdit==true" (click)="onDeleteClick()" class="navigation-text delete-link">{{ 'DELETE_SITE'
             | translate }}</a>
         </div>
       </div>

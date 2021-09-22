@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Data } from '../../models/data';
-import { identityService } from '../identity/identity.service';
-import { JwtToken } from '../../models/jwtToken';
-import { from, Observable, of, throwError } from 'rxjs';
-import { switchMap, catchError, map } from 'rxjs/operators';
-import { Scheme } from '../../models/scheme';
-import { fromFetch } from 'rxjs/fetch'
-import { ajax } from 'rxjs/ajax';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { switchMap, catchError } from 'rxjs/operators';
+import { fromFetch } from 'rxjs/fetch';
 import { environment } from '../../../environments/environment';
-import { AuthService } from '../auth/auth.service';
+import { CiiOrgIdentifiersDto } from 'src/app/models/org';
 
 
 @Injectable({
@@ -17,115 +12,39 @@ import { AuthService } from '../auth/auth.service';
 })
 export class ciiService {
 
-  public url: string = environment.uri.api.postgres;
+  public url: string = environment.uri.api.postgres+"/cii";
 
-  constructor(private httpClient: HttpClient, private authService: AuthService, private identityService: identityService) {
+  constructor(private httpClient: HttpClient) {
 
   }
 
   getSchemes(): Observable<any> {
-    return fromFetch(`${this.url}/cii/GetSchemes`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'GET'
-    }).pipe(
-      switchMap(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return of({ error: true, message: `Error ${response.status}` });
-        }
-      }),
-      catchError(err => {
-        console.error(err);
-        return of({ error: true, message: err.message })
-      })
-    );
-  }
-
-  getDetails(scheme: string, id: string): Observable<any> {
-    return fromFetch(`${this.url}/cii/${scheme}?&companyNumber=${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'GET'
-    }).pipe(
-      switchMap(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return of({ error: true, message: `Error ${response.status}` });
-        }
-      }),
-      catchError(err => {
-        console.error(err);
-        return of({ error: true, message: err.message })
-      })
-    );
-  }
-
-  getOrg(scheme: string, id: string): Observable<any> {
-    const url = `${this.url}/cii/GetOrg?id=${id}`;
-    return this.httpClient.get(url).pipe(
-      switchMap((response: any) => {
-        if (response) {
-          return response.json();
-        } else {
-          return of({ error: true, message: `Error ${response.status}` });
-        }
-      }), catchError(error => {
-        return of({ error: true, message: error.message })
-      })
-    );
-  }
-
-  getOrgs(id: string) {
-    const url = `${this.url}/cii/GetOrgs?id=${id}`;
+    const url = `${this.url}/schemes`;
     return this.httpClient.get(url);
   }
 
-  getIdentifiers(orgId: string, scheme: string, id: string) {
-    const url = `${this.url}/cii/GetIdentifiers/?orgId=${orgId}&scheme=${scheme}&id=${id}`;
-    return this.httpClient.get(url);
+  getIdentifierDetails(scheme: string, id: string): Observable<any> {
+    const url = `${this.url}/identifiers?scheme=${scheme}&identifier=${encodeURIComponent(id)}`;
+    return this.httpClient.get<CiiOrgIdentifiersDto>(url);
   }
 
-  addOrganisation(json: string | null): Observable<any> {
-    const body = JSON.parse(json + '');
-    return ajax({
-      url: `${this.url}/cii/`,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: body
-    });
+  getOrgDetails(orgId: string) {
+    const url = `${this.url}/organisation-details?ciiOrganisationId=${encodeURIComponent(orgId)}`;
+    return this.httpClient.get<CiiOrgIdentifiersDto>(url);
   }
 
-  updateOrganisation(json: string | null): Observable<any> {
-    const body = JSON.parse(json + '');
-    const url = `${this.url}/cii/`;
-    return this.httpClient.put(url, body);
+  getOrganisationIdentifierDetails(orgId: string, scheme: string, id: string) {
+    const url = `${this.url}/organisation-identifiers/?ciiOrganisationId=${encodeURIComponent(orgId)}&scheme=${encodeURIComponent(scheme)}&identifier=${encodeURIComponent(id)}`;
+    return this.httpClient.get<CiiOrgIdentifiersDto>(url);
   }
 
-  delete(json: string | null): Observable<any> {
-    const body = JSON.parse(json + '');
-    const url = `${this.url}/cii/`;
-    return this.httpClient.delete(url, body);
+  addRegistry(orgId: string, scheme: string, id: string): Observable<any> {
+    const url = `${this.url}/add-scheme?ciiOrganisationId=${encodeURIComponent(orgId)}&scheme=${encodeURIComponent(scheme)}&identifier=${encodeURIComponent(id)}`;
+    return this.httpClient.put(url, {});
   }
 
-  deleteById(id: string): Observable<any> {
-    const url = `${this.url}/cii/?id=` + id;
-    return this.httpClient.delete(url);
-  }
-
-  deleteOrganisation(id: string): Observable<any> {
-    const url = `${this.url}/cii/DeleteOrg?id=` + id;
-    return this.httpClient.delete(url);
-  }
-
-  deleteScheme(orgId: string, scheme: string, id: string): Observable<any> {
-    const url = `${this.url}/cii/DeleteScheme?orgId=${orgId}&scheme=${scheme}&id=${id}`
+  deleteRegistry(orgId: string, scheme: string, id: string): Observable<any> {
+    const url = `${this.url}/delete-scheme?ciiOrganisationId=${encodeURIComponent(orgId)}&scheme=${encodeURIComponent(scheme)}&identifier=${encodeURIComponent(id)}`
     return this.httpClient.delete(url);
   }
 

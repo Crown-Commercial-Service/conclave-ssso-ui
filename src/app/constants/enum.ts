@@ -32,5 +32,19 @@ export enum UserTitleEnum {
     Mrs,
     Miss,
     Ms,
-    Doctor
+    Doctor,
+    Unspecified
+}
+
+export enum AssignedContactType {
+    None,
+    User,
+    Site
+}
+
+export enum ContactAssignedStatus
+{
+  all,
+  original,
+  assigned
 }

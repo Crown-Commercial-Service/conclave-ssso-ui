@@ -7,11 +7,10 @@ import { UIState } from "src/app/store/ui.states";
 import { slideAnimation } from "src/app/animations/slide.animation";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
-import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrapper-org--group-service";
-import { OrganisationGroupRequestInfo } from "src/app/models/organisationGroup";
 import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org-service";
 import { CheckBoxUserListGridSource, UserListInfo, UserListResponse } from "src/app/models/user";
 import { environment } from "src/environments/environment";
+import { Title } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-manage-group-edit-users',
@@ -42,24 +41,27 @@ export class ManageGroupEditUsersComponent extends BaseComponent implements OnIn
     userGridSource: CheckBoxUserListGridSource[] = [];
 
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private titleService: Title,
         private wrapperOrganisationService: WrapperOrganisationService) {
-        super(uiStore,viewportScroller,scrollHelper);
+        super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
             this.isEdit = routeData['isEdit'];
             this.editingGroupId = routeData['groupId'];
-            this.userNames = routeData['userNames'];
             this.groupName = routeData['groupName'] || '';
-            this.addingUsers = routeData['addingUsers'] || [];
-            this.removingUsers = routeData['removingUsers'] || [];
         }
+        var existingUsersString = sessionStorage.getItem("group_existing_users")
+        var addingUsersString = sessionStorage.getItem("group_added_users");
+        var removingUsersString = sessionStorage.getItem("group_removed_users");
+        this.userNames = existingUsersString ? JSON.parse(existingUsersString) : [];
+        this.addingUsers = addingUsersString ? JSON.parse(addingUsersString) : [];
+        this.removingUsers = removingUsersString ? JSON.parse(removingUsersString) : [];
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
-        //this.viewportScroller.setOffset([100, 100]);
     }
 
     ngOnInit() {
+        this.titleService.setTitle(`${this.isEdit ? "Add/Remove Users" : "Add Users"}  - Manage Groups - CCS`);
         this.getOrganisationUsers();
     }
 
@@ -127,7 +129,7 @@ export class ManageGroupEditUsersComponent extends BaseComponent implements OnIn
         else {
             let inAddedListIndex = this.addingUsers.findIndex(au => au.userName == dataRow.userName);
             if (inAddedListIndex != -1) { // If in added list removing from there
-                this.removingUsers.splice(inAddedListIndex, 1);
+                this.addingUsers.splice(inAddedListIndex, 1);
             }
             else {
                 let userInfo: UserListInfo = {
@@ -140,12 +142,12 @@ export class ManageGroupEditUsersComponent extends BaseComponent implements OnIn
     }
 
     onContinueClick() {
+        sessionStorage.setItem("group_existing_users", JSON.stringify(this.userNames));
+        sessionStorage.setItem("group_added_users", JSON.stringify(this.addingUsers));
+        sessionStorage.setItem("group_removed_users", JSON.stringify(this.removingUsers));
         let data = {
             'isEdit': this.isEdit,
-            'groupId': this.editingGroupId,
-            'userNames': this.userNames,
-            'addingUsers': this.addingUsers,
-            'removingUsers': this.removingUsers
+            'groupId': this.editingGroupId
         };
         this.router.navigateByUrl('manage-groups/edit-users-confirm?data=' + JSON.stringify(data));
     }
@@ -155,6 +157,9 @@ export class ManageGroupEditUsersComponent extends BaseComponent implements OnIn
             'isEdit': true,
             'groupId': this.editingGroupId
         };
+        sessionStorage.removeItem("group_existing_users");
+        sessionStorage.removeItem("group_added_users");
+        sessionStorage.removeItem("group_removed_users");
         this.router.navigateByUrl('manage-groups/view?data=' + JSON.stringify(data));
     }
 }

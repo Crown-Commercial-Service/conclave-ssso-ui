@@ -5,7 +5,9 @@
 }
 
 /* Remove extra left and right margins, due to padding */
-.row {margin: 0 -5px;}
+.row {
+  margin: 0 -5px;
+}
 
 /* Clear floats after the columns */
 .row:after {
@@ -32,54 +34,58 @@
   background-color: #f1f1f1;
   min-height: 150px;
   border: 1px solid grey;
+
+  a {
+    text-decoration: none !important;
+  }
+  a:focus {
+    a {
+      background-color: #ffdd00;
+      text-decoration: underline !important;
+    }
+  }
 }
 
-h5{
+.card-title {
   // font-family: Source Sans Pro;
-font-style: normal;
-font-weight: 600;
-font-size: 24px;
-line-height: 30px;
-color: #007E8A;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: #007e8a;
 }
 
-a:hover{
-  text-decoration: none;
-}
-
-.tile-para{
-// font-family: Source Sans Pro;
-font-style: normal;
-font-weight: normal;
-font-size: 16px;
-line-height: 20px;
-color: #0B0C0C;
-}
-
-h1{
+.tile-para {
   // font-family: Source Sans Pro;
-font-style: normal;
-font-weight: 300;
-font-size: 48px;
-line-height: 50px;
-/* identical to box height, or 104% */
-
-
-/* /Text Primary */
-
-color: #0B0C0C;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  color: #0b0c0c;
 }
 
-h2{
+h1 {
   // font-family: Source Sans Pro;
-font-style: normal;
-font-weight: 600;
-font-size: 36px;
-line-height: 40px;
-/* identical to box height, or 111% */
+  font-style: normal;
+  font-weight: 300;
+  font-size: 48px;
+  line-height: 50px;
+  /* identical to box height, or 104% */
 
+  /* /Text Primary */
 
-/* /Text Primary */
+  color: #0b0c0c;
+}
 
-color: #0B0C0C;
+h2 {
+  // font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 40px;
+  /* identical to box height, or 111% */
+
+  /* /Text Primary */
+
+  color: #0b0c0c;
 }

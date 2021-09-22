@@ -52,7 +52,7 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
       if (params.id && params.scheme) {
 
         const ciiOrgId = this.tokenService.getCiiOrgId();
-        this.item$ = this.ciiService.getIdentifiers(ciiOrgId, params.scheme, params.id).pipe(share());
+        this.item$ = this.ciiService.getOrganisationIdentifierDetails(ciiOrgId, params.scheme, params.id).pipe(share());
         this.item$.subscribe({
           next: result => {
             if (result.error) {
@@ -89,58 +89,6 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
             // this.router.navigateByUrl(`manage-org/register/error/generic`);
           }
         });
-
-        //   this.wrapperService.getUser(localStorage.getItem('user_name')+'').subscribe({
-        //     next: (u: User) => {
-        //         if (u != null) {
-        //           this.user = u;
-        //           this.item$ = this.ciiService.getIdentifiers(u.organisationId, params.scheme, params.id).pipe(share());
-        //           this.item$.subscribe({
-        //             next: result => {
-        //               if (result.error) {
-        //                 if (result.message == 'Error 400') {
-        //                   this.router.navigateByUrl(`manage-org/register/error/notfound`);
-        //                 } else if (result.message == 'Error 401') {
-        //                   this.router.navigateByUrl(`manage-org/register/error/generic`);
-        //                 } else if (result.message == 'Error 403') {
-        //                   this.router.navigateByUrl(`manage-org/register/error/generic`);
-        //                 } else if (result.message == 'Error 404') {
-        //                   this.router.navigateByUrl(`manage-org/register/error/notfound`);
-        //                 } else if (result.message == 'Error 405') {
-        //                   this.router.navigateByUrl(`manage-org/register/error`);
-        //                 } else {
-        //                  this.router.navigateByUrl(`manage-org/register/error/generic`);
-        //                 }
-        //               } else {
-        //                 this.selectedIdentifiers = result.additionalIdentifiers;
-        //                 localStorage.setItem('cii_organisation', JSON.stringify(result));
-        //               }
-        //             }, error: err => {
-        //               if (err.status) {
-        //                 if (err.status == '400') {
-        //                   this.router.navigateByUrl(`manage-org/register/error/notfound`);
-        //                 } else if (err.status == '401') {
-        //                   this.router.navigateByUrl(`manage-org/register/error/generic`);
-        //                 } else if (err.status == '403') {
-        //                   this.router.navigateByUrl(`manage-org/register/error/generic`);
-        //                 } else if (err.status == '404') {
-        //                   this.router.navigateByUrl(`manage-org/register/error/notfound`);
-        //                 } else if (err.status == '405') {
-        //                   this.router.navigateByUrl(`manage-org/register/error`);
-        //                 }
-        //               }
-        //               this.router.navigateByUrl(`manage-org/register/error/generic`);
-        //             }
-        //           });              
-        //         } else {
-        //             console.log('no user found from wrapper service');
-        //         }
-        //     },
-        //     error: (error: any) => {
-        //         console.log(error);
-        //     }
-        //   });
-
       }
     });
   }
@@ -153,14 +101,7 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
     let organisation = JSON.parse(localStorage.getItem('cii_organisation') + '');
     organisation.additionalIdentifiers = this.selectedIdentifiers;
     localStorage.setItem('cii_organisation', JSON.stringify(organisation));
-    const json = {
-      ccsOrgId: this.tokenService.getCiiOrgId(),
-      identifier: {
-        scheme: this.routeParams.scheme,
-        id: this.routeParams.id,
-      }
-    };
-    this.ciiService.updateOrganisation(JSON.stringify(json)).subscribe((data) => {
+    this.ciiService.addRegistry(this.organisationId, this.routeParams.scheme, this.routeParams.id).subscribe((data) => {
       this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/confirmation/' + this.routeParams.scheme + '/' + this.routeParams.id);
     },
       (error) => {

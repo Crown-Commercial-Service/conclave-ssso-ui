@@ -32,7 +32,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
     ) {
         super(uiStore, viewportScroller, scrollHelper);
         this.resetForm = this.formBuilder.group({
-            userName: ['', Validators.compose([])],
+            userName: ['', Validators.compose([Validators.required, Validators.email])],
         });
     }
 
@@ -52,25 +52,11 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
     */
     onSubmit(form: FormGroup): void {
         this.submitted = true;
-        this.errorCode = ''
-        this.validate(form);
         if (this.formValid(form)) {
-            this.authService.resetPassword(form.get('userName')?.value).toPromise().then(() => {
-                this.router.navigateByUrl('forgot-password-success?un=' + form.get('userName')?.value);
-            }, (err) => {
-                this.errorCode = err.error;
+            this.authService.resetPassword(form.get('userName')?.value).toPromise()
+            .then(() => {
+                this.router.navigateByUrl(`forgot-password-success?un= + ${encodeURIComponent(form.get('userName')?.value)}`);
             });
-        }
-    }
-
-    validate(form: FormGroup) {
-        let userName = form.get('userName')?.value;
-        if (!userName) {
-            var errorObject: ValidationErrors = {};
-            errorObject['error'] = true;
-            form.controls['userName'].setErrors(errorObject);
-            this.scrollHelper.scrollToFirst('error-summary');
-            return;
         }
     }
 

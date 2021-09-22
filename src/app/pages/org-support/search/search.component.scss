@@ -1,10 +1,9 @@
 app-org-support-search {
-    input[type=radio] {
-        width: 20px;
-        height: 20px;
+    input[type="radio"] {
+        width: 50px;
+        height: 50px;
         margin-right: 10px;
         top: 4px;
-        position: relative;
     }
     // input[type='radio']:checked:after {
     //     background-color: #ffa500;
@@ -24,6 +23,6 @@ app-org-support-search {
         width: 995px;
         margin-top: -1.5rem;
         margin-left: 266px;
-        border-top:none;
+        border-top: none;
     }
 }

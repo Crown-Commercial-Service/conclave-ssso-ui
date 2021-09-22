@@ -8,7 +8,8 @@ import { slideAnimation } from "src/app/animations/slide.animation";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrapper-org--group-service";
-import { CheckBoxRoleListGridSource, OrganisationGroupRequestInfo, Role } from "src/app/models/organisationGroup";
+import { CheckBoxRoleListGridSource, Role } from "src/app/models/organisationGroup";
+import { Title } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-manage-group-edit-roles',
@@ -38,9 +39,9 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     roleGridSource: CheckBoxRoleListGridSource[] = [];
     orgRoleList: Role[] = [];
 
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
+    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService) {
-        super(uiStore,viewportScroller,scrollHelper);
+        super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
@@ -57,6 +58,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     }
 
     ngOnInit() {
+        this.titleService.setTitle(`${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - CCS`);
         this.getOrganisationRoles();
     }
 
@@ -87,6 +89,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
 
                 let roleGridSourceObject: CheckBoxRoleListGridSource = {
                     roleId: orgRole.roleId,
+                    roleKey:orgRole.roleKey,
                     roleName: orgRole.roleName,
                     isChecked: isChecked
                 };
@@ -117,6 +120,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
             else {
                 let roleInfo: Role = {
                     roleId: dataRow.roleId,
+                    roleKey:dataRow.roleKey,
                     roleName: dataRow.roleName
                 };
                 this.addingRoles.push(roleInfo);
@@ -130,6 +134,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
             else {
                 let roleInfo: Role = {
                     roleId: dataRow.roleId,
+                    roleKey:dataRow.roleKey,
                     roleName: dataRow.roleName
                 };
                 this.removingRoles.push(roleInfo);

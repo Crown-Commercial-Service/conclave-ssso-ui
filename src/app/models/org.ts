@@ -12,6 +12,11 @@ export interface CiiDto {
     additionalIdentifiers: CiiAdditionalIdentifier[];
 }
 
+export interface CiiOrgIdentifiersDto {
+    identifier?: CiiIdentifier;
+    additionalIdentifiers?: CiiAdditionalIdentifier[];
+}
+
 export interface CiiContactPoint {
     email: string;
     faxNumber: string;

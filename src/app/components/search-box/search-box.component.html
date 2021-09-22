@@ -1,0 +1,14 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+      <input (keyup.enter)="onSearchClick()" (focusout)="onSearchClick()" [(ngModel)]="searchText" class="govuk-input"
+          id="search" name="search" type="search">
+  </div>
+  <div class="govuk-grid-column-one-third">
+      <div>
+          <button (mousedown)="onSearchClick()" type="button" class="govuk-button search-button"
+              data-module="govuk-button">
+              {{ 'SEARCH' | translate }}
+          </button>
+      </div>
+  </div>
+</div>

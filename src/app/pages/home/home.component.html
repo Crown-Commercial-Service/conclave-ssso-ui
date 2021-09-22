@@ -5,13 +5,13 @@
   <div *ngFor="let ccsModule of ccsModules;" class="column">
     <div class="card" *ngIf="ccsModule.route">
       <a href={{ccsModule.route}}>
-        <h5>{{ccsModule.name}}</h5>
+        <a class="card-title">{{ccsModule.name}}</a>
         <p class="tile-para">{{ccsModule.description}}</p>
       </a>
     </div>
     <div class="card" *ngIf="ccsModule.href">
       <a href="{{ccsModule.href}}" target="_blank">
-        <h5>{{ccsModule.name}}</h5>
+        <a class="card-title">{{ccsModule.name}}</a>
         <p class="tile-para">{{ccsModule.description}}</p>
       </a>
     </div>
@@ -26,26 +26,26 @@
     <div *ngFor="let systemModule of systemModules;" class="column">
       <div class="card">
         <a routerLink={{systemModule.route}}>
-          <h5>{{systemModule.name}}</h5>
+          <a class="card-title">{{systemModule.name}}</a>
           <p class="tile-para">{{systemModule.description}}</p>
         </a>
       </div>
     </div>
   </div>
 </div>
-  <div *ngIf="otherModules.length > 0">
-    <h3>For other organisations</h3>
-    <div class="row">
-      <div *ngFor="let otherModule of otherModules;" class="column">
-        <div class="card">
-          <a routerLink={{otherModule.route}}>
-            <h5>{{otherModule.name}}</h5>
-            <p class="tile-para">{{otherModule.description}}</p>
-          </a>
-        </div>
+<div *ngIf="otherModules.length > 0">
+  <h3>For other organisations</h3>
+  <div class="row">
+    <div *ngFor="let otherModule of otherModules;" class="column">
+      <div class="card">
+        <a routerLink={{otherModule.route}}>
+          <a class="card-title">{{otherModule.name}}</a>
+          <p class="tile-para">{{otherModule.description}}</p>
+        </a>
       </div>
     </div>
   </div>
+</div>
 
 <!-- <iframe style="position: absolute;width:0;height:0;border:0;" [src]="opIFrameURL" id="opIFrame"></iframe>
 <iframe style="position: absolute;width:0;height:0;border:0;" [src]="rpIFrameURL" id="rpIFrame"></iframe> -->

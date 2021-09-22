@@ -38,7 +38,8 @@
       </fieldset>
     </div>
     <div class="govuk-button-group" style="margin-top: 40px;">
-      <button class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onBackClick()">Back</button>
+      <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" 
+      (click)="onBackClick()">Back</button>
     </div>
   </ng-container>
   <ng-container *ngIf="changes?.hasChanges === true">
@@ -57,7 +58,7 @@
         <div class="govuk-checkboxes">
           <ng-container *ngFor="let role of changes?.toAdd">
             <div class="govuk-__item">
-              <label class="govuk-label govuk-checkboxes__label" for="orgRoleControl_{{role.roleId}}">- {{role.roleName}}</label>
+              <label class="govuk-label govuk-checkboxes__label">- {{role.roleName}}</label>
             </div>
           </ng-container>
         </div>
@@ -65,15 +66,15 @@
         <div class="govuk-checkboxes">
           <ng-container *ngFor="let role of changes?.toDelete">
             <div class="govuk-__item">
-              <label class="govuk-label govuk-checkboxes__label" for="orgRoleControl_{{role.roleId}}">- {{role.roleName}}</label>
+              <label class="govuk-label govuk-checkboxes__label">- {{role.roleName}}</label>
             </div>
           </ng-container>
         </div>
       </fieldset>
     </div>
     <div class="govuk-button-group" style="margin-top: 40px;">
-      <button class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button" (click)="onSubmitClick()">Submit</button>
-      <button class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onBackClick()">Back</button>
+      <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button" (click)="onSubmitClick()">Submit</button>
+      <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onBackClick()">Back</button>
     </div>
   </ng-container>
 </div>

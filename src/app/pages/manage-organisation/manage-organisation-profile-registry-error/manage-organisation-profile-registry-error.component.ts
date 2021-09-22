@@ -10,6 +10,7 @@ import { Data } from 'src/app/models/data';
 import { dataService } from 'src/app/services/data/data.service';
 import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-organisation-profile-registry-error',
@@ -28,7 +29,8 @@ export class ManageOrganisationRegistryErrorComponent extends BaseComponent impl
 
   public reason!: string;
   public organisationId!: number;
-
+  ccsContactUrl : string = environment.uri.ccsContactUrl;
+  
   constructor(private dataService: dataService, private router: Router, private route: ActivatedRoute, private location: Location, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
     this.organisationId = JSON.parse(localStorage.getItem('organisation_id') + '');
@@ -40,7 +42,7 @@ export class ManageOrganisationRegistryErrorComponent extends BaseComponent impl
       if (params.reason) {
         this.reason = params.reason;
       } else {
-        this.reason = 'unknown';
+        this.reason = 'existsInConclave';
       }
     });
   }

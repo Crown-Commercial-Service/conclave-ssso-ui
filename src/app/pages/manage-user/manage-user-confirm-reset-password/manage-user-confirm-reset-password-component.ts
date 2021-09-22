@@ -23,7 +23,6 @@ import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.servic
 })
 export class ManageUserConfirmResetPasswordComponent extends BaseComponent implements OnInit {
     userName: string = '';
-    userId: number = 0;
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
         private userService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
@@ -32,7 +31,6 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
             let routeData = JSON.parse(queryParams.data);
             console.log(routeData);
             this.userName = routeData['userName'];
-            this.userId = routeData['userId'];
         }
     }
 
@@ -43,7 +41,7 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
         this.userService.resetUserPassword(this.userName, "Manage-user-account").subscribe({
             next: () => {
                 let data = {
-                    'userName': this.userName
+                    'userName': encodeURIComponent(this.userName)
                 };
                 this.router.navigateByUrl(`operation-success/${OperationEnum.UserPasswordChange}?data=` + JSON.stringify(data));             
             },
@@ -56,7 +54,7 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
     onCancelClick(){
         let data = {
             'isEdit':true,
-            'userName': this.userName
+            'userName': encodeURIComponent(this.userName)
         };
         this.router.navigateByUrl('manage-users/add-user/details?data=' + JSON.stringify(data));
     }

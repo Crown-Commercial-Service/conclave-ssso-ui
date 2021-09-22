@@ -1,0 +1,20 @@
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  
+  .govuk-width-container{
+    width: none !important;
+    max-width: none !important;
+    }
+
+h1 {
+  font-family: Source Sans Pro !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 48px !important;
+  line-height: 50px !important;
+  color: #0B0C0C !important;
+  }
+}
+
+
+  

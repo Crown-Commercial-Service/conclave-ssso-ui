@@ -1,0 +1,10 @@
+<!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
+<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+  data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+    There is a problem
+  </h2>
+  <div class="govuk-error-summary__body">
+    <a href="javascript:;" (click)="navigateBackToGroups()"> This group is configured with multifactor(Procurement Gateway Authenticator) enabled roles. However, there are users who are not configured for Procurement Gateway Authenticator. Please review users and roles in the group</a>
+  </div>
+</div>

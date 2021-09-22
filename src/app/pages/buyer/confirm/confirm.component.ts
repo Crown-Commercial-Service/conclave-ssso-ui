@@ -1,23 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { slideAnimation } from 'src/app/animations/slide.animation';
 import { UIState } from 'src/app/store/ui.states';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { ciiService } from 'src/app/services/cii/cii.service';
-import { UserService } from 'src/app/services/postgres/user.service';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
-import { contactService } from 'src/app/services/contact/contact.service';
-import { ContactType } from 'src/app/models/contactDetail';
-import { environment } from "src/environments/environment";
 import { Observable } from 'rxjs';
-import { filter, map, share } from 'rxjs/operators';
-import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
-import { TokenService } from 'src/app/services/auth/token.service';
+import { share } from 'rxjs/operators';
 import { Role } from 'src/app/models/organisationGroup';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
@@ -38,7 +29,7 @@ import { ViewportScroller } from '@angular/common';
 })
 export class BuyerConfirmComponent extends BaseComponent implements OnInit {
 
-  public org: any;
+  public organisation: any;
   public org$!: Observable<any>;
   public verified: boolean = false;
   userProfileForm: FormGroup;
@@ -53,7 +44,10 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
   @ViewChild('isBuyerTrue') isBuyerTrue!: ElementRef;
   @ViewChild('isBuyerFalse') isBuyerFalse!: ElementRef;
 
-  constructor(private formBuilder: FormBuilder, private translateService: TranslateService, private authService: AuthService, private ciiService: ciiService, private userService: UserService, private organisationService: OrganisationService, private contactService: contactService, private wrapperOrgService: WrapperOrganisationService, private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, private readonly tokenService: TokenService, private organisationGroupService: WrapperOrganisationGroupService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService, 
+    private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
+    protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService, 
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
     this.orgRoles = [];
     this.eRoles = [];
@@ -71,7 +65,7 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
         this.org$ = this.organisationService.getById(params.id).pipe(share());
         this.org$.subscribe({
           next: data => {
-            this.org = data;
+            this.organisation = data;
             this.verified = data.rightToBuy;
             this.getOrgRoles();
           }
@@ -93,7 +87,7 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
       this.isBuyerFalse.nativeElement.checked = true;
     }
 
-    if (verified && !this.org.rightToBuy) {
+    if (verified && !this.organisation.rightToBuy) {
       const currentRoles = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 0 && x.tradeEligibility !== 0 && x.orgTypeEligibility !== 0);
       const previousRoles = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 0 && x.tradeEligibility !== 1 && x.orgTypeEligibility !== 0);
       previousRoles.forEach((r) => {
@@ -126,7 +120,7 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
       console.log(this.rolesToAdd);
       console.log('to remove:');
       console.log(this.rolesToDelete);
-    } else if (!verified && this.org.rightToBuy) {
+    } else if (!verified && this.organisation.rightToBuy) {
       const currentRoles = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 0 && x.tradeEligibility !== 1 && x.orgTypeEligibility !== 0);
       const previousRoles = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 0 && x.tradeEligibility !== 0 && x.orgTypeEligibility !== 0);
       currentRoles.forEach((r) => {
@@ -181,35 +175,22 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
         this.rolesToAdd.splice(index, 1);
       }
     }
-    // console.log('TO ADD');
-    // console.log(this.rolesToAdd);
-    // console.log('TO DELETE');
-    // console.log(this.rolesToDelete);
   }
 
   public onSubmitClick() {
     let selection = {
-      org: this.org,
+      org: this.organisation,
       toDelete: this.rolesToDelete,
       toAdd: this.rolesToAdd,
       rightToBuy: this.verified,
-      hasChanges: (this.org.rightToBuy === this.verified && this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0) ? false : true
+      hasChanges: (this.organisation.rightToBuy === this.verified && this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0) ? false : true
     };
-    //selection.org.rightToBuy = this.verified;
-    localStorage.setItem(`mse_org_${this.org.ciiOrganisationId}`, JSON.stringify(selection));
-    this.router.navigateByUrl(`buyer/confirm-changes/${this.org.ciiOrganisationId}`);
-    // this.organisationService.put(this.org).toPromise().then(() => {
-    //   this.router.navigateByUrl(`buyer/success`);
-    // });
-    // this.organisationService.put(this.org).subscribe({
-    //   next: data => {
-    //     this.router.navigateByUrl(`buyer/success`);
-    //   }
-    // });
+    localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
+    this.router.navigateByUrl(`buyer/confirm-changes/${this.organisation.ciiOrganisationId}`);
   }
 
   public onCancelClick() {
-    localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
+    localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
     this.router.navigateByUrl('buyer/search');
   }
 
@@ -218,7 +199,7 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
     this.orgRoles$.subscribe({
       next: (orgRoles: Role[]) => {
         this.roles = orgRoles;
-        this.orgEligableRoles$ = this.organisationGroupService.getOrganisationRoles(this.org.ciiOrganisationId).pipe(share());
+        this.orgEligableRoles$ = this.organisationGroupService.getOrganisationRoles(this.organisation.ciiOrganisationId).pipe(share());
         this.orgEligableRoles$.subscribe({
           next: (eRoles: Role[]) => {
             this.roles.forEach((r) => {

@@ -1,0 +1,35 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div *ngIf="resultVerified" class="content flex">
+      <div *ngIf="resetSuccess; else elseBlock">
+        <p class="govuk-body-l">
+          {{ 'MFA_RESET_SUCCESS' | translate }} {{ userName }}
+        </p>
+
+        <a href="javascript:;" class="navigation-text" (click)="onNavigateLinkClick()"> {{
+          'RETURN_TO_LOGIN_PAGE' | translate }} </a>
+        <br>
+      </div>
+      <ng-template #elseBlock>
+        <div class="govuk-error-summary">
+          <h2 class="govuk-error-summary__title" id="error-summary-title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <li>
+                {{ 'MFA_RESET_ERROR' | translate }}
+                <a href="javascript:;" *ngIf="userName.length > 0" class="navigation-text" (click)="onResetMfaClick()"> {{
+                  'MFA_RESET_LINK' | translate }} </a>
+                <br>
+              </li>
+            </ul>
+            <a href="javascript:;" class="navigation-text" (click)="onNavigateLinkClick()"> {{
+              'RETURN_TO_LOGIN_PAGE' | translate }} </a>
+            <br>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

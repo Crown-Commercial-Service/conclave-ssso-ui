@@ -35,10 +35,10 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
     userProfileForm!: FormGroup;
     userGroupTableHeaders = ['GROUPS'];
     userGroupColumnsToDisplay = ['group'];
-    userRoleTableHeaders = ['ROLES'];
-    userRoleColumnsToDisplay = ['accessRoleName'];
-    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER'];
-    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber'];
+    userRoleTableHeaders = ['ROLES','SERVICE'];
+    userRoleColumnsToDisplay = ['accessRoleName','serviceName'];
+    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'FAX', 'WEB_URL'];
+    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
     userGroups: UserGroup[] = [];
     userContacts: ContactGridInfo[] = [];
     userName: string;
@@ -55,7 +55,7 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
         protected uiStore: Store<UIState>, private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
         private contactHelper: ContactHelper, private authService: AuthService, private auditLogService: AuditLoggerService) {
-        super(uiStore,viewportScroller,scrollHelper);
+        super(uiStore, viewportScroller, scrollHelper);
         this.userName = localStorage.getItem('user_name') || '';
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.routeStateData = this.router.getCurrentNavigation()?.extras.state;
@@ -65,8 +65,8 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
         this.userProfileForm = this.formBuilder.group({
             firstName: ['', Validators.compose([Validators.required])],
             lastName: ['', Validators.compose([Validators.required])],
+            mfaEnabled: [false]
         });
-        //this.viewportScroller.setOffset([100, 100]);
     }
 
     async ngOnInit() {
@@ -84,13 +84,15 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
             if (this.routeStateData != undefined) {
                 this.userProfileForm.setValue({
                     firstName: this.routeStateData.firstName,
-                    lastName: this.routeStateData.lastName
+                    lastName: this.routeStateData.lastName,
+                    mfaEnabled: user.mfaEnabled
                 });
             }
             else {
                 this.userProfileForm.setValue({
                     firstName: user.firstName,
-                    lastName: user.lastName
+                    lastName: user.lastName,
+                    mfaEnabled: user.mfaEnabled
                 });
             }
         }
@@ -99,7 +101,7 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
                 user.detail.rolePermissionInfo && user.detail.rolePermissionInfo.map((roleInfo) => {
                     var orgRole = orgRoles.find(r => r.roleId == roleInfo.roleId);
                     if (orgRole) {
-                        this.roleDataList.push({ 'accessRoleName': orgRole.roleName });
+                        this.roleDataList.push({ 'accessRoleName': orgRole.roleName, 'serviceName': orgRole.serviceName });
                     }
                 });
             });
@@ -148,7 +150,7 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
     onContactEditRow(dataRow: ContactGridInfo) {
         let data = {
             'isEdit': true,
-            'userName': this.userName,
+            'userName': encodeURIComponent(this.userName),
             'contactId': dataRow.contactId
         };
         this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
@@ -157,7 +159,7 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
     onContactAddClick() {
         let data = {
             'isEdit': false,
-            'userName': this.userName,
+            'userName': encodeURIComponent(this.userName),
             'contactId': 0
         };
         this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
@@ -176,6 +178,7 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
                 title: 0,
                 organisationId: this.organisationId,
                 userName: this.userName,
+                mfaEnabled: form.get('mfaEnabled')?.value,
                 detail: {
                     id: 0
                 },
@@ -211,7 +214,7 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
 
         var formData = {
             'firstName': this.userProfileForm.get('firstName')?.value,
-            'lastName': this.userProfileForm.get('lastName')?.value,
+            'lastName': this.userProfileForm.get('lastName')?.value
         };
 
         let data = {

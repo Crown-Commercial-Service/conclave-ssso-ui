@@ -1,0 +1,40 @@
+<div class="contact-assign-container">
+    <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToHomeClick()">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToOrgClick()">{{ 'MANAGE_YOUR_ORGANISATION'
+                    |translate}}</a>
+            </li>
+            <li *ngIf="assigningSiteId != 0" class="govuk-breadcrumbs__list-item">
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
+                    translate
+                    }}</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">
+                <span class="govuk-breadcrumbs__link"> {{ 'ASSIGN_CONTACTS' | translate }}</span>
+            </li>
+        </ol>
+    </div>
+    <h1 class="govuk-heading-xl page-title"> {{ 'ASSIGN_CONTACTS_CONFIRM' | translate }}</h1>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div>
+                <app-govuk-table [headerTextKeys]="contactTableHeaders" [data]="selectedContacts"
+                    [dataKeys]="contactColumnsToDisplay">
+                </app-govuk-table>
+            </div>
+        </div>
+    </div>
+    <div class="govuk-button-group continue-button-group">
+        <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onConfirmClick()">
+            {{ 'CONFIRM_BTN' | translate }}
+        </button>
+        <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+            data-module="govuk-button">
+            {{ 'CANCEL_BTN' | translate }}
+        </button>
+    </div>
+</div>

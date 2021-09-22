@@ -16,6 +16,8 @@ import { Group, GroupList, Role } from 'src/app/models/organisationGroup';
 import { IdentityProvider } from 'src/app/models/identityProvider';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { flatMap, trim } from 'lodash';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-manage-user-add-single-user-detail',
@@ -45,13 +47,15 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
     routeData: any = {};
     state: any;
     hasGroupViewPermission: boolean = false;
+    mfaConnectionValidationError : boolean = false;
+    mfaAdminValidationError : boolean = false;
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
     constructor(private organisationGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, private router: Router,
-        private location: Location, private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private configurationService: WrapperConfigurationService,
-        private wrapperUserService: WrapperUserService, private authService: AuthService, private locationStrategy: LocationStrategy) {
+        private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>, private titleService: Title,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private wrapperUserService: WrapperUserService,
+        private authService: AuthService, private locationStrategy: LocationStrategy) {
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         this.state = this.router.getCurrentNavigation()?.extras.state;
@@ -69,8 +73,9 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.userProfileRequestInfo = {
             organisationId: this.organisationId,
-            title: 0,
+            title: undefined,
             userName: '',
+            mfaEnabled : false,
             detail: {
                 id: 0,
                 groupIds: [],
@@ -82,6 +87,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
         };
         this.userProfileResponseInfo = {
             userName: '',
+            mfaEnabled : false,
             detail: {
                 id: 0,
                 canChangePassword: false,
@@ -92,9 +98,10 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
             lastName: '',
         };
         this.userProfileForm = this.formBuilder.group({
-            userTitle: ['', Validators.compose([Validators.required])],
+            userTitle: [null],
             firstName: ['', Validators.compose([Validators.required])],
             lastName: ['', Validators.compose([Validators.required])],
+            mfaEnabled:[false],
             userName: ['', Validators.compose([Validators.required, Validators.email])],
             signInProviderControl: ['', Validators.compose([Validators.required])]
         });
@@ -102,6 +109,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
     }
 
     async ngOnInit() {
+        this.titleService.setTitle(`${this.isEdit ? 'Edit': 'Add'} - Manage Users - CCS`);
         this.authService.hasPermission('MANAGE_GROUPS').subscribe({
             next: (hasPermission: boolean) => {
                 this.hasGroupViewPermission = hasPermission;
@@ -122,6 +130,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
             this.userProfileForm.controls['firstName'].setValue(this.userProfileResponseInfo.firstName);
             this.userProfileForm.controls['lastName'].setValue(this.userProfileResponseInfo.lastName);
             this.userProfileForm.controls['userName'].setValue(this.userProfileResponseInfo.userName);
+            this.userProfileForm.controls['mfaEnabled'].setValue(this.userProfileResponseInfo.mfaEnabled);
             await this.getOrgGroups();
             await this.getOrgRoles();
             await this.getIdentityProviders();
@@ -133,6 +142,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
                 this.userProfileForm.controls['firstName'].setValue(this.userProfileResponseInfo.firstName);
                 this.userProfileForm.controls['lastName'].setValue(this.userProfileResponseInfo.lastName);
                 this.userProfileForm.controls['userName'].setValue(this.userProfileResponseInfo.userName);
+                this.userProfileForm.controls['mfaEnabled'].setValue(this.userProfileResponseInfo.mfaEnabled);
             }
             await this.getOrgGroups();
             await this.getOrgRoles();
@@ -158,9 +168,9 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
     async getOrgRoles() {
         this.orgRoles = await this.organisationGroupService.getOrganisationRoles(this.organisationId).toPromise();
         this.orgRoles.map(role => {
-            let isRoleOfUser = this.userProfileResponseInfo.detail.rolePermissionInfo &&
-                this.userProfileResponseInfo.detail.rolePermissionInfo.some(rp => rp.roleId == role.roleId)
-            this.userProfileForm.addControl('orgRoleControl_' + role.roleId, this.formBuilder.control(isRoleOfUser ? true : ''));
+            let userRole = this.userProfileResponseInfo.detail.rolePermissionInfo &&
+                this.userProfileResponseInfo.detail.rolePermissionInfo.some(rp => rp.roleId == role.roleId);
+            this.userProfileForm.addControl('orgRoleControl_' + role.roleId, this.formBuilder.control(userRole ? true : ''));
         });
     }
 
@@ -183,13 +193,15 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
     }
 
     public onSubmit(form: FormGroup) {
-
+        this.mfaConnectionValidationError = false;
+        this.mfaAdminValidationError = false;
         this.submitted = true;
         if (this.formValid(form)) {
             this.userProfileRequestInfo.title = form.get('userTitle')?.value;
             this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
             this.userProfileRequestInfo.lastName = form.get('lastName')?.value;
             this.userProfileRequestInfo.userName = form.get('userName')?.value;
+            this.userProfileRequestInfo.mfaEnabled = form.get('mfaEnabled')?.value;
             let identityProviderId = form.get('signInProviderControl')?.value || 0;
             this.userProfileRequestInfo.detail.identityProviderId = identityProviderId;
 
@@ -199,12 +211,11 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
             this.userProfileRequestInfo.detail.roleIds = this.getSelectedRoleIds(form);
 
             if (this.isEdit) {
-                this.updateUser();
+                this.updateUser(form);
             }
             else {
                 this.createUser(form);
             }
-
         }
         else {
             this.scrollHelper.scrollToFirst('error-summary');
@@ -233,13 +244,13 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
         return selectedRoleIds;
     }
 
-    updateUser() {
+    updateUser(form: FormGroup) {
         this.wrapperUserService.updateUser(this.userProfileRequestInfo.userName, this.userProfileRequestInfo).subscribe({
             next: (userEditResponseInfo: UserEditResponseInfo) => {
                 if (userEditResponseInfo.userId == this.userProfileRequestInfo.userName) {
                     this.submitted = false;
                     let data = {
-                        'userName': this.userProfileRequestInfo.userName
+                        'userName': encodeURIComponent(this.userProfileRequestInfo.userName)
                     };
                     this.router.navigateByUrl(`operation-success/${userEditResponseInfo.isRegisteredInIdam ? OperationEnum.UserUpdateWithIdamRegister : OperationEnum.UserUpdate}?data=` + JSON.stringify(data));
                 }
@@ -249,8 +260,14 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
 
             },
             error: (err: any) => {
-                console.log("Update Error");
-                console.log(err);
+                if (err.error == "MFA_ENABLED_INVALID_CONNECTION") {
+                    this.mfaConnectionValidationError = true;
+                    this.scrollHelper.scrollToFirst('error-summary');
+                }
+                else if (err.error == "MFA_DISABLED_USER") {
+                    this.mfaAdminValidationError = true;
+                    this.scrollHelper.scrollToFirst('error-summary');
+                }
             }
         });
     }
@@ -260,7 +277,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
             next: (userEditResponseInfo: UserEditResponseInfo) => {
                 this.submitted = false;
                 let data = {
-                    'userName': this.userProfileRequestInfo.userName
+                    'userName': encodeURIComponent(this.userProfileRequestInfo.userName)
                 };
                 this.router.navigateByUrl(`operation-success/${userEditResponseInfo.isRegisteredInIdam ? OperationEnum.UserCreateWithIdamRegister : OperationEnum.UserCreate}?data=` + JSON.stringify(data));
 
@@ -270,12 +287,19 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
                     form.controls['userName'].setErrors({ 'alreadyExists': true });
                     this.scrollHelper.scrollToFirst('error-summary');
                 } else {
-                    if (err.error = "INVALID_USER_ID") {
+                    if (err.error == "INVALID_USER_ID") {
                         form.controls['userName'].setErrors({ 'invalidEmail': true });
                         this.scrollHelper.scrollToFirst('error-summary');
                     }
+                    else if (err.error == "MFA_ENABLED_INVALID_CONNECTION") {
+                        this.mfaConnectionValidationError = true;
+                        this.scrollHelper.scrollToFirst('error-summary');
+                    }
+                    else if (err.error == "MFA_DISABLED_USER") {
+                        this.mfaAdminValidationError = true;
+                        this.scrollHelper.scrollToFirst('error-summary');
+                    }
                 }
-                console.log(err);
             }
         });
     }
@@ -293,8 +317,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
 
     onResetPasswordClick() {
         let data = {
-            'userName': this.editingUserName,
-            'userId': this.userProfileResponseInfo.detail.id
+            'userName': encodeURIComponent(this.editingUserName)
         };
         this.router.navigateByUrl('manage-users/confirm-reset-password?data=' + JSON.stringify(data));
     }
@@ -313,12 +336,13 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
             firstName: this.userProfileForm.get('firstName')?.value,
             lastName: this.userProfileForm.get('lastName')?.value,
             userName: this.userProfileForm.get('userName')?.value,
+            mfaEnabled : this.userProfileForm.get('mfaEnabled')?.value,
             detail: {
                 id: this.userProfileResponseInfo.detail.id,
                 canChangePassword: this.userProfileResponseInfo.detail.canChangePassword,
                 identityProviderId: this.userProfileForm.get('signInProviderControl')?.value || 0,
                 userGroups: [],
-                rolePermissionInfo: []
+                rolePermissionInfo: []                
             },
             organisationId: this.organisationId,
         };
@@ -344,7 +368,8 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
                     roleId: selectedRoleId,
                     roleKey: '',
                     roleName: '',
-                    serviceClientId: ''
+                    serviceClientId: '',
+                    serviceClientName:''
                 });
             }
         });

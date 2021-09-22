@@ -12,9 +12,10 @@ import { ContactPoint, UserContactInfo, VirtualContactType } from 'src/app/model
 import { WrapperUserContactService } from 'src/app/services/wrapper/wrapper-user-contact.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ContactReason } from 'src/app/models/contactDetail';
-import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { WrapperContactService } from 'src/app/services/wrapper/wrapper-contact.service';
+import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-user-contact-edit',
@@ -38,13 +39,19 @@ export class UserContactEditComponent extends BaseComponent implements OnInit {
     contactReasons: ContactReason[] = [];
     isEdit: boolean = false;
     contactId: number = 0;
+    separateDialCode = false;
+    SearchCountryField = SearchCountryField;
+    CountryISO = CountryISO;
+    PhoneNumberFormat = PhoneNumberFormat;
+    preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.UnitedKingdom];
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
     constructor(private contactService: WrapperUserContactService, private formBuilder: FormBuilder, private router: Router,
         private location: Location, private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>, private contactHelper: ContactHelper,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private externalContactService: WrapperContactService) {
-        super(uiStore,viewportScroller,scrollHelper);
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private externalContactService: WrapperContactService,
+        private titleService: Title) {
+        super(uiStore, viewportScroller, scrollHelper);
         this.contactData = {
             contacts: []
         };
@@ -67,6 +74,7 @@ export class UserContactEditComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.titleService.setTitle(`${this.isEdit ? 'Edit': 'Add'} - User Contact - CCS`);
         this.externalContactService.getContactReasons().subscribe({
             next: (contactReasons: ContactReason[]) => {
                 if (contactReasons != null) {
@@ -104,6 +112,11 @@ export class UserContactEditComponent extends BaseComponent implements OnInit {
 
     setFocus(inputIndex: number) {
         this.inputs.toArray()[inputIndex].nativeElement.focus();
+    }
+
+    setFocusForIntlTelComponent(id: string) {
+        let inputElementIntlTel = document.getElementById(id);
+        inputElementIntlTel?.focus();
     }
 
     validateForSufficientDetails(form: FormGroup) {
@@ -163,7 +176,7 @@ export class UserContactEditComponent extends BaseComponent implements OnInit {
                     });
             }
         }
-        else {
+        else {            
             this.scrollHelper.scrollToFirst('error-summary');
         }
     }
@@ -188,7 +201,7 @@ export class UserContactEditComponent extends BaseComponent implements OnInit {
     onDeleteClick() {
         console.log("Delete");
         let data = {
-            'userName': this.userName,
+            'userName': encodeURIComponent(this.userName),
             'contactId': this.contactId
         };
         this.router.navigateByUrl('user-contact-delete?data=' + JSON.stringify(data));

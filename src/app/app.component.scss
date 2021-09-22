@@ -218,12 +218,25 @@ span.mlp-app-logo {
     width: 100%;
 }
 
-.footer {
-    flex-shrink: 0;
-    flex-grow: 0;
-    background: #2f2f2f;
-    padding: 3px 15px;
-    width: 100%;
+.header-link {
+    a {
+        color: #FFFFFF !important;
+    }
+    a:focus {
+        background-color: #ffdd00;
+    }
+}
+
+.right-content {
+    text-align: end;
+}
+
+.footer-global:after {
+    height: 20rem;
+}
+
+.govuk-footer__meta-item {
+    margin-bottom: -15px;
 }
 
 .body-content {
@@ -231,6 +244,13 @@ span.mlp-app-logo {
     margin: 40px 30px;
     display: block;
 }
+
+// Commented out after pre-prod change to telephone/fax length
+// Keep this if needed to override ngx-intl-tel-input style
+// override the width of ngx-intl-tel-input fields used in telephone and fax inputs
+// :host ::ng-deep .iti {
+//     width: 100%;
+// }
 
 // .logo {
 //     height: 32px;
