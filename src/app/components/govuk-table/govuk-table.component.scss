@@ -11,8 +11,14 @@ button {
   font-family: Source Sans Pro;
 }
 
-a{
+a {
   text-decoration: underline;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 10px;
 }
 
 .pagination-area {
@@ -40,17 +46,13 @@ a{
   color: #6f777b;
 }
 
+.clickable {
+  cursor: pointer;
+}
 
-// th {
-//   font-style: normal;
-//   font-weight: 600;
-//   font-size: 19px;
-//   line-height: 24px;
+// input[type="radio"] {
+//   width: 50px;
+//   height: 50px;
+//   margin-right: 10px;
+//   top: 3px;
 // }
-
-// td {
-//   font-style: normal;
-//   font-weight: normal;
-//   font-size: 19px;
-//   line-height: 25px;
-// } 

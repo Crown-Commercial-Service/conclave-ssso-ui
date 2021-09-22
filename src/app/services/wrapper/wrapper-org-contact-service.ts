@@ -5,7 +5,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { ContactPoint, OrganisationContactInfo, OrganisationContactInfoList } from 'src/app/models/contactInfo';
+import { ContactAssignmentInfo, ContactPoint, OrganisationContactInfo, OrganisationContactInfoList } from 'src/app/models/contactInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,17 @@ export class WrapperOrganisationContactService {
   }
 
   constructor(private http: HttpClient) {
+  }
+
+  assignOrgContact(organisationId: string, contactInfo: ContactAssignmentInfo): Observable<any> {
+    const url = `${this.url}/${organisationId}/contacts/assign`;
+    return this.http.post<number[]>(url, contactInfo, this.options).pipe(
+      map((data: number[]) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
   }
 
   createOrganisationContact(organisationId: string, contactInfo: ContactPoint): Observable<any> {
@@ -59,6 +70,20 @@ export class WrapperOrganisationContactService {
     const url = `${this.url}/${organisationId}/contacts/${contactId}`;
     return this.http.get<OrganisationContactInfo>(url, this.options).pipe(
       map((data: OrganisationContactInfo) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  unassignOrgContact(organisationId: string, contactPointIds: number[]): Observable<any> {
+    var url = `${this.url}/${organisationId}/contacts/unassign?contactPointIds=${contactPointIds[0]}`;
+    contactPointIds.splice(0, 1).forEach((id) => {
+      url = url + `&contactPointIds=${id}`;
+    });
+    return this.http.post<number[]>(url, {}, this.options).pipe(
+      map((data: number[]) => {
         return data;
       }), catchError(error => {
         return throwError(error);

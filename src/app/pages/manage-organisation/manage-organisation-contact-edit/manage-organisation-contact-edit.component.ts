@@ -7,15 +7,16 @@ import { slideAnimation } from 'src/app/animations/slide.animation';
 
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { UIState } from 'src/app/store/ui.states';
-import { OperationEnum } from 'src/app/constants/enum';
-import { ContactDetail, ContactPoint, OrganisationContactInfo, SiteContactInfo, VirtualContactType } from 'src/app/models/contactInfo';
+import { AssignedContactType, OperationEnum } from 'src/app/constants/enum';
+import { ContactPoint, OrganisationContactInfo, SiteContactInfo, VirtualContactType } from 'src/app/models/contactInfo';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ContactReason } from 'src/app/models/contactDetail';
-import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { WrapperOrganisationContactService } from 'src/app/services/wrapper/wrapper-org-contact-service';
 import { WrapperSiteContactService } from 'src/app/services/wrapper/wrapper-site-contact-service';
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { WrapperContactService } from 'src/app/services/wrapper/wrapper-contact.service';
+import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-manage-organisation-contact-edit',
@@ -38,13 +39,19 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
     default: string = '';
     contactReasons: ContactReason[] = [];
     isEdit: boolean = false;
+    isAssignedContact: boolean = false;
     contactId: number = 0;
     siteId: number = 0;
+    separateDialCode = false;
+    SearchCountryField = SearchCountryField;
+    CountryISO = CountryISO;
+    PhoneNumberFormat = PhoneNumberFormat;
+    preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.UnitedKingdom];
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
     constructor(private contactService: WrapperOrganisationContactService, private formBuilder: FormBuilder, private router: Router,
-        private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>,
+        private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private contactHelper: ContactHelper,
         private externalContactService: WrapperContactService, private siteContactService: WrapperSiteContactService) {
         super(uiStore,viewportScroller,scrollHelper);
@@ -71,6 +78,7 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
     }
 
     ngOnInit() {
+        this.titleService.setTitle(`${this.isEdit ? 'Edit': 'Add'} ${this.siteId == 0 ? '- Organisation Contact': '- Site Contact'} - CCS`);
         this.externalContactService.getContactReasons().subscribe({
             next: (contactReasons: ContactReason[]) => {
                 if (contactReasons != null) {
@@ -94,7 +102,7 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
     getOrganisationContact() {
         this.contactService.getOrganisationContactById(this.organisationId, this.contactId).subscribe({
             next: (contactInfo: OrganisationContactInfo) => {
-                console.log(contactInfo);
+                this.isAssignedContact = contactInfo.assignedContactType != AssignedContactType.None;
                 this.contactForm.controls['name'].setValue(contactInfo.contactPointName);
                 this.contactForm.controls['email'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.EMAIL, contactInfo.contacts));
                 this.contactForm.controls['phone'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.PHONE, contactInfo.contacts));
@@ -113,6 +121,7 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
     getSiteContact() {
         this.siteContactService.getSiteContactById(this.organisationId, this.siteId, this.contactId).subscribe({
             next: (contactInfo: SiteContactInfo) => {
+                this.isAssignedContact = contactInfo.assignedContactType != AssignedContactType.None;
                 this.contactForm.controls['name'].setValue(contactInfo.contactPointName);
                 this.contactForm.controls['email'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.EMAIL, contactInfo.contacts));
                 this.contactForm.controls['phone'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.PHONE, contactInfo.contacts));
@@ -136,6 +145,11 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
 
     setFocus(inputIndex: number) {
         this.inputs.toArray()[inputIndex].nativeElement.focus();
+    }
+
+    setFocusForIntlTelComponent(id: string) {
+        let inputElementIntlTel = document.getElementById(id);
+        inputElementIntlTel?.focus();
     }
 
     validateForSufficientDetails(form: FormGroup) {
@@ -282,6 +296,15 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
             'contactId': this.contactId,
             'siteId': this.siteId
         };
-        this.router.navigateByUrl('manage-org/profile/contact-delete?data=' + JSON.stringify(data));
+        this.router.navigateByUrl(`manage-org/profile/${this.siteId == 0 ? '' : 'site/'}contact-delete?data=` + JSON.stringify(data));
+    }
+
+    onUnassignClick() {
+        let data = {
+            'unassignOrgId': this.organisationId,
+            'unassignSiteId': this.siteId,
+            'contactId': this.contactId
+        };
+        this.router.navigateByUrl('contact-unassign/confirm?data=' + JSON.stringify(data));
     }
 }

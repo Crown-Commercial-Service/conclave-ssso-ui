@@ -8,9 +8,8 @@ import { slideAnimation } from "src/app/animations/slide.animation";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrapper-org--group-service";
-import { OrganisationGroupRequestInfo, OrganisationGroupResponseInfo } from "src/app/models/organisationGroup";
-import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org-service";
-import { UserListInfo } from "src/app/models/user";
+import { OrganisationGroupResponseInfo } from "src/app/models/organisationGroup";
+import { Title } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-manage-group-view',
@@ -36,17 +35,18 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
 
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
-        private locationStrategy: LocationStrategy) {
-        super(uiStore,viewportScroller,scrollHelper);
+        private locationStrategy: LocationStrategy, private titleService: Title) {
+        super(uiStore, viewportScroller, scrollHelper);
         this.group = {
             groupId: 0,
+            mfaEnabled: false,
             groupName: '',
             roles: [],
             users: []
         };
         let queryParams = this.activatedRoute.snapshot.queryParams;
         let state = this.router.getCurrentNavigation()?.extras.state;
-        if (state){
+        if (state) {
             sessionStorage.setItem('groupReadonlyViewState', JSON.stringify(state));
         }
         this.locationStrategy.onPopState(() => {
@@ -61,9 +61,11 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
             this.editingGroupId = this.routeData['groupId'];
         }
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
+        this.clearSessionStorageGroupUserData();
     }
 
     ngOnInit() {
+        this.titleService.setTitle(`${this.isEdit ? 'Edit' : 'View'} - Manage Groups - CCS`);
         this.orgGroupService.getOrganisationGroup(this.organisationId, this.editingGroupId)
             .subscribe(
                 (group: OrganisationGroupResponseInfo) => {
@@ -97,10 +99,10 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
 
     onUserEditClick() {
         let userNames = this.group.users.map(user => user.userId);
+        sessionStorage.setItem("group_existing_users", JSON.stringify(userNames))
         let data = {
             'isEdit': this.isEdit,
             'groupId': this.editingGroupId,
-            'userNames': userNames,
             'groupName': this.group.groupName
         };
         this.router.navigateByUrl('manage-groups/edit-users?data=' + JSON.stringify(data));
@@ -124,5 +126,11 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
         let formData = state.formData;
 
         this.router.navigateByUrl(`${routeUrl}`, { state: formData || {} });
+    }
+
+    clearSessionStorageGroupUserData() {
+        sessionStorage.removeItem("group_existing_users");
+        sessionStorage.removeItem("group_added_users");
+        sessionStorage.removeItem("group_removed_users");
     }
 }

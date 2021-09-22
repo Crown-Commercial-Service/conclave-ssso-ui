@@ -16,32 +16,6 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUser(userName: string): Observable<any> {
-    const url = `${this.url}/getuser?userName=${userName}`;
-    return this.http.get<User>(url).pipe(
-      map((data: User) => {
-        return data;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
-  }
-
-  add(model: any): Observable<any> {
-    const options = {
-      headers: new HttpHeaders().append('Content-Type', 'application/json')
-    }
-    const body = { firstName: model.firstName, lastName: model.lastName, userName: model.userName, partyId: 1, title: 1, jobTitle: model.title, organisationId: model.orgId }
-    return this.http.post(`${this.url}`, body, options).pipe(
-      map(data => {
-        return data;
-      }),
-      catchError(error => {
-        return throwError(error);
-      })
-    );
-  }
-
   resendUserActivationEmail(email:string) {
     const options = {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')

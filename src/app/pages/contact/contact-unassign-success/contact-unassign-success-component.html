@@ -1,0 +1,37 @@
+<div class="contact-assign-container">
+    <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{ 'MANAGE_YOUR_ORGANISATION'
+                    |translate}}</a>
+            </li>
+            <li *ngIf="unassignSiteId != 0" class="govuk-breadcrumbs__list-item">
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
+                    translate
+                    }}</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">
+                <span class="govuk-breadcrumbs__link"> {{ 'SUCCESS' | translate }}</span>
+            </li>
+        </ol>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body-l" *ngIf="unassignOrgId != ''">
+                {{ 'UNASSIGN_FROM_ORG_CONTACT_SUCCESS' | translate }}
+            </p>
+            <p class="govuk-body-l" *ngIf="unassignSiteId != 0">
+                {{ 'UNASSIGN_FROM_SITE_CONTACT_SUCCESS' | translate }}
+            </p>
+            <a href="javascript:;" *ngIf="unassignOrgId != ''" class="navigation-text"
+                (click)="onNavigateToProfileClick()">
+                {{'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>
+            <a href="javascript:;" *ngIf="unassignSiteId != 0" class="navigation-text"
+                (click)="onNavigateToSiteClick()">
+                {{ 'RETURN_EDIT_SITE' | translate }} </a>
+        </div>
+    </div>
+</div>

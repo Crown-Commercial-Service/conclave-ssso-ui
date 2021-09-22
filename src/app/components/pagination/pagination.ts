@@ -4,19 +4,19 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
     selector: 'ccs-pagination',
     template: `<ul *ngIf="pager.pages && pager.pages.length" class="pagination">
     <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item first-item">
-        <a (click)="setPage(1)" class="page-link">First</a>
+        <a href="javascript:;" (click)="setPage(1)" class="page-link">First</a>
     </li>
     <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item previous-item">
-        <a (click)="setPage(pager.currentPage - 1)" class="page-link">Previous</a>
+        <a href="javascript:;" (click)="setPage(pager.currentPage - 1)" class="page-link">Previous</a>
     </li>
     <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" class="page-item number-item">
-        <a (click)="setPage(page)" class="page-link">{{page}}</a>
+        <a href="javascript:;" (click)="setPage(page)" class="page-link">{{page}}</a>
     </li>
     <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item next-item">
-        <a (click)="setPage(pager.currentPage + 1)" class="page-link">Next</a>
+        <a href="javascript:;" (click)="setPage(pager.currentPage + 1)" class="page-link">Next</a>
     </li>
     <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item last-item">
-        <a (click)="setPage(pager.totalPages)" class="page-link">Last</a>
+        <a href="javascript:;" (click)="setPage(pager.totalPages)" class="page-link">Last</a>
     </li>
 </ul>`
 })

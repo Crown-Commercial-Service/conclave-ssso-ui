@@ -41,7 +41,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
         protected uiStore: Store<UIState>, private router: Router, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
         private auditLogService: AuditLoggerService) {
-        super(uiStore,viewportScroller,scrollHelper);
+        super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.userList = {
             currentPage: this.currentPage,
@@ -53,8 +53,10 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     }
 
     async ngOnInit() {
-        await this.auditLogService.createLog({eventName:"Access", applicationName:"Manage-user-account",
-                referenceData:`UI-Log`}).toPromise();
+        await this.auditLogService.createLog({
+            eventName: "Access", applicationName: "Manage-user-account",
+            referenceData: `UI-Log`
+        }).toPromise();
         this.getOrganisationUsers();
     }
 
@@ -92,8 +94,8 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     onEditRow(dataRow: UserListInfo) {
         console.log(dataRow);
         let data = {
-            'isEdit':true,
-            'userName': dataRow.userName
+            'isEdit': true,
+            'userName': encodeURIComponent(dataRow.userName)
         };
         this.router.navigateByUrl('manage-users/add-user/details?data=' + JSON.stringify(data));
     }

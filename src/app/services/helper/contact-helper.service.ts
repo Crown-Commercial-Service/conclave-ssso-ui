@@ -28,10 +28,10 @@ export class ContactHelper {
             contactList.push({ contactType: VirtualContactType.EMAIL, contactValue: email });
         }
         if (phoneNumber != '') {
-            contactList.push({ contactType: VirtualContactType.PHONE, contactValue: phoneNumber });
+            contactList.push({ contactType: VirtualContactType.PHONE, contactValue: phoneNumber?.e164Number });
         }
         if (fax != '') {
-            contactList.push({ contactType: VirtualContactType.FAX, contactValue: fax });
+            contactList.push({ contactType: VirtualContactType.FAX, contactValue: fax?.e164Number });
         }
         if (webUrl != '') {
             contactList.push({ contactType: VirtualContactType.URL, contactValue: webUrl });

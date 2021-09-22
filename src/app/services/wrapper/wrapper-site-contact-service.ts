@@ -5,7 +5,8 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { ContactPoint, SiteContactInfo, SiteContactInfoList } from 'src/app/models/contactInfo';
+import { ContactAssignmentInfo, ContactPoint, SiteContactInfo, SiteContactInfoList } from 'src/app/models/contactInfo';
+import { ContactAssignedStatus } from 'src/app/constants/enum';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,17 @@ export class WrapperSiteContactService {
   }
 
   constructor(private http: HttpClient) {
+  }
+
+  assignSiteContact(organisationId: string, siteId: number, contactInfo: ContactAssignmentInfo): Observable<any> {
+    const url = `${this.url}/${organisationId}/sites/${siteId}/contacts/assign`;
+    return this.http.post<number[]>(url, contactInfo, this.options).pipe(
+      map((data: number[]) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
   }
 
   createSiteContact(organisationId: string, siteId: number, contactInfo: ContactPoint): Observable<any> {
@@ -44,8 +56,8 @@ export class WrapperSiteContactService {
     );
   }
 
-  getSiteContacts(organisationId: string,  siteId: number): Observable<any> {
-    const url = `${this.url}/${organisationId}/sites/${siteId}/contacts`
+  getSiteContacts(organisationId: string, siteId: number, contactAssignedStatus: ContactAssignedStatus = ContactAssignedStatus.all): Observable<any> {
+    const url = `${this.url}/${organisationId}/sites/${siteId}/contacts?contactAssignedStatus=${contactAssignedStatus}`
     return this.http.get<SiteContactInfoList>(url, this.options).pipe(
       map((data: SiteContactInfoList) => {
         return data;
@@ -59,6 +71,20 @@ export class WrapperSiteContactService {
     const url = `${this.url}/${organisationId}/sites/${siteId}/contacts/${contactId}`;
     return this.http.get<SiteContactInfo>(url, this.options).pipe(
       map((data: SiteContactInfo) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  unassignSiteContact(organisationId: string, siteId: number, contactPointIds: number[]): Observable<any> {
+    var url = `${this.url}/${organisationId}/sites/${siteId}/contacts/unassign?contactPointIds=${contactPointIds[0]}`;
+    contactPointIds.splice(0, 1).forEach((id) => {
+      url = url + `&contactPointIds=${id}`;
+    });
+    return this.http.post<number[]>(url, {}, this.options).pipe(
+      map((data: number[]) => {
         return data;
       }), catchError(error => {
         return throwError(error);

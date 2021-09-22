@@ -1,5 +1,6 @@
 export interface Group {
     groupId: number;
+    mfaEnabled:boolean;
     groupName: string;
     createdDate?: string;
 }
@@ -30,11 +31,13 @@ export interface OrganisationGroupUserPatchInfo {
 
 export interface Role {
     roleId: number;
+    roleKey:string;
     roleName: string;
     orgTypeEligibility?: number;
     subscriptionTypeEligibility?: number;
     tradeEligibility?: number;
     enabled?: boolean;
+    serviceName?:string;
 }
 
 export interface CheckBoxRoleListGridSource extends Role{

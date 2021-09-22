@@ -12,6 +12,7 @@ import { OrganisationGroupRequestInfo, Role } from "src/app/models/organisationG
 import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org-service";
 import { UserListInfo } from "src/app/models/user";
 import { OperationEnum } from "src/app/constants/enum";
+import { Title } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-manage-group-edit-roles-confirm',
@@ -37,7 +38,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
     rolesTableHeaders = ['NAME'];
     rolesColumnsToDisplay = ['roleName'];
 
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
+    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
         private wrapperOrganisationService: WrapperOrganisationService) {
         super(uiStore,viewportScroller,scrollHelper);
@@ -55,6 +56,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
     }
 
     ngOnInit() {
+        this.titleService.setTitle(`Confirm - ${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - CCS`);
     }
 
     onConfirmClick() {
@@ -78,8 +80,13 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
                     this.router.navigateByUrl(`manage-groups/operation-success/${this.isEdit ? OperationEnum.GroupRoleUpdate : OperationEnum.GroupAdd}?data=` + JSON.stringify(data));
                 },
                 (error) => {
-                    console.log(error);
-                    console.log(error.error);
+                    if (error.error == 'MFA_DISABLED_USERS_INCLUDED') {
+                        let data = {
+                            'isEdit': this.isEdit,
+                            'groupId': this.editingGroupId
+                        };
+                        this.router.navigateByUrl(`manage-groups/error?data=` + JSON.stringify(data));
+                    }
                 });
     }
 

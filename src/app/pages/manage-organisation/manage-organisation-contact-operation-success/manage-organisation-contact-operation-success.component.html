@@ -12,7 +12,8 @@
                             {{ 'MANAGE_YOUR_ORGANISATION' | translate }}</a>
                     </li>
                     <li *ngIf="siteId != 0" class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{
+                            'EDIT_SITE' |
                             translate
                             }}</a>
                     </li>
@@ -22,36 +23,37 @@
                 </ol>
             </div>
 
-            <h1 class="govuk-heading-xl" *ngIf="operation === operationEnum.CreateOrgContact">
+            <p class="govuk-body-l" *ngIf="operation === operationEnum.CreateOrgContact">
                 {{ 'ADD_ORG_CONTACT_SUCCESS' | translate }}
-            </h1>
-            <h1 class="govuk-heading-xl" *ngIf="operation === operationEnum.UpdateOrgContact">
+            </p>
+            <p class="govuk-body-l" *ngIf="operation === operationEnum.UpdateOrgContact">
                 {{ 'UPDATE_ORG_CONTACT_SUCCESS' | translate }}
-            </h1>
-            <h1 class="govuk-heading-xl" *ngIf="operation === operationEnum.DeleteOrgContact">
+            </p>
+            <p class="govuk-body-l" *ngIf="operation === operationEnum.DeleteOrgContact">
                 {{ 'DELETE_ORG_CONTACT_SUCCESS' | translate }}
-            </h1>
-            <h1 class="govuk-heading-xl" *ngIf="operation === operationEnum.CreateSite">
+            </p>
+            <p class="govuk-body-l" *ngIf="operation === operationEnum.CreateSite">
                 {{ 'ADD_SITE_SUCCESS' | translate }}
-            </h1>
-            <h1 class="govuk-heading-xl" *ngIf="operation === operationEnum.UpdateSite">
+            </p>
+            <p class="govuk-body-l" *ngIf="operation === operationEnum.UpdateSite">
                 {{ 'UPDATE_SITE_SUCCESS' | translate }}
-            </h1>
-            <h1 class="govuk-heading-xl" *ngIf="operation === operationEnum.DeleteSite">
+            </p>
+            <p class="govuk-body-l" *ngIf="operation === operationEnum.DeleteSite">
                 {{ 'DELETE_SITE_SUCCESS' | translate }}
-            </h1>
-            <h1 class="govuk-heading-xl" *ngIf="operation === operationEnum.CreateSiteContact">
+            </p>
+            <p class="govuk-body-l" *ngIf="operation === operationEnum.CreateSiteContact">
                 {{ 'ADD_SITE_CONTACT_SUCCESS' | translate }}
-            </h1>
-            <h1 class="govuk-heading-xl" *ngIf="operation === operationEnum.UpdateSiteContact">
+            </p>
+            <p class="govuk-body-l" *ngIf="operation === operationEnum.UpdateSiteContact">
                 {{ 'UPDATE_SITE_CONTACT_SUCCESS' | translate }}
-            </h1>
-            <h1 class="govuk-heading-xl" *ngIf="operation === operationEnum.DeleteSiteContact">
+            </p>
+            <p class="govuk-body-l" *ngIf="operation === operationEnum.DeleteSiteContact">
                 {{ 'DELETE_SITE_CONTACT_SUCCESS' | translate }}
-            </h1>
-            <a *ngIf="siteId == 0" class="navigation-text" (click)="onNavigateToProfileClick()"> {{
+            </p>
+            <a href="javascript:;" *ngIf="siteId == 0" class="navigation-text" (click)="onNavigateToProfileClick()"> {{
                 'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>
-            <a *ngIf="siteId != 0" class="navigation-text" (click)="onNavigateToSiteClick()"> {{ 'RETURN_EDIT_SITE' |
+            <a href="javascript:;" *ngIf="siteId != 0" class="navigation-text" (click)="onNavigateToSiteClick()"> {{
+                'RETURN_EDIT_SITE' |
                 translate }} </a>
             <br>
         </div>

@@ -32,7 +32,7 @@
           <input class="govuk-input" id="email" formControlName="email" maxlength="100" name="email" size="20" type="text" value="" autocomplete="email" [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
         </div>
         <div class="govuk-form-group">
-          <button class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button" (click)="onSubmit(formGroup)">Send enquiry</button>
+          <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button" (click)="onSubmit(formGroup)">Send enquiry</button>
         </div>
       </form>
     </div>

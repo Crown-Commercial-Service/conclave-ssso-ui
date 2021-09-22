@@ -19,9 +19,10 @@ export interface UserGroup {
 export interface UserDetail {
     userName: string;
     organisationId: string;
-    title: UserTitleEnum;
+    title?: UserTitleEnum;
     firstName: string;
     lastName: string;
+    mfaEnabled : boolean;
 }
 
 export interface UserRequestDetail {
@@ -38,7 +39,7 @@ export interface UserResponseDetail{
     userGroups?: UserGroup[];
     canChangePassword: boolean;
     rolePermissionInfo?: RolePermissionInfo[];
-    identityProviderId?: number;
+    identityProviderId?: number;    
 }
 
 export interface RolePermissionInfo {
@@ -46,6 +47,7 @@ export interface RolePermissionInfo {
     roleKey: string;
     roleId: number,
     serviceClientId: string;
+    serviceClientName : string;
 }
 
 export interface UserProfileRequestInfo extends UserDetail {

@@ -23,7 +23,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <a *ngIf="isEdit!=true" (click)="onGoBackClick()" class="govuk-back-link back-button">{{ 'BACK' | translate }}</a>
+        <a href="javascript:;" *ngIf="isEdit!=true" (click)="onGoBackClick()" class="govuk-back-link back-button">{{ 'BACK' | translate }}</a>
         <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">
             {{ 'EDIT_GROUP' | translate }} : {{group.groupName}} </h1>
         <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">
@@ -45,7 +45,7 @@
 <div class="top-margin">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h3 class="govuk-heading-m">{{ 'ROLES_FOR_GROUP' | translate }}</h3>
+            <h2 class="govuk-heading-s">{{ 'ROLES_FOR_GROUP' | translate }}</h2>
             <div *ngIf="group.roles.length == 0">
                 <p>{{'NONE'| translate}}
                 <p>
@@ -73,11 +73,26 @@
     </div>
 </div>
 
+<div class="govuk-form-group" id="user-mfa-form-group">
+    <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend">
+            Security Level
+        </legend>
+        <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
+            <input [attr.disabled]=true [checked]="group.mfaEnabled" class="govuk-checkboxes__input" id="mfaEnabled"
+                formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
+            <label class="govuk-label govuk-checkboxes__label" for="mfaEnabled">
+                Procurement Gateway Authenticator
+            </label>
+        </div>
+    </fieldset>
+</div>
+
 <div class="top-margin">
     <div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h3 class="govuk-heading-m">{{ 'LIST_OF_USERS_GROUP' | translate }}</h3>
+                <h2 class="govuk-heading-s">{{ 'LIST_OF_USERS_GROUP' | translate }}</h2>
                 <div *ngIf="group.users.length == 0">
                     <p>{{'NONE'| translate}}
                     <p>
@@ -103,7 +118,7 @@
                 </button>
             </div>
             <div>
-                <a (click)="onDeleteClick()" class="govuk-link delete-link">{{ 'DELETE_GROUP' | translate }}</a>
+                <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{ 'DELETE_GROUP' | translate }}</a>
             </div>
         </div>
     </div>

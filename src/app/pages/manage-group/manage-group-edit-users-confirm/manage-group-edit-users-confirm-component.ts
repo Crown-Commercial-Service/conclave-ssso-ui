@@ -9,9 +9,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrapper-org--group-service";
 import { OrganisationGroupRequestInfo } from "src/app/models/organisationGroup";
-import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org-service";
 import { UserListInfo } from "src/app/models/user";
 import { OperationEnum } from "src/app/constants/enum";
+import { Title } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-manage-group-edit-users-confirm',
@@ -35,23 +35,26 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
     usersTableHeaders = ['NAME', 'EMAIL'];
     usersColumnsToDisplay = ['name', 'userName'];
 
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
-        private wrapperOrganisationService: WrapperOrganisationService) {
-        super(uiStore,viewportScroller,scrollHelper);
+    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService) {
+        super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
             this.routeData = JSON.parse(queryParams.data);
             this.isEdit = this.routeData['isEdit'];
             this.editingGroupId = this.routeData['groupId'];
-            this.userNames = this.routeData['userNames'];
-            this.addingUsers = this.routeData['addingUsers'];
-            this.removingUsers = this.routeData['removingUsers'];
         }
+        var existingUsersString = sessionStorage.getItem("group_existing_users")
+        var addingUsersString = sessionStorage.getItem("group_added_users");
+        var removingUsersString = sessionStorage.getItem("group_removed_users");
+        this.userNames = existingUsersString ? JSON.parse(existingUsersString) : [];
+        this.addingUsers = addingUsersString ? JSON.parse(addingUsersString) : [];
+        this.removingUsers = removingUsersString ? JSON.parse(removingUsersString) : [];
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     }
 
     ngOnInit() {
+        this.titleService.setTitle(`Confirm - ${this.isEdit ? "Add/Remove Users" : "Add Users"}  - Manage Groups - CCS`);
     }
 
     onConfirmClick() {
@@ -69,6 +72,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
                             'isEdit': this.isEdit,
                             'groupId': this.editingGroupId
                         };
+                        this.clearSessionStorageGroupUserData();
                         this.router.navigateByUrl(`manage-groups/operation-success/${this.isEdit ? OperationEnum.GroupUserUpdate : OperationEnum.GroupUserAdd}?data=` + JSON.stringify(data));
                     }
                     else {
@@ -78,21 +82,35 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
                             'roleIds': [],
                             'userCount': this.addingUsers.length
                         };
+                        this.clearSessionStorageGroupUserData();
                         this.router.navigateByUrl('manage-groups/edit-roles?data=' + JSON.stringify(data));
                     }
                 },
                 (error) => {
-                    console.log(error);
-                    console.log(error.error);
+                    if (error.error == 'MFA_DISABLED_USERS_INCLUDED') {
+                        let data = {
+                            'isEdit': this.isEdit,
+                            'groupId': this.editingGroupId
+                        };
+                        this.clearSessionStorageGroupUserData();
+                        this.router.navigateByUrl(`manage-groups/error?data=` + JSON.stringify(data));
+                    }
                 });
     }
 
     onGoToEditGroupClick() {
-        this.routeData.isEdit = true; 
+        this.routeData.isEdit = true;
+        this.clearSessionStorageGroupUserData();
         this.router.navigateByUrl("manage-groups/view?data=" + JSON.stringify(this.routeData));
     }
 
     onCancelClick() {
         this.router.navigateByUrl("manage-groups/edit-users?data=" + JSON.stringify(this.routeData));
+    }
+
+    clearSessionStorageGroupUserData() {
+        sessionStorage.removeItem("group_existing_users");
+        sessionStorage.removeItem("group_added_users");
+        sessionStorage.removeItem("group_removed_users");
     }
 }

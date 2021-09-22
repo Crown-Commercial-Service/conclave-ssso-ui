@@ -24,7 +24,7 @@
         <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
                 <li *ngIf="formValid(selectionForm) == false && submitted">
-                    <a href="#" onClick="return false;" (click)="scrollToAnchor('select-one-error')">
+                    <a href="#" onClick="return false;" (click)="setFocus(0)">
                         {{ 'ERROR_SELECT_ONE_OPTION' | translate }} </a>
                 </li>
             </ul>
@@ -45,15 +45,15 @@
                     </span>
                     <div class="govuk-radios">
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="single-user" type="radio" value="singleUser"
+                            <input #input class="govuk-radios__input" id="single-user" type="radio" value="singleUser"
                                 formControlName="selection">
                             <label class="govuk-label govuk-radios__label" for="single-user">
                                 {{ 'ADD_SINGLE_USER' | translate }}
                             </label>
                         </div>
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="multiple-users" type="radio" value="multipleUsers"
-                                formControlName="selection">
+                            <input #input class="govuk-radios__input" id="multiple-users" type="radio"
+                                value="multipleUsers" formControlName="selection">
                             <label class="govuk-label govuk-radios__label" for="multiple-users">
                                 {{ 'ADD_MULTIPLE_USERS_BY_UPLOADING_CSV' | translate }}
                             </label>

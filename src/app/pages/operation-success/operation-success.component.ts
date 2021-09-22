@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { slideAnimation } from 'src/app/animations/slide.animation';
@@ -9,6 +9,7 @@ import { OperationEnum } from 'src/app/constants/enum';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-operation-success',
@@ -22,13 +23,13 @@ import { ViewportScroller } from '@angular/common';
     ]
 })
 export class OperationSuccessComponent extends BaseComponent implements OnInit {
-    operation : OperationEnum;
+    operation: OperationEnum;
     operationEnum = OperationEnum;
     userName: string = '';
 
-    constructor(private router: Router, private activatedRoute: ActivatedRoute,
+    constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
-        super(uiStore,viewportScroller,scrollHelper);
+        super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -38,17 +39,52 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
+        let area: string = "";
+        switch (this.operation) {
+            case this.operationEnum.MyAccountUpdate:
+                area = 'Edit - My Profile'
+                break;
+            case this.operationEnum.MyAccountContactCreate:
+                area = 'Add - User Contact'
+                break;
+            case this.operationEnum.MyAccountContactUpdate:
+                area = 'Edit - User Contact'
+                break;
+            case this.operationEnum.MyAccountContactDelete:
+                area = 'Delete - User Contact'
+                break;
+            case this.operationEnum.PasswordChanged:
+                area = 'Change Password - My Profile'
+                break;
+            case this.operationEnum.UserCreate:
+            case this.operationEnum.UserCreateWithIdamRegister:
+                area = 'Add - Manage Users'
+                break;
+            case this.operationEnum.UserUpdate:
+            case this.operationEnum.UserUpdateWithIdamRegister:
+                area = 'Edit - Manage Users'
+                break;
+            case this.operationEnum.UserPasswordChange:
+                area = 'Reset Password - Manage Users'
+                break;
+            case this.operationEnum.UserDelete:
+                area = 'Delete - Manage Users'
+                break;
+            default:
+                break
+        }
+        this.titleService.setTitle(`Success - ${area} - CCS`);
     }
 
-    onNavigateToProfileClick(){
+    onNavigateToProfileClick() {
         this.router.navigateByUrl("profile");
     }
 
-    onNavigateToSignInClick(){
+    onNavigateToSignInClick() {
         this.authService.logOutAndRedirect();
     }
 
-    onNavigateToManageUserClick(){
+    onNavigateToManageUserClick() {
         this.router.navigateByUrl("manage-users");
     }
 }

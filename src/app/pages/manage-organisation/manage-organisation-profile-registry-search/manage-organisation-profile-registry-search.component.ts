@@ -1,29 +1,26 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, map, share, timeout } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
 
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { slideAnimation } from 'src/app/animations/slide.animation';
-import { Scheme } from '../../../models/scheme';
 import { UIState } from 'src/app/store/ui.states';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 
 @Component({
-    selector: 'app-manage-organisation-profile-registry-search',
-    templateUrl: './manage-organisation-profile-registry-search.component.html',
-    styleUrls: ['./manage-organisation-profile-registry-search.component.scss'],
-    animations: [
-        slideAnimation({
-            close: { 'transform': 'translateX(12.5rem)' },
-            open: { left: '-12.5rem' }
-        })
-    ],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-manage-organisation-profile-registry-search',
+  templateUrl: './manage-organisation-profile-registry-search.component.html',
+  styleUrls: ['./manage-organisation-profile-registry-search.component.scss'],
+  animations: [
+    slideAnimation({
+      close: { 'transform': 'translateX(12.5rem)' },
+      open: { left: '-12.5rem' }
+    })
+  ]
 })
 export class ManageOrganisationRegistrySearchComponent extends BaseComponent implements OnInit {
 
@@ -37,8 +34,10 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
   submitted: boolean = false;
   public orgId!: string;
 
+  @ViewChildren('input') inputs!: QueryList<ElementRef>;
+
   constructor(private ref: ChangeDetectorRef, private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
-    super(uiStore,viewportScroller,scrollHelper);
+    super(uiStore, viewportScroller, scrollHelper);
     this.organisationId = parseInt(this.route.snapshot.paramMap.get('organisationId') || '0');
     this.txtValue = '';
     this.orgId = JSON.parse(localStorage.getItem('organisation_id') + '');
@@ -49,18 +48,28 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
     this.items$.subscribe({
       next: result => {
         console.log(result);
-          this.scheme = result[0].scheme;
-          this.schemeName = result[0].schemeName;
-          localStorage.setItem('scheme_name', JSON.stringify(this.schemeName));
+        this.scheme = result[0].scheme;
+        this.schemeName = result[0].schemeName;
+        localStorage.setItem('scheme_name', JSON.stringify(this.schemeName));
       }
     });
   }
 
+  ngAfterViewChecked() {
+    this.scrollHelper.doScroll();
+  }
+
+  setFocus(inputIndex: number) {
+    this.inputs.toArray()[inputIndex].nativeElement.focus();
+  }
+
   public onSubmit() {
     this.submitted = true;
-    if (this.txtValue && this.txtValue.length > 0 && this.isValid()) {
-      // localStorage.setItem('scheme_name', JSON.stringify(this.schemeName));
-      this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/search/${this.scheme}/${this.txtValue}`);
+    if (this.txtValue && this.txtValue.length > 0) {
+      this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/search_confirm/${this.scheme}?id=${encodeURIComponent(this.txtValue)}`);
+    }
+    else {
+      this.scrollHelper.scrollToFirst('error-summary');
     }
   }
 
@@ -72,34 +81,8 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
     }
     this.scheme = item.scheme;
     this.submitted = false;
-    this.txtValue == '';
+    this.txtValue = '';
     localStorage.setItem('scheme', this.scheme);
     localStorage.setItem('scheme_name', JSON.stringify(item.schemeName));
-    setTimeout(() => {
-      this.ref.detectChanges();
-    }, 5000);
   }
-
-  public isValid(): boolean {
-    const registries = JSON.parse(localStorage.getItem('cii_registries')+'');
-    if (registries) {
-      if (Array.isArray(registries) && registries[0]) {
-        if (registries[0].identifier && registries[0].identifier.id === this.txtValue) {
-          return false;
-        }
-        if (registries[0].additionalIdentifiers) {
-          const match = registries[0].additionalIdentifiers.find((x: { id: string; }) => x.id === this.txtValue);
-          if (match) {
-            return false;
-          }
-        }
-      } else {
-        if (registries.identifier && registries.identifier.id === this.txtValue) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
-
 }

@@ -1,10 +1,19 @@
-<!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
-<div class="content flex">
-  <h1 class="govuk-heading-xl page-title">An unexpected error has occured. Please try again in a few minutes</h1>
-  <h2></h2>
-  <!-- <p><a routerLink="/manage-org/profile/{{organisationId}}/registry/search">Search with a different organisation ID</a></p> -->
-  <!-- <p><a (click)="goBack()">Search with a different organisation ID</a></p> -->
-  <p><a href="https://www.crowncommercial.gov.uk/contact" target="_blank">Submit a claim form</a></p>
-  <p><a routerLink="/org-support/search">Back</a></p>
-  <!--<app-footer></app-footer>-->
+<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+  data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+    There is a problem
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list">
+      <li *ngIf="errorCode=='ERROR_CANNOT_REMOVE_ADMIN_ROLE_OR_GROUP_OF_LAST_ADMIN'; else elseBlock">
+        Cannot unassign admin role of the last administrator of the organisation.
+      </li>
+      <ng-template #elseBlock>
+        <li>An unexpected error has occurred. Please try again in a few minutes.</li>
+      </ng-template>
+    </ul>
+  </div>
 </div>
+
+<p class="contact-ccs"><a href="{{contactUrl}}" target="_blank">Submit a claim form</a></p>
+<p><a routerLink="/org-support/search">Back</a></p>

@@ -8,6 +8,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { OperationEnum } from 'src/app/constants/enum';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-manage-organisation-contact-operation-success',
@@ -22,13 +23,13 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 })
 export class ManageOrganisationContactOperationSuccessComponent extends BaseComponent implements OnInit {
 
-    operation : OperationEnum;
+    operation: OperationEnum;
     operationEnum = OperationEnum;
     siteId: number = 0;
 
-    constructor(private activatedRoute: ActivatedRoute, private router: Router,
+    constructor(private activatedRoute: ActivatedRoute, private router: Router, private titleService: Title,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
-        super(uiStore,viewportScroller,scrollHelper);
+        super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -38,13 +39,46 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
     }
 
     ngOnInit() {
+        let area: string = "";
+        switch (this.operation) {
+            case this.operationEnum.CreateOrgContact:
+                area = 'Add - Organisation Contact'
+                break;
+            case this.operationEnum.UpdateOrgContact:
+                area = 'Edit - Organisation Contact'
+                break;
+            case this.operationEnum.DeleteOrgContact:
+                area = 'Delete - Organisation Contact'
+                break;
+            case this.operationEnum.CreateSiteContact:
+                area = 'Add - Site Contact'
+                break;
+            case this.operationEnum.UpdateSiteContact:
+                area = 'Edit - Site Contact'
+                break;
+            case this.operationEnum.DeleteSiteContact:
+                area = 'Delete - Site Contact'
+                break;
+            case this.operationEnum.CreateSite:
+                area = 'Add - Site'
+                break;
+            case this.operationEnum.UpdateSite:
+                area = 'Edit - Site'
+                break;
+            case this.operationEnum.DeleteSite:
+                area = 'Delete - Site'
+                break;
+            default:
+                break
+        }
+        this.titleService.setTitle(`Success - ${area} - CCS`);
     }
 
-    onNavigateToProfileClick(){
+    onNavigateToProfileClick() {
         this.router.navigateByUrl(`manage-org/profile`);
     }
 
-    onNavigateToSiteClick(){
+    onNavigateToSiteClick() {
         let data = {
             'isEdit': true,
             'siteId': this.siteId

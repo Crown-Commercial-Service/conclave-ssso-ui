@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
   toggleControl = new FormControl(false);
   opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/checksession/?origin=' + environment.uri.web.dashboard);
   rpIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.web.dashboard + '/assets/rpIFrame.html');
-
   constructor(private sanitizer: DomSanitizer,private globalRouteService : GlobalRouteService, private overlay: OverlayContainer, private translate: TranslateService, protected uiStore: Store<UIState>, private router: Router,
     private route: ActivatedRoute, public authService: AuthService,
      public loadingIndicatorService: LoadingIndicatorService, private titleService: Title) {
@@ -68,6 +67,7 @@ export class AppComponent implements OnInit {
       // This handles page refresh to reload access tokens. Ignore authSuccess page 
       var currentGlobalRoute = localStorage['currentGlobalRoute'];
       if (!tokenExists && !currentGlobalRoute.includes('authsuccess')) {
+        this.authService.registerTokenRenewal();
         // Url after trimming the leading slash
         let url = currentGlobalRoute.startsWith('/') ? currentGlobalRoute.replace(/^\/+/, '') : currentGlobalRoute;
         this.globalRouteService.globalRoute = url;
@@ -105,10 +105,7 @@ export class AppComponent implements OnInit {
     this.uiStore.dispatch({ type: '[UI] Side Nav Toggle' });
   }
 
-  public logOut(): void {
-    this.authService.logOutAndRedirect();
-  }
-  public signout() {
+  public signoutAndRedirect() {
     this.authService.logOutAndRedirect();
   }
 

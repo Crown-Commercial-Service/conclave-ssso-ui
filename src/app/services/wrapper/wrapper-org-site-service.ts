@@ -28,8 +28,8 @@ export class WrapperOrganisationSiteService {
     );
   }
 
-  getOrganisationSites(organisationId: string): Observable<any> {
-    const url = `${this.url}/${organisationId}/sites`;
+  getOrganisationSites(organisationId: string, searchString: string =""): Observable<any> {
+    const url = `${this.url}/${organisationId}/sites?searchString=${searchString}`;
     return this.http.get<OrganisationSiteInfoList>(url).pipe(
       map((data: OrganisationSiteInfoList) => {
         return data;

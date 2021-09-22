@@ -28,16 +28,12 @@
 
         <div class="govuk-error-summary user-profile-form-error" aria-labelledby="error-summary-title" role="alert"
             tabindex="-1" id="error-summary" data-module="govuk-error-summary"
-            *ngIf="formValid(userProfileForm) == false && submitted">
+            *ngIf="(formValid(userProfileForm) == false || mfaConnectionValidationError || mfaAdminValidationError) && submitted">
             <h2 class="govuk-error-summary__title" id="error-summary-title">
                 {{ 'ERROR_SUMMARY' | translate }}
             </h2>
             <div class="govuk-error-summary__body">
                 <ul class="govuk-list govuk-error-summary__list">
-                    <li *ngIf="submitted && userProfileForm.controls.userTitle.invalid">
-                        <a href="#" onClick="return false;" (click)="scrollToAnchor('user-title-form-group')">
-                            {{'ERROR_SELECT_TITLE' | translate }} </a>
-                    </li>
                     <li *ngIf="submitted && userProfileForm.controls.firstName.invalid">
                         <a href="#" onClick="return false;" (click)="setFocus(0)">
                             {{'ERROR_FIRST_NAME' | translate }} </a>
@@ -54,13 +50,21 @@
                         <a href="#" onClick="return false;" (click)="setFocus(2)">
                             {{'ERROR_USER_ALREADY_EXISTS' | translate }}</a>
                     </li>
+                    <li *ngIf="submitted && mfaConnectionValidationError">
+                        <a href="#" onClick="return false;" (click)="scrollToAnchor('user-mfa-form-group')">
+                            {{ 'MFA_ENABLED_INVALID_CONNECTION'| translate }}</a>
+                    </li>
+                    <li *ngIf="submitted && mfaAdminValidationError">
+                        <a href="#" onClick="return false;" (click)="scrollToAnchor('user-mfa-form-group')">
+                            {{ 'MFA_ENABLED_ADMIN_USER'| translate }}</a>
+                    </li>
                     <li
                         *ngIf="submitted && (userProfileForm.controls.userName.hasError('email') || userProfileForm.controls.userName.hasError('invalidEmail'))">
                         <a href="#" onClick="return false;" (click)="setFocus(2)">
                             {{ 'ERROR_INVALID_EMAIL'| translate }}</a>
                     </li>
                     <li *ngIf="submitted && userProfileForm.controls.signInProviderControl.hasError('required')">
-                        <a href="#" onClick="return false;" (click)="scrollToAnchor('signin-provider-form-group')">
+                        <a href="#" onClick="return false;" (click)="setFocus(3)">
                             {{ 'ERROR_SIGN_IN_PROVIDER_REQUIRED'| translate }}</a>
                     </li>
                 </ul>
@@ -69,16 +73,9 @@
         <div class="form">
             <form class="ui form profile mb-two" [formGroup]="userProfileForm" (submit)="onSubmit(userProfileForm)">
                 <div class="ui segment">
-                    <div class="govuk-form-group" id="user-title-form-group"
-                        [class.govuk-form-group--error]="submitted && userProfileForm.controls.userTitle.invalid">
+                    <div class="govuk-form-group" id="user-title-form-group">
                         <label class="govuk-label" for="userTitle">{{ 'TITLE' | translate }}</label>
-                        <span id="userTitle-error" class="govuk-error-message"
-                            *ngIf="submitted && userProfileForm.controls.userTitle.invalid">
-                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>{{
-                            'ERROR_SELECT_TITLE' | translate }}
-                        </span>
-                        <select class="govuk-select" id="userTitle" name="userTitle" formControlName="userTitle"
-                            [class.govuk-select--error]="submitted && userProfileForm.controls.userTitle.invalid">
+                        <select class="govuk-select" id="userTitle" name="userTitle" formControlName="userTitle">
                             <option *ngFor="let item of userTitleEnum | enumToArray" [ngValue]="item">{{
                                 userTitleEnum[item] }}</option>
                         </select>
@@ -131,6 +128,30 @@
                             [class.govuk-input--error]="(submitted && userProfileForm.controls.userName.invalid)
                             || userProfileForm.controls.userName.hasError('alreadyExists')">
                     </div>
+                    <div class="govuk-form-group" id="user-mfa-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend">
+                                Security Level
+                            </legend>
+                            <span id="mfa-error-con" class="govuk-error-message"
+                                *ngIf="submitted && mfaConnectionValidationError">
+                                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                                {{ 'MFA_ENABLED_INVALID_CONNECTION'| translate }}
+                            </span>
+                            <span id="mfa-error-admin" class="govuk-error-message"
+                                *ngIf="submitted && mfaAdminValidationError">
+                                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                                {{ 'MFA_ENABLED_ADMIN_USER'| translate }}
+                            </span>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"
+                                    type="checkbox">
+                                <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
+                                    Procurement Gateway Authenticator
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
 
                     <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">
@@ -138,7 +159,8 @@
                                 {{ 'GROUPS'| translate }}
                             </legend>
                             <div *ngIf="orgGroups.length == 0">
-                                <p>{{'NONE'| translate}}<p>
+                                <p>{{'NONE'| translate}}
+                                <p>
                             </div>
                             <div *ngIf="orgGroups.length > 0" class="govuk-checkboxes">
                                 <div class="govuk-checkboxes__item" *ngFor="let orgGroup of orgGroups; let i=index">
@@ -150,7 +172,9 @@
                                         for="{{'orgGroupControl_' + orgGroup.groupId}}">
                                         {{orgGroup.groupName}}
                                     </label>
-                                    <a *ngIf="hasGroupViewPermission" (click)="onGroupViewClick(orgGroup.groupId)"> {{'VIEW_DETAILS' | translate}}</a>
+                                    <a class="navigation-text" href="javascript:;" *ngIf="hasGroupViewPermission"
+                                        (click)="onGroupViewClick(orgGroup.groupId)">
+                                        {{'VIEW_DETAILS' | translate}}</a>
                                 </div>
                             </div>
 
@@ -165,11 +189,18 @@
                             <div class="govuk-checkboxes">
                                 <div class="govuk-checkboxes__item" *ngFor="let orgRole of orgRoles; let i=index">
                                     <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                        [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                    [attr.disabled]="isEdit && orgRole.roleKey === 'ORG_DEFAULT_USER' ? true : null"
+                                         [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
                                         value="hmrc">
-                                    <label class="govuk-label govuk-checkboxes__label"
+                                    <label *ngIf="orgRole.serviceName == null"
+                                        class="govuk-label govuk-checkboxes__label"
                                         for="{{'orgRoleControl_' + orgRole.roleId}}">
                                         {{orgRole.roleName}}
+                                    </label>
+                                    <label *ngIf="orgRole.serviceName != null"
+                                        class="govuk-label govuk-checkboxes__label"
+                                        for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                        {{orgRole.roleName}} - {{orgRole.serviceName}}
                                     </label>
                                 </div>
                             </div>
@@ -192,7 +223,7 @@
                             <div class="govuk-radios">
                                 <div class="govuk-radios__item"
                                     *ngFor="let identityProvider of identityProviders; let i=index">
-                                    <input class="govuk-radios__input"
+                                    <input #input class="govuk-radios__input"
                                         id="{{'signInProviderControl' + identityProvider.id}}"
                                         formControlName="signInProviderControl" type="radio"
                                         [value]="identityProvider.id">
@@ -223,7 +254,8 @@
                     </button>
 
                     <div *ngIf="isEdit==true">
-                        <a (click)="onDeleteClick()" class="govuk-link delete-link">{{ 'DELETE_USER' | translate }}</a>
+                        <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{ 'DELETE_USER'
+                            | translate }}</a>
                     </div>
 
                 </div>

@@ -1,14 +1,4 @@
 app-manage-organisation-registration-step-3 {
-  /*position: absolute;
-  top: 252px;
-  color: #000000;
-  min-height: 1200px;
-  left: 4.4%;
-  right: 5%;
-  font-weight: 300;
-  font-size: 12px;*/
-  // font-family: Poppins;
-  // height:580px;
   color: #000000;
   label {
     font-size: 12px;
@@ -17,10 +7,10 @@ app-manage-organisation-registration-step-3 {
   h4 {
     color: #000000;
   }
-  .brickendon-group input[type=radio] {
-    width: 14px;
-    height: 14px;
-    position: relative;
-    top: 2px;
+  input[type=radio] {
+    width: 300px;
+    height: 50px;
+    margin-right: 10px;
+    top: 3px;
   }
 }

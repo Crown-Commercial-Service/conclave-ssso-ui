@@ -6,18 +6,15 @@ import { Location, ViewportScroller } from '@angular/common';
 import { slideAnimation } from 'src/app/animations/slide.animation';
 
 import { BaseComponent } from 'src/app/components/base/base.component';
-import { ContactDetails, ContactType } from 'src/app/models/contactDetail';
-import { contactService } from 'src/app/services/contact/contact.service';
 import { UIState } from 'src/app/store/ui.states';
 import { OperationEnum } from 'src/app/constants/enum';
-import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
-import { TokenService } from 'src/app/services/auth/token.service';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
 import { OrganisationSiteInfo, OrganisationSiteResponse } from 'src/app/models/site';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WrapperSiteContactService } from 'src/app/services/wrapper/wrapper-site-contact-service';
-import { ContactGridInfo, ContactPoint, SiteContactInfoList } from 'src/app/models/contactInfo';
+import { ContactGridInfo, SiteContactInfoList } from 'src/app/models/contactInfo';
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-manage-organisation-profile-site-edit',
@@ -35,10 +32,10 @@ export class ManageOrganisationSiteEditComponent extends BaseComponent implement
   submitted!: boolean;
   isEdit: boolean = false;
   siteId: number = 0;
-  public serverError : string = ''; 
+  public serverError: string = '';
   organisationId: string;
-  contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER'];
-  contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber'];
+  contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'FAX', 'WEB_URL'];
+  contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
   contactData: ContactGridInfo[];
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
@@ -46,7 +43,7 @@ export class ManageOrganisationSiteEditComponent extends BaseComponent implement
   constructor(private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
     private orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
-    private contactHelper: ContactHelper) {
+    private contactHelper: ContactHelper, private titleService: Title) {
     super(uiStore, viewportScroller, scrollHelper);
     let queryParams = this.activatedRoute.snapshot.queryParams;
     if (queryParams.data) {
@@ -67,6 +64,7 @@ export class ManageOrganisationSiteEditComponent extends BaseComponent implement
   }
 
   ngOnInit() {
+    this.titleService.setTitle(`${this.isEdit ? "Edit" : "Add"} - Site - CCS`);
     if (this.isEdit) {
       this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
         {
@@ -195,7 +193,14 @@ export class ManageOrganisationSiteEditComponent extends BaseComponent implement
       'contactId': 0,
       'siteId': this.siteId
     };
-    this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
+    this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
+  }
+
+  public onContactAssignClick() {
+    let data = {
+      'assigningSiteId': this.siteId
+    };
+    this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
   }
 
   onContactEditClick(contactInfo: ContactGridInfo) {
@@ -204,6 +209,6 @@ export class ManageOrganisationSiteEditComponent extends BaseComponent implement
       'contactId': contactInfo.contactId,
       'siteId': this.siteId
     };
-    this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
+    this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
   }
 }

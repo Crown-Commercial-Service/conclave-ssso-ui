@@ -11,6 +11,7 @@ import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrapper-org--group-service";
 import { OrganisationGroupNameInfo, OrganisationGroupRequestInfo, Role } from "src/app/models/organisationGroup";
 import { OperationEnum } from "src/app/constants/enum";
+import { Title } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-manage-group-edit-name',
@@ -35,7 +36,8 @@ export class ManageGroupEditNameComponent extends BaseComponent implements OnIni
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
     constructor(protected uiStore: Store<UIState>, private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
+        private titleService: Title) {
         super(uiStore,viewportScroller,scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -48,10 +50,10 @@ export class ManageGroupEditNameComponent extends BaseComponent implements OnIni
         this.groupNameForm = this.formBuilder.group({
             groupName: [this.groupName, Validators.compose([Validators.required])],
         });
-        // this.viewportScroller.setOffset([100, 100]);
     }
 
     ngOnInit() {
+        this.titleService.setTitle(`${this.isEdit ? "Edit Name" : "Create"}  - Manage Groups - CCS`);
     }
 
     ngAfterViewChecked() {

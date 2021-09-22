@@ -16,27 +16,28 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
   templateUrl: './manage-organisation-profile-registry-error-not-my-organisation.component.html',
   styleUrls: ['./manage-organisation-profile-registry-error-not-my-organisation.component.scss'],
   animations: [
-      slideAnimation({
-          close: { 'transform': 'translateX(12.5rem)' },
-          open: { left: '-12.5rem' }
-      })
+    slideAnimation({
+      close: { 'transform': 'translateX(12.5rem)' },
+      open: { left: '-12.5rem' }
+    })
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ManageOrganisationRegistryOrgNotFoundComponent extends BaseComponent implements OnInit {
 
-  public organisationId!: number;
+  public organisationId!: string;
 
-  constructor(private dataService: dataService, private location: Location, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
-    super(uiStore,viewportScroller,scrollHelper);
-    this.organisationId = parseInt(this.route.snapshot.paramMap.get('organisationId') || '0');
+  constructor(private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    super(uiStore, viewportScroller, scrollHelper);
+    this.organisationId = this.route.snapshot.paramMap.get('organisationId') || "";
   }
 
   ngOnInit() { }
 
-  public goBack(){
-    this.location.back();
+  public goToSearch() {
+    this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/search`);
   }
 
 }

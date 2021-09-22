@@ -20,6 +20,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Input() isHyperLinkVisible?: boolean;
   @Input() hyperLinkText?: string;
   @Input() isCheckBoxVisible?: boolean;
+  @Input() isRadioVisible?: boolean;
   @Input() useServerPagination?: boolean;
   @Input() serverPageCount?: number;
   @Input() serverPageCurrentPage?: number;
@@ -27,6 +28,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
 
   @Output() hyperLinkClickEvent = new EventEmitter<any>();
   @Output() checkBoxClickEvent = new EventEmitter<any>();
+  @Output() radioClickEvent = new EventEmitter<any>();
   @Output() changeCurrentPageEvent = new EventEmitter<number>();
 
   pageCount?: number;
@@ -34,11 +36,12 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   totalPagesArray: number[] = [];
   pageSize: number = environment.listPageSize;
   tableVisibleData!: any[];
+  selectedRadioId: string = 'table-radio-id-non';
 
   constructor(
     // private translateService: TranslateService,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
-    super(uiStore,viewportScroller,scrollHelper);
+    super(uiStore, viewportScroller, scrollHelper);
   }
 
   ngOnInit() {
@@ -59,16 +62,27 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
     }
   }
 
-  onHyperLinkClick(dataRow: any) {
-    this.hyperLinkClickEvent.emit(dataRow);
-  }
-
-  onCheckChange(event: any, dataRow: any) {
-    dataRow.isChecked = event.target.checked;
-    this.checkBoxClickEvent.emit(dataRow);
+  onRowClick(dataRow: any, index: number) {
+    if (this.isCheckBoxVisible) {
+      dataRow.isChecked = !dataRow.isChecked;
+      this.checkBoxClickEvent.emit(dataRow);
+    }
+    else if (this.isRadioVisible) {
+      this.selectedRadioId = 'table-radio-id-' + index;
+      this.radioClickEvent.emit(dataRow);
+    }
+    else if (this.isHyperLinkVisible) {
+      this.hyperLinkClickEvent.emit(dataRow);
+    }
+    else {
+    }
   }
 
   onSetPageClick(pageNumber: number) {
+    if (this.isRadioVisible) { // Emit the event to remove the radio selection 
+      this.selectedRadioId = 'table-radio-id-non';
+      this.radioClickEvent.emit(null);
+    }
     this.currentPage = pageNumber;
     if (this.useClientPagination) {
       let startIndex = this.pageSize * (this.currentPage - 1);

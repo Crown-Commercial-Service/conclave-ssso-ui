@@ -12,7 +12,7 @@
                             }}</a>
                     </li>
                     <li *ngIf="isEdit==true" class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="onNavigateToGroupClick()">
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToGroupClick()">
                             {{ 'EDIT_GROUP' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
@@ -21,16 +21,16 @@
                 </ol>
             </div>
             <div>
-                <h1 *ngIf="operation=== operationEnum.GroupAdd" class="govuk-heading-xl">
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupAdd" >
                     {{ 'GROUP_ADD_SUCCESS' | translate }} {{userCount}} {{ 'USERS_SIMPLE' | translate }} {{ 'AND_SIMPLE' | translate }} {{roleCount}} {{ 'ROLES_SIMPLE' | translate }}
-                </h1>
+                </p>
 
-                <h1 *ngIf="operation=== operationEnum.GroupNameUpdate" class="govuk-heading-xl">{{ 'GROUP_NAME_UPDATE_SUCCESS' | translate }}</h1>
-                <h1 *ngIf="operation=== operationEnum.GroupUserAdd" class="govuk-heading-xl">{{ 'GROUP_USER_ADD_SUCCESS' | translate }}</h1>
-                <h1 *ngIf="operation=== operationEnum.GroupUserUpdate" class="govuk-heading-xl">{{ 'GROUP_USER_UPDATE_SUCCESS' | translate }}</h1>
-                <h1 *ngIf="operation=== operationEnum.GroupRoleUpdate" class="govuk-heading-xl">{{ 'GROUP_ROLE_UPDATE_SUCCESS' | translate }}</h1>
-                <h1 *ngIf="operation=== operationEnum.GroupDelete" class="govuk-heading-xl">{{ 'GROUP_DELETE_SUCCESS' | translate }}</h1>
-                <a *ngIf="operation!= operationEnum.GroupDelete" class="navigation-text" (click)="onNavigateToGroupClick()">
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupNameUpdate" >{{ 'GROUP_NAME_UPDATE_SUCCESS' | translate }}</p>
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupUserAdd" >{{ 'GROUP_USER_ADD_SUCCESS' | translate }}</p>
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupUserUpdate" >{{ 'GROUP_USER_UPDATE_SUCCESS' | translate }}</p>
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupRoleUpdate" >{{ 'GROUP_ROLE_UPDATE_SUCCESS' | translate }}</p>
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupDelete" >{{ 'GROUP_DELETE_SUCCESS' | translate }}</p>
+                <a href="javascript:;" *ngIf="operation!= operationEnum.GroupDelete" class="navigation-text" (click)="onNavigateToGroupClick()">
                     {{ 'RETURN_TO_GROUP' | translate }}</a>
                 <a *ngIf="operation=== operationEnum.GroupDelete" class="navigation-text" routerLink="/manage-groups">
                     {{ 'RETURN_TO_MANAGE_GROUPS' | translate }}</a>

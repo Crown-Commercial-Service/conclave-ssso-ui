@@ -71,6 +71,21 @@
                             <input readonly aria-hidden="true" class="govuk-input" id="email" name="email" type="email"
                                 [value]="userName">
                         </div>
+                        <div class="govuk-form-group" id="user-mfa-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <legend class="govuk-fieldset__legend">
+                                    Security Level
+                                </legend>
+                                <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
+                                    <input [attr.disabled]=true class="govuk-checkboxes__input" id="mfaEnabled"
+                                        formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
+                                    <label class="govuk-label govuk-checkboxes__label" for="mfaEnabled">
+                                        Procurement Gateway Authenticator
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+
                         <div>
                             <p class="govuk-body govuk-!-font-size-19">
                                 {{"SIGN_IN_PROVIDER"| translate}} : {{identityProviderDisplayName}}</p>
@@ -82,42 +97,38 @@
                         </button>
                     </div>
                 </div>
-                <!-- <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                    </div>
-                </div> -->
                 <div *ngIf="userGroups.length == 0">
-                    <h4 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h4>
-                    <p>{{'NONE'| translate}}<p>
+                    <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
+                    <p>{{'NONE'| translate}}
+                    <p>
                 </div>
 
                 <div *ngIf="userGroups.length > 0" class="user-group-table">
                     <app-govuk-table [headerTextKeys]="userGroupTableHeaders" [data]="userGroups"
-                        [dataKeys]="userGroupColumnsToDisplay" [isHyperLinkVisible]="hasGroupViewPermission" [hyperLinkText]="'VIEW_DETAILS'"
-                        (hyperLinkClickEvent)="onGroupViewClick($event)" [useClientPagination]="true"></app-govuk-table>
+                        [dataKeys]="userGroupColumnsToDisplay" [isHyperLinkVisible]="hasGroupViewPermission"
+                        [hyperLinkText]="'VIEW_DETAILS'" (hyperLinkClickEvent)="onGroupViewClick($event)"
+                        [useClientPagination]="true"></app-govuk-table>
                 </div>
 
                 <div *ngIf="roleDataList.length == 0">
-                    <h4 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h4>
-                    <p>{{'NONE'| translate}}<p>
+                    <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
+                    <p>{{'NONE'| translate}}
+                    <p>
                 </div>
 
                 <div *ngIf="roleDataList.length > 0" class="user-group-table">
                     <app-govuk-table [headerTextKeys]="userRoleTableHeaders" [data]="roleDataList"
                         [dataKeys]="userRoleColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
                 </div>
-                <!-- <button type="button" (click)="onRequestRoleChangeClick()"
-                    class="govuk-button govuk-button--secondary role-change-button" data-module="govuk-button">
-                    {{ 'REQUEST_ROLE_CHANGE_BTN' | translate }}
-                </button> -->
 
-                <h3 class="govuk-heading-m contact-detail"> {{ 'CONTACT_DETAILS' | translate }}</h3>
+                <h2 class="govuk-heading-s contact-detail"> {{ 'CONTACT_DETAILS' | translate }}</h2>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
                         <div>
                             <app-govuk-table [headerTextKeys]="contactTableHeaders" [data]="userContacts"
-                                [dataKeys]="contactColumnsToDisplay" [isHyperLinkVisible]="true" [hyperLinkText]="'EDIT'"
-                                (hyperLinkClickEvent)="onContactEditRow($event)" [useClientPagination]="true">
+                                [dataKeys]="contactColumnsToDisplay" [isHyperLinkVisible]="true"
+                                [hyperLinkText]="'EDIT'" (hyperLinkClickEvent)="onContactEditRow($event)"
+                                [useClientPagination]="true">
                             </app-govuk-table>
                         </div>
                     </div>

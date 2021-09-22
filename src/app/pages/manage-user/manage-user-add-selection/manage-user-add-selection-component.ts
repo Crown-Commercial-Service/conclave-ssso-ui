@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ElementRef, QueryList, ViewChildren } from "@angular/core";
 import { OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { ViewportScroller } from '@angular/common';
@@ -6,14 +6,8 @@ import { BaseComponent } from "src/app/components/base/base.component";
 import { UIState } from "src/app/store/ui.states";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { slideAnimation } from "src/app/animations/slide.animation";
-import { User, UserGroup, UserListResponse, UserProfileRequestInfo } from "src/app/models/user";
-import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.service";
-import { WrapperUserContactService } from "src/app/services/wrapper/wrapper-user-contact.service";
-import { ContactPoint, UserContactInfoList } from "src/app/models/contactInfo";
 import { Router } from "@angular/router";
-import { OperationEnum } from "src/app/constants/enum";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
-import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org-service";
 
 @Component({
     selector: 'app-manage-user-add-selection-component',
@@ -30,8 +24,9 @@ export class ManageUserAddSelectionComponent extends BaseComponent implements On
     submitted!: boolean;
     selectionForm!: FormGroup;
 
-    constructor(private wrapperOrganisationService: WrapperOrganisationService,
-        protected uiStore: Store<UIState>, private router: Router, private formBuilder: FormBuilder,
+    @ViewChildren('input') inputs!: QueryList<ElementRef>;
+
+    constructor(protected uiStore: Store<UIState>, private router: Router, private formBuilder: FormBuilder,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
         this.selectionForm = this.formBuilder.group({
@@ -46,8 +41,8 @@ export class ManageUserAddSelectionComponent extends BaseComponent implements On
         this.scrollHelper.doScroll();
     }
 
-    public scrollToAnchor(elementId: string): void {
-        this.viewportScroller.scrollToAnchor(elementId);
+    setFocus(inputIndex: number) {
+        this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
 
     public onSubmit(form: FormGroup) {
@@ -62,9 +57,6 @@ export class ManageUserAddSelectionComponent extends BaseComponent implements On
             else{
                 console.log("Add Multiple Users Selected");
             }
-        }
-        else {
-            this.scrollHelper.scrollToFirst('error-summary');
         }
     }
 

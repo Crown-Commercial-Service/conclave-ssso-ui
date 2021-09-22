@@ -1,0 +1,121 @@
+import { Component } from "@angular/core";
+import { OnInit } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { ViewportScroller } from '@angular/common';
+import { BaseComponent } from "src/app/components/base/base.component";
+import { UIState } from "src/app/store/ui.states";
+import { slideAnimation } from "src/app/animations/slide.animation";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
+import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org-service";
+import { UserListInfo, UserListResponse } from "src/app/models/user";
+import { environment } from "src/environments/environment";
+
+@Component({
+    selector: 'app-contact-assign-user-search-component',
+    templateUrl: './contact-assign-user-search-component.html',
+    styleUrls: ['./contact-assign-user-search-component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ]
+})
+export class ContactAssignUserSearchComponent extends BaseComponent implements OnInit {
+    userList: UserListResponse;
+    organisationId: string;
+    selectedUserName: string = "";
+    searchingUserName: string = "";
+    currentPage: number = 1;
+    pageCount: number = 0;
+    pageSize: number = environment.listPageSize;
+    usersTableHeaders = ['NAME', 'EMAIL'];
+    usersColumnsToDisplay = ['name', 'userName'];
+    assigningSiteId: number = 0;
+    assigningOrgId: string = "";
+
+    constructor(private wrapperOrganisationService: WrapperOrganisationService,
+        protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        super(uiStore, viewportScroller, scrollHelper);
+        this.organisationId = localStorage.getItem('cii_organisation_id') || '';
+        this.userList = {
+            currentPage: this.currentPage,
+            pageCount: 0,
+            rowCount: 0,
+            organisationId: this.organisationId,
+            userList: []
+        }
+        let queryParams = this.activatedRoute.snapshot.queryParams;
+        if (queryParams.data) {
+            let routeData = JSON.parse(queryParams.data);
+            this.assigningSiteId = routeData['assigningSiteId'] || 0;
+            this.assigningOrgId = routeData['assigningOrgId'] || "";
+        }
+    }
+
+    ngOnInit() {
+        this.getOrganisationUsers();
+    }
+
+    getOrganisationUsers() {
+        this.wrapperOrganisationService.getUsers(this.organisationId, this.searchingUserName, this.currentPage, this.pageSize, true).subscribe({
+            next: (userListResponse: UserListResponse) => {
+                if (userListResponse != null) {
+                    this.userList = userListResponse;
+                    this.pageCount = this.userList.pageCount;
+                }
+            },
+            error: (error: any) => {
+            }
+        });
+    }
+
+    searchTextChanged(event: any) {
+        this.searchingUserName = event.target.value;
+    }
+
+    onSearchClick() {
+        this.currentPage = 1;
+        this.getOrganisationUsers();
+    }
+
+    setPage(pageNumber: any) {
+        this.currentPage = pageNumber;
+        this.getOrganisationUsers();
+    }
+
+    onSelectRow(dataRow: UserListInfo) {
+        this.selectedUserName = dataRow?.userName ?? '';
+    }
+
+    onContinue() {
+        if (this.selectedUserName != "") {
+            sessionStorage.removeItem("assigning-contact-list");
+            let data = {
+                'assigningSiteId': this.assigningSiteId,
+                'assigningOrgId': this.assigningOrgId,
+                'contactUserName': encodeURIComponent(this.selectedUserName)
+            };
+            this.router.navigateByUrl('contact-assign?data=' + JSON.stringify(data));
+        }
+    }
+
+    onNavigateToSiteClick(){
+        let data = {
+            'isEdit': true,
+            'siteId': this.assigningSiteId
+        };
+        this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
+    }
+
+    onCancelClick(){
+        let data = {
+            'assigningSiteId': this.assigningSiteId,
+            'assigningOrgId': this.assigningOrgId,
+            'contactUserName': encodeURIComponent(this.selectedUserName)
+        };
+        this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
+    }
+}

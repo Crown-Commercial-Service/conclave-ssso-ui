@@ -1,0 +1,28 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="content flex">
+      <div *ngIf="sendError; else elseBlock" class="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              {{ 'MFA_RESET_EMAIL_SENT_ERROR' | translate }}
+            </li>
+          </ul>
+          <a href="javascript:;" class="navigation-text" (click)="onNavigateLinkClick()"> {{
+            'RETURN_TO_LOGIN_PAGE' | translate }} </a>
+          <br>
+        </div>
+      </div>
+      <ng-template #elseBlock>
+        <div>
+          <p class="govuk-body-l">
+            {{ 'MFA_RESET_EMAIL_SENDING' | translate }} {{ userName }}
+          </p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

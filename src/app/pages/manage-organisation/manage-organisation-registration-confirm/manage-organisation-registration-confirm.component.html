@@ -6,20 +6,22 @@
       Email resend confirmation
     </ng-template>
   </h1>
-  <h2>
-    <div *ngIf="!resendActivationEmailMode; else elseBlockResend"> We've sent an email to {{emailAddress}} to confirm your
+  <div>
+    <p *ngIf="!resendActivationEmailMode; else elseBlockResend"> We've sent an email to {{emailAddress}} to confirm your
       address. Please click on the link in that email to
-      continue.</div>
+      continue.</p>
     <ng-template #elseBlockResend>
-      We've resent the activation email to {{emailAddress}} to confirm your address. Please click on the link in that
-      email to
-      continue.
+      <p>
+        We've resent the activation email to {{emailAddress}} to confirm your address. Please click on the link in that
+        email to
+        continue.
+      </p>
     </ng-template>
-  </h2>
+  </div>
   <br>
   <p><strong>The link in the email will become invalid after 1 hour and can only be clicked on once</strong></p>
-  <p *ngIf="!resendActivationEmailMode"><a (click)="resendActivationLink()">If you have not received an email, please
-    click here to resend</a></p>
-  <p><a routerLink="/home">Return to Crown Commercial Service homepage</a></p>
-  <!--<app-footer></app-footer>-->
+  <p *ngIf="!resendActivationEmailMode"><a class="navigation-text" href="javascript:;" (click)="resendActivationLink()">If you have not received
+      an email, please
+      click here to resend</a></p>
+  <p><a class="navigation-text" routerLink="/home">Return to Crown Commercial Service homepage</a></p>
 </div>

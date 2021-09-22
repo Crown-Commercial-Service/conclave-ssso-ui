@@ -9,15 +9,16 @@
                 <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate }}</a>
             </li>
             <li *ngIf="isEdit==true" class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" (click)="onCancelAndGoToGroupClick()">{{ 'EDIT_GROUP' | translate }}</a>
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelAndGoToGroupClick()">{{
+                    'EDIT_GROUP' | translate }}</a>
             </li>
-            <li *ngIf="isEdit!=true"  class="govuk-breadcrumbs__list-item">
+            <li *ngIf="isEdit!=true" class="govuk-breadcrumbs__list-item">
                 <span class="govuk-breadcrumbs__link"> {{ 'CREATE_GROUP' | translate }}</span>
             </li>
             <li *ngIf="isEdit==true" class="govuk-breadcrumbs__list-item">
                 <span class="govuk-breadcrumbs__link"> {{ 'UPDATE_GROUP_NAME' | translate }}</span>
             </li>
-            
+
         </ol>
     </div>
     <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">{{ 'CREATE_GROUP' | translate }}</h1>
@@ -29,13 +30,11 @@
         </h2>
         <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
-                <li
-                    *ngIf="submitted && groupNameForm.controls.groupName.hasError('required')">
+                <li *ngIf="submitted && groupNameForm.controls.groupName.hasError('required')">
                     <a href="#" onClick="return false;" (click)="setFocus(0)"> {{
                         'ERROR_GROUP_NAME_REQUIRED' | translate }} </a>
                 </li>
-                <li
-                    *ngIf="submitted && groupNameForm.controls.groupName.hasError('alreadyExists')">
+                <li *ngIf="submitted && groupNameForm.controls.groupName.hasError('alreadyExists')">
                     <a href="#" onClick="return false;" (click)="setFocus(0)"> {{
                         'ERROR_GROUP_NAME_EXISTS' | translate }}</a>
                 </li>
@@ -50,7 +49,8 @@
                     <div class="govuk-grid-column-two-thirds">
                         <div class="govuk-form-group" id="group-name-form-group"
                             [class.govuk-form-group--error]="submitted && (groupNameForm.controls.groupName.invalid || groupNameForm.controls.groupName.hasError('alreadyExists'))">
-                            <label *ngIf="isEdit!=true" class="govuk-label" for="group-name"> {{ 'GIVE_GROUP_NAME' | translate }} </label>
+                            <label *ngIf="isEdit!=true" class="govuk-label" for="group-name"> {{ 'GIVE_GROUP_NAME' |
+                                translate }} </label>
                             <span id="group-name-error" class="govuk-error-message"
                                 *ngIf="submitted && groupNameForm.controls.groupName.hasError('required')">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
@@ -64,6 +64,10 @@
                             <div *ngIf="isEdit!=true" id="group-name-hint" class="govuk-hint">
                                 {{ 'YOU_CAN_CHANGE_THIS_LATER' | translate }}
                             </div>
+                            <label *ngIf="isEdit==true" class="govuk-label govuk-radios__label"
+                                title="select one option" for="group-name">
+                                <span style="display: none; visibility: hidden;">Select the option</span>
+                            </label>
                             <input #input formControlName="groupName" class="govuk-input" id="group-name"
                                 name="group-name" type="text"
                                 [class.govuk-input--error]="submitted && (groupNameForm.controls.groupName.invalid || groupNameForm.controls.groupName.hasError('alreadyExists'))">
@@ -77,12 +81,12 @@
                     <button *ngIf="isEdit==true" type="submit" class="govuk-button" data-module="govuk-button">
                         {{ 'SAVE_BTN' | translate }}
                     </button>
-                    <button *ngIf="isEdit!=true" type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
-                        data-module="govuk-button">
+                    <button *ngIf="isEdit!=true" type="button" (click)="onCancelClick()"
+                        class="govuk-button govuk-button--secondary" data-module="govuk-button">
                         {{ 'CANCEL_BTN' | translate }}
                     </button>
-                    <button *ngIf="isEdit==true" type="button" (click)="onCancelAndGoToGroupClick()" class="govuk-button govuk-button--secondary"
-                        data-module="govuk-button">
+                    <button *ngIf="isEdit==true" type="button" (click)="onCancelAndGoToGroupClick()"
+                        class="govuk-button govuk-button--secondary" data-module="govuk-button">
                         {{ 'CANCEL_GO_GROUP_BTN' | translate }}
                     </button>
                 </div>

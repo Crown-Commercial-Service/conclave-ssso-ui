@@ -16,7 +16,7 @@
   <h1 class="govuk-heading-xl page-title">Confirm your organisation selection</h1>
   <div *ngIf="org">
     <p style="margin-top:40px;">
-      <span style="font-weight: 700;">{{ org?.legalName }}</span><br />
+      <span style="font-weight: 700;">{{ org?.identifier?.legalName }}</span><br />
       {{ org?.address?.streetAddress }}<br *ngIf="org?.address?.streetAddress" />
       {{ org?.address?.locality }}<br *ngIf="org?.address?.locality" />
       {{ org?.address?.region }}<br *ngIf="org?.address?.region" />
@@ -26,7 +26,8 @@
   </div>
   <h2>Registries</h2>
   <table class="govuk-table">
-    <caption class="govuk-table__caption govuk-table__caption--m">Below are all the registries currently linked to this organisation</caption>
+    <caption class="govuk-table__caption govuk-table__caption--m">Below are all the registries currently linked to this
+      organisation</caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Registry</th>
@@ -35,12 +36,12 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      <tr class="govuk-table__row" *ngFor="let row of registries">
-        <th scope="row" class="govuk-table__header">{{ getSchemaName(row.identifier.scheme) }}</th>
-        <td class="govuk-table__cell">{{ row.identifier.id}}</td>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">{{ getSchemaName(registries.identifier?.scheme||'') }}</th>
+        <td class="govuk-table__cell">{{ registries.identifier?.id}}</td>
         <td class="govuk-table__cell">Primary</td>
       </tr>
-      <tr class="govuk-table__row" *ngFor="let row of additionalIdentifiers | async">
+      <tr class="govuk-table__row" *ngFor="let row of additionalIdentifiers">
         <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
         <td class="govuk-table__cell">{{ row.id }}</td>
         <td class="govuk-table__cell"></td>
@@ -48,7 +49,9 @@
     </tbody>
   </table>
   <div class="govuk-button-group">
-    <button class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button" (click)="onContinueClick()">Continue</button>
-    <button class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onCancelClick()">Cancel</button>
+    <button type="button" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button"
+      (click)="onContinueClick()">Continue</button>
+    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+      (click)="onCancelClick()">Cancel</button>
   </div>
 </div>

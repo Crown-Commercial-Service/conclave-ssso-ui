@@ -27,7 +27,8 @@ export class ErrorComponent extends BaseComponent {
     public mainPageUrl: string = environment.uri.web.dashboard;
     public errorCode = '';
 
-    constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>,private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>,private authService: AuthService,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private router: Router) {
         super(uiStore,viewportScroller,scrollHelper);
         this.route.queryParams.subscribe(params => {
             this.errorCode = params['error_description'];
@@ -45,5 +46,9 @@ export class ErrorComponent extends BaseComponent {
     signoutUser() {
         // request for full session clean
         this.authService.logOutAndRedirect();
+    }
+
+    goToDashboard(){
+        this.router.navigate(['/home'], { replaceUrl: true });
     }
 }

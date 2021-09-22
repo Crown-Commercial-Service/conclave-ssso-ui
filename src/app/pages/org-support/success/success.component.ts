@@ -1,23 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { slideAnimation } from 'src/app/animations/slide.animation';
 import { UIState } from 'src/app/store/ui.states';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { ciiService } from 'src/app/services/cii/cii.service';
-import { UserService } from 'src/app/services/postgres/user.service';
-import { OrganisationService } from 'src/app/services/postgres/organisation.service';
-import { contactService } from 'src/app/services/contact/contact.service';
-import { ContactType } from 'src/app/models/contactDetail';
-import { environment } from "src/environments/environment";
 import { Observable } from 'rxjs';
-import { filter, map, share } from 'rxjs/operators';
-import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
-import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 
@@ -37,16 +25,50 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 export class OrgSupportSuccessComponent extends BaseComponent implements OnInit {
 
   public user$!: Observable<any>;
+  displayMessage: string = '';
 
-  constructor(private formBuilder: FormBuilder, private translateService: TranslateService, private authService: AuthService, private ciiService: ciiService, private userService: UserService, private organisationService: OrganisationService, private contactService: contactService, private wrapperOrgService: WrapperOrganisationService, private wrapperUserService: WrapperUserService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
-    super(uiStore,viewportScroller,scrollHelper);
+  constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
+    protected scrollHelper: ScrollHelper) {
+    super(uiStore, viewportScroller, scrollHelper);
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      if (params.id) {
-        this.user$ = this.wrapperUserService.getUser(params.id).pipe(share());
-      }
+      let changePassword = false;
+      let resetMfa = false;
+      let changeRoleType: string = "noChange";
+
+      this.route.queryParams.subscribe(para => {
+
+        if (para.rpwd != undefined) {
+          changePassword = JSON.parse(para.rpwd);
+        }
+
+        if (para.rmfa != undefined) {
+          resetMfa = JSON.parse(para.rmfa);
+        }
+
+        if (para.chrole != undefined) {
+          changeRoleType = para.chrole;
+        }
+
+        this.displayMessage = '';
+
+        if (changeRoleType !== "noChange") {
+          this.displayMessage = changeRoleType == "assign" ? `You have successfully assigned admin role for ${params.userName}.` :
+            `You have successfully unassigned admin role for ${params.userName}.`;
+        }
+
+        if (changePassword) {
+          this.displayMessage = changeRoleType !== "noChange" ? (this.displayMessage + `\n Password reset email has been sent to ${params.userName}.`) :
+            `Password reset email has been sent to ${params.userName}.`;
+        }
+
+        if (resetMfa) {
+          this.displayMessage = changePassword || changeRoleType !== "noChange" ? this.displayMessage + `\n Procurement Gateway Authenticator reset email has been sent to ${params.userName}.` :
+            `Procurement Gateway Authenticator reset email has been sent to ${params.userName}.`;
+        }
+      });
     });
   }
 }
