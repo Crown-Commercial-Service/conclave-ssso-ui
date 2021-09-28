@@ -25,6 +25,7 @@ deploy:
     edge: true
     on:
       branch: uat
-
 before_install:
-  - openssl aes-256-cbc -K $encrypted_5880cf525281_key -iv $encrypted_5880cf525281_iv -in environment.ts.enc -out environment.ts -d
+- openssl aes-256-cbc -K $encrypted_d8edde1099fa_key -iv $encrypted_d8edde1099fa_iv
+  -in environment.ts.enc -out environment.ts -d
+
