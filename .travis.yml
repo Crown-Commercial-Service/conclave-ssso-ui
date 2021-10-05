@@ -10,6 +10,7 @@ install:
 - npm install
 before_script:
 - npm install -g @angular/cli
+- echo $TRAVIS_HEAD_BRANCH
 script: npm run build
 deploy:
 - provider: cloudfoundry
@@ -17,7 +18,7 @@ deploy:
   password: "$password"
   api: "$api"
   organization: "$organisation"
-  space: uat
+  space: $TRAVIS_HEAD_BRANCH
   manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
   skip-cleanup: true
   edge: true
