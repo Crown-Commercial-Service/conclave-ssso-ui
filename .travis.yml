@@ -19,9 +19,9 @@ deploy:
     password: $password
     api: $api
     organization: $organisation
-    space: $space_sandbox
+    space: $TRAVIS_PULL_REQUEST_BRANCH
     manifest: ../manifest.yml
     skip-cleanup: true
     repo: Crown-Commercial-Service/conclave-ssso-ui
     on:
-      branch: main
+      branch: $TRAVIS_PULL_REQUEST_BRANCH
