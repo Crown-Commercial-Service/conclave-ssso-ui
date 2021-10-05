@@ -11,6 +11,8 @@ install:
 before_script:
 - npm install -g @angular/cli
 - echo $TRAVIS_HEAD_BRANCH
+- echo $TRAVIS_PULL_REQUEST_BRANCH
+- echo $TRAVIS_BRANCH
 script: npm run build
 deploy:
 - provider: cloudfoundry
