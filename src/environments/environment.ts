@@ -1,35 +1,37 @@
 export const environment = {
-  production: false,
-  idam_client_id: '',
+  production: true,
+  idam_client_id: 'TPmOI4f0eDrYqzRu2a4BXNhe4vHJt4jY',
   uri: {
     api: {
       isApiGateWayEnabled: false,
-      security: 'https://localhost:44352',
-      postgres: 'https://localhost:44330',
+      security: 'https://uat-api-security.london.cloudapps.digital',
+      postgres: 'https://uat-api-core.london.cloudapps.digital',
+      cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://localhost:44309/user-profiles',
-          organisation: 'https://localhost:44309/organisation-profiles',
-          contact: 'https://localhost:44309/contacts',
-          configuration: 'https://localhost:44309/configurations',
+          user: 'https://uat-api-wrapper.london.cloudapps.digital/user-profiles',
+          organisation: 'https://uat-api-wrapper.london.cloudapps.digital/organisation-profiles',
+          contact: 'https://uat-api-wrapper.london.cloudapps.digital/contacts',
+          configuration: 'https://uat-api-wrapper.london.cloudapps.digital/configurations',
         },
         apiGatewayDisabled: {
-          user: 'https://localhost:44309/users',
-          organisation: 'https://localhost:44309/organisations',
-          contact: 'https://localhost:44309/contacts',
-          configuration: 'https://localhost:44309/configurations',
+          user: 'https://uat-api-wrapper.london.cloudapps.digital/users',
+          organisation: 'https://uat-api-wrapper.london.cloudapps.digital/organisations',
+          contact: 'https://uat-api-wrapper.london.cloudapps.digital/contacts',
+          configuration: 'https://uat-api-wrapper.london.cloudapps.digital/configurations',
         }
       }
     },
     web: {
-      dashboard: 'http://localhost:4200'
+      dashboard: 'https://uat-ccs-sso.london.cloudapps.digital'
     },
     ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
   },
+
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
   rollbar: {
-    key: '',
-    enable: false
+    key: '39bb38f087ee4a6781b9d76a73200dd8',
+    enable: true
   }
 };
