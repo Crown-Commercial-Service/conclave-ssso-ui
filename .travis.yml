@@ -28,18 +28,18 @@ deploy:
   password: "$password"
   api: "$api"
   organization: "$organisation"
-  space: uat
+  space: training
   manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
   skip-cleanup: true
   edge: true
   on:
-    branch: sand
+    branch: training
 - provider: cloudfoundry
   username: "$username"
   password: "$password"
   api: "$api"
   organization: "$organisation"
-  space: uat
+  space: testing
   manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
   skip-cleanup: true
   edge: true
@@ -50,25 +50,24 @@ deploy:
   password: "$password"
   api: "$api"
   organization: "$organisation"
-  space: uat
+  space: sandbox
   manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
   skip-cleanup: true
   edge: true
   on:
-    branch: preprod
+    branch: sand
+
 - provider: cloudfoundry
   username: "$username"
   password: "$password"
   api: "$api"
   organization: "$organisation"
-  space: uat
+  space: pre-production
   manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
   skip-cleanup: true
   edge: true
   on:
-    branch: training
-
-
+    branch: preprod
 before_install:
 - openssl aes-256-cbc -K $encrypted_d8edde1099fa_key -iv $encrypted_d8edde1099fa_iv
   -in ./src/environments/environment.ts.enc -out src/environments/environment.ts -d
