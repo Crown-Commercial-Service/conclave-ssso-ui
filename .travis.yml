@@ -10,22 +10,7 @@ install:
 - npm install
 before_script:
 - npm install -g @angular/cli
-- echo $TRAVIS_HEAD_BRANCH
-- echo $TRAVIS_PULL_REQUEST_BRANCH
-- echo $TRAVIS_BRANCH
 script: npm run build
-deploy:
-- provider: cloudfoundry
-  username: "$username"
-  password: "$password"
-  api: "$api"
-  organization: "$organisation"
-  space: $TRAVIS_HEAD_BRANCH
-  manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
-  skip-cleanup: true
-  edge: true
-  on:
-    branch: uat
 deploy:
 - provider: cloudfoundry
   username: "$username"
@@ -37,7 +22,53 @@ deploy:
   skip-cleanup: true
   edge: true
   on:
-    branch: devops-uat
+    branch: uat
+- provider: cloudfoundry
+  username: "$username"
+  password: "$password"
+  api: "$api"
+  organization: "$organisation"
+  space: uat
+  manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
+  skip-cleanup: true
+  edge: true
+  on:
+    branch: sand
+- provider: cloudfoundry
+  username: "$username"
+  password: "$password"
+  api: "$api"
+  organization: "$organisation"
+  space: uat
+  manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
+  skip-cleanup: true
+  edge: true
+  on:
+    branch: test
+- provider: cloudfoundry
+  username: "$username"
+  password: "$password"
+  api: "$api"
+  organization: "$organisation"
+  space: uat
+  manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
+  skip-cleanup: true
+  edge: true
+  on:
+    branch: preprod
+- provider: cloudfoundry
+  username: "$username"
+  password: "$password"
+  api: "$api"
+  organization: "$organisation"
+  space: uat
+  manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
+  skip-cleanup: true
+  edge: true
+  on:
+    branch: training
+
+
 before_install:
 - openssl aes-256-cbc -K $encrypted_d8edde1099fa_key -iv $encrypted_d8edde1099fa_iv
   -in ./src/environments/environment.ts.enc -out src/environments/environment.ts -d
