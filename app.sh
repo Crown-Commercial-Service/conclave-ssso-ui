@@ -11,6 +11,25 @@ then
     CF_SPACE="uat"
 fi
 
+if [ "$APP_ENV" = "training" ]
+then
+    CF_SPACE="training"
+fi
+
+if [ "$APP_ENV" = "testing" ]
+then
+    CF_SPACE="test"
+fi
+
+if [ "$APP_ENV" = "pre-production" ]
+then
+    CF_SPACE="preprod"
+fi
+
+if [ "$APP_ENV" = "sandbox" ]
+then
+    CF_SPACE="sand"
+fi
 
 echo "$CF_SPACE"
 
