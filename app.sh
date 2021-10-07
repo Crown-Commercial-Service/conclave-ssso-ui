@@ -6,7 +6,7 @@ echo
 echo "**** Running post-commit hook from branch $APP_ENV"
 echo
 
-if [[ "$APP_ENV" == "uat" ]]
+if [ "$APP_ENV" = "uat" ]
 then
     CF_SPACE="uat"
 fi
@@ -14,4 +14,4 @@ fi
 
 echo "$CF_SPACE"
 
-sed "s/CF_SPACE/$CF_SPACE/g" manifest-template.yml
+sed "s/CF_SPACE/$CF_SPACE/g" manifest.yml
