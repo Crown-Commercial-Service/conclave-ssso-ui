@@ -17,14 +17,12 @@ deploy:
   password: "$password"
   api: "$api"
   organization: "$organisation"
-  space: $TRAVIS_BRANCH
+  space: "$TRAVIS_BRANCH"
   manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
   skip-cleanup: true
   edge: true
   on:
-    branch: $TRAVIS_BRANCH
-
+    branch: "$TRAVIS_BRANCH"
 before_install:
 - openssl aes-256-cbc -K $encrypted_d8edde1099fa_key -iv $encrypted_d8edde1099fa_iv
-  -in ./src/environments/environment.ts.enc -out src/environments/environment.ts -d
-  #for testing
+  -in ./src/environments/environment.ts.enc -out ./src/environments/environment.ts -d

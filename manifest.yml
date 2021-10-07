@@ -1,9 +1,9 @@
 ---
 applications:
-- name: uat-ccs-sso
+- name: CF_SPACE-ccs-sso
   instances: 1
   memory: 50M
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack
   #buildpack: https://github.com/cloudfoundry/nginx-buildpack.git
   routes:
-    - route: uat-ccs-sso.london.cloudapps.digital
+    - route: CF_SPACE-ccs-sso.london.cloudapps.digital
