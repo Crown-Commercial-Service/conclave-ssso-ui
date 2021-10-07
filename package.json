@@ -24,7 +24,7 @@
     "@angular/router": "^11.2.14",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "@types/lodash": "^4.14.172",
+    "@types/lodash": "^4.14.173",
     "bootstrap": "^4.6.0",
     "classlist.js": "^1.1.20150312",
     "crypto": "^1.0.1",
