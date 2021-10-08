@@ -1,10 +1,5 @@
 #!/bin/bash
 
-#APP_ENV=$(git symbolic-ref --short HEAD)
-
-#echo
-#echo "**** Running post-commit hook from branch $APP_ENV"
-#echo
 
 if [ "$TRAVIS_BRANCH" = "uat" ]
 then
