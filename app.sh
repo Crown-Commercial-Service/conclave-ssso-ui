@@ -6,27 +6,27 @@ echo
 echo "**** Running post-commit hook from branch $APP_ENV"
 echo
 
-if [ "$APP_ENV" = "uat" ]
+if [ "$GITHUB_HEAD_REF" = "uat" ]
 then
     CF_SPACE="uat"
 fi
 
-if [ "$APP_ENV" = "training" ]
+if [ "$GITHUB_HEAD_REF" = "training" ]
 then
     CF_SPACE="training"
 fi
 
-if [ "$APP_ENV" = "testing" ]
+if [ "$GITHUB_HEAD_REF" = "testing" ]
 then
     CF_SPACE="test"
 fi
 
-if [ "$APP_ENV" = "pre-production" ]
+if [ "$GITHUB_HEAD_REF" = "pre-production" ]
 then
     CF_SPACE="preprod"
 fi
 
-if [ "$APP_ENV" = "sandbox" ]
+if [ "$GITHUB_HEAD_REF" = "sandbox" ]
 then
     CF_SPACE="sand"
 fi
