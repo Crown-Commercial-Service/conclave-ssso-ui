@@ -28,4 +28,4 @@ fi
 
 echo "$CF_SPACE"
 
-sed "s/CF_SPACE/$CF_SPACE/g" manifest.yml
+sed "s/CF_SPACE/$CF_SPACE/g" manifest-template.yml > manifest.yml
