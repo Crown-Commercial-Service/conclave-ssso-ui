@@ -1,10 +1,10 @@
 #!/bin/bash
 
-APP_ENV=$(git symbolic-ref --short HEAD)
+#APP_ENV=$(git symbolic-ref --short HEAD)
 
-echo
-echo "**** Running post-commit hook from branch $APP_ENV"
-echo
+#echo
+#echo "**** Running post-commit hook from branch $APP_ENV"
+#echo
 
 if [ "$GITHUB_HEAD_REF" = "uat" ]
 then
