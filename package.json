@@ -53,7 +53,7 @@
     "@angular/cli": "^11.2.14",
     "@angular/compiler-cli": "^11.2.14",
     "@ngrx/effects": "^10.1.2",
-    "@ngrx/router-store": "^10.1.2",
+    "@ngrx/router-store": "^12.4.0",
     "@ngrx/store": "^10.1.2",
     "@ngrx/store-devtools": "^10.1.2",
     "@types/crypto-js": "^4.0.2",
