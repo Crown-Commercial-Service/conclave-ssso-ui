@@ -57,7 +57,7 @@ export class AuthService {
   public getCcsServices() {
     if (this.ccsServices.length == 0) {
       return this.httpService.get(`${environment.uri.api.isApiGateWayEnabled ?
-        environment.uri.api.wrapper.apiGatewayEnabled.configuration : environment.uri.api.wrapper.apiGatewayDisabled.configuration}/GetCcsServices`).pipe(
+        environment.uri.api.wrapper.apiGatewayEnabled.configuration : environment.uri.api.wrapper.apiGatewayDisabled.configuration}/services`).pipe(
           map(data => {
             return data;
           }));
@@ -102,11 +102,15 @@ export class AuthService {
         (err) => {
           // This could due to invalid refresh token (refresh token rotation)  
           if (err.error == "INVALID_CREDENTIALS" || err.error.error_description == "PENDING_PASSWORD_CHANGE"
-            || err.error.error == 'invalid_grant') {
+            || err.error.error == 'invalid_grant' || err.error.error == 'invalid_request') {
             // sign out the user
             this.logOutAndRedirect();
           }
-        });
+        })
+    }).catch((error: any) => {
+      if (error.status == 404) {
+        window.location.href = this.getAuthorizedEndpoint();
+      }
     });
   }
 
@@ -128,7 +132,7 @@ export class AuthService {
   }
 
   changePassword(passwordChangeDetail: PasswordChangeDetail): Observable<any> {
-    return this.httpService.post(`${environment.uri.api.postgres}/auth/change_password`, passwordChangeDetail).pipe(
+    return this.httpService.post(`${environment.uri.api.postgres}/auth/passwords`, passwordChangeDetail).pipe(
       map(data => {
         return data;
       }),
@@ -171,7 +175,7 @@ export class AuthService {
 
 
   createSession(refreshToken: string) {
-    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/create_session`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/sessions`;
     const body = {
       'refreshToken': refreshToken
     }
@@ -189,7 +193,7 @@ export class AuthService {
     const options = {
       headers: new HttpHeaders().append('responseType', 'text')
     }
-    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/get_refresh_token`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/refresh-tokens`;
     return this.httpService.get(coreDataUrl, { responseType: 'text' });
   }
 
@@ -260,7 +264,7 @@ export class AuthService {
   }
 
   clearRefreshToken() {
-    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/sign_out`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/sign-out`;
     return this.httpService.post(coreDataUrl, null);
   }
 
@@ -270,8 +274,8 @@ export class AuthService {
 
   getPermissions(): Observable<any> {
     if (this.servicePermission.length == 0) {
-      return this.httpService.get<ServicePermission[]>(`${environment.uri.api.postgres}/user/permissions?userName=`
-        + encodeURIComponent(localStorage.getItem('user_name') || "") + `&serviceClientId=` + environment.idam_client_id).pipe(
+      return this.httpService.get<ServicePermission[]>(`${environment.uri.api.postgres}/users/permissions?user-name=`
+        + encodeURIComponent(localStorage.getItem('user_name') || "") + `&service-client-id=` + environment.idam_client_id).pipe(
           map((data: ServicePermission[]) => {
             // Cache permissions locally
             this.servicePermission = data;
@@ -300,12 +304,12 @@ export class AuthService {
     );
   }
 
-  nominate(firstName: string, lastName: string, email: string): Observable<any> {
+  nominate(email: string): Observable<any> {
     const options = {
       headers: new HttpHeaders().append('Content-Type', 'application/json')
     }
-    const body = { FirstName: firstName, LastName: lastName, UserName: email, Email: email, Role: 'Admin', Groups: [] }
-    return this.httpService.post(`${this.url}/security/nominate`, body, options).pipe(
+    const body = { email }
+    return this.httpService.post(`${environment.uri.api.postgres}/users/nominees`, JSON.stringify(email), options).pipe(
       map(data => {
         return data;
       }),

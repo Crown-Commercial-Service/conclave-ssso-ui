@@ -1,41 +1,30 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { KeyValue, Location, LocationStrategy, ViewportScroller } from '@angular/common';
-import { slideAnimation } from 'src/app/animations/slide.animation';
-
-import { BaseComponent } from 'src/app/components/base/base.component';
+import { LocationStrategy, ViewportScroller } from '@angular/common';
 import { UIState } from 'src/app/store/ui.states';
 import { OperationEnum, UserTitleEnum } from 'src/app/constants/enum';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { UserEditResponseInfo, UserProfileRequestInfo, UserProfileResponseInfo } from 'src/app/models/user';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { Group, GroupList, Role } from 'src/app/models/organisationGroup';
 import { IdentityProvider } from 'src/app/models/identityProvider';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { flatMap, trim } from 'lodash';
 import { Title } from '@angular/platform-browser';
+import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 
 @Component({
     selector: 'app-manage-user-add-single-user-detail',
     templateUrl: './manage-user-add-single-user-detail.component.html',
-    styleUrls: ['./manage-user-add-single-user-detail.component.scss'],
-    animations: [
-        slideAnimation({
-            close: { 'transform': 'translateX(12.5rem)' },
-            open: { left: '-12.5rem' }
-        })
-    ]
+    styleUrls: ['./manage-user-add-single-user-detail.component.scss']
 })
-export class ManageUserAddSingleUserDetailComponent extends BaseComponent implements OnInit {
+export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent implements OnInit {
 
     organisationId: string;
     userProfileRequestInfo: UserProfileRequestInfo;
     userProfileResponseInfo: UserProfileResponseInfo;
-    userProfileForm: FormGroup;
     submitted!: boolean;
     orgGroups: Group[];
     orgRoles: Role[];
@@ -47,8 +36,8 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
     routeData: any = {};
     state: any;
     hasGroupViewPermission: boolean = false;
-    mfaConnectionValidationError : boolean = false;
-    mfaAdminValidationError : boolean = false;
+    mfaConnectionValidationError: boolean = false;
+    mfaAdminValidationError: boolean = false;
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -56,7 +45,14 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
         private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private wrapperUserService: WrapperUserService,
         private authService: AuthService, private locationStrategy: LocationStrategy) {
-        super(uiStore, viewportScroller, scrollHelper);
+        super(viewportScroller, formBuilder.group({
+            userTitle: [null],
+            firstName: ['', Validators.compose([Validators.required])],
+            lastName: ['', Validators.compose([Validators.required])],
+            mfaEnabled: [false],
+            userName: ['', Validators.compose([Validators.required, Validators.email])],
+            signInProviderControl: ['', Validators.compose([Validators.required])]
+        }));
         let queryParams = this.activatedRoute.snapshot.queryParams;
         this.state = this.router.getCurrentNavigation()?.extras.state;
         this.locationStrategy.onPopState(() => {
@@ -75,7 +71,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
             organisationId: this.organisationId,
             title: undefined,
             userName: '',
-            mfaEnabled : false,
+            mfaEnabled: false,
             detail: {
                 id: 0,
                 groupIds: [],
@@ -87,7 +83,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
         };
         this.userProfileResponseInfo = {
             userName: '',
-            mfaEnabled : false,
+            mfaEnabled: false,
             detail: {
                 id: 0,
                 canChangePassword: false,
@@ -97,19 +93,10 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
             firstName: '',
             lastName: '',
         };
-        this.userProfileForm = this.formBuilder.group({
-            userTitle: [null],
-            firstName: ['', Validators.compose([Validators.required])],
-            lastName: ['', Validators.compose([Validators.required])],
-            mfaEnabled:[false],
-            userName: ['', Validators.compose([Validators.required, Validators.email])],
-            signInProviderControl: ['', Validators.compose([Validators.required])]
-        });
-        //this.viewportScroller.setOffset([0, 100]);
     }
 
     async ngOnInit() {
-        this.titleService.setTitle(`${this.isEdit ? 'Edit': 'Add'} - Manage Users - CCS`);
+        this.titleService.setTitle(`${this.isEdit ? 'Edit' : 'Add'} - Manage Users - CCS`);
         this.authService.hasPermission('MANAGE_GROUPS').subscribe({
             next: (hasPermission: boolean) => {
                 this.hasGroupViewPermission = hasPermission;
@@ -126,33 +113,35 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
             else {
                 this.userProfileResponseInfo = userProfileResponseInfo;
             }
-            this.userProfileForm.controls['userTitle'].setValue(this.userProfileResponseInfo.title);
-            this.userProfileForm.controls['firstName'].setValue(this.userProfileResponseInfo.firstName);
-            this.userProfileForm.controls['lastName'].setValue(this.userProfileResponseInfo.lastName);
-            this.userProfileForm.controls['userName'].setValue(this.userProfileResponseInfo.userName);
-            this.userProfileForm.controls['mfaEnabled'].setValue(this.userProfileResponseInfo.mfaEnabled);
+            this.formGroup.controls['userTitle'].setValue(this.userProfileResponseInfo.title);
+            this.formGroup.controls['firstName'].setValue(this.userProfileResponseInfo.firstName);
+            this.formGroup.controls['lastName'].setValue(this.userProfileResponseInfo.lastName);
+            this.formGroup.controls['userName'].setValue(this.userProfileResponseInfo.userName);
+            this.formGroup.controls['mfaEnabled'].setValue(this.userProfileResponseInfo.mfaEnabled);
             await this.getOrgGroups();
             await this.getOrgRoles();
             await this.getIdentityProviders();
+            this.onFormValueChange();
         }
         else {
             if (this.state) {
                 this.userProfileResponseInfo = this.state;
-                this.userProfileForm.controls['userTitle'].setValue(this.userProfileResponseInfo.title);
-                this.userProfileForm.controls['firstName'].setValue(this.userProfileResponseInfo.firstName);
-                this.userProfileForm.controls['lastName'].setValue(this.userProfileResponseInfo.lastName);
-                this.userProfileForm.controls['userName'].setValue(this.userProfileResponseInfo.userName);
-                this.userProfileForm.controls['mfaEnabled'].setValue(this.userProfileResponseInfo.mfaEnabled);
+                this.formGroup.controls['userTitle'].setValue(this.userProfileResponseInfo.title);
+                this.formGroup.controls['firstName'].setValue(this.userProfileResponseInfo.firstName);
+                this.formGroup.controls['lastName'].setValue(this.userProfileResponseInfo.lastName);
+                this.formGroup.controls['userName'].setValue(this.userProfileResponseInfo.userName);
+                this.formGroup.controls['mfaEnabled'].setValue(this.userProfileResponseInfo.mfaEnabled);
             }
             await this.getOrgGroups();
             await this.getOrgRoles();
             await this.getIdentityProviders();
+            this.onFormValueChange();
         }
     }
 
     async getIdentityProviders() {
         this.identityProviders = await this.organisationGroupService.getOrganisationIdentityProviders(this.organisationId).toPromise();
-        this.userProfileForm.controls['signInProviderControl'].setValue(this.userProfileResponseInfo.detail.identityProviderId || '');
+        this.formGroup.controls['signInProviderControl'].setValue(this.userProfileResponseInfo.detail.identityProviderId || '');
     }
 
     async getOrgGroups() {
@@ -161,7 +150,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
         this.orgGroups.forEach(group => {
             let isGroupOfUser = this.userProfileResponseInfo.detail &&
                 this.userProfileResponseInfo.detail.userGroups && this.userProfileResponseInfo.detail.userGroups.some(ug => ug.groupId == group.groupId);
-            this.userProfileForm.addControl('orgGroupControl_' + group.groupId, this.formBuilder.control(isGroupOfUser ? true : ''));
+            this.formGroup.addControl('orgGroupControl_' + group.groupId, this.formBuilder.control(isGroupOfUser ? true : ''));
         });
     }
 
@@ -170,7 +159,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
         this.orgRoles.map(role => {
             let userRole = this.userProfileResponseInfo.detail.rolePermissionInfo &&
                 this.userProfileResponseInfo.detail.rolePermissionInfo.some(rp => rp.roleId == role.roleId);
-            this.userProfileForm.addControl('orgRoleControl_' + role.roleId, this.formBuilder.control(userRole ? true : ''));
+            this.formGroup.addControl('orgRoleControl_' + role.roleId, this.formBuilder.control(userRole ? true : ''));
         });
     }
 
@@ -324,7 +313,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
 
     onDeleteClick() {
         let data = {
-            'userName': this.editingUserName
+            'userName': encodeURIComponent(this.editingUserName)
         };
         this.router.navigateByUrl('manage-users/confirm-user-delete?data=' + JSON.stringify(data));
     }
@@ -332,22 +321,22 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
     onGroupViewClick(groupId: any) {
 
         var formData: UserProfileResponseInfo = {
-            title: this.userProfileForm.get('userTitle')?.value,
-            firstName: this.userProfileForm.get('firstName')?.value,
-            lastName: this.userProfileForm.get('lastName')?.value,
-            userName: this.userProfileForm.get('userName')?.value,
-            mfaEnabled : this.userProfileForm.get('mfaEnabled')?.value,
+            title: this.formGroup.get('userTitle')?.value,
+            firstName: this.formGroup.get('firstName')?.value,
+            lastName: this.formGroup.get('lastName')?.value,
+            userName: this.formGroup.get('userName')?.value,
+            mfaEnabled: this.formGroup.get('mfaEnabled')?.value,
             detail: {
                 id: this.userProfileResponseInfo.detail.id,
                 canChangePassword: this.userProfileResponseInfo.detail.canChangePassword,
-                identityProviderId: this.userProfileForm.get('signInProviderControl')?.value || 0,
+                identityProviderId: this.formGroup.get('signInProviderControl')?.value || 0,
                 userGroups: [],
-                rolePermissionInfo: []                
+                rolePermissionInfo: []
             },
             organisationId: this.organisationId,
         };
         // Filter the selected groups and keep it in route change
-        let selectedGroupIds = this.getSelectedGroupIds(this.userProfileForm);
+        let selectedGroupIds = this.getSelectedGroupIds(this.formGroup);
         selectedGroupIds.forEach(selectedGroupId => {
             if (!(formData.detail.userGroups && formData.detail.userGroups.some(ug => ug.groupId == selectedGroupId))) {
                 formData.detail.userGroups && formData.detail.userGroups.push({
@@ -361,7 +350,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
         });
 
         // Filter the selected roles and keep it in route change
-        let selectedRoleIds = this.getSelectedRoleIds(this.userProfileForm);
+        let selectedRoleIds = this.getSelectedRoleIds(this.formGroup);
         selectedRoleIds.forEach(selectedRoleId => {
             if (!(formData.detail.rolePermissionInfo && formData.detail.rolePermissionInfo.some(ug => ug.roleId == selectedRoleId))) {
                 formData.detail.rolePermissionInfo && formData.detail.rolePermissionInfo.push({
@@ -369,7 +358,7 @@ export class ManageUserAddSingleUserDetailComponent extends BaseComponent implem
                     roleKey: '',
                     roleName: '',
                     serviceClientId: '',
-                    serviceClientName:''
+                    serviceClientName: ''
                 });
             }
         });

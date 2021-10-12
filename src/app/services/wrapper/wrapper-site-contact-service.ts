@@ -24,7 +24,7 @@ export class WrapperSiteContactService {
   }
 
   assignSiteContact(organisationId: string, siteId: number, contactInfo: ContactAssignmentInfo): Observable<any> {
-    const url = `${this.url}/${organisationId}/sites/${siteId}/contacts/assign`;
+    const url = `${this.url}/${organisationId}/sites/${siteId}/assigned-contacts`;
     return this.http.post<number[]>(url, contactInfo, this.options).pipe(
       map((data: number[]) => {
         return data;
@@ -57,7 +57,7 @@ export class WrapperSiteContactService {
   }
 
   getSiteContacts(organisationId: string, siteId: number, contactAssignedStatus: ContactAssignedStatus = ContactAssignedStatus.all): Observable<any> {
-    const url = `${this.url}/${organisationId}/sites/${siteId}/contacts?contactAssignedStatus=${contactAssignedStatus}`
+    const url = `${this.url}/${organisationId}/sites/${siteId}/contacts?contact-assigned-status=${contactAssignedStatus}`
     return this.http.get<SiteContactInfoList>(url, this.options).pipe(
       map((data: SiteContactInfoList) => {
         return data;
@@ -79,13 +79,13 @@ export class WrapperSiteContactService {
   }
 
   unassignSiteContact(organisationId: string, siteId: number, contactPointIds: number[]): Observable<any> {
-    var url = `${this.url}/${organisationId}/sites/${siteId}/contacts/unassign?contactPointIds=${contactPointIds[0]}`;
+    var url = `${this.url}/${organisationId}/sites/${siteId}/assigned-contacts?contact-point-ids=${contactPointIds[0]}`;
     contactPointIds.splice(0, 1).forEach((id) => {
       url = url + `&contactPointIds=${id}`;
     });
-    return this.http.post<number[]>(url, {}, this.options).pipe(
-      map((data: number[]) => {
-        return data;
+    return this.http.delete(url).pipe(
+      map(() => {
+        return true;
       }), catchError(error => {
         return throwError(error);
       })

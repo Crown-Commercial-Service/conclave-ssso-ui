@@ -21,8 +21,8 @@ export class LoadingIndicatorInterceptor implements HttpInterceptor {
     this.urlExceptions = [
       `${environment.uri.api.security}/security/authorize`,
       `${environment.uri.api.security}/security/token`,
-      `${environment.uri.api.postgres}/auth/get_refresh_token`,
-      `${environment.uri.api.postgres}/auth/save_refresh_token`
+      `${environment.uri.api.postgres}/auth/refresh-tokens`,
+      `${environment.uri.api.postgres}/auth/sessions`
     ];
   }
 

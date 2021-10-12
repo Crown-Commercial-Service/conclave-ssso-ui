@@ -26,7 +26,9 @@
     <div class="govuk-grid-column-two-thirds">
       <div>
         <p *ngIf="org.detail?.supplierBuyerType == 0">{{ 'SUPPLIER_TYPE' | translate }}</p>
-        <p *ngIf="org.detail?.supplierBuyerType == 1">{{ 'BUYER_TYPE' | translate }}</p>
+        <p *ngIf="org.detail?.supplierBuyerType == 1">
+          {{org.detail?.businessType}}
+        </p>
         <p *ngIf="org.detail?.supplierBuyerType == 2">{{ 'BUYER_AND_SUPPLIER_TYPE' | translate }}</p>
       </div>
     </div>
@@ -63,9 +65,11 @@
     </div>
   </div>
   <div class="govuk-form-group govuk-button-group">
-    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onContactAddClick()">{{
+    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+      (click)="onContactAddClick()">{{
       'ADD_ANOTHER_CONTACT_BTN' | translate }}</button>
-    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onContactAssignClick()">
+    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+      (click)="onContactAssignClick()">
       {{ 'FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
   </div>
   <h2 class="govuk-heading-s">{{ 'SITE_DETAILS' | translate }}</h2>
@@ -80,7 +84,8 @@
     </div>
   </div>
   <div class="govuk-form-group govuk-button-group">
-    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onSiteAddClick()">{{
+    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+      (click)="onSiteAddClick()">{{
       'ADD_ANOTHER_SITE' | translate }}</button>
   </div>
 
@@ -112,13 +117,15 @@
     </tbody>
   </table>
   <div class="govuk-form-group govuk-button-group" *ngIf="registries != null">
-    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onRegistryAddClick()">Add new registry</button>
+    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+      (click)="onRegistryAddClick()">Add new registry</button>
   </div>
   <p style="margin-top:40px;"><strong>If you have previously tried to signup or register (CII registry) and have made a
       mistake, Please</strong> <a class="navigation-text" href="{{ccsContactUrl}}" target="_blank"> Contact CCS</a></p>
   <div class="govuk-button-group">
     <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button"
-      (click)="onSaveChanges()">Save changes</button>
-    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onCancel()">Cancel</button>
+      (click)="onSaveChanges()" [disabled]="changedIdpList.length ==0">Save changes</button>
+    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+      (click)="onCancel()">Cancel</button>
   </div>
 </div>

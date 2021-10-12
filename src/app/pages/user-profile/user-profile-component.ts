@@ -2,11 +2,9 @@ import { Component, ElementRef, QueryList, ViewChildren } from "@angular/core";
 import { OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { LocationStrategy, ViewportScroller } from '@angular/common';
-import { BaseComponent } from "src/app/components/base/base.component";
 import { UIState } from "src/app/store/ui.states";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { slideAnimation } from "src/app/animations/slide.animation";
-import { UserGroup, UserProfileRequestInfo, UserProfileResponseInfo } from "src/app/models/user";
+import { UserGroup, UserProfileRequestInfo } from "src/app/models/user";
 import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.service";
 import { WrapperUserContactService } from "src/app/services/wrapper/wrapper-user-contact.service";
 import { ContactGridInfo, UserContactInfoList } from "src/app/models/contactInfo";
@@ -18,25 +16,20 @@ import { Role } from "src/app/models/organisationGroup";
 import { ContactHelper } from "src/app/services/helper/contact-helper.service";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { AuditLoggerService } from "src/app/services/postgres/logger.service";
+import { FormBaseComponent } from "src/app/components/form-base/form-base.component";
 
 @Component({
     selector: 'app-user-profile',
     templateUrl: './user-profile-component.html',
-    styleUrls: ['./user-profile-component.scss'],
-    animations: [
-        slideAnimation({
-            close: { 'transform': 'translateX(12.5rem)' },
-            open: { left: '-12.5rem' }
-        })
-    ]
+    styleUrls: ['./user-profile-component.scss']
 })
-export class UserProfileComponent extends BaseComponent implements OnInit {
+export class UserProfileComponent extends FormBaseComponent implements OnInit {
     submitted!: boolean;
-    userProfileForm!: FormGroup;
+    formGroup!: FormGroup;
     userGroupTableHeaders = ['GROUPS'];
     userGroupColumnsToDisplay = ['group'];
-    userRoleTableHeaders = ['ROLES','SERVICE'];
-    userRoleColumnsToDisplay = ['accessRoleName','serviceName'];
+    userRoleTableHeaders = ['ROLES', 'SERVICE'];
+    userRoleColumnsToDisplay = ['accessRoleName', 'serviceName'];
     contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'FAX', 'WEB_URL'];
     contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
     userGroups: UserGroup[] = [];
@@ -55,17 +48,16 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
         protected uiStore: Store<UIState>, private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
         private contactHelper: ContactHelper, private authService: AuthService, private auditLogService: AuditLoggerService) {
-        super(uiStore, viewportScroller, scrollHelper);
+        super(viewportScroller, formBuilder.group({
+            firstName: ['', Validators.compose([Validators.required])],
+            lastName: ['', Validators.compose([Validators.required])],
+            mfaEnabled: [false]
+        }));
         this.userName = localStorage.getItem('user_name') || '';
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.routeStateData = this.router.getCurrentNavigation()?.extras.state;
         this.locationStrategy.onPopState(() => {
             this.onCancelClick();
-        });
-        this.userProfileForm = this.formBuilder.group({
-            firstName: ['', Validators.compose([Validators.required])],
-            lastName: ['', Validators.compose([Validators.required])],
-            mfaEnabled: [false]
         });
     }
 
@@ -82,14 +74,14 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
             this.userGroups = this.userGroups.filter((group, index, self) =>
                 self.findIndex(t => t.groupId === group.groupId && t.group === group.group) === index);
             if (this.routeStateData != undefined) {
-                this.userProfileForm.setValue({
+                this.formGroup.setValue({
                     firstName: this.routeStateData.firstName,
                     lastName: this.routeStateData.lastName,
                     mfaEnabled: user.mfaEnabled
                 });
             }
             else {
-                this.userProfileForm.setValue({
+                this.formGroup.setValue({
                     firstName: user.firstName,
                     lastName: user.lastName,
                     mfaEnabled: user.mfaEnabled
@@ -112,7 +104,7 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
         });
 
         this.getUserContact(this.userName);
-
+        this.onFormValueChange();
     }
 
     ngAfterViewChecked() {
@@ -213,8 +205,8 @@ export class UserProfileComponent extends BaseComponent implements OnInit {
     onGroupViewClick(event: any) {
 
         var formData = {
-            'firstName': this.userProfileForm.get('firstName')?.value,
-            'lastName': this.userProfileForm.get('lastName')?.value
+            'firstName': this.formGroup.get('firstName')?.value,
+            'lastName': this.formGroup.get('lastName')?.value
         };
 
         let data = {

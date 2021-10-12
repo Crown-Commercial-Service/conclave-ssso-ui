@@ -1,11 +1,8 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidationErrors, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ViewportScroller } from '@angular/common';
-import { slideAnimation } from 'src/app/animations/slide.animation';
-
-import { BaseComponent } from 'src/app/components/base/base.component';
 import { UIState } from 'src/app/store/ui.states';
 import { AssignedContactType, OperationEnum } from 'src/app/constants/enum';
 import { ContactPoint, OrganisationContactInfo, SiteContactInfo, VirtualContactType } from 'src/app/models/contactInfo';
@@ -17,23 +14,17 @@ import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { WrapperContactService } from 'src/app/services/wrapper/wrapper-contact.service';
 import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 import { Title } from '@angular/platform-browser';
+import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 
 @Component({
     selector: 'app-manage-organisation-contact-edit',
     templateUrl: './manage-organisation-contact-edit.component.html',
-    styleUrls: ['./manage-organisation-contact-edit.component.scss'],
-    animations: [
-        slideAnimation({
-            close: { 'transform': 'translateX(12.5rem)' },
-            open: { left: '-12.5rem' }
-        })
-    ]
+    styleUrls: ['./manage-organisation-contact-edit.component.scss']
 })
-export class ManageOrganisationContactEditComponent extends BaseComponent implements OnInit {
+export class ManageOrganisationContactEditComponent extends FormBaseComponent implements OnInit {
 
     organisationId: string = '';
     contactData: ContactPoint;
-    contactForm: FormGroup;
     submitted!: boolean;
     contactReasonLabel: string = "CONTACT_REASON";
     default: string = '';
@@ -54,7 +45,14 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
         private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private contactHelper: ContactHelper,
         private externalContactService: WrapperContactService, private siteContactService: WrapperSiteContactService) {
-        super(uiStore,viewportScroller,scrollHelper);
+        super(viewportScroller, formBuilder.group({
+            name: ['', Validators.compose([])],
+            email: ['', Validators.compose([Validators.email])],
+            phone: ['', Validators.compose([])],
+            fax: ['', Validators.compose([])],
+            webUrl: ['', Validators.compose([])],
+            contactReason: ['', Validators.compose([])],
+        }));
         this.contactData = {
             contacts: []
         };
@@ -66,19 +64,12 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
             this.siteId = routeData['siteId'] || 0;
         }
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
-        this.contactForm = this.formBuilder.group({
-            name: ['', Validators.compose([])],
-            email: ['', Validators.compose([Validators.email])],
-            phone: ['', Validators.compose([])],
-            fax: ['', Validators.compose([])],
-            webUrl: ['', Validators.compose([])],
-            contactReason: ['', Validators.compose([])],
-        }, { validators: this.validateForSufficientDetails });
-        this.contactForm.controls['contactReason'].setValue(this.default, { onlySelf: true });
+        this.formGroup.setValidators(this.validateForSufficientDetails());
+        this.formGroup.controls['contactReason'].setValue(this.default, { onlySelf: true });
     }
 
     ngOnInit() {
-        this.titleService.setTitle(`${this.isEdit ? 'Edit': 'Add'} ${this.siteId == 0 ? '- Organisation Contact': '- Site Contact'} - CCS`);
+        this.titleService.setTitle(`${this.isEdit ? 'Edit' : 'Add'} ${this.siteId == 0 ? '- Organisation Contact' : '- Site Contact'} - CCS`);
         this.externalContactService.getContactReasons().subscribe({
             next: (contactReasons: ContactReason[]) => {
                 if (contactReasons != null) {
@@ -90,6 +81,9 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
                         else {
                             this.getSiteContact();
                         }
+                    }
+                    else{
+                        this.onFormValueChange();
                     }
                 }
             },
@@ -103,12 +97,13 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
         this.contactService.getOrganisationContactById(this.organisationId, this.contactId).subscribe({
             next: (contactInfo: OrganisationContactInfo) => {
                 this.isAssignedContact = contactInfo.assignedContactType != AssignedContactType.None;
-                this.contactForm.controls['name'].setValue(contactInfo.contactPointName);
-                this.contactForm.controls['email'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.EMAIL, contactInfo.contacts));
-                this.contactForm.controls['phone'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.PHONE, contactInfo.contacts));
-                this.contactForm.controls['fax'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.FAX, contactInfo.contacts));
-                this.contactForm.controls['webUrl'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.URL, contactInfo.contacts));
-                this.contactForm.controls['contactReason'].setValue(contactInfo.contactPointReason);
+                this.formGroup.controls['name'].setValue(contactInfo.contactPointName);
+                this.formGroup.controls['email'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.EMAIL, contactInfo.contacts));
+                this.formGroup.controls['phone'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.PHONE, contactInfo.contacts, true));
+                this.formGroup.controls['fax'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.FAX, contactInfo.contacts, true));
+                this.formGroup.controls['webUrl'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.URL, contactInfo.contacts));
+                this.formGroup.controls['contactReason'].setValue(contactInfo.contactPointReason);
+                this.onFormValueChange();
             },
             error: (error: any) => {
                 console.log(error);
@@ -122,12 +117,13 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
         this.siteContactService.getSiteContactById(this.organisationId, this.siteId, this.contactId).subscribe({
             next: (contactInfo: SiteContactInfo) => {
                 this.isAssignedContact = contactInfo.assignedContactType != AssignedContactType.None;
-                this.contactForm.controls['name'].setValue(contactInfo.contactPointName);
-                this.contactForm.controls['email'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.EMAIL, contactInfo.contacts));
-                this.contactForm.controls['phone'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.PHONE, contactInfo.contacts));
-                this.contactForm.controls['fax'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.FAX, contactInfo.contacts));
-                this.contactForm.controls['webUrl'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.URL, contactInfo.contacts));
-                this.contactForm.controls['contactReason'].setValue(contactInfo.contactPointReason);
+                this.formGroup.controls['name'].setValue(contactInfo.contactPointName);
+                this.formGroup.controls['email'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.EMAIL, contactInfo.contacts));
+                this.formGroup.controls['phone'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.PHONE, contactInfo.contacts, true));
+                this.formGroup.controls['fax'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.FAX, contactInfo.contacts, true));
+                this.formGroup.controls['webUrl'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.URL, contactInfo.contacts));
+                this.formGroup.controls['contactReason'].setValue(contactInfo.contactPointReason);
+                this.onFormValueChange();
             },
             error: (error: any) => {
                 console.log(error);
@@ -152,14 +148,17 @@ export class ManageOrganisationContactEditComponent extends BaseComponent implem
         inputElementIntlTel?.focus();
     }
 
-    validateForSufficientDetails(form: FormGroup) {
-        let name = form.get('name')?.value;
-        let email = form.get('email')?.value;
-        let phone = form.get('phone')?.value;
-        let fax = form.get('fax')?.value;
-        let web = form.get('webUrl')?.value;
+    validateForSufficientDetails(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
 
-        return !name && !email && !phone && !fax && !web ? { inSufficient: true } : null;
+            let name = this.formGroup.get('name')?.value;
+            let email = this.formGroup.get('email')?.value;
+            let phone = this.formGroup.get('phone')?.value;
+            let fax = this.formGroup.get('fax')?.value;
+            let web = this.formGroup.get('webUrl')?.value;
+
+            return !name && !email && !phone && !fax && !web ? { inSufficient: true } : null;
+        }
     }
 
     public onSubmit(form: FormGroup) {

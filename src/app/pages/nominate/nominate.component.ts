@@ -23,15 +23,15 @@ import { ViewportScroller } from '@angular/common';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NominateComponent extends BaseComponent implements OnInit {
+export class NominateComponent extends BaseComponent {
 
   formGroup: FormGroup;
   submitted: boolean = false;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, 
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
-    super(uiStore,viewportScroller,scrollHelper);
+    super(uiStore, viewportScroller, scrollHelper);
     this.formGroup = this.formBuilder.group({
       firstName: [, Validators.compose([Validators.required])],
       lastName: [, Validators.compose([Validators.required])],
@@ -39,20 +39,13 @@ export class NominateComponent extends BaseComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-
-  }
-
   public onSubmit(form: FormGroup) {
     this.submitted = true;
     if (this.formValid(form)) {
-      this.authService.nominate(form.get('firstName')?.value, form.get('lastName')?.value, form.get('email')?.value).toPromise().then((response: any) => {
-        console.log(response);
+      let uname = form.get('email')?.value;
+      this.authService.nominate(uname).toPromise().then(() => {
         this.submitted = false;
-        localStorage.setItem("brickendon_nominate_email_address", form.get('email')?.value);
-        this.router.navigateByUrl(`nominate/success`);
-      }, (err) => {
-        console.log(err);
+        this.router.navigateByUrl(`nominate/success?uid=` + encodeURIComponent(uname));
       });
     }
   }
@@ -69,7 +62,7 @@ export class NominateComponent extends BaseComponent implements OnInit {
     // return array.length > 0;
   }
 
-  setFocus(inputIndex: number){
+  setFocus(inputIndex: number) {
     if (this.inputs.toArray()[inputIndex]) {
       this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
