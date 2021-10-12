@@ -26,6 +26,6 @@ deploy:
 before_deploy:
 - sh app.sh
 before_install:
-- openssl aes-256-cbc -K $encrypted_294a22483132_key -iv $encrypted_294a22483132_iv
+- openssl aes-256-cbc -K $encrypted_d8edde1099fa_key -iv $encrypted_d8edde1099fa_iv
   -in ./src/environments/environment.ts.enc -out ./src/environments/environment.ts -d
 
