@@ -1,11 +1,8 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Location, ViewportScroller } from '@angular/common';
-import { slideAnimation } from 'src/app/animations/slide.animation';
-
-import { BaseComponent } from 'src/app/components/base/base.component';
+import { ViewportScroller } from '@angular/common';
 import { UIState } from 'src/app/store/ui.states';
 import { OperationEnum } from 'src/app/constants/enum';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
@@ -15,20 +12,14 @@ import { WrapperSiteContactService } from 'src/app/services/wrapper/wrapper-site
 import { ContactGridInfo, SiteContactInfoList } from 'src/app/models/contactInfo';
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { Title } from '@angular/platform-browser';
+import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 
 @Component({
   selector: 'app-manage-organisation-profile-site-edit',
   templateUrl: './manage-organisation-profile-site-edit.component.html',
-  styleUrls: ['./manage-organisation-profile-site-edit.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ]
+  styleUrls: ['./manage-organisation-profile-site-edit.component.scss']
 })
-export class ManageOrganisationSiteEditComponent extends BaseComponent implements OnInit {
-  siteForm: FormGroup;
+export class ManageOrganisationSiteEditComponent extends FormBaseComponent implements OnInit {
   submitted!: boolean;
   isEdit: boolean = false;
   siteId: number = 0;
@@ -44,7 +35,14 @@ export class ManageOrganisationSiteEditComponent extends BaseComponent implement
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
     private orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
     private contactHelper: ContactHelper, private titleService: Title) {
-    super(uiStore, viewportScroller, scrollHelper);
+    super(viewportScroller, formBuilder.group({
+      name: ['', Validators.compose([Validators.required])],
+      streetAddress: ['', Validators.compose([Validators.required])],
+      locality: ['', null],
+      region: ['', null],
+      postalCode: ['', Validators.compose([Validators.required])],
+      countryCode: ['', Validators.compose([Validators.required])],
+    }));
     let queryParams = this.activatedRoute.snapshot.queryParams;
     if (queryParams.data) {
       let routeData = JSON.parse(queryParams.data);
@@ -53,14 +51,6 @@ export class ManageOrganisationSiteEditComponent extends BaseComponent implement
     }
     this.contactData = [];
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
-    this.siteForm = this.formBuilder.group({
-      name: ['', Validators.compose([Validators.required])],
-      streetAddress: ['', Validators.compose([Validators.required])],
-      locality: ['', null],
-      region: ['', null],
-      postalCode: ['', Validators.compose([Validators.required])],
-      countryCode: ['', Validators.compose([Validators.required])],
-    });
   }
 
   ngOnInit() {
@@ -69,7 +59,7 @@ export class ManageOrganisationSiteEditComponent extends BaseComponent implement
       this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
         {
           next: (siteInfo: OrganisationSiteResponse) => {
-            this.siteForm.setValue({
+            this.formGroup.setValue({
               name: siteInfo.siteName,
               streetAddress: siteInfo.address.streetAddress,
               locality: siteInfo.address.locality,
@@ -78,11 +68,15 @@ export class ManageOrganisationSiteEditComponent extends BaseComponent implement
               countryCode: siteInfo.address.countryCode,
             });
             this.getSiteContacts();
+            this.onFormValueChange();
           },
           error: (error: any) => {
             console.log(error);
           }
         });
+    }
+    else {
+      this.onFormValueChange();
     }
   }
 

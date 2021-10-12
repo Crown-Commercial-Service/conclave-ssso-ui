@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UserService {
-  public url: string = `${environment.uri.api.postgres}/user`;
+  public url: string = `${environment.uri.api.postgres}/users`;
 
   constructor(private http: HttpClient) { }
 
@@ -23,7 +23,7 @@ export class UserService {
 
     let body = `email=${email}`;
 
-    return this.http.post(`${this.url}/useractivationemail`, body,options).pipe(
+    return this.http.post(`${this.url}/activation-emails`, body,options).pipe(
       map(data => {
         return data;
       }),

@@ -3,16 +3,16 @@ export const environment = {
   idam_client_id:'',
   uri: {
     api: {
-      isApiGateWayEnabled: false,
-      security: 'https://test-api-security.london.cloudapps.digital',
-      postgres: 'https://test-api-core.london.cloudapps.digital',
+      isApiGateWayEnabled: true,
+      security: 'https://tst.api.crowncommercial.gov.uk',
+      postgres: 'https://tst.api.crowncommercial.gov.uk/core',
       cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://test-api-wrapper.london.cloudapps.digital/user-profiles',
-          organisation: 'https://test-api-wrapper.london.cloudapps.digital/organisation-profiles',
-          contact: 'https://test-api-wrapper.london.cloudapps.digital/contacts',
-          configuration: 'https://test-api-wrapper.london.cloudapps.digital/configurations',
+          user: 'https://tst.api.crowncommercial.gov.uk/user-profiles',
+          organisation: 'https://tst.api.crowncommercial.gov.uk/organisation-profiles',
+          contact: 'https://tst.api.crowncommercial.gov.uk/contacts',
+          configuration: 'https://tst.api.crowncommercial.gov.uk/configurations',
         },
         apiGatewayDisabled: {
           user: 'https://test-api-wrapper.london.cloudapps.digital/users',
@@ -23,14 +23,15 @@ export const environment = {
       }
     },
     web: {
-      dashboard: 'https://test-ccs-sso.london.cloudapps.digital'
+      dashboard: 'https://test.identify.crowncommercial.gov.uk'
     },
     ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
   },
+  
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,  
   rollbar: {
-    key: '',
-    enable : false
+        key: '',
+        enable : true
   }
 };

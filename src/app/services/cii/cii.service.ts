@@ -29,22 +29,22 @@ export class ciiService {
   }
 
   getOrgDetails(orgId: string) {
-    const url = `${this.url}/organisation-details?ciiOrganisationId=${encodeURIComponent(orgId)}`;
+    const url = `${this.url}/organisation-details?organisation-id=${encodeURIComponent(orgId)}`;
     return this.httpClient.get<CiiOrgIdentifiersDto>(url);
   }
 
   getOrganisationIdentifierDetails(orgId: string, scheme: string, id: string) {
-    const url = `${this.url}/organisation-identifiers/?ciiOrganisationId=${encodeURIComponent(orgId)}&scheme=${encodeURIComponent(scheme)}&identifier=${encodeURIComponent(id)}`;
+    const url = `${this.url}/organisation-identifiers/?organisation-id=${encodeURIComponent(orgId)}&scheme=${encodeURIComponent(scheme)}&identifier=${encodeURIComponent(id)}`;
     return this.httpClient.get<CiiOrgIdentifiersDto>(url);
   }
 
   addRegistry(orgId: string, scheme: string, id: string): Observable<any> {
-    const url = `${this.url}/add-scheme?ciiOrganisationId=${encodeURIComponent(orgId)}&scheme=${encodeURIComponent(scheme)}&identifier=${encodeURIComponent(id)}`;
+    const url = `${this.url}/additional-identifiers?organisation-id=${encodeURIComponent(orgId)}&scheme=${encodeURIComponent(scheme)}&identifier=${encodeURIComponent(id)}`;
     return this.httpClient.put(url, {});
   }
 
   deleteRegistry(orgId: string, scheme: string, id: string): Observable<any> {
-    const url = `${this.url}/delete-scheme?ciiOrganisationId=${encodeURIComponent(orgId)}&scheme=${encodeURIComponent(scheme)}&identifier=${encodeURIComponent(id)}`
+    const url = `${this.url}/additional-identifiers?organisation-id=${encodeURIComponent(orgId)}&scheme=${encodeURIComponent(scheme)}&identifier=${encodeURIComponent(id)}`
     return this.httpClient.delete(url);
   }
 

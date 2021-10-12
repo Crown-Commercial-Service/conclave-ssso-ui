@@ -12,21 +12,15 @@ import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrappe
 import { OrganisationGroupNameInfo, OrganisationGroupRequestInfo, Role } from "src/app/models/organisationGroup";
 import { OperationEnum } from "src/app/constants/enum";
 import { Title } from "@angular/platform-browser";
+import { FormBaseComponent } from "src/app/components/form-base/form-base.component";
 
 @Component({
     selector: 'app-manage-group-edit-name',
     templateUrl: './manage-group-edit-name-component.html',
-    styleUrls: ['./manage-group-edit-name-component.scss'],
-    animations: [
-        slideAnimation({
-            close: { 'transform': 'translateX(12.5rem)' },
-            open: { left: '-12.5rem' }
-        })
-    ]
+    styleUrls: ['./manage-group-edit-name-component.scss']
 })
-export class ManageGroupEditNameComponent extends BaseComponent implements OnInit {
+export class ManageGroupEditNameComponent extends FormBaseComponent implements OnInit {
     submitted!: boolean;
-    groupNameForm!: FormGroup;
     organisationId: string;
     routeData: any = {};
     isEdit: boolean = false;
@@ -38,22 +32,23 @@ export class ManageGroupEditNameComponent extends BaseComponent implements OnIni
     constructor(protected uiStore: Store<UIState>, private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
         private titleService: Title) {
-        super(uiStore,viewportScroller,scrollHelper);
+        super(viewportScroller,formBuilder.group({
+            groupName: ['', Validators.compose([Validators.required])],
+        }));
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
             this.routeData = JSON.parse(queryParams.data);
             this.isEdit = this.routeData['isEdit'];
             this.editingGroupId = this.routeData['groupId'] || 0;
             this.groupName = this.routeData['groupName'] || '';
+            this.formGroup.controls['groupName'].setValue(this.groupName);
         }
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
-        this.groupNameForm = this.formBuilder.group({
-            groupName: [this.groupName, Validators.compose([Validators.required])],
-        });
     }
 
     ngOnInit() {
         this.titleService.setTitle(`${this.isEdit ? "Edit Name" : "Create"}  - Manage Groups - CCS`);
+        this.onFormValueChange();
     }
 
     ngAfterViewChecked() {

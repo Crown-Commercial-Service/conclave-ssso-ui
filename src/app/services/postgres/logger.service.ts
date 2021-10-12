@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class AuditLoggerService {
-    public url: string = `${environment.uri.api.postgres}/logger`;
+    public url: string = `${environment.uri.api.postgres}/logs`;
 
     constructor(private http: HttpClient) {
     }

@@ -40,7 +40,7 @@
 
   <div class="govuk-form-group" style="margin-top:30px;" *ngIf="verified == true">
     <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend">Default service roles for this organisation,
+      <legend class="govuk-fieldset__legend">Roles for this organisation,
         select/unselect where appropriate</legend>
       <div class="govuk-checkboxes" *ngIf="orgEligableRoles$ | async as o">
         <ng-container *ngFor="let role of roles">
@@ -50,11 +50,11 @@
               (change)="onChange($event, role?.enabled, role)" class="govuk-checkboxes__input"
               id="orgRoleControl_{{role.roleId}}" />
             <label class="govuk-label govuk-checkboxes__label"
-              for="orgRoleControl_{{role.roleId}}">{{role.roleName}}</label>
+              for="orgRoleControl_{{role.roleId}}">{{role.roleName}} - {{role.serviceName}}</label>
           </div>
         </ng-container>
       </div>
-      <legend class="govuk-fieldset__legend" style="margin-top:30px;">Additional service roles for this
+      <legend class="govuk-fieldset__legend" style="margin-top:30px;">Service roles for this
         organisation, select/unselect where appropriate</legend>
       <div class="govuk-checkboxes" *ngIf="orgEligableRoles$ | async as o">
         <ng-container *ngFor="let role of roles">
@@ -64,7 +64,7 @@
               (change)="onChange($event, role?.enabled, role)" class="govuk-checkboxes__input"
               id="orgRoleControl_{{role.roleId}}" />
             <label class="govuk-label govuk-checkboxes__label"
-              for="orgRoleControl_{{role.roleId}}">{{role.roleName}}</label>
+              for="orgRoleControl_{{role.roleId}}">{{role.roleName}} - {{role.serviceName}}</label>
           </div>
         </ng-container>
       </div>
@@ -73,7 +73,7 @@
 
   <div class="govuk-form-group" style="margin-top:30px;" *ngIf="verified == false">
     <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend">Default service roles for this organisation,
+      <legend class="govuk-fieldset__legend">Roles for this organisation,
         select/unselect where appropriate</legend>
       <div class="govuk-checkboxes" *ngIf="orgEligableRoles$ | async as o">
         <ng-container *ngFor="let role of roles">
@@ -89,7 +89,7 @@
           </div>
         </ng-container>
       </div>
-      <legend class="govuk-fieldset__legend" style="margin-top:30px;">Additional service roles for this
+      <legend class="govuk-fieldset__legend" style="margin-top:30px;">Service roles for this
         organisation, select/unselect where appropriate</legend>
       <div class="govuk-checkboxes" *ngIf="orgEligableRoles$ | async as o">
         <ng-container *ngFor="let role of roles">
@@ -109,7 +109,7 @@
   </div>
 
   <div class="govuk-button-group" style="margin-top: 40px;">
-    <button type="button" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button"
+    <button type="button" class="govuk-button" data-module="govuk-button"
       (click)="onSubmitClick()">Continue</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
       (click)="onCancelClick()">Cancel</button>

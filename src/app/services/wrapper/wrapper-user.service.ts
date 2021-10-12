@@ -33,7 +33,7 @@ export class WrapperUserService {
   }
 
   deleteUser(userName: string): Observable<any> {
-    const url = `${this.url}?userId=${encodeURIComponent(userName)}`;
+    const url = `${this.url}?user-id=${encodeURIComponent(userName)}`;
     return this.http.delete(url, this.options).pipe(
       map(() => {
         return true;
@@ -44,7 +44,7 @@ export class WrapperUserService {
   }
 
   getUser(userName: string): Observable<UserProfileResponseInfo> {
-    const url = `${this.url}?userId=${encodeURIComponent(userName)}`;
+    const url = `${this.url}?user-id=${encodeURIComponent(userName)}`;
     return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
       map((data: UserProfileResponseInfo) => {
         return data;
@@ -55,7 +55,7 @@ export class WrapperUserService {
   }
 
   updateUser(userName: string, userRequest: UserProfileRequestInfo): Observable<any> {
-    const url = `${this.url}?userId=${encodeURIComponent(userName)}`;
+    const url = `${this.url}?user-id=${encodeURIComponent(userName)}`;
     return this.http.put<UserEditResponseInfo>(url, userRequest, this.options).pipe(
       map((data: UserEditResponseInfo) => {
         return data;
@@ -66,7 +66,7 @@ export class WrapperUserService {
   }
 
   resetUserPassword(userName: string, component: string): Observable<any> {
-    const url = `${this.url}/reset-password?userId=${encodeURIComponent(userName)}&component=${component}`;
+    const url = `${this.url}/passwords?user-id=${encodeURIComponent(userName)}&component=${component}`;
     return this.http.put(url, null).pipe(
       map(() => {
         return true;
@@ -77,8 +77,8 @@ export class WrapperUserService {
   }
 
   removeAdminRoles(userName: string): Observable<any> {
-    const url = `${this.url}/remove-admin-roles?userId=${encodeURIComponent(userName)}`;
-    return this.http.put(url, {}, this.options).pipe(
+    const url = `${this.url}/admin-roles?user-id=${encodeURIComponent(userName)}`;
+    return this.http.delete(url).pipe(
       map(() => {
         return true;
       }), catchError(error => {
@@ -88,7 +88,7 @@ export class WrapperUserService {
   }
 
   addAdminRole(userName: string): Observable<any> {
-    const url = `${this.url}/add-admin-role?userId=${encodeURIComponent(userName)}`;
+    const url = `${this.url}/admin-roles?user-id=${encodeURIComponent(userName)}`;
     return this.http.put(url, {}, this.options).pipe(
       map(() => {
         return true;

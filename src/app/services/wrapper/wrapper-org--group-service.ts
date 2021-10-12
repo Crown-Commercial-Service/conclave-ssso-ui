@@ -30,7 +30,7 @@ export class WrapperOrganisationGroupService {
   }
 
   getOrganisationGroups(organisationId: string, searchString: string = ''): Observable<any> {
-    const url = `${this.url}/${organisationId}/groups?searchString=${encodeURIComponent(searchString)}`;
+    const url = `${this.url}/${organisationId}/groups?search-string=${encodeURIComponent(searchString)}`;
     return this.http.get<GroupList>(url).pipe(
       map((data: GroupList) => {
         return data;
@@ -96,7 +96,7 @@ export class WrapperOrganisationGroupService {
   }
 
   enableIdentityProvider(identityProviderSummary: IdentityProviderSummary): Observable<any> {
-    return this.http.put<any>(`${this.url}/${identityProviderSummary.ciiOrganisationId}/identity-providers/update`, identityProviderSummary).pipe(
+    return this.http.put<any>(`${this.url}/${identityProviderSummary.ciiOrganisationId}/identity-providers`, identityProviderSummary).pipe(
       map((data: any) => {
         return data;
       }), catchError(error => {

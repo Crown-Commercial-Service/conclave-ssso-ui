@@ -24,12 +24,12 @@
     "@angular/router": "^11.2.14",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "@types/lodash": "^4.14.172",
+    "@types/lodash": "^4.14.173",
     "bootstrap": "^4.6.0",
     "classlist.js": "^1.1.20150312",
     "crypto": "^1.0.1",
     "crypto-js": "^4.1.1",
-    "google-libphonenumber": "^3.2.22",
+    "google-libphonenumber": "^3.2.23",
     "govuk-frontend": "^3.13.1",
     "intl-tel-input": "^17.0.13",
     "jw-angular-pagination": "^1.2.0",
@@ -38,7 +38,7 @@
     "moment": "^2.29.1",
     "ng-zorro-antd": "^11.4.2",
     "ngrx-store-freeze": "^0.2.4",
-    "ngx-bootstrap": "^6.2.0",
+    "ngx-bootstrap": "^7.1.0",
     "ngx-intl-tel-input": "^3.1.1",
     "node-vault": "^0.9.22",
     "rollbar": "^2.24.0",
@@ -46,7 +46,7 @@
     "rxjs-compat": "^6.6.7",
     "save-dev": "0.0.1-security",
     "tslib": "^2.3.1",
-    "zone.js": "~0.10.2"
+    "zone.js": "^0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1100.7",
@@ -57,19 +57,11 @@
     "@ngrx/store": "^10.1.2",
     "@ngrx/store-devtools": "^10.1.2",
     "@types/crypto-js": "^4.0.2",
-    "@types/jasmine": "^3.6.11",
-    "@types/node": "^12.20.24",
+    "@types/jasmine": "^3.9.1",
+    "@types/node": "^16.9.6",
     "codelyzer": "^6.0.2",
-    "jasmine-core": "~3.6.0",
-    "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~5.1.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.0.3",
-    "karma-jasmine": "~4.0.0",
-    "karma-jasmine-html-reporter": "^1.7.0",
-    "protractor": "~7.0.0",
-    "ts-node": "~8.3.0",
-    "tslint": "~6.1.0"
+    "ts-node": "^10.2.1",
+    "tslint": "^6.1.0"
   },
   "browser": {
     "crypto": false

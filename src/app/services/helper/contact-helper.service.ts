@@ -7,13 +7,13 @@ import { ContactDetail, ContactGridInfo, ContactPoint, VirtualContactType } from
 })
 export class ContactHelper {
 
-    getContactValueFromContactList(contactType: string, contacts: ContactDetail[]) {
+    getContactValueFromContactList(contactType: string, contacts: ContactDetail[], returnNull?: boolean) {
         let contactObject = contacts.find(c => c.contactType == contactType);
         if (contactObject) {
             return contactObject.contactValue;
         }
         else {
-            return '';
+            return returnNull ? null : '';
         }
     }
 
@@ -47,10 +47,10 @@ export class ContactHelper {
                 contactId: contactPoint.contactPointId,
                 contactReason: contactPoint.contactPointReason,
                 name: contactPoint.contactPointName,
-                email: this.getContactValueFromContactList(VirtualContactType.EMAIL, contactPoint.contacts),
-                phoneNumber: this.getContactValueFromContactList(VirtualContactType.PHONE, contactPoint.contacts),
-                fax: this.getContactValueFromContactList(VirtualContactType.FAX, contactPoint.contacts),
-                webUrl: this.getContactValueFromContactList(VirtualContactType.URL, contactPoint.contacts),
+                email: this.getContactValueFromContactList(VirtualContactType.EMAIL, contactPoint.contacts) ?? '',
+                phoneNumber: this.getContactValueFromContactList(VirtualContactType.PHONE, contactPoint.contacts) ?? '',
+                fax: this.getContactValueFromContactList(VirtualContactType.FAX, contactPoint.contacts) ?? '',
+                webUrl: this.getContactValueFromContactList(VirtualContactType.URL, contactPoint.contacts) ?? '',
             };
 
             contactGridInfoList.push(contactGridInfo);

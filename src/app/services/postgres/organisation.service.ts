@@ -12,12 +12,12 @@ import { OrganisationRegisterDto } from 'src/app/models/organisation';
   providedIn: 'root'
 })
 export class OrganisationService {
-  public url: string = `${environment.uri.api.postgres}/organisation`;
+  public url: string = `${environment.uri.api.postgres}/organisations`;
 
   constructor(private http: HttpClient) { }
 
   get(orgName: string): Observable<any> {
-    const url = `${this.url}/getAll?orgName=` + encodeURIComponent(orgName);
+    const url = `${this.url}?organisation-name=` + encodeURIComponent(orgName);
     var user = this.http.get<any>(url).pipe(
       map((data: any) => {
         return data;
@@ -43,7 +43,7 @@ export class OrganisationService {
   }
 
   getUsers(name:string): Observable<any> {
-    const url = `${this.url}/getUsers?name=` + encodeURIComponent(name);
+    const url = `${this.url}/users?name=` + encodeURIComponent(name);
     var user = this.http.get<OrganisationUserDto[]>(url).pipe(
       map((data: OrganisationUserDto[]) => {
         return data;
@@ -56,7 +56,7 @@ export class OrganisationService {
   }
 
   registerOrganisation(organisationRegisterDto: OrganisationRegisterDto): Observable<any> {
-    const url = `${this.url}/register`;
+    const url = `${this.url}/registrations`;
     return this.http.post(url, organisationRegisterDto).pipe(
       map(() => {
         return true;

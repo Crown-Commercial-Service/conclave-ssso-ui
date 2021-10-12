@@ -31,7 +31,7 @@ export class WrapperOrganisationService {
 
   getUsers(organisationId: string, searchString: string, currentPage: number, pageSize: number, includeSelf: boolean = false): Observable<any> {
     pageSize = pageSize <= 0 ? 10 : pageSize;
-    const url = `${this.url}/${organisationId}/user?currentPage=${currentPage}&pageSize=${pageSize}&searchString=${encodeURIComponent(searchString)}&includeSelf=${includeSelf}`;
+    const url = `${this.url}/${organisationId}/users?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&include-self=${includeSelf}`;
     return this.http.get<UserListResponse>(url).pipe(
       map((data: UserListResponse) => {
         return data;
@@ -43,7 +43,7 @@ export class WrapperOrganisationService {
 
   updateOrgRoles(ciiOrgId: string, json: string | null): Observable<any> {
     const body = JSON.parse(json + '');
-    return this.http.put<any>(`${this.url}/${ciiOrgId}/updateEligibleRoles`, body).pipe(
+    return this.http.put<any>(`${this.url}/${ciiOrgId}/roles`, body).pipe(
       map((data: any) => {
         return data;
       }), catchError(error => {

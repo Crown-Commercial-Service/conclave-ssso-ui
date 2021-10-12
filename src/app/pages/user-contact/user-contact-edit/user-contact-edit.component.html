@@ -21,25 +21,25 @@
         <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">{{ 'EDIT_CONTACT_DETAILS' | translate }}</h1>
         <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert"
             tabindex="-1" id="error-summary" data-module="govuk-error-summary"
-            *ngIf="!formValid(contactForm) && submitted">
+            *ngIf="!formValid(formGroup) && submitted">
             <h2 class="govuk-error-summary__title" id="error-summary-title">
                 {{ 'ERROR_SUMMARY' | translate }}
             </h2>
             <div class="govuk-error-summary__body">
                 <ul class="govuk-list govuk-error-summary__list">
-                    <li *ngIf="submitted && contactForm.hasError('inSufficient')">
+                    <li *ngIf="submitted && formGroup.hasError('inSufficient')">
                         <a href="#" onClick="return false;" (click)="setFocus(0)"> {{
                             'ERROR_INSUFFICIENT_CONTACT_DETAILS' | translate }}</a>
                     </li>
-                    <li *ngIf="submitted && contactForm.controls.email.hasError('email')">
+                    <li *ngIf="submitted && formGroup.controls.email.hasError('email')">
                         <a href="#" onClick="return false;" (click)="setFocus(1)"> {{
                             'ERROR_INVALID_EMAIL' | translate }} </a>
                     </li>
-                    <li *ngIf="submitted && contactForm.controls['phone'].invalid">
+                    <li *ngIf="submitted && formGroup.controls['phone'].invalid">
                         <a href="#" onClick="return false;" (click)="setFocusForIntlTelComponent('phone')"> {{
                             'ERROR_INVALID_PHONE_NUMBER' | translate }} </a>
                     </li>
-                    <li *ngIf="submitted && contactForm.controls['fax'].invalid">
+                    <li *ngIf="submitted && formGroup.controls['fax'].invalid">
                         <a href="#" onClick="return false;" (click)="setFocusForIntlTelComponent('fax')"> {{
                             'ERROR_INVALID_FAX_NUMBER' | translate }} </a>
                     </li>
@@ -51,8 +51,8 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
         <div class="form contact-form">
-            <form class="ui form login mb-two" [class.error]="!formValid(contactForm)" (submit)="onSubmit(contactForm)"
-                [formGroup]="contactForm">
+            <form class="ui form login mb-two" [class.error]="!formValid(formGroup)" (submit)="onSubmit(formGroup)"
+                [formGroup]="formGroup">
                 <div class="ui segment">
                     <div class="govuk-form-group" id="web-form-group">
                         <label class="govuk-label" for="contactReason"> {{ 'CONTACT_REASON' | translate }} </label>
@@ -62,38 +62,38 @@
                         </select>
                     </div>
                     <div class="govuk-form-group" id="name-form-group"
-                        [class.govuk-form-group--error]="submitted && contactForm.hasError('inSufficient')">
+                        [class.govuk-form-group--error]="submitted && formGroup.hasError('inSufficient')">
                         <label class="govuk-label" for="name"> {{ 'CONTACT_NAME' | translate }} </label>
                         <span id="name-error" class="govuk-error-message"
-                            *ngIf="submitted && contactForm.hasError('inSufficient')">
+                            *ngIf="submitted && formGroup.hasError('inSufficient')">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
                             'ERROR_INSUFFICIENT_CONTACT_DETAILS' | translate }}
                         </span>
                         <input #input formControlName="name" class="govuk-input" id="name" name="name" type="text"
-                            [class.govuk-input--error]="submitted && contactForm.hasError('inSufficient')">
+                            [class.govuk-input--error]="submitted && formGroup.hasError('inSufficient')">
                     </div>
                     <div class="govuk-form-group" id="email-form-group"
-                        [class.govuk-form-group--error]="submitted && contactForm.controls.email.hasError('email')">
+                        [class.govuk-form-group--error]="submitted && formGroup.controls.email.hasError('email')">
                         <label class="govuk-label" for="email"> {{ 'EMAIL' | translate }} </label>
                         <span id="email-error" class="govuk-error-message"
-                            *ngIf="submitted && contactForm.controls.email.hasError('email')">
+                            *ngIf="submitted && formGroup.controls.email.hasError('email')">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
                             'ERROR_INVALID_EMAIL'
                             | translate }}
                         </span>
                         <input #input formControlName="email" class="govuk-input" id="email" name="email" type="email"
-                            [class.govuk-input--error]="submitted && contactForm.controls.email.hasError('email')">
+                            [class.govuk-input--error]="submitted && formGroup.controls.email.hasError('email')">
                     </div>
                     <div class="govuk-form-group" id="phone-form-group"
-                        [class.govuk-form-group--error]="submitted && contactForm.controls['phone'].invalid">
+                        [class.govuk-form-group--error]="submitted && formGroup.controls['phone'].invalid">
                         <label class="govuk-label" for="phone"> {{ 'TELEPHONE_NUMBER' | translate }} </label>
                         <span id="email-error" class="govuk-error-message"
-                            *ngIf="submitted && contactForm.controls['phone'].invalid">
+                            *ngIf="submitted && formGroup.controls['phone'].invalid">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                             {{ 'ERROR_INVALID_PHONE_NUMBER' | translate }}
                         </span>
                         <ngx-intl-tel-input
-                            [cssClass]="submitted && contactForm.controls['phone'].invalid ? 'govuk-input govuk-input--error' : 'govuk-input'"
+                            [cssClass]="submitted && formGroup.controls['phone'].invalid ? 'govuk-input govuk-input--error' : 'govuk-input'"
                             [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
                             [enablePlaceholder]="true" [searchCountryFlag]="true" [maxLength]="'15'"
                             [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
@@ -103,15 +103,15 @@
                         </ngx-intl-tel-input>
                     </div>
                     <div class="govuk-form-group" id="fax-form-group"
-                        [class.govuk-form-group--error]="submitted && contactForm.controls['fax'].invalid">
+                        [class.govuk-form-group--error]="submitted && formGroup.controls['fax'].invalid">
                         <label class="govuk-label" for="fax"> {{ 'FAX' | translate }} </label>
                         <span id="email-error" class="govuk-error-message"
-                            *ngIf="submitted && contactForm.controls['fax'].invalid">
+                            *ngIf="submitted && formGroup.controls['fax'].invalid">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                             {{ 'ERROR_INVALID_FAX_NUMBER' | translate }}
                         </span>
                         <ngx-intl-tel-input
-                            [cssClass]="submitted && contactForm.controls['fax'].invalid ? 'govuk-input govuk-input--error' : 'govuk-input'"
+                            [cssClass]="submitted && formGroup.controls['fax'].invalid ? 'govuk-input govuk-input--error' : 'govuk-input'"
                             [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
                             [enablePlaceholder]="true" [searchCountryFlag]="true" [maxLength]="'15'"
                             [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
@@ -125,7 +125,7 @@
                         <input formControlName="webUrl" class="govuk-input" id="web" name="web" type="text">
                     </div>
                     <div class="govuk-button-group save-cancel-button-group">
-                        <button type="submit" class="govuk-button" data-module="govuk-button">
+                        <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
                             {{'SAVE_BTN' | translate }}
                         </button>
                         <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"

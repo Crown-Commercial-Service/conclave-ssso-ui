@@ -21,7 +21,7 @@ export class WrapperUserContactService {
     }
 
     createUserContact(userName: string, contactInfo: ContactPoint): Observable<any> {
-        const url = `${this.url}?userId=${encodeURIComponent(userName)}`;
+        const url = `${this.url}?user-id=${encodeURIComponent(userName)}`;
         return this.http.post<number>(url, contactInfo, this.options).pipe(
             map((data: number) => {
                 return data;
@@ -32,7 +32,7 @@ export class WrapperUserContactService {
     }
 
     deleteUserContact(userName: string, contactId:number): Observable<any> {
-        const url = `${this.url}/${contactId}?userId=${encodeURIComponent(userName)}`;
+        const url = `${this.url}/${contactId}?user-id=${encodeURIComponent(userName)}`;
         return this.http.delete(url, this.options).pipe(
             map(() => {
                 return true;
@@ -43,7 +43,7 @@ export class WrapperUserContactService {
     }
 
     getUserContacts(userName: string): Observable<any> {
-        const url = `${this.url}?userId=${encodeURIComponent(userName)}`;
+        const url = `${this.url}?user-id=${encodeURIComponent(userName)}`;
         return this.http.get<UserContactInfoList>(url, this.options).pipe(
             map((data: UserContactInfoList) => {
                 return data;
@@ -54,7 +54,7 @@ export class WrapperUserContactService {
     }
 
     getUserContactById(userName: string, contactId: number): Observable<any> {
-        const url = `${this.url}/${contactId}?userId=${encodeURIComponent(userName)}`;
+        const url = `${this.url}/${contactId}?user-id=${encodeURIComponent(userName)}`;
         return this.http.get<UserContactInfo>(url, this.options).pipe(
             map((data: UserContactInfo) => {
                 return data;
@@ -65,7 +65,7 @@ export class WrapperUserContactService {
     }
 
     updateUserContact(userName: string, contactId:number, contactInfo: ContactPoint): Observable<any> {
-        const url = `${this.url}/${contactId}?userId=${encodeURIComponent(userName)}`;
+        const url = `${this.url}/${contactId}?user-id=${encodeURIComponent(userName)}`;
         return this.http.put(url, contactInfo, this.options).pipe(
             map(() => {
                 return true;
