@@ -14,7 +14,7 @@
 
 <body class="govuk-template__body show-flourishes pillar--none js-enabled">
   <app-root></app-root>
-  <style>
+  <style nonce="gds-override">
     @import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500);
 
     @font-face {
@@ -223,14 +223,18 @@
       background-color: #992614 !important;
     }
 
-.govuk-button--disabled, .govuk-button[disabled="disabled"], .govuk-button[disabled] {
-     background: #015e66 !important; 
-}
+    .govuk-button--disabled,
+    .govuk-button[disabled="disabled"],
+    .govuk-button[disabled] {
+      background: #015e66 !important;
+    }
 
 
-.govuk-button--disabled:hover, .govuk-button[disabled=disabled]:hover, .govuk-button[disabled]:hover {
-    background-color: #015e66 !important;
-}
+    .govuk-button--disabled:hover,
+    .govuk-button[disabled=disabled]:hover,
+    .govuk-button[disabled]:hover {
+      background-color: #015e66 !important;
+    }
 
     /* 
     .govuk-link:focus {
