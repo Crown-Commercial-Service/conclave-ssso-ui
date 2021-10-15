@@ -23,7 +23,8 @@ deploy:
   edge: true
   on:
     branch: "$TRAVIS_BRANCH"
-before_deploy:
+before_install:
 - sh app.sh
+
 
 
