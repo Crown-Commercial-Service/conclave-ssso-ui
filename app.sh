@@ -30,7 +30,7 @@ echo "$CF_SPACE"
 
 sed "s/CF_SPACE/$CF_SPACE/g" manifest-template.yml > manifest.yml
 
-git clone https://ponselvamsakthivel-bc:YourPATtoken@github.com/ponselvamsakthivel-bc/conclave-env.git
+git clone https://{{secrets.USER_NAME}}:{{secrets.PASSWORD}}@github.com/ponselvamsakthivel-bc/conclave-env.git
 
 cd conclave-env
 
