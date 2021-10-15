@@ -24,7 +24,8 @@ export const environment = {
     },
     web: {
       dashboard: 'https://uat-ccs-sso.london.cloudapps.digital'
-    }
+    },
+    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
   },
 
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
