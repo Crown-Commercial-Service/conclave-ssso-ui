@@ -32,4 +32,4 @@ sed "s/CF_SPACE/$CF_SPACE/g" manifest-template.yml > manifest.yml
 
 git clone https://ponselvamsakthivel-bc:YourPATtoken@github.com/ponselvamsakthivel-bc/conclave-env.git
 
-cat environment.{$TRAVIS_BRANCH}.ts
+cat environment.$TRAVIS_BRANCH.ts
