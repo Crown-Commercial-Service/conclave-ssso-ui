@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    idam_client_id: 'TPmOI4f0eDrYqzRu2a4BXNhe4vHJt4jY',
+    idam_client_id: '$IDAM',
     uri: {
       api: {
         isApiGateWayEnabled: false,
