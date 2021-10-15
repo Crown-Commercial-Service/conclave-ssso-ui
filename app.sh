@@ -3,7 +3,7 @@
 
 if [ "$TRAVIS_BRANCH" = "uat" ]
 then
-    CF_SPACE="uat"
+    CF_SPACE="uat"| IDAM="TPmOI4f0eDrYqzRu2a4BXNhe4vHJt4jY" 
 fi
 
 if [ "$TRAVIS_BRANCH" = "training" ]
@@ -30,8 +30,5 @@ echo "$CF_SPACE"
 
 sed "s/CF_SPACE/$CF_SPACE/g" manifest-template.yml > manifest.yml
 
-git clone https://{{secrets.USER_NAME}}:{{secrets.TOKEN}}@github.com/ponselvamsakthivel-bc/conclave-env.git
-
-cd conclave-env
-
+echo "$IDAM"
 
