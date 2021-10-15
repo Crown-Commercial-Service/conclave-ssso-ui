@@ -32,25 +32,5 @@ sed "s/CF_SPACE/$CF_SPACE/g" manifest-template.yml > manifest.yml
 
 git clone https://ponselvamsakthivel-bc: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@github.com/ponselvamsakthivel-bc/conclave-env.git
 
-if [ "$TRAVIS_BRANCH" = "uat" ]
-then
-    sed "s/CF_SPACE/$CF_SPACE/g" environment.uat.ts > src/environments/environment.ts
-fi
 
-if [ "$TRAVIS_BRANCH" = "training" ]
-then
-    sed "s/CF_SPACE/$CF_SPACE/g" environment.training.ts > src/environments/environment.ts
-fi
-
-if [ "$TRAVIS_BRANCH" = "testing" ]
-then
-    sed "s/CF_SPACE/$CF_SPACE/g" environment.testing.ts > src/environments/environment.ts
-fi
-if [ "$TRAVIS_BRANCH" = "pre-production" ]
-then
-    sed "s/CF_SPACE/$CF_SPACE/g" environment.pre-production.ts > src/environments/environment.ts
-fi
-if [ "$TRAVIS_BRANCH" = "sandbox" ]
-then
-    sed "s/CF_SPACE/$CF_SPACE/g" environment.sandbox.ts > src/environments/environment.ts
-fi
+cp environment.$TRAVIS_BRANCH.ts src/environments/environment.ts
