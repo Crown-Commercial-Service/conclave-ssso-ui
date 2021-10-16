@@ -32,4 +32,4 @@ sed "s/CF_SPACE/$CF_SPACE/g" manifest-template.yml > manifest.yml
 
 echo "$IDAM"
 
-sed "s/IDAM/$IDAM/g" src/environments/enviornment-template.ts > src/environments/enviornment.ts
+sed "s/IDAM/$IDAM/g" src/environments/environment-template.ts > src/environments/enviornment.ts
