@@ -25,7 +25,11 @@ deploy:
     branch: "$TRAVIS_BRANCH"
 before_deploy:
 - sh app.sh
-- ls
+- mkdir deploy 
+- cp -rf dist ./deploy/
+- cp -rf Staticfile ./deploy/
+- cp -rf nginx.conf ./deploy/
+- cp -rf manifest.yml ./deploy/
 before_install:
 - sh env.sh
 - cat src/environments/environment.ts
