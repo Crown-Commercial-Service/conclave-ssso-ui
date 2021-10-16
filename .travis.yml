@@ -17,6 +17,7 @@ deploy:
   script: sh app.sh
   on:
     branch: "$TRAVIS_BRANCH"
+  skip_cleanup: true
 before_install:
 - sh env.sh
 - cat src/environments/environment.ts
