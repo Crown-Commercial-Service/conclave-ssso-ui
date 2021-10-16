@@ -25,6 +25,7 @@ deploy:
     branch: "$TRAVIS_BRANCH"
 before_deploy:
 - sh app.sh
+- ls
 before_install:
 - sh env.sh
 - cat src/environments/environment.ts
