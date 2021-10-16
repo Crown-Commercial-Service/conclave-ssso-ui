@@ -30,10 +30,10 @@ echo "$CF_SPACE"
 
 sed "s/CF_SPACE/$CF_SPACE/g" manifest-template.yml > manifest.yml
 
-CF_USER="ponselvam.sakthivel@brickendon.com"
-CF_PASS="avlesnop@123"
-CF_ORG="ccs-conclave-sssos"
-CF_API_ENDPOINT="https://api.london.cloud.service.gov.uk"
+CF_USER=$username
+CF_PASS=$password
+CF_ORG=$organisation
+CF_API_ENDPOINT=$api
 CF_ENV=$TRAVIS_BRANCH
 
 # login and target space
