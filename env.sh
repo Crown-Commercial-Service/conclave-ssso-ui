@@ -6,5 +6,4 @@ then
     IDAM=$IDAM_ID
 fi
 
-
-echo $IDAM
+sed "s/IDAM_ID/$IDAM_ID/g" src/environments/environment-template.ts > src/environments/environment.ts
