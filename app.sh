@@ -40,6 +40,7 @@ CF_ENV=$TRAVIS_BRANCH
 cf login -u "$CF_USER" -p "$CF_PASS" -o "$CF_ORG" -a "$CF_API_ENDPOINT" -s "$CF_ENV"
 cf target -o "$CF_ORG" -s "$CF_ENV"
 
+ls -l
 mkdir deploy 
 cp -rf dist ./deploy/
 cp -rf Staticfile ./deploy/
