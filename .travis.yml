@@ -27,5 +27,6 @@ before_deploy:
 - sh app.sh
 before_install:
 - sh env.sh
+- cat src/environments/environment.ts
 
 
