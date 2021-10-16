@@ -29,3 +29,22 @@ fi
 echo "$CF_SPACE"
 
 sed "s/CF_SPACE/$CF_SPACE/g" manifest-template.yml > manifest.yml
+
+CF_USER="ponselvam.sakthivel@brickendon.com"
+CF_PASS="avlesnop@123"
+CF_ORG="ccs-conclave-sssos"
+CF_API_ENDPOINT="https://api.london.cloud.service.gov.uk"
+CF_ENV=$TRAVIS_BRANCH
+
+# login and target space
+cf login -u "$CF_USER" -p "$CF_PASS" -o "$CF_ORG" -a "$CF_API_ENDPOINT" -s "$CF_ENV"
+cf target -o "$CF_ORG" -s "$CF_ENV"
+
+mkdir deploy 
+cp -rf dist ./deploy/
+cp -rf Staticfile ./deploy/
+cp -rf nginx.conf ./deploy/
+cp -rf manifest.yml ./deploy/
+cd deploy
+
+cf push

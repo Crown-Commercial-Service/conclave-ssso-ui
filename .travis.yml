@@ -12,26 +12,10 @@ before_script:
 - npm install -g @angular/cli
 script: npm run build
 deploy:
-- provider: cloudfoundry
-  username: "$username"
-  password: "$password"
-  api: "$api"
-  organization: "$organisation"
-  space: "$TRAVIS_BRANCH"
-  #manifest: "/home/travis/build/Crown-Commercial-Service/conclave-ssso-ui/manifest.yml"
-  manifest: manifest.yml
-  skip-cleanup: true
-  edge: true
+- provider: script
+  script: sh app.sh
   on:
     branch: "$TRAVIS_BRANCH"
-before_deploy:
-- sh app.sh
-- mkdir deploy 
-- cp -rf dist ./deploy/
-- cp -rf Staticfile ./deploy/
-- cp -rf nginx.conf ./deploy/
-- cp -rf manifest.yml ./deploy/
-- cd deploy & ls
 before_install:
 - sh env.sh
 - cat src/environments/environment.ts
