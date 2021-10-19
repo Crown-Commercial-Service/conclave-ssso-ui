@@ -1,6 +1,6 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
-  <a href="javascript:;" (click)="onBackClick()" class="govuk-back-link">Back</a>
+  <a id="backLink" href="javascript:;" (click)="onBackClick()" class="govuk-back-link">Back</a>
   <h1 class="govuk-heading-xl page-title">Register your organisation</h1>
   <h2><strong>To ensure your account is secure you will need a company email address and ONE of the following:</strong></h2>
   <ul>
@@ -11,6 +11,6 @@
     <li>The Charity Commission for Northern Ireland number</li>
   </ul>
   <br />
-  <button type="button" class="govuk-button" data-module="govuk-button" (click)="onClick()">Continue</button>
-  <p><a class="navigation-text" href="{{ccsContactUrl}}" target="_blank">If you do not have the information stated to be required on this page, please contact CCS</a></p>
+  <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button" (click)="onClick()">Continue</button>
+  <p><a id="contactCCSLink" class="navigation-text" href="{{ccsContactUrl}}" target="_blank">If you do not have the information stated to be required on this page, please contact CCS</a></p>
 </div>

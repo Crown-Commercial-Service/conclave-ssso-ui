@@ -41,11 +41,11 @@ export class MFAResetComponent extends BaseComponent implements OnInit {
       this.mfaService.resetMFA(para.t).toPromise().then(() => {
         this.resetSuccess = true;
         this.resultVerified = true;
-        this.titleService.setTitle(`Success - Procurement Gateway Authenticator Reset - CCS`);
+        this.titleService.setTitle(`Success - Additional security Reset - CCS`);
       }).catch((er: any) => {
         this.resetSuccess = false;
         this.resultVerified = true;
-        this.titleService.setTitle(`Error - Procurement Gateway Authenticator Reset - CCS`);
+        this.titleService.setTitle(`Error - Additional security Reset - CCS`);
         if (er.error.error == 'INVALID_TICKET') {
           this.userName = er.error.error_description;
         }

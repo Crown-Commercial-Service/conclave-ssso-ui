@@ -14,29 +14,26 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
 import { TokenService } from 'src/app/services/auth/token.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-import { OrganisationUserDto } from 'src/app/models/user';
+import { OrganisationUserDto, OrgUserListResponse } from 'src/app/models/user';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-org-support-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./search.component.scss']
 })
 export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
 
   formGroup: FormGroup;
   public selectedRow!: string;
   public selectedRowId: string = '';
-  public data: OrganisationUserDto[] = [];
+  public data: OrgUserListResponse;
   public pageOfItems!: any;
   public organisationId!: number;
   searchText: string = "";
+  currentPage: number = 1;
+  pageCount: number = 0;
+  pageSize: number = environment.listPageSize;
   tableHeaders = ['NAME','ORGANISATION', 'USER_EMAIL'];
   tableColumnsToDisplay = ['name', 'organisationLegalName', 'userName'];
 
@@ -45,6 +42,12 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       search: [, Validators.compose([Validators.required])],
     });
+    this.data = {
+      currentPage: this.currentPage,
+      pageCount: 0,
+      rowCount: 0,
+      orgUserList: []
+  }
   }
 
   async ngOnInit() {
@@ -54,12 +57,24 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
     let org = await this.organisationService.getById(this.tokenService.getCiiOrgId()).toPromise();
     if (org) {
       this.organisationId = org.organisationId;
-      this.data = await this.organisationService.getUsers('').toPromise();
+      this.onSearch();
     }
   }
 
   async onSearch() {
-    this.data = await this.organisationService.getUsers(this.searchText).toPromise();
+    let result = await this.organisationService.getUsers(this.searchText, this.currentPage, this.pageSize).toPromise();
+    this.data = result;
+    this.pageCount = this.data.pageCount;
+  }
+
+  async onSearchClick() {
+    this.currentPage = 1;
+    await this.onSearch();
+  }
+
+  async setPage(pageNumber: any) {
+    this.currentPage = pageNumber;
+    await this.onSearch();
   }
 
   public onContinueClick() {

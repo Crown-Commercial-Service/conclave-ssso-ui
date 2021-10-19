@@ -84,3 +84,8 @@ export interface OrganisationUserDto {
     organisationId: number;
     organisationLegalName: string;
 }
+
+
+export interface OrgUserListResponse extends PaginationInfo {
+    orgUserList: OrganisationUserDto[];
+}

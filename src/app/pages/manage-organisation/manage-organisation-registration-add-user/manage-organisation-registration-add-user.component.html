@@ -4,7 +4,7 @@
   <h1 class="govuk-heading-xl page-title">Enter your administrator account details</h1>
   <p class="govuk-body-l">As you are the first person registering the organisation you will be the administrator for your organisation's
     account</p>
-  <p style="padding-top:10px;">Alternatively, you can <a class="navigation-text" routerLink="/nominate">nominate a colleague to register and
+  <p style="padding-top:10px;">Alternatively, you can <a id="nominateLink" class="navigation-text" routerLink="/nominate">nominate a colleague to register and
       become an administrator</a></p>
   <br>
   <p><strong>As an administrator you will be able to:</strong></p>
@@ -83,7 +83,7 @@
             [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
         </div>
         <div class="govuk-form-group">
-          <button  type="submit" class="govuk-button" data-module="govuk-button"
+          <button id="continueButton"  type="submit" class="govuk-button" data-module="govuk-button"
             (click)="onSubmit(formGroup)">Continue</button>
         </div>
       </form>

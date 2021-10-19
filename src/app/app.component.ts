@@ -14,6 +14,7 @@ import { DomSanitizer, SafeResourceUrl, Title } from '@angular/platform-browser'
 import { LoadingIndicatorService } from './services/helper/loading-indicator.service';
 import { filter, map } from 'rxjs/operators';
 import { GlobalRouteService } from './services/helper/global-route.service';
+import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
 @Component({
   selector: 'app-root',
@@ -26,13 +27,14 @@ export class AppComponent implements OnInit {
   public sideNavVisible$: Observable<boolean>;
   isAuthenticated: boolean = false;
   toggleControl = new FormControl(false);
-  opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/checksession/?origin=' + environment.uri.web.dashboard);
+  opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/sessions/?origin=' + environment.uri.web.dashboard);
   rpIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.web.dashboard + '/assets/rpIFrame.html');
-  constructor(private sanitizer: DomSanitizer,private globalRouteService : GlobalRouteService, private overlay: OverlayContainer, private translate: TranslateService, protected uiStore: Store<UIState>, private router: Router,
-    private route: ActivatedRoute, public authService: AuthService,
-     public loadingIndicatorService: LoadingIndicatorService, private titleService: Title) {
+  constructor(private sanitizer: DomSanitizer, private globalRouteService: GlobalRouteService, private overlay: OverlayContainer, private translate: TranslateService, protected uiStore: Store<UIState>, private router: Router,
+    private route: ActivatedRoute, public authService: AuthService, private gtmService: GoogleTagManagerService,
+    public loadingIndicatorService: LoadingIndicatorService, private titleService: Title) {
     translate.setDefaultLang('en');
     this.sideNavVisible$ = this.uiStore.pipe(select(getSideNavVisible));
+    this.gtmService.addGtmToDom();
     this.router.events.pipe(filter(event => event instanceof NavigationEnd), map(() => {
       let child = this.route.firstChild;
       while (child) {
@@ -44,10 +46,17 @@ export class AppComponent implements OnInit {
           return null;
         }
       }
+      
       return null;
     })
     ).subscribe((data: any) => {
       if (data) {
+        let gtmTag = {
+          event: 'page',
+          pageName: data
+        };
+        // Can be removed this event when tested by analytics team
+        this.gtmService.pushTag(gtmTag);
         this.titleService.setTitle(data + ' - CCS');
       }
     });
