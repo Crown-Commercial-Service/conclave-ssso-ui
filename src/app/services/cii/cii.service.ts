@@ -28,8 +28,8 @@ export class ciiService {
     return this.httpClient.get<CiiOrgIdentifiersDto>(url);
   }
 
-  getOrgDetails(orgId: string) {
-    const url = `${this.url}/organisation-details?organisation-id=${encodeURIComponent(orgId)}`;
+  getOrgDetails(orgId: string, includeHiddenIdentifiers: boolean = false) {
+    const url = `${this.url}/organisation-details?organisation-id=${encodeURIComponent(orgId)}&include-hidden-identifiers=${includeHiddenIdentifiers}`;
     return this.httpClient.get<CiiOrgIdentifiersDto>(url);
   }
 

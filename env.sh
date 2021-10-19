@@ -33,5 +33,6 @@ if [ "$TRAVIS_BRANCH" = "testing" ]
 then
     IDAM=$IDAM_ID
     ROLLBAR=$ROLLBAR
-    sed "s/IDAM_ID/$IDAM_ID/g" src/environments/environment-testing.ts | sed "s/ROLLBAR/$ROLLBAR/g" > src/environments/environment.ts
+    GTM=$GTM
+    sed "s/IDAM_ID/$IDAM_ID/g" src/environments/environment-testing.ts | sed "s/ROLLBAR/$ROLLBAR/g" | sed "s/GTM/$GTM/g" > src/environments/environment.ts
 fi

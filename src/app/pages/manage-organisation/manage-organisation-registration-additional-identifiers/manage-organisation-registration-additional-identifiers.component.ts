@@ -27,8 +27,6 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 })
 export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent implements OnInit {
 
-  public item$!: Observable<any>;
-  public orgGroup: string = 'manage-org/register/user';
   public schemeName: string = '';
   public selectedIdentifiers: any[] = new Array();
   public additionalIdentifiers: any[] = new Array();
@@ -46,9 +44,6 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
       this.organisation = JSON.parse(localStorage.getItem('cii_organisation')+'');
       if (this.organisation) {
         this.selectedIdentifiers = [...this.organisation.additionalIdentifiers];
-        // this.additionalIdentifiers = this.organisation.additionalIdentifiers;
-        // this.selectedIdentifiers = this.organisation.additionalIdentifiers;
-        // Object.assign(this.organisation.additionalIdentifiers, this.selectedIdentifiers);
       } else {
         this.router.navigateByUrl(`manage-org/register/error/notfound`);
       }
@@ -56,14 +51,14 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
   }
 
   public goBack() {
-    this.router.navigateByUrl('manage-org/register/search/' + this.routeParams.scheme + '/' + this.routeParams.id);
+    this.router.navigateByUrl(`manage-org/register/search/${this.routeParams.scheme}?id=${encodeURIComponent(this.routeParams.id)}`);
   }
 
   public onSubmit() {
     const org = JSON.parse(localStorage.getItem('cii_organisation')+'');
     org.additionalIdentifiers = this.selectedIdentifiers;
     localStorage.setItem('cii_organisation', JSON.stringify(org));
-    this.router.navigateByUrl(this.orgGroup);
+    this.router.navigateByUrl('manage-org/register/user');
   }
 
   public onChange(event: any, additionalIdentifier: any) {
