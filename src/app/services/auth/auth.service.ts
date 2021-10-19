@@ -144,7 +144,7 @@ export class AuthService {
 
   resetPassword(userName: string): Observable<any> {
     var changepwd = { "userName": userName }
-    return this.httpService.post(`${this.url}/security/passwordresetrequest`, changepwd);
+    return this.httpService.post(`${this.url}/security/password-reset-requests`, changepwd);
   }
 
   token(code: string): Observable<any> {
@@ -198,8 +198,8 @@ export class AuthService {
   }
 
   getSignOutEndpoint() {
-    return environment.uri.api.security + '/security/logout?clientId=' + environment.idam_client_id
-      + '&redirecturi=' + environment.uri.web.dashboard;
+    return environment.uri.api.security + '/security/log-out?client-id=' + environment.idam_client_id
+      + '&redirect-uri=' + environment.uri.web.dashboard;
   }
 
   getAuthorizedEndpoint() {

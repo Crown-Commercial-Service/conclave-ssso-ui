@@ -1,18 +1,30 @@
-<!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
-<div class="content flex" style="height:650px;">
-  <h1 class="govuk-heading-xl page-title">We found matching records for your organisation from the additional registries below</h1>
+<div class="content flex">
+  <h1 class="govuk-heading-xl">We found matching records for your organisation from the additional registries
+    below</h1>
   <div>
     <div>
-      <h4 *ngIf="organisation?.additionalIdentifiers.length > 0">Please unselect any that you do not want to include in your registration:</h4>
-      <p *ngFor="let ai of organisation?.additionalIdentifiers">
-        <strong style="font-weight: 500;">{{ getSchemaName(ai?.scheme) }}</strong><br />
-        <input type="checkbox" checked="checked" style="top: 1px; margin-right: 4px; position: relative; left: 1px;" (change)="onChange($event, ai)">{{ ai?.id }} - {{ ai?.legalName }}
-      </p>
-      <div class="govuk-grid-row">
-        <div class="govuk-form-group govuk-button-group">
-          <button  type="button" class="govuk-button" data-module="govuk-button" (click)="onSubmit()">Continue</button>
-          <button  type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="goBack()">Back</button>
+      <fieldset *ngIf="organisation?.additionalIdentifiers.length > 0" class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          Please unselect any that you do not want to include in your registration
+        </legend>
+        <div *ngFor="let ai of organisation?.additionalIdentifiers; let index = index" class="govuk-checkboxes"
+          data-module="govuk-checkboxes">
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input" id="{{ 'chk-id-' + index }}" type="checkbox" checked="checked"
+              (change)="onChange($event, ai)">
+            <label class="govuk-label govuk-checkboxes__label" for="{{ 'chk-id-' + index }}">
+              {{ ai?.id }} - {{ ai?.legalName }}
+            </label>
+            <div id="{{ 'chk-id-hint-' + index }}" class="govuk-hint govuk-checkboxes__hint">
+              {{ getSchemaName(ai?.scheme) }}
+            </div>
+          </div>
         </div>
+      </fieldset>
+      <div class="govuk-form-group govuk-button-group button-group">
+        <button type="button" class="govuk-button" data-module="govuk-button" (click)="onSubmit()">Continue</button>
+        <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+          (click)="goBack()">Back</button>
       </div>
     </div>
   </div>

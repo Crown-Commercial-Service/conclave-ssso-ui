@@ -75,7 +75,7 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
         }
 
         if (this.resetMfa) {
-          this.displayMessage = this.displayMessage + (this.changePassword || this.changeRoleType !== "noChange" ? ', reset Procurement Gateway Authenticator' : 'reset Procurement Gateway Authenticator');
+          this.displayMessage = this.displayMessage + (this.changePassword || this.changeRoleType !== "noChange" ? ', reset additional security' : 'reset additional security');
         }
 
         this.displayMessage = this.displayMessage + ` for ${params.userName}.`;
