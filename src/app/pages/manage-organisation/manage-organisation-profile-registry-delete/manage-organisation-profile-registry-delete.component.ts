@@ -19,10 +19,10 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
   templateUrl: './manage-organisation-profile-registry-delete.component.html',
   styleUrls: ['./manage-organisation-profile-registry-delete.component.scss'],
   animations: [
-      slideAnimation({
-          close: { 'transform': 'translateX(12.5rem)' },
-          open: { left: '-12.5rem' }
-      })
+    slideAnimation({
+      close: { 'transform': 'translateX(12.5rem)' },
+      open: { left: '-12.5rem' }
+    })
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -36,7 +36,7 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
   constructor(private ciiService: ciiService, private wrapperService: WrapperUserService, private router: Router,
     private route: ActivatedRoute, protected uiStore: Store<UIState>, private readonly tokenService: TokenService,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
-    super(uiStore,viewportScroller,scrollHelper);
+    super(uiStore, viewportScroller, scrollHelper);
     this.organisationId = JSON.parse(localStorage.getItem('organisation_id') + '');
   }
 
@@ -50,21 +50,12 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
   }
 
   public onSubmit() {
-    this.wrapperService.getUser(localStorage.getItem('user_name')+'').subscribe({
-      next: (user: UserProfileResponseInfo) => {
-          if (user != null) { 
-            this.ciiService.deleteRegistry(this.tokenService.getCiiOrgId(), this.routeParams.scheme, this.routeParams.id).subscribe((data) => {
-              this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/delete/confirmation/' + this.routeParams.scheme + '/' + this.routeParams.id);
-            }, (error) => {
-                console.log(error);
-            });                 
-          } else {
-              console.log('no user found from wrapper service');
-          }
-      }, error: (error: any) => {
-          console.log(error);
-      }
-    });
+    this.ciiService.deleteRegistry(this.tokenService.getCiiOrgId(), this.routeParams.scheme, this.routeParams.id)
+      .subscribe((data) => {
+        this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/delete/confirmation/' + this.routeParams.scheme + '/' + this.routeParams.id);
+      }, (error) => {
+        console.log(error);
+      });
   }
 
   public goBack() {

@@ -135,6 +135,9 @@ import { ManageOrgRegErrorGenericComponent } from './pages/manage-organisation/m
 import { ErrorHandlerInterceptor } from './interceptors/error-handler.interceptor';
 import { SearchBoxComponent } from './components/search-box/search-box.component';
 import { SendMFAResetNotificationSuccessComponent } from './pages/mfa-reset/send-notification-success/send-mfa-reset-notification-success';
+import { GoogleTagManagerModule } from 'angular-google-tag-manager';
+import { environment } from 'src/environments/environment';
+import { ResendLinkSuccessComponent } from './pages/resend-link-success/resend-link-success';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -227,6 +230,7 @@ export function createTranslateLoader(http: HttpClient) {
     BuyerErrorComponent,
     OrgSupportErrorComponent,
     ForgotPasswordSuccessComponent,
+    ResendLinkSuccessComponent,
     AuthErrorComponent,
     ContactAssignSelectionComponent,
     ContactAssignUserSearchComponent,
@@ -292,7 +296,8 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: HTTP_INTERCEPTORS, useClass: LoadingIndicatorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true },
     { provide: ErrorHandler, useClass: RollbarErrorHandler },
-    { provide: RollbarService, useFactory: rollbarFactory }
+    { provide: RollbarService, useFactory: rollbarFactory },
+    { provide: 'googleTagManagerId', useValue: environment.googleTagMangerId }
   ],
   bootstrap: [AppComponent]
 })

@@ -65,8 +65,8 @@ export class OrgSupportSuccessComponent extends BaseComponent implements OnInit 
         }
 
         if (resetMfa) {
-          this.displayMessage = changePassword || changeRoleType !== "noChange" ? this.displayMessage + `\n Procurement Gateway Authenticator reset email has been sent to ${params.userName}.` :
-            `Procurement Gateway Authenticator reset email has been sent to ${params.userName}.`;
+          this.displayMessage = changePassword || changeRoleType !== "noChange" ? this.displayMessage + `\n additional security reset email has been sent to ${params.userName}.` :
+            `Additional security reset email has been sent to ${params.userName}.`;
         }
       });
     });

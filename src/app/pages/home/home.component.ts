@@ -32,7 +32,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   idam_client_id: string = environment.idam_client_id;
   targetURL: string = environment.uri.api.security;
   accesstoken: any;
-  opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/checksession/?origin=' + environment.uri.web.dashboard);
+  opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/sessions/?origin=' + environment.uri.web.dashboard);
   rpIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.web.dashboard + '/assets/rpIFrame.html');
 
   constructor(protected uiStore: Store<UIState>, private sanitizer: DomSanitizer,
@@ -43,7 +43,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.authService.getPermissions().toPromise().then((response) => {
       this.servicePermissions = response;
       this.authService.getCcsServices().toPromise().then((data: any) => {

@@ -20,24 +20,24 @@
             Is this your organisation?
           </legend>
           <div class="govuk-radios">
-            <div class="govuk-radios__item">
+            <div class="govuk-radios__item" id="correctDetailsRadioSelection">
               <input class="govuk-radios__input" type="radio" name="orgGroup" checked="checked"
-                value="manage-org/register/user" [(ngModel)]="orgGroup" id="detail-correctness">
-              <label class="govuk-label govuk-radios__label" for="detail-correctness">
+                value="manage-org/register/user" [(ngModel)]="orgGroup" id="correctDetailsRadioButton">
+              <label class="govuk-label govuk-radios__label" for="correctDetailsRadioButton">
                 Yes, and the details are correct
               </label>
             </div>
-            <div class="govuk-radios__item">
+            <div class="govuk-radios__item" id="wrongAddressRadioSelection">
               <input class="govuk-radios__input" type="radio" name="orgGroup"
-                value="manage-org/register/error/wrong-details" [(ngModel)]="orgGroup"id="detail-correctness-1">
-              <label class="govuk-label govuk-radios__label" for="detail-correctness-1">
+                value="manage-org/register/error/wrong-details" [(ngModel)]="orgGroup"id="wrongAddressRadioButton">
+              <label class="govuk-label govuk-radios__label" for="wrongAddressRadioButton">
                 Yes, but the address is wrong
               </label>
             </div>
-            <div class="govuk-radios__item">
+            <div class="govuk-radios__item" id="notMyOrgRadioSelection">
               <input class="govuk-radios__input" type="radio" name="orgGroup"
-                value="manage-org/register/error/not-my-details" [(ngModel)]="orgGroup" id="detail-correctness-2">
-              <label class="govuk-label govuk-radios__label" for="detail-correctness-2">
+                value="manage-org/register/error/not-my-details" [(ngModel)]="orgGroup" id="notMyOrgRadioButton">
+              <label class="govuk-label govuk-radios__label" for="notMyOrgRadioButton">
                 No, this isn't my organisation
               </label>
             </div>

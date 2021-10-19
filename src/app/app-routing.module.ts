@@ -94,6 +94,7 @@ import { HelpAndSupportComponent } from './pages/help-support/help-support-compo
 import { MFAResetComponent } from './pages/mfa-reset/mfa-reset-component';
 import { SendMFAResetNotificationComponent } from './pages/mfa-reset/send-notification/send-mfa-reset-notification';
 import { SendMFAResetNotificationSuccessComponent } from './pages/mfa-reset/send-notification-success/send-mfa-reset-notification-success';
+import { ResendLinkSuccessComponent } from './pages/resend-link-success/resend-link-success';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -109,6 +110,7 @@ const routes: Routes = [
   { path: 'user-contact-delete', data: { title: 'Delete - User Contact' }, canActivate: [AuthGuard], pathMatch: 'full', component: UserContactDeleteConfirmComponent },
   { path: 'forgot-password', data: { title: 'Forgot Password' }, pathMatch: 'full', component: ForgotPasswordComponent },
   { path: 'forgot-password-success', data: { title: 'Success - Forgot Password' }, pathMatch: 'full', component: ForgotPasswordSuccessComponent },
+  { path: 'resend-link-success', data: { title: 'Success - Resend Link' }, pathMatch: 'full', component: ResendLinkSuccessComponent },
   { path: 'change-password', data: { title: 'Change Password' }, canActivate: [AuthGuard], pathMatch: 'full', component: ChangePasswordComponent },
   { path: 'token', data: { title: 'Token' }, canActivate: [AuthGuard], pathMatch: 'full', component: TokenComponent },
   { path: 'authsuccess', data: { title: 'Auth Success' }, component: AuthSuccessComponent },
@@ -189,9 +191,9 @@ const routes: Routes = [
   { path: 'contact-unassign/success', data: { title: 'Success - Unassign Contact', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ContactUnassignSuccessComponent },
   { path: 'contact-assign/error', data: { title: 'Error - Assign Contacts', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ContactAssignErrorComponent },
   { path: 'help-support', data: { title: 'Help and support' }, pathMatch: 'full', component: HelpAndSupportComponent },
-  { path: 'mfaresetnotification', data: { title: 'Email - Procurement Gateway Authenticator Reset' }, pathMatch: 'full', component: SendMFAResetNotificationComponent },
-  { path: 'mfaresetnotification/success', data: { title: 'Success - Email - Procurement Gateway Authenticator Reset' }, pathMatch: 'full', component: SendMFAResetNotificationSuccessComponent },
-  { path: 'mfareset', data: { title: 'Procurement Gateway Authenticator Reset' }, pathMatch: 'full', component: MFAResetComponent },
+  { path: 'mfaresetnotification', data: { title: 'Email - Additional security Reset' }, pathMatch: 'full', component: SendMFAResetNotificationComponent },
+  { path: 'mfaresetnotification/success', data: { title: 'Success - Email - Additional security Reset' }, pathMatch: 'full', component: SendMFAResetNotificationSuccessComponent },
+  { path: 'mfareset', data: { title: 'Additional security Reset' }, pathMatch: 'full', component: MFAResetComponent },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

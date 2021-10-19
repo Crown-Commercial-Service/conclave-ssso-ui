@@ -34,8 +34,7 @@ export class BuyerSearchComponent extends BaseComponent implements OnInit {
   searchText: string = "";
   public selectedOrg: string = '';
   public selectedOrgId: string = '';
-  public data: any[] = [];
-  public pageOfItems!: any
+  public data: any;
   public ciiOrganisationId!: string;
 
   constructor(private cf: ChangeDetectorRef, private formBuilder: FormBuilder, private organisationService: OrganisationService,
@@ -45,18 +44,35 @@ export class BuyerSearchComponent extends BaseComponent implements OnInit {
       search: [, Validators.compose([Validators.required])],
     });
     this.ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
+    this.data = {
+      currentPage: this.currentPage,
+      pageCount: 0,
+      rowCount: 0,
+      orgList: []
+  }
   }
 
   async ngOnInit() {
-    this.data = await this.organisationService.get('').toPromise();
+    await this.onSearch();
     this.data.forEach((x: any) => {
       x.legalName = x.legalName?.toUpperCase() || 'UNKNOWN';
     });
   }
 
-  async onSearch() {
+  async onSearchClick() {
     this.currentPage = 1;
-    this.data = this.pageOfItems = await this.organisationService.get(this.searchText).toPromise();
+    await this.onSearch();
+  }
+
+  async setPage(pageNumber: any) {
+    this.currentPage = pageNumber;
+    await this.onSearch();
+  }
+
+  async onSearch() {
+    let result = await this.organisationService.get(this.searchText,this.currentPage, this.pageSize).toPromise();
+    this.data = result;
+    this.pageCount = this.data.pageCount;
   }
 
   public onContinueClick() {
