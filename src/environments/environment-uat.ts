@@ -27,7 +27,8 @@ export const environment = {
       },
       ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
     },
-  
+    
+    googleTagMangerId: 'GTM',
     usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
     listPageSize: 10,
     rollbar: {
