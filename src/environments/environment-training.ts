@@ -56,6 +56,8 @@ export const environment = {
   
     },
   
+    googleTagMangerId: 'GTM',
+
     usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed, 
   
     listPageSize: 10,
