@@ -12,6 +12,13 @@ export interface OrganisationRegisterDto {
     adminUserTitle?: UserTitleEnum;
 }
 
+export interface OrganisationRegBasicInfo {
+    orgName : string;
+    adminEmail: string;
+    adminUserFirstName: string;
+    adminUserLastName: string;
+}
+
 export interface CiiOrganisationDto {
     name?: string;
     contactPoint?: CiiContactPointDto;
