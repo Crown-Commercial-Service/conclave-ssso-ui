@@ -1,16 +1,15 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
-  <a id="backLink" routerLink="/manage-org/register" class="govuk-back-link">Back</a>
+  <a href="javascript:;" (click)="onBackClick()" class="govuk-back-link">Back</a>
   <h1 class="govuk-heading-xl page-title">Are you a supplier, buyer or both?</h1>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
       <form class="govuk-!-width-three-quarters">
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-              <h2 class="govuk-fieldset__heading">Please select the organisation type you wish to enter for this session
-              </h2>
-            </legend>
+            <p>
+            <b>  Select the organisation you work for</b>
+            </p>
             <div class="govuk-radios">
               <div class="govuk-radios__item" id="supplierRadioSelection">
                 <input class="govuk-radios__input" id="supplierRadioButton" name="radioSelectionGroup" type="radio"
@@ -18,6 +17,9 @@
                 <label class="govuk-label govuk-radios__label" for="supplierRadioButton">
                   Supplier
                 </label>
+                <div id="supplier-item-hint" class="govuk-hint govuk-radios__hint">
+                  Your organisation is a supplier if you supply goods to CCS buyers
+                </div>
               </div>
               <div class="govuk-radios__item" id="buyerRadioSelection">
                 <input class="govuk-radios__input" id="buyerRadioButton" name="radioSelectionGroup" type="radio"
@@ -25,6 +27,9 @@
                 <label class="govuk-label govuk-radios__label" for="buyerRadioButton">
                   Buyer
                 </label>
+                <div id="buyer-item-hint" class="govuk-hint govuk-radios__hint">
+                  Your organisation is a buyer if you buy goods using CCS
+                </div>
               </div>
               <div class="govuk-radios__item" id="buyerSupplierRadioSelection">
                 <input class="govuk-radios__input" id="buyerSupplierRadioButton" name="radioSelectionGroup" type="radio"
@@ -32,12 +37,16 @@
                 <label class="govuk-label govuk-radios__label" for="buyerSupplierRadioButton">
                   Both
                 </label>
+                <div id="buyerSupplier-item-hint" class="govuk-hint govuk-radios__hint">
+                  Your organisation is both if you buy and sell goods using CCS
+                </div>
               </div>
             </div>
           </fieldset>
         </div>
         <div class="govuk-form-group">
-          <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button" (click)="onSubmit()">Continue</button>
+          <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
+            (click)="onSubmit()">Continue</button>
         </div>
       </form>
     </div>

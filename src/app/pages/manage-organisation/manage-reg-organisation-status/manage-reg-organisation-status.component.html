@@ -1,0 +1,51 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="content flex">
+            <a href="javascript:;" (click)="goBack()" class="govuk-back-link">Back</a>
+            <div *ngIf="multipleOrgExists">
+                <h1 class="govuk-heading-xl page-title">
+                    Duplicate organisations registered</h1>
+                <p class="govuk-body-l">More than one organisation with that name is registered. Please provide us with
+                    one of
+                    the identifying options below to proceed.</p>
+                <app-cii-options (onOrgSeleceted)="onOrgSelected($event)"></app-cii-options>
+            </div>
+            <div *ngIf="singleOrgExists">
+                <h1 class="govuk-heading-xl page-title">
+                    Your organisation is already registered</h1>
+                <p class="govuk-body-l">There is already an administrator for your organisation. Press ‘Continue’ to
+                    confirm
+                    that the information below is correct and request access from the administrator.</p>
+                <app-reg-org-details ciiOrgId={{ciiOrgId}}></app-reg-org-details>
+                <div class="govuk-form-group">
+                    <button id="continueNotRegistered" type="button" class="govuk-button" data-module="govuk-button"
+                        (click)="onContinueSinglrOrgRegistered()">Continue</button>
+                </div>
+            </div>
+            <div *ngIf="orgNotExists">
+                <h1 class="govuk-heading-xl page-title">
+                    Your organisation is not registered</h1>
+                <p class="govuk-body-l">To continue, register with us to create a secure account for your organisation
+                    and
+                    access all our services in one place. You cannot create an individual account until your
+                    organisation is
+                    registered. If you choose not to be an administrator you can nominate a colleague.</p>
+
+                <h2><strong>When you register, you will be:</strong></h2>
+                <ul>
+                    <li><b>The administrator of your organisation's account</b></li>
+                    <li>Responsible for managing users and creating groups</li>
+                    <li>Able to edit your organisation's details</li>
+                    <li>The sole admin user, although you can add more</li>
+                </ul>
+                <p>
+                    Registering takes around 10 minutes.
+                </p>
+                <div class="govuk-form-group">
+                    <button id="continueNotRegistered" type="button" class="govuk-button" data-module="govuk-button"
+                        (click)="onContinueNotRegistered()">Continue</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>

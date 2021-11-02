@@ -45,7 +45,7 @@ export class ManageOrgRegStep2Component extends BaseComponent implements OnInit 
       next: result => {
         this.scheme = result[0].scheme;
         this.schemeName = result[0].schemeName;
-        localStorage.setItem('scheme_name', JSON.stringify(this.schemeName));
+        localStorage.setItem('scheme_name', this.schemeName);
       }
     });
   }
@@ -63,9 +63,13 @@ export class ManageOrgRegStep2Component extends BaseComponent implements OnInit 
     if (this.txtValue && this.txtValue.length > 0) {
       this.router.navigateByUrl(`manage-org/register/search/${this.scheme}?id=${encodeURIComponent(this.txtValue)}`);
     }
-    else{
+    else {
       this.scrollHelper.scrollToFirst('error-summary');
     }
+  }
+
+  public onBackClick() {
+    this.router.navigateByUrl('manage-org/register/type');
   }
 
   public onSelect(item: any) {
@@ -78,7 +82,7 @@ export class ManageOrgRegStep2Component extends BaseComponent implements OnInit 
     this.submitted = false;
     this.txtValue = '';
     localStorage.setItem('scheme', this.scheme);
-    localStorage.setItem('scheme_name', JSON.stringify(item.schemeName));
+    localStorage.setItem('scheme_name', item.schemeName);
   }
 
 }

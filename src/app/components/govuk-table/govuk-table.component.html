@@ -56,10 +56,10 @@
   <ul>
     <li>
       <a *ngIf="currentPage != 1" href="javascript:;" (click)="onSetPageClick(currentPage-1)" aria-label="Previous">
-        <span aria-hidden="true">{{ 'PREVIOUS' | translate }}</span>
+        <span>{{ 'PREVIOUS' | translate }}</span>
       </a>
       <a *ngIf="currentPage == 1" class="disabled" aria-label="Previous">
-        <span aria-hidden="true">{{ 'PREVIOUS' | translate }}</span>
+        <span>{{ 'PREVIOUS' | translate }}</span>
       </a>
     </li>
     <li *ngFor="let page of totalPagesArray;">
@@ -68,10 +68,10 @@
     </li>
     <li class="inline-list">
       <a *ngIf="currentPage != pageCount" href="javascript:;" (click)="onSetPageClick(currentPage+1)" aria-label="Next">
-        <span aria-hidden="true">{{ 'NEXT' | translate }}</span>
+        <span>{{ 'NEXT' | translate }}</span>
       </a>
       <a *ngIf="currentPage == pageCount" class="disabled" aria-label="Next">
-        <span aria-hidden="true">{{ 'NEXT' | translate }}</span>
+        <span>{{ 'NEXT' | translate }}</span>
       </a>
     </li>
   </ul>
