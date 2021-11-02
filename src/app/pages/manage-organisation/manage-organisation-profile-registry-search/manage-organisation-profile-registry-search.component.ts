@@ -50,7 +50,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
         console.log(result);
         this.scheme = result[0].scheme;
         this.schemeName = result[0].schemeName;
-        localStorage.setItem('scheme_name', JSON.stringify(this.schemeName));
+        localStorage.setItem('scheme_name', this.schemeName);
       }
     });
   }
@@ -83,6 +83,6 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
     this.submitted = false;
     this.txtValue = '';
     localStorage.setItem('scheme', this.scheme);
-    localStorage.setItem('scheme_name', JSON.stringify(item.schemeName));
+    localStorage.setItem('scheme_name', item.schemeName);
   }
 }

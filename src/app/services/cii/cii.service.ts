@@ -12,7 +12,7 @@ import { CiiOrgIdentifiersDto } from 'src/app/models/org';
 })
 export class ciiService {
 
-  public url: string = environment.uri.api.postgres+"/cii";
+  public url: string = environment.uri.api.postgres + "/cii";
 
   constructor(private httpClient: HttpClient) {
 
@@ -46,6 +46,29 @@ export class ciiService {
   deleteRegistry(orgId: string, scheme: string, id: string): Observable<any> {
     const url = `${this.url}/additional-identifiers?organisation-id=${encodeURIComponent(orgId)}&scheme=${encodeURIComponent(scheme)}&identifier=${encodeURIComponent(id)}`
     return this.httpClient.delete(url);
+  }
+
+  public getSchemaName(schema: string): string {
+    switch (schema) {
+      case 'GB-COH': {
+        return 'Companies House';
+      }
+      case 'US-DUN': {
+        return 'Dun & Bradstreet';
+      }
+      case 'GB-CHC': {
+        return 'Charities Commission for England and Wales';
+      }
+      case 'GB-SC': {
+        return 'Scottish Charities Commission';
+      }
+      case 'GB-NIC': {
+        return 'Northern Ireland Charities Commission';
+      }
+      default: {
+        return '';
+      }
+    }
   }
 
 }

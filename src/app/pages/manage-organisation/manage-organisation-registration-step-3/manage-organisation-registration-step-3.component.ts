@@ -41,7 +41,7 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
   }
 
   ngOnInit() {
-    this.schemeName = JSON.parse(localStorage.getItem('scheme_name') + '').replace('"', '').replace('"', '');
+    this.schemeName = localStorage.getItem('scheme_name') ?? '';
     this.route.params.subscribe(params => {
       this.routeParams = params;
       if (this.id && params.scheme) {
@@ -65,6 +65,10 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
         });
       }
     });
+  }
+
+  public onBackClick() {
+    this.router.navigateByUrl('manage-org/register/search');
   }
 
   public onSubmit() {

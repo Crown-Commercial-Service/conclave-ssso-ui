@@ -2,11 +2,15 @@
   float: left;
   width: 25%;
   padding: 0 10px;
+  margin-bottom: 20px;
 }
 
 /* Remove extra left and right margins, due to padding */
 .row {
   margin: 0 -5px;
+  width: 100%;
+  flex-wrap: wrap;
+  display: flex;
 }
 
 /* Clear floats after the columns */
@@ -28,11 +32,12 @@
 /* Style the counter cards */
 .card {
   // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
   padding: 16px;
-  margin-bottom: 30px;
   text-align: center;
   background-color: #f1f1f1;
   min-height: 150px;
+  height: 100%;
   border: 1px solid grey;
 
   a {
