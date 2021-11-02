@@ -1,6 +1,18 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
-  <p class="govuk-body-l">Please check your company details again</p>
-  <p><a id="searchWithDifferentIdLink" routerLink="/manage-org/register/search">Search with a different organisation ID</a></p>
-  <p><a id="submitClaimLink" href="https://www.crowncommercial.gov.uk/contact" target="_blank">Submit a claim form</a></p>
+  <a href="javascript:;" (click)="goBack()" class="navigation-text govuk-back-link">Back</a>
+  <p class="govuk-body-l">Please check your organisation's details and try again</p>
+  <p><a id="searchWithDifferentIdLink" class="navigation-text" routerLink="/manage-org/register/search">Search with a different registry / ID</a></p>
+  <div style="margin-top:30px;" class="form-group">
+    <div style="display:inline-block">
+      <hr>
+    </div>
+    <div style="display:inline-block; position: relative; width: 70px;height: 20px;">
+      <span style="position: absolute; left: 25px;font-weight: 500;">Or</span>
+    </div>
+    <div style="display:inline-block">
+      <hr>
+    </div>
+  </div>
+  <p><a class="navigation-text" id="submitClaimLink" href="https://www.crowncommercial.gov.uk/contact" target="_blank">Contact CCS</a></p>
 </div>

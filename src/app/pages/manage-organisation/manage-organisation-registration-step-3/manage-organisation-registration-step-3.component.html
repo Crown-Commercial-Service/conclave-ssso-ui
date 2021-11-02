@@ -1,6 +1,6 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex" *ngIf="item$ | async as i">
-  <a routerLink="/manage-org/register/search" class="govuk-back-link">Back</a>
+  <a href="javascript:;" (click)="onBackClick()" class="govuk-back-link">Back</a>
   <h1 class="govuk-heading-xl page-title">Confirm your organisation's details</h1>
   <div>
     <div>

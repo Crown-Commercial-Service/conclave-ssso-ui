@@ -47,7 +47,7 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
   }
 
   ngOnInit() {
-    this.schemeName = JSON.parse(localStorage.getItem('scheme_name') + '').replace('"', '').replace('"', '');
+    this.schemeName = localStorage.getItem('scheme_name') ?? '';
     this.route.params.subscribe(params => {
       this.routeParams = params;
       if (this.id && params.scheme) {

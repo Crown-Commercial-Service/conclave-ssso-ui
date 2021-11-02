@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,16 +22,17 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   submitted: boolean = false;
   userTitleEnum = UserTitleEnum;
   ciiOrganisationInfo: CiiOrganisationDto;
-
+  @ViewChildren('input') inputs!: QueryList<ElementRef>;
+  
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
+
     this.formGroup = this.formBuilder.group({
-      firstName: [localStorage.getItem("new_user_firstName"), Validators.compose([Validators.required])],
-      lastName: [localStorage.getItem("new_user_lastName"), Validators.compose([Validators.required])],
-      email: [localStorage.getItem("new_user_email"), Validators.compose([Validators.required, Validators.email])],
-      title: [null]
+      firstName: ['', Validators.compose([Validators.required])],
+      lastName: ['', Validators.compose([Validators.required])],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
     });
     this.ciiOrganisationInfo = {}
   }
@@ -39,6 +40,12 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   ngOnInit() {
     let ciiOrganisationInfoString = localStorage.getItem('cii_organisation') || "";
     this.ciiOrganisationInfo = JSON.parse(ciiOrganisationInfoString);
+    let orgreginfo = JSON.parse(sessionStorage.getItem('orgreginfo') ?? '');
+    if (orgreginfo != '') {
+      this.formGroup.controls['firstName'].setValue(orgreginfo.adminUserFirstName);
+      this.formGroup.controls['lastName'].setValue(orgreginfo.adminUserLastName);
+      this.formGroup.controls['email'].setValue(orgreginfo.adminEmail);
+    }
   }
 
   public onSubmit(form: FormGroup) {
@@ -79,6 +86,10 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
           }
         });
     }
+  }
+
+  setFocus(inputIndex: number) {
+    this.inputs.toArray()[inputIndex].nativeElement.focus();
   }
 
   /**
