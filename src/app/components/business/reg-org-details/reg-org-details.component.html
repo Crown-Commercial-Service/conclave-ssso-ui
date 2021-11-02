@@ -1,0 +1,51 @@
+<!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-table__caption--l">Organisation details</caption>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Organisation</th>
+          <td class="govuk-table__cell">{{orgRegInfo.orgName}}</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Address</th>
+          <td class="govuk-table__cell">
+            {{ ciiOrg?.address?.streetAddress }}<br *ngIf="ciiOrg?.address?.streetAddress" />
+            {{ ciiOrg?.address?.locality }}<br *ngIf="ciiOrg?.address?.locality" />
+            {{ ciiOrg?.address?.region }}<br *ngIf="ciiOrg?.address?.region" />
+            {{ ciiOrg?.address?.postalCode }}<br *ngIf="ciiOrg?.address?.postalCode" />
+            {{ ciiOrg?.address?.countryName }}
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">{{schemeName}} Registered Number</th>
+          <td class="govuk-table__cell">
+            {{ ciiOrg?.identifier?.id }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-table__caption--l">
+        Your details</caption>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">
+            First name</th>
+          <td class="govuk-table__cell">{{orgRegInfo.adminUserFirstName}}</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">
+            Last name</th>
+          <td class="govuk-table__cell">{{orgRegInfo.adminUserLastName}}</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Organisation email</th>
+          <td class="govuk-table__cell">{{orgRegInfo.adminEmail}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

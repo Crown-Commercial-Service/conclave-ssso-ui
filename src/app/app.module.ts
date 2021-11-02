@@ -41,7 +41,6 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
 import { TokenComponent } from './pages/token/token.component';
 import { AuthSuccessComponent } from './pages/auth-success/auth-success.component';
 import { RegistrationSuccessComponent } from './pages/registration-success/registration-success.component';
-import { ManageOrganisationLoginComponent } from './pages/manage-organisation/manage-organisation-login/manage-organisation-login.component';
 import { ManageOrgRegStep1Component } from './pages/manage-organisation/manage-organisation-registration-step-1/manage-organisation-registration-step-1.component';
 import { ManageOrgRegStep1BComponent } from './pages/manage-organisation/manage-organisation-registration-step-1b/manage-organisation-registration-step-1b.component';
 import { ManageOrgRegStep2Component } from './pages/manage-organisation/manage-organisation-registration-step-2/manage-organisation-registration-step-2.component';
@@ -138,6 +137,14 @@ import { SendMFAResetNotificationSuccessComponent } from './pages/mfa-reset/send
 import { GoogleTagManagerModule } from 'angular-google-tag-manager';
 import { environment } from 'src/environments/environment';
 import { ResendLinkSuccessComponent } from './pages/resend-link-success/resend-link-success';
+import { ManageOrgRegSearchComponent } from './pages/manage-organisation/manage-reg-organisation-search/manage-reg-organisation-search.component';
+import { ManageOrgRegSearchStatusComponent } from './pages/manage-organisation/manage-reg-organisation-status/manage-reg-organisation-status.component';
+import { ManageOrgRegNotRegisteredComponent } from './pages/manage-organisation/manage-reg-organisation-not-registered/manage-reg-organisation-not-registered.component';
+import { CIIOptions } from './components/business/cii-options/cii-options.component';
+import { CIIOrgDetails } from './components/business/cii-details/cii-details.component';
+import { ManageOrgRegCIIOrgDisplayComponent } from './pages/manage-organisation/manage-reg-organisation-cii-display.component/manage-reg-organisation-cii-display.component';
+import { OrgRegDetails } from './components/business/reg-org-details/reg-org-details.component';
+import { ManageOrgRegNotifyAdminComponent } from './pages/manage-organisation/manage-reg-organisation-admin-notify/manage-reg-organisation-admin-notify.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -161,8 +168,10 @@ export function createTranslateLoader(http: HttpClient) {
     ChangePasswordComponent,
     TokenComponent,
     AuthSuccessComponent,
+    CIIOptions,
+    CIIOrgDetails,
+    OrgRegDetails,
     RegistrationSuccessComponent,
-    ManageOrganisationLoginComponent,
     ManageOrganisationProfileComponent,
     ManageOrganisationProfileSuccessComponent,
     NominateComponent,
@@ -244,7 +253,12 @@ export function createTranslateLoader(http: HttpClient) {
     HelpAndSupportComponent,
     MFAResetComponent,
     SendMFAResetNotificationComponent,
-    SendMFAResetNotificationSuccessComponent
+    SendMFAResetNotificationSuccessComponent,
+    ManageOrgRegSearchComponent,
+    ManageOrgRegSearchStatusComponent,
+    ManageOrgRegNotRegisteredComponent,
+    ManageOrgRegCIIOrgDisplayComponent,
+    ManageOrgRegNotifyAdminComponent
   ],
   imports: [
     // BrowserModule,

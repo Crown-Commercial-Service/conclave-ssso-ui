@@ -1,0 +1,54 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="content flex">
+            <a href="javascript:;" (click)="goBack()" class="navigation-text govuk-back-link">Back</a>
+            <h1 class="govuk-heading-xl page-title">
+                Do you want to be the administrator of your organisation?
+            </h1>
+            <p class="govuk-body-l">By registering your organisation, you will be the administrator for the account.
+            </p>
+            <div style="background-color: #f8f8f8;" class="govuk-inset-text">
+
+                <h2> Before you continue</h2>
+                <p>
+                    <b>If you do not want to become the administrator</b> of your organisation's
+                    account you can<b> nominate a colleague to register to become an administrator.</b>
+                </p>
+                <p>
+                    This is a permanent position, but can be passed on to others
+                </p>
+            </div>
+
+            <div class="govuk-form-group">
+                <div class="govuk-radios">
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" type="radio" id="rduseradmin" value="useradmin"
+                            [(ngModel)]="adminSelectionMode" />
+                        <label for="rduseradmin" class="govuk-label govuk-radios__label">
+                            I am happy being the administrator for my organisation
+                        </label>
+                    </div>
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" type="radio" id="rdnominateadmin" value="nominateadmin"
+                            [(ngModel)]="adminSelectionMode" />
+                        <label for="rdnominateadmin" class="govuk-label govuk-radios__label">
+                            I would like to nominate a colleague to register to become an administrator
+                        </label>
+                    </div>
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" type="radio" id="rdunkownadmin" value="unkownadmin"
+                            [(ngModel)]="adminSelectionMode" />
+                        <label for="rdunkownadmin" class="govuk-label govuk-radios__label">
+                            I do not know who my administrator would be
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-form-group">
+                <button id="continueNotRegistered" type="button" class="govuk-button" data-module="govuk-button"
+                    (click)="onContinueClick()">Continue</button>
+            </div>
+            <p><a class="navigation-text" routerLink="/home">Return to Crown Commercial Service homepage</a></p>
+        </div>
+    </div>
+</div>
