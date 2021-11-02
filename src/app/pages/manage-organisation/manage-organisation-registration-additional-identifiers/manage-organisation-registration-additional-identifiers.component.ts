@@ -38,7 +38,7 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
   }
 
   ngOnInit() {
-    this.schemeName = JSON.parse(localStorage.getItem('scheme_name')+'').replace('"','').replace('"','');
+    this.schemeName = localStorage.getItem('scheme_name') ?? '';
     this.route.params.subscribe(params => {
       this.routeParams = params;
       this.organisation = JSON.parse(localStorage.getItem('cii_organisation')+'');

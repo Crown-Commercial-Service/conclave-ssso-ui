@@ -16,8 +16,21 @@ export class OrganisationService {
 
   constructor(private http: HttpClient) { }
 
-  get(orgName: string, currentPage : number,pageSize : number ): Observable<any> {
+  get(orgName: string, currentPage: number, pageSize: number): Observable<any> {
     const url = `${this.url}?currentPage=${currentPage}&pageSize=${pageSize}&organisation-name=` + encodeURIComponent(orgName);
+    var user = this.http.get<any>(url).pipe(
+      map((data: any) => {
+        return data;
+      }), catchError(error => {
+        console.log(error);
+        return throwError(error);
+      })
+    )
+    return user;
+  }
+
+  getByName(orgName: string): Observable<any> {
+    const url = `${this.url}/orgs-by-name?organisation-name=` + encodeURIComponent(orgName);
     var user = this.http.get<any>(url).pipe(
       map((data: any) => {
         return data;
@@ -42,7 +55,7 @@ export class OrganisationService {
     return user;
   }
 
-  getUsers(name:string, currentPage : number, pageSize : number): Observable<any> {
+  getUsers(name: string, currentPage: number, pageSize: number): Observable<any> {
     const url = `${this.url}/users?currentPage=${currentPage}&pageSize=${pageSize}&name=` + encodeURIComponent(name);
     var user = this.http.get<OrganisationUserDto[]>(url).pipe(
       map((data: OrganisationUserDto[]) => {
@@ -53,6 +66,18 @@ export class OrganisationService {
       })
     )
     return user;
+  }
+
+
+  requestOrgAdminToJoinOrg(orgId: string, firstName: string, lastName: string, email: string): Observable<any> {
+    const url = `${this.url}/org-admin-join-notification`;
+    return this.http.post(url, { 'firstName': firstName, 'lastName': lastName, 'email': email, 'ciiOrgId': orgId }).pipe(
+      map(() => {
+        return true;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
   }
 
   registerOrganisation(organisationRegisterDto: OrganisationRegisterDto): Observable<any> {

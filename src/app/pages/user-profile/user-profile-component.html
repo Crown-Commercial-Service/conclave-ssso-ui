@@ -68,7 +68,7 @@
                             <div id="email-hint" class="govuk-hint">
                                 {{ 'USER_EMAIL_HINT' | translate }}
                             </div>
-                            <input readonly aria-hidden="true" class="govuk-input" id="email" name="email" type="email"
+                            <input [readonly]="true" [class.disabled]="true" class="govuk-input" id="email" name="email" type="email"
                                 [value]="userName">
                         </div>
                         <div class="govuk-form-group" id="user-mfa-form-group">

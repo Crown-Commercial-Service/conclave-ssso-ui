@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
   toggleControl = new FormControl(false);
   opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/sessions/?origin=' + environment.uri.web.dashboard);
   rpIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.web.dashboard + '/assets/rpIFrame.html');
+  ccsContactUrl: string = environment.uri.ccsContactUrl;
   constructor(private sanitizer: DomSanitizer, private globalRouteService: GlobalRouteService, private overlay: OverlayContainer, private translate: TranslateService, protected uiStore: Store<UIState>, private router: Router,
     private route: ActivatedRoute, public authService: AuthService, private gtmService: GoogleTagManagerService,
     public loadingIndicatorService: LoadingIndicatorService, private titleService: Title) {
@@ -46,7 +47,7 @@ export class AppComponent implements OnInit {
           return null;
         }
       }
-      
+
       return null;
     })
     ).subscribe((data: any) => {
@@ -65,8 +66,10 @@ export class AppComponent implements OnInit {
   async ngOnInit() {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
-        //this.currentGlobalRoute = (<NavigationEnd>event).url;
-        localStorage['currentGlobalRoute'] = (<NavigationEnd>event).url;
+        if ((<NavigationEnd>event).url != localStorage['currentGlobalRoute']) {
+          sessionStorage['previousGlobalRoute'] = localStorage['currentGlobalRoute'];
+          localStorage['currentGlobalRoute'] = (<NavigationEnd>event).url;
+        }
       }
     });
 
