@@ -21,26 +21,27 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ManageOrgRegRightToBuyComponent extends BaseComponent implements OnInit {
+export class ManageOrgRegRightToBuyComponent extends BaseComponent {
 
   defaultChoice: string = "supplier";
 
   constructor(private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper) {
-    super(uiStore,viewportScroller,scrollHelper);
+    super(uiStore, viewportScroller, scrollHelper);
   }
 
-  ngOnInit() {
-
+  public onBackClick() {
+    this.router.navigateByUrl('manage-org/register/newreg');
   }
 
   public onSubmit() {
     localStorage.setItem("manage-org_reg_type", this.defaultChoice);
-    let regType = localStorage.getItem("manage-org_reg_type")+'';
+    let regType = localStorage.getItem("manage-org_reg_type") + '';
     if (regType !== 'supplier') {
       this.router.navigateByUrl('manage-org/register/buyer-type');
     } else {
-      this.router.navigateByUrl(`manage-org/register/start`);
+      //this.router.navigateByUrl(`manage-org/register/start`);
+      this.router.navigateByUrl(`manage-org/register/search`);
     }
   }
 }

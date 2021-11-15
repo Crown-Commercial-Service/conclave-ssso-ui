@@ -16,10 +16,10 @@ import { UIState } from 'src/app/store/ui.states';
   templateUrl: './manage-organisation-registration-error-not-my-organisation.component.html',
   styleUrls: ['./manage-organisation-registration-error-not-my-organisation.component.scss'],
   animations: [
-      slideAnimation({
-          close: { 'transform': 'translateX(12.5rem)' },
-          open: { left: '-12.5rem' }
-      })
+    slideAnimation({
+      close: { 'transform': 'translateX(12.5rem)' },
+      open: { left: '-12.5rem' }
+    })
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -27,7 +27,11 @@ import { UIState } from 'src/app/store/ui.states';
 export class ManageOrgRegOrgNotFoundComponent extends BaseComponent implements OnInit {
 
   constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
-    super(uiStore,viewportScroller,scrollHelper);
+    super(uiStore, viewportScroller, scrollHelper);
+  }
+
+  goBack() {
+    this.router.navigateByUrl(sessionStorage['previousGlobalRoute']);
   }
 
   ngOnInit() { }

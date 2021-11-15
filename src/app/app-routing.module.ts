@@ -8,7 +8,6 @@ import { TokenComponent } from './pages/token/token.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { AuthSuccessComponent } from './pages/auth-success/auth-success.component';
 import { RegistrationSuccessComponent } from './pages/registration-success/registration-success.component';
-import { ManageOrganisationLoginComponent } from './pages/manage-organisation/manage-organisation-login/manage-organisation-login.component';
 import { ManageOrgRegStep1Component } from './pages/manage-organisation/manage-organisation-registration-step-1/manage-organisation-registration-step-1.component';
 import { ManageOrgRegStep2Component } from './pages/manage-organisation/manage-organisation-registration-step-2/manage-organisation-registration-step-2.component';
 import { ManageOrgRegStep3Component } from './pages/manage-organisation/manage-organisation-registration-step-3/manage-organisation-registration-step-3.component';
@@ -95,6 +94,11 @@ import { MFAResetComponent } from './pages/mfa-reset/mfa-reset-component';
 import { SendMFAResetNotificationComponent } from './pages/mfa-reset/send-notification/send-mfa-reset-notification';
 import { SendMFAResetNotificationSuccessComponent } from './pages/mfa-reset/send-notification-success/send-mfa-reset-notification-success';
 import { ResendLinkSuccessComponent } from './pages/resend-link-success/resend-link-success';
+import { ManageOrgRegSearchComponent } from './pages/manage-organisation/manage-reg-organisation-search/manage-reg-organisation-search.component';
+import { ManageOrgRegSearchStatusComponent } from './pages/manage-organisation/manage-reg-organisation-status/manage-reg-organisation-status.component';
+import { ManageOrgRegNotRegisteredComponent } from './pages/manage-organisation/manage-reg-organisation-not-registered/manage-reg-organisation-not-registered.component';
+import { ManageOrgRegCIIOrgDisplayComponent } from './pages/manage-organisation/manage-reg-organisation-cii-display.component/manage-reg-organisation-cii-display.component';
+import { ManageOrgRegNotifyAdminComponent } from './pages/manage-organisation/manage-reg-organisation-admin-notify/manage-reg-organisation-admin-notify.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -115,7 +119,12 @@ const routes: Routes = [
   { path: 'token', data: { title: 'Token' }, canActivate: [AuthGuard], pathMatch: 'full', component: TokenComponent },
   { path: 'authsuccess', data: { title: 'Auth Success' }, component: AuthSuccessComponent },
   { path: 'registration/success', data: { title: 'Success' }, component: RegistrationSuccessComponent },
-  { path: 'manage-org/login', data: { title: 'Login' }, pathMatch: 'full', component: ManageOrganisationLoginComponent },
+  //Search paths//
+  { path: 'manage-org/register/initial-search', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchComponent },
+  { path: 'manage-org/register/initial-search-status', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchStatusComponent },
+  { path: 'manage-org/register/newreg', data: { title: 'Admin Details - Registration' }, pathMatch: 'full', component: ManageOrgRegNotRegisteredComponent },
+  { path: 'manage-org/register/cii-search-result', data: { title: 'Organization Details - Registration' }, pathMatch: 'full', component: ManageOrgRegCIIOrgDisplayComponent },
+  { path: 'manage-org/register/notify-join-org', data: { title: 'Notify Organisation Administrators - Registration' }, pathMatch: 'full', component: ManageOrgRegNotifyAdminComponent },
   { path: 'manage-org/register', data: { title: 'Register' }, pathMatch: 'full', component: ManageOrgRegStep1Component },
   { path: 'manage-org/register/type', data: { title: 'Buyer/Supplier Type - Registration' }, pathMatch: 'full', component: ManageOrgRegRightToBuyComponent },
   { path: 'manage-org/register/buyer-type', data: { title: 'Buyer Type - Registration' }, pathMatch: 'full', component: ManageOrgRegBuyerTypeComponent },
