@@ -8,6 +8,6 @@
   <!-- <p><a routerLink="/manage-org/profile/{{organisationId}}/registry/search">Search with a different organisation ID</a></p> -->
   <!-- <p><a (click)="goBack()">Search with a different organisation ID</a></p> -->
   <p *ngIf="reason !== 'generic'"><a class="navigation-text" routerLink="/manage-org/profile/registry/search">Search with a different organisation ID</a></p>
-  <p *ngIf="reason !== 'generic'"><a class="navigation-text" href="{{ccsContactUrl}}" target="_blank">Submit a claim form</a></p>
+  <p *ngIf="reason !== 'generic'"><a class="navigation-text" href="{{ccsContactUrl}}" target="_blank">Contact CCS</a></p>
   <p *ngIf="reason === 'generic'"><a class="navigation-text" routerLink="/manage-org/profile/registry/search">Back</a></p>
 </div>
