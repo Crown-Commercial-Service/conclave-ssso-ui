@@ -29,17 +29,21 @@ export interface UserRequestDetail {
     id: number,
     groupIds?: number[];
     roleIds?: number[];
-    identityProviderId?: number;
+    identityProviderIds?: number[];
 }
 
 export interface UserResponseDetail{
     id : number,
-    identityProvider?: string;
-    identityProviderDisplayName?: string;
     userGroups?: UserGroup[];
     canChangePassword: boolean;
     rolePermissionInfo?: RolePermissionInfo[];
-    identityProviderId?: number;    
+    identityProviders?: UserIdentityProviderInfo[]
+}
+
+export interface UserIdentityProviderInfo{
+    identityProviderId?: number;
+    identityProvider?: string;
+    identityProviderDisplayName?: string;
 }
 
 export interface RolePermissionInfo {
