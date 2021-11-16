@@ -69,7 +69,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         let user = await this.userService.getUser(this.userName).toPromise();
         if (user != null) {
             this.canChangePassword = user.detail.canChangePassword;
-            this.identityProviderDisplayName = user.detail.identityProviderDisplayName || '';
+            this.identityProviderDisplayName = user.detail.identityProviders?.map((idp) => idp.identityProviderDisplayName).join(",") || "";
             this.userGroups = user.detail.userGroups || [];
             this.userGroups = this.userGroups.filter((group, index, self) =>
                 self.findIndex(t => t.groupId === group.groupId && t.group === group.group) === index);

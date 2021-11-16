@@ -149,7 +149,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
   }
 
   isUserPasswordIdentifier(): boolean {
-    if (this.user.detail.identityProvider === 'Username-Password-Authentication') {
+    if (this.user.detail.identityProviders?.some(idp => idp.identityProvider === 'Username-Password-Authentication')) {
       return true;
     }
     return false;

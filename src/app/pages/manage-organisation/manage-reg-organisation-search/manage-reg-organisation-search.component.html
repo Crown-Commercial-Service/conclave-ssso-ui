@@ -14,23 +14,23 @@
                         <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
                         <div class="govuk-error-summary__body">
                             <ul class="govuk-list govuk-error-summary__list">
-                                <a onClick="return false;" (click)="setFocus(0)" href="#"
+                                <a onClick="return false;" (click)="setFocus(0)" href="javascript:;"
                                     *ngIf="formGroup.controls['organisation'].hasError('required')">
                                     <li>Enter your organisation name</li>
                                 </a>
-                                <a onClick="return false;" (click)="setFocus(1)" href="#"
+                                <a onClick="return false;" (click)="setFocus(1)" href="javascript:;"
                                     *ngIf="formGroup.controls['firstName'].hasError('required')">
                                     <li>Enter your first name</li>
                                 </a>
-                                <a onClick="return false;" (click)="setFocus(2)" href="#"
+                                <a onClick="return false;" (click)="setFocus(2)" href="javascript:;"
                                     *ngIf="formGroup.controls['lastName'].hasError('required')">
                                     <li>Enter your last name</li>
                                 </a>
-                                <a onClick="return false;" (click)="setFocus(3)" href="#"
+                                <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
                                     *ngIf="formGroup.controls['email'].hasError('required')">
                                     <li>Enter your email address</li>
                                 </a>
-                                <a onClick="return false;" (click)="setFocus(3)" href="#"
+                                <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
                                     *ngIf="formGroup.controls['email'].hasError('email')">
                                     <li>Enter an email address in the correct format, like name@example.com</li>
                                 </a>
