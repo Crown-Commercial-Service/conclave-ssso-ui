@@ -51,7 +51,6 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
             lastName: ['', Validators.compose([Validators.required])],
             mfaEnabled: [false],
             userName: ['', Validators.compose([Validators.required, Validators.email])],
-            signInProviderControl: ['', Validators.compose([Validators.required])]
         }));
         let queryParams = this.activatedRoute.snapshot.queryParams;
         this.state = this.router.getCurrentNavigation()?.extras.state;
@@ -141,7 +140,10 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
 
     async getIdentityProviders() {
         this.identityProviders = await this.organisationGroupService.getOrganisationIdentityProviders(this.organisationId).toPromise();
-        this.formGroup.controls['signInProviderControl'].setValue(this.userProfileResponseInfo.detail.identityProviderId || '');
+        this.identityProviders.forEach(idp =>{
+            let havingIdp = this.userProfileResponseInfo.detail.identityProviders?.some(userIdp => userIdp.identityProviderId == idp.id);
+            this.formGroup.addControl('signInProviderControl_' + idp.id, this.formBuilder.control(havingIdp ? true : ''));
+        });
     }
 
     async getOrgGroups() {
@@ -191,12 +193,8 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
             this.userProfileRequestInfo.lastName = form.get('lastName')?.value;
             this.userProfileRequestInfo.userName = form.get('userName')?.value;
             this.userProfileRequestInfo.mfaEnabled = form.get('mfaEnabled')?.value;
-            let identityProviderId = form.get('signInProviderControl')?.value || 0;
-            this.userProfileRequestInfo.detail.identityProviderId = identityProviderId;
-
+            this.userProfileRequestInfo.detail.identityProviderIds = this.getSelectedIdpIds(form);
             this.userProfileRequestInfo.detail.groupIds = this.getSelectedGroupIds(form);
-
-
             this.userProfileRequestInfo.detail.roleIds = this.getSelectedRoleIds(form);
 
             if (this.isEdit) {
@@ -211,6 +209,16 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
         }
     }
 
+    getSelectedIdpIds(form: FormGroup) {
+        let selectedIdpIds: number[] = [];
+        this.identityProviders.map(group => {
+            if (form.get('signInProviderControl_' + group.id)?.value === true) {
+                selectedIdpIds.push(group.id);
+            }
+        });
+        return selectedIdpIds;
+    }
+
     getSelectedGroupIds(form: FormGroup) {
         let selectedGroupIds: number[] = [];
         this.orgGroups.map(group => {
@@ -218,7 +226,6 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
                 selectedGroupIds.push(group.groupId);
             }
         });
-
         return selectedGroupIds;
     }
 
@@ -229,7 +236,6 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
                 selectedRoleIds.push(role.roleId);
             }
         });
-
         return selectedRoleIds;
     }
 
@@ -296,6 +302,17 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
     formValid(form: FormGroup): Boolean {
         if (form == null) return false;
         if (form.controls == null) return false;
+        if (this.identityProviders != null && this.identityProviders != undefined && this.identityProviders != []) {
+            let isIdpSelected = this.identityProviders.some((idp) => form.get('signInProviderControl_' + idp.id)?.value === true);
+            if (!isIdpSelected) {
+                form.setErrors({ identityProviderRequired: true });
+                this.scrollHelper.scrollToFirst('error-summary');
+                return false;
+            }
+            else {
+                form.setErrors(null);
+            }
+        }
         return form.valid;
     }
 
@@ -329,12 +346,23 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
             detail: {
                 id: this.userProfileResponseInfo.detail.id,
                 canChangePassword: this.userProfileResponseInfo.detail.canChangePassword,
-                identityProviderId: this.formGroup.get('signInProviderControl')?.value || 0,
+                identityProviders: [],
                 userGroups: [],
                 rolePermissionInfo: []
             },
             organisationId: this.organisationId,
         };
+
+        // Filter the selected identity providers and keep it in route change
+        let selectedIdpIds =  this.getSelectedIdpIds(this.formGroup);
+        selectedIdpIds.forEach(selectedIdpId => {
+            if (!(formData.detail.identityProviders?.some(ug => ug.identityProviderId == selectedIdpId))) {
+                formData.detail.identityProviders && formData.detail.identityProviders.push({
+                    identityProviderId: selectedIdpId
+                });
+            }
+        });
+
         // Filter the selected groups and keep it in route change
         let selectedGroupIds = this.getSelectedGroupIds(this.formGroup);
         selectedGroupIds.forEach(selectedGroupId => {
