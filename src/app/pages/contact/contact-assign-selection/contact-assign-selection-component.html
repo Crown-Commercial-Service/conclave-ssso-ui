@@ -28,7 +28,7 @@
         <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
                 <li *ngIf="formValid(selectionForm) == false && submitted">
-                    <a href="#" onClick="return false;" (click)="setFocus(0)">
+                    <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
                         {{ assigningSiteId != 0 ?  ('ERROR_SELECT_BELOW_OPTION' | translate) : ('ERROR_SELECT_ONE_OPTION' | translate) }} </a>
                 </li>
             </ul>

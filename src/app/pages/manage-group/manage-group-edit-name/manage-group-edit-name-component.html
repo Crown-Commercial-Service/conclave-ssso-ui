@@ -31,11 +31,11 @@
         <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
                 <li *ngIf="submitted && formGroup.controls.groupName.hasError('required')">
-                    <a href="#" onClick="return false;" (click)="setFocus(0)"> {{
+                    <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
                         'ERROR_GROUP_NAME_REQUIRED' | translate }} </a>
                 </li>
                 <li *ngIf="submitted && formGroup.controls.groupName.hasError('alreadyExists')">
-                    <a href="#" onClick="return false;" (click)="setFocus(0)"> {{
+                    <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
                         'ERROR_GROUP_NAME_EXISTS' | translate }}</a>
                 </li>
             </ul>

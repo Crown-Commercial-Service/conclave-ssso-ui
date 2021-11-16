@@ -28,19 +28,19 @@
       <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
           <li *ngIf="submitted && formGroup.controls.name.hasError('required')">
-            <a href="#" onClick="return false;" (click)="setFocus(0)"> {{
+            <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
               'ERROR_SITE_NAME' | translate }}</a>
           </li>
           <li *ngIf="submitted && formGroup.controls.streetAddress.hasError('required')">
-            <a href="#" onClick="return false;" (click)="setFocus(1)"> {{
+            <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
               'ERROR_STREET_ADDRESS' | translate }} </a>
           </li>
           <li *ngIf="submitted && formGroup.controls.postalCode.hasError('required')">
-            <a href="#" onClick="return false;" (click)="setFocus(2)"> {{
+            <a href="javascript:;" onClick="return false;" (click)="setFocus(2)"> {{
               'ERROR_POSTAL_CODE' | translate }} </a>
           </li>
           <li *ngIf="submitted && (formGroup.controls.countryCode.hasError('required') || serverError == 'INVALID_COUNTRY_CODE')">
-            <a href="#" onClick="return false;" (click)="setFocus(3)"> {{
+            <a href="javascript:;" onClick="return false;" (click)="setFocus(3)"> {{
               'ERROR_COUNTRY_CODE' | translate }} </a>
           </li>
         </ul>
