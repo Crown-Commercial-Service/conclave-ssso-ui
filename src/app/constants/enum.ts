@@ -42,9 +42,17 @@ export enum AssignedContactType {
     Site
 }
 
-export enum ContactAssignedStatus
-{
-  all,
-  original,
-  assigned
+export enum ContactAssignedStatus {
+    all,
+    original,
+    assigned
+}
+
+export enum BulkUploadStatus {
+    processing,
+    docUploadValidationFail,
+    validating,
+    validationFail,
+    migrating,
+    migrationCompleted
 }
