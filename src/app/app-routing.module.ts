@@ -99,6 +99,8 @@ import { ManageOrgRegSearchStatusComponent } from './pages/manage-organisation/m
 import { ManageOrgRegNotRegisteredComponent } from './pages/manage-organisation/manage-reg-organisation-not-registered/manage-reg-organisation-not-registered.component';
 import { ManageOrgRegCIIOrgDisplayComponent } from './pages/manage-organisation/manage-reg-organisation-cii-display.component/manage-reg-organisation-cii-display.component';
 import { ManageOrgRegNotifyAdminComponent } from './pages/manage-organisation/manage-reg-organisation-admin-notify/manage-reg-organisation-admin-notify.component';
+import { ManageUserBulkUploadComponent } from './pages/manage-user/manage-user-bulk-upload/manage-user-bulk-upload.component';
+import { ManageUserBulkUploadStatusComponent } from './pages/manage-user/manage-user-bulk-upload-status/manage-user-bulk-upload-status.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -162,6 +164,8 @@ const routes: Routes = [
   { path: 'manage-org/profile/:organisationId/registry/delete/confirmation/:scheme/:id', data: { title: 'Success - Remove Registry - Manage Organisation', roles: ['MANAGE_ORGS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageOrganisationRegistryDeleteConfirmationComponent },
   { path: 'manage-users', data: { title: 'Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserProfilesComponent },
   { path: 'manage-users/add-user-selection', data: { title: 'Select - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserAddSelectionComponent },
+  { path: 'manage-users/bulk-users', data: { title: 'Bulk Upload - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserBulkUploadComponent },
+  { path: 'manage-users/bulk-users/status/:id', data: { title: 'Bulk Upload - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserBulkUploadStatusComponent },
   { path: 'manage-users/add-user/details', data: { title: 'Add/Edit - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserAddSingleUserDetailComponent },
   { path: 'manage-users/confirm-reset-password', data: { title: 'Reset Password - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserConfirmResetPasswordComponent },
   { path: 'manage-users/confirm-user-delete', data: { title: 'Delete - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserDeleteConfirmComponent },
