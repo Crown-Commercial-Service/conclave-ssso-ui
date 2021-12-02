@@ -32,6 +32,9 @@ export class HttpJwtAuthInterceptor implements HttpInterceptor {
             if (!request.headers.has('Content-Type')) {
                 request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
             }
+            if (request.headers.get('Content-Type') === 'multipart/form-data'){// Content type should be undefined to calculate the boundary value by the browser
+                request = request.clone({ headers: request.headers.delete('Content-Type') });
+            }
             var cookie = this.getXsrfCookie();
             if (cookie != '' && cookie != undefined) {
                 request = request.clone({ headers: request.headers.set('X-XSRF-TOKEN', cookie) });
