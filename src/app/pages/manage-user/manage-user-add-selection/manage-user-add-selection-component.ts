@@ -56,6 +56,7 @@ export class ManageUserAddSelectionComponent extends BaseComponent implements On
             }
             else{
                 console.log("Add Multiple Users Selected");
+                this.router.navigateByUrl("manage-users/bulk-users");
             }
         }
     }
