@@ -17,7 +17,7 @@ export class BulkUploadService {
     uploadFile(organisationId: string, fileToUpload: File) {
         const url = `${this.url}/${organisationId}/bulk-users`;
         const formData: FormData = new FormData();
-        formData.append('file', fileToUpload, 'file');
+        formData.append('file', fileToUpload, fileToUpload.name);
 
         const options = {
             headers: new HttpHeaders().append('Content-Type', 'multipart/form-data')

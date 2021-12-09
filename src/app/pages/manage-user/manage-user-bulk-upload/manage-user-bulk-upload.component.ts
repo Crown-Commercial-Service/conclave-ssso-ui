@@ -11,14 +11,16 @@ import { environment } from 'src/environments/environment';
     templateUrl: './manage-user-bulk-upload.component.html',
     styleUrls: ['./manage-user-bulk-upload.component.scss']
 })
-export class ManageUserBulkUploadComponent implements OnInit {
+export class ManageUserBulkUploadComponent {
 
     organisationId: string;
     submitted: boolean = false;
     errorInvalidFileFormat: boolean = false;
     errorServer: boolean = false;
     errorRequired: boolean = false;
+    fileSizeExceedError: boolean = false;
     file: any;
+    maxFileSize: number = environment.bulkUploadMaxFileSizeInBytes / (1024 * 1024);
     bulkUploadTemplateUrl: string;
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -26,10 +28,6 @@ export class ManageUserBulkUploadComponent implements OnInit {
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,) {
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.bulkUploadTemplateUrl = environment.bulkUploadTemplateFileUrl;
-    }
-
-    ngOnInit() {
-
     }
 
     setFocus(inputIndex: number) {
@@ -45,14 +43,17 @@ export class ManageUserBulkUploadComponent implements OnInit {
 
     onContinueClick() {
         this.submitted = true;
+        this.resetError();
         if (this.validateFile()) {
-            this.submitted = false;
+            // this.submitted = false;
             this.bulkUploadService.uploadFile(this.organisationId, this.file).subscribe({
                 next: (response: BulkUploadResponse) => {
                     this.router.navigateByUrl(`manage-users/bulk-users/status/${response.id}`);
                 },
-                error: (error) => {
-                    console.log(error);
+                error: (err) => {
+                    if (err.error == 'INVALID_BULKUPLOAD_FILE_TYPE') {
+                        this.errorInvalidFileFormat = true;
+                    }
                 }
             });
         }
@@ -64,13 +65,21 @@ export class ManageUserBulkUploadComponent implements OnInit {
             this.errorRequired = true;
             return false;
         }
-        else {
-            return true;
+        else if (this.file.size >= environment.bulkUploadMaxFileSizeInBytes) {
+            this.fileSizeExceedError = true;
+            return false;
         }
+        return true;
+    }
+
+    resetError() {
+        this.errorInvalidFileFormat = false;
+        this.errorServer = false;
+        this.errorRequired = false;
+        this.fileSizeExceedError = false;
     }
 
     onCancelClick() {
-        console.log("cancel");
         this.router.navigateByUrl('manage-users/add-user-selection');
     }
 

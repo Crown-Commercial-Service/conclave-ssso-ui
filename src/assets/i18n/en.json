@@ -270,5 +270,6 @@
   "VALIDATION_SUCCESS_WITH_ERRORS": "Validation completed with errors.",
   "ERROR_DETAILS": "Errors in file",
   "ERROR_HEADING": "Error",
-  "ERROR_DESCRIPTION": "Error description"
+  "ERROR_DESCRIPTION": "Error description",
+  "ERROR_FILE_SIZE_ERROR":"File size should not exceed "
 }
