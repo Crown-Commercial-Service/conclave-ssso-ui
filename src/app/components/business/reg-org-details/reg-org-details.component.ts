@@ -47,6 +47,8 @@ export class OrgRegDetails extends BaseComponent implements OnInit, OnChanges {
     else {
       await this.ciiService.getOrgDetails(this.ciiOrgId).toPromise().then((response: any) => {
         this.ciiOrg = response;
+        this.orgRegInfo.orgName = this.ciiOrg?.identifier?.legalName;
+        sessionStorage.setItem('orgreginfo', JSON.stringify(this.orgRegInfo));
         this.schemeName = this.ciiService.getSchemaName(response.identifier.scheme)
       });
     }

@@ -21,34 +21,34 @@
 
             <div class="govuk-form-group">
                 <div class="govuk-radios">
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" type="radio" id="rduseradmin" value="useradmin"
+                    <div class="govuk-radios__item" id="orgAdminRadioSelection">
+                        <input class="govuk-radios__input" type="radio" id="orgAdminRadioButton" value="useradmin"
                             [(ngModel)]="adminSelectionMode" />
-                        <label for="rduseradmin" class="govuk-label govuk-radios__label">
+                        <label for="orgAdminRadioButton" class="govuk-label govuk-radios__label">
                             I am happy being the administrator for my organisation
                         </label>
                     </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" type="radio" id="rdnominateadmin" value="nominateadmin"
+                    <div class="govuk-radios__item" id="nominateAdminRadioSelection">
+                        <input class="govuk-radios__input" type="radio" id="nominateAdminRadioButton" value="nominateadmin"
                             [(ngModel)]="adminSelectionMode" />
-                        <label for="rdnominateadmin" class="govuk-label govuk-radios__label">
+                        <label for="nominateAdminRadioButton" class="govuk-label govuk-radios__label">
                             I would like to nominate a colleague to register to become an administrator
                         </label>
                     </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" type="radio" id="rdunkownadmin" value="unkownadmin"
+                    <div class="govuk-radios__item" id="unknownAdminRadioSelection">
+                        <input class="govuk-radios__input" type="radio" id="unknownAdminRadioButton" value="unkownadmin"
                             [(ngModel)]="adminSelectionMode" />
-                        <label for="rdunkownadmin" class="govuk-label govuk-radios__label">
+                        <label for="unknownAdminRadioButton" class="govuk-label govuk-radios__label">
                             I do not know who my administrator would be
                         </label>
                     </div>
                 </div>
             </div>
             <div class="govuk-form-group">
-                <button id="continueNotRegistered" type="button" class="govuk-button" data-module="govuk-button"
+                <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
                     (click)="onContinueClick()">Continue</button>
             </div>
-            <p><a class="navigation-text" routerLink="/home">Return to Crown Commercial Service homepage</a></p>
+            <p><a id="homeLink" class="navigation-text" routerLink="/home">Return to Crown Commercial Service homepage</a></p>
         </div>
     </div>
 </div>
