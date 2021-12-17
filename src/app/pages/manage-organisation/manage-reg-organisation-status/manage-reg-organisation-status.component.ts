@@ -25,9 +25,8 @@ export class ManageOrgRegSearchStatusComponent extends BaseComponent implements 
     ciiOrgId: string = '';
     schemeName: string = '';
 
-    constructor(private organisationService: OrganisationService,
-        private route: ActivatedRoute,
-        private router: Router, protected uiStore: Store<UIState>,
+    constructor(private organisationService: OrganisationService, private ciiService: ciiService,
+        private route: ActivatedRoute, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.route.snapshot.queryParams;
@@ -60,9 +59,29 @@ export class ManageOrgRegSearchStatusComponent extends BaseComponent implements 
     }
 
     public onOrgSelected(event: string) {
-        this.multipleOrgExists = false;
-        this.singleOrgExists = true;
-        this.ciiOrgId = event;
+        let identifier = event;
+        let scheme = localStorage.getItem('scheme') || "";
+        // Get the CIIorgId from schemes/identifier
+        this.ciiService.getIdentifierDetails(scheme, identifier).subscribe({
+            next: () => { // No organisation registered
+                this.multipleOrgExists = false;
+                this.singleOrgExists = false;
+                this.orgNotExists = true;
+            },
+            error: (error) => {
+                if (error.status == "404") {
+                    this.router.navigateByUrl("manage-org/register/error/notfound");
+                }
+                else if (error.status == "409") {
+                    this.ciiOrgId = error.error.organisationId;
+                    this.multipleOrgExists = false;
+                    this.singleOrgExists = true;
+                }
+                else {
+                    this.router.navigateByUrl("manage-org/register/error/generic");
+                }
+            }
+        });
     }
 
     public onContinueSinglrOrgRegistered() {
