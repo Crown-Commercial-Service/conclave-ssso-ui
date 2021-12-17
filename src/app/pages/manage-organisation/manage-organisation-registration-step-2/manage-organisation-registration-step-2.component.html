@@ -22,20 +22,22 @@
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              Please choose one option:
+            Please choose one option:
           </legend>
           <div class="govuk-radios">
             <div class="govuk-radios__item" *ngFor="let item of items$! | async"
               [class.govuk-form-group--error]="submitted && (schemeSubjectObs | async) === item.scheme  && txtValue == ''">
-              <input class="govuk-radios__input" type="radio" [attr.id]="item.scheme" name="scheme"
+              <input class="govuk-radios__input" type="radio" [attr.id]="item.scheme+'-RadioButton'" name="scheme"
                 [value]="item.scheme" value="{{ item.scheme }}" [checked]="(schemeSubjectObs | async) === item.scheme"
                 [(ngModel)]="scheme" (click)="onSelect(item)">
-              <label for={{item.scheme}} class="govuk-label govuk-radios__label">{{ item.schemeName }}</label>
-              <div *ngIf="(schemeSubjectObs | async) === item.scheme" id="'item.scheme'" class="box-input">
-                <label for="txt{{item}}" class="govuk-hint govuk-radios__hint">
+              <label for="{{ item.scheme+'-RadioButton' }}" class="govuk-label govuk-radios__label">{{ item.schemeName
+                }}</label>
+              <div *ngIf="(schemeSubjectObs | async) === item.scheme" id="{{ item.scheme+'-Div' }}" class="box-input">
+                <label for="{{ item.scheme+'-TextBox' }}" class="govuk-hint govuk-radios__hint">
                   Enter your {{item.schemeName }} Number
                 </label>
-                <input #input id="txt{{item}}" class="govuk-input  govuk-input--width-10 text-input" type="text" [(ngModel)]="txtValue"
+                <input #input id="{{ item.scheme+'-TextBox' }}" class="govuk-input  govuk-input--width-10 text-input"
+                  type="text" [(ngModel)]="txtValue"
                   [class.govuk-input--error]="submitted && (schemeSubjectObs | async) === item.scheme && txtValue == ''">
               </div>
             </div>
