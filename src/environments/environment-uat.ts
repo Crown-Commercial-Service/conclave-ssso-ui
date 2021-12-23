@@ -38,7 +38,7 @@ export const environment = {
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
   rollbar: {
-    key: '39bb38f087ee4a6781b9d76a73200dd8',
+    key: 'ROLLBAR',
     enable: true
   }
 }
