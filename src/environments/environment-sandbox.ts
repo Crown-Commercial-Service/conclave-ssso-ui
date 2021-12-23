@@ -33,7 +33,6 @@ export const environment = {
     bulkUploadMaxFileSizeInBytes:1048576,
     bulkUploadTemplateFileUrl: 'https://paas-s3-broker-prod-lon-48b425b7-e991-46e0-b575-43faa9268552.s3.amazonaws.com/Templates/DataMigrationTemplate.csv',
     usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
-    usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
     listPageSize: 10,  
     rollbar: {
       key: 'ROLLBAR',
