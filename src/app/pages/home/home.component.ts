@@ -118,4 +118,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
       }
     }
   }
+
+  getModuleElementId(moduleName : string){
+    return moduleName.toLowerCase().replace(/ /g, '_');
+  }
 }

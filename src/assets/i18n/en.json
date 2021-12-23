@@ -257,5 +257,19 @@
   "ACCESS_LINK_EXPIRED": "Access link expired",
   "RESEND_BTN": "Resend",
   "ENTER_EMAIL_ADDRESS_FOR_RESEND_LINK": "Enter your email address to resend the access link",
-  "RESEND_LINK_SUCCESS": "An email has been sent to "
+  "RESEND_LINK_SUCCESS": "An email has been sent to ",
+  "ADD_MULTIPLE_USERS": "Add multiple users",
+  "ERROR_FILE_REQUIRED": "Select a file to upload",
+  "ERROR_INVALID_FILE_FORMAT": "Select only CSV file",
+  "BULK_UPLOAD_STATUS": "Bulk upload status",
+  "CHECKING_BULK_UPLOAD_STATUS": "Checking bulk upload status...",
+  "DOWNLOAD_BULK_UPLOAD_TEMPLATE_FILE": "You can download the template file here",
+  "WAIT_UNTIL_VALIDATE_FILE": "Please wait until the file validation completed.",
+  "GO_TO_HOME_PAGE": "Go to dashboard",
+  "VALIDATION_SUCCESS_WITHOUT_ERRORS": "Validation completed without errors.",
+  "VALIDATION_SUCCESS_WITH_ERRORS": "Validation completed with errors.",
+  "ERROR_DETAILS": "Errors in file",
+  "ERROR_HEADING": "Error",
+  "ERROR_DESCRIPTION": "Error description",
+  "ERROR_FILE_SIZE_ERROR":"File size should not exceed "
 }

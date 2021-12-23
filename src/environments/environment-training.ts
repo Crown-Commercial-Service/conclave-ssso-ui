@@ -58,8 +58,6 @@ export const environment = {
 
   googleTagMangerId: 'GTM',
   
-  bulkUploadPollingFrequencyInSeconds: 5,
-  
   bulkUploadMaxFileSizeInBytes:1048576,
   
   bulkUploadTemplateFileUrl: 'https://paas-s3-broker-prod-lon-78ff9dde-5c67-4eb6-82f8-c9c1fbadb459.s3.amazonaws.com/Templates/DataMigrationTemplate.csv',

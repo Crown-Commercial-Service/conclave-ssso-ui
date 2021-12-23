@@ -20,8 +20,8 @@
   </div>
   <br>
   <p><strong>The link in the email will become invalid after 36 hours and can only be clicked on once</strong></p>
-  <p *ngIf="!resendActivationEmailMode"><a class="navigation-text" href="javascript:;" (click)="resendActivationLink()">If you have not received
+  <p *ngIf="!resendActivationEmailMode"><a id="resendLink" class="navigation-text" href="javascript:;" (click)="resendActivationLink()">If you have not received
       an email, please
       click here to resend</a></p>
-  <p><a class="navigation-text" routerLink="/home">Return to Crown Commercial Service homepage</a></p>
+  <p><a id="homeLink" class="navigation-text" routerLink="/home">Return to Crown Commercial Service homepage</a></p>
 </div>

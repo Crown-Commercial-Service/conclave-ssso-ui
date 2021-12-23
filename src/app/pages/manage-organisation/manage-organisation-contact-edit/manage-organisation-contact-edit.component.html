@@ -32,19 +32,19 @@
       <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
           <li *ngIf="submitted && formGroup.hasError('inSufficient')">
-            <a href="#" onClick="return false;" (click)="setFocus(0)"> {{
+            <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
               'ERROR_INSUFFICIENT_CONTACT_DETAILS' | translate }}</a>
           </li>
           <li *ngIf="submitted && formGroup.controls.email.hasError('email')">
-            <a href="#" onClick="return false;" (click)="setFocus(1)"> {{
+            <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
               'ERROR_INVALID_EMAIL' | translate }} </a>
           </li>
           <li *ngIf="submitted && formGroup.controls['phone'].invalid">
-            <a href="#" onClick="return false;" (click)="setFocusForIntlTelComponent('phone')"> {{
+            <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('phone')"> {{
                 'ERROR_INVALID_PHONE_NUMBER' | translate }} </a>
         </li>
         <li *ngIf="submitted && formGroup.controls['fax'].invalid">
-            <a href="#" onClick="return false;" (click)="setFocusForIntlTelComponent('fax')"> {{
+            <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('fax')"> {{
                 'ERROR_INVALID_FAX_NUMBER' | translate }} </a>
         </li>
         </ul>

@@ -1,47 +1,49 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
-    <!-- <h1 class="govuk-heading-xl page-title">Enter your organisation's details</h1> -->
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-three-quarters">
-        <div class="govuk-error-summary radio-form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
-          id="error-summary" data-module="govuk-error-summary" *ngIf="submitted && txtValue == ''">
-          <h2 class="govuk-error-summary__title" id="error-summary-title">
-            {{ 'ERROR_SUMMARY' | translate }}
-          </h2>
-          <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list">
-              <li>
-                <a href="#" onClick="return false;" (click)="setFocus(0)">
-                  {{ 'ERROR_ENTER_REGISTRY_NUMBER' | translate }} </a>
-              </li>
-            </ul>
-          </div>
+  <!-- <h1 class="govuk-heading-xl page-title">Enter your organisation's details</h1> -->
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+      <div class="govuk-error-summary radio-form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+        id="error-summary" data-module="govuk-error-summary" *ngIf="submitted && txtValue == ''">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          {{ 'ERROR_SUMMARY' | translate }}
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
+                {{ 'ERROR_ENTER_REGISTRY_NUMBER' | translate }} </a>
+            </li>
+          </ul>
         </div>
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                Please choose one option:
-            </legend>
-            <div class="govuk-radios">
-              <div class="govuk-radios__item" *ngFor="let item of items$! | async"
-                [class.govuk-form-group--error]="submitted && (schemeSubjectObs | async) === item.scheme  && txtValue == ''">
-                <input class="govuk-radios__input" type="radio" [attr.id]="item.scheme" name="scheme"
-                  [value]="item.scheme" value="{{ item.scheme }}" [checked]="(schemeSubjectObs | async) === item.scheme"
-                  [(ngModel)]="scheme" (click)="onSelect(item)">
-                <label for={{item.scheme}} class="govuk-label govuk-radios__label">{{ item.schemeName }}</label>
-                <div *ngIf="(schemeSubjectObs | async) === item.scheme" id="'item.scheme'" class="box-input">
-                  <label for="txt{{item}}" class="govuk-hint govuk-radios__hint">
-                    Enter your {{item.schemeName }} Number
-                  </label>
-                  <input #input id="txt{{item}}" class="govuk-input  govuk-input--width-10 text-input" type="text" [(ngModel)]="txtValue"
-                    [class.govuk-input--error]="submitted && (schemeSubjectObs | async) === item.scheme && txtValue == ''">
-                </div>
+      </div>
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            Please choose one option:
+          </legend>
+          <div class="govuk-radios">
+            <div class="govuk-radios__item" *ngFor="let item of items$! | async"
+              [class.govuk-form-group--error]="submitted && (schemeSubjectObs | async) === item.scheme && txtValue == ''">
+              <input class="govuk-radios__input" type="radio" [attr.id]="item.scheme+'-RadioButton'" name="scheme"
+                [value]="item.scheme" value="{{ item.scheme }}" [checked]="(schemeSubjectObs | async) === item.scheme"
+                [(ngModel)]="scheme" (click)="onSelect(item)">
+              <label for="{{ item.scheme+'-RadioButton' }}" class="govuk-label govuk-radios__label">{{ item.schemeName
+                }}</label>
+              <div *ngIf="(schemeSubjectObs | async) === item.scheme" id="{{ item.scheme+'-Div' }}" class="box-input">
+                <label for="{{ item.scheme+'-TextBox' }}" class="govuk-hint govuk-radios__hint">
+                  Enter your {{item.schemeName }} Number
+                </label>
+                <input #input id="{{ item.scheme+'-TextBox' }}" class="govuk-input  govuk-input--width-10 text-input"
+                  type="text" [(ngModel)]="txtValue"
+                  [class.govuk-input--error]="submitted && (schemeSubjectObs | async) === item.scheme && txtValue == ''">
               </div>
             </div>
-          </fieldset>
-        </div>
-        <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
-          (click)="onSubmit()">Continue</button>
+          </div>
+        </fieldset>
       </div>
+      <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
+        (click)="onSubmit()">Continue</button>
     </div>
   </div>
+</div>
