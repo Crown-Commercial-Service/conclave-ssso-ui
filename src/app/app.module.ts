@@ -145,6 +145,8 @@ import { CIIOrgDetails } from './components/business/cii-details/cii-details.com
 import { ManageOrgRegCIIOrgDisplayComponent } from './pages/manage-organisation/manage-reg-organisation-cii-display.component/manage-reg-organisation-cii-display.component';
 import { OrgRegDetails } from './components/business/reg-org-details/reg-org-details.component';
 import { ManageOrgRegNotifyAdminComponent } from './pages/manage-organisation/manage-reg-organisation-admin-notify/manage-reg-organisation-admin-notify.component';
+import { ManageUserBulkUploadComponent } from './pages/manage-user/manage-user-bulk-upload/manage-user-bulk-upload.component';
+import { ManageUserBulkUploadStatusComponent } from './pages/manage-user/manage-user-bulk-upload-status/manage-user-bulk-upload-status.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -209,6 +211,8 @@ export function createTranslateLoader(http: HttpClient) {
     ManageUserProfilesComponent,
     ManageUserAddSelectionComponent,
     ManageUserAddSingleUserDetailComponent,
+    ManageUserBulkUploadComponent,
+    ManageUserBulkUploadStatusComponent,
     ManageUserConfirmResetPasswordComponent,
     ManageUserDeleteConfirmComponent,
     EnumToArrayPipe,

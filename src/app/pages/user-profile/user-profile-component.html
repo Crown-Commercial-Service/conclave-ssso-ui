@@ -21,12 +21,12 @@
             <ul class="govuk-list govuk-error-summary__list">
                 <li
                     *ngIf="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
-                    <a href="#" onClick="return false;" (click)="setFocus(0)"> {{
+                    <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
                         'ERROR_FIRST_NAME' | translate }} </a>
                 </li>
                 <li
                     *ngIf="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
-                    <a href="#" onClick="return false;" (click)="setFocus(1)"> {{
+                    <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
                         'ERROR_LAST_NAME' | translate }}</a>
                 </li>
             </ul>
