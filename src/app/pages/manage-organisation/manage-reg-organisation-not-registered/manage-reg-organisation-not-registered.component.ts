@@ -47,7 +47,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
     }
 
     goBack() {
-        this.router.navigateByUrl(`manage-org/register/initial-search-status`);
+        window.history.back();
     }
 
 }
