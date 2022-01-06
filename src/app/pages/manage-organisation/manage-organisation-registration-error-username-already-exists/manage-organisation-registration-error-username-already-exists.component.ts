@@ -32,4 +32,8 @@ export class ManageOrgRegErrorUsernameExistsComponent extends BaseComponent impl
 
   ngOnInit() { }
 
+  goBack(){
+    window.history.back();
+  }
+
 }
