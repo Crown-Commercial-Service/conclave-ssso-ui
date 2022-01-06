@@ -19,15 +19,8 @@ export class ManageOrgRegNotifyAdminComponent implements OnInit {
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     }
 
-    async ngOnInit() {
-        let orgInfo = this.GetOrgDetails();
-        this.orgName = orgInfo.orgName;
-    }
-
-    GetOrgDetails() {
-        let orgInfoExists = sessionStorage.getItem('orgreginfo') != null;
-        let orgReginfo = orgInfoExists ? JSON.parse(sessionStorage.getItem('orgreginfo') || '') : '';
-        return orgReginfo;
+    ngOnInit() {
+        this.orgName = sessionStorage.getItem('RegExistsingOrgName') || '';
     }
 
 }
