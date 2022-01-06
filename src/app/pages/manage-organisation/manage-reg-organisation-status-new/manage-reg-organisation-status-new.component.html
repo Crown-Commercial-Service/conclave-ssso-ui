@@ -2,27 +2,7 @@
     <div class="govuk-grid-column-two-thirds">
         <div class="content flex">
             <a href="javascript:;" (click)="goBack()" class="govuk-back-link">Back</a>
-            <div *ngIf="multipleOrgExists">
-                <h1 class="govuk-heading-xl page-title">
-                    Duplicate organisations registered</h1>
-                <p class="govuk-body-l">More than one organisation with that name is registered. Please provide us with
-                    one of
-                    the identifying options below to proceed.</p>
-                <app-cii-options (onOrgSeleceted)="onOrgSelected($event)"></app-cii-options>
-            </div>
-            <div *ngIf="singleOrgExists">
-                <h1 class="govuk-heading-xl page-title">
-                    Your organisation is already registered</h1>
-                <p class="govuk-body-l">There is already an administrator for your organisation. Press ‘Continue’ to
-                    confirm
-                    that the information below is correct and request access from the administrator.</p>
-                <app-reg-org-details ciiOrgId={{ciiOrgId}}></app-reg-org-details>
-                <div class="govuk-form-group">
-                    <button id="continueNotRegistered" type="button" class="govuk-button" data-module="govuk-button"
-                        (click)="onContinueSinglrOrgRegistered()">Continue</button>
-                </div>
-            </div>
-            <div *ngIf="orgNotExists">
+            <div>
                 <h1 class="govuk-heading-xl page-title">
                     Your organisation is not registered</h1>
                 <p class="govuk-body-l">To continue, register with us to create a secure account for your organisation
