@@ -17,6 +17,7 @@ export class OrgRegDetails extends BaseComponent implements OnInit, OnChanges {
   id!: string;
   ciiOrg: any;
   orgRegInfo: any;
+  orgName: string = '';
   schemeName: string = ''
   @Input() ciiOrgId: string = '';
   @Input() ciiRegNumber: string = '';
@@ -47,7 +48,7 @@ export class OrgRegDetails extends BaseComponent implements OnInit, OnChanges {
     else {
       await this.ciiService.getOrgDetails(this.ciiOrgId).toPromise().then((response: any) => {
         this.ciiOrg = response;
-        this.orgRegInfo.orgName = this.ciiOrg?.identifier?.legalName;
+        this.orgName = this.ciiOrg?.identifier?.legalName;
         sessionStorage.setItem('orgreginfo', JSON.stringify(this.orgRegInfo));
         this.schemeName = this.ciiService.getSchemaName(response.identifier.scheme)
       });
