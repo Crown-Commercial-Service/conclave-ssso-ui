@@ -1,0 +1,26 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="content flex">
+      <h1 class="govuk-heading-xl page-title">{{ 'TITLE_LOGIN' | translate }}</h1>
+      <form (submit)="onSubmit(formGroup)" [formGroup]="formGroup">
+        <div class="govuk-form-group" id="username-form-group">
+          <label class="govuk-label" for="userName"> {{ 'USERNAME' | translate }} </label>
+          <input #input formControlName="userName" class="govuk-input" id="userName" name="userName" type="text" />
+        </div>
+        <div class="govuk-form-group" id="password-form-group">
+          <label class="govuk-label" for="password"> {{ 'PASSWORD' | translate }} </label>
+          <input #input formControlName="password" class="govuk-input" id="password" name="password" type="password"
+            autocomplete="off">
+        </div>
+        <div class="govuk-button-group save-cancel-button-group">
+          <button type="submit" class="govuk-button" data-module="govuk-button">
+            {{'LOGIN_BTN' | translate}}
+          </button>
+          <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+            data-module="govuk-button">
+            {{ 'CANCEL_BTN' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

@@ -138,7 +138,7 @@ import { GoogleTagManagerModule } from 'angular-google-tag-manager';
 import { environment } from 'src/environments/environment';
 import { ResendLinkSuccessComponent } from './pages/resend-link-success/resend-link-success';
 import { ManageOrgRegSearchComponent } from './pages/manage-organisation/manage-reg-organisation-search/manage-reg-organisation-search.component';
-import { ManageOrgRegSearchStatusComponent } from './pages/manage-organisation/manage-reg-organisation-status/manage-reg-organisation-status.component';
+import { ManageOrgRegSearchStatusNewComponent } from './pages/manage-organisation/manage-reg-organisation-status-new/manage-reg-organisation-status-new.component';
 import { ManageOrgRegNotRegisteredComponent } from './pages/manage-organisation/manage-reg-organisation-not-registered/manage-reg-organisation-not-registered.component';
 import { CIIOptions } from './components/business/cii-options/cii-options.component';
 import { CIIOrgDetails } from './components/business/cii-details/cii-details.component';
@@ -147,6 +147,9 @@ import { OrgRegDetails } from './components/business/reg-org-details/reg-org-det
 import { ManageOrgRegNotifyAdminComponent } from './pages/manage-organisation/manage-reg-organisation-admin-notify/manage-reg-organisation-admin-notify.component';
 import { ManageUserBulkUploadComponent } from './pages/manage-user/manage-user-bulk-upload/manage-user-bulk-upload.component';
 import { ManageUserBulkUploadStatusComponent } from './pages/manage-user/manage-user-bulk-upload-status/manage-user-bulk-upload-status.component';
+import { LoginComponent } from './pages/login/mock-login/login.component';
+import { ManageOrgRegSearchStatusExistsComponent } from './pages/manage-organisation/manage-reg-organisation-status-exists/manage-reg-organisation-status-exists.component';
+import { ManageOrgRegSearchStatusDuplicateComponent } from './pages/manage-organisation/manage-reg-organisation-status-duplicate/manage-reg-organisation-status-duplicate.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -182,6 +185,7 @@ export function createTranslateLoader(http: HttpClient) {
     ManageOrgRegStep1BComponent,
     ManageOrgRegStep2Component,
     ManageOrgRegStep3Component,
+    LoginComponent,
     ManageOrgRegAdditionalIdentifiersComponent,
     ManageOrgRegAddUserComponent,
     ManageOrgRegConfirmComponent,
@@ -259,7 +263,9 @@ export function createTranslateLoader(http: HttpClient) {
     SendMFAResetNotificationComponent,
     SendMFAResetNotificationSuccessComponent,
     ManageOrgRegSearchComponent,
-    ManageOrgRegSearchStatusComponent,
+    ManageOrgRegSearchStatusNewComponent,
+    ManageOrgRegSearchStatusExistsComponent,
+    ManageOrgRegSearchStatusDuplicateComponent,
     ManageOrgRegNotRegisteredComponent,
     ManageOrgRegCIIOrgDisplayComponent,
     ManageOrgRegNotifyAdminComponent

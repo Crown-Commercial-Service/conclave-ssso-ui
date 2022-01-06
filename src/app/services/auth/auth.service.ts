@@ -28,20 +28,9 @@ export class AuthService {
     this.servicePermission = [];
   }
 
-  login(username: string, password: string): Observable<any> {
-    const options = {
-      headers: new HttpHeaders().append('Content-Type', 'application/json')
-    }
-    //ccs-sso-reliable-toucan-ab.london.cloudapps.digital
-    const body = { userName: username, userPassword: password }
-    return this.httpService.post(`${this.url}/security/login`, body, options).pipe(
-      map(data => {
-        return data;
-      }),
-      catchError(error => {
-        return throwError(error);
-      })
-    );
+  login(username: string, password: string) {
+    var url = environment.uri.web.dashboard + '/authsuccess?code=' + username;
+    window.location.href = url;
   }
 
   public isUserAuthenticated() {
