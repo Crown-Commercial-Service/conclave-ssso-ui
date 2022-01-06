@@ -50,6 +50,7 @@ export class OrgRegDetails extends BaseComponent implements OnInit, OnChanges {
         this.ciiOrg = response;
         this.orgName = this.ciiOrg?.identifier?.legalName;
         sessionStorage.setItem('orgreginfo', JSON.stringify(this.orgRegInfo));
+        sessionStorage.setItem('RegExistsingOrgName', this.orgName);
         this.schemeName = this.ciiService.getSchemaName(response.identifier.scheme)
       });
     }
