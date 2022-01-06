@@ -95,16 +95,20 @@ import { SendMFAResetNotificationComponent } from './pages/mfa-reset/send-notifi
 import { SendMFAResetNotificationSuccessComponent } from './pages/mfa-reset/send-notification-success/send-mfa-reset-notification-success';
 import { ResendLinkSuccessComponent } from './pages/resend-link-success/resend-link-success';
 import { ManageOrgRegSearchComponent } from './pages/manage-organisation/manage-reg-organisation-search/manage-reg-organisation-search.component';
-import { ManageOrgRegSearchStatusComponent } from './pages/manage-organisation/manage-reg-organisation-status/manage-reg-organisation-status.component';
+import { ManageOrgRegSearchStatusNewComponent } from './pages/manage-organisation/manage-reg-organisation-status-new/manage-reg-organisation-status-new.component';
 import { ManageOrgRegNotRegisteredComponent } from './pages/manage-organisation/manage-reg-organisation-not-registered/manage-reg-organisation-not-registered.component';
 import { ManageOrgRegCIIOrgDisplayComponent } from './pages/manage-organisation/manage-reg-organisation-cii-display.component/manage-reg-organisation-cii-display.component';
 import { ManageOrgRegNotifyAdminComponent } from './pages/manage-organisation/manage-reg-organisation-admin-notify/manage-reg-organisation-admin-notify.component';
 import { ManageUserBulkUploadComponent } from './pages/manage-user/manage-user-bulk-upload/manage-user-bulk-upload.component';
 import { ManageUserBulkUploadStatusComponent } from './pages/manage-user/manage-user-bulk-upload-status/manage-user-bulk-upload-status.component';
+import { LoginComponent } from './pages/login/mock-login/login.component';
+import { ManageOrgRegSearchStatusExistsComponent } from './pages/manage-organisation/manage-reg-organisation-status-exists/manage-reg-organisation-status-exists.component';
+import { ManageOrgRegSearchStatusDuplicateComponent } from './pages/manage-organisation/manage-reg-organisation-status-duplicate/manage-reg-organisation-status-duplicate.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'renewtkn', pathMatch: 'full', component: AuthErrorComponent },
+  { path: 'mockservicelogin', data: { title: 'Login' }, pathMatch: 'full', component: LoginComponent },
   { path: 'home', data: { title: 'Dashboard' }, canActivate: [AuthGuard], pathMatch: 'full', component: HomeComponent },
   { path: 'error', data: { title: 'Error' }, pathMatch: 'full', component: ErrorComponent },
   { path: 'contactus', data: { title: 'Contact Us' }, pathMatch: 'full', component: ContactUsComponent },
@@ -123,7 +127,9 @@ const routes: Routes = [
   { path: 'registration/success', data: { title: 'Success' }, component: RegistrationSuccessComponent },
   //Search paths//
   { path: 'manage-org/register/initial-search', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchComponent },
-  { path: 'manage-org/register/initial-search-status', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchStatusComponent },
+  { path: 'manage-org/register/initial-search-status/new', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchStatusNewComponent },
+  { path: 'manage-org/register/initial-search-status/exists', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchStatusExistsComponent },
+  { path: 'manage-org/register/initial-search-status/duplicate', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchStatusDuplicateComponent },
   { path: 'manage-org/register/newreg', data: { title: 'Admin Details - Registration' }, pathMatch: 'full', component: ManageOrgRegNotRegisteredComponent },
   { path: 'manage-org/register/cii-search-result', data: { title: 'Organization Details - Registration' }, pathMatch: 'full', component: ManageOrgRegCIIOrgDisplayComponent },
   { path: 'manage-org/register/notify-join-org', data: { title: 'Notify Organisation Administrators - Registration' }, pathMatch: 'full', component: ManageOrgRegNotifyAdminComponent },

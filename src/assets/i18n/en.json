@@ -271,5 +271,6 @@
   "ERROR_DETAILS": "Errors in file",
   "ERROR_HEADING": "Error",
   "ERROR_DESCRIPTION": "Error description",
-  "ERROR_FILE_SIZE_ERROR":"File size should not exceed "
+  "ERROR_FILE_SIZE_ERROR":"File size should not exceed ",
+  "TITLE_LOGIN":"Sign in to the Public Procurement Gateway"
 }

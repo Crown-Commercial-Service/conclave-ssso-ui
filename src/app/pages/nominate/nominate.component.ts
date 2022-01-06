@@ -68,4 +68,8 @@ export class NominateComponent extends BaseComponent {
     }
   }
 
+  goBack(){
+    window.history.back();
+  }
+
 }

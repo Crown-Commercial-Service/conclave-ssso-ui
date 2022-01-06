@@ -17,6 +17,7 @@ export interface OrganisationRegBasicInfo {
     adminEmail: string;
     adminUserFirstName: string;
     adminUserLastName: string;
+    ciiOrgId: string;
 }
 
 export interface CiiOrganisationDto {
