@@ -4,10 +4,15 @@ function guardianMultifactor(user, context, callback) {
     if (context.protocol === 'oauth2-refresh-token')
         return callback(null, user, context);
 
-    // Disable MFA for the SAML app requests only initiated by dashboard tiles not dierctly types and login to saml apps
-    // When directly typed the url to login to SAML app it has context.request.query.redirect_uri value
-    // But it is not included when navigating from dashboard
-    if (context.protocol === 'samlp' && context.request.query.redirect_uri === undefined) {
+    //Avoid prompting a user for multifactor authentication if they have successfully completed MFA in their current session
+    let authMethods = [];
+    if (context.authentication && Array.isArray(context.authentication.methods)) {
+        authMethods = context.authentication.methods;
+    }
+
+    const completedMfa = !!authMethods.find((method) => method.name === 'mfa');
+
+    if (completedMfa) {
         return callback(null, user, context);
     }
 
