@@ -157,7 +157,7 @@ export class AuthService {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     }
 
-    let body = `client_id=${environment.idam_client_id}&refresh_token=${refreshToken}&grant_type=refresh_token&redirect_uri=${environment.uri.web.dashboard + '/authsuccess'}`;
+    let body = `client_id=${environment.idam_client_id}&refresh_token=${refreshToken}&grant_type=refresh_token`;
 
     return this.httpService.post<TokenInfo>(`${this.url}/security/token`, body, options);
   }
