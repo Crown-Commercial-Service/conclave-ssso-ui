@@ -99,7 +99,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     }
     if (e.permissionName === 'MANAGE_MY_ACCOUNT') {
       if (this.systemModules.findIndex(x => x.name === 'Manage my account') === -1) {
-        this.systemModules.push({ name: 'Manage my account', description: 'Manage your details and request a new role', route: '/profile' });
+        this.systemModules.push({ name: 'Manage my account', description: 'Manage your details', route: '/profile' });
       }
     }
     // if (e.permissionName === 'MANAGE_SIGN_IN_PROVIDERS') {
