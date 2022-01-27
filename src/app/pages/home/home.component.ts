@@ -67,7 +67,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
         return true;
       }
     }
-    
     return false;
   }
 
