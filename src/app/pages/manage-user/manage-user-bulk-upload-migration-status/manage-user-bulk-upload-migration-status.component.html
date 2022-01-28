@@ -7,7 +7,7 @@
                         }}</a>
                 </li>
                 <li class="govuk-breadcrumbs__list-item">
-                    <a class="govuk-breadcrumbs__link" routerLink="/manage-users/add-user-selection">{{ 'ADD_USERS' |
+                    <a class="govuk-breadcrumbs__link" routerLink="/manage-users">{{ 'MANAGE_YOUR_USER_ACCOUNTS' |
                         translate
                         }}</a>
                 </li>
@@ -17,14 +17,10 @@
             </ol>
         </div>
 
-        <h1 *ngIf="!statusCheckComplete" class="govuk-heading-xl page-title">{{ 'CHECKING_BULK_UPLOAD_STATUS' |
+        <h1 class="govuk-heading-xl page-title">{{ 'BULK_UPLOAD_STATUS' |
             translate }}</h1>
-        <h1 *ngIf="statusCheckComplete && errorDetails.length === 0" class="govuk-heading-xl page-title">{{
-            'VALIDATION_SUCCESS_WITHOUT_ERRORS' | translate }}</h1>
-        <h1 *ngIf="statusCheckComplete && errorDetails.length !== 0" class="govuk-heading-xl page-title">{{
-            'VALIDATION_SUCCESS_WITH_ERRORS' | translate }}</h1>
 
-        <h2 *ngIf="!statusCheckComplete" class="govuk-heading-m page-title">{{ 'WAIT_UNTIL_VALIDATE_FILE' |
+        <h2 *ngIf="!statusCheckComplete" class="govuk-heading-m page-title">{{ 'WAIT_UNTIL_WE_PROCESS_REPORT_DETAILS' |
             translate }}</h2>
     </div>
 </div>
@@ -32,20 +28,28 @@
 <div *ngIf="statusCheckComplete">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-s">{{ 'ERROR_DETAILS' | translate }}</h2>
-            <div *ngIf="errorDetails.length == 0">
-                <p>{{'NONE'| translate}}
-                <p>
-                <p>{{'YOU_WILL_BE_RECEIVED_AN_EMAIL_ONCE_MIGRATION_COMPLETED'| translate}}
-                <p>
+            <h2 class="govuk-heading-s">{{ 'BULK_UPLOAD_REPORT_SUMMARY' | translate }}</h2>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="user-table">
+                <app-govuk-table [headerTextKeys]="summaryTableHeaders" [data]="summaryGridInfoList"
+                    [dataKeys]="summaryColumnsToDisplay" [useClientPagination]="true">
+                </app-govuk-table>
             </div>
         </div>
     </div>
-    <div *ngIf="errorDetails.length != 0" class="govuk-grid-row">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-s">{{ 'BULK_UPLOAD_REPORT_DETAILS' | translate }}</h2>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <div class="user-table">
-                <app-govuk-table [headerTextKeys]="errorTableHeaders" [data]="errorsGridInfoList"
-                    [dataKeys]="errorColumnsToDisplay" [useClientPagination]="true">
+                <app-govuk-table [headerTextKeys]="detailTableHeaders" [data]="detailGridInfoList"
+                    [dataKeys]="detailColumnsToDisplay" [useClientPagination]="true">
                 </app-govuk-table>
             </div>
         </div>
