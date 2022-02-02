@@ -12,6 +12,7 @@ import { ContactGridInfo, SiteContactInfoList, UserContactInfoList } from "src/a
 import { ContactHelper } from "src/app/services/helper/contact-helper.service";
 import { WrapperSiteContactService } from "src/app/services/wrapper/wrapper-site-contact-service";
 import { ContactAssignedStatus } from "src/app/constants/enum";
+import { SessionStorageKey } from "src/app/constants/constant";
 
 @Component({
     selector: 'app-contact-assign-component',
@@ -46,7 +47,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
             let routeData = JSON.parse(queryParams.data);
             this.assigningSiteId = routeData['assigningSiteId'] || 0;
             this.assigningOrgId = routeData['assigningOrgId'] || "";
-            this.contactUserName = routeData['contactUserName'] || "";
+            this.contactUserName = sessionStorage.getItem(SessionStorageKey.ContactAssignUsername) ?? "";
             this.contactSiteId = routeData['contactSiteId'] || 0;
         }
         let selectedContactString = sessionStorage.getItem("assigning-contact-list");
@@ -119,7 +120,6 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
         let data = {
             'assigningSiteId': this.assigningSiteId,
             'assigningOrgId': this.assigningOrgId,
-            'contactUserName': encodeURIComponent(this.contactUserName),
             'contactSiteId': this.contactSiteId,
         };
         this.router.navigateByUrl('contact-assign/confirm?data=' + JSON.stringify(data));
@@ -127,16 +127,19 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
 
     onNavigateToHomeClick() {
         sessionStorage.removeItem("assigning-contact-list");
+        sessionStorage.removeItem(SessionStorageKey.ContactAssignUsername);
         this.router.navigateByUrl('/home');
     }
 
     onNavigateToOrgClick() {
         sessionStorage.removeItem("assigning-contact-list");
+        sessionStorage.removeItem(SessionStorageKey.ContactAssignUsername);
         this.router.navigateByUrl('manage-org/profile');
     }
 
     onNavigateToSiteClick() {
         sessionStorage.removeItem("assigning-contact-list");
+        sessionStorage.removeItem(SessionStorageKey.ContactAssignUsername);
         let data = {
             'isEdit': true,
             'siteId': this.assigningSiteId
@@ -149,7 +152,6 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
         let data = {
             'assigningSiteId': this.assigningSiteId,
             'assigningOrgId': this.assigningOrgId,
-            'contactUserName': encodeURIComponent(this.contactUserName),
             'contactSiteId': this.contactSiteId,
         };
         if (this.contactSiteId != 0) {
