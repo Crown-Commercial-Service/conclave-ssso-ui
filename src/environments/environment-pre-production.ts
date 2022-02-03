@@ -2,7 +2,7 @@ export const environment = {
 
     production: false,
   
-    idam_client_id: 'IDAM',
+    idam_client_id: 'IDAM_ID',
   
     uri: {
   
