@@ -291,5 +291,6 @@
   "FIRST_NAME": "First Name",
   "LAST_NAME": "Last Name",
   "STATUS_DESCRIPTION": "Status Description",
-  "WAIT_UNTIL_WE_PROCESS_REPORT_DETAILS": "Please wait until we process the report."
+  "WAIT_UNTIL_WE_PROCESS_REPORT_DETAILS": "Please wait until we process the report.",
+  "UPLOAD_NEW_FILE": "Upload a new file"
 }
