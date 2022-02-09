@@ -13,6 +13,8 @@ import { ContactGridInfo, SiteContactInfoList } from 'src/app/models/contactInfo
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
+import { ContryDetails } from 'src/app/models/contryDetails';
+import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-site-edit',
@@ -28,13 +30,14 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'FAX', 'WEB_URL'];
   contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
   contactData: ContactGridInfo[];
+  countryDetails: ContryDetails[] = [];
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
     private orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
-    private contactHelper: ContactHelper, private titleService: Title) {
+    private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService) {
     super(viewportScroller, formBuilder.group({
       name: ['', Validators.compose([Validators.required])],
       streetAddress: ['', Validators.compose([Validators.required])],
@@ -53,8 +56,10 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.titleService.setTitle(`${this.isEdit ? "Edit" : "Add"} - Site - CCS`);
+    this.countryDetails = await this.wrapperConfigService.getCountryDetails().toPromise();
+    console.log("CountryDetails", this.countryDetails);
     if (this.isEdit) {
       this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
         {
