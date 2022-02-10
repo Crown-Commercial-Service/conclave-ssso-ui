@@ -100,17 +100,6 @@
             <input #input formControlName="postalCode" class="govuk-input" id="postal-code" name="postal-code"
               type="text" [class.govuk-input--error]="submitted && formGroup.controls.postalCode.hasError('required')">
           </div>
-          <!-- <div class="govuk-form-group" id="country-code-form-group"
-            [class.govuk-form-group--error]="submitted && formGroup.controls.countryCode.hasError('required')">
-            <label class="govuk-label" for="country-code"> {{ 'COUNTRY_CODE' | translate }} </label>
-            <span id="name-error" class="govuk-error-message"
-              *ngIf="submitted && (formGroup.controls.countryCode.hasError('required') ||  serverError == 'INVALID_COUNTRY_CODE')">
-              <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-              'ERROR_COUNTRY_CODE' | translate }}
-            </span>
-            <input #input formControlName="countryCode" class="govuk-input" id="country-code" name="country-code"
-              type="text" [class.govuk-input--error]="submitted && formGroup.controls.countryCode.hasError('required')">
-          </div> -->
           <div class="govuk-form-group" id="country-code-form-group"
             [class.govuk-form-group--error]="submitted && formGroup.controls.countryCode.hasError('required')">
             <label class="govuk-label" for="country-code"> {{ 'COUNTRY_CODE' | translate }} </label>
@@ -119,20 +108,21 @@
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
               'ERROR_COUNTRY_CODE' | translate }}
             </span>
-            <!-- <select class="govuk-select" id="country-code" name="country-code" formControlName="countryCode">
-              <div><input id="search-in-dropdown" type="search" placeholder="Search"></div>
-              <option *ngFor="let c of countryDetails" [ngValue]="c.countryCode">{{ c.countryName }}</option>
-            </select> -->
-            <mat-form-field>
-              <mat-select formControlName="countryCode" #singleSelect>
+            <mat-form-field class="form-field-country">
+              <mat-select formControlName="countryCode" #singleSelect panelClass="mat-country-select-site">
                 <mat-option>
                   <ngx-mat-select-search [formControl]="bankFilterCtrl" placeholderLabel="Search"
                     noEntriesFoundLabel="no matching country found">
                   </ngx-mat-select-search>
                 </mat-option>
 
+                <mat-option *ngFor="let topCountry of topCountries" [value]="topCountry">
+                  {{topCountry.countryName}} - {{topCountry.countryCode}}
+                </mat-option>
+                <mat-option *ngIf="topCountries.length > 0" disabled="true">────────────────────</mat-option>
+
                 <mat-option *ngFor="let country of filteredCountryDetails | async" [value]="country">
-                  {{country.countryName}}
+                  {{country.countryName}} - {{country.countryCode}}
                 </mat-option>
               </mat-select>
             </mat-form-field>

@@ -34,6 +34,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
   contactData: ContactGridInfo[];
   countryDetails: ContryDetails[] = [];
+  topCountries: ContryDetails[] = [];
   filteredCountryDetails: ReplaySubject<ContryDetails[]> = new ReplaySubject<ContryDetails[]>(1);
 
   public bankFilterCtrl: FormControl = new FormControl();
@@ -67,6 +68,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   async ngOnInit() {
     this.titleService.setTitle(`${this.isEdit ? "Edit" : "Add"} - Site - CCS`);
     this.countryDetails = await this.wrapperConfigService.getCountryDetails().toPromise();
+    this.setTopCountries(false);
     this.filteredCountryDetails.next(this.countryDetails.slice());
 
     // listen for search field value changes
@@ -111,6 +113,15 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     this._onDestroy.complete();
   }
 
+  setTopCountries(isClear: boolean) {
+    if (!isClear) {
+      this.topCountries = this.countryDetails.filter(c => c.countryName === "Ireland" || c.countryName === "United States" || c.countryName === "United Kingdom");
+    }
+    else {
+      this.topCountries = [];
+    }
+  }
+
   /**
    * Sets the initial value after the filteredBanks are loaded initially
    */
@@ -135,9 +146,11 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     let search = this.bankFilterCtrl.value;
     if (!search) {
       this.filteredCountryDetails.next(this.countryDetails.slice());
+      this.setTopCountries(false);
       return;
     } else {
       search = search.toLowerCase();
+      this.setTopCountries(true);
     }
     // filter the banks
     this.filteredCountryDetails.next(
