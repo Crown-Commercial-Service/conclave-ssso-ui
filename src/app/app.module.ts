@@ -27,6 +27,8 @@ import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { StoreModule } from '@ngrx/store';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -301,6 +303,8 @@ export function createTranslateLoader(http: HttpClient) {
     MatInputModule,
     MatCheckboxModule,
     MatExpansionModule,
+    MatSelectModule,
+    NgxMatSelectSearchModule,
     NzButtonModule,
     NzDropDownModule,
     NzMenuModule,
