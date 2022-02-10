@@ -112,7 +112,8 @@
               <mat-select formControlName="countryCode" #singleSelect panelClass="mat-country-select-site">
                 <mat-option>
                   <ngx-mat-select-search [formControl]="bankFilterCtrl" placeholderLabel="Search"
-                    noEntriesFoundLabel="no matching country found">
+                    noEntriesFoundLabel="No matching country found">
+                    <mat-icon ngxMatSelectSearchClear>clear</mat-icon>
                   </ngx-mat-select-search>
                 </mat-option>
 
