@@ -33,6 +33,7 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
   public selectedIdentifiers: any[] = new Array();
   public routeParams!: any;
   id!: string;
+  ciiOrgId: string = '';
 
   constructor(private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
@@ -57,7 +58,9 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
             if (err.status == '404') {
               this.router.navigateByUrl(`manage-org/register/error/notfound`);
             } else if (err.status == '409') {
-              this.router.navigateByUrl(`manage-org/register/error/reg-id-exists`);
+              this.ciiOrgId = err.error.organisationId;
+              this.setOrgIdForOrgDetails(this.ciiOrgId);
+              window.location.replace('manage-org/register/initial-search-status/exists'); // location replace is used to avoid being in a loop when click on back button
             } else {
               this.router.navigateByUrl(`manage-org/register/error/generic`);
             }
@@ -65,6 +68,13 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
         });
       }
     });
+  }
+
+  setOrgIdForOrgDetails(ciiOrgId: string) {
+    let orgInfoExists = sessionStorage.getItem('orgreginfo') != null;
+    let orgReginfo = orgInfoExists ? JSON.parse(sessionStorage.getItem('orgreginfo') || '') : '';
+    orgReginfo.ciiOrgId = ciiOrgId;
+    sessionStorage.setItem('orgreginfo', JSON.stringify(orgReginfo));
   }
 
   public onBackClick() {
@@ -97,29 +107,6 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
     let organisation = JSON.parse(localStorage.getItem('cii_organisation') + '');
     organisation.additionalIdentifiers = this.selectedIdentifiers;
     localStorage.setItem('cii_organisation', JSON.stringify(organisation));
-  }
-
-  public getSchemaName(schema: string): string {
-    switch (schema) {
-      case 'GB-COH': {
-        return 'Companies House';
-      }
-      case 'US-DUN': {
-        return 'Dun & Bradstreet';
-      }
-      case 'GB-CHC': {
-        return 'Charities Commission for England and Wales';
-      }
-      case 'GB-SC': {
-        return 'Scottish Charities Commission';
-      }
-      case 'GB-NIC': {
-        return 'Northern Ireland Charities Commission';
-      }
-      default: {
-        return '';
-      }
-    }
   }
 
 }

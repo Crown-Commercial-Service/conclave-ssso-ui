@@ -9,6 +9,7 @@ import { OperationEnum } from "src/app/constants/enum";
 import { ViewportScroller } from "@angular/common";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.service";
+import { SessionStorageKey } from "src/app/constants/constant";
 
 @Component({
     selector: 'app-manage-user-confirm-reset-password',
@@ -26,12 +27,7 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
         private userService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
-        let queryParams = this.activatedRoute.snapshot.queryParams;
-        if (queryParams.data) {
-            let routeData = JSON.parse(queryParams.data);
-            console.log(routeData);
-            this.userName = routeData['userName'];
-        }
+        this.userName = sessionStorage.getItem("manage_user_username") ?? '';
     }
 
     ngOnInit() {
@@ -40,10 +36,8 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
     onConfirmClick() {
         this.userService.resetUserPassword(this.userName, "Manage-user-account").subscribe({
             next: () => {
-                let data = {
-                    'userName': encodeURIComponent(this.userName)
-                };
-                this.router.navigateByUrl(`operation-success/${OperationEnum.UserPasswordChange}?data=` + JSON.stringify(data));             
+                sessionStorage.setItem(SessionStorageKey.OperationSuccessUserName, this.userName);
+                this.router.navigateByUrl(`operation-success/${OperationEnum.UserPasswordChange}`);             
             },
             error: (error) => {
                 console.log(error);
@@ -53,8 +47,7 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
 
     onCancelClick(){
         let data = {
-            'isEdit':true,
-            'userName': encodeURIComponent(this.userName)
+            'isEdit':true
         };
         this.router.navigateByUrl('manage-users/add-user/details?data=' + JSON.stringify(data));
     }
