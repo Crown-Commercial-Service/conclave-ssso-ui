@@ -10,6 +10,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 @Component({
     selector: 'app-forgot-password',
@@ -55,7 +56,8 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         if (this.formValid(form)) {
             this.authService.resetPassword(form.get('userName')?.value).toPromise()
             .then(() => {
-                this.router.navigateByUrl(`forgot-password-success?un= + ${encodeURIComponent(form.get('userName')?.value)}`);
+                sessionStorage.setItem(SessionStorageKey.ForgotPasswordUserName, form.get('userName')?.value);
+                this.router.navigateByUrl(`forgot-password-success`);
             });
         }
     }

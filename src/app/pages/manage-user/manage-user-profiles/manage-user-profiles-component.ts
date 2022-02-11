@@ -16,6 +16,7 @@ import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org-service";
 import { environment } from "src/environments/environment";
 import { AuditLoggerService } from "src/app/services/postgres/logger.service";
+import { SessionStorageKey } from "src/app/constants/constant";
 
 @Component({
     selector: 'app-manage-user-profiles',
@@ -50,6 +51,8 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
             organisationId: this.organisationId,
             userList: []
         }
+        sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
+        sessionStorage.removeItem(SessionStorageKey.OperationSuccessUserName);
     }
 
     async ngOnInit() {
@@ -95,8 +98,8 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
         console.log(dataRow);
         let data = {
             'isEdit': true,
-            'userName': encodeURIComponent(dataRow.userName)
         };
+        sessionStorage.setItem(SessionStorageKey.ManageUserUserName, dataRow.userName);
         this.router.navigateByUrl('manage-users/add-user/details?data=' + JSON.stringify(data));
     }
 }
