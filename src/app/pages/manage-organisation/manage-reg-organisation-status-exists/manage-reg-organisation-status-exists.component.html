@@ -9,9 +9,13 @@
                     confirm
                     that the information below is correct and request access from the administrator.</p>
                 <app-reg-org-details ciiOrgId={{this.orgreginfo.ciiOrgId}}></app-reg-org-details>
-                <div class="govuk-form-group">
+                <div class="govuk-button-group continue-cancel-button-group">
                     <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
                         (click)="onContinueSingleOrgRegistered()">Continue</button>
+                    <button type="button" (click)="goBack()" class="govuk-button govuk-button--secondary"
+                        data-module="govuk-button">
+                        {{ 'THIS_IS_NOT_MY_ORGANISATION_BTN' | translate }}
+                    </button>
                 </div>
             </div>
         </div>
