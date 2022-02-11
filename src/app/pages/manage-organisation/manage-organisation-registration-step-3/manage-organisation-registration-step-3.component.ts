@@ -60,8 +60,7 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
             } else if (err.status == '409') {
               this.ciiOrgId = err.error.organisationId;
               this.setOrgIdForOrgDetails(this.ciiOrgId);
-              window.location.replace('manage-org/register/initial-search-status/exists');
-              //this.router.navigateByUrl('manage-org/register/initial-search-status/exists');
+              window.location.replace('manage-org/register/initial-search-status/exists'); // location replace is used to avoid being in a loop when click on back button
             } else {
               this.router.navigateByUrl(`manage-org/register/error/generic`);
             }
