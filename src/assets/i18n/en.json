@@ -292,5 +292,6 @@
   "LAST_NAME": "Last Name",
   "STATUS_DESCRIPTION": "Status Description",
   "WAIT_UNTIL_WE_PROCESS_REPORT_DETAILS": "Please wait until we process the report.",
-  "UPLOAD_NEW_FILE": "Upload a new file"
+  "UPLOAD_NEW_FILE": "Upload a new file",
+  "THIS_IS_NOT_MY_ORGANISATION_BTN": "This is not my organisation"
 }
