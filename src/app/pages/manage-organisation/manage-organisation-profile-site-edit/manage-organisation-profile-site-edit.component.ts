@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ViewportScroller } from '@angular/common';
@@ -13,6 +13,11 @@ import { ContactGridInfo, SiteContactInfoList } from 'src/app/models/contactInfo
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
+import { ContryDetails } from 'src/app/models/contryDetails';
+import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
+import { ReplaySubject, Subject } from 'rxjs';
+import { MatSelect } from '@angular/material/select';
+import { take, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manage-organisation-profile-site-edit',
@@ -28,13 +33,20 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'FAX', 'WEB_URL'];
   contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
   contactData: ContactGridInfo[];
+  countryDetails: ContryDetails[] = [];
+  topCountries: ContryDetails[] = [];
+  filteredCountryDetails: ReplaySubject<ContryDetails[]> = new ReplaySubject<ContryDetails[]>(1);
+
+  public bankFilterCtrl: FormControl = new FormControl();
+  protected _onDestroy = new Subject<void>();
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
+  @ViewChild('singleSelect', { static: true }) singleSelect!: MatSelect;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
     private orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
-    private contactHelper: ContactHelper, private titleService: Title) {
+    private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService) {
     super(viewportScroller, formBuilder.group({
       name: ['', Validators.compose([Validators.required])],
       streetAddress: ['', Validators.compose([Validators.required])],
@@ -53,8 +65,20 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.titleService.setTitle(`${this.isEdit ? "Edit" : "Add"} - Site - CCS`);
+    this.countryDetails = await this.wrapperConfigService.getCountryDetails().toPromise();
+    this.setTopCountries(false);
+    this.filteredCountryDetails.next(this.countryDetails.slice());
+
+    // listen for search field value changes
+    this.bankFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterBanks();
+      });
+
+    console.log("CountryDetails", this.countryDetails);
     if (this.isEdit) {
       this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
         {
@@ -65,7 +89,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
               locality: siteInfo.address.locality,
               region: siteInfo.address.region,
               postalCode: siteInfo.address.postalCode,
-              countryCode: siteInfo.address.countryCode,
+              countryCode: this.countryDetails.find(s => s.countryCode == siteInfo.address.countryCode),
             });
             this.getSiteContacts();
             this.onFormValueChange();
@@ -78,6 +102,60 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     else {
       this.onFormValueChange();
     }
+  }
+
+  ngAfterViewInit() {
+    this.setInitialValue();
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
+  setTopCountries(isClear: boolean) {
+    if (!isClear) {
+      this.topCountries = this.countryDetails.filter(c => c.countryName === "Ireland" || c.countryName === "United States" || c.countryName === "United Kingdom");
+    }
+    else {
+      this.topCountries = [];
+    }
+  }
+
+  /**
+   * Sets the initial value after the filteredBanks are loaded initially
+   */
+  protected setInitialValue() {
+    this.filteredCountryDetails
+      .pipe(take(1), takeUntil(this._onDestroy))
+      .subscribe(() => {
+        // setting the compareWith property to a comparison function
+        // triggers initializing the selection according to the initial value of
+        // the form control (i.e. _initializeSelection())
+        // this needs to be done after the filteredBanks are loaded initially
+        // and after the mat-option elements are available
+        this.singleSelect.compareWith = (a: ContryDetails, b: ContryDetails) => a && b && a.id === b.id;
+      });
+  }
+
+  protected filterBanks() {
+    if (!this.countryDetails) {
+      return;
+    }
+    // get the search keyword
+    let search = this.bankFilterCtrl.value;
+    if (!search) {
+      this.filteredCountryDetails.next(this.countryDetails.slice());
+      this.setTopCountries(false);
+      return;
+    } else {
+      search = search.toLowerCase();
+      this.setTopCountries(true);
+    }
+    // filter the banks
+    this.filteredCountryDetails.next(
+      this.countryDetails.filter(countryDetail => countryDetail.countryName.toLowerCase().indexOf(search) > -1)
+    );
   }
 
   getSiteContacts() {
@@ -116,7 +194,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
           locality: form.get('locality')?.value,
           region: form.get('region')?.value,
           postalCode: form.get('postalCode')?.value,
-          countryCode: form.get('countryCode')?.value,
+          countryCode: form.get('countryCode')?.value?.countryCode,
         }
       };
 

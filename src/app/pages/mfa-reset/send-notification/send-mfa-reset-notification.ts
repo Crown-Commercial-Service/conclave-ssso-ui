@@ -7,6 +7,7 @@ import { ViewportScroller } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { MFAService } from 'src/app/services/auth/mfa.service';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 
 @Component({
@@ -30,13 +31,12 @@ export class SendMFAResetNotificationComponent extends BaseComponent implements 
 
   ngOnInit() {
     debugger;
-    this.route.queryParams.subscribe(para => {
-      this.mfaService.sendResetMFANotification( para.u).toPromise().then(() => {
-        this.router.navigateByUrl('mfaresetnotification/success?u=' + encodeURIComponent(para.u));
-      }).catch((error: any) => {
-        this.sendError = true;
-      });
-      this.userName = para.u;
+    this.userName = sessionStorage.getItem(SessionStorageKey.MFAResetUserName) ?? '';
+    this.mfaService.sendResetMFANotification(this.userName).toPromise().then(() => {
+      this.router.navigateByUrl('mfaresetnotification/success');
+    }).catch((error: any) => {
+      this.sendError = true;
     });
+
   }
 }
