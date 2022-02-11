@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { Title } from '@angular/platform-browser';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 @Component({
     selector: 'app-operation-success',
@@ -31,11 +32,7 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
         protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
-        let queryParams = this.activatedRoute.snapshot.queryParams;
-        if (queryParams.data) {
-            let routeData = JSON.parse(queryParams.data);
-            this.userName = routeData['userName'];
-        }
+        this.userName = sessionStorage.getItem(SessionStorageKey.OperationSuccessUserName) ?? '';
     }
 
     ngOnInit() {
