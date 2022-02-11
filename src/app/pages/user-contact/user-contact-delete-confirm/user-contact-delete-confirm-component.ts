@@ -10,6 +10,7 @@ import { OperationEnum } from "src/app/constants/enum";
 import { WrapperUserContactService } from "src/app/services/wrapper/wrapper-user-contact.service";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { ViewportScroller } from "@angular/common";
+import { SessionStorageKey } from "src/app/constants/constant";
 
 @Component({
     selector: 'app-user-contact-delete-confirm',
@@ -32,7 +33,7 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
             console.log(routeData);
-            this.userName = routeData['userName'];
+            this.userName = sessionStorage.getItem(SessionStorageKey.UserContactUsername) ?? '';
             this.contactId = routeData['contactId'];
         }
     }
@@ -54,7 +55,6 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
     onCancelClick(){
         let data = {
             'isEdit':true,
-            'userName': this.userName,
             'contactId': this.contactId
         };
         this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));

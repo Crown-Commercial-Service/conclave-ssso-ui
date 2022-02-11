@@ -10,6 +10,7 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { MFAService } from 'src/app/services/auth/mfa.service';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 @Component({
   selector: 'app-org-support-confirm',
@@ -41,46 +42,42 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.route.queryParams.subscribe(para => {
-
-        if (para.rpwd != undefined) {
-          this.changePassword = JSON.parse(para.rpwd);
-        }
-
-        if (para.rmfa != undefined) {
-          this.resetMfa = JSON.parse(para.rmfa);
-        }
-
-        if (para.chrole != undefined) {
-          this.changeRoleType = para.chrole;
-        }
-      });
-
-      this.userName = params.userName;
-
-      if (this.changeRoleType == "noChange" && !this.changePassword && !this.resetMfa) {
-        this.displayMessage = "You haven't selected any changes for the user.";
+    this.userName = sessionStorage.getItem(SessionStorageKey.OrgUserSupportUserName) ?? '';
+    this.route.queryParams.subscribe(para => {
+      if (para.rpwd != undefined) {
+        this.changePassword = JSON.parse(para.rpwd);
       }
-      else {
-        this.canContinue = true;
-        this.displayMessage = 'Confirm you want to ';
 
-        if (this.changeRoleType !== "noChange") {
-          this.displayMessage = this.displayMessage + (this.changeRoleType == "assign" ? ' assign admin role' : ' unassign admin role')
-        }
+      if (para.rmfa != undefined) {
+        this.resetMfa = JSON.parse(para.rmfa);
+      }
 
-        if (this.changePassword) {
-          this.displayMessage = this.displayMessage + (this.changeRoleType !== "noChange" ? ', change the password' : ' change the password')
-        }
-
-        if (this.resetMfa) {
-          this.displayMessage = this.displayMessage + (this.changePassword || this.changeRoleType !== "noChange" ? ', reset additional security' : 'reset additional security');
-        }
-
-        this.displayMessage = this.displayMessage + ` for ${params.userName}.`;
+      if (para.chrole != undefined) {
+        this.changeRoleType = para.chrole;
       }
     });
+
+    if (this.changeRoleType == "noChange" && !this.changePassword && !this.resetMfa) {
+      this.displayMessage = "You haven't selected any changes for the user.";
+    }
+    else {
+      this.canContinue = true;
+      this.displayMessage = 'Confirm you want to ';
+
+      if (this.changeRoleType !== "noChange") {
+        this.displayMessage = this.displayMessage + (this.changeRoleType == "assign" ? ' assign admin role' : ' unassign admin role')
+      }
+
+      if (this.changePassword) {
+        this.displayMessage = this.displayMessage + (this.changeRoleType !== "noChange" ? ', change the password' : ' change the password')
+      }
+
+      if (this.resetMfa) {
+        this.displayMessage = this.displayMessage + (this.changePassword || this.changeRoleType !== "noChange" ? ', reset additional security' : 'reset additional security');
+      }
+
+      this.displayMessage = this.displayMessage + ` for ${this.userName}.`;
+    }
   }
 
   public async onSubmitClick() {
@@ -101,16 +98,16 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
           await this.wrapperUserService.removeAdminRoles(this.userName).toPromise();
         }
       }
-      this.router.navigateByUrl(`org-support/success/${this.userName}?rpwd=` + this.changePassword + `&rmfa=` + this.resetMfa +
+      this.router.navigateByUrl(`org-support/success?rpwd=` + this.changePassword + `&rmfa=` + this.resetMfa +
         `&chrole=` + this.changeRoleType);
     }
-    catch (err) {
+    catch (err: any) {
       this.router.navigateByUrl(`org-support/error?errCode=${err.error}`);
     }
   }
 
   public onCancelClick() {
-    this.router.navigateByUrl(`org-support/details/${this.userName}?rpwd=` + this.changePassword + `&rmfa=` + this.resetMfa +
-        `&chrole=` + this.changeRoleType);
+    this.router.navigateByUrl(`org-support/details?rpwd=` + this.changePassword + `&rmfa=` + this.resetMfa +
+      `&chrole=` + this.changeRoleType);
   }
 }

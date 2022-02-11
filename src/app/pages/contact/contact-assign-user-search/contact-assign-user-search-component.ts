@@ -10,6 +10,7 @@ import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org-service";
 import { UserListInfo, UserListResponse } from "src/app/models/user";
 import { environment } from "src/environments/environment";
+import { SessionStorageKey } from "src/app/constants/constant";
 
 @Component({
     selector: 'app-contact-assign-user-search-component',
@@ -93,10 +94,10 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
     onContinue() {
         if (this.selectedUserName != "") {
             sessionStorage.removeItem("assigning-contact-list");
+            sessionStorage.setItem(SessionStorageKey.ContactAssignUsername, this.selectedUserName);
             let data = {
                 'assigningSiteId': this.assigningSiteId,
-                'assigningOrgId': this.assigningOrgId,
-                'contactUserName': encodeURIComponent(this.selectedUserName)
+                'assigningOrgId': this.assigningOrgId
             };
             this.router.navigateByUrl('contact-assign?data=' + JSON.stringify(data));
         }
