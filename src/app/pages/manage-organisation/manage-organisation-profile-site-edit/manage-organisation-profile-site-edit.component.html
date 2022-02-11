@@ -42,7 +42,7 @@
           </li>
           <li
             *ngIf="submitted && (formGroup.controls.countryCode.hasError('required') || serverError == 'INVALID_COUNTRY_CODE')">
-            <a href="javascript:;" onClick="return false;" (click)="setFocus(3)"> {{
+            <a href="javascript:;" onClick="return false;" (click)="scrollToAnchor('country-code-form-group')"> {{
               'ERROR_COUNTRY_CODE' | translate }} </a>
           </li>
         </ul>
