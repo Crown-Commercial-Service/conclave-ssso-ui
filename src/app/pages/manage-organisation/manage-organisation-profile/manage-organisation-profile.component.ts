@@ -102,6 +102,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                             streetAddress: site.address.streetAddress,
                             postalCode: site.address.postalCode,
                             countryCode: site.address.countryCode,
+                            countryName:site.address.countryName,
                             locality: site.address.locality,
                             region: site.address.region,
                         };
