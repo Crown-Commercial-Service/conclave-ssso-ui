@@ -1,6 +1,6 @@
 import { ViewportScroller } from "@angular/common";
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
@@ -9,8 +9,7 @@ import { OrganisationRegBasicInfo, OrganisationSearchDto } from "src/app/models/
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { OrganisationService } from "src/app/services/postgres/organisation.service";
 import { UIState } from "src/app/store/ui.states";
-import { debounceTime, map, startWith } from 'rxjs/operators';
-import { switchMap } from "rxjs-compat/operator/switchMap";
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -24,7 +23,8 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     formGroup: FormGroup;
     submitted: boolean = false;
     options: OrganisationSearchDto[] = [];
-    filteredOptions!: Observable<OrganisationSearchDto[]>;
+    filteredOptions$!: Observable<OrganisationSearchDto[]>;
+    myControl = new FormControl();
 
     constructor(private organisationService: OrganisationService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -48,44 +48,43 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 organisation: ['', Validators.compose([Validators.required])]
             });
         }
+
+        // this.filteredOptions$ = this.myControl.valueChanges.pipe(
+        //     startWith(''),
+        //     debounceTime(400),
+        //     distinctUntilChanged(),
+        //     switchMap(val => {
+        //           return this.filter(val || '')
+        //      }) 
+        //   )
     }
 
     ngOnInit() {
-        this.filteredOptions = this.formGroup.get('organisation')!.valueChanges.pipe(
+        this.filteredOptions$ = this.formGroup.get('organisation')!.valueChanges.pipe(
             startWith(''),
             debounceTime(300),
-            switchMap<string, OrganisationSearchDto[]>((val: string) => {
+            //map(value => this.filter(value)),
+            switchMap((val: string) => {
+                console.log("Changing controller", val);
                 return this.filter(val || '')
             })
-
         );
     }
 
     filter(val: string): Observable<OrganisationSearchDto[]> {
         // call the service which makes the http-request
+        console.log("Calling API", val);
         return this.organisationService.getData(val)
             .pipe(
-                map((response: OrganisationSearchDto[]) => response.filter(option => {
-                    return option.legalName.toLowerCase().indexOf(val.toLowerCase()) === 0
-                }))
-            )
+                map((response: OrganisationSearchDto[]) => response)
+            );
     }
 
     doFilter(value: string) {
-        return this.organisationService.getByName(value).pipe(
-            map(response => response)
-        );
-    }
-
-    async getSearchedOrganisations(value: string) {
-        let data = await this.organisationService.getByName(value).toPromise();
-        return data;
-    }
-
-    private _filter(value: string): OrganisationSearchDto[] {
-        const filterValue = value.toLowerCase();
-
-        return this.options.filter(option => option.legalName.toLowerCase().includes(filterValue));
+        return this.organisationService.getByName(value)
+            .pipe(
+                map(response => response)
+            );
     }
 
 

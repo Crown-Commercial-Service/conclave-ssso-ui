@@ -50,10 +50,10 @@
                         [class.govuk-input--error]="submitted && formGroup.controls.organisation.invalid"> -->
                     <mat-form-field class="example-full-width" appearance="fill">
                         <mat-label>Number</mat-label>
-                        <input type="text" matInput [formControl]="organisation"
+                        <input type="text" matInput formControlName="organisation"
                             [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.legalName">
+                            <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option.legalName">
                                 {{option.legalName}}
                             </mat-option>
                         </mat-autocomplete>
