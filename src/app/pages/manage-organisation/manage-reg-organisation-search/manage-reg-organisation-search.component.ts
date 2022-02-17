@@ -24,7 +24,6 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     submitted: boolean = false;
     options: OrganisationSearchDto[] = [];
     filteredOptions$!: Observable<OrganisationSearchDto[]>;
-    myControl = new FormControl();
 
     constructor(private organisationService: OrganisationService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -48,15 +47,6 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 organisation: ['', Validators.compose([Validators.required])]
             });
         }
-
-        // this.filteredOptions$ = this.myControl.valueChanges.pipe(
-        //     startWith(''),
-        //     debounceTime(400),
-        //     distinctUntilChanged(),
-        //     switchMap(val => {
-        //           return this.filter(val || '')
-        //      }) 
-        //   )
     }
 
     ngOnInit() {
@@ -66,21 +56,13 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             //map(value => this.filter(value)),
             switchMap((val: string) => {
                 console.log("Changing controller", val);
-                return this.filter(val || '')
+                return this.doFilter(val || '')
             })
         );
     }
 
-    filter(val: string): Observable<OrganisationSearchDto[]> {
-        // call the service which makes the http-request
-        console.log("Calling API", val);
-        return this.organisationService.getData(val)
-            .pipe(
-                map((response: OrganisationSearchDto[]) => response)
-            );
-    }
-
-    doFilter(value: string) {
+    doFilter(value: string): Observable<OrganisationSearchDto[]> {
+        console.log("Calling API2", value);
         return this.organisationService.getByName(value)
             .pipe(
                 map(response => response)
