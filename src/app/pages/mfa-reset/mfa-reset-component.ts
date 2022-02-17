@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { Title } from '@angular/platform-browser';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 @Component({
   selector: 'mfa-reset-component',
@@ -32,7 +33,8 @@ export class MFAResetComponent extends BaseComponent implements OnInit {
 
   onResetMfaClick() {
     this.mfaService.sendResetMFANotification(this.userName).toPromise().then(() => {
-      this.router.navigateByUrl('mfaresetnotification?success&u=' + encodeURIComponent(this.userName));
+      sessionStorage.setItem(SessionStorageKey.MFAResetUserName, this.userName);
+      this.router.navigateByUrl('mfaresetnotification');
     });
   }
 

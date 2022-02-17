@@ -53,6 +53,11 @@
 </div>
 
 <div>
+    <div *ngIf="errorDetails.length != 0" class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <div><a routerLink="/manage-users/bulk-users" class="navigation-text">{{ 'UPLOAD_NEW_FILE' | translate }} </a></div>
+        </div>
+    </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <div><a routerLink="/manage-users" class="navigation-text">{{ 'GO_TO_MANAGE_USERS' | translate }} </a></div>

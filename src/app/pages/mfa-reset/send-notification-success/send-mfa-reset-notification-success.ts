@@ -7,6 +7,7 @@ import { ViewportScroller } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { MFAService } from 'src/app/services/auth/mfa.service';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { MFAService } from 'src/app/services/auth/mfa.service';
 export class SendMFAResetNotificationSuccessComponent extends BaseComponent implements OnInit {
   userName: string = '';
 
-  constructor(private route: ActivatedRoute,protected uiStore: Store<UIState>,
+  constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>,
     private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
   }
@@ -28,8 +29,10 @@ export class SendMFAResetNotificationSuccessComponent extends BaseComponent impl
 
   ngOnInit() {
     debugger;
-    this.route.queryParams.subscribe(para => {
-      this.userName = para.u;
-    });
+    this.userName = sessionStorage.getItem(SessionStorageKey.MFAResetUserName) ?? '';
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem(SessionStorageKey.MFAResetUserName);
   }
 }
