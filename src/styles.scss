@@ -181,3 +181,10 @@ form {
     margin-top: 2px;
   }
 }
+
+.mat-country-search-registration {
+  .mat-autocomplete-panel {
+    background-color: white !important;
+    border-style: groove;
+  }
+}

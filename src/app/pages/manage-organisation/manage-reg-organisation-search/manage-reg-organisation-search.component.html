@@ -18,19 +18,19 @@
                                     *ngIf="formGroup.controls['organisation'].hasError('required')">
                                     <li>Enter your organisation name</li>
                                 </a>
-                                <a onClick="return false;" (click)="setFocus(0)" href="javascript:;"
+                                <a onClick="return false;" (click)="setFocus(1)" href="javascript:;"
                                     *ngIf="formGroup.controls['firstName'].hasError('required')">
                                     <li>Enter your first name</li>
                                 </a>
-                                <a onClick="return false;" (click)="setFocus(1)" href="javascript:;"
+                                <a onClick="return false;" (click)="setFocus(2)" href="javascript:;"
                                     *ngIf="formGroup.controls['lastName'].hasError('required')">
                                     <li>Enter your last name</li>
                                 </a>
-                                <a onClick="return false;" (click)="setFocus(2)" href="javascript:;"
+                                <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
                                     *ngIf="formGroup.controls['email'].hasError('required')">
                                     <li>Enter your email address</li>
                                 </a>
-                                <a onClick="return false;" (click)="setFocus(2)" href="javascript:;"
+                                <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
                                     *ngIf="formGroup.controls['email'].hasError('email')">
                                     <li>Enter an email address in the correct format, like name@example.com</li>
                                 </a>
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="govuk-form-group"
-                    [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid">
+                    [class.govuk-form-group--error]="submitted && formGroup.controls.organisation.invalid">
                     <label class="govuk-label" for="organisation">{{ 'ORGANISATION' | translate }}</label>
                     <span id="firstname-error" class="govuk-error-message"
                         *ngIf="submitted && formGroup.controls.organisation.invalid">
@@ -48,11 +48,10 @@
                     <!-- <input #input class="govuk-input" id="organisation" formControlName="organisation" maxlength="100"
                         name="organisation" size="20" type="text" value="" autocomplete="organization"
                         [class.govuk-input--error]="submitted && formGroup.controls.organisation.invalid"> -->
-                    <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>Number</mat-label>
-                        <input type="text" matInput formControlName="organisation"
+                    <mat-form-field >
+                        <input #input type="search" class="govuk-input" matInput formControlName="organisation" maxlength="100"
                             [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete">
+                        <mat-autocomplete #auto="matAutocomplete" panelClass="mat-country-search-registration">
                             <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option.legalName">
                                 {{option.legalName}}
                             </mat-option>

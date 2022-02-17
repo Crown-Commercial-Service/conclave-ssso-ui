@@ -31,20 +31,6 @@ export class OrganisationService {
 
   opts: OrganisationSearchDto[] = [];
 
-  getData(orgName: string) {
-    const url = `${this.url}/orgs-by-name?organisation-name=` + encodeURIComponent(orgName);
-    return this.http.get<OrganisationSearchDto[]>(url)
-      .pipe(tap(data => this.opts = data));
-  }
-
-  // getData(orgName: string) {
-  //   const url = `${this.url}/orgs-by-name?organisation-name=` + encodeURIComponent(orgName);
-  //   return this.opts.length ?
-  //     of(this.opts) :
-  //     this.http.get<OrganisationSearchDto[]>(url)
-  //       .pipe(tap(data => this.opts = data))
-  // }
-
   getByName(orgName: string): Observable<OrganisationSearchDto[]> {
     const url = `${this.url}/orgs-by-name?organisation-name=` + encodeURIComponent(orgName);
     var organisations = this.http.get<OrganisationSearchDto[]>(url).pipe(
