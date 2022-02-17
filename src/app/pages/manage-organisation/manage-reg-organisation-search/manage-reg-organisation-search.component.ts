@@ -3,11 +3,14 @@ import { Component, ElementRef, OnInit, QueryList, ViewChildren } from "@angular
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 import { BaseComponent } from "src/app/components/base/base.component";
-import { OrganisationRegBasicInfo } from "src/app/models/organisation";
+import { OrganisationRegBasicInfo, OrganisationSearchDto } from "src/app/models/organisation";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { OrganisationService } from "src/app/services/postgres/organisation.service";
 import { UIState } from "src/app/store/ui.states";
+import { debounceTime, map, startWith } from 'rxjs/operators';
+import { switchMap } from "rxjs-compat/operator/switchMap";
 
 
 @Component({
@@ -16,10 +19,12 @@ import { UIState } from "src/app/store/ui.states";
     styleUrls: ['./manage-reg-organisation-search.component.scss']
 })
 
-export class ManageOrgRegSearchComponent extends BaseComponent {
+export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit {
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     formGroup: FormGroup;
     submitted: boolean = false;
+    options: OrganisationSearchDto[] = [];
+    filteredOptions!: Observable<OrganisationSearchDto[]>;
 
     constructor(private organisationService: OrganisationService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -45,9 +50,48 @@ export class ManageOrgRegSearchComponent extends BaseComponent {
         }
     }
 
+    ngOnInit() {
+        this.filteredOptions = this.formGroup.get('organisation')!.valueChanges.pipe(
+            startWith(''),
+            debounceTime(300),
+            switchMap<string, OrganisationSearchDto[]>((val: string) => {
+                return this.filter(val || '')
+            })
+
+        );
+    }
+
+    filter(val: string): Observable<OrganisationSearchDto[]> {
+        // call the service which makes the http-request
+        return this.organisationService.getData(val)
+            .pipe(
+                map((response: OrganisationSearchDto[]) => response.filter(option => {
+                    return option.legalName.toLowerCase().indexOf(val.toLowerCase()) === 0
+                }))
+            )
+    }
+
+    doFilter(value: string) {
+        return this.organisationService.getByName(value).pipe(
+            map(response => response)
+        );
+    }
+
+    async getSearchedOrganisations(value: string) {
+        let data = await this.organisationService.getByName(value).toPromise();
+        return data;
+    }
+
+    private _filter(value: string): OrganisationSearchDto[] {
+        const filterValue = value.toLowerCase();
+
+        return this.options.filter(option => option.legalName.toLowerCase().includes(filterValue));
+    }
+
+
     setFocus(inputIndex: number) {
         this.inputs.toArray()[inputIndex].nativeElement.focus();
-      }
+    }
 
     /**
       * iterate through each form control and validate
@@ -71,22 +115,22 @@ export class ManageOrgRegSearchComponent extends BaseComponent {
             sessionStorage.setItem('orgreginfo', JSON.stringify(organisationRegisterDto));
 
             let data = await this.organisationService.getByName(organisationRegisterDto.orgName).toPromise();
-                localStorage.removeItem('scheme');
-                localStorage.removeItem('scheme_name');
-                if (data.length == 0) {
-                    //Org does not exist
-                    this.router.navigateByUrl(`manage-org/register/initial-search-status/new`);
-                }
-                else if (data.length == 1) {
-                    //Single Org exists
-                    organisationRegisterDto.ciiOrgId = data[0].ciiOrganisationId;
-                    sessionStorage.setItem('orgreginfo', JSON.stringify(organisationRegisterDto));
-                    this.router.navigateByUrl(`manage-org/register/initial-search-status/exists`);
-                }
-                else {
-                    //Multiple Orgs exists
-                    this.router.navigateByUrl(`manage-org/register/initial-search-status/duplicate`);
-                }
+            localStorage.removeItem('scheme');
+            localStorage.removeItem('scheme_name');
+            if (data.length == 0) {
+                //Org does not exist
+                this.router.navigateByUrl(`manage-org/register/initial-search-status/new`);
+            }
+            else if (data.length == 1) {
+                //Single Org exists
+                organisationRegisterDto.ciiOrgId = data[0].ciiOrganisationId;
+                sessionStorage.setItem('orgreginfo', JSON.stringify(organisationRegisterDto));
+                this.router.navigateByUrl(`manage-org/register/initial-search-status/exists`);
+            }
+            else {
+                //Multiple Orgs exists
+                this.router.navigateByUrl(`manage-org/register/initial-search-status/duplicate`);
+            }
         }
     }
 

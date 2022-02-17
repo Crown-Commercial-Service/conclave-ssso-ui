@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { OrganisationUserDto } from 'src/app/models/user';
-import { OrganisationRegisterDto } from 'src/app/models/organisation';
+import { OrganisationRegisterDto, OrganisationSearchDto } from 'src/app/models/organisation';
 
 @Injectable({
   providedIn: 'root'
@@ -29,17 +29,27 @@ export class OrganisationService {
     return user;
   }
 
-  getByName(orgName: string): Observable<any> {
+  opts: OrganisationSearchDto[] = [];
+
+  getData(orgName: string) {
     const url = `${this.url}/orgs-by-name?organisation-name=` + encodeURIComponent(orgName);
-    var user = this.http.get<any>(url).pipe(
-      map((data: any) => {
+    return this.opts.length ?
+      of(this.opts) :
+      this.http.get<OrganisationSearchDto[]>(url)
+        .pipe(tap(data => this.opts = data))
+  }
+
+  getByName(orgName: string): Observable<OrganisationSearchDto[]> {
+    const url = `${this.url}/orgs-by-name?organisation-name=` + encodeURIComponent(orgName);
+    var organisations = this.http.get<OrganisationSearchDto[]>(url).pipe(
+      map((data: OrganisationSearchDto[]) => {
         return data;
       }), catchError(error => {
         console.log(error);
         return throwError(error);
       })
     )
-    return user;
+    return organisations;
   }
 
   getById(id: string): Observable<any> {
