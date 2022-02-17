@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
     public loadingIndicatorService: LoadingIndicatorService, private titleService: Title) {
     translate.setDefaultLang('en');
     this.sideNavVisible$ = this.uiStore.pipe(select(getSideNavVisible));
-    this.gtmService.addGtmToDom();
+    //this.gtmService.addGtmToDom();
     this.router.events.pipe(filter(event => event instanceof NavigationEnd), map(() => {
       let child = this.route.firstChild;
       while (child) {
