@@ -14,6 +14,7 @@ import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.servic
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 @Component({
     selector: 'app-manage-user-add-single-user-detail',
@@ -60,7 +61,7 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
         if (queryParams.data) {
             this.routeData = JSON.parse(queryParams.data);
             this.isEdit = this.routeData['isEdit'];
-            this.editingUserName = this.routeData['userName'];
+            this.editingUserName = sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
         }
         this.orgGroups = [];
         this.orgRoles = [];
@@ -244,10 +245,8 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
             next: (userEditResponseInfo: UserEditResponseInfo) => {
                 if (userEditResponseInfo.userId == this.userProfileRequestInfo.userName) {
                     this.submitted = false;
-                    let data = {
-                        'userName': encodeURIComponent(this.userProfileRequestInfo.userName)
-                    };
-                    this.router.navigateByUrl(`operation-success/${userEditResponseInfo.isRegisteredInIdam ? OperationEnum.UserUpdateWithIdamRegister : OperationEnum.UserUpdate}?data=` + JSON.stringify(data));
+                    sessionStorage.setItem(SessionStorageKey.OperationSuccessUserName, this.editingUserName);
+                    this.router.navigateByUrl(`operation-success/${userEditResponseInfo.isRegisteredInIdam ? OperationEnum.UserUpdateWithIdamRegister : OperationEnum.UserUpdate}`);
                 }
                 else {
                     console.log("Update not success");
@@ -271,10 +270,8 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
         this.wrapperUserService.createUser(this.userProfileRequestInfo).subscribe({
             next: (userEditResponseInfo: UserEditResponseInfo) => {
                 this.submitted = false;
-                let data = {
-                    'userName': encodeURIComponent(this.userProfileRequestInfo.userName)
-                };
-                this.router.navigateByUrl(`operation-success/${userEditResponseInfo.isRegisteredInIdam ? OperationEnum.UserCreateWithIdamRegister : OperationEnum.UserCreate}?data=` + JSON.stringify(data));
+                sessionStorage.setItem(SessionStorageKey.OperationSuccessUserName, this.editingUserName);
+                this.router.navigateByUrl(`operation-success/${userEditResponseInfo.isRegisteredInIdam ? OperationEnum.UserCreateWithIdamRegister : OperationEnum.UserCreate}`);
 
             },
             error: (err: any) => {
@@ -318,21 +315,16 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
 
     onCancelClick() {
         console.log("cancel");
+        sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
         this.router.navigateByUrl('manage-users');
     }
 
     onResetPasswordClick() {
-        let data = {
-            'userName': encodeURIComponent(this.editingUserName)
-        };
-        this.router.navigateByUrl('manage-users/confirm-reset-password?data=' + JSON.stringify(data));
+        this.router.navigateByUrl('manage-users/confirm-reset-password');
     }
 
     onDeleteClick() {
-        let data = {
-            'userName': encodeURIComponent(this.editingUserName)
-        };
-        this.router.navigateByUrl('manage-users/confirm-user-delete?data=' + JSON.stringify(data));
+        this.router.navigateByUrl('manage-users/confirm-user-delete');
     }
 
     onGroupViewClick(groupId: any) {
