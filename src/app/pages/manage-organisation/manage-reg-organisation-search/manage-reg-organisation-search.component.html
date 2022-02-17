@@ -51,13 +51,13 @@
                     <mat-form-field class="example-full-width">
                         <input #input type="search" class="govuk-input" matInput formControlName="organisation"
                             maxlength="100" [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete" panelClass="mat-country-search-registration">
+                        <mat-autocomplete #auto="matAutocomplete" class="mat-country-search-registration">
                             <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option.legalName">
                                 {{option.legalName}}
                             </mat-option>
-                            <hr *ngIf="(filteredOptions$ | async)?.length > 1">
+                            <hr *ngIf="(filteredOptions$ | async)?.length! > showMoreThreshold">
                             <!-- Global overried for .mat-select-panel max-height at style.css -->
-                            <div class="row no-gutters pb-1" *ngIf="(filteredOptions$ | async)?.length > 1">
+                            <div class="row no-gutters pb-1" *ngIf="(filteredOptions$ | async)?.length! > showMoreThreshold">
                                 <div class="col-sm-6 text-right pr-2">
                                     <button type="button" class="btn btn-primary" (click)="showMoreClicked()">Show
                                         more</button>

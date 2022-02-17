@@ -24,6 +24,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     submitted: boolean = false;
     options: OrganisationSearchDto[] = [];
     filteredOptions$!: Observable<OrganisationSearchDto[]>;
+    showMoreThreshold : number = 1;
 
     constructor(private organisationService: OrganisationService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
