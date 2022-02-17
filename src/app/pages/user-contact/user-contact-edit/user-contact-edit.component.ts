@@ -14,6 +14,7 @@ import { WrapperContactService } from 'src/app/services/wrapper/wrapper-contact.
 import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 @Component({
     selector: 'app-user-contact-edit',
@@ -57,7 +58,7 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
             this.isEdit = routeData['isEdit'];
-            this.userName = routeData['userName'];
+            this.userName = sessionStorage.getItem(SessionStorageKey.UserContactUsername) ?? '';
             this.contactId = routeData['contactId'];
         }
         this.formGroup.setValidators(this.validateForSufficientDetails());
@@ -199,7 +200,6 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
     onDeleteClick() {
         console.log("Delete");
         let data = {
-            'userName': encodeURIComponent(this.userName),
             'contactId': this.contactId
         };
         this.router.navigateByUrl('user-contact-delete?data=' + JSON.stringify(data));

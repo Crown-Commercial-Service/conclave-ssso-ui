@@ -11,6 +11,7 @@ import { ContactAssignmentInfo, ContactGridInfo } from "src/app/models/contactIn
 import { WrapperSiteContactService } from "src/app/services/wrapper/wrapper-site-contact-service";
 import { AssignedContactType } from "src/app/constants/enum";
 import { WrapperOrganisationContactService } from "src/app/services/wrapper/wrapper-org-contact-service";
+import { SessionStorageKey } from "src/app/constants/constant";
 
 @Component({
     selector: 'app-contact-assign-confirm-component',
@@ -25,7 +26,7 @@ import { WrapperOrganisationContactService } from "src/app/services/wrapper/wrap
 })
 export class ContactAssignConfirmComponent extends BaseComponent implements OnInit {
     organisationId: string;
-    
+
     contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'FAX', 'WEB_URL'];
     contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
     assigningSiteId: number = 0;
@@ -45,7 +46,7 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
             let routeData = JSON.parse(queryParams.data);
             this.assigningSiteId = routeData['assigningSiteId'] || 0;
             this.assigningOrgId = routeData['assigningOrgId'] || "";
-            this.contactUserName = routeData['contactUserName'] || "";
+            this.contactUserName = sessionStorage.getItem(SessionStorageKey.ContactAssignUsername) ?? "";
             this.contactSiteId = routeData['contactSiteId'] || 0;
         }
         let selectedContactString = sessionStorage.getItem("assigning-contact-list");
@@ -102,7 +103,7 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         });
     }
 
-    onSuccess(){
+    onSuccess() {
         sessionStorage.removeItem("assigning-contact-list");
         let data = {
             'assigningSiteId': this.assigningSiteId,
@@ -111,7 +112,7 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         this.router.navigateByUrl('contact-assign/success?data=' + JSON.stringify(data));
     }
 
-    onError(errorCode: string){
+    onError(errorCode: string) {
         sessionStorage.removeItem("assigning-contact-list");
         let data = {
             'assigningSiteId': this.assigningSiteId,
@@ -127,11 +128,13 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
 
     onNavigateToHomeClick() {
         sessionStorage.removeItem("assigning-contact-list");
+        sessionStorage.removeItem(SessionStorageKey.ContactAssignUsername);
         this.router.navigateByUrl('/home');
     }
 
     onNavigateToOrgClick() {
         sessionStorage.removeItem("assigning-contact-list");
+        sessionStorage.removeItem(SessionStorageKey.ContactAssignUsername);
         this.router.navigateByUrl('manage-org/profile');
     }
 
