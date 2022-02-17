@@ -31,8 +31,8 @@ export class OrganisationService {
 
   opts: OrganisationSearchDto[] = [];
 
-  getByName(orgName: string): Observable<OrganisationSearchDto[]> {
-    const url = `${this.url}/orgs-by-name?organisation-name=` + encodeURIComponent(orgName);
+  getByName(orgName: string, isExact: boolean = true): Observable<OrganisationSearchDto[]> {
+    const url = `${this.url}/orgs-by-name?organisation-name=` + encodeURIComponent(orgName) + '&exact-match=' + isExact;
     var organisations = this.http.get<OrganisationSearchDto[]>(url).pipe(
       map((data: OrganisationSearchDto[]) => {
         return data;

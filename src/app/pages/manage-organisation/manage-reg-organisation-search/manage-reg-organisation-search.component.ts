@@ -63,10 +63,15 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
 
     doFilter(value: string): Observable<OrganisationSearchDto[]> {
         console.log("Calling API2", value);
-        return this.organisationService.getByName(value)
+        return this.organisationService.getByName(value, false)
             .pipe(
                 map(response => response)
             );
+    }
+
+    showMoreClicked(){
+        console.log("SEE_MORE_CLICKED");
+        
     }
 
 
