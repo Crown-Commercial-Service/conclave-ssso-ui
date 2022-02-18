@@ -10,8 +10,28 @@
         {{ i?.address?.locality }}<br *ngIf="i?.address?.locality" />
         {{ i?.address?.region }}<br *ngIf="i?.address?.region" />
         {{ i?.address?.postalCode }}<br *ngIf="i?.address?.postalCode" />
-        {{ i?.address?.countryName }}
+        {{ i?.address?.countryName }}<br *ngIf="i?.address?.countryName" />
       </p>
+      <div class="govuk-form-group" id="country-code-form-group">
+        <label class="govuk-label" for="country-code"> {{ 'Country' | translate }} </label>
+        <mat-form-field class="form-field-country">
+          <mat-select [formControl]="countryCode" #singleSelect panelClass="mat-country-select-site">
+            <mat-option>
+              <ngx-mat-select-search [formControl]="countryCodeCtrl" placeholderLabel="Search"
+                noEntriesFoundLabel="No matching country found">
+                <mat-icon ngxMatSelectSearchClear>clear</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let topCountry of topCountries" [value]="topCountry">
+              {{topCountry.countryName}} - {{topCountry.countryCode}}
+            </mat-option>
+            <mat-option *ngIf="topCountries.length > 0" disabled="true">────────────────────</mat-option>
+            <mat-option *ngFor="let country of filteredCountryDetails | async" [value]="country">
+              {{country.countryName}} - {{country.countryCode}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <p><strong style="font-weight: 500;">{{ schemeName }} registration number</strong><br />{{ i?.identifier?.id }}
       </p>
       <div class="govuk-form-group">
