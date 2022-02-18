@@ -24,7 +24,8 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     submitted: boolean = false;
     options: OrganisationSearchDto[] = [];
     filteredOptions$!: Observable<OrganisationSearchDto[]>;
-    showMoreThreshold : number = 1;
+    visibleOptions$!: Observable<OrganisationSearchDto[]>;
+    showMoreThreshold: number = 8;
 
     constructor(private organisationService: OrganisationService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -63,16 +64,22 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     }
 
     doFilter(value: string): Observable<OrganisationSearchDto[]> {
-        console.log("Calling API2", value);
-        return this.organisationService.getByName(value, false)
-            .pipe(
-                map(response => response)
-            );
+        if (value.length > 2) {
+            console.log("Calling API", value);
+            return this.organisationService.getByName(value, false)
+                .pipe(
+                    map(response => response),
+                );
+        }
+        else {
+            console.log("NOT Calling API", value);
+            return Observable.of([]);
+        }
     }
 
-    showMoreClicked(){
+    showMoreClicked() {
         console.log("SEE_MORE_CLICKED");
-        
+
     }
 
 
