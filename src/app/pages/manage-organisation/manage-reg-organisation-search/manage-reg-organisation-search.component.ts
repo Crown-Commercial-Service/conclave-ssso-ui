@@ -24,8 +24,9 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     submitted: boolean = false;
     options: OrganisationSearchDto[] = [];
     filteredOptions$!: Observable<OrganisationSearchDto[]>;
-    visibleOptions$!: Observable<OrganisationSearchDto[]>;
     showMoreThreshold: number = 8;
+    showMoreOptionsVisible: boolean = false;
+    previousSearchValue: string = '';
 
     constructor(private organisationService: OrganisationService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -54,7 +55,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     ngOnInit() {
         this.filteredOptions$ = this.formGroup.get('organisation')!.valueChanges.pipe(
             startWith(''),
-            debounceTime(300),
+            debounceTime(400),
             //map(value => this.filter(value)),
             switchMap((val: string) => {
                 console.log("Changing controller", val);
@@ -64,22 +65,29 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     }
 
     doFilter(value: string): Observable<OrganisationSearchDto[]> {
+        this.showMoreOptionsVisible = false;
         if (value.length > 2) {
             console.log("Calling API", value);
-            return this.organisationService.getByName(value, false)
+            let result$ = this.organisationService.getByName(value, false)
                 .pipe(
                     map(response => response),
                 );
+            // if (this.previousSearchValue !== value) {
+            //     console.log("Making Visible ShowMORE");
+            //     this.showMoreOptionsVisible = true;
+            // }
+            return result$;
         }
         else {
             console.log("NOT Calling API", value);
+            //this.showMoreOptionsVisible = false;
             return Observable.of([]);
         }
     }
 
     showMoreClicked() {
         console.log("SEE_MORE_CLICKED");
-
+        this.showMoreOptionsVisible = true;
     }
 
 

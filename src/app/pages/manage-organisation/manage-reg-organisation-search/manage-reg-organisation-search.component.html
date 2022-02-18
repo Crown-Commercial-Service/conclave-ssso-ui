@@ -45,19 +45,19 @@
                         *ngIf="submitted && formGroup.controls.organisation.invalid">
                         <span class="govuk-visually-hidden">Error:</span>Enter your Organisation
                     </span>
-                    <!-- <input #input class="govuk-input" id="organisation" formControlName="organisation" maxlength="100"
-                        name="organisation" size="20" type="text" value="" autocomplete="organization"
-                        [class.govuk-input--error]="submitted && formGroup.controls.organisation.invalid"> -->
                     <mat-form-field class="example-full-width">
                         <input #input type="search" class="govuk-input" matInput formControlName="organisation"
                             maxlength="100" [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete" class="mat-country-search-registration">
-                            <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option.legalName">
-                                {{option.legalName}}
-                            </mat-option>
-                            <hr *ngIf="(filteredOptions$ | async)?.length! > showMoreThreshold">
-                            <!-- Global overried for .mat-select-panel max-height at style.css -->
-                            <div class="row no-gutters pb-1" *ngIf="(filteredOptions$ | async)?.length! > showMoreThreshold">
+                            <div *ngFor="let option of filteredOptions$ | async; index as i">
+                                <mat-option *ngIf="(i<showMoreThreshold) || showMoreOptionsVisible"
+                                    [value]="option.legalName">
+                                    {{option.legalName}}
+                                </mat-option>
+                            </div>
+                            <hr *ngIf="((filteredOptions$ | async)?.length! > showMoreThreshold) && !showMoreOptionsVisible">
+                            <div class="row no-gutters pb-1"
+                                *ngIf="((filteredOptions$ | async)?.length! > showMoreThreshold)  && !showMoreOptionsVisible">
                                 <div class="col-sm-6 text-right pr-2">
                                     <button type="button" class="btn btn-primary" (click)="showMoreClicked()">Show
                                         more</button>
