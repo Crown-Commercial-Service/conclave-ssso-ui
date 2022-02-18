@@ -1,5 +1,5 @@
 import { ViewportScroller } from "@angular/common";
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from "@angular/core";
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -10,6 +10,7 @@ import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { OrganisationService } from "src/app/services/postgres/organisation.service";
 import { UIState } from "src/app/store/ui.states";
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 
 
 @Component({
@@ -27,6 +28,8 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     showMoreThreshold: number = 8;
     showMoreOptionsVisible: boolean = false;
     previousSearchValue: string = '';
+    @ViewChild(MatAutocompleteTrigger) autocomplete!: MatAutocompleteTrigger;
+    panelShowTimeout: any;
 
     constructor(private organisationService: OrganisationService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -56,9 +59,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         this.filteredOptions$ = this.formGroup.get('organisation')!.valueChanges.pipe(
             startWith(''),
             debounceTime(400),
-            //map(value => this.filter(value)),
             switchMap((val: string) => {
-                console.log("Changing controller", val);
                 return this.doFilter(val || '')
             })
         );
@@ -67,27 +68,22 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     doFilter(value: string): Observable<OrganisationSearchDto[]> {
         this.showMoreOptionsVisible = false;
         if (value.length > 2) {
-            console.log("Calling API", value);
             let result$ = this.organisationService.getByName(value, false)
                 .pipe(
                     map(response => response),
                 );
-            // if (this.previousSearchValue !== value) {
-            //     console.log("Making Visible ShowMORE");
-            //     this.showMoreOptionsVisible = true;
-            // }
             return result$;
         }
         else {
-            console.log("NOT Calling API", value);
-            //this.showMoreOptionsVisible = false;
             return Observable.of([]);
         }
     }
 
     showMoreClicked() {
-        console.log("SEE_MORE_CLICKED");
         this.showMoreOptionsVisible = true;
+        this.panelShowTimeout = setTimeout(() => {
+            this.autocomplete.openPanel();
+        }, 30);
     }
 
 
@@ -138,6 +134,12 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
 
     goBack() {
         this.router.navigateByUrl(`manage-org/register`);
+    }
+
+    ngOnDestroy() {
+        if (this.panelShowTimeout) {
+            clearTimeout(this.panelShowTimeout);
+        }
     }
 
 }
