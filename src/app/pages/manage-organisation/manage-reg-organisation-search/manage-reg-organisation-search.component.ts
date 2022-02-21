@@ -6,6 +6,7 @@ import { Store } from "@ngrx/store";
 import { BaseComponent } from "src/app/components/base/base.component";
 import { OrganisationRegBasicInfo } from "src/app/models/organisation";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
+import { OrganisationService } from "src/app/services/postgres/organisation.service";
 import { UIState } from "src/app/store/ui.states";
 
 
@@ -20,7 +21,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent {
     formGroup: FormGroup;
     submitted: boolean = false;
 
-    constructor(private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
+    constructor(private organisationService: OrganisationService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
 
@@ -57,7 +58,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent {
         return form.valid;
     }
 
-    public onSubmit(form: FormGroup) {
+    async onSubmit(form: FormGroup) {
         this.submitted = true;
         if (this.formValid(form)) {
             let organisationRegisterDto: OrganisationRegBasicInfo = {
@@ -65,9 +66,27 @@ export class ManageOrgRegSearchComponent extends BaseComponent {
                 adminUserFirstName: form.get('firstName')?.value,
                 adminUserLastName: form.get('lastName')?.value,
                 orgName: form.get('organisation')?.value,
+                ciiOrgId: ''
             };
             sessionStorage.setItem('orgreginfo', JSON.stringify(organisationRegisterDto));
-            this.router.navigateByUrl(`manage-org/register/initial-search-status`);
+
+            let data = await this.organisationService.getByName(organisationRegisterDto.orgName).toPromise();
+                localStorage.removeItem('scheme');
+                localStorage.removeItem('scheme_name');
+                if (data.length == 0) {
+                    //Org does not exist
+                    this.router.navigateByUrl(`manage-org/register/initial-search-status/new`);
+                }
+                else if (data.length == 1) {
+                    //Single Org exists
+                    organisationRegisterDto.ciiOrgId = data[0].ciiOrganisationId;
+                    sessionStorage.setItem('orgreginfo', JSON.stringify(organisationRegisterDto));
+                    this.router.navigateByUrl(`manage-org/register/initial-search-status/exists`);
+                }
+                else {
+                    //Multiple Orgs exists
+                    this.router.navigateByUrl(`manage-org/register/initial-search-status/duplicate`);
+                }
         }
     }
 

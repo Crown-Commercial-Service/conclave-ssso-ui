@@ -8,12 +8,13 @@ import { User, UserProfileRequestInfo } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
 import { ContactReason } from 'src/app/models/contactDetail';
 import { IdentityProvider } from 'src/app/models/identityProvider';
+import { ContryDetails } from 'src/app/models/contryDetails';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WrapperConfigurationService {
-  public url: string = `${environment.uri.api.isApiGateWayEnabled ? 
+  public url: string = `${environment.uri.api.isApiGateWayEnabled ?
     environment.uri.api.wrapper.apiGatewayEnabled.configuration : environment.uri.api.wrapper.apiGatewayDisabled.configuration}`;
 
   private options = {
@@ -23,7 +24,7 @@ export class WrapperConfigurationService {
   constructor(private http: HttpClient) {
   }
 
-  
+
 
   getIdentityProviders(): Observable<any> {
     const url = `${this.url}/identity-providers`;
@@ -42,6 +43,18 @@ export class WrapperConfigurationService {
       map((data: any[]) => {
         return data;
       }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  getCountryDetails(): Observable<ContryDetails[]> {
+    const url = `${this.url}/country-details`;
+    return this.http.get<ContryDetails[]>(url, this.options).pipe(
+      map((data: ContryDetails[]) => {
+        return data;
+      }),
+      catchError(error => {
         return throwError(error);
       })
     );

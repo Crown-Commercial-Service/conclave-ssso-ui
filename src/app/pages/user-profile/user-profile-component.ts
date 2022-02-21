@@ -17,6 +17,7 @@ import { ContactHelper } from "src/app/services/helper/contact-helper.service";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { AuditLoggerService } from "src/app/services/postgres/logger.service";
 import { FormBaseComponent } from "src/app/components/form-base/form-base.component";
+import { SessionStorageKey } from "src/app/constants/constant";
 
 @Component({
     selector: 'app-user-profile',
@@ -62,6 +63,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     async ngOnInit() {
+        sessionStorage.removeItem(SessionStorageKey.UserContactUsername);
         await this.auditLogService.createLog({
             eventName: "Access", applicationName: "Manage-my-account",
             referenceData: `UI-Log`
@@ -142,18 +144,18 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     onContactEditRow(dataRow: ContactGridInfo) {
         let data = {
             'isEdit': true,
-            'userName': encodeURIComponent(this.userName),
             'contactId': dataRow.contactId
         };
+        sessionStorage.setItem(SessionStorageKey.UserContactUsername, this.userName);
         this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
     }
 
     onContactAddClick() {
         let data = {
             'isEdit': false,
-            'userName': encodeURIComponent(this.userName),
             'contactId': 0
         };
+        sessionStorage.setItem(SessionStorageKey.UserContactUsername, this.userName);
         this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
     }
 

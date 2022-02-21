@@ -16,6 +16,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { OrganisationUserDto, OrgUserListResponse } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 @Component({
   selector: 'app-org-support-search',
@@ -34,7 +35,7 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
   currentPage: number = 1;
   pageCount: number = 0;
   pageSize: number = environment.listPageSize;
-  tableHeaders = ['NAME','ORGANISATION', 'USER_EMAIL'];
+  tableHeaders = ['NAME', 'ORGANISATION', 'USER_EMAIL'];
   tableColumnsToDisplay = ['name', 'organisationLegalName', 'userName'];
 
   constructor(private cf: ChangeDetectorRef, private formBuilder: FormBuilder, private translateService: TranslateService, private organisationService: OrganisationService, private wrapperOrganisationService: WrapperOrganisationService, private readonly tokenService: TokenService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -47,7 +48,8 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
       pageCount: 0,
       rowCount: 0,
       orgUserList: []
-  }
+    }
+    sessionStorage.removeItem(SessionStorageKey.OrgUserSupportUserName);
   }
 
   async ngOnInit() {
@@ -78,10 +80,12 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
   }
 
   public onContinueClick() {
-    this.router.navigateByUrl(`org-support/details/${this.selectedRowId}`);
+    sessionStorage.setItem(SessionStorageKey.OrgUserSupportUserName, this.selectedRowId);
+    this.router.navigateByUrl(`org-support/details`);
   }
 
   public onCancelClick() {
+    sessionStorage.removeItem(SessionStorageKey.OrgUserSupportUserName);
     this.router.navigateByUrl('home');
   }
 

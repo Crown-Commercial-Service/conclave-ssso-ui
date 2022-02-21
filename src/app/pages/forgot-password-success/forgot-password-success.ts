@@ -10,6 +10,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 @Component({
     selector: 'app-forget-password-success',
@@ -23,10 +24,7 @@ export class ForgotPasswordSuccessComponent extends BaseComponent implements OnI
     constructor(private activatedRoute: ActivatedRoute, private authService: AuthService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
-        let queryParams = this.activatedRoute.snapshot.queryParams;
-        if (queryParams.un) {
-            this.userName = queryParams.un;
-        }
+        this.userName = sessionStorage.getItem(SessionStorageKey.ForgotPasswordUserName) ?? "";
     }
 
     ngOnInit() {
@@ -35,5 +33,9 @@ export class ForgotPasswordSuccessComponent extends BaseComponent implements OnI
 
     onNavigateLinkClick(){
         this.authService.logOutAndRedirect();
+    }
+
+    ngOnDestroy(){
+        sessionStorage.removeItem(SessionStorageKey.ForgotPasswordUserName);
     }
 }

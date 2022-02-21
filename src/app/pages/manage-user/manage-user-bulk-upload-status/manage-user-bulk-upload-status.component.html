@@ -36,6 +36,8 @@
             <div *ngIf="errorDetails.length == 0">
                 <p>{{'NONE'| translate}}
                 <p>
+                <p>{{'YOU_WILL_BE_RECEIVED_AN_EMAIL_ONCE_MIGRATION_COMPLETED'| translate}}
+                <p>
             </div>
         </div>
     </div>
@@ -51,9 +53,14 @@
 </div>
 
 <div>
+    <div *ngIf="errorDetails.length != 0" class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <div><a routerLink="/manage-users/bulk-users" class="navigation-text">{{ 'UPLOAD_NEW_FILE' | translate }} </a></div>
+        </div>
+    </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <div><a routerLink="/home"  class="navigation-text" >{{ 'GO_TO_HOME_PAGE' | translate }} </a></div>
+            <div><a routerLink="/manage-users" class="navigation-text">{{ 'GO_TO_MANAGE_USERS' | translate }} </a></div>
         </div>
     </div>
 </div>

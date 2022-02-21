@@ -9,6 +9,7 @@ import { OperationEnum } from "src/app/constants/enum";
 import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.service";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { ViewportScroller } from "@angular/common";
+import { SessionStorageKey } from "src/app/constants/constant";
 
 @Component({
     selector: 'app-manage-user-delete-confirm',
@@ -26,12 +27,7 @@ export class ManageUserDeleteConfirmComponent extends BaseComponent implements O
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
         private wrapperUserService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
-        let queryParams = this.activatedRoute.snapshot.queryParams;
-        if (queryParams.data) {
-            let routeData = JSON.parse(queryParams.data);
-            console.log(routeData);
-            this.userName = routeData['userName'];
-        }
+        this.userName = sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
     }
 
     ngOnInit() {
@@ -40,6 +36,7 @@ export class ManageUserDeleteConfirmComponent extends BaseComponent implements O
     onDeleteConfirmClick() {
         this.wrapperUserService.deleteUser(this.userName).subscribe({
             next: () => { 
+                sessionStorage.setItem(SessionStorageKey.OperationSuccessUserName, this.userName);
                 this.router.navigateByUrl(`operation-success/${OperationEnum.UserDelete}`);             
             },
             error: (error) => {
@@ -50,8 +47,7 @@ export class ManageUserDeleteConfirmComponent extends BaseComponent implements O
 
     onCancelClick(){
         let data = {
-            'isEdit':true,
-            'userName': encodeURIComponent(this.userName)
+            'isEdit':true
         };
         this.router.navigateByUrl('manage-users/add-user/details?data=' + JSON.stringify(data));
     }

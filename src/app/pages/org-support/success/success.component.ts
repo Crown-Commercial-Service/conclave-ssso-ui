@@ -8,6 +8,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { Observable } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 @Component({
   selector: 'app-org-support-success',
@@ -33,42 +34,45 @@ export class OrgSupportSuccessComponent extends BaseComponent implements OnInit 
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      let changePassword = false;
-      let resetMfa = false;
-      let changeRoleType: string = "noChange";
+    let userName = sessionStorage.getItem(SessionStorageKey.OrgUserSupportUserName) ?? '';
+    let changePassword = false;
+    let resetMfa = false;
+    let changeRoleType: string = "noChange";
 
-      this.route.queryParams.subscribe(para => {
+    this.route.queryParams.subscribe(para => {
 
-        if (para.rpwd != undefined) {
-          changePassword = JSON.parse(para.rpwd);
-        }
+      if (para.rpwd != undefined) {
+        changePassword = JSON.parse(para.rpwd);
+      }
 
-        if (para.rmfa != undefined) {
-          resetMfa = JSON.parse(para.rmfa);
-        }
+      if (para.rmfa != undefined) {
+        resetMfa = JSON.parse(para.rmfa);
+      }
 
-        if (para.chrole != undefined) {
-          changeRoleType = para.chrole;
-        }
+      if (para.chrole != undefined) {
+        changeRoleType = para.chrole;
+      }
 
-        this.displayMessage = '';
+      this.displayMessage = '';
 
-        if (changeRoleType !== "noChange") {
-          this.displayMessage = changeRoleType == "assign" ? `You have successfully assigned admin role for ${params.userName}.` :
-            `You have successfully unassigned admin role for ${params.userName}.`;
-        }
+      if (changeRoleType !== "noChange") {
+        this.displayMessage = changeRoleType == "assign" ? `You have successfully assigned admin role for ${userName}.` :
+          `You have successfully unassigned admin role for ${userName}.`;
+      }
 
-        if (changePassword) {
-          this.displayMessage = changeRoleType !== "noChange" ? (this.displayMessage + `\n Password reset email has been sent to ${params.userName}.`) :
-            `Password reset email has been sent to ${params.userName}.`;
-        }
+      if (changePassword) {
+        this.displayMessage = changeRoleType !== "noChange" ? (this.displayMessage + `\n Password reset email has been sent to ${userName}.`) :
+          `Password reset email has been sent to ${userName}.`;
+      }
 
-        if (resetMfa) {
-          this.displayMessage = changePassword || changeRoleType !== "noChange" ? this.displayMessage + `\n additional security reset email has been sent to ${params.userName}.` :
-            `Additional security reset email has been sent to ${params.userName}.`;
-        }
-      });
+      if (resetMfa) {
+        this.displayMessage = changePassword || changeRoleType !== "noChange" ? this.displayMessage + `\n additional security reset email has been sent to ${userName}.` :
+          `Additional security reset email has been sent to ${userName}.`;
+      }
     });
+  }
+
+  ngOnDestroy(){
+    sessionStorage.removeItem(SessionStorageKey.OrgUserSupportUserName);
   }
 }
