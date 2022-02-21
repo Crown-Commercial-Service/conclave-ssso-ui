@@ -15,7 +15,7 @@
       <div class="govuk-form-group" id="country-code-form-group">
         <label class="govuk-label" for="country-code"> {{ 'Country' | translate }} </label>
         <mat-form-field class="form-field-country">
-          <mat-select [formControl]="countryCode" #singleSelect panelClass="mat-country-select-site">
+          <mat-select formControlName="countryCode" #singleSelect panelClass="mat-country-select-site">
             <mat-option>
               <ngx-mat-select-search [formControl]="countryCodeCtrl" placeholderLabel="Search"
                 noEntriesFoundLabel="No matching country found">

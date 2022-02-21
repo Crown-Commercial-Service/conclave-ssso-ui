@@ -70,7 +70,6 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
         this.item$.subscribe({
           next: async (result) => {
             if (result) {
-              console.log('getIdentifierDetails');
               this.selectedIdentifiers = result.additionalIdentifiers;
               localStorage.setItem('cii_organisation', JSON.stringify(result));
 
@@ -83,8 +82,6 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
                 .subscribe(() => {
                   this.filtercountryDetails();
                 });
-              console.log("CountryDetails", this.countryDetails);
-              console.log("filteredCountryDetails", this.filteredCountryDetails);
             }
           },
           error: err => {
@@ -129,7 +126,6 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
     this.filteredCountryDetails
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
-        console.log('setInitialValue1');
         console.log(this.singleSelect);
         // setting the compareWith property to a comparison function
         // triggers initializing the selection according to the initial value of
@@ -137,17 +133,14 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
         // this needs to be done after the filtercountryDetails are loaded initially
         // and after the mat-option elements are available
         this.singleSelect.compareWith = (a: ContryDetails, b: ContryDetails) => a && b && a.id === b.id;
-        console.log('setInitialValue2');
       });
   }
 
   protected filtercountryDetails() {
-    alert('filtercountryDetails1');
     if (!this.countryDetails) {
       return;
     }
     // get the search keyword
-    alert('filtercountryDetails2');
     let search = this.countryCodeCtrl.value;
     if (!search) {
       this.filteredCountryDetails.next(this.countryDetails.slice());
@@ -158,11 +151,9 @@ export class ManageOrgRegStep3Component extends BaseComponent implements OnInit 
       this.setTopCountries(true);
     }
     // filter the country
-    alert('filter the country start');
     this.filteredCountryDetails.next(
       this.countryDetails.filter(countryDetail => countryDetail.countryName.toLowerCase().indexOf(search) > -1)
     );
-    alert('filter the country end');
   }
 
   setOrgIdForOrgDetails(ciiOrgId: string) {
