@@ -95,16 +95,21 @@ import { SendMFAResetNotificationComponent } from './pages/mfa-reset/send-notifi
 import { SendMFAResetNotificationSuccessComponent } from './pages/mfa-reset/send-notification-success/send-mfa-reset-notification-success';
 import { ResendLinkSuccessComponent } from './pages/resend-link-success/resend-link-success';
 import { ManageOrgRegSearchComponent } from './pages/manage-organisation/manage-reg-organisation-search/manage-reg-organisation-search.component';
-import { ManageOrgRegSearchStatusComponent } from './pages/manage-organisation/manage-reg-organisation-status/manage-reg-organisation-status.component';
+import { ManageOrgRegSearchStatusNewComponent } from './pages/manage-organisation/manage-reg-organisation-status-new/manage-reg-organisation-status-new.component';
 import { ManageOrgRegNotRegisteredComponent } from './pages/manage-organisation/manage-reg-organisation-not-registered/manage-reg-organisation-not-registered.component';
 import { ManageOrgRegCIIOrgDisplayComponent } from './pages/manage-organisation/manage-reg-organisation-cii-display.component/manage-reg-organisation-cii-display.component';
 import { ManageOrgRegNotifyAdminComponent } from './pages/manage-organisation/manage-reg-organisation-admin-notify/manage-reg-organisation-admin-notify.component';
 import { ManageUserBulkUploadComponent } from './pages/manage-user/manage-user-bulk-upload/manage-user-bulk-upload.component';
 import { ManageUserBulkUploadStatusComponent } from './pages/manage-user/manage-user-bulk-upload-status/manage-user-bulk-upload-status.component';
+import { LoginComponent } from './pages/login/mock-login/login.component';
+import { ManageOrgRegSearchStatusExistsComponent } from './pages/manage-organisation/manage-reg-organisation-status-exists/manage-reg-organisation-status-exists.component';
+import { ManageOrgRegSearchStatusDuplicateComponent } from './pages/manage-organisation/manage-reg-organisation-status-duplicate/manage-reg-organisation-status-duplicate.component';
+import { ManageUserBulkUploadMigrationStatusComponent } from './pages/manage-user/manage-user-bulk-upload-migration-status/manage-user-bulk-upload-migration-status.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'renewtkn', pathMatch: 'full', component: AuthErrorComponent },
+  { path: 'mockservicelogin', data: { title: 'Login' }, pathMatch: 'full', component: LoginComponent },
   { path: 'home', data: { title: 'Dashboard' }, canActivate: [AuthGuard], pathMatch: 'full', component: HomeComponent },
   { path: 'error', data: { title: 'Error' }, pathMatch: 'full', component: ErrorComponent },
   { path: 'contactus', data: { title: 'Contact Us' }, pathMatch: 'full', component: ContactUsComponent },
@@ -123,7 +128,9 @@ const routes: Routes = [
   { path: 'registration/success', data: { title: 'Success' }, component: RegistrationSuccessComponent },
   //Search paths//
   { path: 'manage-org/register/initial-search', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchComponent },
-  { path: 'manage-org/register/initial-search-status', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchStatusComponent },
+  { path: 'manage-org/register/initial-search-status/new', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchStatusNewComponent },
+  { path: 'manage-org/register/initial-search-status/exists', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchStatusExistsComponent },
+  { path: 'manage-org/register/initial-search-status/duplicate', data: { title: 'Search Organisation - Registration' }, pathMatch: 'full', component: ManageOrgRegSearchStatusDuplicateComponent },
   { path: 'manage-org/register/newreg', data: { title: 'Admin Details - Registration' }, pathMatch: 'full', component: ManageOrgRegNotRegisteredComponent },
   { path: 'manage-org/register/cii-search-result', data: { title: 'Organization Details - Registration' }, pathMatch: 'full', component: ManageOrgRegCIIOrgDisplayComponent },
   { path: 'manage-org/register/notify-join-org', data: { title: 'Notify Organisation Administrators - Registration' }, pathMatch: 'full', component: ManageOrgRegNotifyAdminComponent },
@@ -166,6 +173,7 @@ const routes: Routes = [
   { path: 'manage-users/add-user-selection', data: { title: 'Select - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserAddSelectionComponent },
   { path: 'manage-users/bulk-users', data: { title: 'Bulk Upload - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserBulkUploadComponent },
   { path: 'manage-users/bulk-users/status/:id', data: { title: 'Bulk Upload - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserBulkUploadStatusComponent },
+  { path: 'manage-users/bulk-users/migration-status/:id', data: { title: 'Bulk Upload - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserBulkUploadMigrationStatusComponent },
   { path: 'manage-users/add-user/details', data: { title: 'Add/Edit - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserAddSingleUserDetailComponent },
   { path: 'manage-users/confirm-reset-password', data: { title: 'Reset Password - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserConfirmResetPasswordComponent },
   { path: 'manage-users/confirm-user-delete', data: { title: 'Delete - Manage Users', roles: ['MANAGE_USERS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageUserDeleteConfirmComponent },
@@ -180,9 +188,9 @@ const routes: Routes = [
   { path: 'buyer/error', data: { title: 'Error - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerErrorComponent },
   { path: 'buyer/success', data: { title: 'Success - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: BuyerSuccessComponent },
   { path: 'org-support/search', data: { title: 'Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportSearchComponent },
-  { path: 'org-support/details/:id', data: { title: 'Update User - Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportDetailsComponent },
-  { path: 'org-support/confirm/:userName', data: { title: 'Confirm - Update User - Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportConfirmComponent },
-  { path: 'org-support/success/:userName', data: { title: 'Success - Update User - Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportSuccessComponent },
+  { path: 'org-support/details', data: { title: 'Update User - Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportDetailsComponent },
+  { path: 'org-support/confirm', data: { title: 'Confirm - Update User - Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportConfirmComponent },
+  { path: 'org-support/success', data: { title: 'Success - Update User - Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportSuccessComponent },
   { path: 'org-support/error', data: { title: 'Error - Update User - Organisation Support', roles: ['ORG_USER_SUPPORT'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: OrgSupportErrorComponent },
   { path: 'manage-groups', data: { title: 'Manage Groups', roles: ['MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupListComponent },
   { path: 'manage-groups/view', data: { title: 'Manage Groups', roles: ['MANAGE_USERS', 'MANAGE_GROUPS'] }, pathMatch: 'full', canActivate: [AuthGuard, RoleGuard], component: ManageGroupViewComponent },

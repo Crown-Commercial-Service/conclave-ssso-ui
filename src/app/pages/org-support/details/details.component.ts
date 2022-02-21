@@ -13,6 +13,7 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { UserProfileResponseInfo } from 'src/app/models/user';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { SessionStorageKey } from 'src/app/constants/constant';
 
 @Component({
   selector: 'app-org-support-details',
@@ -61,29 +62,28 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      if (params.id) {
-        this.user$ = this.wrapperUserService.getUser(params.id).pipe(share());
-        this.user$.subscribe({
-          next: (result: UserProfileResponseInfo) => {
-            this.user = result;
-            this.getOrgGroups();
-          }
-        });
-      }
-      this.route.queryParams.subscribe(para => {
-        if (para.rpwd != undefined) {
-          this.resetPasswordEnabled = JSON.parse(para.rpwd);
-        }
-
-        if (para.rmfa != undefined) {
-          this.resetMfaEnabled = JSON.parse(para.rmfa);
-        }
-
-        if (para.chrole != undefined) {
-          this.changeRoleEnabled = para.chrole != "noChange";
+    let userName = sessionStorage.getItem(SessionStorageKey.OrgUserSupportUserName);
+    if (userName) {
+      this.user$ = this.wrapperUserService.getUser(userName).pipe(share());
+      this.user$.subscribe({
+        next: (result: UserProfileResponseInfo) => {
+          this.user = result;
+          this.getOrgGroups();
         }
       });
+    }
+    this.route.queryParams.subscribe(para => {
+      if (para.rpwd != undefined) {
+        this.resetPasswordEnabled = JSON.parse(para.rpwd);
+      }
+
+      if (para.rmfa != undefined) {
+        this.resetMfaEnabled = JSON.parse(para.rmfa);
+      }
+
+      if (para.chrole != undefined) {
+        this.changeRoleEnabled = para.chrole != "noChange";
+      }
     });
   }
 
@@ -112,7 +112,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
 
   public onContinueClick() {
     let hasAdminRole = this.hasAdminRole();
-    this.router.navigateByUrl(`org-support/confirm/${this.user.userName}?rpwd=` + this.resetPasswordEnabled + `&rmfa=` + this.resetMfaEnabled +
+    this.router.navigateByUrl(`org-support/confirm?rpwd=` + this.resetPasswordEnabled + `&rmfa=` + this.resetMfaEnabled +
       `&chrole=${this.changeRoleEnabled ? (hasAdminRole ? "unassign" : "assign") : "noChange"}`);
   }
 

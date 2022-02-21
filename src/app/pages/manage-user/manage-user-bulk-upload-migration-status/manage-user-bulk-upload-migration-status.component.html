@@ -1,0 +1,65 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-breadcrumbs">
+            <ol class="govuk-breadcrumbs__list">
+                <li class="govuk-breadcrumbs__list-item">
+                    <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                        }}</a>
+                </li>
+                <li class="govuk-breadcrumbs__list-item">
+                    <a class="govuk-breadcrumbs__link" routerLink="/manage-users">{{ 'MANAGE_YOUR_USER_ACCOUNTS' |
+                        translate
+                        }}</a>
+                </li>
+                <li class="govuk-breadcrumbs__list-item">
+                    <span class="govuk-breadcrumbs__link"> {{ 'BULK_UPLOAD_STATUS' | translate }}</span>
+                </li>
+            </ol>
+        </div>
+
+        <h1 class="govuk-heading-xl page-title">{{ 'BULK_UPLOAD_STATUS' |
+            translate }}</h1>
+
+        <h2 *ngIf="!statusCheckComplete" class="govuk-heading-m page-title">{{ 'WAIT_UNTIL_WE_PROCESS_REPORT_DETAILS' |
+            translate }}</h2>
+    </div>
+</div>
+
+<div *ngIf="statusCheckComplete">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-s">{{ 'BULK_UPLOAD_REPORT_SUMMARY' | translate }}</h2>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="user-table">
+                <app-govuk-table [headerTextKeys]="summaryTableHeaders" [data]="summaryGridInfoList"
+                    [dataKeys]="summaryColumnsToDisplay" [useClientPagination]="true">
+                </app-govuk-table>
+            </div>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-s">{{ 'BULK_UPLOAD_REPORT_DETAILS' | translate }}</h2>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="user-table">
+                <app-govuk-table [headerTextKeys]="detailTableHeaders" [data]="detailGridInfoList"
+                    [dataKeys]="detailColumnsToDisplay" [useClientPagination]="true">
+                </app-govuk-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <div><a routerLink="/manage-users" class="navigation-text">{{ 'GO_TO_MANAGE_USERS' | translate }} </a></div>
+        </div>
+    </div>
+</div>
