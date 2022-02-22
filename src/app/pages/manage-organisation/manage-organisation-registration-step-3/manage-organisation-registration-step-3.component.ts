@@ -168,7 +168,6 @@ export class ManageOrgRegStep3Component
     this.filteredCountryDetails
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
-        console.log('setInitialValue1');
         console.log(this.singleSelect);
         // setting the compareWith property to a comparison function
         // triggers initializing the selection according to the initial value of
@@ -202,7 +201,6 @@ export class ManageOrgRegStep3Component
           countryDetail.countryName.toLowerCase().indexOf(search) > -1
       )
     );
-    alert('filter the country end');
   }
 
   setOrgIdForOrgDetails(ciiOrgId: string) {

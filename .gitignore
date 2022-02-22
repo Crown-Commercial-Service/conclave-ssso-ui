@@ -7,6 +7,7 @@
 /t
 /tmp
 /out-tsc
+/src/environments/environment.ts
 # Only exists if Bazel was run
 /bazel-out
 obj
