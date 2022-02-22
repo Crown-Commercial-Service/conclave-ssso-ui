@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -17,24 +24,36 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
   styleUrls: ['./manage-organisation-registration-step-2.component.scss'],
   animations: [
     slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ]
+      close: { transform: 'translateX(12.5rem)' },
+      open: { left: '-12.5rem' },
+    }),
+  ],
 })
-export class ManageOrgRegStep2Component extends BaseComponent implements OnInit {
-
+export class ManageOrgRegStep2Component
+  extends BaseComponent
+  implements OnInit
+{
   public items$!: Observable<any>;
   public scheme!: string;
-  public schemeSubject: BehaviorSubject<string> = new BehaviorSubject<string>('GB-COH');
-  public schemeSubjectObs: Observable<string> = this.schemeSubject.asObservable();
+  public schemeSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
+    'GB-COH'
+  );
+  public schemeSubjectObs: Observable<string> =
+    this.schemeSubject.asObservable();
   public schemeName!: string;
   public txtValue!: string;
   submitted: boolean = false;
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
-  constructor(private ref: ChangeDetectorRef, private ciiService: ciiService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(
+    private ref: ChangeDetectorRef,
+    private ciiService: ciiService,
+    private router: Router,
+    protected uiStore: Store<UIState>,
+    protected viewportScroller: ViewportScroller,
+    protected scrollHelper: ScrollHelper
+  ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.txtValue = '';
   }
@@ -42,11 +61,11 @@ export class ManageOrgRegStep2Component extends BaseComponent implements OnInit 
   ngOnInit() {
     this.items$ = this.ciiService.getSchemes().pipe(share());
     this.items$.subscribe({
-      next: result => {
+      next: (result) => {
         this.scheme = result[0].scheme;
         this.schemeName = result[0].schemeName;
         localStorage.setItem('scheme_name', this.schemeName);
-      }
+      },
     });
   }
 
@@ -61,9 +80,14 @@ export class ManageOrgRegStep2Component extends BaseComponent implements OnInit 
   public onSubmit() {
     this.submitted = true;
     if (this.txtValue && this.txtValue.length > 0) {
-      this.router.navigateByUrl(`manage-org/register/search/${this.scheme}?id=${encodeURIComponent(this.txtValue)}`);
-    }
-    else {
+      console.log("ifpart")
+      this.router.navigateByUrl(
+        `manage-org/register/search/${this.scheme}?id=${encodeURIComponent(
+          this.txtValue
+        )}`
+      );
+    } else {
+      console.log("ifpart")
       this.scrollHelper.scrollToFirst('error-summary');
     }
   }
@@ -84,5 +108,4 @@ export class ManageOrgRegStep2Component extends BaseComponent implements OnInit 
     localStorage.setItem('scheme', this.scheme);
     localStorage.setItem('scheme_name', item.schemeName);
   }
-
 }
