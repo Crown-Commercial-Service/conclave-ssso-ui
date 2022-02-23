@@ -30,6 +30,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
     }
     
     onContinueClick(){
+       alert(this.adminSelectionMode);
         switch (this.adminSelectionMode){
             case "useradmin":{
                 this.router.navigateByUrl(`manage-org/register/type`);
@@ -40,7 +41,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
                 break
             }
             case "unkownadmin":{
-                window.location.href = this.contactUrl;
+                this.router.navigateByUrl(`manage-org/register/findyouradministrator`);
                 break
             }
         }
