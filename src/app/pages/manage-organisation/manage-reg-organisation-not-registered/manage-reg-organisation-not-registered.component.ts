@@ -30,7 +30,6 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
     }
     
     onContinueClick(){
-       alert(this.adminSelectionMode);
         switch (this.adminSelectionMode){
             case "useradmin":{
                 this.router.navigateByUrl(`manage-org/register/type`);
