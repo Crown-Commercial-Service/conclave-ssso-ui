@@ -60,7 +60,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
         adminUserName: form.get('email')?.value,
         adminUserFirstName: form.get('firstName')?.value,
         adminUserLastName: form.get('lastName')?.value,
-        adminUserTitle: form.get('email')?.value
+        adminUserTitle: form.get('email')?.value,
       };
       this.organisationService.registerOrganisation(organisationRegisterDto)
         .subscribe({
