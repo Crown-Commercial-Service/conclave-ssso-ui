@@ -7,7 +7,7 @@
     Confirm your organisation's details
   </h1>
   <div>
-    <div class="govuk-form-group" *ngIf="isValid">
+    <div class="govuk-form-group" *ngIf="isInvalid">
       <div class="govuk-error-summary govuk-grid-column-three-quarters"
           aria-labelledby="error-summary-title" role="alert" tabindex="-1"
           data-module="govuk-error-summary">
@@ -15,7 +15,7 @@
           <div class="govuk-error-summary__body">
               <ul class="govuk-list govuk-error-summary__list">
                   <a onClick="return false;" (click)="setFocus()" href="javascript:;"
-                     *ngIf="isValid">
+                     *ngIf="isInvalid">
                       <li>Select your Organisation’s Country</li>
                   </a>
               </ul>
@@ -34,13 +34,13 @@
         {{ i?.address?.countryName }}<br *ngIf="i?.address?.countryName" />
       </p>
       <div class="govuk-form-group" id="country-code-form-group"
-      [class.govuk-form-group--error]="isValid == true"
+      [class.govuk-form-group--error]="isInvalid == true"
      >
         <label class="govuk-label" for="country-code">
           {{ "Country" | translate }}
         </label>
         <span class="govuk-error-message" 
-        *ngIf="isValid">
+        *ngIf="isInvalid">
         <span class="govuk-visually-hidden">Error:</span>Please select your Organisation’s Country
        </span>
         <mat-form-field class="form-field-country form-field-required">
