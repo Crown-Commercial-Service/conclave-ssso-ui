@@ -33,6 +33,9 @@ export class ManageOrgRegStep2Component
   extends BaseComponent
   implements OnInit
 {
+  Data1=''
+  Data2 =''
+  Data3= ''
   public items$!: Observable<any>;
   public scheme!: string;
   public schemeSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
@@ -42,8 +45,9 @@ export class ManageOrgRegStep2Component
     this.schemeSubject.asObservable();
   public schemeName!: string;
   public txtValue!: string;
+  public activeElement:string=''
   submitted: boolean = false;
-
+  
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -62,6 +66,7 @@ export class ManageOrgRegStep2Component
     this.items$ = this.ciiService.getSchemes().pipe(share());
     this.items$.subscribe({
       next: (result) => {
+        console.log("items$",result)
         this.scheme = result[0].scheme;
         this.schemeName = result[0].schemeName;
         localStorage.setItem('scheme_name', this.schemeName);
@@ -80,14 +85,13 @@ export class ManageOrgRegStep2Component
   public onSubmit() {
     this.submitted = true;
     if (this.txtValue && this.txtValue.length > 0) {
-      console.log("ifpart")
+      console.log("this.txtValue",this.txtValue,this.scheme)
       this.router.navigateByUrl(
         `manage-org/register/search/${this.scheme}?id=${encodeURIComponent(
           this.txtValue
         )}`
       );
     } else {
-      console.log("ifpart")
       this.scrollHelper.scrollToFirst('error-summary');
     }
   }
@@ -98,6 +102,8 @@ export class ManageOrgRegStep2Component
 
   public onSelect(item: any) {
     this.schemeSubject.next(item.scheme);
+    console.log("item.scheme",item.scheme)
+    this.activeElement = item.scheme
     var el = document.getElementById(item.scheme) as HTMLInputElement;
     if (el) {
       el.checked = true;
@@ -107,5 +113,36 @@ export class ManageOrgRegStep2Component
     this.txtValue = '';
     localStorage.setItem('scheme', this.scheme);
     localStorage.setItem('scheme_name', item.schemeName);
+  }
+
+
+  /**
+   * DUN input fucus changing functionlity
+   * @param Data input value
+   * @param box which box user typing
+   */
+  public ValueChanged(Data: any,box: any):void {
+   let StringyfyData = Data.toString()
+    if(box=='input1' && StringyfyData.length > 2){
+      document.getElementById("input2") ?.focus();
+    }else if(box=='input2' && StringyfyData.length > 2){
+      document.getElementById("input3") ?.focus(); 
+    }
+  }
+
+
+  /**
+   * preventing only 3 digit can you type
+   * @param event $event passed from html
+   */
+ public keyPress(event: any):void {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+    if(event.target.value.length > 2){
+      event.preventDefault();
+    }
   }
 }

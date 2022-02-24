@@ -38,6 +38,7 @@
                 <mat-icon ngxMatSelectSearchClear>clear</mat-icon>
               </ngx-mat-select-search>
             </mat-option>
+            <mat-option ngIf="!countryCode">Select Country</mat-option>
             <mat-option
               *ngFor="let topCountry of topCountries"
               [value]="topCountry.countryCode"
