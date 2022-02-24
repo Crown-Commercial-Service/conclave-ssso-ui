@@ -24,12 +24,13 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     formGroup: FormGroup;
     submitted: boolean = false;
     options: OrganisationSearchDto[] = [];
-    filteredOptions$!: Observable<OrganisationSearchDto[]>;
+    filteredOptions: OrganisationSearchDto[] = [];
     showMoreThreshold: number = 8;
     showMoreOptionsVisible: boolean = false;
     previousSearchValue: string = '';
     @ViewChild(MatAutocompleteTrigger) autocomplete!: MatAutocompleteTrigger;
     panelShowTimeout: any;
+    searchOrgName: string = '';
 
     constructor(private organisationService: OrganisationService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -44,6 +45,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 email: [orgreginfo.adminEmail, Validators.compose([Validators.required, Validators.email])],
                 organisation: [orgreginfo.orgName, Validators.compose([Validators.required])]
             });
+            this.searchOrgName = orgreginfo.orgName;
         }
         else {
             this.formGroup = this.formBuilder.group({
@@ -56,13 +58,18 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     }
 
     ngOnInit() {
-        this.filteredOptions$ = this.formGroup.get('organisation')!.valueChanges.pipe(
-            startWith(''),
-            debounceTime(400),
-            switchMap((val: string) => {
-                return this.doFilter(val || '')
-            })
-        );
+    }
+
+    async onSearchTextChange(value: any) {
+        console.log("Cahanged", value);
+        if (value.length > 2) {
+            let result = await this.organisationService.getByName(value, false).toPromise();
+            this.filteredOptions = result;
+        }
+        else {
+            this.filteredOptions = [];
+        }
+
     }
 
     doFilter(value: string): Observable<OrganisationSearchDto[]> {
