@@ -156,6 +156,12 @@ const routes: Routes = [
     component: OperationSuccessComponent,
   },
   {
+    path: 'manage-org/register/findyouradministrator',
+    data: { title: 'How to find your administrator' },
+    pathMatch: 'full',
+    component: FindyouradministratorComponent,
+  },
+  {
     path: 'change-password-failed/:operation',
     data: { title: 'Error - Change Password' },
     pathMatch: 'full',
@@ -271,12 +277,6 @@ const routes: Routes = [
     data: { title: 'Buyer/Supplier Type - Registration' },
     pathMatch: 'full',
     component: ManageOrgRegRightToBuyComponent,
-  },
-  {
-    path: 'manage-org/register/findyouradministrator',
-    data: { title: 'How to find your administrator' },
-    pathMatch: 'full',
-    component: FindyouradministratorComponent,
   },
   {
     path: 'manage-org/register/buyer-type',
