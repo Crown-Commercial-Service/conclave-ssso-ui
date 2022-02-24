@@ -75,7 +75,8 @@ export class ManageOrgRegStep3Component
    public isValid:boolean=false
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   @ViewChild('singleSelect', { static: true }) singleSelect!: MatSelect;
-
+  @ViewChild('singleSelect')
+  matselect!: MatSelect;
   constructor(
     private ciiService: ciiService,
     private router: Router,
@@ -259,6 +260,7 @@ export class ManageOrgRegStep3Component
     organisation.additionalIdentifiers = this.selectedIdentifiers;
     localStorage.setItem('cii_organisation', JSON.stringify(organisation));
   }
-
-  
+  setFocus(){
+    if(this.matselect) this.matselect.focus();
+  }
 }
