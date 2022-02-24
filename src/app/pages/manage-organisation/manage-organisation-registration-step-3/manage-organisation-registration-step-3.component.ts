@@ -70,12 +70,12 @@ export class ManageOrgRegStep3Component
   public countryCodeCtrl: FormControl = new FormControl();
   public countryCode: string = '';
   protected _onDestroy = new Subject<void>();
-  
    private orgDetails:any;
-   public isValid:boolean=false
+   public isInvalid:boolean=false
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   @ViewChild('singleSelect', { static: true }) singleSelect!: MatSelect;
-
+  @ViewChild('singleSelect')
+  matselect!: MatSelect;
   constructor(
     private ciiService: ciiService,
     private router: Router,
@@ -145,7 +145,7 @@ export class ManageOrgRegStep3Component
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
-    this.isValid=false
+    this.isInvalid=false
   }
 
   setTopCountries(isClear: boolean) {
@@ -239,7 +239,7 @@ export class ManageOrgRegStep3Component
         this.router.navigateByUrl(this.orgGroup);
       }
     }else{
-      this.isValid=true
+      this.isInvalid=true
     }
   }
 
@@ -259,6 +259,7 @@ export class ManageOrgRegStep3Component
     organisation.additionalIdentifiers = this.selectedIdentifiers;
     localStorage.setItem('cii_organisation', JSON.stringify(organisation));
   }
-
-  
+  setFocus(){
+    if(this.matselect) this.matselect.focus();
+  }
 }

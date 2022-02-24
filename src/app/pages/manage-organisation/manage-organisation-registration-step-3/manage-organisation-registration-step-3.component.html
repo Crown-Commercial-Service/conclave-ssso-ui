@@ -7,6 +7,21 @@
     Confirm your organisation's details
   </h1>
   <div>
+    <div class="govuk-form-group" *ngIf="isInvalid">
+      <div class="govuk-error-summary govuk-grid-column-three-quarters"
+          aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+          data-module="govuk-error-summary">
+          <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
+          <div class="govuk-error-summary__body">
+              <ul class="govuk-list govuk-error-summary__list">
+                  <a onClick="return false;" (click)="setFocus()" href="javascript:;"
+                     *ngIf="isInvalid">
+                      <li>Select your Organisation’s Country</li>
+                  </a>
+              </ul>
+          </div>
+      </div>
+  </div> 
     <div>
       <p>
         <strong style="font-weight: 500">{{ i?.name }}</strong>
@@ -18,16 +33,22 @@
         {{ i?.address?.postalCode }}<br *ngIf="i?.address?.postalCode" />
         {{ i?.address?.countryName }}<br *ngIf="i?.address?.countryName" />
       </p>
-      <div class="govuk-form-group" id="country-code-form-group">
+      <div class="govuk-form-group" id="country-code-form-group"
+      [class.govuk-form-group--error]="isInvalid == true"
+     >
         <label class="govuk-label" for="country-code">
           {{ "Country" | translate }}
         </label>
-        <div *ngIf="isValid" class="govuk-error-message">Please select your Organisation’s Country</div>
+        <span class="govuk-error-message" 
+        *ngIf="isInvalid">
+        <span class="govuk-visually-hidden">Error:</span>Please select your Organisation’s Country
+       </span>
         <mat-form-field class="form-field-country form-field-required">
           <mat-select
             [(ngModel)]="countryCode"
             #singleSelect
             panelClass="mat-country-select-site"
+            id="country-code"
           >
             <mat-option>
               <ngx-mat-select-search
@@ -38,6 +59,7 @@
                 <mat-icon ngxMatSelectSearchClear>clear</mat-icon>
               </ngx-mat-select-search>
             </mat-option>
+            <mat-option *ngIf="!countryCode" value="">Select Country</mat-option>
             <mat-option
               *ngFor="let topCountry of topCountries"
               [value]="topCountry.countryCode"
