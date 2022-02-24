@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-findyouradministrator',
-  templateUrl: './findyouradministrator.component.html',
-  styleUrls: ['./findyouradministrator.component.scss']
+  selector: 'app-find-your-administrator',
+  templateUrl: './find-your-administrator.component.html',
+  styleUrls: ['./find-your-administrator.component.scss']
 })
 export class FindyouradministratorComponent implements OnInit {
 

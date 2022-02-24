@@ -40,7 +40,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
                 break
             }
             case "unkownadmin":{
-                this.router.navigateByUrl(`manage-org/register/findyouradministrator`);
+                this.router.navigateByUrl(`manage-org/register/find-your-administrator`);
                 break
             }
         }
