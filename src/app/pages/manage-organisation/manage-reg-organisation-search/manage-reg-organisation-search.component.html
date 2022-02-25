@@ -46,19 +46,19 @@
                         <span class="govuk-visually-hidden">Error:</span>Enter your Organisation
                     </span>
                     <mat-form-field class="example-full-width">
-                        <input id="organisation" #input type="search" class="govuk-input" matInput
+                        <input id="organisation" [ngModel]="searchOrgName" (ngModelChange)="onSearchTextChange($event)" #input type="search" class="govuk-input" matInput 
                             formControlName="organisation" maxlength="100" [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete" class="mat-country-search-registration">
-                            <div *ngFor="let option of filteredOptions$ | async; index as i">
+                            <div *ngFor="let option of filteredOptions; index as i">
                                 <mat-option *ngIf="(i<showMoreThreshold) || showMoreOptionsVisible"
                                     [value]="option.legalName">
                                     {{option.legalName}}
                                 </mat-option>
                             </div>
                             <hr
-                                *ngIf="((filteredOptions$ | async)?.length! > showMoreThreshold) && !showMoreOptionsVisible">
+                                *ngIf="(filteredOptions?.length! > showMoreThreshold) && !showMoreOptionsVisible">
                             <div class="row no-gutters pb-1"
-                                *ngIf="((filteredOptions$ | async)?.length! > showMoreThreshold)  && !showMoreOptionsVisible">
+                                *ngIf="(filteredOptions?.length! > showMoreThreshold)  && !showMoreOptionsVisible">
                                 <div class="col-sm-6 text-right pr-2">
                                     <button type="button" class="btn btn-primary clickable"
                                         (click)="showMoreClicked()">Show
