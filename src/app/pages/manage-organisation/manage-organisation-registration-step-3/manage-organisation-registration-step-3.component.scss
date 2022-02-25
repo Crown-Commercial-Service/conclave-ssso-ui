@@ -25,3 +25,9 @@ app-manage-organisation-registration-step-3 {
 .form-field-country.form-field-required {
   position: relative;
 }
+.form-field-country:focus,.form-field-country:active,.mat-focused{
+  outline: 3px solid #fd0;
+    outline-offset: 0;
+    -webkit-box-shadow: inset 0 0 0 2px;
+    box-shadow: inset 0 0 0 2px;
+}

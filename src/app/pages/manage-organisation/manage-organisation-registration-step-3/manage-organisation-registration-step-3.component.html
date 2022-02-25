@@ -14,7 +14,7 @@
           <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
           <div class="govuk-error-summary__body">
               <ul class="govuk-list govuk-error-summary__list">
-                  <a onClick="return false;" (click)="setFocus()" href="javascript:;"
+                  <a  (click)="setFocus()" 
                      *ngIf="isInvalid">
                       <li>Select your Organisation’s Country</li>
                   </a>
@@ -36,9 +36,9 @@
       <div class="govuk-form-group" id="country-code-form-group"
       [class.govuk-form-group--error]="isInvalid == true"
      >
-        <label class="govuk-label" for="country-code">
+        <span class="govuk-label" for="country-code">
           {{ "Country" | translate }}
-        </label>
+        </span>
         <span class="govuk-error-message" 
         *ngIf="isInvalid">
         <span class="govuk-visually-hidden">Error:</span>Please select your Organisation’s Country
