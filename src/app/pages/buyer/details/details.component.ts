@@ -21,18 +21,20 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   public selectedOrgId: string = '';
+  schemeData: any[] = [];
 
-  constructor(private ciiService: ciiService, private organisationService: WrapperOrganisationService, 
+  constructor(private ciiService: ciiService, private organisationService: WrapperOrganisationService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
-    this.registries= {};
+    this.registries = {};
   }
 
   async ngOnInit() {
     this.route.params.subscribe(async params => {
       if (params.id) {
         this.selectedOrgId = params.id;
+        this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
         this.org = await this.organisationService.getOrganisation(params.id).toPromise();
         this.registries = await this.ciiService.getOrgDetails(params.id).toPromise();
         if (this.registries != undefined) {
@@ -43,26 +45,8 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   }
 
   public getSchemaName(schema: string): string {
-    switch (schema) {
-      case 'GB-COH': {
-        return 'Companies House';
-      }
-      case 'US-DUN': {
-        return 'Dun & Bradstreet';
-      }
-      case 'GB-CHC': {
-        return 'Charities Commission for England and Wales';
-      }
-      case 'GB-SC': {
-        return 'Scottish Charities Commission';
-      }
-      case 'GB-NIC': {
-        return 'Northern Ireland Charities Commission';
-      }
-      default: {
-        return '';
-      }
-    }
+    let selecedScheme = this.schemeData.find(s => s.scheme === schema);
+    return selecedScheme?.schemeName;
   }
 
   public onContinueClick() {
