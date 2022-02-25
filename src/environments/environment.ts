@@ -27,7 +27,7 @@ export const environment = {
     ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
   },
   googleTagMangerId: 'GTM-1',
-  bulkUploadPollingFrequencyInSeconds: 60, 
+  bulkUploadPollingFrequencyInSeconds: 60,
   bulkUploadTemplateFileUrl: '',
   bulkUploadMaxFileSizeInBytes:1048576,//default value
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
