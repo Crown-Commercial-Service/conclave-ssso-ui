@@ -36,9 +36,9 @@
       <div class="govuk-form-group" id="country-code-form-group"
       [class.govuk-form-group--error]="isInvalid == true"
      >
-        <label class="govuk-label" for="country-code">
+        <span class="govuk-label" for="countrycode">
           {{ "Country" | translate }}
-        </label>
+        </span>
         <span class="govuk-error-message" 
         *ngIf="isInvalid">
         <span class="govuk-visually-hidden">Error:</span>Please select your Organisation’s Country
@@ -48,7 +48,6 @@
             [(ngModel)]="countryCode"
             #singleSelect
             panelClass="mat-country-select-site"
-            id="country-code"
           >
             <mat-option>
               <ngx-mat-select-search
