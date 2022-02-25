@@ -61,7 +61,6 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     }
 
     async onSearchTextChange(value: any) {
-        console.log("Cahanged", value);
         if (value.length > 2) {
             let result = await this.organisationService.getByName(value, false).toPromise();
             this.filteredOptions = result;
