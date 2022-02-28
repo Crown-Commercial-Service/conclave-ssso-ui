@@ -49,6 +49,7 @@
             #singleSelect
             panelClass="mat-country-select-site"
             id="country-code"
+            (selectionChange)="onChangecountry(countryCode)"
           >
             <mat-option>
               <ngx-mat-select-search
