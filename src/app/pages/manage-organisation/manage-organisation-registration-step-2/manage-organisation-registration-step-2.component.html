@@ -69,13 +69,13 @@
                 id="{{ item.scheme + '-Div' }}"
                 class="box-input"
               >
-                <label
-                  for="{{ item.scheme + '-TextBox' }}"
+                <span
                   class="govuk-hint govuk-radios__hint"
                 >
                   {{ item.schemeName }} Number
-                </label>
+                </span>
                 <input
+                *ngIf="activeElement != 'US-DUN'"
                   #input
                   id="{{ item.scheme + '-TextBox' }}"
                   class="govuk-input govuk-input--width-10 text-input"
@@ -87,37 +87,43 @@
                     txtValue == ''
                   "
                 />
+                <div class="input-text-group" *ngIf="activeElement == 'US-DUN'">
+                  <span>
+                    <label for="input1">null</label>
+                    <input
+                      type="number"
+                      id="input1"
+                      (input)="ValueChanged(Data1, 'input1')"
+                      (keypress)="keyPress($event)"
+                      [(ngModel)]="Data1"
+                      class="govuk-input govuk-input--width-10 text-input"
+                      (keydown.backspace)="tiggerBackspace(Data1, 'input1')"
+                    />
+                  </span>
+                  <span>
+                    <label for="input2">null</label>
+                    <input
+                     type="number"
+                      id="input2"
+                      (keypress)="keyPress($event)"
+                      (input)="ValueChanged(Data2, 'input2')"
+                      [(ngModel)]="Data2"
+                      class="govuk-input govuk-input--width-10 text-input"
+                      (keydown.backspace)="tiggerBackspace(Data2, 'input2')"
+                  /></span>
+                  <span>
+                    <label for="input3">null</label>
+                    <input
+                      type="number"
+                      id="input3"
+                      (input)="ValueChanged(Data3, 'input3')"
+                      (keypress)="keyPress($event)"
+                      [(ngModel)]="Data3"
+                      class="govuk-input govuk-input--width-10 text-input"
+                      (keydown.backspace)="tiggerBackspace(Data3, 'input3')"
+                  /></span>
+                </div>
               </div>
-            </div>
-            <div class="input-text-group" *ngIf="activeElement == 'US-DUN'">
-              <span>
-                <input
-                  type="number"
-                  id="input1"
-                  (input)="ValueChanged(Data1, 'input1')"
-                  (keypress)="keyPress($event)"
-                  [(ngModel)]="Data1"
-                  class="form-control"
-                />
-              </span>
-              <span>
-                <input
-                 type="number"
-                  id="input2"
-                  (keypress)="keyPress($event)"
-                  (input)="ValueChanged(Data2, 'input2')"
-                  [(ngModel)]="Data2"
-                  class="form-control"
-              /></span>
-              <span>
-                <input
-                  type="number"
-                  id="input3"
-                  (input)="ValueChanged(Data3, 'input3')"
-                  (keypress)="keyPress($event)"
-                  [(ngModel)]="Data3"
-                  class="form-control"
-              /></span>
             </div>
           </div>
         </fieldset>

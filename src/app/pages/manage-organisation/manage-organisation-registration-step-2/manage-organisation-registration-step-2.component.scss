@@ -36,18 +36,15 @@ input[type=radio] {
   margin-left: 50px;
 }
 
-.input-text-group {
-  text-align: center;
-}
 
 .input-text-group span:not(:first-child):after {
   content: "";
   position: absolute;
   width: 30px;
-  left: -40px;
+  left: -35px;
   background: red;
   height: 4px;
-  top: 15px;
+  top: 20px;
 }
 .input-text-group input[type="number"]{
   max-width: 50px;
@@ -62,4 +59,17 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+label[for="input1"]
+{
+    display:none;
+}
+label[for="input2"]
+{
+    display:none;
+}
+label[for="input3"]
+{
+    display:none;
 }
