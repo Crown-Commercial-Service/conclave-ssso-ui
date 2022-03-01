@@ -17,6 +17,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-manage-organisation-registration-step-2',
@@ -33,9 +34,12 @@ export class ManageOrgRegStep2Component
   extends BaseComponent
   implements OnInit
 {
-  Data1 = '';
-  Data2 = '';
-  Data3 = '';
+  public dunNumber: FormGroup | any;
+  // public dunNumber:any = {
+  //   data1:'',
+  //   data2:'',
+  //   data3:''
+  // }
   public items$!: Observable<any>;
   public scheme!: string;
   public schemeSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
@@ -56,17 +60,23 @@ export class ManageOrgRegStep2Component
     private router: Router,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper
+    protected scrollHelper: ScrollHelper,
+    private formBuilder: FormBuilder
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.txtValue = '';
   }
 
   ngOnInit() {
+    this.dunNumber = this.formBuilder.group({
+      data1: ["", [Validators.required]],
+      data2: ["", [Validators.required]],
+      data3: ["", [Validators.required]],
+    });
+
     this.items$ = this.ciiService.getSchemes().pipe(share());
     this.items$.subscribe({
       next: (result) => {
-        console.log('items$', result);
         this.scheme = result[0].scheme;
         this.schemeName = result[0].schemeName;
         localStorage.setItem('scheme_name', this.schemeName);
@@ -102,7 +112,7 @@ export class ManageOrgRegStep2Component
 
   public onSelect(item: any) {
     this.schemeSubject.next(item.scheme);
-    console.log('item.scheme', item.scheme);
+    // this.dunNumber={}
     this.activeElement = item.scheme;
     var el = document.getElementById(item.scheme) as HTMLInputElement;
     if (el) {
@@ -120,8 +130,9 @@ export class ManageOrgRegStep2Component
    * @param Data input value
    * @param box which box user typing
    */
-  public ValueChanged(Data: any, box: string): void {
-    let StringyfyData = Data.toString();
+  public ValueChanged(data: any, box: string): void {
+    console.log("event",data)
+    let StringyfyData = data.toString();
     if (box == 'input1' && StringyfyData.length > 2) {
       document.getElementById('input2')?.focus();
     } else if (box == 'input2' && StringyfyData.length > 2) {
@@ -144,6 +155,11 @@ export class ManageOrgRegStep2Component
     }
   }
 
+  /**
+   * back space function
+   * @param data data from html 
+   * @param box box place value from html
+   */
   public tiggerBackspace(data: any, box: string) {
     let StringyfyData: any;
     if (data) {
@@ -157,4 +173,5 @@ export class ManageOrgRegStep2Component
       document.getElementById('input2')?.focus();
     }
   }
+  
 }

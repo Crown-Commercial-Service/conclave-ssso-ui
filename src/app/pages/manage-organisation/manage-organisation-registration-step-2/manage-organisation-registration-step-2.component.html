@@ -87,42 +87,56 @@
                     txtValue == ''
                   "
                 />
+            <form [formGroup]="dunNumber">
                 <div class="input-text-group" *ngIf="activeElement == 'US-DUN'">
                   <span>
-                    <label for="input1">null</label>
+                    <label for="input1">.</label>
                     <input
                       type="number"
                       id="input1"
-                      (input)="ValueChanged(Data1, 'input1')"
+                      (input)="ValueChanged(dunNumber.controls.data1.value, 'input1')"
                       (keypress)="keyPress($event)"
-                      [(ngModel)]="Data1"
+                      formControlName="data1"
                       class="govuk-input govuk-input--width-10 text-input"
-                      (keydown.backspace)="tiggerBackspace(Data1, 'input1')"
+                      (keydown.backspace)="tiggerBackspace(dunNumber.controls.data1.value, 'input1')"
+                      onPaste="return false"
+                      [class.govuk-input--error]="
+                      submitted && dunNumber.get('data1').invalid
+                    "
                     />
                   </span>
                   <span>
-                    <label for="input2">null</label>
+                    <label for="input2">.</label>
                     <input
                      type="number"
                       id="input2"
                       (keypress)="keyPress($event)"
-                      (input)="ValueChanged(Data2, 'input2')"
-                      [(ngModel)]="Data2"
+                      (input)="ValueChanged(dunNumber.controls.data2.value, 'input2')"
+                      formControlName="data2"
                       class="govuk-input govuk-input--width-10 text-input"
-                      (keydown.backspace)="tiggerBackspace(Data2, 'input2')"
+                      (keydown.backspace)="tiggerBackspace(dunNumber.controls.data2.value, 'input2')"
+                      onPaste="return false"
+                      [class.govuk-input--error]="
+                      submitted && dunNumber.get('data2').invalid
+                    "
                   /></span>
                   <span>
-                    <label for="input3">null</label>
+                    <label for="input3">.</label>
                     <input
                       type="number"
                       id="input3"
-                      (input)="ValueChanged(Data3, 'input3')"
+                      (input)="ValueChanged(dunNumber.controls.data3.value, 'input3')"
                       (keypress)="keyPress($event)"
-                      [(ngModel)]="Data3"
+                      formControlName="data3"
                       class="govuk-input govuk-input--width-10 text-input"
-                      (keydown.backspace)="tiggerBackspace(Data3, 'input3')"
+                      (keydown.backspace)="tiggerBackspace(dunNumber.controls.data3.value, 'input3')"
+                      onPaste="return false"
+                      [class.govuk-input--error]="
+                      submitted && dunNumber.get('data3').invalid
+                    "
                   /></span>
                 </div>
+                </form>
               </div>
             </div>
           </div>
