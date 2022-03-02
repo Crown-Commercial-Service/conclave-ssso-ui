@@ -42,7 +42,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             this.formGroup = this.formBuilder.group({
                 firstName: [orgreginfo.adminUserFirstName, Validators.compose([Validators.required])],
                 lastName: [orgreginfo.adminUserLastName, Validators.compose([Validators.required])],
-                email: [orgreginfo.adminEmail, Validators.compose([Validators.required, Validators.email])],
+                email: [orgreginfo.adminEmail, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")],
                 organisation: [orgreginfo.orgName, Validators.compose([Validators.required])]
             });
             this.searchOrgName = orgreginfo.orgName;
