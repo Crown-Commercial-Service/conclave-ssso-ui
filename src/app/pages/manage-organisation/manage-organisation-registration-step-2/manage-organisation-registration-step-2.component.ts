@@ -69,9 +69,9 @@ export class ManageOrgRegStep2Component
 
   ngOnInit() {
     this.dunNumber = this.formBuilder.group({
-      data1: ["", [Validators.required]],
-      data2: ["", [Validators.required]],
-      data3: ["", [Validators.required]],
+      data1: ["", [Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.pattern(/^[0-9]\d*$/)]],
+      data2: ["", [Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.pattern(/^[0-9]\d*$/)]],
+      data3: ["", [Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.pattern(/^[0-9]\d*$/)]],
     });
 
     this.items$ = this.ciiService.getSchemes().pipe(share());
@@ -112,7 +112,6 @@ export class ManageOrgRegStep2Component
 
   public onSelect(item: any) {
     this.schemeSubject.next(item.scheme);
-    // this.dunNumber={}
     this.activeElement = item.scheme;
     var el = document.getElementById(item.scheme) as HTMLInputElement;
     if (el) {
@@ -130,30 +129,16 @@ export class ManageOrgRegStep2Component
    * @param Data input value
    * @param box which box user typing
    */
-  public ValueChanged(data: any, box: string): void {
+  public ValueChanged(data: string, box: string): void {
     console.log("event",data)
-    let StringyfyData = data.toString();
-    if (box == 'input1' && StringyfyData.length > 2) {
+    // let StringyfyData = data.toString();
+    if (box == 'input1' && data.length > 2) {
       document.getElementById('input2')?.focus();
-    } else if (box == 'input2' && StringyfyData.length > 2) {
+    } else if (box == 'input2' && data.length > 2) {
       document.getElementById('input3')?.focus();
     }
   }
 
-  /**
-   * preventing only 3 digit can you type
-   * @param event $event passed from html
-   */
-  public keyPress(event: any): void {
-    const pattern = /[0-9]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    if (event.keyCode != 8 && !pattern.test(inputChar)) {
-      event.preventDefault();
-    }
-    if (event.target.value.length > 2) {
-      event.preventDefault();
-    }
-  }
 
   /**
    * back space function
@@ -173,5 +158,6 @@ export class ManageOrgRegStep2Component
       document.getElementById('input2')?.focus();
     }
   }
+  
   
 }

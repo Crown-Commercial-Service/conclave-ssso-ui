@@ -87,19 +87,27 @@
                     txtValue == ''
                   "
                 />
-            <form [formGroup]="dunNumber">
-                <div class="input-text-group" *ngIf="activeElement == 'US-DUN'">
-                  <span>
+              <form [formGroup]="dunNumber">
+                <div class="input-text-group custom-field" *ngIf="activeElement == 'US-DUN'">
+                  <div id="valid-identifier-error" class="govuk-error-message" *ngIf="submitted  && dunNumber.get('data1').invalid && !dunNumber.get('data2').invalid &&  !dunNumber.get('data3').invalid">
+                    <span  class="govuk-visually-hidden">Error:</span> Enter a valid identifier number
+                  </div>
+                  <div id="valid-identifier-error" class="govuk-error-message" *ngIf="submitted  && dunNumber.get('data2').invalid && !dunNumber.get('data1').invalid &&  !dunNumber.get('data3').invalid">
+                    <span  class="govuk-visually-hidden">Error:</span> Enter a valid identifier number
+                  </div>
+                  <div id="valid-identifier-error" class="govuk-error-message" *ngIf="submitted  && dunNumber.get('data3').invalid && !dunNumber.get('data1').invalid &&  !dunNumber.get('data2').invalid">
+                    <span  class="govuk-visually-hidden">Error:</span> Enter a valid identifier number
+                  </div>
+                  <span> 
                     <label for="input1">.</label>
                     <input
-                      type="number"
+                      type="text"
                       id="input1"
                       (input)="ValueChanged(dunNumber.controls.data1.value, 'input1')"
-                      (keypress)="keyPress($event)"
+                      maxlength="3"
                       formControlName="data1"
                       class="govuk-input govuk-input--width-10 text-input"
                       (keydown.backspace)="tiggerBackspace(dunNumber.controls.data1.value, 'input1')"
-                      onPaste="return false"
                       [class.govuk-input--error]="
                       submitted && dunNumber.get('data1').invalid
                     "
@@ -108,14 +116,13 @@
                   <span>
                     <label for="input2">.</label>
                     <input
-                     type="number"
+                      type="text"
                       id="input2"
-                      (keypress)="keyPress($event)"
+                      maxlength="3"
                       (input)="ValueChanged(dunNumber.controls.data2.value, 'input2')"
                       formControlName="data2"
                       class="govuk-input govuk-input--width-10 text-input"
                       (keydown.backspace)="tiggerBackspace(dunNumber.controls.data2.value, 'input2')"
-                      onPaste="return false"
                       [class.govuk-input--error]="
                       submitted && dunNumber.get('data2').invalid
                     "
@@ -123,14 +130,13 @@
                   <span>
                     <label for="input3">.</label>
                     <input
-                      type="number"
+                      type="text"
                       id="input3"
+                      maxlength="3"
                       (input)="ValueChanged(dunNumber.controls.data3.value, 'input3')"
-                      (keypress)="keyPress($event)"
                       formControlName="data3"
                       class="govuk-input govuk-input--width-10 text-input"
                       (keydown.backspace)="tiggerBackspace(dunNumber.controls.data3.value, 'input3')"
-                      onPaste="return false"
                       [class.govuk-input--error]="
                       submitted && dunNumber.get('data3').invalid
                     "
