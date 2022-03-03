@@ -1,40 +1,41 @@
 export const environment = {
-    production: false,
-    idam_client_id: '',
+    production: true,
+    idam_client_id:'',
     uri: {
       api: {
         isApiGateWayEnabled: false,
-        security: 'https://localhost:44352',
-        postgres: 'https://localhost:44330',
+        security: 'https://sand-api-security.london.cloudapps.digital',
+        postgres: 'https://sand-api-core.london.cloudapps.digital',
+        cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
-            user: 'https://localhost:44309/user-profiles',
-            organisation: 'https://localhost:44309/organisation-profiles',
-            contact: 'https://localhost:44309/contacts',
-            configuration: 'https://localhost:44309/configurations',
+            user: 'https://sand-api-wrapper.london.cloudapps.digital/user-profiles',
+            organisation: 'https://sand-api-wrapper.london.cloudapps.digital/organisation-profiles',
+            contact: 'https://sand-api-wrapper.london.cloudapps.digital/contacts',
+            configuration: 'https://sand-api-wrapper.london.cloudapps.digital/configurations',
           },
           apiGatewayDisabled: {
-            user: 'https://localhost:44309/users',
-            organisation: 'https://localhost:44309/organisations',
-            contact: 'https://localhost:44309/contacts',
-            configuration: 'https://localhost:44309/configurations',
+            user: 'https://sand-api-wrapper.london.cloudapps.digital/users',
+            organisation: 'https://sand-api-wrapper.london.cloudapps.digital/organisations',
+            contact: 'https://sand-api-wrapper.london.cloudapps.digital/contacts',
+            configuration: 'https://sand-api-wrapper.london.cloudapps.digital/configurations',
           }
         }
       },
       web: {
-        dashboard: 'http://localhost:4200'
+        dashboard: 'https://sand-ccs-sso.london.cloudapps.digital'
       },
       ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
     },
     googleTagMangerId: '',
-    bulkUploadPollingFrequencyInSeconds: 60,
+    bulkUploadPollingFrequencyInSeconds: 5,
+    bulkUploadMaxFileSizeInBytes:1048576,
     bulkUploadTemplateFileUrl: '',
-    bulkUploadMaxFileSizeInBytes:1048576,//default value
     usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
-    listPageSize: 10,
+    listPageSize: 10,  
     rollbar: {
       key: '',
-      enable: false
+      enable : false
     }
   };
   
