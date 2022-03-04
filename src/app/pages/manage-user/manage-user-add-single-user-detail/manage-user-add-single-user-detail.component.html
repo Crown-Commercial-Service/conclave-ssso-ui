@@ -76,6 +76,7 @@
                     <div class="govuk-form-group" id="user-title-form-group">
                         <label class="govuk-label" for="userTitle">{{ 'TITLE' | translate }}</label>
                         <select class="govuk-select" id="userTitle" name="userTitle" formControlName="userTitle">
+                            <option hidden disabled selected value style="display:none"></option>
                             <option *ngFor="let item of userTitleEnum | enumToArray" [ngValue]="item">{{
                                 userTitleEnum[item] }}</option>
                         </select>
@@ -126,7 +127,7 @@
                             [class.govuk-input--error]="(submitted && formGroup.controls.userName.invalid)
                             || formGroup.controls.userName.hasError('alreadyExists')">
                     </div>
-                    <!-- <div class="govuk-form-group" id="user-mfa-form-group"
+                    <div class="govuk-form-group" id="user-mfa-form-group"
                         [class.govuk-form-group--error]="submitted && (mfaConnectionValidationError || mfaAdminValidationError)">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-fieldset__legend">
@@ -150,7 +151,7 @@
                                 </label>
                             </div>
                         </fieldset>
-                    </div> -->
+                    </div>
 
                     <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">

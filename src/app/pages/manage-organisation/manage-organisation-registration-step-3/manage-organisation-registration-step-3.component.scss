@@ -21,14 +21,19 @@ app-manage-organisation-registration-step-3 {
   padding-top: 6px;
   padding-left: 3px;
 }
-.form-field-country.form-field-required:after {
-  content: "*";
-  position: absolute;
-  right: -14px;
-  top: -12px;
-  color: red;
-  font-size: 26px;
-}
+
 .form-field-country.form-field-required {
   position: relative;
+}
+
+.form-field-country:focus,.form-field-country:active,.mat-focused{
+  outline: 3px solid #fd0;
+    outline-offset: 0;
+    -webkit-box-shadow: inset 0 0 0 2px;
+    box-shadow: inset 0 0 0 2px;
+}
+
+.mat-option.mat-active {
+  background: #177ddc !important;
+  color: white;
 }

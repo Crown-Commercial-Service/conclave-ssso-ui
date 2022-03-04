@@ -105,6 +105,7 @@ import { LoginComponent } from './pages/login/mock-login/login.component';
 import { ManageOrgRegSearchStatusExistsComponent } from './pages/manage-organisation/manage-reg-organisation-status-exists/manage-reg-organisation-status-exists.component';
 import { ManageOrgRegSearchStatusDuplicateComponent } from './pages/manage-organisation/manage-reg-organisation-status-duplicate/manage-reg-organisation-status-duplicate.component';
 import { ManageUserBulkUploadMigrationStatusComponent } from './pages/manage-user/manage-user-bulk-upload-migration-status/manage-user-bulk-upload-migration-status.component';
+import { FindyouradministratorComponent } from './pages/manage-organisation/find-your-administrator/find-your-administrator.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -153,6 +154,12 @@ const routes: Routes = [
     data: { title: 'Success - Change Password' },
     pathMatch: 'full',
     component: OperationSuccessComponent,
+  },
+  {
+    path: 'manage-org/register/find-your-administrator',
+    data: { title: 'How to find your administrator' },
+    pathMatch: 'full',
+    component: FindyouradministratorComponent,
   },
   {
     path: 'change-password-failed/:operation',
