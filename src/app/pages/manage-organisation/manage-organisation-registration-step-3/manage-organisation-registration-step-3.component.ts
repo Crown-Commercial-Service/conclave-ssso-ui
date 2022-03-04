@@ -259,7 +259,21 @@ export class ManageOrgRegStep3Component
     organisation.additionalIdentifiers = this.selectedIdentifiers;
     localStorage.setItem('cii_organisation', JSON.stringify(organisation));
   }
-  setFocus(){
+
+  /**
+   * Focus on mat select box
+   */
+  public setFocus():void{
     if(this.matselect) this.matselect.focus();
+  }
+
+  /**
+  * on change event in mat select box
+  * @param event value from html
+  */
+  public onChangecountry(event:string):void{
+    if(event){
+      this.isInvalid=false
+    }
   }
 }
