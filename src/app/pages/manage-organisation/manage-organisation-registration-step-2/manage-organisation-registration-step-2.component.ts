@@ -35,11 +35,6 @@ export class ManageOrgRegStep2Component
   implements OnInit
 {
   public dunNumber: FormGroup | any;
-  // public dunNumber:any = {
-  //   data1:'',
-  //   data2:'',
-  //   data3:''
-  // }
   public items$!: Observable<any>;
   public scheme!: string;
   public schemeSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
@@ -49,7 +44,12 @@ export class ManageOrgRegStep2Component
     this.schemeSubject.asObservable();
   public schemeName!: string;
   public txtValue!: string;
-  public activeElement: string = '';
+  public validationObj = {
+    activeElement: '',
+    stringIdentifier: true,
+    isDunlength: false,
+  };
+  private regExp = /[a-zA-Z`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
   submitted: boolean = false;
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
@@ -69,9 +69,18 @@ export class ManageOrgRegStep2Component
 
   ngOnInit() {
     this.dunNumber = this.formBuilder.group({
-      data1: ["", [Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.pattern(/^[0-9]\d*$/)]],
-      data2: ["", [Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.pattern(/^[0-9]\d*$/)]],
-      data3: ["", [Validators.required,Validators.minLength(3),Validators.maxLength(3),Validators.pattern(/^[0-9]\d*$/)]],
+      data1: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(3)],
+      ],
+      data2: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(3)],
+      ],
+      data3: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(3)],
+      ],
     });
 
     this.items$ = this.ciiService.getSchemes().pipe(share());
@@ -94,15 +103,37 @@ export class ManageOrgRegStep2Component
 
   public onSubmit() {
     this.submitted = true;
-    if (this.txtValue && this.txtValue.length > 0) {
-      console.log('this.txtValue', this.txtValue, this.scheme);
-      this.router.navigateByUrl(
-        `manage-org/register/search/${this.scheme}?id=${encodeURIComponent(
-          this.txtValue
-        )}`
-      );
+    this.validationObj.isDunlength = false;
+    if (this.validationObj.activeElement == 'US-DUN') {
+      let conateString: string =
+        this.dunNumber.get('data1').value +
+        this.dunNumber.get('data2').value +
+        this.dunNumber.get('data3').value;
+      if (conateString.length >= 8) {
+        this.validationObj.isDunlength = false;
+        if (this.regExp.test(conateString)) {
+          this.validationObj.stringIdentifier = true;
+        } else {
+          this.validationObj.stringIdentifier = false;
+          this.router.navigateByUrl(
+            `manage-org/register/search/${this.scheme}?id=${encodeURIComponent(
+              conateString
+            )}`
+          );
+        }
+      } else {
+        this.validationObj.isDunlength=true
+      }
     } else {
-      this.scrollHelper.scrollToFirst('error-summary');
+      if (this.txtValue && this.txtValue.length > 0) {
+        this.router.navigateByUrl(
+          `manage-org/register/search/${this.scheme}?id=${encodeURIComponent(
+            this.txtValue
+          )}`
+        );
+      } else {
+        this.scrollHelper.scrollToFirst('error-summary');
+      }
     }
   }
 
@@ -112,7 +143,7 @@ export class ManageOrgRegStep2Component
 
   public onSelect(item: any) {
     this.schemeSubject.next(item.scheme);
-    this.activeElement = item.scheme;
+    this.validationObj.activeElement = item.scheme;
     var el = document.getElementById(item.scheme) as HTMLInputElement;
     if (el) {
       el.checked = true;
@@ -130,8 +161,6 @@ export class ManageOrgRegStep2Component
    * @param box which box user typing
    */
   public ValueChanged(data: string, box: string): void {
-    console.log("event",data)
-    // let StringyfyData = data.toString();
     if (box == 'input1' && data.length > 2) {
       document.getElementById('input2')?.focus();
     } else if (box == 'input2' && data.length > 2) {
@@ -139,10 +168,9 @@ export class ManageOrgRegStep2Component
     }
   }
 
-
   /**
    * back space function
-   * @param data data from html 
+   * @param data data from html
    * @param box box place value from html
    */
   public tiggerBackspace(data: any, box: string) {
@@ -158,6 +186,24 @@ export class ManageOrgRegStep2Component
       document.getElementById('input2')?.focus();
     }
   }
-  
-  
+
+
+  /**
+   * Focus dun nummber dynamically
+   */
+  public setDun_numberfocus() {
+    let Controls = [
+      { data: 'data1', key: 'input1' },
+      { data: 'data2', key: 'input2' },
+      { data: 'data3', key: 'input3' },
+    ];
+    Controls.forEach((f) => {
+      if (!this.dunNumber.get(f.data).value) {
+        document.getElementById(f.key)?.focus();
+      }
+      if (this.regExp.test(this.dunNumber.get(f.data).value)) {
+        document.getElementById(f.key)?.focus();
+      }
+    });
+  }
 }

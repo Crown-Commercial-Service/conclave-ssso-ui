@@ -19,7 +19,7 @@
         <h2 class="govuk-error-summary__title" id="error-summary-title">
           {{ "ERROR_SUMMARY" | translate }}
         </h2>
-        <div class="govuk-error-summary__body">
+        <div class="govuk-error-summary__body" *ngIf="validationObj.activeElement!='US-DUN'">
           <ul class="govuk-list govuk-error-summary__list">
             <li>
               <a
@@ -29,6 +29,28 @@
               >
                 {{ "ERROR_ENTER_REGISTRY_NUMBER" | translate }}
               </a>
+            </li>
+          </ul>
+        </div>
+        <div class="govuk-error-summary__body" *ngIf="validationObj.activeElement==='US-DUN'">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <a
+                *ngIf="validationObj.isDunlength"
+                href="javascript:;"
+                onClick="return false;"
+                (click)="setDun_numberfocus()"
+              >
+               Please enter a DUN number
+              </a>
+              <a
+              *ngIf="validationObj.stringIdentifier && !validationObj.isDunlength"
+              href="javascript:;"
+              onClick="return false;"
+              (click)="setDun_numberfocus()"
+            >
+              input numbers only.
+            </a>
             </li>
           </ul>
         </div>
@@ -75,7 +97,7 @@
                   {{ item.schemeName }} Number
                 </span>
                 <input
-                *ngIf="activeElement != 'US-DUN'"
+                *ngIf="validationObj.activeElement != 'US-DUN'"
                   #input
                   id="{{ item.scheme + '-TextBox' }}"
                   class="govuk-input govuk-input--width-10 text-input"
@@ -88,14 +110,8 @@
                   "
                 />
               <form [formGroup]="dunNumber">
-                <div class="input-text-group custom-field" *ngIf="activeElement == 'US-DUN'">
-                  <div id="valid-identifier-error" class="govuk-error-message" *ngIf="submitted  && dunNumber.get('data1').invalid && !dunNumber.get('data2').invalid &&  !dunNumber.get('data3').invalid">
-                    <span  class="govuk-visually-hidden">Error:</span> Enter a valid identifier number
-                  </div>
-                  <div id="valid-identifier-error" class="govuk-error-message" *ngIf="submitted  && dunNumber.get('data2').invalid && !dunNumber.get('data1').invalid &&  !dunNumber.get('data3').invalid">
-                    <span  class="govuk-visually-hidden">Error:</span> Enter a valid identifier number
-                  </div>
-                  <div id="valid-identifier-error" class="govuk-error-message" *ngIf="submitted  && dunNumber.get('data3').invalid && !dunNumber.get('data1').invalid &&  !dunNumber.get('data2').invalid">
+                <div class="input-text-group custom-field" *ngIf="validationObj.activeElement == 'US-DUN'">
+                  <div id="valid-identifier-error" class="govuk-error-message" *ngIf="submitted  && validationObj.stringIdentifier">
                     <span  class="govuk-visually-hidden">Error:</span> Enter a valid identifier number
                   </div>
                   <span> 
@@ -147,7 +163,6 @@
             </div>
           </div>
         </fieldset>
-        Enter your
       </div>
       <button
         id="continueButton"
