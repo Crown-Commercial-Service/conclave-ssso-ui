@@ -1,20 +1,56 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
-  <a href="javascript:;" (click)="onBackClick()" class="govuk-back-link">Back</a>
+  <a href="javascript:;" (click)="onBackClick()" class="govuk-back-link"
+    >Back</a
+  >
 
   <h1 class="govuk-heading-xl page-title">Enter your organisation's details</h1>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
-      <div class="govuk-error-summary radio-form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
-        id="error-summary" data-module="govuk-error-summary" *ngIf="submitted && txtValue == ''">
+      <div
+        class="govuk-error-summary radio-form-error"
+        aria-labelledby="error-summary-title"
+        role="alert"
+        tabindex="-1"
+        id="error-summary"
+        data-module="govuk-error-summary"
+        *ngIf="submitted && txtValue == ''"
+      >
         <h2 class="govuk-error-summary__title" id="error-summary-title">
-          {{ 'ERROR_SUMMARY' | translate }}
+          {{ "ERROR_SUMMARY" | translate }}
         </h2>
-        <div class="govuk-error-summary__body">
+        <div class="govuk-error-summary__body" *ngIf="validationObj.activeElement!='US-DUN'">
           <ul class="govuk-list govuk-error-summary__list">
             <li>
-              <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
-                {{ 'ERROR_ENTER_REGISTRY_NUMBER' | translate }} </a>
+              <a
+                href="javascript:;"
+                onClick="return false;"
+                (click)="setFocus(0)"
+              >
+                {{ "ERROR_ENTER_REGISTRY_NUMBER" | translate }}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="govuk-error-summary__body" *ngIf="validationObj.activeElement==='US-DUN'">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <a
+                *ngIf="validationObj.isDunlength"
+                href="javascript:;"
+                onClick="return false;"
+                (click)="setDun_numberfocus()"
+              >
+               Please enter a DUN number
+              </a>
+              <a
+              *ngIf="validationObj.stringIdentifier && !validationObj.isDunlength"
+              href="javascript:;"
+              onClick="return false;"
+              (click)="setDun_numberfocus()"
+            >
+              input numbers only.
+            </a>
             </li>
           </ul>
         </div>
@@ -25,27 +61,118 @@
             Please choose one option:
           </legend>
           <div class="govuk-radios">
-            <div class="govuk-radios__item" *ngFor="let item of items$! | async"
-              [class.govuk-form-group--error]="submitted && (schemeSubjectObs | async) === item.scheme  && txtValue == ''">
-              <input class="govuk-radios__input" type="radio" [attr.id]="item.scheme+'-RadioButton'" name="scheme"
-                [value]="item.scheme" value="{{ item.scheme }}" [checked]="(schemeSubjectObs | async) === item.scheme"
-                [(ngModel)]="scheme" (click)="onSelect(item)">
-              <label for="{{ item.scheme+'-RadioButton' }}" class="govuk-label govuk-radios__label">{{ item.schemeName
-                }}</label>
-              <div *ngIf="(schemeSubjectObs | async) === item.scheme" id="{{ item.scheme+'-Div' }}" class="box-input">
-                <label for="{{ item.scheme+'-TextBox' }}" class="govuk-hint govuk-radios__hint">
-                  Enter your {{item.schemeName }} Number
-                </label>
-                <input #input id="{{ item.scheme+'-TextBox' }}" class="govuk-input  govuk-input--width-10 text-input"
-                  type="text" [(ngModel)]="txtValue"
-                  [class.govuk-input--error]="submitted && (schemeSubjectObs | async) === item.scheme && txtValue == ''">
+            <div
+              class="govuk-radios__item"
+              *ngFor="let item of items$! | async"
+              [class.govuk-form-group--error]="
+                submitted &&
+                (schemeSubjectObs | async) === item.scheme &&
+                txtValue == ''
+              "
+            >
+              <input
+                class="govuk-radios__input"
+                type="radio"
+                [attr.id]="item.scheme + '-RadioButton'"
+                name="scheme"
+                [value]="item.scheme"
+                value="{{ item.scheme }}"
+                [checked]="(schemeSubjectObs | async) === item.scheme"
+                [(ngModel)]="scheme"
+                (click)="onSelect(item)"
+              />
+              <label
+                for="{{ item.scheme + '-RadioButton' }}"
+                class="govuk-label govuk-radios__label"
+                >{{ item.schemeName }}</label
+              >
+              <div
+                *ngIf="(schemeSubjectObs | async) === item.scheme"
+                id="{{ item.scheme + '-Div' }}"
+                class="box-input"
+              >
+                <span
+                  class="govuk-hint govuk-radios__hint"
+                >
+                  {{ item.schemeName }} Number
+                </span>
+                <input
+                *ngIf="validationObj.activeElement != 'US-DUN'"
+                  #input
+                  id="{{ item.scheme + '-TextBox' }}"
+                  class="govuk-input govuk-input--width-10 text-input"
+                  type="text"
+                  [(ngModel)]="txtValue"
+                  [class.govuk-input--error]="
+                    submitted &&
+                    (schemeSubjectObs | async) === item.scheme &&
+                    txtValue == ''
+                  "
+                />
+              <form [formGroup]="dunNumber">
+                <div class="input-text-group custom-field" *ngIf="validationObj.activeElement == 'US-DUN'">
+                  <div id="valid-identifier-error" class="govuk-error-message" *ngIf="submitted  && validationObj.stringIdentifier">
+                    <span  class="govuk-visually-hidden">Error:</span> Enter a valid identifier number
+                  </div>
+                  <span> 
+                    <label for="input1">.</label>
+                    <input
+                      type="text"
+                      id="input1"
+                      (input)="ValueChanged(dunNumber.controls.data1.value, 'input1')"
+                      maxlength="3"
+                      formControlName="data1"
+                      class="govuk-input govuk-input--width-10 text-input"
+                      (keydown.backspace)="tiggerBackspace(dunNumber.controls.data1.value, 'input1')"
+                      [class.govuk-input--error]="
+                      submitted && dunNumber.get('data1').invalid
+                    "
+                    />
+                  </span>
+                  <span>
+                    <label for="input2">.</label>
+                    <input
+                      type="text"
+                      id="input2"
+                      maxlength="3"
+                      (input)="ValueChanged(dunNumber.controls.data2.value, 'input2')"
+                      formControlName="data2"
+                      class="govuk-input govuk-input--width-10 text-input"
+                      (keydown.backspace)="tiggerBackspace(dunNumber.controls.data2.value, 'input2')"
+                      [class.govuk-input--error]="
+                      submitted && dunNumber.get('data2').invalid
+                    "
+                  /></span>
+                  <span>
+                    <label for="input3">.</label>
+                    <input
+                      type="text"
+                      id="input3"
+                      maxlength="3"
+                      (input)="ValueChanged(dunNumber.controls.data3.value, 'input3')"
+                      formControlName="data3"
+                      class="govuk-input govuk-input--width-10 text-input"
+                      (keydown.backspace)="tiggerBackspace(dunNumber.controls.data3.value, 'input3')"
+                      [class.govuk-input--error]="
+                      submitted && dunNumber.get('data3').invalid
+                    "
+                  /></span>
+                </div>
+                </form>
               </div>
             </div>
           </div>
         </fieldset>
       </div>
-      <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
-        (click)="onSubmit()">Continue</button>
+      <button
+        id="continueButton"
+        type="button"
+        class="govuk-button"
+        data-module="govuk-button"
+        (click)="onSubmit()"
+      >
+        Continue
+      </button>
     </div>
   </div>
 </div>
