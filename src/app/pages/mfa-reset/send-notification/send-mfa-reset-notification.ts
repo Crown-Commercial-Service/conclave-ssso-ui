@@ -31,12 +31,22 @@ export class SendMFAResetNotificationComponent extends BaseComponent implements 
 
   ngOnInit() {
     debugger;
-    this.userName = sessionStorage.getItem(SessionStorageKey.MFAResetUserName) ?? '';
-    this.mfaService.sendResetMFANotification(this.userName).toPromise().then(() => {
-      this.router.navigateByUrl('mfaresetnotification/success');
-    }).catch((error: any) => {
-      this.sendError = true;
-    });
+    this.route.queryParams.subscribe(para => {
+      if (para.u !== null || para.u !== '') {
+        var decryptedValue = CryptoJS.AES.decrypt(decodeURIComponent(para.u), 'conclavesimpleemailencrypt');
+        var originalUsername = decryptedValue.toString(CryptoJS.enc.Utf8);
+        this.userName = originalUsername;
+        sessionStorage.setItem(SessionStorageKey.MFAResetUserName, originalUsername);
+      }
+      else {
+        this.userName = sessionStorage.getItem(SessionStorageKey.MFAResetUserName) ?? '';
+      }
 
+      this.mfaService.sendResetMFANotification(this.userName).toPromise().then(() => {
+        this.router.navigateByUrl('mfaresetnotification/success');
+      }).catch((error: any) => {
+        this.sendError = true;
+      });
+    });
   }
 }

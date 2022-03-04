@@ -61,6 +61,7 @@
           <div class="govuk-form-group" id="web-form-group">
             <label class="govuk-label" for="contactReason"> {{ 'CONTACT_REASON' | translate }} </label>
             <select class="govuk-select" id="contactReason" name="contactReason" formControlName="contactReason">
+              <option hidden disabled selected value style="display:none"></option>
               <option *ngFor="let c of contactReasons" [ngValue]="c.key">{{ c.key }}</option>
             </select>
           </div>
