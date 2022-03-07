@@ -66,7 +66,7 @@ export const environment = {
   
     bulkUploadMaxFileSizeInBytes:1048576,
   
-    bulkUploadTemplateFileUrl: '',
+    bulkUploadTemplateFileUrl: 'BUCKET_URL',
   
     usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed, 
   
