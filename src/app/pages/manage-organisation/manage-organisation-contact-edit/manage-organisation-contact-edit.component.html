@@ -79,12 +79,18 @@
             [class.govuk-form-group--error]="submitted && formGroup.controls.email.hasError('email')">
             <label class="govuk-label" for="email"> {{ 'EMAIL' | translate }} </label>
             <span id="email-error" class="govuk-error-message"
-              *ngIf="submitted && formGroup.controls.email.hasError('email')">
+              *ngIf="submitted && formGroup.controls.email.hasError('required')">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
               'ERROR_INVALID_EMAIL'
               | translate }}
             </span>
-            <input #input formControlName="email" class="govuk-input" id="email" name="email" type="email"
+            <span class="govuk-error-message" *ngIf="submitted && formGroup.controls.email.hasError('email')">
+              <span class="govuk-visually-hidden">Error:</span>{{
+              'ERROR_USERNAME_INCORRECT_FORMAT' | translate }}
+            </span>
+            <input #input formControlName="email" class="govuk-input" id="email" name="email"
+            size="20" type="email" value="" autocomplete="email" spellcheck="false"
+            maxlength="256"
               [class.govuk-input--error]="submitted && formGroup.controls.email.hasError('email')">
           </div>
           <div class="govuk-form-group" id="phone-form-group"
