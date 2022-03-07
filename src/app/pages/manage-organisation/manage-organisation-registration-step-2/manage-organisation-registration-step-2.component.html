@@ -19,38 +19,49 @@
         <h2 class="govuk-error-summary__title" id="error-summary-title">
           {{ "ERROR_SUMMARY" | translate }}
         </h2>
-        <div class="govuk-error-summary__body" *ngIf="validationObj.activeElement!='US-DUN'">
+        <div
+          class="govuk-error-summary__body"
+          *ngIf="validationObj.activeElement != 'US-DUN'"
+        >
           <ul class="govuk-list govuk-error-summary__list">
             <li>
-              <a
-                href="javascript:;"
-                onClick="return false;"
-                (click)="setFocus(0)"
-              >
+              <a href="javascript:;" (click)="setFocus(0)">
                 {{ "ERROR_ENTER_REGISTRY_NUMBER" | translate }}
               </a>
             </li>
           </ul>
         </div>
-        <div class="govuk-error-summary__body" *ngIf="validationObj.activeElement==='US-DUN'">
+        <div
+          class="govuk-error-summary__body"
+          *ngIf="validationObj.activeElement === 'US-DUN'"
+        >
           <ul class="govuk-list govuk-error-summary__list">
             <li>
               <a
-                *ngIf="validationObj.isDunlength"
+                *ngIf="validationObj.isDunlength && validationObj.DunData == ''"
                 href="javascript:;"
-                onClick="return false;"
                 (click)="setDun_numberfocus()"
               >
-               Please enter a DUN number
+                {{ "ERROR_ENTER_REGISTRY_NUMBER" | translate }}
               </a>
               <a
-              *ngIf="validationObj.stringIdentifier && !validationObj.isDunlength"
-              href="javascript:;"
-              onClick="return false;"
-              (click)="setDun_numberfocus()"
-            >
-              input numbers only.
-            </a>
+                *ngIf="validationObj.DunData"
+                href="javascript:;"
+                (click)="setDun_numberfocus()"
+              >
+                Enter a valid identifier number
+              </a>
+              <a
+                *ngIf="
+                  validationObj.stringIdentifier &&
+                  !validationObj.isDunlength &&
+                  !validationObj.DunData
+                "
+                href="javascript:;"
+                (click)="setDun_numberfocus()"
+              >
+                Enter a valid identifier number
+              </a>
             </li>
           </ul>
         </div>
@@ -91,13 +102,21 @@
                 id="{{ item.scheme + '-Div' }}"
                 class="box-input"
               >
-                <span
+                <label
+                  *ngIf="validationObj.activeElement != 'US-DUN'"
+                  for="{{ item.scheme + '-TextBox' }}"
                   class="govuk-hint govuk-radios__hint"
                 >
-                  {{ item.schemeName }} Number
+                  Enter your {{ item.schemeName }} Number
+                </label>
+                <span
+                  *ngIf="validationObj.activeElement === 'US-DUN'"
+                  class="govuk-hint govuk-radios__hint"
+                >
+                  Enter your Dun & Bradstreet Number
                 </span>
                 <input
-                *ngIf="validationObj.activeElement != 'US-DUN'"
+                  *ngIf="validationObj.activeElement != 'US-DUN'"
                   #input
                   id="{{ item.scheme + '-TextBox' }}"
                   class="govuk-input govuk-input--width-10 text-input"
@@ -109,55 +128,88 @@
                     txtValue == ''
                   "
                 />
-              <form [formGroup]="dunNumber">
-                <div class="input-text-group custom-field" *ngIf="validationObj.activeElement == 'US-DUN'">
-                  <div id="valid-identifier-error" class="govuk-error-message" *ngIf="submitted  && validationObj.stringIdentifier">
-                    <span  class="govuk-visually-hidden">Error:</span> Enter a valid identifier number
+                <form [formGroup]="dunNumber">
+                  <div
+                    class="input-text-group custom-field"
+                    *ngIf="validationObj.activeElement == 'US-DUN'"
+                  >
+                    <div
+                      id="valid-identifier-error"
+                      class="govuk-error-message"
+                      *ngIf="
+                        submitted &&
+                        validationObj.stringIdentifier &&
+                        validationObj.DunData != ''
+                      "
+                    >
+                      <span class="govuk-visually-hidden">Error:</span> Enter a
+                      valid identifier number
+                    </div>
+                    <span>
+                      <label for="input1">.</label>
+                      <input
+                        type="text"
+                        id="input1"
+                        (input)="
+                          ValueChanged(dunNumber.controls.data1.value, 'input1')
+                        "
+                        maxlength="3"
+                        formControlName="data1"
+                        class="govuk-input govuk-input--width-10 text-input"
+                        (keydown.backspace)="
+                          tiggerBackspace(
+                            dunNumber.controls.data1.value,
+                            'input1'
+                          )
+                        "
+                        [class.govuk-input--error]="
+                          submitted && dunNumber.get('data1').invalid
+                        "
+                      />
+                    </span>
+                    <span>
+                      <label for="input2">.</label>
+                      <input
+                        type="text"
+                        id="input2"
+                        maxlength="3"
+                        (input)="
+                          ValueChanged(dunNumber.controls.data2.value, 'input2')
+                        "
+                        formControlName="data2"
+                        class="govuk-input govuk-input--width-10 text-input"
+                        (keydown.backspace)="
+                          tiggerBackspace(
+                            dunNumber.controls.data2.value,
+                            'input2'
+                          )
+                        "
+                        [class.govuk-input--error]="
+                          submitted && dunNumber.get('data2').invalid
+                        "
+                    /></span>
+                    <span>
+                      <label for="input3">.</label>
+                      <input
+                        type="text"
+                        id="input3"
+                        maxlength="3"
+                        (input)="
+                          ValueChanged(dunNumber.controls.data3.value, 'input3')
+                        "
+                        formControlName="data3"
+                        class="govuk-input govuk-input--width-10 text-input"
+                        (keydown.backspace)="
+                          tiggerBackspace(
+                            dunNumber.controls.data3.value,
+                            'input3'
+                          )
+                        "
+                        [class.govuk-input--error]="
+                          submitted && dunNumber.get('data3').invalid
+                        "
+                    /></span>
                   </div>
-                  <span> 
-                    <label for="input1">.</label>
-                    <input
-                      type="text"
-                      id="input1"
-                      (input)="ValueChanged(dunNumber.controls.data1.value, 'input1')"
-                      maxlength="3"
-                      formControlName="data1"
-                      class="govuk-input govuk-input--width-10 text-input"
-                      (keydown.backspace)="tiggerBackspace(dunNumber.controls.data1.value, 'input1')"
-                      [class.govuk-input--error]="
-                      submitted && dunNumber.get('data1').invalid
-                    "
-                    />
-                  </span>
-                  <span>
-                    <label for="input2">.</label>
-                    <input
-                      type="text"
-                      id="input2"
-                      maxlength="3"
-                      (input)="ValueChanged(dunNumber.controls.data2.value, 'input2')"
-                      formControlName="data2"
-                      class="govuk-input govuk-input--width-10 text-input"
-                      (keydown.backspace)="tiggerBackspace(dunNumber.controls.data2.value, 'input2')"
-                      [class.govuk-input--error]="
-                      submitted && dunNumber.get('data2').invalid
-                    "
-                  /></span>
-                  <span>
-                    <label for="input3">.</label>
-                    <input
-                      type="text"
-                      id="input3"
-                      maxlength="3"
-                      (input)="ValueChanged(dunNumber.controls.data3.value, 'input3')"
-                      formControlName="data3"
-                      class="govuk-input govuk-input--width-10 text-input"
-                      (keydown.backspace)="tiggerBackspace(dunNumber.controls.data3.value, 'input3')"
-                      [class.govuk-input--error]="
-                      submitted && dunNumber.get('data3').invalid
-                    "
-                  /></span>
-                </div>
                 </form>
               </div>
             </div>
