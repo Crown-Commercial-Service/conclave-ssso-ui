@@ -109,6 +109,21 @@
               [numberFormat]="PhoneNumberFormat.International" [inputId]="'phone'" name="phone" formControlName="phone">
             </ngx-intl-tel-input>
           </div>
+          <div class="govuk-form-group" id="mobile-form-group"
+          [class.govuk-form-group--error]="submitted && formGroup.controls['mobile'].invalid">
+          <label class="govuk-label" for="fax"> {{ 'MOBILE' | translate }} </label>
+          <span id="email-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls['mobile'].invalid">
+            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> 
+            {{ 'ERROR_INVALID_MOBILE_NUMBER' | translate }}
+          </span>
+          <ngx-intl-tel-input
+            [cssClass]="submitted && formGroup.controls['mobile'].invalid ? 'govuk-input govuk-input--error' : 'govuk-input'"
+            [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
+            [searchCountryFlag]="true" [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+            [selectFirstCountry]="false" [phoneValidation]="true" [separateDialCode]="separateDialCode" [maxLength]="'15'"
+            [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'" name="mobile" formControlName="mobile">
+          </ngx-intl-tel-input>
+        </div>
           <div class="govuk-form-group" id="fax-form-group"
             [class.govuk-form-group--error]="submitted && formGroup.controls['fax'].invalid">
             <label class="govuk-label" for="fax"> {{ 'FAX' | translate }} </label>
