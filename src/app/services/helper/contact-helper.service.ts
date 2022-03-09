@@ -22,6 +22,7 @@ export class ContactHelper {
         let email = form.get('email')?.value;
         let phoneNumber = form.get('phone')?.value;
         let fax = form.get('fax')?.value;
+        let mobileNumber = form.get('mobile')?.value;
         let webUrl = form.get('webUrl')?.value;
 
         if (email != '') {
@@ -32,6 +33,9 @@ export class ContactHelper {
         }
         if (fax != '') {
             contactList.push({ contactType: VirtualContactType.FAX, contactValue: fax?.e164Number });
+        }
+        if (mobileNumber != '') {
+            contactList.push({ contactType: VirtualContactType.MOBILE, contactValue: mobileNumber?.e164Number });
         }
         if (webUrl != '') {
             contactList.push({ contactType: VirtualContactType.URL, contactValue: webUrl });
@@ -51,6 +55,8 @@ export class ContactHelper {
                 phoneNumber: this.getContactValueFromContactList(VirtualContactType.PHONE, contactPoint.contacts) ?? '',
                 fax: this.getContactValueFromContactList(VirtualContactType.FAX, contactPoint.contacts) ?? '',
                 webUrl: this.getContactValueFromContactList(VirtualContactType.URL, contactPoint.contacts) ?? '',
+                mobileNumber: this.getContactValueFromContactList(VirtualContactType.MOBILE, contactPoint.contacts) ?? '',
+
             };
 
             contactGridInfoList.push(contactGridInfo);

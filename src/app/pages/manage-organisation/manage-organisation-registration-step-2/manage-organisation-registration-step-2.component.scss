@@ -27,3 +27,35 @@ input[type=radio] {
     margin-left: 15px;
   }
 }
+.input-text-group span {
+  display: inline-block;
+  position: relative;
+}
+
+.custom-field input[type="text"]{
+  max-width: 50px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+label[for="input1"]
+{
+    display:none;
+}
+label[for="input2"]
+{
+    display:none;
+}
+label[for="input3"]
+{
+    display:none;
+}

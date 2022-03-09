@@ -58,12 +58,17 @@
             <div class="govuk-form-group"
               [class.govuk-form-group--error]="submitted && formGroup.controls.email.invalid">
               <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
-              <span id="email-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls.email.invalid">
+              <span id="email-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls.email.errors?.required">
                 <span class="govuk-visually-hidden">Error:</span>Enter the nominee's email
               </span>
-              <input class="govuk-input" #input id="email" formControlName="email" maxlength="100" name="email"
-                size="20" type="text" value="" autocomplete="email"
-                [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
+              <span id="email-error" class="govuk-error-message"
+              *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                  <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like name@example.com
+              </span>
+              <input #input class="govuk-input" id="email" formControlName="email" maxlength="256" name="email"
+              size="20" type="email" value="" autocomplete="email"
+              spellcheck="false" 
+              [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
             </div>
             <div id="continueButton" class="govuk-form-group">
               <button type="submit" class="govuk-button" data-module="govuk-button"
