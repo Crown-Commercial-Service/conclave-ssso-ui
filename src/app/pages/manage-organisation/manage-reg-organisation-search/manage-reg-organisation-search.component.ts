@@ -11,6 +11,7 @@ import { OrganisationService } from "src/app/services/postgres/organisation.serv
 import { UIState } from "src/app/store/ui.states";
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
+import { PatternService } from "src/app/shared/pattern.service";
 
 
 @Component({
@@ -32,7 +33,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     panelShowTimeout: any;
     searchOrgName: string = '';
 
-    constructor(private organisationService: OrganisationService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
+    constructor(private organisationService: OrganisationService,private PatternService:PatternService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
 
@@ -51,7 +52,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             this.formGroup = this.formBuilder.group({
                 firstName: ['', Validators.compose([Validators.required])],
                 lastName: ['', Validators.compose([Validators.required])],
-                email: ['', Validators.compose([Validators.required, Validators.email])],
+                email: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
                 organisation: ['', Validators.compose([Validators.required])]
             });
         }
