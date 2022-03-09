@@ -111,7 +111,7 @@
           </div>
           <div class="govuk-form-group" id="mobile-form-group"
           [class.govuk-form-group--error]="submitted && formGroup.controls['mobile'].invalid">
-          <label class="govuk-label" for="fax"> {{ 'MOBILE' | translate }} </label>
+          <label class="govuk-label" for="fax"> {{ 'MOBILE_NUMBER' | translate }} </label>
           <span id="email-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls['mobile'].invalid">
             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> 
             {{ 'ERROR_INVALID_MOBILE_NUMBER' | translate }}
