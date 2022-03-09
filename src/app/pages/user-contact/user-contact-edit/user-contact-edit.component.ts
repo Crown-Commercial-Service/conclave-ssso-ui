@@ -47,6 +47,7 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
             name: ['', Validators.compose([])],
             email: ['', Validators.compose([Validators.email])],
             phone: ['', Validators.compose([])],
+            mobile: ['', Validators.compose([])],
             fax: ['', Validators.compose([])],
             webUrl: ['', Validators.compose([])],
             contactReason: ['', Validators.compose([])],
