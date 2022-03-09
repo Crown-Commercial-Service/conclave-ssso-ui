@@ -76,6 +76,7 @@
   "GROUPS": "Groups",
   "NAME": "Name",
   "FAX": "Fax",
+  "MOBILE":"Mobile number",
   "WEB_URL": "Web address",
   "CONTACT_REASON": "Contact reason",
   "MANAGE_YOUR_USER_ACCOUNTS": "Manage user accounts",
