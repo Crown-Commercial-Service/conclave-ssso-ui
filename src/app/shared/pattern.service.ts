@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,4 +19,17 @@ export class PatternService {
   DatePattern = /^([0-9]{1})*$/;
 
   decimalAllowed = /^[0-9]\d*(\.\d+)?$/;
+
+  public EmailValidation(data: any) {
+    let returnData = false;
+    if (data.length && data.split('@')) {
+      const localPart = data.split('@');
+      if (localPart[0].length >= 64) {
+        returnData = true;
+      } else {
+        returnData = true;
+      }
+    }
+    return returnData;
+  }
 }

@@ -1,6 +1,6 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
-    <a href="javascript:;" (click)="goBack()" class="navigation-text govuk-back-link">Back</a>
+    <a href="javascript:;" (click)="goBack()" class="navigation-text govuk-back-link">Back</a>{{emailUserpartValid}}
     <h1 class="govuk-heading-xl page-title">
         Enter your details</h1>
     <p class="govuk-body-l">Enter your name, organisation, and work email address</p>
@@ -27,11 +27,11 @@
                                     <li>Enter your last name</li>
                                 </a>
                                 <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
-                                    *ngIf="formGroup.controls['email'].hasError('required')">
+                                    *ngIf="formGroup.controls['email'].hasError('required')"> 
                                     <li>Enter your email address</li>
                                 </a>
                                 <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
-                                    *ngIf="formGroup.controls['email'].hasError('email')">
+                                *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.errors?.pattern || emailUserpartValid">
                                     <li>Enter an email address in the correct format, like name@example.com</li>
                                 </a>
                             </ul>
@@ -98,10 +98,14 @@
                     <span class="govuk-visually-hidden">Error:</span>Enter your email
                 </span>
                     <span id="email-error" class="govuk-error-message"
-                    *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                    *ngIf="formGroup.controls.email.errors?.pattern && !emailUserpartValid">
                         <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like name@example.com
                     </span>
-                    <input #input class="govuk-input" id="email" formControlName="email" maxlength="256" name="email"
+                    <span id="email-error" class="govuk-error-message"
+                    *ngIf="emailUserpartValid">
+                        <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like name@example.com
+                    </span>
+                    <input #input class="govuk-input" id="email" formControlName="email" name="email"
                         size="20" type="email" value="" autocomplete="email"
                         spellcheck="false" 
                         [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">

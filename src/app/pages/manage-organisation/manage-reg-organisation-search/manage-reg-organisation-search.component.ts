@@ -32,6 +32,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     @ViewChild(MatAutocompleteTrigger) autocomplete!: MatAutocompleteTrigger;
     panelShowTimeout: any;
     searchOrgName: string = '';
+    public emailUserpartValid:boolean=false
 
     constructor(private organisationService: OrganisationService,private PatternService:PatternService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -43,7 +44,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             this.formGroup = this.formBuilder.group({
                 firstName: [orgreginfo.adminUserFirstName, Validators.compose([Validators.required])],
                 lastName: [orgreginfo.adminUserLastName, Validators.compose([Validators.required])],
-                email: [orgreginfo.adminEmail, Validators.email],
+                email: [orgreginfo.adminEmail, Validators.email,Validators.maxLength(256)],
                 organisation: [orgreginfo.orgName, Validators.compose([Validators.required])]
             });
             this.searchOrgName = orgreginfo.orgName;
@@ -52,7 +53,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             this.formGroup = this.formBuilder.group({
                 firstName: ['', Validators.compose([Validators.required])],
                 lastName: ['', Validators.compose([Validators.required])],
-                email: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
+                email: ['', Validators.compose([Validators.required,Validators.maxLength(256), Validators.pattern(this.PatternService.emailPattern)])],
                 organisation: ['', Validators.compose([Validators.required])]
             });
         }
@@ -109,6 +110,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
 
     async onSubmit(form: FormGroup) {
         this.submitted = true;
+        this.emailUserpartValid=false;
         if (this.formValid(form)) {
             let organisationRegisterDto: OrganisationRegBasicInfo = {
                 adminEmail: form.get('email')?.value,
@@ -117,6 +119,11 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 orgName: form.get('organisation')?.value,
                 ciiOrgId: ''
             };
+            if(this.PatternService.EmailValidation(form.get('email')?.value) === true){
+                this.formGroup.controls['email'].setErrors({'incorrect': true});
+                this.emailUserpartValid=this.PatternService.EmailValidation(form.get('email')?.value)
+                 return
+            }
             sessionStorage.setItem('orgreginfo', JSON.stringify(organisationRegisterDto));
 
             let data = await this.organisationService.getByName(organisationRegisterDto.orgName).toPromise();
