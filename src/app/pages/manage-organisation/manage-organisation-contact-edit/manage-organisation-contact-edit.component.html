@@ -76,10 +76,10 @@
               [class.govuk-input--error]="submitted && formGroup.hasError('inSufficient')">
           </div>
           <div class="govuk-form-group" id="email-form-group"
-            [class.govuk-form-group--error]="submitted && formGroup.controls.email.hasError('email')">
+            [class.govuk-form-group--error]="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
             <label class="govuk-label" for="email"> {{ 'EMAIL' | translate }} </label>
             <span id="email-error" class="govuk-error-message"
-              *ngIf="submitted && formGroup.controls.email.hasError('required')">
+            *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
               'ERROR_INVALID_EMAIL'
               | translate }}

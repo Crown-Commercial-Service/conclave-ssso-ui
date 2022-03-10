@@ -18,6 +18,7 @@ import { AuthService } from "src/app/services/auth/auth.service";
 import { AuditLoggerService } from "src/app/services/postgres/logger.service";
 import { FormBaseComponent } from "src/app/components/form-base/form-base.component";
 import { SessionStorageKey } from "src/app/constants/constant";
+import { PatternService } from "src/app/shared/pattern.service";
 
 @Component({
     selector: 'app-user-profile',
@@ -47,6 +48,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
     constructor(private userService: WrapperUserService, private userContactService: WrapperUserContactService, private locationStrategy: LocationStrategy,
         protected uiStore: Store<UIState>, private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
+        private PatternService:PatternService, 
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
         private contactHelper: ContactHelper, private authService: AuthService, private auditLogService: AuditLoggerService) {
         super(viewportScroller, formBuilder.group({

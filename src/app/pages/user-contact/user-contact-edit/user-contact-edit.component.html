@@ -31,7 +31,7 @@
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
                             'ERROR_INSUFFICIENT_CONTACT_DETAILS' | translate }}</a>
                     </li>
-                    <li *ngIf="submitted && formGroup.controls.email.hasError('email')">
+                    <li *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid" href="javascript:;" onClick="return false;">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
                             'ERROR_INVALID_EMAIL' | translate }} </a>
                     </li>
@@ -77,14 +77,14 @@
                         [class.govuk-form-group--error]="submitted && formGroup.controls.email.hasError('email')">
                         <label class="govuk-label" for="email"> {{ 'EMAIL' | translate }} </label>
                         <span id="email-error" class="govuk-error-message"
-                            *ngIf="submitted && formGroup.controls.email.hasError('email')">
+                        *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid" href="javascript:;" onClick="return false;">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
                             'ERROR_INVALID_EMAIL'
                             | translate }}
                         </span>
                         <input #input formControlName="email" class="govuk-input" id="email" name="email" type="email"
                             [class.govuk-input--error]="submitted && formGroup.controls.email.hasError('email')"
-                            maxlength="256" size="20"  value="" autocomplete="email" spellcheck="false" 
+                             size="20"  value="" autocomplete="email" spellcheck="false" 
                             >
                     </div>
                     <div class="govuk-form-group" id="phone-form-group"

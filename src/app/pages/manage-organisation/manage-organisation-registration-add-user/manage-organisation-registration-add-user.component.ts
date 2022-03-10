@@ -10,6 +10,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { CiiOrganisationDto, OrganisationRegisterDto } from 'src/app/models/organisation';
 import { UserTitleEnum } from 'src/app/constants/enum';
+import { PatternService } from 'src/app/shared/pattern.service';
 
 @Component({
   selector: 'app-manage-organisation-registration-add-user',
@@ -25,6 +26,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,
+private PatternService:PatternService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
@@ -32,7 +34,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
     this.formGroup = this.formBuilder.group({
       firstName: ['', Validators.compose([Validators.required])],
       lastName: ['', Validators.compose([Validators.required])],
-      email: ['', Validators.compose([Validators.required, Validators.email])],
+      email: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
     });
     this.ciiOrganisationInfo = {}
   }
@@ -50,6 +52,9 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
 
   public onSubmit(form: FormGroup) {
     this.submitted = true;
+    if(this.PatternService.emailValidator(form.get('email')?.value)){
+      this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+}
     if (this.formValid(form)) {
       const regType = localStorage.getItem("manage-org_reg_type") || "";
       let organisationRegisterDto: OrganisationRegisterDto = {

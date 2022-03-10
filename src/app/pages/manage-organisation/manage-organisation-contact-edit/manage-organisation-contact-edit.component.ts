@@ -50,7 +50,7 @@ export class ManageOrganisationContactEditComponent extends FormBaseComponent im
         private externalContactService: WrapperContactService, private siteContactService: WrapperSiteContactService) {
         super(viewportScroller, formBuilder.group({
             name: ['', Validators.compose([])],
-            email: ['', Validators.compose([Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")])],
+            email: ['', Validators.compose([Validators.pattern(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
             phone: ['', Validators.compose([])],
             fax: ['', Validators.compose([])],
             mobile: ['', Validators.compose([])],
