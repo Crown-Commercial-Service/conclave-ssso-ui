@@ -31,7 +31,7 @@ export const environment = {
     googleTagMangerId: 'GTM',
     bulkUploadPollingFrequencyInSeconds: 5,
     bulkUploadMaxFileSizeInBytes:1048576,
-    bulkUploadTemplateFileUrl: 'https://paas-s3-broker-prod-lon-e7b93dd6-7029-462a-b65f-a51edf7bd048.s3.amazonaws.com/Templates/DataMigrationTemplate.csv', // Put the publicly accessible url of the template file
+    bulkUploadTemplateFileUrl: 'BUCKET_URL', // Put the publicly accessible url of the template file
     usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
     listPageSize: 10,  
     rollbar: {

@@ -61,8 +61,8 @@ export const environment = {
     bulkUploadPollingFrequencyInSeconds: 5,
     
     bulkUploadMaxFileSizeInBytes:1048576,
-    
-    bulkUploadTemplateFileUrl: 'https://paas-s3-broker-prod-lon-78ff9dde-5c67-4eb6-82f8-c9c1fbadb459.s3.amazonaws.com/Templates/DataMigrationTemplate.csv',
+ 
+    bulkUploadTemplateFileUrl: 'BUCKET_URL',
     
     usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed, 
   

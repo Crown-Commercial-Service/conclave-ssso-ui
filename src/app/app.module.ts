@@ -153,6 +153,8 @@ import { LoginComponent } from './pages/login/mock-login/login.component';
 import { ManageOrgRegSearchStatusExistsComponent } from './pages/manage-organisation/manage-reg-organisation-status-exists/manage-reg-organisation-status-exists.component';
 import { ManageOrgRegSearchStatusDuplicateComponent } from './pages/manage-organisation/manage-reg-organisation-status-duplicate/manage-reg-organisation-status-duplicate.component';
 import { ManageUserBulkUploadMigrationStatusComponent } from './pages/manage-user/manage-user-bulk-upload-migration-status/manage-user-bulk-upload-migration-status.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FindyouradministratorComponent } from './pages/manage-organisation/find-your-administrator/find-your-administrator.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -272,7 +274,8 @@ export function createTranslateLoader(http: HttpClient) {
     ManageOrgRegSearchStatusDuplicateComponent,
     ManageOrgRegNotRegisteredComponent,
     ManageOrgRegCIIOrgDisplayComponent,
-    ManageOrgRegNotifyAdminComponent
+    ManageOrgRegNotifyAdminComponent,
+    FindyouradministratorComponent
   ],
   imports: [
     // BrowserModule,
@@ -303,6 +306,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatInputModule,
     MatCheckboxModule,
     MatExpansionModule,
+    MatAutocompleteModule,
     MatSelectModule,
     NgxMatSelectSearchModule,
     NzButtonModule,
