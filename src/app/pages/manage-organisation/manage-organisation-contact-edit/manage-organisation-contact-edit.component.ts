@@ -53,6 +53,7 @@ export class ManageOrganisationContactEditComponent extends FormBaseComponent im
             email: ['', Validators.compose([Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")])],
             phone: ['', Validators.compose([])],
             fax: ['', Validators.compose([])],
+            mobile: ['', Validators.compose([])],
             webUrl: ['', Validators.compose([])],
             contactReason: ['', Validators.compose([])],
         }));
@@ -103,6 +104,7 @@ export class ManageOrganisationContactEditComponent extends FormBaseComponent im
                 this.formGroup.controls['name'].setValue(contactInfo.contactPointName);
                 this.formGroup.controls['email'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.EMAIL, contactInfo.contacts));
                 this.formGroup.controls['phone'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.PHONE, contactInfo.contacts, true));
+                this.formGroup.controls['mobile'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.MOBILE, contactInfo.contacts, true));
                 this.formGroup.controls['fax'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.FAX, contactInfo.contacts, true));
                 this.formGroup.controls['webUrl'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.URL, contactInfo.contacts));
                 this.formGroup.controls['contactReason'].setValue(contactInfo.contactPointReason);
