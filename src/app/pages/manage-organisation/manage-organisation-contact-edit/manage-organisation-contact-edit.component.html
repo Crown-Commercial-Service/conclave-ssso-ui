@@ -43,6 +43,10 @@
             <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('phone')"> {{
                 'ERROR_INVALID_PHONE_NUMBER' | translate }} </a>
         </li>
+        <li *ngIf="submitted && formGroup.controls['mobile'].invalid">
+          <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('mobile')"> {{
+              'ERROR_INVALID_MOBILE_NUMBER' | translate }} </a>
+      </li>
         <li *ngIf="submitted && formGroup.controls['fax'].invalid">
             <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('fax')"> {{
                 'ERROR_INVALID_FAX_NUMBER' | translate }} </a>
@@ -111,7 +115,7 @@
           </div>
           <div class="govuk-form-group" id="mobile-form-group"
           [class.govuk-form-group--error]="submitted && formGroup.controls['mobile'].invalid">
-          <label class="govuk-label" for="fax"> {{ 'MOBILE_NUMBER' | translate }} </label>
+          <label class="govuk-label" for="mobile"> {{ 'MOBILE_NUMBER' | translate }} </label>
           <span id="email-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls['mobile'].invalid">
             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> 
             {{ 'ERROR_INVALID_MOBILE_NUMBER' | translate }}
