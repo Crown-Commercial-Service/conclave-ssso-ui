@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
+import { PatternService } from 'src/app/shared/pattern.service';
 
 @Component({
     selector: 'app-forgot-password',
@@ -28,12 +29,13 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         private translateService: TranslateService,
         private router: Router,
         private authService: AuthService,
+        private PatternService:PatternService,
         protected uiStore: Store<UIState>, protected viewportScroller:
             ViewportScroller, protected scrollHelper: ScrollHelper
     ) {
         super(uiStore, viewportScroller, scrollHelper);
         this.resetForm = this.formBuilder.group({
-            userName: ['', Validators.compose([Validators.required, Validators.email])],
+            userName: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
         });
     }
 
@@ -53,6 +55,9 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
     */
     onSubmit(form: FormGroup): void {
         this.submitted = true;
+        if(this.PatternService.emailValidator(form.get('userName')?.value)){
+            this.resetForm.controls['userName'].setErrors({ 'incorrect': true})
+   }
         if (this.formValid(form)) {
             this.authService.resetPassword(form.get('userName')?.value).toPromise()
             .then(() => {

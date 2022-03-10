@@ -35,7 +35,7 @@
             <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
               'ERROR_INSUFFICIENT_CONTACT_DETAILS' | translate }}</a>
           </li>
-          <li *ngIf="submitted && formGroup.controls.email.hasError('email')">
+          <li *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
               'ERROR_INVALID_EMAIL' | translate }} </a>
           </li>

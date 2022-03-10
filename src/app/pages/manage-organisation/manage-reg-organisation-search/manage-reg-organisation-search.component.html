@@ -31,7 +31,7 @@
                                     <li>Enter your email address</li>
                                 </a>
                                 <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
-                                    *ngIf="formGroup.controls['email'].hasError('email')">
+                                *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
                                     <li>Enter an email address in the correct format, like name@example.com</li>
                                 </a>
                             </ul>
@@ -101,7 +101,7 @@
                     *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
                         <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like name@example.com
                     </span>
-                    <input #input class="govuk-input" id="email" formControlName="email" maxlength="256" name="email"
+                    <input #input class="govuk-input" id="email" formControlName="email"  name="email"
                         size="20" type="email" value="" autocomplete="email"
                         spellcheck="false" 
                         [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
