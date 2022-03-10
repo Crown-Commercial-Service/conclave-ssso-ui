@@ -5,16 +5,16 @@ export const environment = {
       api: {
         isApiGateWayEnabled: true,
         //security: 'https://uat-api-security.london.cloudapps.digital',
-        security: 'https://ref.api.crowncommercial.gov.uk',
+        security: 'https://uat.api.crowncommercial.gov.uk',
         //postgres: 'https://uat-api-core.london.cloudapps.digital',
-        postgres: 'https://ref.api.crowncommercial.gov.uk/core',
+        postgres: 'https://uat.api.crowncommercial.gov.uk/core',
         //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
-            user: 'https://ref.api.crowncommercial.gov.uk/user-profiles',
-            organisation: 'https://ref.api.crowncommercial.gov.uk/organisation-profiles',
-            contact: 'https://ref.api.crowncommercial.gov.uk/contacts',
-            configuration: 'https://ref.api.crowncommercial.gov.uk/configurations',
+            user: 'https://uat.api.crowncommercial.gov.uk/user-profiles',
+            organisation: 'https://uat.api.crowncommercial.gov.uk/organisation-profiles',
+            contact: 'https://uat.api.crowncommercial.gov.uk/contacts',
+            configuration: 'https://uat.api.crowncommercial.gov.uk/configurations',
           },
           apiGatewayDisabled: {
             user: 'https://uat-api-wrapper.london.cloudapps.digital/users',
@@ -26,7 +26,7 @@ export const environment = {
       },
       web: {
         //dashboard: 'https://uat-ccs-sso.london.cloudapps.digital'
-        dashboard: 'https://ref.identify.crowncommercial.gov.uk'
+        dashboard: 'https://uat.identify.crowncommercial.gov.uk'
       },
       ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
     },
