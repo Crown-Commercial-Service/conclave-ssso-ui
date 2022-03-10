@@ -104,12 +104,42 @@
                   class="govuk-hint govuk-radios__hint"
                 >
                   Enter your {{ item.schemeName }} Number
+                  <P class="govuk-body govuk-!-font-weight-regular custom_span" *ngIf="item.schemeName === 'Companies House'">
+                    <span> Go to the</span>
+                    <a href="https://find-and-update.company-information.service.gov.uk/?" class="govuk-link" rel="noreferrer noopener" target="_blank"> Companies House </a>
+                    <span>website to search for your organisation details</span>
+                  </P>
+                  <P class="govuk-body govuk-!-font-weight-regular custom_span" *ngIf="item.schemeName === 'Charity Commission for England and Wales'">
+                    <span> Go to the</span>
+                    <a href="https://register-of-charities.charitycommission.gov.uk/charity-search" class="govuk-link" rel="noreferrer noopener" target="_blank"> Charity Commission for England and Wales </a>
+                    <span>website to search for your organisation details</span>
+                  </P>
+                  <P class="govuk-body govuk-!-font-weight\regular custom_span" *ngIf="item.schemeName === 'Office of The Scottish Charity Regulator (OSCR)'">
+                    <span> Go to the</span>
+                    <a href="https://www.oscr.org.uk/search/" class="govuk-link" rel="noreferrer noopener" target="_blank"> Office of the Scottish Charity Regulator </a>
+                    <span>website to search for your organisation details</span>
+                  </P>
+                  <P class="govuk-body govuk-!-font-weight-regular custom_span" *ngIf="item.schemeName === 'The Charity Commission for Northern Ireland'">
+                    <span> Go to the</span>
+                    <a href="https://www.charitycommissionni.org.uk/charity-search/?pageNumber=1" class="govuk-link" rel="noreferrer noopener" target="_blank"> Charity Commission for Northern Ireland </a>
+                    <span>website to search for your organisation details</span>
+                  </P>
+                  <P class="govuk-body govuk-!-font-weight-regular custom_span" *ngIf="item.schemeName === 'National Health Service Organisations Registry'">
+                    <span> Go to the</span>
+                    <a href="https://odsportal.digital.nhs.uk/Organisation/Search" class="govuk-link" rel="noreferrer noopener" target="_blank"> National Health Service Organisations Registry </a>
+                    <span>website to search for your organisation details</span>
+                  </P>
                 </label>
                 <span
                   *ngIf="validationObj.activeElement === 'US-DUN'"
                   class="govuk-hint govuk-radios__hint"
                 >
                   Enter your Dun & Bradstreet Number
+                  <P class="govuk-body govuk-!-font-weight-regular custom_span">
+                    <span> Go to the</span>
+                    <a href="https://www.dnb.co.uk/duns-number/lookup.html" class="govuk-link" rel="noreferrer noopener" target="_blank"> Dun & Bradstreet </a>
+                    <span>website to search for your organisation details</span>
+                  </P>
                 </span>
                 <input
                   *ngIf="validationObj.activeElement != 'US-DUN'"
@@ -123,6 +153,7 @@
                     (schemeSubjectObs | async) === item.scheme &&
                     txtValue == ''
                   "
+                 
                 />
                 <form [formGroup]="dunNumber">
                   <div
