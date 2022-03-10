@@ -44,6 +44,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     public orgIdps: any[] = [];
     changedIdpList: { id: number, enabled: boolean, connectionName: string, name: string }[] = [];
     ccsContactUrl : string = environment.uri.ccsContactUrl;
+    schemeData: any[] = [];
 
     constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
@@ -61,7 +62,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
     async ngOnInit() {
         const ciiOrgId = this.tokenService.getCiiOrgId();
-
+        this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
         var org = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
         });
         if (org) {
@@ -102,6 +103,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                             streetAddress: site.address.streetAddress,
                             postalCode: site.address.postalCode,
                             countryCode: site.address.countryCode,
+                            countryName:site.address.countryName,
                             locality: site.address.locality,
                             region: site.address.region,
                         };
@@ -184,26 +186,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     }
 
     public getSchemaName(schema: string): string {
-        switch (schema) {
-            case 'GB-COH': {
-                return 'Companies House';
-            }
-            case 'US-DUN': {
-                return 'Dun & Bradstreet';
-            }
-            case 'GB-CHC': {
-                return 'Charities Commission for England and Wales';
-            }
-            case 'GB-SC': {
-                return 'Scottish Charities Commission';
-            }
-            case 'GB-NIC': {
-                return 'Northern Ireland Charities Commission';
-            }
-            default: {
-                return '';
-            }
-        }
+        let selecedScheme = this.schemeData.find(s => s.scheme === schema);
+        return selecedScheme?.schemeName;
     }
 
     public onContactAssignClick() {
