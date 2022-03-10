@@ -168,7 +168,7 @@ export class CIIOptions extends BaseComponent implements OnInit {
    * Focus dun nummber dynamically
    */
   public setDun_numberfocus() {
-    let Controls = [
+    let  Controls = [
       { data: 'data3', key: 'input3' },
       { data: 'data2', key: 'input2' },
       { data: 'data1', key: 'input1' },
@@ -185,6 +185,7 @@ export class CIIOptions extends BaseComponent implements OnInit {
 
   public onSelect(item: any) {
     this.schemeSubject.next(item.scheme);
+    this.dunNumber.reset()
     this.validationObj.activeElement = item.scheme;
     var el = document.getElementById(item.scheme) as HTMLInputElement;
     if (el) {
