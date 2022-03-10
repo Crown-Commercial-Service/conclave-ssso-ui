@@ -11,6 +11,7 @@ import { OrganisationService } from "src/app/services/postgres/organisation.serv
 import { UIState } from "src/app/store/ui.states";
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
+import { PatternService } from "src/app/shared/pattern.service";
 
 
 @Component({
@@ -32,7 +33,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     panelShowTimeout: any;
     searchOrgName: string = '';
 
-    constructor(private organisationService: OrganisationService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
+    constructor(private organisationService: OrganisationService,private PatternService:PatternService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
 
@@ -42,7 +43,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             this.formGroup = this.formBuilder.group({
                 firstName: [orgreginfo.adminUserFirstName, Validators.compose([Validators.required])],
                 lastName: [orgreginfo.adminUserLastName, Validators.compose([Validators.required])],
-                email: [orgreginfo.adminEmail, Validators.email],
+                email: [orgreginfo.adminEmail, Validators.pattern(this.PatternService.emailPattern)],
                 organisation: [orgreginfo.orgName, Validators.compose([Validators.required])]
             });
             this.searchOrgName = orgreginfo.orgName;
@@ -51,7 +52,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             this.formGroup = this.formBuilder.group({
                 firstName: ['', Validators.compose([Validators.required])],
                 lastName: ['', Validators.compose([Validators.required])],
-                email: ['', Validators.compose([Validators.required, Validators.email])],
+                email: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
                 organisation: ['', Validators.compose([Validators.required])]
             });
         }
@@ -108,6 +109,9 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
 
     async onSubmit(form: FormGroup) {
         this.submitted = true;
+        if(this.PatternService.emailValidator(form.get('email')?.value)){
+            this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+        }
         if (this.formValid(form)) {
             let organisationRegisterDto: OrganisationRegBasicInfo = {
                 adminEmail: form.get('email')?.value,

@@ -15,6 +15,7 @@ import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-
 import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
+import { PatternService } from 'src/app/shared/pattern.service';
 
 @Component({
     selector: 'app-user-contact-edit',
@@ -40,12 +41,13 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
     constructor(private contactService: WrapperUserContactService, private formBuilder: FormBuilder, private router: Router,
+        private PatternService:PatternService,
         private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>, private contactHelper: ContactHelper,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private externalContactService: WrapperContactService,
         private titleService: Title) {
         super(viewportScroller, formBuilder.group({
             name: ['', Validators.compose([])],
-            email: ['', Validators.compose([Validators.email])],
+            email: ['', Validators.compose([Validators.pattern(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
             phone: ['', Validators.compose([])],
             mobile: ['', Validators.compose([])],
             fax: ['', Validators.compose([])],
@@ -130,7 +132,10 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
     }
 
     public onSubmit(form: FormGroup) {
-        this.submitted = true;
+        this.submitted = true;  
+   if(this.PatternService.emailValidator(form.get('email')?.value)){
+    this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+   }
         if (this.formValid(form)) {
 
             this.contactData.contactPointName = form.get('name')?.value;

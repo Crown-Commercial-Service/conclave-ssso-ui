@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { UserService } from 'src/app/services/postgres/user.service';
+import { PatternService } from 'src/app/shared/pattern.service';
 
 @Component({
     templateUrl: './error.component.html',
@@ -33,7 +34,7 @@ export class ErrorComponent extends BaseComponent {
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
-    constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>, private authService: AuthService,
+    constructor(private route: ActivatedRoute,private PatternService:PatternService, protected uiStore: Store<UIState>, private authService: AuthService,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private router: Router,
         private formBuilder: FormBuilder, private userService: UserService) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -42,7 +43,7 @@ export class ErrorComponent extends BaseComponent {
             console.log(this.errorCode);
             if (this.errorCode === this.expiredLinkErrorCodeValue) {
                 this.resendForm = this.formBuilder.group({
-                    userName: ['', Validators.compose([Validators.required, Validators.email])],
+                    userName: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
                 });
             }
         });
@@ -67,6 +68,10 @@ export class ErrorComponent extends BaseComponent {
 
     onSubmit(form: FormGroup): void {
         this.submitted = true;
+        
+ if(this.PatternService.emailValidator(form.get('userName')?.value)){
+    this.resendForm.controls['userName'].setErrors({ 'incorrect': true})
+}
         if (this.formValid(form)) {
             console.log(form.get('userName')?.value);
             this.userService.resendUserActivationEmail(form.get('userName')?.value, true).toPromise()
