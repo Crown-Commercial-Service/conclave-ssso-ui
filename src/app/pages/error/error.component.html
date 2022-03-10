@@ -81,7 +81,7 @@
           <span class="govuk-visually-hidden">Error:</span>{{
           'ERROR_USERNAME_INCORRECT_FORMAT' | translate }}
         </span>
-        <input #input class="govuk-input" id="userName" formControlName="userName" maxlength="256" name="userName"
+        <input #input class="govuk-input" id="userName" formControlName="userName"  name="userName"
           size="20" type="email" value="" autocomplete="email" spellcheck="false" 
           [class.govuk-input--error]="submitted && (resendForm.controls.userName.hasError('required') || resendForm.controls.userName.hasError('email'))">
       </div>

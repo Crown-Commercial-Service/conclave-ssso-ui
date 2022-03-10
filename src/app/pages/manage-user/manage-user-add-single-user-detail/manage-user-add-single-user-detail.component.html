@@ -59,7 +59,7 @@
                             {{ 'MFA_ENABLED_ADMIN_USER'| translate }}</a>
                     </li>
                     <li
-                        *ngIf="submitted && (formGroup.controls.userName.hasError('email') || formGroup.controls.userName.hasError('invalidEmail'))">
+                      *ngIf="submitted && !formGroup.controls.userName.errors?.required && formGroup.controls.userName.invalid">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(2)">
                             {{ 'ERROR_INVALID_EMAIL'| translate }}</a>
                     </li>
@@ -113,7 +113,7 @@
                             {{'ERROR_EMAIL_REQUIRED' | translate }}
                         </span>
                         <span id="user-name-error" class="govuk-error-message"
-                            *ngIf="submitted && (formGroup.controls.userName.hasError('email') || formGroup.controls.userName.hasError('invalidEmail'))">
+                        *ngIf="submitted && !formGroup.controls.userName.errors?.required && formGroup.controls.userName.invalid">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                             {{ 'ERROR_INVALID_EMAIL'| translate }}
                         </span>
@@ -124,7 +124,7 @@
                         </span>
                         <input #input [readonly]="isEdit == true" [class.disabled]="isEdit == true"
                             formControlName="userName" class="govuk-input" id="email" name="email" type="email"
-                            maxlength="256" size="20"  value="" autocomplete="email" spellcheck="false" 
+                             size="20"  value="" autocomplete="email" spellcheck="false" 
                             [class.govuk-input--error]="(submitted && formGroup.controls.userName.invalid)
                             || formGroup.controls.userName.hasError('alreadyExists')">
                     </div>

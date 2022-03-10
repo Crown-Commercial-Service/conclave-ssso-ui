@@ -15,6 +15,7 @@ import { WrapperContactService } from 'src/app/services/wrapper/wrapper-contact.
 import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
+import { PatternService } from 'src/app/shared/pattern.service';
 
 @Component({
     selector: 'app-manage-organisation-contact-edit',
@@ -41,13 +42,15 @@ export class ManageOrganisationContactEditComponent extends FormBaseComponent im
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
-    constructor(private contactService: WrapperOrganisationContactService, private formBuilder: FormBuilder, private router: Router,
+    constructor(private contactService: WrapperOrganisationContactService,
+        private PatternService:PatternService,
+         private formBuilder: FormBuilder, private router: Router,
         private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private contactHelper: ContactHelper,
         private externalContactService: WrapperContactService, private siteContactService: WrapperSiteContactService) {
         super(viewportScroller, formBuilder.group({
             name: ['', Validators.compose([])],
-            email: ['', Validators.compose([Validators.email])],
+            email: ['', Validators.compose([Validators.pattern(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
             phone: ['', Validators.compose([])],
             fax: ['', Validators.compose([])],
             mobile: ['', Validators.compose([])],
@@ -165,8 +168,10 @@ export class ManageOrganisationContactEditComponent extends FormBaseComponent im
 
     public onSubmit(form: FormGroup) {
         this.submitted = true;
+        if(this.PatternService.emailValidator(form.get('email')?.value)){
+            this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+           }
         if (this.formValid(form)) {
-
             this.contactData.contactPointName = form.get('name')?.value;
             this.contactData.contactPointReason = form.get('contactReason')?.value;
             this.contactData.contacts = this.contactHelper.getContactListFromForm(form);
