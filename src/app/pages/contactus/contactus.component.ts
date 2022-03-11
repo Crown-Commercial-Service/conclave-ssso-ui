@@ -7,6 +7,7 @@ import { slideAnimation } from 'src/app/animations/slide.animation';
 import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
+import { PatternService } from 'src/app/shared/pattern.service';
 
 @Component({
   selector: 'app-contactus',
@@ -26,12 +27,13 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
   formGroup: FormGroup;
   submitted: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
+  constructor(private formBuilder: FormBuilder,private PatternService:PatternService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
     this.formGroup = this.formBuilder.group({
       firstName: [, Validators.compose([Validators.required])],
-      email: [, Validators.compose([Validators.required, Validators.email])],
+      email: [, Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)
+      ])],
     });
   }
 
@@ -41,6 +43,9 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
 
   public onSubmit(form: FormGroup) {
     this.submitted = true;
+    if(this.PatternService.emailValidator(form.get('email')?.value)){
+      this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+}
     if (this.formValid(form)) {
       // this.authService.nominate(form.get('firstName')?.value, form.get('lastName')?.value, form.get('email')?.value).toPromise().then((response: any) => {
       //   console.log(response);
