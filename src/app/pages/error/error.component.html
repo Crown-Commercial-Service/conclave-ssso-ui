@@ -52,11 +52,11 @@
             <li *ngIf="errorCode==expiredLinkErrorCodeValue; else elseBlock7">
               <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{'ACCESS_LINK_EXPIRED' | translate}} </a>
             </li>
-            <li *ngIf="submitted && resendForm.controls.userName.hasError('required')">
+            <li *ngIf="submitted && resendForm.controls.userName.errors?.required">
               <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
                 'ERROR_EMAIL_REQUIRED' | translate }}</a>
             </li>
-            <li *ngIf="submitted && resendForm.controls.userName.hasError('email')">
+            <li *ngIf="submitted && !resendForm.controls.userName.errors?.required && resendForm.controls.userName.invalid">
               <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
                 'ERROR_USERNAME_INCORRECT_FORMAT' | translate }} </a>
             </li>
@@ -70,20 +70,20 @@
 
     <form *ngIf="errorCode==expiredLinkErrorCodeValue" class="govuk-!-width-three-quarters" [formGroup]="resendForm">
       <div class="govuk-form-group"
-        [class.govuk-form-group--error]="submitted && (resendForm.controls.userName.hasError('required') || resendForm.controls.userName.hasError('email'))">
+        [class.govuk-form-group--error]="submitted && (resendForm.controls.userName.hasError('required') || resendForm.controls.userName.invalid)">
         <label class="govuk-label" for="userName">{{
           'ENTER_EMAIL_ADDRESS_FOR_RESEND_LINK' | translate }}</label>
-        <span class="govuk-error-message" *ngIf="submitted && resendForm.controls.userName.hasError('required')">
+        <span class="govuk-error-message" *ngIf="submitted && resendForm.controls.userName.errors?.required">
           <span class="govuk-visually-hidden">Error:</span>{{
           'ERROR_EMAIL_REQUIRED' | translate }}
         </span>
-        <span class="govuk-error-message" *ngIf="submitted && resendForm.controls.userName.hasError('email')">
+        <span class="govuk-error-message" *ngIf="submitted && !resendForm.controls.userName.errors?.required && resendForm.controls.userName.invalid">
           <span class="govuk-visually-hidden">Error:</span>{{
           'ERROR_USERNAME_INCORRECT_FORMAT' | translate }}
         </span>
         <input #input class="govuk-input" id="userName" formControlName="userName"  name="userName"
-          size="20" type="email" value="" autocomplete="email" spellcheck="false" 
-          [class.govuk-input--error]="submitted && (resendForm.controls.userName.hasError('required') || resendForm.controls.userName.hasError('email'))">
+          size="20" type="email" value="" autocomplete="email" spellcheck="false"  (input)="validateEmailLength($event)"
+          [class.govuk-input--error]="submitted && (resendForm.controls.userName.hasError('required') || resendForm.controls.userName.invalid)">
       </div>
       <div class="govuk-form-group govuk-button-group">
         <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onSubmit(resendForm)">{{
