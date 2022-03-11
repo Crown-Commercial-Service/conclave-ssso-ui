@@ -168,6 +168,12 @@ export class ManageOrganisationContactEditComponent extends FormBaseComponent im
         }
     }
 
+    validateEmailLength(data:any){
+        if(this.PatternService.emailValidator(data.target.value)){
+            this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+          }
+    }
+
     public onSubmit(form: FormGroup) {
         this.submitted = true;
         if(this.PatternService.emailValidator(form.get('email')?.value)){

@@ -28,6 +28,7 @@ export class PatternService {
 
 
   public emailValidator(data:any){
+    console.log("dataEmail",data)
     if(data.length >=257){
       console.log("257 reached")
       return true
