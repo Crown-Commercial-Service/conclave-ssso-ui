@@ -80,6 +80,7 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
                                 this.formGroup.controls['name'].setValue(contactInfo.contactPointName);
                                 this.formGroup.controls['email'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.EMAIL, contactInfo.contacts));
                                 this.formGroup.controls['phone'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.PHONE, contactInfo.contacts, true));
+                                this.formGroup.controls['mobile'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.MOBILE, contactInfo.contacts, true));
                                 this.formGroup.controls['fax'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.FAX, contactInfo.contacts, true));
                                 this.formGroup.controls['webUrl'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.URL, contactInfo.contacts));
                                 this.formGroup.controls['contactReason'].setValue(contactInfo.contactPointReason);
@@ -124,18 +125,19 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
             let name = this.formGroup.get('name')?.value;
             let email = this.formGroup.get('email')?.value;
             let phone = this.formGroup.get('phone')?.value;
+            let mobile = this.formGroup.get('mobile')?.value;
             let fax = this.formGroup.get('fax')?.value;
             let web = this.formGroup.get('webUrl')?.value;
 
-            return !name && !email && !phone && !fax && !web ? { inSufficient: true } : null;
+            return !name && !email && !phone && !mobile && !fax && !web ? { inSufficient: true } : null;
         }
     }
 
     public onSubmit(form: FormGroup) {
         this.submitted = true;  
-   if(this.PatternService.emailValidator(form.get('email')?.value)){
-    this.formGroup.controls['email'].setErrors({ 'incorrect': true})
-   }
+        if(this.PatternService.emailValidator(form.get('email')?.value)){
+        this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+        }
         if (this.formValid(form)) {
 
             this.contactData.contactPointName = form.get('name')?.value;
