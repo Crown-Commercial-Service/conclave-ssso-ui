@@ -69,6 +69,7 @@
                                 {{ 'USER_EMAIL_HINT' | translate }}
                             </div>
                             <input [readonly]="true" [class.disabled]="true" class="govuk-input" id="email" name="email" type="email"
+                              size="20"  value="" autocomplete="email" spellcheck="false" 
                                 [value]="userName">
                         </div>
                         <div class="govuk-form-group" id="user-mfa-form-group">
