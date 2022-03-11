@@ -107,6 +107,13 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         return form.valid;
     }
 
+    validateEmailLength(data:any){
+        if(this.PatternService.emailValidator(data.target.value)){
+            this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+          }
+    }
+
+
     async onSubmit(form: FormGroup) {
         this.submitted = true;
         if(this.PatternService.emailValidator(form.get('email')?.value)){

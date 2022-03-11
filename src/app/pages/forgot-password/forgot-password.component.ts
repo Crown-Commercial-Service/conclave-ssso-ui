@@ -48,6 +48,14 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         });
     }
 
+
+
+    validateEmailLength(data:any){
+        if(this.PatternService.emailValidator(data.target.value)){
+            this.resetForm.controls['userName'].setErrors({ 'incorrect': true})
+          }
+    }
+
     /**
     * Triggered each time the user clicks the submit button.
     *
