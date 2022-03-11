@@ -28,16 +28,12 @@ export class PatternService {
 
 
   public emailValidator(data:any){
-    console.log("dataEmail",data)
     if(data.length >=257){
-      console.log("257 reached")
       return true
     }
     if(data.split("@")[0].length >=65){
-      console.log("true")
       return true
     }else{
-      console.log("false")
       return false
     }
   }
