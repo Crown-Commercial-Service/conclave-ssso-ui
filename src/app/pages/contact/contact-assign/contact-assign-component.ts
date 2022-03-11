@@ -27,8 +27,8 @@ import { SessionStorageKey } from "src/app/constants/constant";
 })
 export class ContactAssignComponent extends BaseComponent implements OnInit {
     organisationId: string;
-    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'FAX', 'WEB_URL'];
-    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
+    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER','MOBILE_NUMBER', 'FAX', 'WEB_URL'];
+    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber','mobileNumber','fax', 'webUrl'];
     assigningSiteId: number = 0;
     assigningOrgId: string = "";
     contactUserName: string = "";
