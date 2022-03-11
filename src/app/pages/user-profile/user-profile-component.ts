@@ -32,8 +32,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     userGroupColumnsToDisplay = ['group'];
     userRoleTableHeaders = ['ROLES', 'SERVICE'];
     userRoleColumnsToDisplay = ['accessRoleName', 'serviceName'];
-    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'FAX', 'WEB_URL'];
-    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
+    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER','MOBILE_NUMBER','FAX', 'WEB_URL'];
+    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber','mobileNumber', 'fax', 'webUrl'];
     userGroups: UserGroup[] = [];
     userContacts: ContactGridInfo[] = [];
     userName: string;
