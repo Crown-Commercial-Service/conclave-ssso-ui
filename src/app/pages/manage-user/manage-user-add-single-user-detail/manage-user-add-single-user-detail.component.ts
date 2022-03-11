@@ -15,6 +15,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
+import { PatternService } from 'src/app/shared/pattern.service';
 
 @Component({
     selector: 'app-manage-user-add-single-user-detail',
@@ -42,7 +43,9 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
-    constructor(private organisationGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, private router: Router,
+    constructor(private organisationGroupService: WrapperOrganisationGroupService,
+        private PatternService:PatternService,
+        private formBuilder: FormBuilder, private router: Router,
         private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private wrapperUserService: WrapperUserService,
         private authService: AuthService, private locationStrategy: LocationStrategy) {
@@ -51,7 +54,7 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
             firstName: ['', Validators.compose([Validators.required])],
             lastName: ['', Validators.compose([Validators.required])],
             mfaEnabled: [false],
-            userName: ['', Validators.compose([Validators.required, Validators.email])],
+            userName: ['', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
         }));
         let queryParams = this.activatedRoute.snapshot.queryParams;
         this.state = this.router.getCurrentNavigation()?.extras.state;
@@ -184,10 +187,22 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
         this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
 
+    validateEmailLength(data:any){
+        if(this.PatternService.emailValidator(data.target.value)){
+            this.formGroup.controls['userName'].setErrors({ 'incorrect': true})
+          }
+    }
+
+
+
     public onSubmit(form: FormGroup) {
         this.mfaConnectionValidationError = false;
         this.mfaAdminValidationError = false;
         this.submitted = true;
+        
+       if(this.PatternService.emailValidator(form.get('userName')?.value)){
+         this.formGroup.controls['userName'].setErrors({ 'incorrect': true})
+       }
         if (this.formValid(form)) {
             this.userProfileRequestInfo.title = form.get('userTitle')?.value;
             this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
