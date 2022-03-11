@@ -187,6 +187,14 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
         this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
 
+    validateEmailLength(data:any){
+        if(this.PatternService.emailValidator(data.target.value)){
+            this.formGroup.controls['userName'].setErrors({ 'incorrect': true})
+          }
+    }
+
+
+
     public onSubmit(form: FormGroup) {
         this.mfaConnectionValidationError = false;
         this.mfaAdminValidationError = false;

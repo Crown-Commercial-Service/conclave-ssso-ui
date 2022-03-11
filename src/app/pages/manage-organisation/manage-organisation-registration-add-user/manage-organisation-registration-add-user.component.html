@@ -85,6 +85,7 @@
               </span>
               <input #input class="govuk-input" id="email" formControlName="email" name="email" size="20"
                 type="text" value="" autocomplete="email" type="email" value="" autocomplete="email" spellcheck="false"
+                (input)="validateEmailLength($event)"
                 [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
             </div>
             <div class="govuk-form-group">
