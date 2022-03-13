@@ -22,7 +22,7 @@ export abstract class FormBaseComponent {
         const initialValue = this.formGroup.value;
         this.valueChangesSubscription = this.formGroup.valueChanges.subscribe(value => {
             this.formChanged = Object.keys(initialValue).some(key => {
-                if (key == 'phone' || key == 'fax') {
+                if (key == 'phone' || key == 'fax' || key == 'mobile') {
                     let value = this.formGroup.value[key]?.e164Number;
                     return value != initialValue[key];
                 }

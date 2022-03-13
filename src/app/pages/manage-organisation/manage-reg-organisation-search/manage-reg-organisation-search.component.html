@@ -31,7 +31,7 @@
                                     <li>Enter your email address</li>
                                 </a>
                                 <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
-                                    *ngIf="formGroup.controls['email'].hasError('email')">
+                                *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
                                     <li>Enter an email address in the correct format, like name@example.com</li>
                                 </a>
                             </ul>
@@ -39,15 +39,34 @@
                     </div>
                 </div>
                 <div class="govuk-form-group"
-                    [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid">
+                    [class.govuk-form-group--error]="submitted && formGroup.controls.organisation.invalid">
                     <label class="govuk-label" for="organisation">{{ 'ORGANISATION' | translate }}</label>
                     <span id="firstname-error" class="govuk-error-message"
                         *ngIf="submitted && formGroup.controls.organisation.invalid">
                         <span class="govuk-visually-hidden">Error:</span>Enter your Organisation
                     </span>
-                    <input #input class="govuk-input" id="organisation" formControlName="organisation" maxlength="100"
-                        name="organisation" size="20" type="text" value="" autocomplete="organization"
-                        [class.govuk-input--error]="submitted && formGroup.controls.organisation.invalid">
+                    <mat-form-field class="example-full-width">
+                        <input id="organisation" [ngModel]="searchOrgName" (ngModelChange)="onSearchTextChange($event)" #input type="search" class="govuk-input" matInput 
+                            formControlName="organisation" maxlength="100" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete" class="mat-country-search-registration">
+                            <div *ngFor="let option of filteredOptions; index as i">
+                                <mat-option *ngIf="(i<showMoreThreshold) || showMoreOptionsVisible"
+                                    [value]="option.legalName">
+                                    {{option.legalName}}
+                                </mat-option>
+                            </div>
+                            <hr
+                                *ngIf="(filteredOptions?.length! > showMoreThreshold) && !showMoreOptionsVisible">
+                            <div class="row no-gutters pb-1"
+                                *ngIf="(filteredOptions?.length! > showMoreThreshold)  && !showMoreOptionsVisible">
+                                <div class="col-sm-6 text-right pr-2">
+                                    <button type="button" class="btn btn-primary clickable"
+                                        (click)="showMoreClicked()">Show
+                                        more</button>
+                                </div>
+                            </div>
+                        </mat-autocomplete>
+                    </mat-form-field>
                 </div>
                 <div class="govuk-form-group"
                     [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid">
@@ -75,11 +94,17 @@
                     [class.govuk-form-group--error]="submitted && formGroup.controls.email.invalid">
                     <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
                     <span id="email-error" class="govuk-error-message"
-                        *ngIf="submitted && formGroup.controls.email.invalid">
-                        <span class="govuk-visually-hidden">Error:</span>Enter your email
+                    *ngIf="submitted && formGroup.controls.email.errors?.required">
+                    <span class="govuk-visually-hidden">Error:</span>Enter your email
+                </span>
+                    <span id="email-error" class="govuk-error-message"
+                    *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                        <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like name@example.com
                     </span>
-                    <input #input class="govuk-input" id="email" formControlName="email" maxlength="100" name="email"
-                        size="20" type="text" value="" autocomplete="email"
+                    <input #input class="govuk-input" id="email" formControlName="email"  name="email"
+                        size="20" type="email" value="" autocomplete="email"
+                        spellcheck="false" 
+                        (input)="validateEmailLength($event)"
                         [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
                 </div>
                 <div class="govuk-form-group">

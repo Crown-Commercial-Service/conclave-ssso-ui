@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperOrganisationSiteService } from "src/app/services/wrapper/wrapper-org-site-service";
 import { OrganisationSite, OrganisationSiteInfoList, SiteGridInfo } from "src/app/models/site";
+import { SessionStorageKey } from "src/app/constants/constant";
 
 @Component({
     selector: 'app-contact-assign-site-search-component',
@@ -38,6 +39,7 @@ export class ContactAssignSiteSearchComponent extends BaseComponent implements O
 
     ngOnInit() {
         this.getOrganisationSites();
+        sessionStorage.removeItem(SessionStorageKey.ContactAssignUsername);
     }
 
     getOrganisationSites() {
