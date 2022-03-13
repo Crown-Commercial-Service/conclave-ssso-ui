@@ -64,3 +64,10 @@ export interface OrganisationDetails{
     businessType: string;
     supplierBuyerType: number;
 }
+
+export interface OrganisationSearchDto{
+    organisationId: string;
+    ciiOrganisationId: string;
+    organisationUri: string;
+    legalName: string;
+}

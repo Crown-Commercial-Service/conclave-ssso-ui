@@ -31,13 +31,17 @@
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
                             'ERROR_INSUFFICIENT_CONTACT_DETAILS' | translate }}</a>
                     </li>
-                    <li *ngIf="submitted && formGroup.controls.email.hasError('email')">
+                    <li *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid" href="javascript:;">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
                             'ERROR_INVALID_EMAIL' | translate }} </a>
                     </li>
                     <li *ngIf="submitted && formGroup.controls['phone'].invalid">
                         <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('phone')"> {{
                             'ERROR_INVALID_PHONE_NUMBER' | translate }} </a>
+                    </li>
+                    <li *ngIf="submitted && formGroup.controls['mobile'].invalid">
+                        <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('mobile')"> {{
+                            'ERROR_INVALID_MOBILE_NUMBER' | translate }} </a>
                     </li>
                     <li *ngIf="submitted && formGroup.controls['fax'].invalid">
                         <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('fax')"> {{
@@ -58,6 +62,7 @@
                         <label class="govuk-label" for="contactReason"> {{ 'CONTACT_REASON' | translate }} </label>
                         <select class="govuk-select" id="contactReason" name="contactReason"
                             formControlName="contactReason">
+                            <option hidden disabled selected value style="display:none"></option>
                             <option *ngFor="let c of contactReasons" [ngValue]="c.key">{{ c.key }}</option>
                         </select>
                     </div>
@@ -73,16 +78,19 @@
                             [class.govuk-input--error]="submitted && formGroup.hasError('inSufficient')">
                     </div>
                     <div class="govuk-form-group" id="email-form-group"
-                        [class.govuk-form-group--error]="submitted && formGroup.controls.email.hasError('email')">
+                        [class.govuk-form-group--error]="submitted && (formGroup.controls.email.errors?.required || formGroup.controls.email.invalid)">
                         <label class="govuk-label" for="email"> {{ 'EMAIL' | translate }} </label>
                         <span id="email-error" class="govuk-error-message"
-                            *ngIf="submitted && formGroup.controls.email.hasError('email')">
+                        *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
                             'ERROR_INVALID_EMAIL'
                             | translate }}
                         </span>
                         <input #input formControlName="email" class="govuk-input" id="email" name="email" type="email"
-                            [class.govuk-input--error]="submitted && formGroup.controls.email.hasError('email')">
+                            [class.govuk-input--error]="submitted && formGroup.controls.email.hasError('email')"
+                             size="20"  value="" autocomplete="email" spellcheck="false" 
+                             (input)="validateEmailLength($event)"
+                            >
                     </div>
                     <div class="govuk-form-group" id="phone-form-group"
                         [class.govuk-form-group--error]="submitted && formGroup.controls['phone'].invalid">
@@ -102,6 +110,21 @@
                             formControlName="phone">
                         </ngx-intl-tel-input>
                     </div>
+                    <div class="govuk-form-group" id="mobile-form-group"
+                    [class.govuk-form-group--error]="submitted && formGroup.controls['mobile'].invalid">
+                    <label class="govuk-label" for="mobile"> {{ 'MOBILE_NUMBER' | translate }} </label>
+                    <span id="email-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls['mobile'].invalid">
+                      <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> 
+                      {{ 'ERROR_INVALID_MOBILE_NUMBER' | translate }}
+                    </span>
+                    <ngx-intl-tel-input
+                      [cssClass]="submitted && formGroup.controls['mobile'].invalid ? 'govuk-input govuk-input--error' : 'govuk-input'"
+                      [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
+                      [searchCountryFlag]="true" [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                      [selectFirstCountry]="false" [phoneValidation]="true" [separateDialCode]="separateDialCode" [maxLength]="'15'"
+                      [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'" name="mobile" formControlName="mobile">
+                    </ngx-intl-tel-input>
+                  </div>
                     <div class="govuk-form-group" id="fax-form-group"
                         [class.govuk-form-group--error]="submitted && formGroup.controls['fax'].invalid">
                         <label class="govuk-label" for="fax"> {{ 'FAX' | translate }} </label>
