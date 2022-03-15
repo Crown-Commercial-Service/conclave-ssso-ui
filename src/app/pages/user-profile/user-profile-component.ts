@@ -34,6 +34,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     userRoleColumnsToDisplay = ['accessRoleName', 'serviceName'];
     contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER','MOBILE_NUMBER','FAX', 'WEB_URL'];
     contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber','mobileNumber', 'fax', 'webUrl'];
+    public detailsData:any=['Add additional security steps using your personal phone or tablet to make your account more secure','Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them roles.','Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.']
     userGroups: UserGroup[] = [];
     userContacts: ContactGridInfo[] = [];
     userName: string;
