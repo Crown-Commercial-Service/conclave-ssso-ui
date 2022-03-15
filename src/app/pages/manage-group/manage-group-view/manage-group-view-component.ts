@@ -11,6 +11,7 @@ import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrappe
 import { OrganisationGroupResponseInfo } from "src/app/models/organisationGroup";
 import { Title } from "@angular/platform-browser";
 
+
 @Component({
     selector: 'app-manage-group-view',
     templateUrl: './manage-group-view-component.html',
@@ -32,7 +33,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     usersColumnsToDisplay = ['name', 'userId'];
     rolesTableHeaders = ['NAME'];
     roesColumnsToDisplay = ['name'];
-
+    detailsData=['The roles selected here will set what services are available to the users in this group','Add additional security steps using your personal phone or tablet to make your account more secure']
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
         private locationStrategy: LocationStrategy, private titleService: Title) {
