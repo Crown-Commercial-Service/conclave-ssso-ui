@@ -77,6 +77,7 @@
                                 <legend class="govuk-fieldset__legend">
                                     Security Level
                                 </legend>
+                                <app-details [detailsData]="detailsData[0]"></app-details>
                                 <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
                                     <input [attr.disabled]=true class="govuk-checkboxes__input" id="mfaEnabled"
                                         formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
@@ -100,6 +101,7 @@
                 </div>
                 <div *ngIf="userGroups.length == 0">
                     <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
+                    <app-details [detailsData]="detailsData[1]"></app-details>
                     <p>{{'NONE'| translate}}
                     <p>
                 </div>
@@ -123,6 +125,7 @@
                 </div>
 
                 <h2 class="govuk-heading-s contact-detail"> {{ 'CONTACT_DETAILS' | translate }}</h2>
+                <app-details [detailsData]="detailsData[2]"></app-details>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
                         <div>
