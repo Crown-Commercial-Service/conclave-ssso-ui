@@ -62,6 +62,7 @@ export const VirtualContactType = {
     EMAIL: "EMAIL",
     PHONE: "PHONE",
     FAX: "FAX",
+    MOBILE:"MOBILE",
     URL: "WEB_ADDRESS",
 }
 
@@ -71,6 +72,7 @@ export interface ContactGridInfo {
     name?: string;
     email?: string;
     phoneNumber?: string;
+    mobileNumber?: string;
     fax?: string;
     webUrl?: string;
     isChecked?: boolean;
