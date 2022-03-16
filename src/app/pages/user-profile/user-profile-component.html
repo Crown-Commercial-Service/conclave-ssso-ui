@@ -115,17 +115,21 @@
 
                 <div *ngIf="roleDataList.length == 0">
                     <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
+                    <app-details [detailsData]="detailsData[2]"></app-details>
                     <p>{{'NONE'| translate}}
                     <p>
                 </div>
-
+                 <div *ngIf="roleDataList.length > 0">
+                    <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
+                    <app-details [detailsData]="detailsData[2]"></app-details>
+                 </div>
                 <div *ngIf="roleDataList.length > 0" class="user-group-table">
                     <app-govuk-table [headerTextKeys]="userRoleTableHeaders" [data]="roleDataList"
                         [dataKeys]="userRoleColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
                 </div>
 
                 <h2 class="govuk-heading-s contact-detail"> {{ 'CONTACT_DETAILS' | translate }}</h2>
-                <app-details [detailsData]="detailsData[2]"></app-details>
+                <app-details [detailsData]="detailsData[3]"></app-details>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
                         <div>
