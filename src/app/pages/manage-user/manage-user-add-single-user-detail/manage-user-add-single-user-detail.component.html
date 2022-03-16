@@ -135,6 +135,7 @@
                             <legend class="govuk-fieldset__legend">
                                 Security Level
                             </legend>
+                            <app-details [detailsData]="detailsData[0]"></app-details>
                             <span>
                                 Add additional security steps using your personal phone or tablet to make your account more secure
                             </span>
@@ -163,7 +164,7 @@
                             <legend class="govuk-fieldset__legend">
                                 {{ 'GROUPS'| translate }}
                             </legend>
-                            <app-details [detailsData]="detailsData[0]"></app-details>
+                            <app-details [detailsData]="detailsData[1]"></app-details>
                             <div *ngIf="orgGroups.length == 0">
                                 <p>{{'NONE'| translate}}
                                 <p>
@@ -192,7 +193,7 @@
                             <legend class="govuk-fieldset__legend">
                                 {{ 'ROLES'| translate }}
                             </legend>
-                            <app-details [detailsData]="detailsData[1]"></app-details>
+                            <app-details [detailsData]="detailsData[2]"></app-details>
                             <div class="govuk-checkboxes">
                                 <div class="govuk-checkboxes__item" *ngFor="let orgRole of orgRoles; let i=index">
                                     <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
