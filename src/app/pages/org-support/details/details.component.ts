@@ -50,7 +50,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
       firstName: '',
       lastName: '',
       organisationId: '',
-      title: 0,
+      title: '',
       userName: '',
       mfaEnabled: false,
       detail: {

@@ -172,7 +172,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             this.submitted = false;
 
             let userRequest: UserProfileRequestInfo = {
-                title: 0,
+                title: '',
                 organisationId: this.organisationId,
                 userName: this.userName,
                 mfaEnabled: form.get('mfaEnabled')?.value,

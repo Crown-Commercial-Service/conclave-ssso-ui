@@ -72,7 +72,7 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.userProfileRequestInfo = {
             organisationId: this.organisationId,
-            title: undefined,
+            title: 'undefined',
             userName: '',
             mfaEnabled: false,
             detail: {
@@ -92,7 +92,7 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
                 canChangePassword: false,
             },
             organisationId: this.organisationId,
-            title: 0,
+            title: '',
             firstName: '',
             lastName: '',
         };
@@ -282,6 +282,7 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
     }
 
     createUser(form: FormGroup) {
+        console.log('form',form);
         this.wrapperUserService.createUser(this.userProfileRequestInfo).subscribe({
             next: (userEditResponseInfo: UserEditResponseInfo) => {
                 this.submitted = false;

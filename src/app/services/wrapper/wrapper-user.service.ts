@@ -23,6 +23,7 @@ export class WrapperUserService {
 
   createUser(userRequest: UserProfileRequestInfo): Observable<any> {
     const url = `${this.url}`;
+    console.log('userRequest',userRequest);
     return this.http.post<UserEditResponseInfo>(url, userRequest, this.options).pipe(
       map((data: UserEditResponseInfo) => {
         return data;
