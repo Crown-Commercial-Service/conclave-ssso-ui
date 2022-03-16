@@ -40,11 +40,13 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
     hasGroupViewPermission: boolean = false;
     mfaConnectionValidationError: boolean = false;
     mfaAdminValidationError: boolean = false;
+    public detailsData: any = ['Groups allow you to manage large numbers of users all at once. Roles can be applied to groups to organise user’s more efficiently.',
+        'The roles selected here will set what services are available to the user.'];
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
     constructor(private organisationGroupService: WrapperOrganisationGroupService,
-        private PatternService:PatternService,
+        private PatternService: PatternService,
         private formBuilder: FormBuilder, private router: Router,
         private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private wrapperUserService: WrapperUserService,
@@ -144,7 +146,7 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
 
     async getIdentityProviders() {
         this.identityProviders = await this.organisationGroupService.getOrganisationIdentityProviders(this.organisationId).toPromise();
-        this.identityProviders.forEach(idp =>{
+        this.identityProviders.forEach(idp => {
             let havingIdp = this.userProfileResponseInfo.detail.identityProviders?.some(userIdp => userIdp.identityProviderId == idp.id);
             this.formGroup.addControl('signInProviderControl_' + idp.id, this.formBuilder.control(havingIdp ? true : ''));
         });
@@ -187,10 +189,10 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
         this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
 
-    validateEmailLength(data:any){
-        if(this.PatternService.emailValidator(data.target.value)){
-            this.formGroup.controls['userName'].setErrors({ 'incorrect': true})
-          }
+    validateEmailLength(data: any) {
+        if (this.PatternService.emailValidator(data.target.value)) {
+            this.formGroup.controls['userName'].setErrors({ 'incorrect': true })
+        }
     }
 
 
@@ -199,10 +201,10 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
         this.mfaConnectionValidationError = false;
         this.mfaAdminValidationError = false;
         this.submitted = true;
-        
-       if(this.PatternService.emailValidator(form.get('userName')?.value)){
-         this.formGroup.controls['userName'].setErrors({ 'incorrect': true})
-       }
+
+        if (this.PatternService.emailValidator(form.get('userName')?.value)) {
+            this.formGroup.controls['userName'].setErrors({ 'incorrect': true })
+        }
         if (this.formValid(form)) {
             this.userProfileRequestInfo.title = form.get('userTitle')?.value;
             this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
@@ -361,7 +363,7 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
         };
 
         // Filter the selected identity providers and keep it in route change
-        let selectedIdpIds =  this.getSelectedIdpIds(this.formGroup);
+        let selectedIdpIds = this.getSelectedIdpIds(this.formGroup);
         selectedIdpIds.forEach(selectedIdpId => {
             if (!(formData.detail.identityProviders?.some(ug => ug.identityProviderId == selectedIdpId))) {
                 formData.detail.identityProviders && formData.detail.identityProviders.push({
