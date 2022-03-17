@@ -78,8 +78,7 @@
                         <label class="govuk-label" for="userTitle">{{ 'TITLE' | translate }}</label>
                         <select class="govuk-select" id="userTitle" name="userTitle" formControlName="userTitle">
                             <option hidden disabled selected value style="display:none" [ngValue]='null'></option>
-                            <option *ngFor="let item of userTitleEnum | enumToArray" [ngValue]="item">{{
-                                userTitleEnum[item] }}</option>
+                            <option *ngFor="let item of userTitleArray"  [ngValue]="item">{{item}}</option>
                         </select>
                     </div>
                     <div class="govuk-form-group" id="first-name-form-group"
