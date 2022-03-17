@@ -45,6 +45,11 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     changedIdpList: { id: number, enabled: boolean, connectionName: string, name: string }[] = [];
     ccsContactUrl : string = environment.uri.ccsContactUrl;
     schemeData: any[] = [];
+    public detailsData: any = [
+        'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
+        "Manage information about your organisation's specific business locations. For instance, you can add details about your head office and additional sites to organise deliveries.",
+        'Add registries that could be used to identify your organisation. For instance your Companies House Number or Dun & Bradstreet Number',
+    ];
 
     constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
