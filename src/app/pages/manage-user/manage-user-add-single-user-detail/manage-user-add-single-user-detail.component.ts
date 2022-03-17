@@ -40,6 +40,7 @@ export class ManageUserAddSingleUserDetailComponent extends FormBaseComponent im
     hasGroupViewPermission: boolean = false;
     mfaConnectionValidationError: boolean = false;
     mfaAdminValidationError: boolean = false;
+    userTitleArray=["Mr","Mrs","Miss","Ms","Doctor","Unspecified"];
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
