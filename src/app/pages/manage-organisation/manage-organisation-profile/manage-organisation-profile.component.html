@@ -54,6 +54,7 @@
     </fieldset>
   </div>
   <h2 class="govuk-heading-s"> {{ 'CONTACT_DETAILS' | translate }}</h2>
+  <app-details [detailsData]="detailsData[0]"></app-details>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <div>
@@ -73,6 +74,7 @@
       {{ 'FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
   </div>
   <h2 class="govuk-heading-s">{{ 'SITE_DETAILS' | translate }}</h2>
+  <app-details [detailsData]="detailsData[1]"></app-details>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <div>
@@ -90,6 +92,7 @@
   </div>
 
   <h2 class="govuk-heading-s" *ngIf="registries">Registries</h2>
+  <app-details [detailsData]="detailsData[2]"></app-details>
   <table class="govuk-table" *ngIf="registries">
     <caption class="govuk-table__caption govuk-table__caption--m">Below are the registries currently linked to your
       organisation</caption>
