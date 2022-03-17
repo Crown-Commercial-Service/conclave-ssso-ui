@@ -58,6 +58,7 @@ export class ManageUserAddSingleUserDetailComponent
     'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them roles.',
     'The roles applied to your account will set what services are available to you. Contact your admin if something is wrong.',
   ];
+  userTitleArray=["Mr","Mrs","Miss","Ms","Doctor","Unspecified"];
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -110,7 +111,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userProfileRequestInfo = {
       organisationId: this.organisationId,
-      title: undefined,
+      title: 'undefined',
       userName: '',
       mfaEnabled: false,
       detail: {
@@ -129,7 +130,7 @@ export class ManageUserAddSingleUserDetailComponent
         canChangePassword: false,
       },
       organisationId: this.organisationId,
-      title: 0,
+      title: '',
       firstName: '',
       lastName: '',
     };
