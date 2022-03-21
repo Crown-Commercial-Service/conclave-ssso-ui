@@ -106,7 +106,13 @@
                     <p>
                 </div>
 
-                <div *ngIf="userGroups.length > 0" class="user-group-table">
+                <div *ngIf="userGroups.length > 0">
+                    <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
+                    <app-details [detailsData]="detailsData[1]"></app-details>
+                    <p>
+                </div>
+
+                 <div *ngIf="userGroups.length > 0" class="user-group-table">
                     <app-govuk-table [headerTextKeys]="userGroupTableHeaders" [data]="userGroups"
                         [dataKeys]="userGroupColumnsToDisplay" [isHyperLinkVisible]="hasGroupViewPermission"
                         [hyperLinkText]="'VIEW_DETAILS'" (hyperLinkClickEvent)="onGroupViewClick($event)"
