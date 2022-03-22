@@ -100,6 +100,7 @@
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                             {{ 'ERROR_INVALID_PHONE_NUMBER' | translate }}
                         </span>
+                       <label class="govuk-label" for="country-search-box">.</label>
                         <ngx-intl-tel-input
                             [cssClass]="submitted && formGroup.controls['phone'].invalid ? 'govuk-input govuk-input--error' : 'govuk-input'"
                             [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
