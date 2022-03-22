@@ -31,7 +31,7 @@
                                     <li>Enter your email address</li>
                                 </a>
                                 <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
-                                    *ngIf="formGroup.controls['email'].hasError('email')">
+                                *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
                                     <li>Enter an email address in the correct format, like name@example.com</li>
                                 </a>
                             </ul>
@@ -94,11 +94,17 @@
                     [class.govuk-form-group--error]="submitted && formGroup.controls.email.invalid">
                     <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
                     <span id="email-error" class="govuk-error-message"
-                        *ngIf="submitted && formGroup.controls.email.invalid">
-                        <span class="govuk-visually-hidden">Error:</span>Enter your email
+                    *ngIf="submitted && formGroup.controls.email.errors?.required">
+                    <span class="govuk-visually-hidden">Error:</span>Enter your email
+                </span>
+                    <span id="email-error" class="govuk-error-message"
+                    *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                        <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like name@example.com
                     </span>
-                    <input #input class="govuk-input" id="email" formControlName="email" maxlength="100" name="email"
-                        size="20" type="text" value="" autocomplete="email"
+                    <input #input class="govuk-input" id="email" formControlName="email"  name="email"
+                        size="20" type="email" value="" autocomplete="email"
+                        spellcheck="false" 
+                        (input)="validateEmailLength($event)"
                         [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
                 </div>
                 <div class="govuk-form-group">

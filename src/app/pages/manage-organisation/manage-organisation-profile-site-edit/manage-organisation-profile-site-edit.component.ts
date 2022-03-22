@@ -30,8 +30,8 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   siteId: number = 0;
   public serverError: string = '';
   organisationId: string;
-  contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'FAX', 'WEB_URL'];
-  contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
+  contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER','MOBILE_NUMBER','FAX', 'WEB_URL'];
+  contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber','mobileNumber','fax', 'webUrl'];
   contactData: ContactGridInfo[];
   countryDetails: ContryDetails[] = [];
   topCountries: ContryDetails[] = [];
@@ -77,8 +77,6 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       .subscribe(() => {
         this.filterBanks();
       });
-
-    console.log("CountryDetails", this.countryDetails);
     if (this.isEdit) {
       this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
         {
