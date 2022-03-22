@@ -9,6 +9,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
+import { PatternService } from 'src/app/shared/pattern.service';
 
 @Component({
   selector: 'app-nominate',
@@ -29,18 +30,28 @@ export class NominateComponent extends BaseComponent {
   submitted: boolean = false;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router,
+  constructor(private formBuilder: FormBuilder,
+    private PatternService:PatternService,
+    private authService: AuthService, private router: Router,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
     this.formGroup = this.formBuilder.group({
       firstName: [, Validators.compose([Validators.required])],
       lastName: [, Validators.compose([Validators.required])],
-      email: [, Validators.compose([Validators.required, Validators.email])],
+      email: [, Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
     });
   }
 
+  validateEmailLength(data:any){
+    if(this.PatternService.emailValidator(data.target.value)){
+        this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+      }
+}
   public onSubmit(form: FormGroup) {
     this.submitted = true;
+ if(this.PatternService.emailValidator(form.get('email')?.value)){
+  this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+}
     if (this.formValid(form)) {
       let uname = form.get('email')?.value;
       this.authService.nominate(uname).toPromise().then(() => {
