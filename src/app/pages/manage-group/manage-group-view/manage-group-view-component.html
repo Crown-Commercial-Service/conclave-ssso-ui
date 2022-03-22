@@ -41,11 +41,11 @@
         </div>
     </div>
 </div>
-
 <div class="top-margin">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <h2 class="govuk-heading-s">{{ 'ROLES_FOR_GROUP' | translate }}</h2>
+            <app-details [detailsData]="detailsData[0]"></app-details>
             <div *ngIf="group.roles.length == 0">
                 <p>{{'NONE'| translate}}
                 <p>
@@ -78,11 +78,12 @@
         <legend class="govuk-fieldset__legend">
             Security Level
         </legend>
+     <app-details [detailsData]="detailsData[1]"></app-details>
         <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
             <input [attr.disabled]=true [checked]="group.mfaEnabled" class="govuk-checkboxes__input" id="mfaEnabled"
                 formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
             <label class="govuk-label govuk-checkboxes__label" for="mfaEnabled">
-                Additional security using personal phone or tablet
+                Additional security using digital device
             </label>
         </div>
     </fieldset>

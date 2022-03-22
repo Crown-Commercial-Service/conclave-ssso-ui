@@ -42,7 +42,6 @@ export class CIIOptions extends BaseComponent implements OnInit {
     isDunlength: false,
     DunData: '',
   };
-  private regExp = /[a-zA-Z`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
 
   @Output() onOrgSeleceted = new EventEmitter<string>();
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
@@ -109,21 +108,21 @@ export class CIIOptions extends BaseComponent implements OnInit {
     this.validationObj.isDunlength = false;
     if (this.validationObj.activeElement == 'US-DUN') {
       this.validationObj.DunData =
-        this.dunNumber.get('data1').value +
-        this.dunNumber.get('data2').value +
-        this.dunNumber.get('data3').value;
-      if (this.validationObj.DunData.length >= 8) {
-        this.validationObj.isDunlength = false;
-        if (this.regExp.test(this.validationObj.DunData)) {
-          this.validationObj.stringIdentifier = true;
-        } else {
-          this.validationObj.stringIdentifier = false;
-          this.onOrgSeleceted.emit(this.validationObj.DunData);
-        }
-      } else {
-        this.validationObj.isDunlength = true;
-      }
-    } else {
+       this.dunNumber.get('data1').value +
+       this.dunNumber.get('data2').value +
+       this.dunNumber.get('data3').value;
+     if (this.validationObj.DunData.length >= 9) {
+       this.validationObj.isDunlength = false;
+       if (isNaN(this.validationObj.DunData)) {
+         this.validationObj.stringIdentifier = true;
+       } else {
+         this.validationObj.stringIdentifier = false;
+         this.onOrgSeleceted.emit(this.validationObj.DunData);
+       }
+     } else {
+       this.validationObj.isDunlength=true
+     }
+   }  else {
       if (this.txtValue && this.txtValue.length > 0) {
         this.onOrgSeleceted.emit(this.txtValue);
       } else {
@@ -167,17 +166,17 @@ export class CIIOptions extends BaseComponent implements OnInit {
   /**
    * Focus dun nummber dynamically
    */
-  public setDun_numberfocus() {
-    let  Controls = [
+   public setDun_numberfocus() {
+    let Controls = [
       { data: 'data3', key: 'input3' },
       { data: 'data2', key: 'input2' },
       { data: 'data1', key: 'input1' },
     ];
     Controls.forEach((f) => {
-      if (!this.dunNumber.get(f.data).value) {
+      if (!this.dunNumber.get(f.data).value || this.dunNumber.get(f.data).value.length < 3) {
         document.getElementById(f.key)?.focus();
       }
-      if (this.regExp.test(this.dunNumber.get(f.data).value)) {
+      if(isNaN(this.dunNumber.get(f.data).value)){
         document.getElementById(f.key)?.focus();
       }
     });

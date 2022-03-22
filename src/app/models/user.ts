@@ -19,7 +19,7 @@ export interface UserGroup {
 export interface UserDetail {
     userName: string;
     organisationId: string;
-    title?: UserTitleEnum;
+    title: string;
     firstName: string;
     lastName: string;
     mfaEnabled : boolean;
