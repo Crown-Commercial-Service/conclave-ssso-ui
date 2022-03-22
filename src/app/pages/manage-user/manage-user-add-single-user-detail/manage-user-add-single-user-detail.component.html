@@ -135,9 +135,6 @@
                                 Security Level
                             </legend>
                             <app-details [detailsData]="detailsData[0]"></app-details>
-                            <span>
-                                Add additional security steps using your personal phone or tablet to make your account more secure
-                            </span>
                             <span id="mfa-error-con" class="govuk-error-message label-detail-text-gap"
                                 *ngIf="submitted && mfaConnectionValidationError">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
