@@ -44,10 +44,11 @@ export class ManageOrgRegStep2Component
     this.schemeSubject.asObservable();
   public schemeName!: string;
   public txtValue!: string;
-  public validationObj = {
+  public validationObj:any = {
     activeElement: '',
     stringIdentifier: true,
     isDunlength: false,
+    DunData:'',
   };
   private regExp = /[a-zA-Z`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
   submitted: boolean = false;
@@ -105,19 +106,19 @@ export class ManageOrgRegStep2Component
     this.submitted = true;
     this.validationObj.isDunlength = false;
     if (this.validationObj.activeElement == 'US-DUN') {
-      let conateString: string =
+       this.validationObj.DunData =
         this.dunNumber.get('data1').value +
         this.dunNumber.get('data2').value +
         this.dunNumber.get('data3').value;
-      if (conateString.length >= 8) {
+      if (this.validationObj.DunData.length >= 8) {
         this.validationObj.isDunlength = false;
-        if (this.regExp.test(conateString)) {
+        if (this.regExp.test(this.validationObj.DunData)) {
           this.validationObj.stringIdentifier = true;
         } else {
           this.validationObj.stringIdentifier = false;
           this.router.navigateByUrl(
             `manage-org/register/search/${this.scheme}?id=${encodeURIComponent(
-              conateString
+              this.validationObj.DunData
             )}`
           );
         }
@@ -143,6 +144,7 @@ export class ManageOrgRegStep2Component
 
   public onSelect(item: any) {
     this.schemeSubject.next(item.scheme);
+    this.dunNumber.reset()
     this.validationObj.activeElement = item.scheme;
     var el = document.getElementById(item.scheme) as HTMLInputElement;
     if (el) {
@@ -193,9 +195,9 @@ export class ManageOrgRegStep2Component
    */
   public setDun_numberfocus() {
     let Controls = [
-      { data: 'data1', key: 'input1' },
-      { data: 'data2', key: 'input2' },
       { data: 'data3', key: 'input3' },
+      { data: 'data2', key: 'input2' },
+      { data: 'data1', key: 'input1' },
     ];
     Controls.forEach((f) => {
       if (!this.dunNumber.get(f.data).value) {
