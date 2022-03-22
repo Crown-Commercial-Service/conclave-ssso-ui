@@ -59,12 +59,13 @@
                             {{ 'MFA_ENABLED_ADMIN_USER'| translate }}</a>
                     </li>
                     <li
-                      *ngIf="submitted && !formGroup.controls.userName.errors?.required && formGroup.controls.userName.invalid">
+                        *ngIf="submitted && !formGroup.controls.userName.errors?.required && formGroup.controls.userName.invalid">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(2)">
                             {{ 'ERROR_INVALID_EMAIL'| translate }}</a>
                     </li>
                     <li *ngIf="submitted && formGroup.hasError('identityProviderRequired')">
-                        <a href="javascript:;" onClick="return false;" (click)="scrollToAnchor('signin-provider-form-group')">
+                        <a href="javascript:;" onClick="return false;"
+                            (click)="scrollToAnchor('signin-provider-form-group')">
                             {{ 'ERROR_SIGN_IN_PROVIDER_REQUIRED'| translate }}</a>
                     </li>
                 </ul>
@@ -77,8 +78,7 @@
                         <label class="govuk-label" for="userTitle">{{ 'TITLE' | translate }}</label>
                         <select class="govuk-select" id="userTitle" name="userTitle" formControlName="userTitle">
                             <option hidden disabled selected value style="display:none" [ngValue]='null'></option>
-                            <option *ngFor="let item of userTitleEnum | enumToArray" [ngValue]="item">{{
-                                userTitleEnum[item] }}</option>
+                            <option *ngFor="let item of userTitleArray"  [ngValue]="item">{{item}}</option>
                         </select>
                     </div>
                     <div class="govuk-form-group" id="first-name-form-group"
@@ -113,7 +113,7 @@
                             {{'ERROR_EMAIL_REQUIRED' | translate }}
                         </span>
                         <span id="user-name-error" class="govuk-error-message"
-                        *ngIf="submitted && !formGroup.controls.userName.errors?.required && formGroup.controls.userName.invalid">
+                            *ngIf="submitted && !formGroup.controls.userName.errors?.required && formGroup.controls.userName.invalid">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                             {{ 'ERROR_INVALID_EMAIL'| translate }}
                         </span>
@@ -124,9 +124,8 @@
                         </span>
                         <input #input [readonly]="isEdit == true" [class.disabled]="isEdit == true"
                             formControlName="userName" class="govuk-input" id="email" name="email" type="email"
-                             size="20"  value="" autocomplete="email" spellcheck="false" 
-                             (input)="validateEmailLength($event)"
-                            [class.govuk-input--error]="(submitted && formGroup.controls.userName.invalid)
+                            size="20" value="" autocomplete="email" spellcheck="false"
+                            (input)="validateEmailLength($event)" [class.govuk-input--error]="(submitted && formGroup.controls.userName.invalid)
                             || formGroup.controls.userName.hasError('alreadyExists')">
                     </div>
                     <div class="govuk-form-group" id="user-mfa-form-group"
@@ -135,21 +134,22 @@
                             <legend class="govuk-fieldset__legend">
                                 Security Level
                             </legend>
-                            <span id="mfa-error-con" class="govuk-error-message"
+                            <app-details [detailsData]="detailsData[0]"></app-details>
+                            <span id="mfa-error-con" class="govuk-error-message label-detail-text-gap"
                                 *ngIf="submitted && mfaConnectionValidationError">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                                 {{ 'MFA_ENABLED_INVALID_CONNECTION'| translate }}
                             </span>
-                            <span id="mfa-error-admin" class="govuk-error-message"
+                            <span id="mfa-error-admin" class="govuk-error-message label-detail-text-gap"
                                 *ngIf="submitted && mfaAdminValidationError">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                                 {{ 'MFA_ENABLED_ADMIN_USER'| translate }}
                             </span>
-                            <div class="govuk-checkboxes__item">
+                            <div class="govuk-checkboxes__item label-detail-text-gap">
                                 <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"
                                     type="checkbox">
                                 <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
-                                    Select to enable additional security using personal phone or tablet
+                                    Additional security using digital device
                                 </label>
                             </div>
                         </fieldset>
@@ -160,6 +160,7 @@
                             <legend class="govuk-fieldset__legend">
                                 {{ 'GROUPS'| translate }}
                             </legend>
+                            <app-details [detailsData]="detailsData[1]"></app-details>
                             <div *ngIf="orgGroups.length == 0">
                                 <p>{{'NONE'| translate}}
                                 <p>
@@ -188,6 +189,7 @@
                             <legend class="govuk-fieldset__legend">
                                 {{ 'ROLES'| translate }}
                             </legend>
+                            <app-details [detailsData]="detailsData[2]"></app-details>
                             <div class="govuk-checkboxes">
                                 <div class="govuk-checkboxes__item" *ngFor="let orgRole of orgRoles; let i=index">
                                     <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
@@ -216,13 +218,16 @@
                             <legend class="govuk-fieldset__legend">
                                 {{ 'SIGN_IN_PROVIDER'| translate }}
                             </legend>
-                            <span id="group-error" class="govuk-error-message"
+                            <span>
+                                A sign in provider gives users the option to use a different service to sign in
+                            </span>
+                            <span id="group-error" class="govuk-error-message label-detail-text-gap"
                                 *ngIf="submitted && formGroup.hasError('identityProviderRequired')">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                                 {{'ERROR_SIGN_IN_PROVIDER_REQUIRED' | translate }}
                             </span>
 
-                            <div class="govuk-checkboxes">
+                            <div class="govuk-checkboxes label-detail-text-gap">
                                 <div class="govuk-checkboxes__item"
                                     *ngFor="let identityProvider of identityProviders; let i=index">
                                     <input #input class="govuk-checkboxes__input"
