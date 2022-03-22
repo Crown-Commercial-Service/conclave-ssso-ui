@@ -203,6 +203,7 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   async getIdentityProviders() {
+    let tempData:IdentityProvider[]=[]
     this.identityProviders = await this.organisationGroupService
       .getOrganisationIdentityProviders(this.organisationId)
       .toPromise();
@@ -216,6 +217,12 @@ export class ManageUserAddSingleUserDetailComponent
         this.formBuilder.control(havingIdp ? true : '')
       );
     });
+    this.identityProviders.map((f)=>{
+      if(f.name === 'User ID and password'){
+         tempData.push(f)
+      }
+    })
+    this.identityProviders = tempData
   }
 
   async getOrgGroups() {
