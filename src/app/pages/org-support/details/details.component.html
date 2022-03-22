@@ -3,43 +3,122 @@
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
       <li class="govuk-breadcrumbs__list-item">
-        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+        <a class="govuk-breadcrumbs__link" routerLink="/home">{{
+          "ADMINISTRATOR_DASHBOARD" | translate
+        }}</a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
         <span class="govuk-breadcrumbs__link">Organisation user support</span>
       </li>
     </ol>
   </div>
-  <h1 class="govuk-heading-xl page-title" style="margin-top: 40px;">{{u.firstName}} {{u.lastName}}</h1>
-  <h2 style="top: -20px; position: relative;">Please choose appropriate actions you would like to perform for
-    {{u.userName}}</h2>
+  <h1 class="govuk-heading-xl page-title" style="margin-top: 40px">
+    {{ u.firstName }} {{ u.lastName }}
+  </h1>
+  <h2 style="top: -20px; position: relative">
+    Please choose appropriate actions you would like to perform for
+    {{ u.userName }}
+  </h2>
   <div>
-    <div *ngIf="hasAdminRole()" style="font-size: 24px;"><input type="checkbox" name="changeRole"
-        [(ngModel)]="changeRoleEnabled" #assignChk (click)="onSelect($event,false)"
-        style="margin-right: 15px;width: 20px; height: 20px; top: 3px; position: relative;font-weight: 500;"><label
-        (click)="onSelect($event,false)">Unassign organisation administrator role</label></div>
-    <div *ngIf="!hasAdminRole()" style="font-size: 24px;"><input type="checkbox" name="changeRole"
-        [(ngModel)]="changeRoleEnabled" #assignChk (click)="onSelect($event,true)" id="chkChangeRole"
-        style="margin-right: 15px;width: 20px; height: 20px; top: 3px; position: relative;font-weight: 500;"><label
-        (click)="onSelect($event,true)" for="chkChangeRole">Assign organisation administrator role</label></div>
-  </div>
-  <div style="margin-top:15px;">
-    <div style="font-size: 24px;"><input type="checkbox" [disabled]="!isUserPasswordIdentifier()" name="resetPassword"
-        #resetPassword [(ngModel)]="resetPasswordEnabled" id="chkresetPwd"
-        style="margin-right: 15px;width: 20px; height: 20px; top: 3px; position: relative;"><label
-        (click)="onResetSelect($event)" for="chkresetPwd">Reset user's password</label></div>
-  </div>
-  <div style="margin-top:15px;">
-    <div style="font-size: 24px;"><input type="checkbox" id="chkResetMFA"
-        [disabled]="!this.user.mfaEnabled" name="resetMfa" [(ngModel)]="resetMfaEnabled"
-        style="margin-right: 15px;width: 20px; height: 20px; top: 3px; position: relative;">
-      <label (click)="onMfaResetSelect($event)" for="chkResetMFA">Reset user's additional security</label>
+    <div *ngIf="hasAdminRole()" style="font-size: 24px">
+      <input
+        id="chkUnassign"
+        type="checkbox"
+        name="changeRole"
+        [(ngModel)]="changeRoleEnabled"
+        #assignChk
+        (click)="onSelect($event, false)"
+        style="
+          margin-right: 15px;
+          width: 20px;
+          height: 20px;
+          top: 3px;
+          position: relative;
+          font-weight: 500;
+        "
+      /><label (click)="onSelect($event, false)" for="chkUnassign"
+        >Unassign organisation administrator role</label
+      >
+    </div>
+    <div *ngIf="!hasAdminRole()" style="font-size: 24px">
+      <input
+        type="checkbox"
+        name="changeRole"
+        [(ngModel)]="changeRoleEnabled"
+        #assignChk
+        (click)="onSelect($event, true)"
+        id="chkChangeRole"
+        style="
+          margin-right: 15px;
+          width: 20px;
+          height: 20px;
+          top: 3px;
+          position: relative;
+          font-weight: 500;
+        "
+      /><label (click)="onSelect($event, true)" for="chkChangeRole"
+        >Assign organisation administrator role</label
+      >
     </div>
   </div>
-  <div class="govuk-button-group" style="margin-top: 40px;">
-    <button type="button" class="govuk-button" data-module="govuk-button"
-      (click)="onContinueClick()">Continue</button>
-    <button  type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onCancelClick()">Cancel</button>
+  <div style="margin-top: 15px">
+    <div style="font-size: 24px">
+      <input
+        type="checkbox"
+        [disabled]="!isUserPasswordIdentifier()"
+        name="resetPassword"
+        #resetPassword
+        [(ngModel)]="resetPasswordEnabled"
+        id="chkresetPwd"
+        style="
+          margin-right: 15px;
+          width: 20px;
+          height: 20px;
+          top: 3px;
+          position: relative;
+        "
+      /><label (click)="onResetSelect($event)" for="chkresetPwd"
+        >Reset user's password</label
+      >
+    </div>
+  </div>
+  <div style="margin-top: 15px">
+    <div style="font-size: 24px">
+      <input
+        type="checkbox"
+        id="chkResetMFA"
+        [disabled]="!this.user.mfaEnabled"
+        name="resetMfa"
+        [(ngModel)]="resetMfaEnabled"
+        style="
+          margin-right: 15px;
+          width: 20px;
+          height: 20px;
+          top: 3px;
+          position: relative;
+        "
+      />
+      <label (click)="onMfaResetSelect($event)" for="chkResetMFA"
+        >Reset user's additional security</label
+      >
+    </div>
+  </div>
+  <div class="govuk-button-group" style="margin-top: 40px">
+    <button
+      type="button"
+      class="govuk-button"
+      data-module="govuk-button"
+      (click)="onContinueClick()"
+    >
+      Continue
+    </button>
+    <button
+      type="button"
+      class="govuk-button govuk-button--secondary"
+      data-module="govuk-button"
+      (click)="onCancelClick()"
+    >
+      Cancel
+    </button>
   </div>
 </div>

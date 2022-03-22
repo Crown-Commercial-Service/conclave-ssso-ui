@@ -112,7 +112,7 @@
               [selectFirstCountry]="false" [phoneValidation]="true" [separateDialCode]="separateDialCode" [maxLength]="'15'"
               [numberFormat]="PhoneNumberFormat.International" [inputId]="'phone'" name="phone" formControlName="phone">
             </ngx-intl-tel-input>
-          </div>
+          </div> 
           <div class="govuk-form-group" id="mobile-form-group"
           [class.govuk-form-group--error]="submitted && formGroup.controls['mobile'].invalid">
           <label class="govuk-label" for="mobile"> {{ 'MOBILE_NUMBER' | translate }} </label>
@@ -120,6 +120,7 @@
             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> 
             {{ 'ERROR_INVALID_MOBILE_NUMBER' | translate }}
           </span>
+          <label class="govuk-label" for="country-search-box">.</label>
           <ngx-intl-tel-input
             [cssClass]="submitted && formGroup.controls['mobile'].invalid ? 'govuk-input govuk-input--error' : 'govuk-input'"
             [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
