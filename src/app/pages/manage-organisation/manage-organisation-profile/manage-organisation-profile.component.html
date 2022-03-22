@@ -35,12 +35,15 @@
   </div>
   <div class="govuk-form-group" *ngIf="idps">
     <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-        <h2 class="govuk-heading-s">
-          Sign In Providers
-        </h2>
+      <legend class="govuk-fieldset__legend">
+         {{ 'SIGN_IN_PROVIDER'| translate }}
       </legend>
-      <div class="govuk-checkboxes">
+      <span>
+          A sign in provider gives users the option to use a different service to sign in
+      </span>
+      <br>
+      <br>
+      <div class="govuk-checkboxes label-detail-text-gap">
         <div class="govuk-checkboxes__item" *ngFor="let idp of idps">
           <div *ngIf="idp.connectionName !== 'none'">
             <input type="checkbox" [value]="idp.id"
