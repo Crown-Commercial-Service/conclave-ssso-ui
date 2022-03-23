@@ -247,7 +247,7 @@
   "ERROR_SELECT_BELOW_OPTION": "Select the below option to continue",
   "PAGE_DESIGN_IS_CURRENTLY_BEING_FINALISED": "This page design is currently being finalised.",
   "ERROR_ENTER_REGISTRY_NUMBER": "Please enter a registry number",
-  "MFA_RESET_EMAIL_SENT": "A request to reset your additional security on your personal device has been sent to : ",
+  "MFA_RESET_EMAIL_SENT": "A request to reset your additional security on your digital device has been sent to : ",
   "MFA_RESET_EMAIL_SENDING": "Sending additional security to email",
   "MFA_RESET_EMAIL_SENT_ERROR": "Error sending additional security reset email. Please try again later.",
   "MFA_RESET_SUCCESS": "You have successfully reset your additional security",
