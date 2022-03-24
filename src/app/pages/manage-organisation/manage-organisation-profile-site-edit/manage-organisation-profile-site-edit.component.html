@@ -102,14 +102,17 @@
           </div>
           <div class="govuk-form-group" id="country-code-form-group"
             [class.govuk-form-group--error]="submitted && formGroup.controls.countryCode.hasError('required')">
-            <label class="govuk-label" for="country-code"> {{ 'COUNTRY_CODE' | translate }} </label>
+            <span class="govuk-label" for="country-code">
+              {{ 'COUNTRY_CODE' | translate }}
+            </span>
+            <span class="govuk-error-message" ></span>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && (formGroup.controls.countryCode.hasError('required') ||  serverError == 'INVALID_COUNTRY_CODE')">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
               'ERROR_COUNTRY_CODE' | translate }}
             </span>
             <mat-form-field class="form-field-country">
-              <mat-select formControlName="countryCode" #singleSelect panelClass="mat-country-select-site">
+              <mat-select formControlName="countryCode" #singleSelect panelClass="mat-country-select-site" id="country-code">
                 <mat-option>
                   <ngx-mat-select-search [formControl]="bankFilterCtrl" placeholderLabel="Search"
                     noEntriesFoundLabel="No matching country found">
