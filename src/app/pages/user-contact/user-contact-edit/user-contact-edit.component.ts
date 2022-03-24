@@ -165,6 +165,9 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
                             }
                             else if (error.error == "INVALID_EMAIL") {
                                 this.setError(form, 'email', 'email');
+
+                            } else if(error.error == "INVALID_MOBILE_NUMBER") {
+                                this.setError(form, 'mobile', 'invalid');
                             }
                         }
                     });
@@ -184,6 +187,9 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
                             }
                             else if (error.error == "INVALID_EMAIL") {
                                 this.setError(form, 'email', 'email');
+                            }
+                            else if(error.error == "INVALID_MOBILE_NUMBER"){
+                                this.setError(form, 'mobile', 'invalid');
                             }
                         }
                     });
