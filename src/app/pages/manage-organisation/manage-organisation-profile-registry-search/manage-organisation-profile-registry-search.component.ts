@@ -24,6 +24,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   ]
 })
 export class ManageOrganisationRegistrySearchComponent extends BaseComponent implements OnInit {
+  private specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
   public dunNumber: FormGroup | any;
   public items$!: Observable<any>;
   public scheme!: string;
@@ -107,7 +108,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
        this.dunNumber.get('data3').value;
      if (this.validationObj.DunData.length >= 9) {
        this.validationObj.isDunlength = false;
-       if (isNaN(this.validationObj.DunData)) {
+       if (isNaN(this.validationObj.DunData) || this.specialChars.test(this.validationObj.DunData)) {
          this.validationObj.stringIdentifier = true;
        } else {
          this.validationObj.stringIdentifier = false;
@@ -171,7 +172,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
       if (!this.dunNumber.get(f.data).value || this.dunNumber.get(f.data).value.length < 3) {
         document.getElementById(f.key)?.focus();
       }
-      if(isNaN(this.dunNumber.get(f.data).value)){
+      if(isNaN(this.dunNumber.get(f.data).value) || this.specialChars.test(this.dunNumber.get(f.data).value)){
         document.getElementById(f.key)?.focus();
       }
     });
