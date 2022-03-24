@@ -8,7 +8,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
-import { IdentityProviderSummary } from 'src/app/models/identityProvider';
+import { IdentityProvider, IdentityProviderSummary } from 'src/app/models/identityProvider';
 import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { WrapperOrganisationContactService } from 'src/app/services/wrapper/wrapper-org-contact-service';
 import { ContactGridInfo } from 'src/app/models/contactInfo';
@@ -66,6 +66,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     }
 
     async ngOnInit() {
+        let tempData: IdentityProvider[] = []
         const ciiOrgId = this.tokenService.getCiiOrgId();
         this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
         var org = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
@@ -119,6 +120,12 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             }).catch(e => {
             });
         }
+        this.idps.map((f: IdentityProvider) => {
+            if (f.name === 'User ID and password') {
+                tempData.push(f)
+            }
+        })
+        this.idps = tempData
     }
 
     public onContactAddClick() {
