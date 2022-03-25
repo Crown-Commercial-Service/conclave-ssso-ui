@@ -66,7 +66,6 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     }
 
     async ngOnInit() {
-        let tempData: IdentityProvider[] = []
         const ciiOrgId = this.tokenService.getCiiOrgId();
         this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
         var org = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
@@ -81,6 +80,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                     if (idp.connectionName == element.connectionName) {
                         idp.enabled = true;
                     }
+                    
                 });
             });
 
@@ -120,12 +120,6 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             }).catch(e => {
             });
         }
-        this.idps.map((f: IdentityProvider) => {
-            if (f.name === 'User ID and password') {
-                tempData.push(f)
-            }
-        })
-        this.idps = tempData
     }
 
     public onContactAddClick() {
