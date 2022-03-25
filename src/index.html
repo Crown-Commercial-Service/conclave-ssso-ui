@@ -157,8 +157,6 @@
 
     .govuk-back-link:active,
     .govuk-back-link:focus,
-    .govuk-back-link:hover,
-    .govuk-back-link:link,
     .govuk-back-link:visited {
       text-decoration: none !important;
     }
@@ -264,6 +262,27 @@
       text-decoration-style: solid;
       text-decoration-thickness: 3px;
     }
+
+    .govuk-back-link:hover{
+        text-decoration-thickness: max(3px, 0.1875rem, 0.12em);
+        -webkit-text-decoration-skip-ink: none;
+        text-decoration-skip-ink: none;
+        -webkit-text-decoration-skip: none;
+        text-decoration-skip: none;
+        color: rgba(11,12,12,0.99);
+        text-decoration-line: underline;
+        text-decoration-style: solid;
+        text-decoration-color: rgba(11,12,12,0.99);
+      }
+
+    .govuk-back-link{
+        text-decoration-thickness: max(1px, 0.0625rem);
+        text-underline-offset: 0.1em;
+        text-decoration-line: underline;
+        text-decoration-skip-ink: none;
+        text-decoration-style: solid;
+        border: 0;
+  }
 
     @media (min-width: 40.0625em) {
       .govuk-width-container {
