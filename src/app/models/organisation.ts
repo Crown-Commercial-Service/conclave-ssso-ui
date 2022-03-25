@@ -9,7 +9,7 @@ export interface OrganisationRegisterDto {
     adminUserName: string;
     adminUserFirstName: string;
     adminUserLastName: string;
-    adminUserTitle?: UserTitleEnum;
+    adminUserTitle: string;
 }
 
 export interface OrganisationRegBasicInfo {

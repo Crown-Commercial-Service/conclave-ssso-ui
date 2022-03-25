@@ -40,6 +40,7 @@ export class ManageOrgRegStep2Component
   public schemeSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
     'GB-COH'
   );
+  private specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
   public schemeSubjectObs: Observable<string> =
     this.schemeSubject.asObservable();
   public schemeName!: string;
@@ -111,7 +112,7 @@ export class ManageOrgRegStep2Component
         this.dunNumber.get('data3').value;
       if (this.validationObj.DunData.length >= 9) {
         this.validationObj.isDunlength = false;
-        if (isNaN(this.validationObj.DunData)) {
+        if (isNaN(this.validationObj.DunData) || this.specialChars.test(this.validationObj.DunData)) {
           this.validationObj.stringIdentifier = true;
         } else {
           this.validationObj.stringIdentifier = false;
@@ -138,7 +139,8 @@ export class ManageOrgRegStep2Component
   }
 
   public onBackClick() {
-    this.router.navigateByUrl('manage-org/register/type');
+    // this.router.navigateByUrl('manage-org/register/type');
+    window.history.back();
   }
 
   public onSelect(item: any) {
@@ -202,7 +204,7 @@ export class ManageOrgRegStep2Component
       if (!this.dunNumber.get(f.data).value || this.dunNumber.get(f.data).value.length < 3) {
         document.getElementById(f.key)?.focus();
       }
-      if(isNaN(this.dunNumber.get(f.data).value)){
+      if(isNaN(this.dunNumber.get(f.data).value) || this.specialChars.test(this.dunNumber.get(f.data).value)){
         document.getElementById(f.key)?.focus();
       }
     });
