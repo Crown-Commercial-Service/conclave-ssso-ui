@@ -112,7 +112,7 @@
               'ERROR_COUNTRY_CODE' | translate }}
             </span>
             <mat-form-field class="form-field-country">
-              <mat-select formControlName="countryCode" #singleSelect panelClass="mat-country-select-site" id="country-code">
+              <mat-select formControlName="countryCode" title="countrycodedropdown" #singleSelect panelClass="mat-country-select-site" id="country-code">
                 <mat-option>
                   <ngx-mat-select-search [formControl]="bankFilterCtrl" placeholderLabel="Search"
                     noEntriesFoundLabel="No matching country found">
