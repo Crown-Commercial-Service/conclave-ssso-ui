@@ -8,7 +8,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
-import { IdentityProviderSummary } from 'src/app/models/identityProvider';
+import { IdentityProvider, IdentityProviderSummary } from 'src/app/models/identityProvider';
 import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { WrapperOrganisationContactService } from 'src/app/services/wrapper/wrapper-org-contact-service';
 import { ContactGridInfo } from 'src/app/models/contactInfo';
@@ -80,6 +80,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                     if (idp.connectionName == element.connectionName) {
                         idp.enabled = true;
                     }
+                    
                 });
             });
 
