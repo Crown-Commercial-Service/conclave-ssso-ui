@@ -278,9 +278,14 @@ export class ManageOrganisationContactEditComponent extends FormBaseComponent im
         else if (errorCode == "INVALID_EMAIL") {
             control = 'email';
             errorString = 'email';
+
         }else if(errorCode == "INVALID_MOBILE_NUMBER") {
             control = 'mobile';
             errorString = 'mobile';
+        }
+        else if(errorCode == "INVALID_FAX_NUMBER") {
+            control = 'fax';
+            errorString = 'fax';
         }
         var errorObject: ValidationErrors = {};
         errorObject[errorString] = true;
