@@ -633,13 +633,16 @@
             }
 
             function deleteAdditionalCookies() { // delete additional cookies
-                deleteCookie("test_expire", 'test');
+                deleteCookie("test_additional", 'test');
+                deleteCookie("_gid", 'removed');
+                deleteCookie("_ga", 'removed');
+                deleteCookie("_gat_UA-47046847-22", 'removed');
             }
 
             window.addEventListener('load', function () {
                 debugger;
                 var cookieExpirationTimeInMinutes = 10; // 565600 => 365 Days
-                setCookie("test_expire", 'test', cookieExpirationTimeInMinutes);
+                setCookie("test_additional", 'test', cookieExpirationTimeInMinutes);
                 var cookieBannerDiv = document.getElementById('cookieBannerDiv');
                 var acceptCookieDiv = document.getElementById('acceptCookieDiv');
                 var rejectCookieDiv = document.getElementById('rejectCookieDiv');
@@ -656,21 +659,8 @@
                 } else {
                     cookieBannerDiv.style.display = 'block';
                     setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', cookieExpirationTimeInMinutes);
+                    //deleteAdditionalCookies();
                 }
-
-                // if (cookiePreferenceSetCookie == "" || cookiePolicyCookie == "") {
-                //     cookieBannerDiv.style.display = 'block';
-                //     setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', cookieExpirationTimeInMinutes);
-                // } else {
-                //     if (cookiePolicyCookie == "") {
-                //         setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', cookieExpirationTimeInMinutes);
-                //         deleteCookie("test_expire", 'test');
-                //     } else {
-                //         if (!JSON.parse(cookiePolicyCookie).additional) {
-                //             console.log("NOT_ENABLE_ADDITONAL_COOKIES");
-                //         }
-                //     }
-                // }
 
                 var config = JSON.parse(decodeURIComponent(escape(window.atob('@@config@@'))));
 
