@@ -16,9 +16,9 @@
                         *ngIf="(this.authService.userAutnenticated$ | async) || this.isAuthenticated">
                         <a href="javascript:;" class="nav-list__link  " (click)="signoutAndRedirect()">Sign out</a>
                     </li>
-                    <li class="nav-list__item header-link">
+                    <!-- <li class="nav-list__item header-link">
                         <a class="nav-list__link" routerLink="/help-support">Help and support</a>
-                    </li>
+                    </li> -->
                 </ul>
             </nav>
         </div>
