@@ -640,8 +640,8 @@
             }
 
             window.addEventListener('load', function () {
-                debugger;
-                var cookieExpirationTimeInMinutes = 565600; // 565600 => 365 Days
+                //debugger;
+                var cookieExpirationTimeInMinutes = 525600; // 525600 => 365 Days
                 setCookie("test_additional", 'test', cookieExpirationTimeInMinutes);
                 var cookieBannerDiv = document.getElementById('cookieBannerDiv');
                 var acceptCookieDiv = document.getElementById('acceptCookieDiv');
@@ -827,7 +827,6 @@
 
                 function acceptAdditionalCookies(e) {
                     e.preventDefault();
-                    debugger;
                     cookieBannerSelectionDiv.style.display = 'none';
                     acceptCookieDiv.style.display = 'block';
                     setCookie("ppg_cookies_preferences_set", true, cookieExpirationTimeInMinutes);
@@ -836,7 +835,6 @@
 
                 function rejectAdditionalCookies(e) {
                     e.preventDefault();
-                    debugger;
                     cookieBannerSelectionDiv.style.display = 'none';
                     rejectCookieDiv.style.display = 'block';
                     setCookie("ppg_cookies_preferences_set", true, cookieExpirationTimeInMinutes);
