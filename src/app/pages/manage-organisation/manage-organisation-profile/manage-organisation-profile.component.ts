@@ -8,7 +8,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
-import { IdentityProviderSummary } from 'src/app/models/identityProvider';
+import { IdentityProvider, IdentityProviderSummary } from 'src/app/models/identityProvider';
 import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { WrapperOrganisationContactService } from 'src/app/services/wrapper/wrapper-org-contact-service';
 import { ContactGridInfo } from 'src/app/models/contactInfo';
@@ -45,6 +45,11 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     changedIdpList: { id: number, enabled: boolean, connectionName: string, name: string }[] = [];
     ccsContactUrl : string = environment.uri.ccsContactUrl;
     schemeData: any[] = [];
+    public detailsData: any = [
+        'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
+        "Manage information about your organisation's specific business locations. For instance, you can add details about your head office and additional sites to organise deliveries.",
+        'Save the information you used to register your organisation for instance your Companies House Number or Dun & Bradstreet Number.',
+    ];
 
     constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
@@ -75,6 +80,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                     if (idp.connectionName == element.connectionName) {
                         idp.enabled = true;
                     }
+                    
                 });
             });
 

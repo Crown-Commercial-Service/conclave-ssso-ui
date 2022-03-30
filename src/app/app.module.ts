@@ -155,6 +155,7 @@ import { ManageOrgRegSearchStatusDuplicateComponent } from './pages/manage-organ
 import { ManageUserBulkUploadMigrationStatusComponent } from './pages/manage-user/manage-user-bulk-upload-migration-status/manage-user-bulk-upload-migration-status.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FindyouradministratorComponent } from './pages/manage-organisation/find-your-administrator/find-your-administrator.component';
+import { DetailsComponent } from './components/details/details.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -275,7 +276,8 @@ export function createTranslateLoader(http: HttpClient) {
     ManageOrgRegNotRegisteredComponent,
     ManageOrgRegCIIOrgDisplayComponent,
     ManageOrgRegNotifyAdminComponent,
-    FindyouradministratorComponent
+    FindyouradministratorComponent,
+    DetailsComponent
   ],
   imports: [
     // BrowserModule,
