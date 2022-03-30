@@ -27,10 +27,16 @@ export class WrapperConfigurationService {
 
 
   getIdentityProviders(): Observable<any> {
+    let tempData:IdentityProvider[]=[]
     const url = `${this.url}/identity-providers`;
     return this.http.get<IdentityProvider[]>(url, this.options).pipe(
       map((data: IdentityProvider[]) => {
-        return data;
+          data.map((f: IdentityProvider) => {
+          if (f.name === 'User ID and password') {
+              tempData.push(f)
+          }
+      })
+         return tempData;
       }), catchError(error => {
         return throwError(error);
       })

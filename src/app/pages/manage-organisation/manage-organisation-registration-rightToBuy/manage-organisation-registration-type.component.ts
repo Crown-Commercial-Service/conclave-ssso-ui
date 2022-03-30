@@ -31,7 +31,8 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
   }
 
   public onBackClick() {
-    this.router.navigateByUrl('manage-org/register/newreg');
+    window.history.back();
+    // this.router.navigateByUrl('manage-org/register/newreg'); 
   }
 
   public onSubmit() {
