@@ -79,7 +79,7 @@
                             accept=".csv" (change)="readFile($event)"
                             [class.govuk-input--error]="submitted && ( errorRequired || errorInvalidFileFormat || errorServer)">
                     </div>
-                    <div><a class="navigation-text" href="{{bulkUploadTemplateUrl}}" target="_blank">{{
+                    <div><a class="navigation-text template-link" href="{{bulkUploadTemplateUrl}}" target="_blank">{{
                             'DOWNLOAD_BULK_UPLOAD_TEMPLATE_FILE' | translate }} </a></div>
                     <div class="govuk-button-group save-cancel-button-group">
                         <button type="button" (click)="onContinueClick()" class="govuk-button"
