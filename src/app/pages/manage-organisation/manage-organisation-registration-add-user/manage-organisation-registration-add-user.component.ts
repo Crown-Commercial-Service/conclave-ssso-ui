@@ -72,7 +72,7 @@ private PatternService:PatternService,
         adminUserName: form.get('email')?.value,
         adminUserFirstName: form.get('firstName')?.value,
         adminUserLastName: form.get('lastName')?.value,
-        adminUserTitle: form.get('email')?.value,
+        adminUserTitle: "",
       };
       this.organisationService.registerOrganisation(organisationRegisterDto)
         .subscribe({
