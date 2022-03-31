@@ -16,8 +16,8 @@ export class CookiesBannerComponent implements OnInit {
   
   
   ngOnInit(): void {
-    console.log("cookies",this.getCookie("ppg_cookies_preferences_set"));
-
+    console.log("ppg_cookies_preferences_set",this.getCookie("ppg_cookies_preferences_set"));
+    console.log("ppg_cookies_policy",this.getCookie("ppg_cookies_policy"));
   }
 
   public acceptCookies(): void {
