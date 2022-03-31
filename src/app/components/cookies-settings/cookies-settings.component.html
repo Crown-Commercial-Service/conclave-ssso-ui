@@ -20,13 +20,88 @@
                         Essential cookies keep your information secure while you use Notify. We do not need to ask
                         permission to use them.
                     </p>
-                    <div class="cookie-group-table">
-                        <app-govuk-table [headerTextKeys]="essentialcookies_Header" 
-                            [dataKeys]="essentialcookies_Display" [useClientPagination]="true"></app-govuk-table>
-                    </div>
-                    <div  class="user-group-table">
-                        <app-govuk-table [headerTextKeys]="essentialcookies_Header" [data]="essentialcookiesData"
-                            [dataKeys]="essentialcookies_Display" [useClientPagination]="true"></app-govuk-table>
+                    <div>
+                        <table class="govuk-table">
+                            <thead class="govuk-table__head">
+                                <tr class="govuk-table__row">
+                                    <th scope="col" class="govuk-table__header">Name</th>
+                                    <th scope="col" class="govuk-table__header">Purpose</th>
+                                    <th scope="col" class="govuk-table__header">Expires</th>
+                                </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">notify_admin_session</td>
+                                    <td class="govuk-table__cell">Used to keep you signed in</td>
+                                    <td class="govuk-table__cell">{{notify_admin_session}} hr</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">cookie_policy</td>
+                                    <td class="govuk-table__cell">Saves your cookie consent settings</td>
+                                    <td class="govuk-table__cell">{{cookie_policy}} yr</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">ccs-sso-visitedsites</td>
+                                    <td class="govuk-table__cell">To handle backchannel logout (Function the Single Sign on System) </td>
+                                    <td class="govuk-table__cell">{{ccs_sso_visitedsites}} min</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">opbs</td>
+                                    <td class="govuk-table__cell">Opbs cookie (Function the Single Sign on System) </td>
+                                    <td class="govuk-table__cell">{{opbs}} min</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">ccs_sso</td>
+                                    <td class="govuk-table__cell">Session information (Function the Single Sign on System)</td>
+                                    <td class="govuk-table__cell">{{ccs_sso}} min</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">conclave</td>
+                                    <td class="govuk-table__cell">Store the refresh token (Function the Single Sign on System)</td>
+                                    <td class="govuk-table__cell">{{conclave}} min</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">XSRF_TOKEN</td>
+                                    <td class="govuk-table__cell">For the protection of Cross-Site Request Forgery attacks</td>
+                                    <td class="govuk-table__cell">{{XSRF_TOKEN}} min</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">XSRF_TOKEN_SVR</td>
+                                    <td class="govuk-table__cell">For the protection of Cross-Site Request Forgery attacks</td>
+                                    <td class="govuk-table__cell">{{XSRF_TOKEN_SVR}} min</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">.AspNetCore.Antiforgery.GWNWkbbyKbw</td>
+                                    <td class="govuk-table__cell">For the protection of Cross-Site Request Forgery attacks</td>
+                                    <td class="govuk-table__cell">{{AspNetCore_Antiforgery_GWNWkbbyKbw}} min</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">auth0</td>
+                                    <td class="govuk-table__cell">Used to implement the Auth0 session layer.</td>
+                                    <td class="govuk-table__cell">{{auth0}} days</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">auth0_compat </td>
+                                    <td class="govuk-table__cell">Fallback cookie for single sign-on on browsers that don’t support the sameSite=None attribute</td>
+                                    <td class="govuk-table__cell">{{auth0_compat}} days</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">did</td>
+                                    <td class="govuk-table__cell">Device identification for attack protection.</td>
+                                    <td class="govuk-table__cell">{{did}} hr</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">did_compat</td>
+                                    <td class="govuk-table__cell">Fallback cookie for anomaly getection on browsers that don’t support the sameSite=None attribute.</td>
+                                    <td class="govuk-table__cell">{{did_compat}} hr</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">_cf_bm </td>
+                                    <td class="govuk-table__cell">Dieses Cookie wird von unserem Authentifizierungsservice Auth0 verwendet, um zwischen Menschen und Bots zu unterscheiden. So können valide Berichte über die Nutzung der Website erstellt werden.</td>
+                                    <td class="govuk-table__cell">{{_cf_bm}} min</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <h2 class="heading-medium" id="analytics-cookies">Analytics cookies (optional)</h2>
                     <p class="govuk-body">
@@ -44,42 +119,34 @@
                         <li>the pages you visit on Notify and how long you spend on them</li>
                         <li>any errors you see while using Notify</li>
                     </ul>
-                    <table>
-                        <caption class="govuk-visually-hidden">Google Analytics cookies</caption>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Purpose</th>
-                                <th>Expires</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    _ga
-                                </td>
-                                <td width="50%">
-                                    Checks if you’ve visited Notify before. This helps us count how many people visit
-                                    our site.
-                                </td>
-                                <td>
-                                    {{ _ga }} years
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    _gid
-                                </td>
-                                <td width="50%">
-                                    Checks if you’ve visited Notify before. This helps us count how many people visit
-                                    our site.
-                                </td>
-                                <td>
-                                    {{ _gid }} hours
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div>
+                        <table class="govuk-table">
+                            <thead class="govuk-table__head">
+                                <tr class="govuk-table__row">
+                                    <th scope="col" class="govuk-table__header">Name</th>
+                                    <th scope="col" class="govuk-table__header">Purpose</th>
+                                    <th scope="col" class="govuk-table__header">Expires</th>
+                                </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">_ga</td>
+                                    <td class="govuk-table__cell">Checks if you’ve visited Notify before. This helps us count how many people visit our site.</td>
+                                    <td class="govuk-table__cell">2 yrs</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">_gid</td>
+                                    <td class="govuk-table__cell">Checks if you’ve visited Notify before. This helps us count how many people visit our site.</td>
+                                    <td class="govuk-table__cell">24 hrs</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td  class="govuk-table__cell">_gat_UA-47046847-22</td>
+                                    <td class="govuk-table__cell">Checks if you’ve visited Notify before. This helps us count how many people visit our site.</td>
+                                    <td class="govuk-table__cell">1 min</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="cookie-settings__form-wrapper">
                         <form data-module="cookie-settings">
                             <div class="govuk-form-group govuk-!-margin-top-6">
