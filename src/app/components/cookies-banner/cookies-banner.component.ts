@@ -29,9 +29,9 @@ export class CookiesBannerComponent implements OnInit {
     let cookiePreferenceSetCookie = this.getCookie("ppg_cookies_preferences_set");
     let cookiePolicyCookie = this.getCookie("ppg_cookies_policy");
     if (cookiePreferenceSetCookie != "" && cookiePolicyCookie != "") {
+                this.hideCookies()
           if (!JSON.parse(cookiePolicyCookie).additional) {
                 this.deleteAdditionalCookies();
-                this.hideCookies()
           }
       }
    }
@@ -42,12 +42,15 @@ export class CookiesBannerComponent implements OnInit {
     this.cookiesData.acceptAnalyticsCookies = true;
     this.cookiesData.rejectAnalyticsCookies = false;
     this.setCookie("ppg_cookies_policy", '{"essential":true,"additional":true}', this.cookieExpirationTimeInMinutes);
+    this.setCookie("ppg_cookies_preferences_set", 'true', this.cookieExpirationTimeInMinutes);
   }
 
   public rejectCookies(): void {
     this.cookiesData.coockiebanner = false;
     this.cookiesData.acceptAnalyticsCookies = false;
     this.cookiesData.rejectAnalyticsCookies = true;
+    this.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', this.cookieExpirationTimeInMinutes);
+    this.setCookie("ppg_cookies_preferences_set", 'true', this.cookieExpirationTimeInMinutes);
     this.deleteAdditionalCookies()
   }
 
