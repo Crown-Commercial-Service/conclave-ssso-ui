@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  idam_client_id: '5G2pNShwaBQzjJNx6fCSqt9ZIAU9sEur',
+  idam_client_id: '',
   uri: {
     api: {
       isApiGateWayEnabled: false,
@@ -27,8 +27,9 @@ export const environment = {
     ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
   },
   googleTagMangerId: 'GTM-1',
+  cookieExpirationTimeInMinutes:10,// 525600 => 365 Days
   bulkUploadPollingFrequencyInSeconds: 60,
-  bulkUploadTemplateFileUrl: 'https://userbulkupload.s3.us-east-2.amazonaws.com/Templates/DataMigrationTemplate.csv',
+  bulkUploadTemplateFileUrl: '',
   bulkUploadMaxFileSizeInBytes:1048576,//default value
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
