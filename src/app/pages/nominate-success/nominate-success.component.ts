@@ -13,9 +13,7 @@ import { UIState } from 'src/app/store/ui.states';
   templateUrl: './nominate-success.component.html',
   styleUrls: ['./nominate-success.component.scss'],
 })
-export class NominateSuccessComponent
-  extends BaseComponent
-  implements OnInit, OnDestroy
+export class NominateSuccessComponent extends BaseComponent implements OnDestroy
 {
   private subscription: Subscription | undefined;
   public emailAddress: any;
@@ -33,12 +31,9 @@ export class NominateSuccessComponent
         sessionStorage.setItem('emailAddress', data);
         this.emailAddress = sessionStorage.getItem('emailAddress');
       } else {
-        this.emailAddress = sessionStorage.getItem('email  Address');
+        this.emailAddress = sessionStorage.getItem('emailAddress');
       }
     });
-  }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 
   ngOnDestroy(): void {
