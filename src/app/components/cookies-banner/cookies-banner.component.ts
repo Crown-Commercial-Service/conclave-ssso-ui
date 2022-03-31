@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cookies-banner.component.scss'],
 })
 export class CookiesBannerComponent implements OnInit {
+  private  cookieExpirationTimeInMinutes = 10; // 525600 => 365 Days
   public cookiesData = {
     coockiebanner: true,
     acceptAnalyticsCookies: false,
@@ -24,12 +25,14 @@ export class CookiesBannerComponent implements OnInit {
     this.cookiesData.coockiebanner = false;
     this.cookiesData.acceptAnalyticsCookies = true;
     this.cookiesData.rejectAnalyticsCookies = false;
+    this.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', this.cookieExpirationTimeInMinutes);
   }
 
   public rejectCookies(): void {
     this.cookiesData.coockiebanner = false;
     this.cookiesData.acceptAnalyticsCookies = false;
     this.cookiesData.rejectAnalyticsCookies = true;
+    this.deleteAdditionalCookies()
   }
 
   public hideCookies(): void {
@@ -54,10 +57,22 @@ export class CookiesBannerComponent implements OnInit {
     return "";
 }
 
-  private setCookie(cname: string, cvalue: string, exdays: number) {
-    const d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk;path=/;SameSite=Lax";
-    }
-  }
+  private setCookie(cname: string, cvalue: string, exmin: number) {
+     const d = new Date();
+     d.setTime(d.getTime() + (exmin * 60000));
+     let expires = "expires=" + d.toUTCString();
+     document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk;path=/;SameSite=Lax";
+}
+
+  private deleteCookie(cname: string, cvalue: string) {
+     let expires = "expires=Thu, 01 Jan 1970 00:00:00 UTC";
+     document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk;path=/;SameSite=Lax";
+}
+
+  private deleteAdditionalCookies() { // delete additional cookies
+     this.deleteCookie("test_additional", 'test');
+     this.deleteCookie("_gid", 'removed');
+     this.deleteCookie("_ga", 'removed');
+     this.deleteCookie("_gat_UA-47046847-22", 'removed');
+ }
+}
