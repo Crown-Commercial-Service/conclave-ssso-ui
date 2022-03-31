@@ -19,13 +19,29 @@ export class CookiesBannerComponent implements OnInit {
   ngOnInit(): void {
     console.log("ppg_cookies_preferences_set",this.getCookie("ppg_cookies_preferences_set"));
     console.log("ppg_cookies_policy",this.getCookie("ppg_cookies_policy"));
+    this.initializerCookies()
   }
+
+  /**
+   * Cookie initializer functionality
+   */
+  public initializerCookies(){
+    let cookiePreferenceSetCookie = this.getCookie("ppg_cookies_preferences_set");
+    let cookiePolicyCookie = this.getCookie("ppg_cookies_policy");
+    if (cookiePreferenceSetCookie != "" && cookiePolicyCookie != "") {
+          if (!JSON.parse(cookiePolicyCookie).additional) {
+                this.deleteAdditionalCookies();
+                this.hideCookies()
+          }
+      }
+   }
+
 
   public acceptCookies(): void {
     this.cookiesData.coockiebanner = false;
     this.cookiesData.acceptAnalyticsCookies = true;
     this.cookiesData.rejectAnalyticsCookies = false;
-    this.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', this.cookieExpirationTimeInMinutes);
+    this.setCookie("ppg_cookies_policy", '{"essential":true,"additional":true}', this.cookieExpirationTimeInMinutes);
   }
 
   public rejectCookies(): void {
@@ -41,6 +57,12 @@ export class CookiesBannerComponent implements OnInit {
     this.cookiesData.rejectAnalyticsCookies = false;
   }
 
+
+  /**
+   * Get cookies functionality
+   * @param cname Passing cookies name
+   * @returns Return cookies value
+   */
   private  getCookie(cname: string) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -57,6 +79,12 @@ export class CookiesBannerComponent implements OnInit {
     return "";
 }
 
+/**
+ * Set cookie core functionality
+ * @param cname Cookie name
+ * @param cvalue Cookie value
+ * @param exmin Cookie default time
+ */
   private setCookie(cname: string, cvalue: string, exmin: number) {
      const d = new Date();
      d.setTime(d.getTime() + (exmin * 60000));
@@ -64,11 +92,19 @@ export class CookiesBannerComponent implements OnInit {
      document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk;path=/;SameSite=Lax";
 }
 
+/**
+ * Delete additional cookies core functionality
+ * @param cname Cookie name
+ * @param cvalue Cookie Value
+ */
   private deleteCookie(cname: string, cvalue: string) {
      let expires = "expires=Thu, 01 Jan 1970 00:00:00 UTC";
      document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk;path=/;SameSite=Lax";
 }
 
+/**
+ * Delete additional cookies calling methode
+ */
   private deleteAdditionalCookies() { // delete additional cookies
      this.deleteCookie("test_additional", 'test');
      this.deleteCookie("_gid", 'removed');
