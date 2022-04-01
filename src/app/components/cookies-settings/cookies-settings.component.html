@@ -1,0 +1,193 @@
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper govuk-!-padding-top-0 govuk-!-padding-bottom-12" id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="cookie-settings__confirmation banner banner-with-tick" data-cookie-confirmation="true"
+                    role="group" tabindex="-1">
+                </div>
+                <h1 class="heading-large">Cookies</h1>
+                <p class="govuk-body">
+                    Cookies are small files saved on your phone, tablet or computer when you visit a website.
+                </p>
+                <p class="govuk-body">We use cookies to make GOV.UK Notify work and collect information about how
+                    you use our service.</p>
+
+                <h2 class="heading-medium" id="essential-cookies">Essential cookies</h2>
+                <p class="govuk-body">
+                    Essential cookies keep your information secure while you use Notify. We do not need to ask
+                    permission to use them.
+                </p>
+                <div>
+                    <table class="govuk-table">
+                        <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Name</th>
+                                <th scope="col" class="govuk-table__header">Purpose</th>
+                                <th scope="col" class="govuk-table__header">Expires</th>
+                            </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">notify_admin_session</td>
+                                <td class="govuk-table__cell">Used to keep you signed in</td>
+                                <td class="govuk-table__cell">{{notify_admin_session}} hr</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">cookie_policy</td>
+                                <td class="govuk-table__cell">Saves your cookie consent settings</td>
+                                <td class="govuk-table__cell">{{cookie_policy}} yr</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">ccs-sso-visitedsites</td>
+                                <td class="govuk-table__cell">To handle backchannel logout (Function the Single Sign on
+                                    System) </td>
+                                <td class="govuk-table__cell">{{ccs_sso_visitedsites}} min</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">opbs</td>
+                                <td class="govuk-table__cell">Opbs cookie (Function the Single Sign on System) </td>
+                                <td class="govuk-table__cell">{{opbs}} min</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">ccs_sso</td>
+                                <td class="govuk-table__cell">Session information (Function the Single Sign on System)
+                                </td>
+                                <td class="govuk-table__cell">{{ccs_sso}} min</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">conclave</td>
+                                <td class="govuk-table__cell">Store the refresh token (Function the Single Sign on
+                                    System)</td>
+                                <td class="govuk-table__cell">{{conclave}} min</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">XSRF_TOKEN</td>
+                                <td class="govuk-table__cell">For the protection of Cross-Site Request Forgery attacks
+                                </td>
+                                <td class="govuk-table__cell">{{XSRF_TOKEN}} min</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">XSRF_TOKEN_SVR</td>
+                                <td class="govuk-table__cell">For the protection of Cross-Site Request Forgery attacks
+                                </td>
+                                <td class="govuk-table__cell">{{XSRF_TOKEN_SVR}} min</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">.AspNetCore.Antiforgery.GWNWkbbyKbw</td>
+                                <td class="govuk-table__cell">For the protection of Cross-Site Request Forgery attacks
+                                </td>
+                                <td class="govuk-table__cell">{{AspNetCore_Antiforgery_GWNWkbbyKbw}} min</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">auth0</td>
+                                <td class="govuk-table__cell">Used to implement the Auth0 session layer.</td>
+                                <td class="govuk-table__cell">{{auth0}} days</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">auth0_compat </td>
+                                <td class="govuk-table__cell">Fallback cookie for single sign-on on browsers that don’t
+                                    support the sameSite=None attribute</td>
+                                <td class="govuk-table__cell">{{auth0_compat}} days</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">did</td>
+                                <td class="govuk-table__cell">Device identification for attack protection.</td>
+                                <td class="govuk-table__cell">{{did}} hr</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">did_compat</td>
+                                <td class="govuk-table__cell">Fallback cookie for anomaly getection on browsers that
+                                    don’t support the sameSite=None attribute.</td>
+                                <td class="govuk-table__cell">{{did_compat}} hr</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">_cf_bm </td>
+                                <td class="govuk-table__cell">Dieses Cookie wird von unserem Authentifizierungsservice
+                                    Auth0 verwendet, um zwischen Menschen und Bots zu unterscheiden. So können valide
+                                    Berichte über die Nutzung der Website erstellt werden.</td>
+                                <td class="govuk-table__cell">{{_cf_bm}} min</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h2 class="heading-medium" id="analytics-cookies">Analytics cookies (optional)</h2>
+                <p class="govuk-body">
+                    With your permission, we use Google Analytics to collect data about how you use Notify. This
+                    information helps us to improve our service.
+                </p>
+                <p class="govuk-body">
+                    Google is not allowed to use or share our analytics data with anyone.
+                </p>
+                <p class="govuk-body">
+                    Google Analytics stores anonymised information about:
+                </p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>how you got to GOV.UK Notify</li>
+                    <li>the pages you visit on Notify and how long you spend on them</li>
+                    <li>any errors you see while using Notify</li>
+                </ul>
+                <div>
+                    <table class="govuk-table">
+                        <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Name</th>
+                                <th scope="col" class="govuk-table__header">Purpose</th>
+                                <th scope="col" class="govuk-table__header">Expires</th>
+                            </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">_ga</td>
+                                <td class="govuk-table__cell">Checks if you’ve visited Notify before. This helps us
+                                    count how many people visit our site.</td>
+                                <td class="govuk-table__cell">2 yrs</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">_gid</td>
+                                <td class="govuk-table__cell">Checks if you’ve visited Notify before. This helps us
+                                    count how many people visit our site.</td>
+                                <td class="govuk-table__cell">24 hrs</td>
+                            </tr>
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">_gat_UA-47046847-22</td>
+                                <td class="govuk-table__cell">Checks if you’ve visited Notify before. This helps us
+                                    count how many people visit our site.</td>
+                                <td class="govuk-table__cell">1 min</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="cookie-settings__form-wrapper">
+                    <form data-module="cookie-settings">
+                        <div class="govuk-form-group govuk-!-margin-top-6">
+                            <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
+                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                    Do you want to accept analytics cookies?
+                                </legend>
+                                <div class="govuk-radios govuk-radios--inline">
+                                    <div class="govuk-radios__item">
+                                        <input class="govuk-radios__input" id="cookies-analytics-yes"
+                                            name="cookies-analytics" type="radio" value="on"
+                                            [(ngModel)]="SelectionMode">
+                                        <label class="govuk-label govuk-radios__label" for="cookies-analytics-yes">
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="govuk-radios__item">
+                                        <input class="govuk-radios__input" id="cookies-analytics-no"
+                                            name="cookies-analytics" type="radio" value="off"
+                                            [(ngModel)]="SelectionMode">
+                                        <label class="govuk-label govuk-radios__label" for="cookies-analytics-no">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <button class="govuk-button" type="submit" (click)="OnSubmit()">Save cookie settings</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
