@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  idam_client_id: '',
+  idam_client_id: '5G2pNShwaBQzjJNx6fCSqt9ZIAU9sEur',
   uri: {
     api: {
       isApiGateWayEnabled: false,
@@ -29,7 +29,7 @@ export const environment = {
   googleTagMangerId: 'GTM-1',
   cookieExpirationTimeInMinutes:10,// 525600 => 365 Days
   bulkUploadPollingFrequencyInSeconds: 60,
-  bulkUploadTemplateFileUrl: '',
+  bulkUploadTemplateFileUrl: 'https://userbulkupload.s3.us-east-2.amazonaws.com/Templates/DataMigrationTemplate.csv',
   bulkUploadMaxFileSizeInBytes:1048576,//default value
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
