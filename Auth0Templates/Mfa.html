@@ -524,13 +524,12 @@
                             </p>
 
                             <p>
-                                Go to your device’s app store, search for one of the following authentication
-                                apps:</p>
+                                Go to your device’s app store, search for one of the following free to download authentication apps:</p>
                             <ul>
                                 <li>Auth0 Guardian</li>
-                                <li>Authy</li>
                                 <li>Google Authenticator</li>
                                 <li>Microsoft Authenticator</li>
+                                <li>Twilio Authy</li>
                             </ul>
                             <p>
                                 Select an authentication app and install. Once installed, open the app.
@@ -694,7 +693,7 @@
                                 </li>
                                 <li class="govuk-footer__inline-list-item">
                                     <a class="govuk-footer__link"
-                                        href="https://www.crowncommercial.gov.uk/cookie-policy">Cookies</a>
+                                        href="https://dev.identify.crowncommercial.gov.uk/cookies">Cookies</a>
                                 </li>
                                 <li class="govuk-footer__inline-list-item">
                                     <a class="govuk-footer__link"
@@ -806,7 +805,7 @@
 
         issuer: {
             label: "{{ userData.friendlyUserId }}",
-                name: "{{ userData.tenant }}",
+                name: "{{ userData.tenantFriendlyName }}",
                 },
 
         globalTrackingId: "{{ globalTrackingId }}",
