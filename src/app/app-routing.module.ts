@@ -418,7 +418,7 @@ const routes: Routes = [
     component: ManageOrganisationContactOperationSuccessComponent,
   },
   {
-    path: 'Cookies',
+    path: 'cookies',
     data: { title: 'Cookies Settings' },
     pathMatch: 'full',
     component: CookiesSettingsComponent,
