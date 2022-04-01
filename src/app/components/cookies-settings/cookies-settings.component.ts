@@ -14,18 +14,16 @@ export class CookiesSettingsComponent implements OnInit {
     environment.cookies_policy.essentialcookies.cookie_policy;
 
   public ccs_sso_visitedsites =
-    environment.cookies_policy.essentialcookies['ccs-sso-visitedsites'];
+    environment.cookies_policy.essentialcookies.ccs_sso_visitedsites;
   public opbs = environment.cookies_policy.essentialcookies.opbs;
-  public ccs_sso = environment.cookies_policy.essentialcookies['ccs-sso'];
+  public ccs_sso = environment.cookies_policy.essentialcookies.ccs_sso;
   public conclave = environment.cookies_policy.essentialcookies.conclave;
-  public XSRF_TOKEN = environment.cookies_policy.essentialcookies['XSRF-TOKEN'];
+  public XSRF_TOKEN = environment.cookies_policy.essentialcookies.XSRF_TOKEN;
   public XSRF_TOKEN_SVR =
-    environment.cookies_policy.essentialcookies['XSRF-TOKEN-SVR'];
+    environment.cookies_policy.essentialcookies.XSRF_TOKEN_SVR;
   public AspNetCore_Antiforgery_GWNWkbbyKbw =
-    environment.cookies_policy.essentialcookies[
-      'AspNetCore.Antiforgery.GWNWkbbyKbw'
-    ];
-
+    environment.cookies_policy.essentialcookies
+      .AspNetCore_Antiforgery_GWNWkbbyKbw;
   public auth0_compat = environment.cookies_policy.Auth0cookies.auth0_compat;
   public did_compat = environment.cookies_policy.Auth0cookies.did_compat;
   public did = environment.cookies_policy.Auth0cookies.did;
