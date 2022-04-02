@@ -49,11 +49,8 @@ export class CookiesSettingsComponent implements OnInit {
     } else {
       this.SelectionMode = 'off';
     }
-    console.log(
-      'ppg_cookies_preferences_set : ',
-      this.ppg_cookies_preferences_set
-    );
-    console.log('ppg_cookies_policy : ', this.ppg_cookies_policy);
+    console.log('ppg_cookies_preferences_set : ', this.ppg_cookies_preferences_set);
+    console.log('ppg_cookies_policy : ',this.ppg_cookies_policy);
   }
 
   public OnSubmit() {
