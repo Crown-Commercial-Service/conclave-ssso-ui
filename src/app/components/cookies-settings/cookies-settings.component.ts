@@ -43,14 +43,11 @@ export class CookiesSettingsComponent implements OnInit {
   constructor(private CookiesService: CookiesService) {}
 
   ngOnInit(): void {
-    if (
-      (this.ppg_cookies_preferences_set == '' ||
-        this.ppg_cookies_preferences_set == null) &&
-      (this.ppg_cookies_policy == '' || this.ppg_cookies_policy == null)
-    ) {
-      this.SelectionMode = 'off';
-    } else {
+    if (this.ppg_cookies_preferences_set == "true" && this.ppg_cookies_policy == '{"essential":true,"additional":true}')
+    {
       this.SelectionMode = 'on';
+    } else {
+      this.SelectionMode = 'off';
     }
     console.log('ppg_cookies_preferences_set : ', this.ppg_cookies_preferences_set);
     console.log('ppg_cookies_policy : ',this.ppg_cookies_policy);
