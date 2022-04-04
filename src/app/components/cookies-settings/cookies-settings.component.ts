@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./cookies-settings.component.scss'],
 })
 export class CookiesSettingsComponent implements OnInit {
+  public cookiesUpdated:boolean=false;
   public notify_admin_session =
     environment.cookies_policy.essentialcookies.notify_admin_session;
   public cookie_policy =
@@ -59,6 +60,10 @@ export class CookiesSettingsComponent implements OnInit {
     } else {
       this.rejectCookies();
     }
+     this.cookiesUpdated=true;
+     setTimeout(() => {
+      this.scrollView()
+     }, 500);
   }
 
   public acceptCookies(): void {
@@ -87,4 +92,14 @@ export class CookiesSettingsComponent implements OnInit {
     );
     this.CookiesService.deleteAdditionalCookies();
   }
+
+  public onback():void{
+    window.history.back();
+  }
+
+   
+   private scrollView():void{
+    const element = document.getElementById("govuk-notification-banner-title");
+     element?.scrollIntoView();
+   } 
 }
