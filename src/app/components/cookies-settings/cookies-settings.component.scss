@@ -130,4 +130,15 @@ table th{
     margin-bottom: 30px;
     border: 5px solid #1d70b8;
     background-color: #1d70b8;
+    position: relative;
+    left: 45px;
+    max-width: 97%;
+}
+.govuk-notification-banner--success .govuk-notification-banner__link:hover {
+    color: #003078;
+  text-decoration-color: rgb(0, 48, 120);
+  text-decoration-line: underline;
+  text-decoration-skip-ink: none;
+  text-decoration-style: solid;
+  text-decoration-thickness: 3px;
 }

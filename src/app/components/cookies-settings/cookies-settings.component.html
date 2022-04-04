@@ -1,3 +1,15 @@
+<div class="govuk-notification-banner govuk-notification-banner--success" *ngIf="cookiesUpdated">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+        Success
+      </h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <p class="govuk-notification-banner__heading">
+        You’ve set your cookie preferences. <a class="govuk-notification-banner__link" (click)="onback()">Go back to the page you were looking at</a>.
+      </p>
+    </div>
+  </div>
 <div class="govuk-width-container">
     <main class="govuk-main-wrapper govuk-!-padding-top-0 govuk-!-padding-bottom-12" id="main-content" role="main">
         <div class="govuk-grid-row">
