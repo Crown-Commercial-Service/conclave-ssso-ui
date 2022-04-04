@@ -29,7 +29,7 @@ export class CookiesSettingsComponent implements OnInit {
   public did = environment.cookies_policy.Auth0cookies.did;
   public auth0 = environment.cookies_policy.Auth0cookies.auth0;
   public _cf_bm = environment.cookies_policy.Auth0cookies.__cf_bm;
-
+  public success_alert: boolean = false;
   private cookieExpirationTimeInMinutes =
     environment.cookieExpirationTimeInMinutes;
 
@@ -43,14 +43,19 @@ export class CookiesSettingsComponent implements OnInit {
   constructor(private CookiesService: CookiesService) {}
 
   ngOnInit(): void {
-    if (this.ppg_cookies_preferences_set == "true" && this.ppg_cookies_policy == '{"essential":true,"additional":true}')
-    {
+    if (
+      this.ppg_cookies_preferences_set == 'true' &&
+      this.ppg_cookies_policy == '{"essential":true,"additional":true}'
+    ) {
       this.SelectionMode = 'on';
     } else {
       this.SelectionMode = 'off';
     }
-    console.log('ppg_cookies_preferences_set value: ', this.ppg_cookies_preferences_set);
-    console.log('ppg_cookies_policy value: ',this.ppg_cookies_policy);
+    console.log(
+      'ppg_cookies_preferences_set value: ',
+      this.ppg_cookies_preferences_set
+    );
+    console.log('ppg_cookies_policy value: ', this.ppg_cookies_policy);
   }
 
   public OnSubmit() {
@@ -59,6 +64,8 @@ export class CookiesSettingsComponent implements OnInit {
     } else {
       this.rejectCookies();
     }
+    this.success_alert=true;
+    document.getElementById('successalert')?.scrollIntoView();
   }
 
   public acceptCookies(): void {
@@ -86,5 +93,9 @@ export class CookiesSettingsComponent implements OnInit {
       this.cookieExpirationTimeInMinutes
     );
     this.CookiesService.deleteAdditionalCookies();
+  }
+
+  public OnBack() {
+    window.history.back();
   }
 }
