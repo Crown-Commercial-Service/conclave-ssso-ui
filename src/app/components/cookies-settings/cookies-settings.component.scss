@@ -96,3 +96,38 @@ table th{
     margin-top: 1.25em;
     margin-bottom: 0.5em;
 }
+
+.govuk-notification-banner--success {
+    border-color: #00703c;
+    background-color: #00703c;
+}
+
+.govuk-notification-banner__title {
+    font-family: "Source Sans Pro", "HelveticaNeue",
+    "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 700;
+    font-size: 19px;
+    font-size: 1rem;
+    line-height: 1.25;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+.govuk-notification-banner {
+    font-family: "Source Sans Pro", "HelveticaNeue",
+    "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 19px;
+    font-size: 1rem;
+    line-height: 1.25;
+    margin-bottom: 30px;
+    border: 5px solid #1d70b8;
+    background-color: #1d70b8;
+}
