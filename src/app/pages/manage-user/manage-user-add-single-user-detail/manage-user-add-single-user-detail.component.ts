@@ -287,7 +287,6 @@ export class ManageUserAddSingleUserDetailComponent
             this.formGroup.controls['userName'].setErrors({ incorrect: true });
         }
         if (this.formValid(form)) {
-            debugger
             this.userProfileRequestInfo.title = form.get('userTitle')?.value;
             this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
             this.userProfileRequestInfo.lastName = form.get('lastName')?.value;
@@ -306,9 +305,14 @@ export class ManageUserAddSingleUserDetailComponent
                 this.createUser(form);
             }
         } else {
-            this.scrollHelper.scrollToFirst('error-summary');
+            this.scrollView()
         }
     }
+
+    private scrollView():void{
+        const element = document.getElementById("error-summary");
+         element?.scrollIntoView();
+       } 
 
     getSelectedIdpIds(form: FormGroup) {
         let selectedIdpIds: number[] = [];
