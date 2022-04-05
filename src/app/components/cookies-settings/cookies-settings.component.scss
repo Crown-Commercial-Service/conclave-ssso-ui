@@ -128,17 +128,21 @@ table th{
     font-size: 1rem;
     line-height: 1.25;
     margin-bottom: 30px;
-    border: 5px solid #1d70b8;
-    background-color: #1d70b8;
+    border: 5px solid #007E8A;
+    background-color: #007E8A;
     position: relative;
     left: 45px;
     max-width: 97%;
 }
 .govuk-notification-banner--success .govuk-notification-banner__link:hover {
-    color: #003078;
-  text-decoration-color: rgb(0, 48, 120);
+    color: #007E8A;
+  text-decoration-color: #007E8A;;
   text-decoration-line: underline;
   text-decoration-skip-ink: none;
   text-decoration-style: solid;
   text-decoration-thickness: 3px;
+}
+
+.govuk-notification-banner--success .govuk-notification-banner__link {
+    color: #007E8A !important;
 }
