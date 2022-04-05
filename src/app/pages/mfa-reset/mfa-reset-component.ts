@@ -34,7 +34,7 @@ export class MFAResetComponent extends BaseComponent implements OnInit {
   onResetMfaClick() {
     this.mfaService.sendResetMFANotification(this.userName).toPromise().then(() => {
       sessionStorage.setItem(SessionStorageKey.MFAResetUserName, this.userName);
-      this.router.navigateByUrl('mfaresetnotification');
+      this.router.navigateByUrl('mfaresetnotification/success');
     });
   }
 
