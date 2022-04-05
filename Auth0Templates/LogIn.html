@@ -661,7 +661,7 @@
                 } else {
                     cookieBannerDiv.style.display = 'block';
                     setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', cookieExpirationTimeInMinutes);
-                    //deleteAdditionalCookies();
+                    deleteAdditionalCookies();
                 }
 
                 var config = JSON.parse(decodeURIComponent(escape(window.atob('@@config@@'))));
