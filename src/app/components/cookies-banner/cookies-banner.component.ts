@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CookiesService } from 'src/app/shared/cookies.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-cookies-banner',
@@ -6,30 +8,52 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cookies-banner.component.scss'],
 })
 export class CookiesBannerComponent implements OnInit {
-  public cookiesData = {
+  private  cookieExpirationTimeInMinutes = environment.cookieExpirationTimeInMinutes
+  public cookiesData:any = {
     coockiebanner: true,
     acceptAnalyticsCookies: false,
     rejectAnalyticsCookies: false,
   };
 
-  constructor() {}
+  constructor(private CookiesService:CookiesService) {}
   
   
   ngOnInit(): void {
-    console.log("cookies",this.getCookie("ppg_cookies_preferences_set"));
-
+    this.initializerCookies()
   }
+
+  /**
+   * Cookie initializer functionality
+   */
+  public initializerCookies(){
+    let cookiePreferenceSetCookie = this.CookiesService.getCookie("ppg_cookies_preferences_set");
+    let cookiePolicyCookie = this.CookiesService.getCookie("ppg_cookies_policy");
+    if (cookiePreferenceSetCookie != '' && cookiePolicyCookie != '') {
+      this.hideCookies();
+      if (!JSON.parse(cookiePolicyCookie).additional) {
+        this.CookiesService.deleteAdditionalCookies();
+      }
+    } else {
+      this.CookiesService.deleteAdditionalCookies();
+    }
+   }
+
 
   public acceptCookies(): void {
     this.cookiesData.coockiebanner = false;
     this.cookiesData.acceptAnalyticsCookies = true;
     this.cookiesData.rejectAnalyticsCookies = false;
+    this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":true}', this.cookieExpirationTimeInMinutes);
+    this.CookiesService.setCookie("ppg_cookies_preferences_set", 'true', this.cookieExpirationTimeInMinutes);
   }
 
   public rejectCookies(): void {
     this.cookiesData.coockiebanner = false;
     this.cookiesData.acceptAnalyticsCookies = false;
     this.cookiesData.rejectAnalyticsCookies = true;
+    this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', this.cookieExpirationTimeInMinutes);
+    this.CookiesService.setCookie("ppg_cookies_preferences_set", 'true', this.cookieExpirationTimeInMinutes);
+    this.CookiesService.deleteAdditionalCookies()
   }
 
   public hideCookies(): void {
@@ -38,26 +62,4 @@ export class CookiesBannerComponent implements OnInit {
     this.cookiesData.rejectAnalyticsCookies = false;
   }
 
-  private  getCookie(cname: string) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
 }
-
-  private setCookie(cname: string, cvalue: string, exdays: number) {
-    const d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk;path=/;SameSite=Lax";
-    }
-  }
