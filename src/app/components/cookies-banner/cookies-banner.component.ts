@@ -28,12 +28,14 @@ export class CookiesBannerComponent implements OnInit {
   public initializerCookies(){
     let cookiePreferenceSetCookie = this.CookiesService.getCookie("ppg_cookies_preferences_set");
     let cookiePolicyCookie = this.CookiesService.getCookie("ppg_cookies_policy");
-    if (cookiePreferenceSetCookie != "" && cookiePolicyCookie != "") {
-                this.hideCookies()
-          if (!JSON.parse(cookiePolicyCookie).additional) {
-                this.CookiesService.deleteAdditionalCookies();
-          }
+    if (cookiePreferenceSetCookie != '' && cookiePolicyCookie != '') {
+      this.hideCookies();
+      if (!JSON.parse(cookiePolicyCookie).additional) {
+        this.CookiesService.deleteAdditionalCookies();
       }
+    } else {
+      this.CookiesService.deleteAdditionalCookies();
+    }
    }
 
 
