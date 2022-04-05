@@ -252,19 +252,21 @@ export class ManageUserAddSingleUserDetailComponent
         });
     }
 
-    ngAfterViewChecked() {
-        if (!this.errorLinkClicked) {
-            // This additional check has been done to avoid always scrolling to error summary because ngAfterViewChecked is triggered with dynamic form controls
-            this.scrollHelper.doScroll();
-        } else {
-            this.errorLinkClicked = false;
-        }
-    }
+    // ngAfterViewChecked() {
+    //     if (!this.errorLinkClicked) {
+    //         // This additional check has been done to avoid always scrolling to error summary because ngAfterViewChecked is triggered with dynamic form controls
+    //         // this.scrollHelper.doScroll();
+    //     } else {
+    //         this.errorLinkClicked = false;
+    //     }
+    // }
 
     scrollToAnchor(elementId: string): void {
         this.errorLinkClicked = true; // Making the errorLinkClicked true to avoid scrolling to the error-summary
         this.viewportScroller.scrollToAnchor(elementId);
     }
+
+    
 
     setFocus(inputIndex: number) {
         this.inputs.toArray()[inputIndex].nativeElement.focus();
@@ -285,6 +287,7 @@ export class ManageUserAddSingleUserDetailComponent
             this.formGroup.controls['userName'].setErrors({ incorrect: true });
         }
         if (this.formValid(form)) {
+            debugger
             this.userProfileRequestInfo.title = form.get('userTitle')?.value;
             this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
             this.userProfileRequestInfo.lastName = form.get('lastName')?.value;
