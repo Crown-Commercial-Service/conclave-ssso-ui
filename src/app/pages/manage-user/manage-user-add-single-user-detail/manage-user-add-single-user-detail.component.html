@@ -65,7 +65,7 @@
                     </li>
                     <li *ngIf="submitted && formGroup.hasError('identityProviderRequired')">
                         <a href="javascript:;" onClick="return false;"
-                            (click)="scrollToAnchor('signin-provider-form-group')">
+                            (click)="setFocus(3)">
                             {{ 'ERROR_SIGN_IN_PROVIDER_REQUIRED'| translate }}</a>
                     </li>
                 </ul>
@@ -131,7 +131,7 @@
                     <div class="govuk-form-group" id="user-mfa-form-group"
                         [class.govuk-form-group--error]="submitted && (mfaConnectionValidationError || mfaAdminValidationError)">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend">
+                            <legend class="govuk-heading-s">
                                 Security Level
                             </legend>
                             <app-details [detailsData]="detailsData[0]"></app-details>
@@ -157,7 +157,7 @@
 
                     <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend">
+                            <legend class="govuk-heading-s">
                                 {{ 'GROUPS'| translate }}
                             </legend>
                             <app-details [detailsData]="detailsData[1]"></app-details>
@@ -186,7 +186,7 @@
 
                     <div class="govuk-form-group" id="user-role-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend">
+                            <legend class="govuk-heading-s">
                                 {{ 'ROLES'| translate }}
                             </legend>
                             <app-details [detailsData]="detailsData[2]"></app-details>
@@ -215,7 +215,7 @@
                     <div class="govuk-form-group" id="signin-provider-form-group"
                         [class.govuk-form-group--error]="submitted && formGroup.hasError('identityProviderRequired')">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend">
+                            <legend class="govuk-heading-s">
                                 {{ 'SIGN_IN_PROVIDER'| translate }}
                             </legend>
                             <span>
