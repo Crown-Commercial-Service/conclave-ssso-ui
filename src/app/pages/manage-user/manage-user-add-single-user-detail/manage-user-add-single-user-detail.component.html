@@ -59,7 +59,7 @@
                             {{ 'MFA_ENABLED_ADMIN_USER'| translate }}</a>
                     </li>
                     <li
-                        *ngIf="submitted && !formGroup.controls.userName.errors?.required && formGroup.controls.userName.invalid">
+                        *ngIf="submitted && !formGroup.controls.userName.errors?.required && formGroup.controls.userName.invalid && !emailHaserror">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(2)">
                             {{ 'ERROR_INVALID_EMAIL'| translate }}</a>
                     </li>
@@ -113,7 +113,7 @@
                             {{'ERROR_EMAIL_REQUIRED' | translate }}
                         </span>
                         <span id="user-name-error" class="govuk-error-message"
-                            *ngIf="submitted && !formGroup.controls.userName.errors?.required && formGroup.controls.userName.invalid">
+                            *ngIf="submitted && !formGroup.controls.userName.errors?.required && formGroup.controls.userName.invalid  && !emailHaserror">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                             {{ 'ERROR_INVALID_EMAIL'| translate }}
                         </span>
