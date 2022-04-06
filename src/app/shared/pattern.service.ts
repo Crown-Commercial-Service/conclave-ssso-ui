@@ -27,23 +27,18 @@ export class PatternService {
   * @returns Validated boolean value
   */
   public emailValidator(data: any) {
-    // 3.2 length checking
     if (data.length >= 257) {
       return true;
     }
-    // First part checking
-    else if (data.split('@')[0].length >= 65) {
+     if (data.split('@')[0].length >= 65) {
       return true;
     }
-    // Domain name part checking
-    else if (data.split('.')[0].split('@')[1].length >= 64) {
+     if (data.split('.')[0].split('@')[1].length >= 64) {
       return true;
     }
-    // Domain part checking
-    else if (data.split('.')[1].length >= 64) {
+     if (data.split('.')[1].length >= 64) {
       return true;
     } else {
-      // return default
       return false;
     }
   }
