@@ -65,7 +65,7 @@
                     </li>
                     <li *ngIf="submitted && formGroup.hasError('identityProviderRequired')">
                         <a href="javascript:;" onClick="return false;"
-                            (click)="scrollToAnchor('signin-provider-form-group')">
+                            (click)="setFocus(3)">
                             {{ 'ERROR_SIGN_IN_PROVIDER_REQUIRED'| translate }}</a>
                     </li>
                 </ul>

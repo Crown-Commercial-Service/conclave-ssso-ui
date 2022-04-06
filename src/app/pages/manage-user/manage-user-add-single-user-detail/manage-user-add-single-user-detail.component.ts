@@ -252,19 +252,21 @@ export class ManageUserAddSingleUserDetailComponent
         });
     }
 
-    ngAfterViewChecked() {
-        if (!this.errorLinkClicked) {
-            // This additional check has been done to avoid always scrolling to error summary because ngAfterViewChecked is triggered with dynamic form controls
-            this.scrollHelper.doScroll();
-        } else {
-            this.errorLinkClicked = false;
-        }
-    }
+    // ngAfterViewChecked() {
+    //     if (!this.errorLinkClicked) {
+    //         // This additional check has been done to avoid always scrolling to error summary because ngAfterViewChecked is triggered with dynamic form controls
+    //         // this.scrollHelper.doScroll();
+    //     } else {
+    //         this.errorLinkClicked = false;
+    //     }
+    // }
 
     scrollToAnchor(elementId: string): void {
         this.errorLinkClicked = true; // Making the errorLinkClicked true to avoid scrolling to the error-summary
         this.viewportScroller.scrollToAnchor(elementId);
     }
+
+    
 
     setFocus(inputIndex: number) {
         this.inputs.toArray()[inputIndex].nativeElement.focus();
@@ -303,9 +305,14 @@ export class ManageUserAddSingleUserDetailComponent
                 this.createUser(form);
             }
         } else {
-            this.scrollHelper.scrollToFirst('error-summary');
+            this.scrollView()
         }
     }
+
+    private scrollView():void{
+        const element = document.getElementById("error-summary");
+         element?.scrollIntoView();
+       } 
 
     getSelectedIdpIds(form: FormGroup) {
         let selectedIdpIds: number[] = [];
