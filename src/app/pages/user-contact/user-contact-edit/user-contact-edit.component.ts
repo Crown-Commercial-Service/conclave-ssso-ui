@@ -15,6 +15,7 @@ import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-
 import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
+import { PatternService } from 'src/app/shared/pattern.service';
 
 @Component({
     selector: 'app-user-contact-edit',
@@ -40,13 +41,15 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
     constructor(private contactService: WrapperUserContactService, private formBuilder: FormBuilder, private router: Router,
+        private PatternService:PatternService,
         private activatedRoute: ActivatedRoute, protected uiStore: Store<UIState>, private contactHelper: ContactHelper,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private externalContactService: WrapperContactService,
         private titleService: Title) {
         super(viewportScroller, formBuilder.group({
             name: ['', Validators.compose([])],
-            email: ['', Validators.compose([Validators.email])],
+            email: ['', Validators.compose([Validators.pattern(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])],
             phone: ['', Validators.compose([])],
+            mobile: ['', Validators.compose([])],
             fax: ['', Validators.compose([])],
             webUrl: ['', Validators.compose([])],
             contactReason: ['', Validators.compose([])],
@@ -77,6 +80,7 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
                                 this.formGroup.controls['name'].setValue(contactInfo.contactPointName);
                                 this.formGroup.controls['email'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.EMAIL, contactInfo.contacts));
                                 this.formGroup.controls['phone'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.PHONE, contactInfo.contacts, true));
+                                this.formGroup.controls['mobile'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.MOBILE, contactInfo.contacts, true));
                                 this.formGroup.controls['fax'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.FAX, contactInfo.contacts, true));
                                 this.formGroup.controls['webUrl'].setValue(this.contactHelper.getContactValueFromContactList(VirtualContactType.URL, contactInfo.contacts));
                                 this.formGroup.controls['contactReason'].setValue(contactInfo.contactPointReason);
@@ -121,15 +125,25 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
             let name = this.formGroup.get('name')?.value;
             let email = this.formGroup.get('email')?.value;
             let phone = this.formGroup.get('phone')?.value;
+            let mobile = this.formGroup.get('mobile')?.value;
             let fax = this.formGroup.get('fax')?.value;
             let web = this.formGroup.get('webUrl')?.value;
 
-            return !name && !email && !phone && !fax && !web ? { inSufficient: true } : null;
+            return !name && !email && !phone && !mobile && !fax && !web ? { inSufficient: true } : null;
         }
     }
 
+    validateEmailLength(data:any){
+        if(this.PatternService.emailValidator(data.target.value)){
+            this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+          }
+    }
+
     public onSubmit(form: FormGroup) {
-        this.submitted = true;
+        this.submitted = true;  
+        if(this.PatternService.emailValidator(form.get('email')?.value)){
+        this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+        }
         if (this.formValid(form)) {
 
             this.contactData.contactPointName = form.get('name')?.value;
@@ -151,6 +165,12 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
                             }
                             else if (error.error == "INVALID_EMAIL") {
                                 this.setError(form, 'email', 'email');
+
+                            } else if(error.error == "INVALID_MOBILE_NUMBER") {
+                                this.setError(form, 'mobile', 'invalid');
+                            }
+                            else if(error.error == "INVALID_FAX_NUMBER"){
+                                this.setError(form, 'fax', 'invalid');
                             }
                         }
                     });
@@ -170,6 +190,12 @@ export class UserContactEditComponent extends FormBaseComponent implements OnIni
                             }
                             else if (error.error == "INVALID_EMAIL") {
                                 this.setError(form, 'email', 'email');
+                            }
+                            else if(error.error == "INVALID_MOBILE_NUMBER"){
+                                this.setError(form, 'mobile', 'invalid');
+                            }
+                            else if(error.error == "INVALID_FAX_NUMBER"){
+                                this.setError(form, 'fax', 'invalid');
                             }
                         }
                     });

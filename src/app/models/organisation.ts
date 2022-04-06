@@ -9,7 +9,7 @@ export interface OrganisationRegisterDto {
     adminUserName: string;
     adminUserFirstName: string;
     adminUserLastName: string;
-    adminUserTitle?: UserTitleEnum;
+    adminUserTitle: string;
 }
 
 export interface OrganisationRegBasicInfo {
@@ -63,4 +63,11 @@ export interface OrganisationDetails{
     rightToBuy: boolean;
     businessType: string;
     supplierBuyerType: number;
+}
+
+export interface OrganisationSearchDto{
+    organisationId: string;
+    ciiOrganisationId: string;
+    organisationUri: string;
+    legalName: string;
 }

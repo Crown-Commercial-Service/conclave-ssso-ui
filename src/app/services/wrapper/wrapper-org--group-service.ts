@@ -85,12 +85,18 @@ export class WrapperOrganisationGroupService {
   }
 
   getOrganisationIdentityProviders(organisationId: string): Observable<any> {
+    let tempData:IdentityProvider[]=[]
     const url = `${this.url}/${organisationId}/identity-providers`;
     return this.http.get<IdentityProvider[]>(url).pipe(
       map((data: IdentityProvider[]) => {
-        return data;
+        data.map((f: IdentityProvider) => {
+          if (f.name === 'User ID and password') {
+              tempData.push(f)
+          }
+      })
+         return tempData;
       }), catchError(error => {
-        return throwError(error);
+        return throwError(error); 
       })
     );
   }
