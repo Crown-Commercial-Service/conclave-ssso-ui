@@ -276,7 +276,6 @@ export class ManageUserAddSingleUserDetailComponent
         this.emailHaserror=false
         if (this.PatternService.emailValidator(data.target.value)) {
             this.formGroup.controls['userName'].setErrors({ incorrect: true });
-            this.emailHaserror=true
         }
     }
 
@@ -288,7 +287,6 @@ export class ManageUserAddSingleUserDetailComponent
 
         if (this.PatternService.emailValidator(form.get('userName')?.value)) {
             this.formGroup.controls['userName'].setErrors({ incorrect: true });
-            this.emailHaserror=true
         }
         if (this.formValid(form)) {
             this.userProfileRequestInfo.title = form.get('userTitle')?.value;
@@ -404,6 +402,7 @@ export class ManageUserAddSingleUserDetailComponent
             error: (err: any) => {
                 if (err.status == 409) {
                     form.controls['userName'].setErrors({ alreadyExists: true });
+                    this.emailHaserror=true;
                     this.scrollHelper.scrollToFirst('error-summary');
                 } else {
                     if (err.error == 'INVALID_USER_ID') {
