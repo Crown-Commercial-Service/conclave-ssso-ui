@@ -8,7 +8,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
-import { IdentityProviderSummary } from 'src/app/models/identityProvider';
+import { IdentityProvider, IdentityProviderSummary } from 'src/app/models/identityProvider';
 import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { WrapperOrganisationContactService } from 'src/app/services/wrapper/wrapper-org-contact-service';
 import { ContactGridInfo } from 'src/app/models/contactInfo';
@@ -34,8 +34,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     siteData: SiteGridInfo[];
     registries: CiiOrgIdentifiersDto;
     additionalIdentifiers: CiiAdditionalIdentifier[];
-    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'FAX', 'WEB_URL'];
-    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'fax', 'webUrl'];
+    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER','MOBILE_NUMBER', 'FAX', 'WEB_URL'];
+    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber','mobileNumber', 'fax', 'webUrl'];
     siteTableHeaders = ['SITE_NAME', 'STREET_ADDRESS', 'POSTAL_CODE', 'COUNTRY_CODE'];
     siteColumnsToDisplay = ['siteName', 'streetAddress', 'postalCode', 'countryCode'];
     registriesTableDisplayedColumns: string[] = ['authority', 'id', 'type', 'actions'];
@@ -44,6 +44,12 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     public orgIdps: any[] = [];
     changedIdpList: { id: number, enabled: boolean, connectionName: string, name: string }[] = [];
     ccsContactUrl : string = environment.uri.ccsContactUrl;
+    schemeData: any[] = [];
+    public detailsData: any = [
+        'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
+        "Manage information about your organisation's specific business locations. For instance, you can add details about your head office and additional sites to organise deliveries.",
+        'Save the information you used to register your organisation for instance your Companies House Number or Dun & Bradstreet Number.',
+    ];
 
     constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
@@ -61,7 +67,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
     async ngOnInit() {
         const ciiOrgId = this.tokenService.getCiiOrgId();
-
+        this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
         var org = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
         });
         if (org) {
@@ -74,12 +80,14 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                     if (idp.connectionName == element.connectionName) {
                         idp.enabled = true;
                     }
+                    
                 });
             });
 
             await this.orgContactService.getOrganisationContacts(this.ciiOrganisationId).toPromise().then(orgContactListInfo => {
                 if (orgContactListInfo != null) {
                     this.contactData = this.contactHelper.getContactGridInfoList(orgContactListInfo.contactPoints);
+                    console.log("this.contactData",this.contactData)
                 }
             }).catch(e => {
             });
@@ -102,6 +110,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                             streetAddress: site.address.streetAddress,
                             postalCode: site.address.postalCode,
                             countryCode: site.address.countryCode,
+                            countryName:site.address.countryName,
                             locality: site.address.locality,
                             region: site.address.region,
                         };
@@ -184,26 +193,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     }
 
     public getSchemaName(schema: string): string {
-        switch (schema) {
-            case 'GB-COH': {
-                return 'Companies House';
-            }
-            case 'US-DUN': {
-                return 'Dun & Bradstreet';
-            }
-            case 'GB-CHC': {
-                return 'Charities Commission for England and Wales';
-            }
-            case 'GB-SC': {
-                return 'Scottish Charities Commission';
-            }
-            case 'GB-NIC': {
-                return 'Northern Ireland Charities Commission';
-            }
-            default: {
-                return '';
-            }
-        }
+        let selecedScheme = this.schemeData.find(s => s.scheme === schema);
+        return selecedScheme?.schemeName;
     }
 
     public onContactAssignClick() {

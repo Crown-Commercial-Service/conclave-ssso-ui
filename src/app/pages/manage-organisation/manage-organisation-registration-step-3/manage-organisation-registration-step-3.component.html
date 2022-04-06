@@ -1,18 +1,88 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex" *ngIf="item$ | async as i">
-  <a href="javascript:;" (click)="onBackClick()" class="govuk-back-link">Back</a>
-  <h1 class="govuk-heading-xl page-title">Confirm your organisation's details</h1>
+  <a href="javascript:;" (click)="onBackClick()" class="govuk-back-link"
+    >Back</a
+  >
+  <h1 class="govuk-heading-xl page-title">
+    Confirm your organisation's details
+  </h1>
   <div>
+    <div class="govuk-form-group" *ngIf="isInvalid">
+      <div class="govuk-error-summary govuk-grid-column-three-quarters"
+          aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+          data-module="govuk-error-summary">
+          <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
+          <div class="govuk-error-summary__body">
+              <ul class="govuk-list govuk-error-summary__list">
+                  <a  (click)="setFocus()" 
+                     *ngIf="isInvalid">
+                      <li>Select your Organisation’s Country</li>
+                  </a>
+              </ul>
+          </div>
+      </div>
+  </div> 
     <div>
-      <p><strong style="font-weight: 500;">{{ i?.name }}</strong></p>
+      <p>
+        <strong style="font-weight: 500">{{ i?.name }}</strong>
+      </p>
       <p>
         {{ i?.address?.streetAddress }}<br *ngIf="i?.address?.streetAddress" />
         {{ i?.address?.locality }}<br *ngIf="i?.address?.locality" />
         {{ i?.address?.region }}<br *ngIf="i?.address?.region" />
         {{ i?.address?.postalCode }}<br *ngIf="i?.address?.postalCode" />
-        {{ i?.address?.countryName }}
+        {{ i?.address?.countryName }}<br *ngIf="i?.address?.countryName" />
       </p>
-      <p><strong style="font-weight: 500;">{{ schemeName }} registration number</strong><br />{{ i?.identifier?.id }}
+      <div class="govuk-form-group" id="country-code-form-group"
+      [class.govuk-form-group--error]="isInvalid == true"
+     >
+        <span class="govuk-label" for="country-code">
+          {{ "Country" | translate }}
+        </span>
+        <span class="govuk-error-message" 
+        *ngIf="isInvalid">
+        <span class="govuk-visually-hidden">Error:</span>Please select your Organisation’s Country
+       </span>
+        <mat-form-field class="form-field-country form-field-required">
+          <mat-select
+            [(ngModel)]="countryCode"
+            #singleSelect
+            panelClass="mat-country-select-site"
+            id="country-code"
+            (selectionChange)="onChangecountry(countryCode)"
+          >
+            <mat-option>
+              <ngx-mat-select-search
+                [formControl]="countryCodeCtrl"
+                placeholderLabel="Search"
+                noEntriesFoundLabel="No matching country found"
+              >
+                <mat-icon ngxMatSelectSearchClear>clear</mat-icon>
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngIf="!countryCode" value="">Select Country</mat-option>
+            <mat-option
+              *ngFor="let topCountry of topCountries"
+              [value]="topCountry.countryCode"
+            >
+              {{ topCountry.countryName }} - {{ topCountry.countryCode }}
+            </mat-option>
+            <mat-option *ngIf="topCountries.length > 0" disabled="true"
+              >────────────────────</mat-option
+            >
+            <mat-option
+              *ngFor="let country of filteredCountryDetails | async"
+              [value]="country.countryCode"
+            >
+              {{ country.countryName }} - {{ country.countryCode }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <p>
+        <strong style="font-weight: 500"
+          >{{ schemeName }} registration number</strong
+        ><br />{{ i?.identifier?.id }}
       </p>
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
@@ -21,33 +91,67 @@
           </legend>
           <div class="govuk-radios">
             <div class="govuk-radios__item" id="correctDetailsRadioSelection">
-              <input class="govuk-radios__input" type="radio" name="orgGroup" checked="checked"
-                value="manage-org/register/user" [(ngModel)]="orgGroup" id="correctDetailsRadioButton">
-              <label class="govuk-label govuk-radios__label" for="correctDetailsRadioButton">
+              <input
+                class="govuk-radios__input"
+                type="radio"
+                name="orgGroup"
+                checked="checked"
+                value="manage-org/register/user"
+                [(ngModel)]="orgGroup"
+                id="correctDetailsRadioButton"
+              />
+              <label
+                class="govuk-label govuk-radios__label"
+                for="correctDetailsRadioButton"
+              >
                 Yes, and the details are correct
               </label>
             </div>
             <div class="govuk-radios__item" id="wrongAddressRadioSelection">
-              <input class="govuk-radios__input" type="radio" name="orgGroup"
-                value="manage-org/register/error/wrong-details" [(ngModel)]="orgGroup"id="wrongAddressRadioButton">
-              <label class="govuk-label govuk-radios__label" for="wrongAddressRadioButton">
+              <input
+                class="govuk-radios__input"
+                type="radio"
+                name="orgGroup"
+                value="manage-org/register/error/wrong-details"
+                [(ngModel)]="orgGroup"
+                id="wrongAddressRadioButton"
+              />
+              <label
+                class="govuk-label govuk-radios__label"
+                for="wrongAddressRadioButton"
+              >
                 Yes, but the address is wrong
               </label>
             </div>
             <div class="govuk-radios__item" id="notMyOrgRadioSelection">
-              <input class="govuk-radios__input" type="radio" name="orgGroup"
-                value="manage-org/register/error/not-my-details" [(ngModel)]="orgGroup" id="notMyOrgRadioButton">
-              <label class="govuk-label govuk-radios__label" for="notMyOrgRadioButton">
+              <input
+                class="govuk-radios__input"
+                type="radio"
+                name="orgGroup"
+                value="manage-org/register/error/not-my-details"
+                [(ngModel)]="orgGroup"
+                id="notMyOrgRadioButton"
+              />
+              <label
+                class="govuk-label govuk-radios__label"
+                for="notMyOrgRadioButton"
+              >
                 No, this isn't my organisation
               </label>
             </div>
           </div>
-
         </fieldset>
       </div>
 
-      <button type="button" id="continueButton" class="govuk-button" data-module="govuk-button"
-        (click)="onSubmit()">Continue</button>
+      <button
+        type="button"
+        id="continueButton"
+        class="govuk-button"
+        data-module="govuk-button"
+        (click)="onSubmit()"
+      >
+        Continue
+      </button>
     </div>
   </div>
 </div>

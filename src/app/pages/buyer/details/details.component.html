@@ -21,7 +21,7 @@
       {{ org?.address?.locality }}<br *ngIf="org?.address?.locality" />
       {{ org?.address?.region }}<br *ngIf="org?.address?.region" />
       {{ org?.address?.postalCode }}<br *ngIf="org?.address?.postalCode" />
-      {{ org?.address?.countryCode }}<br *ngIf="org?.address?.countryCode" />
+      {{ org?.address?.countryName }}<br *ngIf="org?.address?.countryName" />
     </p>
   </div>
   <h2>Registries</h2>
@@ -32,7 +32,7 @@
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Registry</th>
         <th scope="col" class="govuk-table__header">ID</th>
-        <th scope="col" class="govuk-table__header"></th>
+        <th scope="col" class="govuk-table__header remove_element">.</th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">

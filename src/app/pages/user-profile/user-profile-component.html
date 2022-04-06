@@ -69,22 +69,24 @@
                                 {{ 'USER_EMAIL_HINT' | translate }}
                             </div>
                             <input [readonly]="true" [class.disabled]="true" class="govuk-input" id="email" name="email" type="email"
+                              size="20"  value="" autocomplete="email" spellcheck="false" 
                                 [value]="userName">
                         </div>
-                        <!-- <div class="govuk-form-group" id="user-mfa-form-group">
+                        <div class="govuk-form-group" id="user-mfa-form-group">
                             <fieldset class="govuk-fieldset">
                                 <legend class="govuk-fieldset__legend">
                                     Security Level
                                 </legend>
+                                <app-details [detailsData]="detailsData[0]"></app-details>
                                 <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
                                     <input [attr.disabled]=true class="govuk-checkboxes__input" id="mfaEnabled"
                                         formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
                                     <label class="govuk-label govuk-checkboxes__label" for="mfaEnabled">
-                                        Additional security using your personal phone or tablet
+                                        Additional security using digital device
                                     </label>
                                 </div>
                             </fieldset>
-                        </div> -->
+                        </div>
 
                         <div>
                             <p class="govuk-body govuk-!-font-size-19">
@@ -99,11 +101,18 @@
                 </div>
                 <div *ngIf="userGroups.length == 0">
                     <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
+                    <app-details [detailsData]="detailsData[1]"></app-details>
                     <p>{{'NONE'| translate}}
                     <p>
                 </div>
 
-                <div *ngIf="userGroups.length > 0" class="user-group-table">
+                <div *ngIf="userGroups.length > 0">
+                    <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
+                    <app-details [detailsData]="detailsData[1]"></app-details>
+                    <p>
+                </div>
+
+                 <div *ngIf="userGroups.length > 0" class="user-group-table">
                     <app-govuk-table [headerTextKeys]="userGroupTableHeaders" [data]="userGroups"
                         [dataKeys]="userGroupColumnsToDisplay" [isHyperLinkVisible]="hasGroupViewPermission"
                         [hyperLinkText]="'VIEW_DETAILS'" (hyperLinkClickEvent)="onGroupViewClick($event)"
@@ -112,16 +121,21 @@
 
                 <div *ngIf="roleDataList.length == 0">
                     <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
+                    <app-details [detailsData]="detailsData[2]"></app-details>
                     <p>{{'NONE'| translate}}
                     <p>
                 </div>
-
+                 <div *ngIf="roleDataList.length > 0">
+                    <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
+                    <app-details [detailsData]="detailsData[2]"></app-details>
+                 </div>
                 <div *ngIf="roleDataList.length > 0" class="user-group-table">
                     <app-govuk-table [headerTextKeys]="userRoleTableHeaders" [data]="roleDataList"
                         [dataKeys]="userRoleColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
                 </div>
 
                 <h2 class="govuk-heading-s contact-detail"> {{ 'CONTACT_DETAILS' | translate }}</h2>
+                <app-details [detailsData]="detailsData[3]"></app-details>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full">
                         <div>

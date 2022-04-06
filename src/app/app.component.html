@@ -1,3 +1,4 @@
+<app-cookies-banner></app-cookies-banner>
 <header class="header-global">
     <div class="ccs-width-container">
         <div class="nav-wrapper">
@@ -16,9 +17,9 @@
                         *ngIf="(this.authService.userAutnenticated$ | async) || this.isAuthenticated">
                         <a href="javascript:;" class="nav-list__link  " (click)="signoutAndRedirect()">Sign out</a>
                     </li>
-                    <li class="nav-list__item header-link">
+                    <!-- <li class="nav-list__item header-link">
                         <a class="nav-list__link" routerLink="/help-support">Help and support</a>
-                    </li>
+                    </li> -->
                 </ul>
             </nav>
         </div>
@@ -31,7 +32,7 @@
                 beta
             </strong>
             <span class="govuk-phase-banner__text">This is a new service – your <a class="navigation-text"
-                    href="https://www.smartsurvey.co.uk/s/QWDZX/">feedback</a> will help us to improve it.</span>
+                target="_blank"  href="https://crowncommercial.qualtrics.com/jfe/form/SV_3xDq7uNywwujVRA">feedback</a> will help us to improve it.</span>
         </p>
     </div>
     <main class="govuk-main-wrapper">
@@ -91,8 +92,7 @@
                                 href="{{ccsContactUrl}}">Contact CCS</a>
                             </li>
                             <li class="govuk-footer__inline-list-item">
-                                <a class="govuk-footer__link"
-                                    href="https://www.crowncommercial.gov.uk/cookie-policy">Cookies</a>
+                                <a class="govuk-footer__link" routerLink="/cookies">Cookies</a>
                             </li>
                             <li class="govuk-footer__inline-list-item">
                                 <a class="govuk-footer__link"
