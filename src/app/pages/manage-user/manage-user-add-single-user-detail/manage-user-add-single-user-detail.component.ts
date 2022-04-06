@@ -57,7 +57,7 @@ export class ManageUserAddSingleUserDetailComponent
         'The roles selected here will set what services are available to your users.',
     ];
     userTitleArray = ["Mr", "Mrs", "Miss", "Ms", "Doctor", "Unspecified"];
-
+    public emailHaserror:boolean=false;
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
     constructor(
@@ -273,18 +273,22 @@ export class ManageUserAddSingleUserDetailComponent
     }
 
     validateEmailLength(data: any) {
+        this.emailHaserror=false
         if (this.PatternService.emailValidator(data.target.value)) {
             this.formGroup.controls['userName'].setErrors({ incorrect: true });
+            this.emailHaserror=true
         }
     }
 
     public onSubmit(form: FormGroup) {
+        this.emailHaserror=false
         this.mfaConnectionValidationError = false;
         this.mfaAdminValidationError = false;
         this.submitted = true;
 
         if (this.PatternService.emailValidator(form.get('userName')?.value)) {
             this.formGroup.controls['userName'].setErrors({ incorrect: true });
+            this.emailHaserror=true
         }
         if (this.formValid(form)) {
             this.userProfileRequestInfo.title = form.get('userTitle')?.value;
