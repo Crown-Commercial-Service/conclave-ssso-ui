@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./cookies-settings.component.scss'],
 })
 export class CookiesSettingsComponent implements OnInit {
+  public cookiesUpdated:boolean=false;
   public notify_admin_session =
     environment.cookies_policy.essentialcookies.notify_admin_session;
   public cookie_policy =
@@ -43,15 +44,14 @@ export class CookiesSettingsComponent implements OnInit {
   constructor(private CookiesService: CookiesService) {}
 
   ngOnInit(): void {
-    if (
-      (this.ppg_cookies_preferences_set == '' ||
-        this.ppg_cookies_preferences_set == null) &&
-      (this.ppg_cookies_policy == '' || this.ppg_cookies_policy == null)
-    ) {
-      this.SelectionMode = 'off';
-    } else {
+    if (this.ppg_cookies_preferences_set == "true" && this.ppg_cookies_policy == '{"essential":true,"additional":true}')
+    {
       this.SelectionMode = 'on';
+    } else {
+      this.SelectionMode = 'off';
     }
+    console.log('ppg_cookies_preferences_set value: ', this.ppg_cookies_preferences_set);
+    console.log('ppg_cookies_policy value: ',this.ppg_cookies_policy);
   }
 
   public OnSubmit() {
@@ -60,6 +60,10 @@ export class CookiesSettingsComponent implements OnInit {
     } else {
       this.rejectCookies();
     }
+     this.cookiesUpdated=true;
+     setTimeout(() => {
+      this.scrollView()
+     }, 500);
   }
 
   public acceptCookies(): void {
@@ -88,4 +92,14 @@ export class CookiesSettingsComponent implements OnInit {
     );
     this.CookiesService.deleteAdditionalCookies();
   }
+
+  public onback():void{
+    window.history.back();
+  }
+
+   
+   private scrollView():void{
+    const element = document.getElementById("govuk-notification-banner-title");
+     element?.scrollIntoView();
+   } 
 }
