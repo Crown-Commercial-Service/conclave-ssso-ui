@@ -21,23 +21,28 @@ export class PatternService {
 
   decimalAllowed = /^[0-9]\d*(\.\d+)?$/;
 
- /**
-  * Email validator for all pages
-  * @param data Email
-  * @returns Validated boolean value
-  */
+  /**
+   * Email validator for all pages
+   * @param data Email
+   * @returns Validated boolean value
+   */
   public emailValidator(data: any) {
+    //total part
     if (data.length >= 257) {
       return true;
     }
-     if (data.split('@')[0].length >= 65) {
+    //first part
+    if (data.split('@')[0].length >= 65) {
       return true;
     }
-     if (data.split('.')[0].split('@')[1].length >= 64) {
+    //secound part
+    if (data.split('@')[1].split('.')[0].length >= 64) {
       return true;
     }
-     if (data.split('.')[1].length >= 64) {
+    //third part
+    if (data.split('@')[1].split('.')[1].length >= 64) {
       return true;
+      // default part
     } else {
       return false;
     }
