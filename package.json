@@ -36,7 +36,7 @@
     "jw-angular-pagination": "^1.2.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "ng-zorro-antd": "^11.4.2",
     "ngrx-store-freeze": "^0.2.4",
     "ngx-bootstrap": "^7.1.0",
