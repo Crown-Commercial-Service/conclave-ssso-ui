@@ -57,7 +57,7 @@ export class ManageUserAddSingleUserDetailComponent
         'The roles selected here will set what services are available to your users.',
     ];
     userTitleArray = ["Mr", "Mrs", "Miss", "Ms", "Doctor", "Unspecified"];
-
+    public emailHaserror:boolean=false;
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
     constructor(
@@ -252,31 +252,35 @@ export class ManageUserAddSingleUserDetailComponent
         });
     }
 
-    ngAfterViewChecked() {
-        if (!this.errorLinkClicked) {
-            // This additional check has been done to avoid always scrolling to error summary because ngAfterViewChecked is triggered with dynamic form controls
-            this.scrollHelper.doScroll();
-        } else {
-            this.errorLinkClicked = false;
-        }
-    }
+    // ngAfterViewChecked() {
+    //     if (!this.errorLinkClicked) {
+    //         // This additional check has been done to avoid always scrolling to error summary because ngAfterViewChecked is triggered with dynamic form controls
+    //         // this.scrollHelper.doScroll();
+    //     } else {
+    //         this.errorLinkClicked = false;
+    //     }
+    // }
 
     scrollToAnchor(elementId: string): void {
         this.errorLinkClicked = true; // Making the errorLinkClicked true to avoid scrolling to the error-summary
         this.viewportScroller.scrollToAnchor(elementId);
     }
 
+    
+
     setFocus(inputIndex: number) {
         this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
 
     validateEmailLength(data: any) {
+        this.emailHaserror=false
         if (this.PatternService.emailValidator(data.target.value)) {
             this.formGroup.controls['userName'].setErrors({ incorrect: true });
         }
     }
 
     public onSubmit(form: FormGroup) {
+        this.emailHaserror=false
         this.mfaConnectionValidationError = false;
         this.mfaAdminValidationError = false;
         this.submitted = true;
@@ -303,9 +307,14 @@ export class ManageUserAddSingleUserDetailComponent
                 this.createUser(form);
             }
         } else {
-            this.scrollHelper.scrollToFirst('error-summary');
+            this.scrollView()
         }
     }
+
+    private scrollView():void{
+        const element = document.getElementById("error-summary");
+         element?.scrollIntoView();
+       } 
 
     getSelectedIdpIds(form: FormGroup) {
         let selectedIdpIds: number[] = [];
@@ -393,6 +402,7 @@ export class ManageUserAddSingleUserDetailComponent
             error: (err: any) => {
                 if (err.status == 409) {
                     form.controls['userName'].setErrors({ alreadyExists: true });
+                    this.emailHaserror=true;
                     this.scrollHelper.scrollToFirst('error-summary');
                 } else {
                     if (err.error == 'INVALID_USER_ID') {
