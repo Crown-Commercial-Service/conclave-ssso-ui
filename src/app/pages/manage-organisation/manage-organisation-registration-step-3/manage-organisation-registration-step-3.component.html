@@ -43,7 +43,7 @@
         *ngIf="isInvalid">
         <span class="govuk-visually-hidden">Error:</span>Please select your Organisation’s Country
        </span>
-        <mat-form-field class="form-field-country form-field-required">
+        <mat-form-field class="form-field-country form-field-required" [class.govuk-input--error]="isInvalid">
           <mat-select
             [(ngModel)]="countryCode"
             #singleSelect
