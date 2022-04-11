@@ -25,12 +25,12 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Input() serverPageCount?: number;
   @Input() serverPageCurrentPage?: number;
   @Input() useClientPagination?: boolean;
-
+  
   @Output() hyperLinkClickEvent = new EventEmitter<any>();
   @Output() checkBoxClickEvent = new EventEmitter<any>();
   @Output() radioClickEvent = new EventEmitter<any>();
   @Output() changeCurrentPageEvent = new EventEmitter<number>();
-
+  p: number = 1;
   pageCount?: number;
   currentPage: number = 1;
   totalPagesArray: number[] = [];
@@ -51,7 +51,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
     if (this.useClientPagination) {
       this.pageCount = Math.ceil(this.data.length / this.pageSize);
       this.totalPagesArray = Array(this.pageCount).fill(0).map((x, i) => i + 1);
-      this.tableVisibleData = this.data.slice(0, this.pageSize);
+      this.tableVisibleData = this.data
       this.currentPage = 1;
     }
     else {
@@ -60,6 +60,9 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
       this.tableVisibleData = this.data;
       this.currentPage = this.serverPageCurrentPage || 1;
     }
+    console.log("this.pageSize",this.pageSize)
+    console.log("this.pageCount",this.pageCount)
+    console.log("totalPagesArray",this.totalPagesArray)
   }
 
   onRowClick(dataRow: any, index: number) {

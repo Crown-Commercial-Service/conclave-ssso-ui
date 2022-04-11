@@ -10,7 +10,7 @@
     <tbody class="govuk-table__body">
       <tr (click)="onRowClick(dataRow, index)" class="govuk-table__row"
         [class.clickable]="isCheckBoxVisible || isHyperLinkVisible || isRadioVisible"
-        *ngFor="let dataRow of tableVisibleData; let index = index">
+        *ngFor="let dataRow of tableVisibleData  | paginate: { itemsPerPage: 5, currentPage: p}; let index = index">
         <td class="govuk-table__cell" *ngFor="let dataKey of dataKeys">{{dataRow[dataKey]}}</td>
         <td class="govuk-table__cell" *ngIf="isHyperLinkVisible == true"><a class="navigation-text" href="javascript:;"> {{
             hyperLinkText || '' | translate }}</a></td>
@@ -50,7 +50,11 @@
 <ng-template #no_results>
   <p class="govuk-body govuk-!-font-weight-bold">There are no matching results.</p>
 </ng-template>
-<div
+<div *ngIf="(useServerPagination==true || useClientPagination==true) && pageCount && pageCount > 1 && tableVisibleData.length != 0">
+  <pagination-controls (pageChange)="p = $event" class="my-pagination"  ></pagination-controls>
+</div>
+
+<!-- <div
   *ngIf="(useServerPagination==true || useClientPagination==true) && pageCount && pageCount > 1 && tableVisibleData.length != 0"
   class="pagination-area" aria-label="Pagination">
   <ul>
@@ -75,4 +79,4 @@
       </a>
     </li>
   </ul>
-</div>
+</div> -->

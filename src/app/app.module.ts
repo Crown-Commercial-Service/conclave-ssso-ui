@@ -158,6 +158,7 @@ import { FindyouradministratorComponent } from './pages/manage-organisation/find
 import { DetailsComponent } from './components/details/details.component';
 import { CookiesBannerComponent } from './components/cookies-banner/cookies-banner.component';
 import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -324,7 +325,8 @@ export function createTranslateLoader(http: HttpClient) {
     NzLayoutModule,
     ComponentsModule,
     MatTableModule,
-    NgxIntlTelInputModule
+    NgxIntlTelInputModule,
+    NgxPaginationModule,
   ],
   exports: [TranslateModule],
   providers: [
