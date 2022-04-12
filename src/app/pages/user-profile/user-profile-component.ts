@@ -22,6 +22,7 @@ import { AuditLoggerService } from 'src/app/services/postgres/logger.service';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { isBoolean } from 'lodash';
 
 @Component({
   selector: 'app-user-profile',
@@ -53,12 +54,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     'fax',
     'webUrl',
   ];
-  public detailsData: any = [
-    'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
-    'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required roles.',
-    'The roles applied to your account will set what services are available to you. Contact your admin if something is wrong.',
-    'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
-  ];
+  public detailsData: any = [];
+  private isAdminUser: boolean = false;
   userGroups: UserGroup[] = [];
   userContacts: ContactGridInfo[] = [];
   userName: string;
@@ -140,6 +137,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         });
       }
     }
+
     await this.orgGroupService
       .getOrganisationRoles(this.organisationId)
       .toPromise()
@@ -148,12 +146,38 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           user.detail.rolePermissionInfo.map((roleInfo) => {
             var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
             if (orgRole) {
-              this.roleDataList.push({
-                accessRoleName: orgRole.roleName,
-                serviceName: orgRole.serviceName,
-              });
+              //Determin Login user whether Admin/Normal user.
+              if (
+                orgRole.roleKey == 'ORG_ADMINISTRATOR' &&
+                this.isAdminUser == false
+              ) {
+                this.isAdminUser = true;
+              }
             }
           });
+
+        //Push Roles based on User Type
+        if (this.isAdminUser == true) {
+          console.log('admin user');
+          orgRoles.forEach((element) => {
+            this.roleDataList.push({
+              accessRoleName: element.roleName,
+              serviceName: element.serviceName,
+            });
+          });
+        } else {
+          console.log('Normal user');
+          user.detail.rolePermissionInfo &&
+            user.detail.rolePermissionInfo.map((roleInfo) => {
+              var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
+              if (orgRole) {
+                this.roleDataList.push({
+                  accessRoleName: orgRole.roleName,
+                  serviceName: orgRole.serviceName,
+                });
+              }
+          });
+        }
       });
 
     this.authService
@@ -165,6 +189,22 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
     this.getUserContact(this.userName);
     this.onFormValueChange();
+
+    if (this.isAdminUser == true) {
+      this.detailsData = [
+        'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
+        'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required roles.',
+        'The roles selected here will set what services are available to you.',
+        'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
+      ];
+    } else {
+      this.detailsData = [
+        'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
+        'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required roles.',
+        'The roles selected here will set what services are available to you. Contact your admin if something is wrong.',
+        'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
+      ];
+    }
   }
 
   ngAfterViewChecked() {
