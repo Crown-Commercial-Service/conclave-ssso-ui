@@ -32,7 +32,7 @@
             {{ 'MANAGE_GROUP_USERS' | translate }} : {{groupName}}</h1>
         <h2 *ngIf="isEdit== true" class="govuk-heading-m">
             {{ 'SELECT_USERS_WANT_TO_ADD' | translate }} : {{groupName}}</h2>
-        <h1 *ngIf="isEdit!= true" class="govuk-heading-xl page-title">{{ 'ADD_USERS' | translate }}</h1>
+        <h1 *ngIf="isEdit!= true" class="govuk-heading-xl page-title">{{ 'ADD_USERS_GROUP' | translate }} {{groupName}}</h1>
         <div>
             <div class="govuk-form-group" id="search-form-group">
                 <label class="govuk-label" for="search"> {{ 'SEARCH_FOR_USER' | translate }} </label>
