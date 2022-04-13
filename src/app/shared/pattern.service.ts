@@ -27,6 +27,10 @@ export class PatternService {
    * @returns Validated boolean value
    */
   public emailValidator(data: any) {
+
+    if (!data) {
+      return false;
+    }
     //total part
     if (data.length >= 257) {
       return true;
