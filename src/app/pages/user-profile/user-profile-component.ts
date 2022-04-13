@@ -34,8 +34,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   formGroup!: FormGroup;
   userGroupTableHeaders = ['GROUPS'];
   userGroupColumnsToDisplay = ['group'];
-  userRoleTableHeaders = ['ROLES', 'SERVICE'];
-  userRoleColumnsToDisplay = ['accessRoleName', 'serviceName'];
+  userRoleTableHeaders = ['ROLES', 'SERVICE', 'ROLEID', 'ROLEKEY'];
+  userRoleColumnsToDisplay = [
+    'accessRoleName',
+    'serviceName',
+    'roleId',
+    'roleKey',
+  ];
   contactTableHeaders = [
     'CONTACT_REASON',
     'NAME',
@@ -55,7 +60,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     'webUrl',
   ];
   public detailsData: any = [];
-  private isAdminUser: boolean = false;
+  public isAdminUser: boolean = false;
   userGroups: UserGroup[] = [];
   userContacts: ContactGridInfo[] = [];
   userName: string;
@@ -63,6 +68,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   canChangePassword: boolean = false;
   identityProviderDisplayName: string = '';
   roleDataList: any[] = [];
+  assignedRoleDataList: any[] = [];
   routeStateData: any = {};
   hasGroupViewPermission: boolean = false;
 
@@ -156,27 +162,48 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             }
           });
 
-        //Push Roles based on User Type
+        //bind Roles based on User Type
         if (this.isAdminUser == true) {
-          console.log('admin user');
           orgRoles.forEach((element) => {
             this.roleDataList.push({
+              roleId: element.roleId,
+              roleKey: element.roleKey,
               accessRoleName: element.roleName,
               serviceName: element.serviceName,
             });
           });
+
+          //Find assigned roles then enable checkbox as true
+          user.detail.rolePermissionInfo &&
+            user.detail.rolePermissionInfo.map((roleInfo) => {
+              var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
+              if (orgRole) {
+                this.assignedRoleDataList.push({
+                  roleId: orgRole.roleId,
+                });
+
+                this.formGroup.addControl(
+                  'orgRoleControl_' + orgRole.roleId,
+                  this.formBuilder.control(
+                    this.assignedRoleDataList ? true : ''
+                  )
+                );
+              }
+              console.log('assignedRoleDataList : ', this.assignedRoleDataList);
+            });
         } else {
-          console.log('Normal user');
           user.detail.rolePermissionInfo &&
             user.detail.rolePermissionInfo.map((roleInfo) => {
               var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
               if (orgRole) {
                 this.roleDataList.push({
+                  roleId: orgRole.roleId,
+                  roleKey: orgRole.roleKey,
                   accessRoleName: orgRole.roleName,
                   serviceName: orgRole.serviceName,
                 });
               }
-          });
+            });
         }
       });
 

@@ -129,11 +129,25 @@
                     <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
                     <app-details [detailsData]="detailsData[2]"></app-details>
                  </div>
-                <div *ngIf="roleDataList.length > 0" class="user-group-table">
+                <div *ngIf="roleDataList.length > 0 && isAdminUser==false" class="user-group-table">
                     <app-govuk-table [headerTextKeys]="userRoleTableHeaders" [data]="roleDataList"
                         [dataKeys]="userRoleColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
                 </div>
-
+                <div *ngIf="roleDataList.length > 0 && isAdminUser==true" class="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item" *ngFor="let orgRole of roleDataList; let i=index">
+                        <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
+                            [attr.disabled]="orgRole.roleKey === 'ORG_DEFAULT_USER' || orgRole.roleKey === 'ORG_ADMINISTRATOR' ? true : null"
+                            [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc">
+                        <label *ngIf="orgRole.serviceName == null" class="govuk-label govuk-checkboxes__label"
+                            for="{{'orgRoleControl_' + orgRole.roleId}}">
+                            {{orgRole.accessRoleName}}
+                        </label>
+                        <label *ngIf="orgRole.serviceName != null" class="govuk-label govuk-checkboxes__label"
+                            for="{{'orgRoleControl_' + orgRole.roleId}}">
+                            {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
+                        </label>
+                    </div>
+                </div>
                 <h2 class="govuk-heading-s contact-detail"> {{ 'CONTACT_DETAILS' | translate }}</h2>
                 <app-details [detailsData]="detailsData[3]"></app-details>
                 <div class="govuk-grid-row">
