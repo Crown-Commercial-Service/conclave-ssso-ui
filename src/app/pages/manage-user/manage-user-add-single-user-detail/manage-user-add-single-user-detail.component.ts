@@ -315,7 +315,7 @@ export class ManageUserAddSingleUserDetailComponent
         setTimeout(() => {
         const element = document.getElementById("error-summary");
          element?.scrollIntoView();
-        }, 0);
+        }, 10);
        } 
 
     getSelectedIdpIds(form: FormGroup) {
@@ -435,7 +435,7 @@ export class ManageUserAddSingleUserDetailComponent
             );
             if (!isIdpSelected) {
                 form.setErrors({ identityProviderRequired: true });
-                this.scrollView()
+                // this.scrollView()
                 return false;
             } else {
                 form.setErrors(null);
