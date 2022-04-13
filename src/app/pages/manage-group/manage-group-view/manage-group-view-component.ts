@@ -68,6 +68,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     if (queryParams.data) {
       this.routeData = JSON.parse(queryParams.data);
       this.isEdit = this.routeData['isEdit'];
+      console.log("this.isEdit",this.isEdit)
       this.editingGroupId = this.routeData['groupId'];
     }
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
