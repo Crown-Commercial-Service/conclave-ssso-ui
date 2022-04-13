@@ -9,6 +9,8 @@ import { OperationEnum } from "src/app/constants/enum";
 import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrapper-org--group-service";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { ViewportScroller } from "@angular/common";
+import { OrganisationGroupResponseInfo } from "src/app/models/organisationGroup";
+import { SharedDataService } from "src/app/shared/shared-data.service";
 
 @Component({
     selector: 'app-manage-group-delete-confirm',
@@ -22,12 +24,13 @@ import { ViewportScroller } from "@angular/common";
     ]
 })
 export class ManageGroupDeleteConfirmComponent extends BaseComponent implements OnInit {
+    public GroupDetails:any;
     isEdit: boolean = false;
     groupId: number = 0;
     organisationId: string = '';
     routeData: any = {};
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        private orgGroupService: WrapperOrganisationGroupService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        private orgGroupService: WrapperOrganisationGroupService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private SharedDataService:SharedDataService) {
         super(uiStore,viewportScroller,scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -39,11 +42,24 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
     }
 
     ngOnInit() {
+        this.orgGroupService
+        .getOrganisationGroup(this.organisationId, this.groupId)
+        .subscribe(
+          (group: OrganisationGroupResponseInfo) => {
+              this.GroupDetails=group
+            //   groupName
+          },
+          (error) => {
+            console.log(error);
+            console.log(error.error);
+          }
+        );
     }
 
     onDeleteConfirmClick() {
         this.orgGroupService.deleteOrganisationGroup(this.organisationId, this.groupId).subscribe({
             next: () => { 
+                this.SharedDataService.manageGroupStorage(this.GroupDetails.groupName)
                 this.router.navigateByUrl(`manage-groups/operation-success/${OperationEnum.GroupDelete}`);             
             },
             error: (error) => {

@@ -13,6 +13,7 @@ import { OrganisationGroupNameInfo, OrganisationGroupRequestInfo, Role } from "s
 import { OperationEnum } from "src/app/constants/enum";
 import { Title } from "@angular/platform-browser";
 import { FormBaseComponent } from "src/app/components/form-base/form-base.component";
+import { SharedDataService } from "src/app/shared/shared-data.service";
 
 @Component({
     selector: 'app-manage-group-edit-name',
@@ -31,7 +32,7 @@ export class ManageGroupEditNameComponent extends FormBaseComponent implements O
 
     constructor(protected uiStore: Store<UIState>, private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
-        private titleService: Title) {
+        private titleService: Title,private SharedDataService:SharedDataService) {
         super(viewportScroller,formBuilder.group({
             groupName: ['', Validators.compose([Validators.required])],
         }));
@@ -94,6 +95,7 @@ export class ManageGroupEditNameComponent extends FormBaseComponent implements O
                 let groupRequest: OrganisationGroupNameInfo = {
                     groupName: this.groupName
                 }
+                this.SharedDataService.manageGroupStorage(this.groupName)
                 this.orgGroupService.createOrganisationGroups(this.organisationId, groupRequest)
                     .subscribe(
                         (result) => {
