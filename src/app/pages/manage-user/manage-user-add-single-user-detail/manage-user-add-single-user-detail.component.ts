@@ -312,8 +312,10 @@ export class ManageUserAddSingleUserDetailComponent
     }
 
     private scrollView():void{
-        const element = document.getElementById("error-summary");
-         element?.scrollIntoView();
+        setTimeout(() => {
+            const element = document.getElementById("error-summary");
+             element?.scrollIntoView();
+            }, 10);
        } 
 
     getSelectedIdpIds(form: FormGroup) {
@@ -375,10 +377,10 @@ export class ManageUserAddSingleUserDetailComponent
                 error: (err: any) => {
                     if (err.error == 'MFA_ENABLED_INVALID_CONNECTION') {
                         this.mfaConnectionValidationError = true;
-                        this.scrollHelper.scrollToFirst('error-summary');
+                        this.scrollView()
                     } else if (err.error == 'MFA_DISABLED_USER') {
                         this.mfaAdminValidationError = true;
-                        this.scrollHelper.scrollToFirst('error-summary');
+                        this.scrollView()
                     }
                 },
             });
@@ -403,17 +405,17 @@ export class ManageUserAddSingleUserDetailComponent
                 if (err.status == 409) {
                     form.controls['userName'].setErrors({ alreadyExists: true });
                     this.emailHaserror=true;
-                    this.scrollHelper.scrollToFirst('error-summary');
+                    this.scrollView()
                 } else {
                     if (err.error == 'INVALID_USER_ID') {
                         form.controls['userName'].setErrors({ invalidEmail: true });
-                        this.scrollHelper.scrollToFirst('error-summary');
+                        this.scrollView()
                     } else if (err.error == 'MFA_ENABLED_INVALID_CONNECTION') {
                         this.mfaConnectionValidationError = true;
-                        this.scrollHelper.scrollToFirst('error-summary');
+                        this.scrollView()
                     } else if (err.error == 'MFA_DISABLED_USER') {
                         this.mfaAdminValidationError = true;
-                        this.scrollHelper.scrollToFirst('error-summary');
+                        this.scrollView()
                     }
                 }
             },
@@ -433,7 +435,7 @@ export class ManageUserAddSingleUserDetailComponent
             );
             if (!isIdpSelected) {
                 form.setErrors({ identityProviderRequired: true });
-                this.scrollHelper.scrollToFirst('error-summary');
+                // this.scrollView()
                 return false;
             } else {
                 form.setErrors(null);
