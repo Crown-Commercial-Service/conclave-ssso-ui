@@ -21,52 +21,35 @@
         <h2 class="govuk-error-summary__title" id="error-summary-title">
           {{ 'ERROR_SUMMARY' | translate }}
         </h2>
-        <div
-        class="govuk-error-summary__body"
-        *ngIf="validationObj.activeElement != 'US-DUN'"
-      >
-        <ul class="govuk-list govuk-error-summary__list">
-          <li>
-            <a href="javascript:;" (click)="setFocus(0)">
-              {{ "ERROR_ENTER_REGISTRY_NUMBER" | translate }}
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div
-        class="govuk-error-summary__body"
-        *ngIf="validationObj.activeElement === 'US-DUN'"
-      >
-        <ul class="govuk-list govuk-error-summary__list">
-          <li>
-            <a
-              *ngIf="validationObj.isDunlength && validationObj.DunData == ''"
-              href="javascript:;"
-              (click)="setDun_numberfocus()"
-            >
-              {{ "ERROR_ENTER_REGISTRY_NUMBER" | translate }}
-            </a>
-            <a
-              *ngIf="validationObj.DunData"
-              href="javascript:;"
-              (click)="setDun_numberfocus()"
-            >
-              Enter a valid identifier number
-            </a>
-            <a
-              *ngIf="
+        <div class="govuk-error-summary__body" *ngIf="validationObj.activeElement != 'US-DUN'">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <a href="javascript:;" (click)="setFocus(0)">
+                {{ "ERROR_ENTER_REGISTRY_NUMBER" | translate }}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="govuk-error-summary__body" *ngIf="validationObj.activeElement === 'US-DUN'">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <a *ngIf="validationObj.isDunlength && validationObj.DunData == ''" href="javascript:;"
+                (click)="setDun_numberfocus()">
+                {{ "ERROR_ENTER_REGISTRY_NUMBER" | translate }}
+              </a>
+              <a *ngIf="validationObj.DunData" href="javascript:;" (click)="setDun_numberfocus()">
+                Enter a valid identifier number
+              </a>
+              <a *ngIf="
                 validationObj.stringIdentifier &&
                 !validationObj.isDunlength &&
                 !validationObj.DunData
-              "
-              href="javascript:;"
-              (click)="setDun_numberfocus()"
-            >
-              Enter a valid identifier number
-            </a>
-          </li>
-        </ul>
-      </div>
+              " href="javascript:;" (click)="setDun_numberfocus()">
+                Enter a valid identifier number
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
       <!-- <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
@@ -103,173 +86,131 @@
             What type of registry do you want to add?
           </legend>
           <div class="govuk-radios">
-            <div
-              class="govuk-radios__item"
-              *ngFor="let item of items$! | async"
-              [class.govuk-form-group--error]="
+            <div class="govuk-radios__item" *ngFor="let item of items$! | async" [class.govuk-form-group--error]="
                 submitted &&
                 (schemeSubjectObs | async) === item.scheme &&
                 txtValue == ''
-              "
-            >
-              <input
-                class="govuk-radios__input"
-                type="radio"
-                [attr.id]="item.scheme + '-RadioButton'"
-                name="scheme"
-                [value]="item.scheme"
-                value="{{ item.scheme }}"
-                [checked]="(schemeSubjectObs | async) === item.scheme"
-                [(ngModel)]="scheme"
-                (click)="onSelect(item)"
-              />
-              <label
-                for="{{ item.scheme + '-RadioButton' }}"
-                class="govuk-label govuk-radios__label"
-                >{{ item.schemeName }}</label
-              >
-              <div
-                *ngIf="(schemeSubjectObs | async) === item.scheme"
-                id="{{ item.scheme + '-Div' }}"
-                class="box-input"
-              >
-                <label
-                  *ngIf="validationObj.activeElement != 'US-DUN'"
-                  for="{{ item.scheme + '-TextBox' }}"
-                  class="govuk-hint govuk-radios__hint"
-                >
+              ">
+              <input class="govuk-radios__input" type="radio" [attr.id]="item.scheme + '-RadioButton'" name="scheme"
+                [value]="item.scheme" value="{{ item.scheme }}" [checked]="(schemeSubjectObs | async) === item.scheme"
+                [(ngModel)]="scheme" (click)="onSelect(item)" />
+              <label for="{{ item.scheme + '-RadioButton' }}" class="govuk-label govuk-radios__label">{{ item.schemeName
+                }}</label>
+              <div *ngIf="(schemeSubjectObs | async) === item.scheme" id="{{ item.scheme + '-Div' }}" class="box-input">
+                <label *ngIf="validationObj.activeElement != 'US-DUN'" for="{{ item.scheme + '-TextBox' }}"
+                  class="govuk-hint govuk-radios__hint">
+                  <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
+                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                    'Please enter a registry number' | translate }}
+                  </span>
                   Enter your {{ item.schemeName }} Number
-                  <P class="govuk-body govuk-!-font-weight-regular custom_span" *ngIf="item.schemeName === 'Companies House'">
+                  <P class="govuk-body govuk-!-font-weight-regular custom_span"
+                    *ngIf="item.schemeName === 'Companies House'">
                     <span> Go to the</span>
-                    <a href="https://find-and-update.company-information.service.gov.uk/?" class="govuk-link" rel="noreferrer noopener" target="_blank"> Companies House </a>
+                    <a href="https://find-and-update.company-information.service.gov.uk/?" class="govuk-link"
+                      rel="noreferrer noopener" target="_blank"> Companies House </a>
                     <span>website to search for your organisation details</span>
                   </P>
-                  <P class="govuk-body govuk-!-font-weight-regular custom_span" *ngIf="item.schemeName === 'Charity Commission for England and Wales'">
+                  <P class="govuk-body govuk-!-font-weight-regular custom_span"
+                    *ngIf="item.schemeName === 'Charity Commission for England and Wales'">
                     <span> Go to the</span>
-                    <a href="https://register-of-charities.charitycommission.gov.uk/charity-search" class="govuk-link" rel="noreferrer noopener" target="_blank"> Charity Commission for England and Wales </a>
+                    <a href="https://register-of-charities.charitycommission.gov.uk/charity-search" class="govuk-link"
+                      rel="noreferrer noopener" target="_blank"> Charity Commission for England and Wales </a>
                     <span>website to search for your organisation details</span>
                   </P>
-                  <P class="govuk-body govuk-!-font-weight\regular custom_span" *ngIf="item.schemeName === 'Office of The Scottish Charity Regulator (OSCR)'">
+                  <P class="govuk-body govuk-!-font-weight\regular custom_span"
+                    *ngIf="item.schemeName === 'Office of The Scottish Charity Regulator (OSCR)'">
                     <span> Go to the</span>
-                    <a href="https://www.oscr.org.uk/search/" class="govuk-link" rel="noreferrer noopener" target="_blank"> Office of the Scottish Charity Regulator </a>
+                    <a href="https://www.oscr.org.uk/search/" class="govuk-link" rel="noreferrer noopener"
+                      target="_blank"> Office of the Scottish Charity Regulator </a>
                     <span>website to search for your organisation details</span>
                   </P>
-                  <P class="govuk-body govuk-!-font-weight-regular custom_span" *ngIf="item.schemeName === 'The Charity Commission for Northern Ireland'">
+                  <P class="govuk-body govuk-!-font-weight-regular custom_span"
+                    *ngIf="item.schemeName === 'The Charity Commission for Northern Ireland'">
                     <span> Go to the</span>
-                    <a href="https://www.charitycommissionni.org.uk/charity-search/?pageNumber=1" class="govuk-link" rel="noreferrer noopener" target="_blank"> Charity Commission for Northern Ireland </a>
+                    <a href="https://www.charitycommissionni.org.uk/charity-search/?pageNumber=1" class="govuk-link"
+                      rel="noreferrer noopener" target="_blank"> Charity Commission for Northern Ireland </a>
                     <span>website to search for your organisation details</span>
                   </P>
-                  <P class="govuk-body govuk-!-font-weight-regular custom_span" *ngIf="item.schemeName === 'National Health Service Organisations Registry'">
+                  <P class="govuk-body govuk-!-font-weight-regular custom_span"
+                    *ngIf="item.schemeName === 'National Health Service Organisations Registry'">
                     <span> Go to the</span>
-                    <a href="https://odsportal.digital.nhs.uk/Organisation/Search" class="govuk-link" rel="noreferrer noopener" target="_blank"> National Health Service Organisations Registry </a>
+                    <a href="https://odsportal.digital.nhs.uk/Organisation/Search" class="govuk-link"
+                      rel="noreferrer noopener" target="_blank"> National Health Service Organisations Registry </a>
                     <span>website to search for your organisation details</span>
                   </P>
                 </label>
-                <span
-                  *ngIf="validationObj.activeElement === 'US-DUN'"
-                  class="govuk-hint govuk-radios__hint"
-                >
+                <span *ngIf="validationObj.activeElement === 'US-DUN'" class="govuk-hint govuk-radios__hint">
+                  <span id="name-error" class="govuk-error-message"
+                    *ngIf="submitted && dunNumber.get('data1').value == null && dunNumber.get('data2').value == null && dunNumber.get('data3').value == null">
+                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                    'Please enter a registry number' | translate }}
+                  </span>
                   Enter your Dun & Bradstreet Number
                   <P class="govuk-body govuk-!-font-weight-regular custom_span">
                     <span> Go to the</span>
-                    <a href="https://www.dnb.co.uk/duns-number/lookup.html" class="govuk-link" rel="noreferrer noopener" target="_blank"> Dun & Bradstreet </a>
+                    <a href="https://www.dnb.co.uk/duns-number/lookup.html" class="govuk-link" rel="noreferrer noopener"
+                      target="_blank"> Dun & Bradstreet </a>
                     <span>website to search for your organisation details</span>
                   </P>
                 </span>
-                <input
-                  *ngIf="validationObj.activeElement != 'US-DUN'"
-                  #input
-                  id="{{ item.scheme + '-TextBox' }}"
-                  class="govuk-input govuk-input--width-10 text-input"
-                  type="text"
-                  [(ngModel)]="txtValue"
+                <input *ngIf="validationObj.activeElement != 'US-DUN'" #input id="{{ item.scheme + '-TextBox' }}"
+                  class="govuk-input govuk-input--width-10 text-input" type="text" [(ngModel)]="txtValue"
                   [class.govuk-input--error]="
                     submitted &&
                     (schemeSubjectObs | async) === item.scheme &&
                     txtValue == ''
-                  "
-                />
+                  " />
                 <form [formGroup]="dunNumber">
-                  <div
-                    class="input-text-group custom-field"
-                    *ngIf="validationObj.activeElement == 'US-DUN'"
-                  >
-                    <div
-                      id="valid-identifier-error"
-                      class="govuk-error-message"
-                      *ngIf="
+                  <div class="input-text-group custom-field" *ngIf="validationObj.activeElement == 'US-DUN'">
+                    <div id="valid-identifier-error" class="govuk-error-message" *ngIf="
                         submitted &&
                         validationObj.stringIdentifier &&
                         validationObj.DunData != ''
-                      "
-                    >
-                    <span class="govuk-visually-hidden">Error:</span> Enter a
-                    valid identifier number
+                      ">
+                      <span class="govuk-visually-hidden">Error:</span> Enter a
+                      valid identifier number
                     </div>
                     <span>
                       <label for="input1">.</label>
-                      <input
-                        type="text"
-                        id="input1"
-                        (input)="
+                      <input type="text" id="input1" (input)="
                           ValueChanged(dunNumber.controls.data1.value, 'input1')
-                        "
-                        maxlength="3"
-                        formControlName="data1"
-                        class="govuk-input govuk-input--width-10 text-input"
+                        " maxlength="3" formControlName="data1" class="govuk-input govuk-input--width-10 text-input"
                         (keydown.backspace)="
                           tiggerBackspace( 
                             dunNumber.controls.data1.value,
                             'input1'
                           )
-                        "
-                        [class.govuk-input--error]="
+                        " [class.govuk-input--error]="
                           submitted && dunNumber.get('data1').invalid
-                        "
-                      />
+                        " />
                     </span>
                     <span>
                       <label for="input2">.</label>
-                      <input
-                        type="text"
-                        id="input2"
-                        maxlength="3"
-                        (input)="
+                      <input type="text" id="input2" maxlength="3" (input)="
                           ValueChanged(dunNumber.controls.data2.value, 'input2')
-                        "
-                        formControlName="data2"
-                        class="govuk-input govuk-input--width-10 text-input"
+                        " formControlName="data2" class="govuk-input govuk-input--width-10 text-input"
                         (keydown.backspace)="
                           tiggerBackspace(
                             dunNumber.controls.data2.value,
                             'input2'
                           )
-                        "
-                        [class.govuk-input--error]="
+                        " [class.govuk-input--error]="
                           submitted && dunNumber.get('data2').invalid
-                        "
-                    /></span>
+                        " /></span>
                     <span>
                       <label for="input3">.</label>
-                      <input
-                        type="text"
-                        id="input3"
-                        maxlength="3"
-                        (input)="
+                      <input type="text" id="input3" maxlength="3" (input)="
                           ValueChanged(dunNumber.controls.data3.value, 'input3')
-                        "
-                        formControlName="data3"
-                        class="govuk-input govuk-input--width-10 text-input"
+                        " formControlName="data3" class="govuk-input govuk-input--width-10 text-input"
                         (keydown.backspace)="
                           tiggerBackspace(
                             dunNumber.controls.data3.value,
                             'input3'
                           )
-                        "
-                        [class.govuk-input--error]="
+                        " [class.govuk-input--error]="
                           submitted && dunNumber.get('data3').invalid
-                        "
-                    /></span>
+                        " /></span>
                   </div>
                 </form>
               </div>

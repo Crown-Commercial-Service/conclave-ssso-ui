@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-nominate',
@@ -31,6 +32,7 @@ export class NominateComponent extends BaseComponent {
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(private formBuilder: FormBuilder,
+    private dataService:SharedDataService,
     private PatternService:PatternService,
     private authService: AuthService, private router: Router,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -56,7 +58,8 @@ export class NominateComponent extends BaseComponent {
       let uname = form.get('email')?.value;
       this.authService.nominate(uname).toPromise().then(() => {
         this.submitted = false;
-        this.router.navigateByUrl(`nominate/success?uid=` + encodeURIComponent(uname));
+        this.dataService.NominiData.next(uname)
+        this.router.navigateByUrl(`nominate/success`);
       });
     }
   }

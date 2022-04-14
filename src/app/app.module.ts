@@ -156,6 +156,8 @@ import { ManageUserBulkUploadMigrationStatusComponent } from './pages/manage-use
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FindyouradministratorComponent } from './pages/manage-organisation/find-your-administrator/find-your-administrator.component';
 import { DetailsComponent } from './components/details/details.component';
+import { CookiesBannerComponent } from './components/cookies-banner/cookies-banner.component';
+import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -277,7 +279,9 @@ export function createTranslateLoader(http: HttpClient) {
     ManageOrgRegCIIOrgDisplayComponent,
     ManageOrgRegNotifyAdminComponent,
     FindyouradministratorComponent,
-    DetailsComponent
+    DetailsComponent,
+    CookiesBannerComponent,
+    CookiesSettingsComponent
   ],
   imports: [
     // BrowserModule,

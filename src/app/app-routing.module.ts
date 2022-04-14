@@ -106,6 +106,7 @@ import { ManageOrgRegSearchStatusExistsComponent } from './pages/manage-organisa
 import { ManageOrgRegSearchStatusDuplicateComponent } from './pages/manage-organisation/manage-reg-organisation-status-duplicate/manage-reg-organisation-status-duplicate.component';
 import { ManageUserBulkUploadMigrationStatusComponent } from './pages/manage-user/manage-user-bulk-upload-migration-status/manage-user-bulk-upload-migration-status.component';
 import { FindyouradministratorComponent } from './pages/manage-organisation/find-your-administrator/find-your-administrator.component';
+import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -415,6 +416,12 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageOrganisationContactOperationSuccessComponent,
+  },
+  {
+    path: 'cookies',
+    data: { title: 'Cookies Settings' },
+    pathMatch: 'full',
+    component: CookiesSettingsComponent,
   },
   {
     path: 'manage-org/profile/:organisationId/registry/error/:reason',
