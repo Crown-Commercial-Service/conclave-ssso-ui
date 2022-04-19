@@ -66,7 +66,7 @@ export class OrgSupportSuccessComponent extends BaseComponent implements OnInit 
       }
 
       if (resetMfa) {
-        this.displayMessage = changePassword || changeRoleType !== "noChange" ? this.displayMessage + `\n additional security reset email has been sent to ${userName}.` :
+        this.displayMessage = changePassword || changeRoleType !== "noChange" ? this.displayMessage + `\n Additional security reset email has been sent to ${userName}.` :
           `Additional security reset email has been sent to ${userName}.`;
       }
     });
