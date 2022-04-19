@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment';
 })
 export class CookiesBannerComponent implements OnInit {
   private  cookieExpirationTimeInMinutes = environment.cookieExpirationTimeInMinutes
+  //just hideed banner in local env
+  public   developmentMode=environment.uri.web.dashboard === 'http://localhost:4200' ? true : false
   public cookiesData:any = {
     coockiebanner: true,
     acceptAnalyticsCookies: false,

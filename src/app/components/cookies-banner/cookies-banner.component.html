@@ -1,4 +1,4 @@
-<div class="cookies_section">
+<div class="cookies_section" *ngIf="!developmentMode">
 <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on [name of service]" *ngIf="cookiesData.coockiebanner">
     <div class="govuk-cookie-banner__message govuk-width-container">
       <div class="govuk-grid-row">
