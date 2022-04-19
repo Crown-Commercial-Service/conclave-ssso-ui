@@ -17,12 +17,15 @@
                             translate
                             }}</a>
                     </li>
-                    <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link">created successfully</span>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="operation != operationEnum.CreateOrgContact">
+                        <span class="govuk-breadcrumbs__link" >Success</span>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateOrgContact">
+                        <span class="govuk-breadcrumbs__link">Contact created successfully</span>
                     </li>
                 </ol>
             </div>
-             <h1>Contact created</h1>
+             <h1 *ngIf="operation === operationEnum.CreateOrgContact">Contact created</h1>
             <p class="govuk-body-l" *ngIf="operation === operationEnum.CreateOrgContact">
                 {{ 'ADD_ORG_CONTACT_SUCCESS' | translate }}
             </p>
