@@ -27,6 +27,10 @@ export class PatternService {
    * @returns Validated boolean value
    */
   public emailValidator(data: any) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 23f1fe7621fe7cbab8bf746abe41d54ef88e93bc
     if (!data) {
       return false;
     }

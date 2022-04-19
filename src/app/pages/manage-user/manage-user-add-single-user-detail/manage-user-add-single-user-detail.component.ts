@@ -255,7 +255,7 @@ export class ManageUserAddSingleUserDetailComponent
     // ngAfterViewChecked() {
     //     if (!this.errorLinkClicked) {
     //         // This additional check has been done to avoid always scrolling to error summary because ngAfterViewChecked is triggered with dynamic form controls
-    //         // this.scrollHelper.doScroll();
+    //         this.scrollHelper.doScroll();
     //     } else {
     //         this.errorLinkClicked = false;
     //     }
@@ -307,15 +307,21 @@ export class ManageUserAddSingleUserDetailComponent
                 this.createUser(form);
             }
         } else {
-            this.scrollView()
+                this.scrollView()
         }
     }
 
     private scrollView():void{
         setTimeout(() => {
+<<<<<<< HEAD
             const element = document.getElementById("error-summary");
              element?.scrollIntoView();
             }, 10);
+=======
+        const element = document.getElementById("error-summary");
+         element?.scrollIntoView();
+        }, 10);
+>>>>>>> 23f1fe7621fe7cbab8bf746abe41d54ef88e93bc
        } 
 
     getSelectedIdpIds(form: FormGroup) {
