@@ -24,8 +24,8 @@
                 </ol>
             </div>
             <div>
-                <h1 *ngIf="operation=== operationEnum.GroupUserAdd"  class="govuk-heading-xl page-title ng-tns-c324-9 ng-star-inserted">Group {{GroupName}} created</h1>
-                <h1 *ngIf="operation=== operationEnum.GroupDelete"  class="govuk-heading-xl page-title ng-tns-c324-9 ng-star-inserted">{{GroupName}} deleted</h1>
+                 <h1 *ngIf="operation=== operationEnum.GroupAdd"  class="govuk-heading-xl page-title ng-tns-c324-9 ng-star-inserted">Group {{GroupName}} created</h1>
+                 <h1 *ngIf="operation=== operationEnum.GroupDelete"  class="govuk-heading-xl page-title ng-tns-c324-9 ng-star-inserted">{{GroupName}} deleted</h1>
 
                 <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupAdd" >
                     {{ 'GROUP_ADD_SUCCESS' | translate }} {{userCount}} {{ 'USERS_SIMPLE' | translate }} {{ 'AND_SIMPLE' | translate }} {{roleCount}} {{ 'ROLES_SIMPLE' | translate }}
@@ -40,7 +40,7 @@
                 </button>
                 <br>
                 <a href="javascript:;"  class="navigation-text" (click)="onNavigateTomanageGroup()">
-                    Return to manage groups</a>
+                    Return to Manage Group</a>
                     <br><br>
                     <a href="javascript:;" *ngIf="operation=== operationEnum.GroupAdd" class="navigation-text" (click)="onNavigateTohome()">
                         Return to dashboard</a>   
