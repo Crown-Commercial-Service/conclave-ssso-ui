@@ -23,7 +23,7 @@
                     </a>
                     <a *ngIf="formGroup.controls['email'].hasError('required')" href="javascript:;" onClick="return false;"
                       (click)="setFocus(2)">
-                      <li>Enter the nominee's email</li>
+                      <li>Enter the nominee's email address</li>
                     </a>
                     <a *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid" href="javascript:;" onClick="return false;"
                       (click)="setFocus(2)">
@@ -59,7 +59,7 @@
               [class.govuk-form-group--error]="submitted && formGroup.controls.email.invalid">
               <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
               <span id="email-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls.email.errors?.required">
-                <span class="govuk-visually-hidden">Error:</span>Enter the nominee's email
+                <span class="govuk-visually-hidden">Error:</span>Enter the nominee's email address
               </span>
               <span id="email-error" class="govuk-error-message"
               *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
