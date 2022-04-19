@@ -43,7 +43,8 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             this.formGroup = this.formBuilder.group({
                 firstName: [orgreginfo.adminUserFirstName, Validators.compose([Validators.required])],
                 lastName: [orgreginfo.adminUserLastName, Validators.compose([Validators.required])],
-                email: [orgreginfo.adminEmail, Validators.pattern(this.PatternService.emailPattern)],
+                email: [orgreginfo.adminEmail,, Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
+                // email: [orgreginfo.adminEmail, Validators.pattern(this.PatternService.emailPattern)],
                 organisation: [orgreginfo.orgName, Validators.compose([Validators.required])]
             });
             this.searchOrgName = orgreginfo.orgName;
@@ -128,7 +129,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 ciiOrgId: ''
             };
             sessionStorage.setItem('orgreginfo', JSON.stringify(organisationRegisterDto));
-
+            sessionStorage.setItem('RegExistsingOrgName', organisationRegisterDto.orgName);
             let data = await this.organisationService.getByName(organisationRegisterDto.orgName).toPromise();
             localStorage.removeItem('scheme');
             localStorage.removeItem('scheme_name');
