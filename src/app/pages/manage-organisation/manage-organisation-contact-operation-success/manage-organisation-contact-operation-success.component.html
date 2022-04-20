@@ -26,6 +26,7 @@
                 </ol>
             </div>
              <h1 *ngIf="operation === operationEnum.CreateOrgContact">Contact created</h1>
+             <h1 *ngIf="operation === operationEnum.CreateSite">Site created</h1>
             <p class="govuk-body-l" *ngIf="operation === operationEnum.CreateOrgContact">
                 {{ 'ADD_ORG_CONTACT_SUCCESS' | translate }}
             </p>
