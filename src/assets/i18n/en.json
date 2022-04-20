@@ -113,7 +113,7 @@
   "USER_UPDATE_SUCCESS": "You have successfully saved these changes",
   "CONFIRM_RESET_PASSWORD_FOR": "Confirm you want to change the password for ",
   "RESET_PASSWORD": "Reset password",
-  "RESET_EMAIL_HAS_BEEN_SENT_TO": "A reset password email has been sent to ",
+  "RESET_EMAIL_HAS_BEEN_SENT_TO": "A reset password email has been sent to user ",
   "IF_USER_DOES_NOT_RECEIVE_IT_VIEW": "If the user doesn't receive it, view ",
   "HELP_AND_SUPPORT": "Help and support",
   "TITLE": "Title",
