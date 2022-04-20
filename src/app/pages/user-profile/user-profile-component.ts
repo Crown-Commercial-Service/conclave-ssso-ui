@@ -159,6 +159,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               ) {
                 this.isAdminUser = true;
               }
+
+              this.formGroup.addControl(
+                'orgRoleControl_' + orgRole.roleId,
+                this.formBuilder.control(this.assignedRoleDataList ? true : '')
+              );
             }
           });
 
@@ -171,8 +176,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               accessRoleName: element.roleName,
               serviceName: element.serviceName,
             });
-          });
 
+            this.formGroup.addControl(
+              'orgRoleControl_' + element.roleId,
+              this.formBuilder.control(this.assignedRoleDataList ? false : '')
+            );
+          });
           //Find assigned roles then enable checkbox as true
           user.detail.rolePermissionInfo &&
             user.detail.rolePermissionInfo.map((roleInfo) => {
@@ -181,15 +190,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 this.assignedRoleDataList.push({
                   roleId: orgRole.roleId,
                 });
-
-                this.formGroup.addControl(
-                  'orgRoleControl_' + orgRole.roleId,
-                  this.formBuilder.control(
-                    this.assignedRoleDataList ? true : ''
-                  )
-                );
               }
-              console.log('assignedRoleDataList : ', this.assignedRoleDataList);
             });
         } else {
           user.detail.rolePermissionInfo &&
@@ -305,12 +306,15 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         organisationId: this.organisationId,
         userName: this.userName,
         mfaEnabled: form.get('mfaEnabled')?.value,
+        isAdminUser:this.isAdminUser,
         detail: {
           id: 0,
+          roleIds: this.getSelectedRoleIds(form),
         },
         firstName: form.get('firstName')?.value,
         lastName: form.get('lastName')?.value,
       };
+
       this.userService.updateUser(this.userName, userRequest).subscribe(
         (data) => {
           this.router.navigateByUrl(
@@ -352,5 +356,15 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       'manage-groups/view?data=' + JSON.stringify(data),
       { state: { formData: formData, routeUrl: this.router.url } }
     );
+  }
+
+  getSelectedRoleIds(form: FormGroup) {
+    let selectedRoleIds: number[] = [];
+    this.roleDataList.map((role) => {
+      if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
+        selectedRoleIds.push(role.roleId);
+      }
+    });
+    return selectedRoleIds;
   }
 }
