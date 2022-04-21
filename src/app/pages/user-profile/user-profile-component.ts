@@ -22,6 +22,7 @@ import { AuditLoggerService } from 'src/app/services/postgres/logger.service';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { isBoolean } from 'lodash';
 
 @Component({
   selector: 'app-user-profile',
@@ -34,7 +35,10 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   userGroupTableHeaders = ['GROUPS'];
   userGroupColumnsToDisplay = ['group'];
   userRoleTableHeaders = ['ROLES', 'SERVICE'];
-  userRoleColumnsToDisplay = ['accessRoleName', 'serviceName'];
+  userRoleColumnsToDisplay = [
+    'accessRoleName',
+    'serviceName',
+  ];
   contactTableHeaders = [
     'CONTACT_REASON',
     'NAME',
@@ -53,12 +57,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     'fax',
     'webUrl',
   ];
-  public detailsData: any = [
-    'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
-    'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required roles.',
-    'The roles applied to your account will set what services are available to you. Contact your admin if something is wrong.',
-    'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
-  ];
+  public detailsData: any = [];
+  public isAdminUser: boolean = false;
   userGroups: UserGroup[] = [];
   userContacts: ContactGridInfo[] = [];
   userName: string;
@@ -66,6 +66,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   canChangePassword: boolean = false;
   identityProviderDisplayName: string = '';
   roleDataList: any[] = [];
+  assignedRoleDataList: any[] = [];
   routeStateData: any = {};
   hasGroupViewPermission: boolean = false;
 
@@ -140,6 +141,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         });
       }
     }
+
     await this.orgGroupService
       .getOrganisationRoles(this.organisationId)
       .toPromise()
@@ -148,12 +150,58 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           user.detail.rolePermissionInfo.map((roleInfo) => {
             var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
             if (orgRole) {
-              this.roleDataList.push({
-                accessRoleName: orgRole.roleName,
-                serviceName: orgRole.serviceName,
-              });
+              //Determin Login user whether Admin/Normal user.
+              if (
+                orgRole.roleKey == 'ORG_ADMINISTRATOR' &&
+                this.isAdminUser == false
+              ) {
+                this.isAdminUser = true;
+              }
+
+              this.formGroup.addControl(
+                'orgRoleControl_' + orgRole.roleId,
+                this.formBuilder.control(this.assignedRoleDataList ? true : '')
+              );
             }
           });
+
+        //bind Roles based on User Type
+        if (this.isAdminUser == true) {
+          orgRoles.forEach((element) => {
+            this.roleDataList.push({
+              roleId: element.roleId,
+              roleKey: element.roleKey,
+              accessRoleName: element.roleName,
+              serviceName: element.serviceName,
+            });
+
+            this.formGroup.addControl(
+              'orgRoleControl_' + element.roleId,
+              this.formBuilder.control(this.assignedRoleDataList ? false : '')
+            );
+          });
+          //Find assigned roles then enable checkbox as true
+          user.detail.rolePermissionInfo &&
+            user.detail.rolePermissionInfo.map((roleInfo) => {
+              var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
+              if (orgRole) {
+                this.assignedRoleDataList.push({
+                  roleId: orgRole.roleId,
+                });
+              }
+            });
+        } else {
+          user.detail.rolePermissionInfo &&
+            user.detail.rolePermissionInfo.map((roleInfo) => {
+              var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
+              if (orgRole) {
+                this.roleDataList.push({
+                  accessRoleName: orgRole.roleName,
+                  serviceName: orgRole.serviceName,
+                });
+              }
+            });
+        }
       });
 
     this.authService
@@ -165,6 +213,22 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
     this.getUserContact(this.userName);
     this.onFormValueChange();
+
+    if (this.isAdminUser == true) {
+      this.detailsData = [
+        'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
+        'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required roles.',
+        'The roles selected here will set what services are available to you.',
+        'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
+      ];
+    } else {
+      this.detailsData = [
+        'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
+        'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required roles.',
+        'The roles selected here will set what services are available to you. Contact your admin if something is wrong.',
+        'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
+      ];
+    }
   }
 
   ngAfterViewChecked() {
@@ -238,12 +302,15 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         organisationId: this.organisationId,
         userName: this.userName,
         mfaEnabled: form.get('mfaEnabled')?.value,
+        isManageMyAccount_AdminUser:this.isAdminUser,
         detail: {
           id: 0,
+          roleIds: this.getSelectedRoleIds(form),
         },
         firstName: form.get('firstName')?.value,
         lastName: form.get('lastName')?.value,
       };
+
       this.userService.updateUser(this.userName, userRequest).subscribe(
         (data) => {
           this.router.navigateByUrl(
@@ -285,5 +352,15 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       'manage-groups/view?data=' + JSON.stringify(data),
       { state: { formData: formData, routeUrl: this.router.url } }
     );
+  }
+
+  getSelectedRoleIds(form: FormGroup) {
+    let selectedRoleIds: number[] = [];
+    this.roleDataList.map((role) => {
+      if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
+        selectedRoleIds.push(role.roleId);
+      }
+    });
+    return selectedRoleIds;
   }
 }
