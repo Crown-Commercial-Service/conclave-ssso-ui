@@ -37,7 +37,7 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
   pageSize: number = environment.listPageSize;
   tableHeaders = ['NAME', 'ORGANISATION', 'USER_EMAIL'];
   tableColumnsToDisplay = ['name', 'organisationLegalName', 'userName'];
-
+  searchSumbited:boolean=false;
   constructor(private cf: ChangeDetectorRef, private formBuilder: FormBuilder, private translateService: TranslateService, private organisationService: OrganisationService, private wrapperOrganisationService: WrapperOrganisationService, private readonly tokenService: TokenService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
     this.formGroup = this.formBuilder.group({
@@ -70,6 +70,7 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
   }
 
   async onSearchClick() {
+    this.searchSumbited=true
     this.currentPage = 1;
     await this.onSearch();
   }

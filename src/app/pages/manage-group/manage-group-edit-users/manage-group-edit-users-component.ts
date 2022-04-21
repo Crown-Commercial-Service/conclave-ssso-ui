@@ -39,7 +39,7 @@ export class ManageGroupEditUsersComponent
   userNames: string[] = [];
   addingUsers: UserListInfo[] = [];
   removingUsers: UserListInfo[] = [];
-
+  searchSumbited:boolean=false;
   searchingUserName: string = '';
   currentPage: number = 1;
   pageCount: number = 0;
@@ -139,6 +139,7 @@ export class ManageGroupEditUsersComponent
   }
 
   onSearchClick() {
+    this.searchSumbited=true
     this.currentPage = 1;
     this.getOrganisationUsers();
   }
