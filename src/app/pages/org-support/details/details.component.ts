@@ -53,7 +53,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
       title: '',
       userName: '',
       mfaEnabled: false,
-      isManageMyAccount_AdminUser:false,
+      isAdminUser:false,
       detail: {
         id: 0,
         canChangePassword: false
