@@ -80,12 +80,15 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-button-group save-cancel-button-group">
-            <button type="submit" (click)="onConfirmClick()" class="govuk-button" data-module="govuk-button">
+            <button *ngIf="addingRoles.length != 0" type="submit" (click)="onConfirmClick()" class="govuk-button" data-module="govuk-button">
                 {{ 'CONFIRM_BTN' | translate }}
+            </button>
+            <button *ngIf="addingRoles.length == 0" type="submit" (click)="onConfirmClick()" class="govuk-button" data-module="govuk-button">
+                Create group without roles
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button">
-                {{ 'CANCEL_BTN' | translate }}
+                Select different roles
             </button>
         </div>
     </div>
