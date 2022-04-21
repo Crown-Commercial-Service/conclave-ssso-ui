@@ -66,9 +66,14 @@
             <button type="button" (click)="onContinueClick()" class="govuk-button" data-module="govuk-button">
                 {{ 'CONTINUE_BTN' | translate }}
             </button>
+            <div class="govuk-button-group save-cancel-button-group" >
+                <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                data-module="govuk-button" *ngIf="isEdit">
+                Cancel and go to group
+            </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
-                data-module="govuk-button">
-               Create group with no roles
+                data-module="govuk-button" *ngIf="!isEdit">
+                Create group with no users and roles
             </button>
         </div>
     </div>
