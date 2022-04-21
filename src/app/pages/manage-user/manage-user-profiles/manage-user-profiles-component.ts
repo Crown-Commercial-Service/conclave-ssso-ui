@@ -38,7 +38,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     pageSize: number = environment.listPageSize;
     usersTableHeaders = ['NAME', 'EMAIL'];
     usersColumnsToDisplay = ['name', 'userName'];
-
+    searchSumbited:boolean=false;
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
         protected uiStore: Store<UIState>, private router: Router, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
         private auditLogService: AuditLoggerService) {
@@ -85,6 +85,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     }
 
     onSearchClick() {
+        this.searchSumbited=true
         this.currentPage = 1;
         this.getOrganisationUsers();
     }

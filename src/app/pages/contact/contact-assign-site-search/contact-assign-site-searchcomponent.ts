@@ -29,7 +29,7 @@ export class ContactAssignSiteSearchComponent extends BaseComponent implements O
     siteTableHeaders = ['SITE_NAME', 'STREET_ADDRESS', 'POSTAL_CODE', 'COUNTRY_CODE'];
     siteColumnsToDisplay = ['siteName', 'streetAddress', 'postalCode', 'countryCode'];
     siteData: SiteGridInfo[] = [];
-
+    public searchSumbited:boolean=false;
     constructor(private wrapperSiteService: WrapperOrganisationSiteService,
         protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -70,6 +70,7 @@ export class ContactAssignSiteSearchComponent extends BaseComponent implements O
     }
 
     onSearchClick() {
+        this.searchSumbited=true
         this.getOrganisationSites();
     }
 
