@@ -34,12 +34,10 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   formGroup!: FormGroup;
   userGroupTableHeaders = ['GROUPS'];
   userGroupColumnsToDisplay = ['group'];
-  userRoleTableHeaders = ['ROLES', 'SERVICE', 'ROLEID', 'ROLEKEY'];
+  userRoleTableHeaders = ['ROLES', 'SERVICE'];
   userRoleColumnsToDisplay = [
     'accessRoleName',
     'serviceName',
-    'roleId',
-    'roleKey',
   ];
   contactTableHeaders = [
     'CONTACT_REASON',
@@ -198,8 +196,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
               if (orgRole) {
                 this.roleDataList.push({
-                  roleId: orgRole.roleId,
-                  roleKey: orgRole.roleKey,
                   accessRoleName: orgRole.roleName,
                   serviceName: orgRole.serviceName,
                 });
@@ -306,7 +302,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         organisationId: this.organisationId,
         userName: this.userName,
         mfaEnabled: form.get('mfaEnabled')?.value,
-        isAdminUser:this.isAdminUser,
+        isManageMyAccount_AdminUser:this.isAdminUser,
         detail: {
           id: 0,
           roleIds: this.getSelectedRoleIds(form),
