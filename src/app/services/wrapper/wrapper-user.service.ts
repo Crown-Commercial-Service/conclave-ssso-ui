@@ -68,7 +68,7 @@ export class WrapperUserService {
 
   updateUser(
     userName: string,
-    userRequest: UserProfileRequestInfo
+    userRequest: UserProfileRequestInfo,
   ): Observable<any> {
     const url = `${this.url}?user-id=${encodeURIComponent(userName)}`;
     return this.http

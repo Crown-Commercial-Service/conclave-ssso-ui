@@ -112,7 +112,7 @@ export class ManageUserAddSingleUserDetailComponent
             title: 'undefined',
             userName: '',
             mfaEnabled: false,
-            isManageMyAccount_AdminUser : false,
+            isAdminUser : false,
             detail: {
                 id: 0,
                 groupIds: [],
@@ -124,7 +124,7 @@ export class ManageUserAddSingleUserDetailComponent
         this.userProfileResponseInfo = {
             userName: '',
             mfaEnabled: false,
-            isManageMyAccount_AdminUser : false,
+            isAdminUser : false,
             detail: {
                 id: 0,
                 canChangePassword: false,
@@ -467,7 +467,7 @@ export class ManageUserAddSingleUserDetailComponent
             lastName: this.formGroup.get('lastName')?.value,
             userName: this.formGroup.get('userName')?.value,
             mfaEnabled: this.formGroup.get('mfaEnabled')?.value,
-            isManageMyAccount_AdminUser:false,
+            isAdminUser:false,
             detail: {
                 id: this.userProfileResponseInfo.detail.id,
                 canChangePassword:

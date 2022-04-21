@@ -302,7 +302,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         organisationId: this.organisationId,
         userName: this.userName,
         mfaEnabled: form.get('mfaEnabled')?.value,
-        isManageMyAccount_AdminUser:this.isAdminUser,
+        isAdminUser:this.isAdminUser,
         detail: {
           id: 0,
           roleIds: this.getSelectedRoleIds(form),
