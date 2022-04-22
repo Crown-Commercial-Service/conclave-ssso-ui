@@ -27,7 +27,6 @@ export class PatternService {
    * @returns Validated boolean value
    */
   public emailValidator(data: any) {
-
     if (!data) {
       return false;
     }
