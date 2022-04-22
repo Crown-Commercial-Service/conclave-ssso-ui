@@ -47,7 +47,9 @@
                     </span>
                     <mat-form-field class="example-full-width">
                         <input id="organisation" [ngModel]="searchOrgName" (ngModelChange)="onSearchTextChange($event)" #input type="search" class="govuk-input" matInput 
-                            formControlName="organisation" maxlength="100" [matAutocomplete]="auto">
+                            formControlName="organisation"
+                            [class.govuk-input--error]="submitted && formGroup.controls.organisation.invalid"
+                            maxlength="100" [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete" class="mat-country-search-registration">
                             <div *ngFor="let option of filteredOptions; index as i">
                                 <mat-option *ngIf="(i<showMoreThreshold) || showMoreOptionsVisible"
@@ -95,7 +97,7 @@
                     <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
                     <span id="email-error" class="govuk-error-message"
                     *ngIf="submitted && formGroup.controls.email.errors?.required">
-                    <span class="govuk-visually-hidden">Error:</span>Enter your email
+                    <span class="govuk-visually-hidden">Error:</span>Enter your email address
                 </span>
                     <span id="email-error" class="govuk-error-message"
                     *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">

@@ -35,7 +35,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
     usersColumnsToDisplay = ['name', 'userName'];
     assigningSiteId: number = 0;
     assigningOrgId: string = "";
-
+    searchSumbited:boolean=false;
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
         protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -78,6 +78,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
     }
 
     onSearchClick() {
+        this.searchSumbited=true
         this.currentPage = 1;
         this.getOrganisationUsers();
     }

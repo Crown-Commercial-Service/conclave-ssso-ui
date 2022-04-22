@@ -150,7 +150,7 @@
           </div>
           <div class="govuk-button-group save-cancel-button-group">
             <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
-              {{'SAVE_BTN' | translate }}
+              {{ isEdit === false ? 'Create contact' : 'Edit contact'}}
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
               data-module="govuk-button">
