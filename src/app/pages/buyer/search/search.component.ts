@@ -36,7 +36,7 @@ export class BuyerSearchComponent extends BaseComponent implements OnInit {
   public selectedOrgId: string = '';
   public data: any;
   public ciiOrganisationId!: string;
-
+  public searchSumbited:boolean=false;
   constructor(private cf: ChangeDetectorRef, private formBuilder: FormBuilder, private organisationService: OrganisationService,
     private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
@@ -60,6 +60,7 @@ export class BuyerSearchComponent extends BaseComponent implements OnInit {
   }
 
   async onSearchClick() {
+    this.searchSumbited=true
     this.currentPage = 1;
     await this.onSearch();
   }

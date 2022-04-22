@@ -32,10 +32,14 @@
             {{ 'MANAGE_GROUP_USERS' | translate }} : {{groupName}}</h1>
         <h2 *ngIf="isEdit== true" class="govuk-heading-m">
             {{ 'SELECT_USERS_WANT_TO_ADD' | translate }} : {{groupName}}</h2>
-        <h1 *ngIf="isEdit!= true" class="govuk-heading-xl page-title">{{ 'ADD_USERS' | translate }}</h1>
+        <h1 *ngIf="isEdit!= true" class="govuk-heading-xl page-title">{{ 'ADD_USERS_GROUP' | translate }} {{groupName}}</h1>
         <div>
-            <div class="govuk-form-group" id="search-form-group">
+            <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchingUserName ===''">
                 <label class="govuk-label" for="search"> {{ 'SEARCH_FOR_USER' | translate }} </label>
+                <span id="first-name-error" class="govuk-error-message"
+                *ngIf="searchSumbited && searchingUserName ===''">
+                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a user’s name or email address
+              </span>
                 <app-search-box [(searchText)]="searchingUserName" (onSearchClickEvent)="onSearchClick()">
                 </app-search-box>
             </div>
@@ -62,9 +66,14 @@
             <button type="button" (click)="onContinueClick()" class="govuk-button" data-module="govuk-button">
                 {{ 'CONTINUE_BTN' | translate }}
             </button>
+            <div class="govuk-button-group save-cancel-button-group" >
+                <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                data-module="govuk-button" *ngIf="isEdit">
+                Cancel and go to group
+            </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
-                data-module="govuk-button">
-                {{ 'CANCEL_GO_GROUP_BTN' | translate }}
+                data-module="govuk-button" *ngIf="!isEdit">
+                Create group with no users and roles
             </button>
         </div>
     </div>

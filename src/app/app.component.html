@@ -111,7 +111,7 @@
         </div>
     </div>
     <div *ngIf="(this.authService.userAutnenticated$ | async) || this.isAuthenticated">
-        <iframe title="opIFrame" style="position: absolute;width:0;height:0;border:0;" [src]="opIFrameURL" id="opIFrame"></iframe>
-        <iframe title="rpIFrame" style="position: absolute;width:0;height:0;border:0;" [src]="rpIFrameURL" id="rpIFrame"></iframe>
+        <iframe aria-hidden="true" style="position: absolute;width:0;height:0;border:0;" [src]="opIFrameURL" id="opIFrame"></iframe>
+        <iframe aria-hidden="true" style="position: absolute;width:0;height:0;border:0;" [src]="rpIFrameURL" id="rpIFrame"></iframe>
     </div>
 </footer>

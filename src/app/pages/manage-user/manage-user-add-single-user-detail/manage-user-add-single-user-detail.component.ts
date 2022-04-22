@@ -112,6 +112,7 @@ export class ManageUserAddSingleUserDetailComponent
             title: 'undefined',
             userName: '',
             mfaEnabled: false,
+            isAdminUser : false,
             detail: {
                 id: 0,
                 groupIds: [],
@@ -123,6 +124,7 @@ export class ManageUserAddSingleUserDetailComponent
         this.userProfileResponseInfo = {
             userName: '',
             mfaEnabled: false,
+            isAdminUser : false,
             detail: {
                 id: 0,
                 canChangePassword: false,
@@ -255,7 +257,7 @@ export class ManageUserAddSingleUserDetailComponent
     // ngAfterViewChecked() {
     //     if (!this.errorLinkClicked) {
     //         // This additional check has been done to avoid always scrolling to error summary because ngAfterViewChecked is triggered with dynamic form controls
-    //         // this.scrollHelper.doScroll();
+    //         this.scrollHelper.doScroll();
     //     } else {
     //         this.errorLinkClicked = false;
     //     }
@@ -307,15 +309,15 @@ export class ManageUserAddSingleUserDetailComponent
                 this.createUser(form);
             }
         } else {
-            this.scrollView()
+                this.scrollView()
         }
     }
 
     private scrollView():void{
         setTimeout(() => {
-            const element = document.getElementById("error-summary");
-             element?.scrollIntoView();
-            }, 10);
+        const element = document.getElementById("error-summary");
+         element?.scrollIntoView();
+        }, 10);
        } 
 
     getSelectedIdpIds(form: FormGroup) {
@@ -465,6 +467,7 @@ export class ManageUserAddSingleUserDetailComponent
             lastName: this.formGroup.get('lastName')?.value,
             userName: this.formGroup.get('userName')?.value,
             mfaEnabled: this.formGroup.get('mfaEnabled')?.value,
+            isAdminUser:false,
             detail: {
                 id: this.userProfileResponseInfo.detail.id,
                 canChangePassword:
