@@ -4,14 +4,14 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' |
+                        <a class="govuk-breadcrumbs__link" role="link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' |
                             translate}}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate }}</a>
+                        <a class="govuk-breadcrumbs__link" role="link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate }}</a>
                     </li>
                     <li *ngIf="isEdit==true" class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'EDIT_GROUP' | translate }}</a>
+                        <a class="govuk-breadcrumbs__link" role="link" tabindex=0  (click)="onCancelClick()">{{ 'EDIT_GROUP' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
                         <span class="govuk-breadcrumbs__link"> {{ 'DELETE_GROUP' | translate }}</span>
