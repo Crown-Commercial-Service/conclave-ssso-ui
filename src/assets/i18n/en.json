@@ -182,7 +182,7 @@
   "ROLES_SIMPLE": "role(s)",
   "DELETE_GROUP": "Delete group",
   "CONFIRM_GROUP_DELETE": "Confirm you want to delete this group.",
-  "GROUP_DELETE_SUCCESS": "You have successfully deleted this group",
+  "GROUP_DELETE_SUCCESS": "You have successfully deleted group",
   "RETURN_TO_MANAGE_GROUPS": "Return to manage groups",
   "GO_BACK": "Back to previous page",
   "UPDATE_GROUP_NAME": "Update group name",
