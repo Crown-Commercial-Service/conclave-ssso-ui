@@ -7,7 +7,7 @@
         </td>
       </tr>
     </thead>
-    <tbody class="govuk-table__body">
+    <tbody class="govuk-table__body"> 
       <tr (click)="onRowClick(dataRow, index)" class="govuk-table__row"
         [class.clickable]="isCheckBoxVisible || isHyperLinkVisible || isRadioVisible"
         *ngFor="let dataRow of tableVisibleData; let index = index">
