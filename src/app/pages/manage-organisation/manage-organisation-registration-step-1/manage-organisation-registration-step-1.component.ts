@@ -32,7 +32,6 @@ export class ManageOrgRegStep1Component extends BaseComponent implements OnInit 
   }
 
   ngOnInit() {
-   this.RollbarErrorHandler.handleError('project have some unexpected errror')
    }
 
   public onClick() {
