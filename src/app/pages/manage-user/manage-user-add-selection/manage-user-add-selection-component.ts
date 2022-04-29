@@ -69,7 +69,6 @@ export class ManageUserAddSelectionComponent extends BaseComponent implements On
     }
 
     onCancelClick() {
-        sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
         this.router.navigateByUrl('manage-users');
     }
 }
