@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  idam_client_id: '',
+  idam_client_id: '5G2pNShwaBQzjJNx6fCSqt9ZIAU9sEur',
   uri: {
     api: {
       isApiGateWayEnabled: false,
@@ -34,8 +34,9 @@ export const environment = {
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
   rollbar: {
-    key: '',
-    enable: true
+    key: '39bb38f087ee4a6781b9d76a73200dd8',
+    enable: true,
+    security_log:true
   } ,
   cookies_policy: {
     essentialcookies: {
