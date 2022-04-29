@@ -1,12 +1,13 @@
 import { ViewportScroller } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import * as Rollbar from 'rollbar';
 import { timeout } from 'rxjs/operators';
 import { slideAnimation } from 'src/app/animations/slide.animation';
 
 import { BaseComponent } from 'src/app/components/base/base.component';
-import { RollbarErrorHandler } from 'src/app/logging/rollbar';
+import { RollbarErrorHandler, RollbarService } from 'src/app/logging/rollbar';
 import { Data } from 'src/app/models/data';
 import { dataService } from 'src/app/services/data/data.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
@@ -27,11 +28,12 @@ import { UIState } from 'src/app/store/ui.states';
 })
 export class ManageOrgRegStep1Component extends BaseComponent implements OnInit {
 
-  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private RollbarErrorHandler:RollbarErrorHandler) {
+  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,@Inject(RollbarService) private rollbar: Rollbar) {
     super(uiStore,viewportScroller,scrollHelper);
   }
 
   ngOnInit() {
+   this.rollbar.debug('angular test ajith')
    }
 
   public onClick() {
