@@ -17,6 +17,7 @@ import { TokenInfo } from 'src/app/models/auth';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WorkerService } from 'src/app/services/worker.service';
+import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
         private authService: AuthService,
         protected uiStore: Store<UIState>,
         private workerService : WorkerService,
+        private RollbarErrorService:RollbarErrorService,
         private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper
     ) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -47,6 +49,7 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             if (params['code']) {
+            this.RollbarErrorService.RollbarDebug('AuthSucess :'.concat(params.code + '&',params.state ));
                 this.authService.token(params['code']).toPromise().then((tokenInfo: TokenInfo) => {
                     let idToken = this.tokenService.getDecodedToken(tokenInfo.id_token);
                     localStorage.setItem('brickedon_user', idToken.email);
@@ -77,6 +80,7 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                 });
             }
             else if (params['error']) {
+             this.RollbarErrorService.RollbarDebug('AuthSucess :'.concat(params.error + '&',params.error_description + '&',params.state ));
                 let error = params['error'];
                 if (error == 'login_required') {
                     this.authService.logOutAndRedirect();

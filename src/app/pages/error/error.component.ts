@@ -68,7 +68,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     super(uiStore, viewportScroller, scrollHelper);
     this.route.queryParams.subscribe((params) => {
       this.errorCode = params['error_description']; 
-      console.log(this.errorCode);
+      
       if (this.errorCode === this.expiredLinkErrorCodeValue) {
         this.resendForm = this.formBuilder.group({
           userName: [
@@ -83,7 +83,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.RollbarErrorService.RollbarDebug()
+    this.RollbarErrorService.RollbarDebug('Error Page:'.concat(this.errorCode));
   }
 
  

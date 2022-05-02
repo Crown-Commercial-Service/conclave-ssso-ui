@@ -11,14 +11,16 @@ export class RollbarErrorService {
 
   constructor(@Inject(RollbarService) private rollbar: Rollbar) { }
 
-  public RollbarDebug():void{
+  public RollbarDebug(error: string):void{
     if(this.security_log){
-      // let obj={
-      //   errorCode:204,
-      //   errorMsg:'my Error'
-      // }
-      this.rollbar.debug('test-desc-error-ajith')
+      this.rollbar.debug(error)
     }
-  }  
+  } 
+  
+  public rollBarHttp(error: string,data:any):void{
+    if(this.security_log){
+      this.rollbar.debug(error)
+    }
+  } 
 }
 
