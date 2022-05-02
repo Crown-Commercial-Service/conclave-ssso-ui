@@ -96,6 +96,12 @@
                             {{ 'CHANGE_PASSWORD_BTN' | translate }}
                         </button>
                     </div>
+                    <div class="govuk-grid-column-one-third">
+                        <div class="card card-help">
+                            <h3 class="card-title">Have an issue?</h3>
+                            <a  class="navigation-text"routerLink="/contact-admin">Contact my admin</a>
+                        </div>
+                    </div>
                 </div>
                 <div *ngIf="userGroups.length == 0">
                     <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
