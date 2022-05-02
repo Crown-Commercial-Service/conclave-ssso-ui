@@ -41,6 +41,8 @@
   "TELEPHONE_NUMBER": "Telephone number",
   "MOBILE_NUMBER": "Mobile number",
   "MANAGE_MY_ACCOUNT": "Manage my account",
+  "CONTACT_YOUR_ADMIN":"Contact your admin",
+  "CONTACT_AN_ADMIN":"Contact an Admin",
   "ADMINISTRATOR_DASHBOARD": "Administrator dashboard",
   "SUCCESS": "Success",
   "REQUEST_ROLE_CHANGE_BTN": "Request role change",

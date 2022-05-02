@@ -27,7 +27,7 @@ import { UIState } from 'src/app/store/ui.states';
 })
 export class ManageOrgRegStep1Component extends BaseComponent implements OnInit {
 
-  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private RollbarErrorHandler:RollbarErrorHandler) {
+  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
   }
 
