@@ -88,11 +88,11 @@ export class AuthService {
           if (url.length > 0) {
             this.router.navigateByUrl(url, { replaceUrl: true });
           }
-        this.RollbarErrorService.rollBarHttp('renewAccessToken',data)
+        this.RollbarErrorService.RollbarDebug('renewAccessToken:'+ JSON.stringify(data))
         });
       },
         (err) => {
-         this.RollbarErrorService.rollBarHttp('renewAccessToken',err)
+         this.RollbarErrorService.RollbarDebug('renewAccessTokenError:'+ JSON.stringify(err))
           // This could due to invalid refresh token (refresh token rotation)  
           if (err.error == "INVALID_CREDENTIALS" || err.error.error_description == "PENDING_PASSWORD_CHANGE"
             || err.error.error == 'invalid_grant' || err.error.error == 'invalid_request') {
@@ -101,7 +101,7 @@ export class AuthService {
           }
         })
     }).catch((error: any) => {
-      this.RollbarErrorService.rollBarHttp('renewAccessToken',error)
+      this.RollbarErrorService.RollbarDebug('renewAccessTokenError:' + JSON.stringify(error))
       if (error.status == 404) {
         window.location.href = this.getAuthorizedEndpoint();
       }
@@ -142,18 +142,19 @@ export class AuthService {
   }
 
   token(code: string): Observable<any> {
+    debugger
     const options = {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     }
     let body = `client_id=${environment.idam_client_id}&code=${code}&grant_type=authorization_code&code_verifier=${this.getCodeVerifier()}&redirect_uri=${environment.uri.web.dashboard + '/authsuccess'}`;
-    this.RollbarErrorService.rollBarHttp('Token_req',body)
+    this.RollbarErrorService.RollbarDebug('Token_req:'+ body)
     return this.httpService.post(`${this.url}/security/token`, body, options).pipe(
       map(data => {
-       this.RollbarErrorService.rollBarHttp('Token_res',data)
+       this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data))
         return data;
       }),
       catchError(error => {
-       this.RollbarErrorService.rollBarHttp('Token_error',error)
+       this.RollbarErrorService.RollbarDebug('Token_error:' + JSON.stringify(error))
         return throwError(error);
       })
     );
@@ -165,7 +166,7 @@ export class AuthService {
     }
 
     let body = `client_id=${environment.idam_client_id}&refresh_token=${refreshToken}&grant_type=refresh_token`;
-    this.RollbarErrorService.rollBarHttp('renewToken',body)
+    this.RollbarErrorService.RollbarDebug('renewToken:'+ body)
     return this.httpService.post<TokenInfo>(`${this.url}/security/token`, body, options);
     
   }
@@ -210,7 +211,7 @@ export class AuthService {
       + environment.idam_client_id
       + '&code_challenge_method=S256' + '&code_challenge=' + codeChallenge
       + '&redirect_uri=' + environment.uri.web.dashboard + '/authsuccess'
-     this.RollbarErrorService.RollbarDebug(url)
+     this.RollbarErrorService.RollbarDebug("getAuthorizedEndpoint:"+url)
     return url;
   }
 
@@ -251,6 +252,7 @@ export class AuthService {
   }
 
   public logOutAndRedirect() {
+    this.RollbarErrorService.RollbarDebug("logOutAndRedirect")
     return this.clearRefreshToken().toPromise().then(() => {
       this.signOut();
       window.location.href = this.getSignOutEndpoint();
