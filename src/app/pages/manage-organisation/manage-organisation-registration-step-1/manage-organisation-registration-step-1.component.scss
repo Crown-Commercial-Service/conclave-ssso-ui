@@ -6,45 +6,25 @@
 
 a{
   text-decoration: underline;
+  color: #005ea5;
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .card {
   padding: 16px;
   background-color: #f1f1f1;
-  min-height: 100px;
+  min-height: 150px;
   height: 100%;
-  margin-top: 60px;
 }
 .card.card-help {
   float: right;
   min-width: 100px;
+  max-width: 300px;
 }
 
 .card-help .card-title {
-  font-family: "Helvetica-Bold", "Helvetica Bold", "Helvetica", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-    font-size: 24px;
-    color: #0B0C0C;
-    text-align: left;
+  font-weight: 700;
+  font-size: 20px;
 }
 
-.card-help a {
-  font-family: "Helvetica", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 19px;
-  text-decoration: underline;
-  color: #007194;
-  text-align: left;
-  line-height: 26px;
-}
-
-.govuk-link {
-  color: #003078;
-  text-decoration-color: rgb(0, 48, 120);
-  text-decoration-line: underline;
-  text-decoration-skip-ink: none;
-  text-decoration-style: solid;
-  text-decoration-thickness: 3px;
-}
