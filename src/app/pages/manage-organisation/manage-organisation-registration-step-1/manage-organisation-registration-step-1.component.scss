@@ -28,3 +28,11 @@ a{
   font-size: 20px;
 }
 
+.govuk-link:hover {
+  color: #003078;
+  text-decoration-color: rgb(0, 48, 120);
+  text-decoration-line: underline;
+  text-decoration-skip-ink: none;
+  text-decoration-style: solid;
+  text-decoration-thickness: 3px;
+}
