@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { slideAnimation } from "src/app/animations/slide.animation";
 import { Router } from "@angular/router";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
+import { SessionStorageKey } from "src/app/constants/constant";
 
 @Component({
     selector: 'app-manage-user-add-selection-component',
@@ -65,5 +66,9 @@ export class ManageUserAddSelectionComponent extends BaseComponent implements On
         if (form == null) return false;
         if (form.controls == null) return false;
         return form.valid;
+    }
+
+    onCancelClick() {
+        this.router.navigateByUrl('manage-users');
     }
 }
