@@ -46,4 +46,8 @@ export class ContactAdminComponent implements OnInit {
       error: (error: any) => {},
     });
   }
+
+  goBack() {
+    window.history.back();
+  }
 }
