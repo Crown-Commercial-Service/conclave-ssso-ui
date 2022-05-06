@@ -34,7 +34,7 @@
                 <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupUserAdd" >{{ 'GROUP_USER_ADD_SUCCESS' | translate }}</p>
                 <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupUserUpdate" >{{ 'GROUP_USER_UPDATE_SUCCESS' | translate }}</p>
                 <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupRoleUpdate" >{{ 'GROUP_ROLE_UPDATE_SUCCESS' | translate }}</p>
-                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupDelete" >{{ 'GROUP_DELETE_SUCCESS' | translate }} {{GroupName}}</p>
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupDelete" >{{ 'GROUP_DELETE_SUCCESS' | translate }}</p>
                 <button *ngIf="operation === operationEnum.GroupAdd" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onNavigateToGroupClick()">
                     View new group
                 </button>
