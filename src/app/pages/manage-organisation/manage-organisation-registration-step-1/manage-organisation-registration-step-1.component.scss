@@ -18,9 +18,10 @@ a{
   height: 100%;
 }
 .card.card-help {
-  float: right;
+  height: auto;
   min-width: 100px;
   max-width: 300px;
+  margin-left: auto;
 }
 
 .card-help .card-title {
@@ -36,3 +37,8 @@ a{
   text-decoration-style: solid;
   text-decoration-thickness: 3px;
 }
+.content.flex {justify-content: space-between;flex-flow: wrap;display: flex;}
+
+.content-left {width: 66.66%;}
+
+.content-right {width: 33.3%;}
