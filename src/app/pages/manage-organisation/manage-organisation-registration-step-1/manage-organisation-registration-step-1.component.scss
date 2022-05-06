@@ -15,16 +15,39 @@ a{
   padding: 16px;
   background-color: #f1f1f1;
   min-height: 150px;
-  height: 100%;
+  height: 90%;
 }
 .card.card-help {
-  float: right;
+  height: auto;
   min-width: 100px;
   max-width: 300px;
+  margin-left: auto;
 }
 
 .card-help .card-title {
   font-weight: 700;
   font-size: 20px;
+  font-family:"Source Sans Pro", "HelveticaNeue",
+    "Helvetica Neue", "Arial", "Helvetica", sans-serif;
 }
 
+.govuk-link {
+  font-family:"Source Sans Pro", "HelveticaNeue",
+    "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
+}
+
+.govuk-link:hover {
+  color: #003078;
+  text-decoration-color: rgb(0, 48, 120);
+  text-decoration-line: underline;
+  text-decoration-skip-ink: none;
+  text-decoration-style: solid;
+  text-decoration-thickness: 3px;
+  font-family:"Source Sans Pro", "HelveticaNeue",
+    "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
+}
+.content.flex {justify-content: space-between;flex-flow: wrap;display: flex;}
+
+.content-left {width: 66.66%;}
+
+.content-right {width: 33.3%;}
