@@ -1,53 +1,61 @@
-.detail-text{
-  font-size: 19px;
-  margin-bottom: 30px;
-  background-color: #f8f8f8
-}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="content flex">
+      <a id="returnHomeLink" class="navigation-text" href="https://www.crowncommercial.gov.uk"
+        class="govuk-back-link">Return to
+        Homepage</a>
+    </div>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="content flex">
+      <div class="content-left">
 
-a{
-  text-decoration: underline;
-  color: #005ea5;
-  font-weight: 500;
-  font-size: 16px;
-}
+      
+      <h1 class="govuk-heading-xl page-title">Create an account</h1>
+      <p class="govuk-body-l">Register your organisation to create an account and begin using our services.
+        <br>Completing the registration process will make you the administrator for your organisation’s account.
+      </p>
+      <br>
+      <p><strong>Before you start</strong></p>
+      <p>You will need a valid company email address and <strong>one</strong> of the following:</p>
+      <ul>
+        <li>Companies House registered number</li>
+        <li>Dun and Bradstreet number</li>
+        <li>Charity Commission for England and Wales number</li>
+        <li>Office of The Scottish Charity Regulator (OSCR) number</li>
+        <li>The Charity Commission for Northern Ireland number</li>
+        <li>National Health Service Organisations Registry number</li>
+      </ul>
+      <br />
+      <p>Registering takes around 10 minutes.</p>
+      <div class="govuk-inset-text">
+        This service is also available <a class="navigation-text" href="javascript:;">in Welsh (Cymraeg)</a>.
+      </div>
+      <div class="govuk-details__text detail-text">
+        <p><strong>Before you start</strong></p>
+        <p>We will request some basic information from you to establish if your organisation has previously been
+          registered.</p>
+      </div>
 
-.card {
-  padding: 16px;
-  background-color: #f1f1f1;
-  min-height: 150px;
-  height: 90%;
-}
-.card.card-help {
-  height: auto;
-  min-width: 100px;
-  max-width: 300px;
-  margin-left: auto;
-}
-
-.card-help .card-title {
-  font-weight: 700;
-  font-size: 20px;
-  font-family:"Source Sans Pro", "HelveticaNeue",
-    "Helvetica Neue", "Arial", "Helvetica", sans-serif;
-}
-
-.govuk-link {
-  font-family:"Source Sans Pro", "HelveticaNeue",
-    "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
-}
-
-.govuk-link:hover {
-  color: #003078;
-  text-decoration-color: rgb(0, 48, 120);
-  text-decoration-line: underline;
-  text-decoration-skip-ink: none;
-  text-decoration-style: solid;
-  text-decoration-thickness: 3px;
-  font-family:"Source Sans Pro", "HelveticaNeue",
-    "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
-}
-.content.flex {justify-content: space-between;flex-flow: wrap;display: flex;}
-
-.content-left {width: 66.66%;}
-
-.content-right {width: 33.3%;}
+      <button id="startNowButton" type="button"
+        class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button govuk-button--start"
+        data-module="govuk-button" (click)="onClick()">
+        Start Now
+        <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19"
+          viewBox="0 0 33 40" focusable="false">
+          <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+        </svg>
+      </button>
+    </div>
+    <div class="content-right">
+      <div class="card card-help">
+        <h2 class="card-title">Guides</h2>
+        <a href="https://www.crowncommercial.gov.uk/public-procurement-gateway-guides" class="govuk-link"
+          rel="noreferrer noopener" target="_blank">Learn about the Public Procurement Gateway, and how to set up an account.</a>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
