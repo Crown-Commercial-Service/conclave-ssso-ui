@@ -107,7 +107,6 @@ import { ManageOrgRegSearchStatusDuplicateComponent } from './pages/manage-organ
 import { ManageUserBulkUploadMigrationStatusComponent } from './pages/manage-user/manage-user-bulk-upload-migration-status/manage-user-bulk-upload-migration-status.component';
 import { FindyouradministratorComponent } from './pages/manage-organisation/find-your-administrator/find-your-administrator.component';
 import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
-import { ContactAdminComponent } from './pages/contact-admin/contact-admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -143,13 +142,6 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     pathMatch: 'full',
     component: UserProfileComponent,
-  },
-  {
-    path: 'contact-admin',
-    data: { title: 'My Profile', roles: ['MANAGE_MY_ACCOUNT'] },
-    canActivate: [AuthGuard, RoleGuard],
-    pathMatch: 'full',
-    component: ContactAdminComponent,
   },
   {
     path: 'operation-success/:operation',
