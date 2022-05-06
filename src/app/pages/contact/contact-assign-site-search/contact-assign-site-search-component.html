@@ -24,8 +24,12 @@
             <h1 class="govuk-heading-xl page-title"> {{ 'SELECT_SITE_FOR_CONTACTS' | translate }}</h1>
             <p class="govuk-heading-s ">{{ 'SEARCH_AND_SELECT_SITE' | translate }}</p>
 
-            <div class="govuk-form-group" id="search-form-group">
+            <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchSiteName ===''">
                 <label class="govuk-label" for="search"> {{ 'SEARCH_SITE_BY_NAME' | translate }} </label>
+                <span id="first-name-error" class="govuk-error-message"
+                *ngIf="searchSumbited && searchSiteName ===''">
+                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a site name
+              </span>
                 <app-search-box [(searchText)]="searchSiteName" (onSearchClickEvent)="onSearchClick()">
                 </app-search-box>
             </div>

@@ -12,7 +12,7 @@
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span *ngIf="isEdit==true" class="govuk-breadcrumbs__link">{{ 'EDIT_GROUP' | translate}}</span>
+                        <span *ngIf="isEdit==true" class="govuk-breadcrumbs__link">{{group.groupName}}</span>
                         <span *ngIf="isEdit!=true" class="govuk-breadcrumbs__link">{{ 'VIEW_GROUP' | translate}}</span>
                     </li>
                 </ol>
@@ -25,7 +25,7 @@
     <div class="govuk-grid-column-two-thirds">
         <a href="javascript:;" *ngIf="isEdit!=true" (click)="onGoBackClick()" class="govuk-back-link back-button">{{ 'BACK' | translate }}</a>
         <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">
-            {{ 'EDIT_GROUP' | translate }} : {{group.groupName}} </h1>
+            Group : {{group.groupName}} </h1>
         <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">
             {{ 'VIEW_GROUP' | translate }} : {{group.groupName}} </h1>
     </div>

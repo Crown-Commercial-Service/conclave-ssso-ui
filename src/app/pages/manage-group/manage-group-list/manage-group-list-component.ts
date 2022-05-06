@@ -27,7 +27,7 @@ export class ManageGroupListComponent extends BaseComponent implements OnInit {
     searchText: string = "";
     groupsTableHeaders = ['GROUP', 'CREATED_DATE'];
     groupsColumnsToDisplay = ['groupName', 'createdDate'];
-
+    searchSumbited:boolean=false;
     constructor(private groupService: WrapperOrganisationGroupService,
         protected uiStore: Store<UIState>, private router: Router, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
@@ -67,9 +67,10 @@ export class ManageGroupListComponent extends BaseComponent implements OnInit {
     }
 
     onSearchClick() {
+        this.searchSumbited=true
         this.getOrganisationUsers();
     }
-
+ 
     onEditRow(dataRow: Group) {
         let data = {
             'isEdit': true,

@@ -35,6 +35,7 @@ export class CookiesBannerComponent implements OnInit {
       }
     } else {
       this.CookiesService.deleteAdditionalCookies();
+      this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', this.cookieExpirationTimeInMinutes);
     }
    }
 
