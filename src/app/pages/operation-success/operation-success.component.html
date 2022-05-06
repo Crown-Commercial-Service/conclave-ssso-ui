@@ -24,8 +24,11 @@
                             translate
                             }}</a>
                     </li>
-                    <li class="govuk-breadcrumbs__list-item">
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="operation != operationEnum.UserPasswordChange">
                         <span class="govuk-breadcrumbs__link">{{ 'SUCCESS' | translate }}</span>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.UserPasswordChange">
+                        <span class="govuk-breadcrumbs__link">Password reset link sent</span>
                     </li>
                 </ol>
             </div>
@@ -72,13 +75,14 @@
                     {{ 'MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
             </div>
             <div *ngIf="operation === operationEnum.UserPasswordChange">
+                <h1>Password reset link sent</h1>
                 <p class="govuk-body-l">{{ 'RESET_EMAIL_HAS_BEEN_SENT_TO' | translate }}{{ userName }}</p>
                 <a href="javascript:;" class="navigation-text" (click)="onNavigateToManageUserClick()">
                     {{ 'MANAGE_YOUR_USER_ACCOUNTS' | translate}}</a>
-                <div class="govuk-body govuk-!-font-size-19 help-support">{{ 'IF_USER_DOES_NOT_RECEIVE_IT_VIEW' |
+                <!-- <div class="govuk-body govuk-!-font-size-19 help-support">{{ 'IF_USER_DOES_NOT_RECEIVE_IT_VIEW' |
                     translate}}
                     <a href="javascript:;" class="navigation-text" routerLink="/help-support"> {{ 'HELP_AND_SUPPORT' | translate}}</a>
-                </div>
+                </div> -->
             </div>
             <div *ngIf="operation === operationEnum.UserDelete">
                 <p class="govuk-body-l">{{ 'USER_DELETE_SUCCESS' | translate }}</p>

@@ -38,7 +38,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     rolesColumnsToDisplay = ['roleName'];
     roleGridSource: CheckBoxRoleListGridSource[] = [];
     orgRoleList: Role[] = [];
-
+    searchSumbited:boolean=false;
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -75,7 +75,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     }
 
     onSearchClick() {
-        console.log(this.searchText);
+        this.searchSumbited=true
         this.setSearchResult();
     }
 
