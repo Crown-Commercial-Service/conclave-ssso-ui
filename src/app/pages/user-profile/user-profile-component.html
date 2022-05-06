@@ -19,13 +19,11 @@
         </h2>
         <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
-                <li
-                    *ngIf="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
+                <li *ngIf="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
                     <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
                         'ERROR_FIRST_NAME' | translate }} </a>
                 </li>
-                <li
-                    *ngIf="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
+                <li *ngIf="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
                     <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
                         'ERROR_LAST_NAME' | translate }}</a>
                 </li>
@@ -68,8 +66,8 @@
                             <div id="email-hint" class="govuk-hint">
                                 {{ 'USER_EMAIL_HINT' | translate }}
                             </div>
-                            <input [readonly]="true" [class.disabled]="true" class="govuk-input" id="email" name="email" type="email"
-                              size="20"  value="" autocomplete="email" spellcheck="false" 
+                            <input [readonly]="true" [class.disabled]="true" class="govuk-input" id="email" name="email"
+                                type="email" size="20" value="" autocomplete="email" spellcheck="false"
                                 [value]="userName">
                         </div>
                         <div class="govuk-form-group" id="user-mfa-form-group">
@@ -98,6 +96,12 @@
                             {{ 'CHANGE_PASSWORD_BTN' | translate }}
                         </button>
                     </div>
+                    <div class="govuk-grid-column-one-third">
+                        <div class="card card-help">
+                            <h3 class="card-title">Have an issue?</h3>
+                            <a  class="navigation-text"routerLink="/contact-admin">Contact my admin</a>
+                        </div>
+                    </div>
                 </div>
                 <div *ngIf="userGroups.length == 0">
                     <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
@@ -112,7 +116,7 @@
                     <p>
                 </div>
 
-                 <div *ngIf="userGroups.length > 0" class="user-group-table">
+                <div *ngIf="userGroups.length > 0" class="user-group-table">
                     <app-govuk-table [headerTextKeys]="userGroupTableHeaders" [data]="userGroups"
                         [dataKeys]="userGroupColumnsToDisplay" [isHyperLinkVisible]="hasGroupViewPermission"
                         [hyperLinkText]="'VIEW_DETAILS'" (hyperLinkClickEvent)="onGroupViewClick($event)"
@@ -125,15 +129,31 @@
                     <p>{{'NONE'| translate}}
                     <p>
                 </div>
-                 <div *ngIf="roleDataList.length > 0">
+                <div *ngIf="roleDataList.length > 0">
                     <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
                     <app-details [detailsData]="detailsData[2]"></app-details>
-                 </div>
-                <div *ngIf="roleDataList.length > 0" class="user-group-table">
+                </div>
+                <div *ngIf="roleDataList.length > 0 && isAdminUser==false" class="user-group-table">
                     <app-govuk-table [headerTextKeys]="userRoleTableHeaders" [data]="roleDataList"
                         [dataKeys]="userRoleColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
                 </div>
-
+                <div *ngIf="roleDataList.length > 0 && isAdminUser==true" class="govuk-checkboxes">
+                    <fieldset class="govuk-fieldset">
+                        <div class="govuk-checkboxes__item" *ngFor="let orgRole of roleDataList; let i=index">
+                            <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                [attr.disabled]="orgRole.roleKey === 'ORG_DEFAULT_USER' || orgRole.roleKey === 'ORG_ADMINISTRATOR' ? true : null"
+                                [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc">
+                            <label *ngIf="orgRole.serviceName == null" class="govuk-label govuk-checkboxes__label"
+                                for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                {{orgRole.accessRoleName}}
+                            </label>
+                            <label *ngIf="orgRole.serviceName != null" class="govuk-label govuk-checkboxes__label"
+                                for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
                 <h2 class="govuk-heading-s contact-detail"> {{ 'CONTACT_DETAILS' | translate }}</h2>
                 <app-details [detailsData]="detailsData[3]"></app-details>
                 <div class="govuk-grid-row">
@@ -159,7 +179,7 @@
                 </div>
 
                 <div class="govuk-button-group save-cancel-button-group">
-                    <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
+                    <button type="submit" class="govuk-button" [disabled]="!formChanged"  data-module="govuk-button">
                         {{ 'SAVE_BTN' | translate }}
                     </button>
                     <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"

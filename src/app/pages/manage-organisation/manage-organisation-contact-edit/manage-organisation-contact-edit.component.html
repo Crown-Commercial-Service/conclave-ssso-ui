@@ -62,7 +62,7 @@
       <form class="ui form login mb-two" [class.error]="!formValid(formGroup)" (submit)="onSubmit(formGroup)"
         [formGroup]="formGroup">
         <div class="ui segment">
-          <div class="govuk-form-group" id="web-form-group">
+          <div class="govuk-form-group" id="contactreason-form-group">
             <label class="govuk-label" for="contactReason"> {{ 'CONTACT_REASON' | translate }} </label>
             <select class="govuk-select" id="contactReason" name="contactReason" formControlName="contactReason">
               <option hidden disabled selected value style="display:none"></option>
@@ -150,7 +150,7 @@
           </div>
           <div class="govuk-button-group save-cancel-button-group">
             <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
-              {{'SAVE_BTN' | translate }}
+              {{ isEdit === false ? 'Create contact' : 'Edit contact'}}
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
               data-module="govuk-button">

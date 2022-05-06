@@ -9,7 +9,9 @@
       </li>
     </ol>
   </div>
-  <h1 class="govuk-heading-xl page-title">Manage your organisation</h1>
+  <h1>
+    <strong class="govuk-heading-xl page-title">Manage your organisation</strong>
+  </h1>
 
   <div>
     <p style="margin-top:40px;">
@@ -26,9 +28,7 @@
     <div class="govuk-grid-column-two-thirds">
       <div>
         <p *ngIf="org.detail?.supplierBuyerType == 0">{{ 'SUPPLIER_TYPE' | translate }}</p>
-        <p *ngIf="org.detail?.supplierBuyerType == 1">
-          {{org.detail?.businessType}}
-        </p>
+        <p *ngIf="org.detail?.supplierBuyerType == 1">{{ 'BUYER_TYPE' | translate }}</p>
         <p *ngIf="org.detail?.supplierBuyerType == 2">{{ 'BUYER_AND_SUPPLIER_TYPE' | translate }}</p>
       </div>
     </div>

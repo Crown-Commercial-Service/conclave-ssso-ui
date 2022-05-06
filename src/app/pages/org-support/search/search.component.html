@@ -12,8 +12,12 @@
         </ol>
       </div>
       <h1 class="govuk-heading-xl page-title">Organisation user support</h1>
-      <div class="govuk-form-group" id="search-form-group">
+      <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchText ===''">
         <label class="govuk-label" for="search"> Search for organisation or users </label>
+        <span id="first-name-error" class="govuk-error-message"
+        *ngIf="searchSumbited && searchText ===''">
+        <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter an organisation’s name
+      </span>
         <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
         </app-search-box>
       </div>
