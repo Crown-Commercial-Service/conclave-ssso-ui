@@ -14,6 +14,7 @@ import { CcsServiceInfo } from 'src/app/models/configurations';
 import { WorkerService } from '../worker.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
   servicePermission: ServicePermission[];
   ccsServices: CcsServiceInfo[] = [];
 
-  constructor(private readonly workerService: WorkerService, private router: Router, private location: Location,
+  constructor(private readonly workerService: WorkerService, private router: Router, private location: Location,private RollbarErrorService:RollbarErrorService,
     private readonly httpService: HttpClient, private readonly tokenService: TokenService) {
     this.servicePermission = [];
   }
@@ -77,8 +78,9 @@ export class AuthService {
   }
 
   renewAccessToken(url: string = '') {
-    this.getRefreshToken().toPromise().then((refreshToken: any) => {
-      return this.renewToken(refreshToken || '').toPromise().then((tokenInfo: TokenInfo) => {
+    let data: any
+    data = this.getRefreshToken().toPromise().then((refreshToken: any) => {
+    return this.renewToken(refreshToken || '').toPromise().then((tokenInfo: TokenInfo) => {
         this.workerService.storeTokenInWorker(tokenInfo);
         return this.createSession(tokenInfo.refresh_token).toPromise().then(() => {
           let decodedAccessToken = this.tokenService.getDecodedToken(tokenInfo.access_token);
@@ -86,9 +88,11 @@ export class AuthService {
           if (url.length > 0) {
             this.router.navigateByUrl(url, { replaceUrl: true });
           }
+        this.RollbarErrorService.rollBarHttp('renewAccessToken',data)
         });
       },
         (err) => {
+         this.RollbarErrorService.rollBarHttp('renewAccessToken',err)
           // This could due to invalid refresh token (refresh token rotation)  
           if (err.error == "INVALID_CREDENTIALS" || err.error.error_description == "PENDING_PASSWORD_CHANGE"
             || err.error.error == 'invalid_grant' || err.error.error == 'invalid_request') {
@@ -97,6 +101,7 @@ export class AuthService {
           }
         })
     }).catch((error: any) => {
+      this.RollbarErrorService.rollBarHttp('renewAccessToken',error)
       if (error.status == 404) {
         window.location.href = this.getAuthorizedEndpoint();
       }
@@ -141,12 +146,14 @@ export class AuthService {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     }
     let body = `client_id=${environment.idam_client_id}&code=${code}&grant_type=authorization_code&code_verifier=${this.getCodeVerifier()}&redirect_uri=${environment.uri.web.dashboard + '/authsuccess'}`;
-
+    this.RollbarErrorService.rollBarHttp('Token_req',body)
     return this.httpService.post(`${this.url}/security/token`, body, options).pipe(
       map(data => {
+       this.RollbarErrorService.rollBarHttp('Token_res',data)
         return data;
       }),
       catchError(error => {
+       this.RollbarErrorService.rollBarHttp('Token_error',error)
         return throwError(error);
       })
     );
@@ -158,8 +165,9 @@ export class AuthService {
     }
 
     let body = `client_id=${environment.idam_client_id}&refresh_token=${refreshToken}&grant_type=refresh_token`;
-
+    this.RollbarErrorService.rollBarHttp('renewToken',body)
     return this.httpService.post<TokenInfo>(`${this.url}/security/token`, body, options);
+    
   }
 
 
@@ -202,7 +210,7 @@ export class AuthService {
       + environment.idam_client_id
       + '&code_challenge_method=S256' + '&code_challenge=' + codeChallenge
       + '&redirect_uri=' + environment.uri.web.dashboard + '/authsuccess'
-
+     this.RollbarErrorService.RollbarDebug(url)
     return url;
   }
 
