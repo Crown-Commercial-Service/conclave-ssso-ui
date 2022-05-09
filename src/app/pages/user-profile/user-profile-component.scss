@@ -64,3 +64,24 @@ a {
 {
     font-family: Source Sans Pro !important;
 }
+.card {
+  padding: 16px;
+  background-color: #f1f1f1;
+  min-height: 150px;
+  height: 100%;
+}
+.card.card-help {
+  float: right;
+  min-width: 250px;
+}
+
+.card-help .card-title {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.card-help a {
+  color: #005ea5;
+  font-weight: 500;
+  font-size: 16px;
+}
