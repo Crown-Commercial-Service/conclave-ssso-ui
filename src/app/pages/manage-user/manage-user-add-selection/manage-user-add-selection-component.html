@@ -65,6 +65,10 @@
                 <button type="submit" class="govuk-button" data-module="govuk-button">
                     {{ 'CONTINUE_BTN' | translate }}
                 </button>
+                <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                    data-module="govuk-button">
+                    {{ 'CANCEL_BTN' | translate }}
+                </button>
             </div>
         </form>
     </div>
