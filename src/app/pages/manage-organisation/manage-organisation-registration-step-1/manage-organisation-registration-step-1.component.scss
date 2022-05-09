@@ -11,17 +11,21 @@ a{
   font-size: 16px;
 }
 
+.govuk-link {
+  font-family:"Source Sans Pro", "HelveticaNeue",
+    "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
+}
+
 .card {
   padding: 16px;
   background-color: #f1f1f1;
   min-height: 150px;
-  height: 90%;
+  height: 100%;
 }
 .card.card-help {
-  height: auto;
+  float: right;
   min-width: 100px;
   max-width: 300px;
-  margin-left: auto;
 }
 
 .card-help .card-title {
@@ -29,11 +33,6 @@ a{
   font-size: 20px;
   font-family:"Source Sans Pro", "HelveticaNeue",
     "Helvetica Neue", "Arial", "Helvetica", sans-serif;
-}
-
-.govuk-link {
-  font-family:"Source Sans Pro", "HelveticaNeue",
-    "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
 }
 
 .govuk-link:hover {
@@ -46,8 +45,3 @@ a{
   font-family:"Source Sans Pro", "HelveticaNeue",
     "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
 }
-.content.flex {justify-content: space-between;flex-flow: wrap;display: flex;}
-
-.content-left {width: 66.66%;}
-
-.content-right {width: 33.3%;}
