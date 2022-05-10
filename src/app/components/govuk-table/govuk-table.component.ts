@@ -25,7 +25,8 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Input() serverPageCount?: number;
   @Input() serverPageCurrentPage?: number;
   @Input() useClientPagination?: boolean;
-
+  @Input() pageName?: string;
+  
   @Output() hyperLinkClickEvent = new EventEmitter<any>();
   @Output() checkBoxClickEvent = new EventEmitter<any>();
   @Output() radioClickEvent = new EventEmitter<any>();

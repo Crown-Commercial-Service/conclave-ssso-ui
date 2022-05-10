@@ -71,8 +71,10 @@ a {
   height: 100%;
 }
 .card.card-help {
-  float: right;
-  min-width: 250px;
+  height: auto;
+  min-width: 100px;
+  max-width: 300px;
+  margin-left: auto;
 }
 
 .card-help .card-title {
@@ -84,4 +86,15 @@ a {
   color: #005ea5;
   font-weight: 500;
   font-size: 16px;
+}
+.content.flex {
+  justify-content: space-between;
+  flex-flow: wrap;
+  display: flex;
+}
+.content-left {
+  width: 66.66%;
+}
+.content-right {
+  width: 33.3%;
 }
