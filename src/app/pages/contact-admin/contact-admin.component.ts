@@ -51,11 +51,7 @@ export class ContactAdminComponent implements OnInit {
           this.userList = userListResponse;
           this.userList.userList = userListResponse.adminUserList;
           this.pageCount = this.userList.pageCount;
-          this.userList.userList.forEach((f:any)=>{
-            f.role = 'Admin'
-          })
         }
-
       },
       error: (error: any) => {},
     });
