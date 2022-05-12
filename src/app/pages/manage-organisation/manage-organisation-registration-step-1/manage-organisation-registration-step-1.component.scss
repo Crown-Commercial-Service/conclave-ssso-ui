@@ -6,4 +6,32 @@
 
 a{
   text-decoration: underline;
+  color: #005ea5;
+  font-weight: 500;
+  font-size: 16px;
 }
+
+.govuk-link {
+  font-family:"Source Sans Pro", "HelveticaNeue",
+    "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
+}
+
+.card {
+  padding: 16px;
+  background-color: #f1f1f1;
+  min-height: 150px;
+  height: 100%;
+}
+.card.card-help {
+  float: right;
+  min-width: 100px;
+  max-width: 300px;
+}
+
+.card-help .card-title {
+  font-weight: 700;
+  font-size: 20px;
+  font-family:"Source Sans Pro", "HelveticaNeue",
+    "Helvetica Neue", "Arial", "Helvetica", sans-serif;
+}
+

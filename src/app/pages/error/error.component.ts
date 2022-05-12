@@ -35,12 +35,13 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { UserService } from 'src/app/services/postgres/user.service';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 
 @Component({
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss'],
 })
-export class ErrorComponent extends BaseComponent {
+export class ErrorComponent extends BaseComponent implements OnInit {
   resendForm!: FormGroup;
   submitted!: boolean;
   public mainPageUrl: string = environment.uri.web.dashboard;
@@ -58,12 +59,12 @@ export class ErrorComponent extends BaseComponent {
     protected scrollHelper: ScrollHelper,
     private router: Router,
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private RollbarErrorService:RollbarErrorService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.route.queryParams.subscribe((params) => {
       this.errorCode = params['error_description'];
-      console.log(this.errorCode);
       if (this.errorCode === this.expiredLinkErrorCodeValue) {
         this.resendForm = this.formBuilder.group({
           userName: [
@@ -76,6 +77,9 @@ export class ErrorComponent extends BaseComponent {
         });
       }
     });
+  }
+  ngOnInit(): void {
+    this.RollbarErrorService.RollbarDebug('Error Page:'.concat(this.errorCode));
   }
 
   displayError(error: string) {

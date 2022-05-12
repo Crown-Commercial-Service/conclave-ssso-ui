@@ -34,3 +34,12 @@ label[for="country-search-box"]
 {
     display:none;
 }
+.box-input {
+    clear: both;
+    border-left: 2px solid #8f8f8f;
+    padding-left: 35px;
+    margin-left: -20px;
+    .text-input{
+      margin-left: 15px;
+    }
+  }

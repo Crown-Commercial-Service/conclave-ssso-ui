@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { GroupList, OrganisationGroupNameInfo, OrganisationGroupRequestInfo, OrganisationGroupResponseInfo, Role } from 'src/app/models/organisationGroup';
 import { IdentityProvider, IdentityProviderSummary } from 'src/app/models/identityProvider';
+import { UserListResponse } from 'src/app/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -104,6 +105,18 @@ export class WrapperOrganisationGroupService {
   enableIdentityProvider(identityProviderSummary: IdentityProviderSummary): Observable<any> {
     return this.http.put<any>(`${this.url}/${identityProviderSummary.ciiOrganisationId}/identity-providers`, identityProviderSummary).pipe(
       map((data: any) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+  
+  getUsersAdmin(organisationId: string,  currentPage: number, pageSize: number): Observable<any> {
+    pageSize = pageSize <= 0 ? 10 : pageSize;
+    const url = `${this.url}/${organisationId}/adminusers?currentPage=${currentPage}&pageSize=${pageSize}`;
+    return this.http.get<UserListResponse>(url).pipe(
+      map((data: UserListResponse) => {
         return data;
       }), catchError(error => {
         return throwError(error);

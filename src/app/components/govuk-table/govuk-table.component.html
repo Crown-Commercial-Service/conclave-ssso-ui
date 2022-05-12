@@ -1,77 +1,156 @@
 <div class="table-scroll">
-  <table class="govuk-table" *ngIf="tableVisibleData.length != 0;else no_results">
+  <table
+    class="govuk-table"
+    *ngIf="tableVisibleData.length != 0; else no_results"
+  >
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th *ngFor="let header of headerTextKeys" scope="col" class="govuk-table__header">{{ header | translate }}</th>
-        <td *ngIf="isCheckBoxVisible || isHyperLinkVisible || isRadioVisible" scope="col" class="govuk-table__header">
-        </td>
+        <th
+          *ngFor="let header of headerTextKeys"
+          scope="col"
+          class="govuk-table__header"
+        >
+          {{ header | translate }}
+        </th>
+        <td
+          *ngIf="isCheckBoxVisible || isHyperLinkVisible || isRadioVisible"
+          scope="col"
+          class="govuk-table__header"
+        ></td>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      <tr (click)="onRowClick(dataRow, index)" class="govuk-table__row"
-        [class.clickable]="isCheckBoxVisible || isHyperLinkVisible || isRadioVisible"
-        *ngFor="let dataRow of tableVisibleData; let index = index">
-        <td class="govuk-table__cell" *ngFor="let dataKey of dataKeys">{{dataRow[dataKey]}}</td>
-        <td class="govuk-table__cell" *ngIf="isHyperLinkVisible == true"><a class="navigation-text" href="javascript:;"> {{
-            hyperLinkText || '' | translate }}</a></td>
+      <tr
+        (click)="onRowClick(dataRow, index)"
+        class="govuk-table__row"
+        [class.clickable]="
+          isCheckBoxVisible || isHyperLinkVisible || isRadioVisible
+        "
+        *ngFor="let dataRow of tableVisibleData; let index = index"
+      >
+        <td
+          class="govuk-table__cell"
+          *ngFor="let dataKey of dataKeys"
+          [ngClass]="[
+            pageName === 'Contactadmin' && dataKey ==='email'
+              ? 'navigation-text'
+              : ''
+          ]"
+        >
+          {{ dataRow[dataKey] }}
+        </td>
+        <td class="govuk-table__cell" *ngIf="isHyperLinkVisible == true">
+          <a class="navigation-text" href="javascript:;">
+            {{ hyperLinkText || "" | translate }}</a
+          >
+        </td>
         <td class="govuk-table__cell" *ngIf="isCheckBoxVisible == true">
           <div class="govuk-checkboxes" data-module="govuk-checkboxes">
             <div class="govuk-checkboxes__item">
-              <input class="govuk-checkboxes__input" id="{{ 'table-chk-id-' + index }}" type="checkbox"
-                [checked]="dataRow['isChecked']==true">
-                <label class="govuk-label govuk-checkboxes__label" title="select one option"
-                for="{{ 'table-chk-id-' + index }}">
-                <span style="display: none; visibility: hidden;">Select the option</span>
+              <input
+                class="govuk-checkboxes__input"
+                id="{{ 'table-chk-id-' + index }}"
+                type="checkbox"
+                [checked]="dataRow['isChecked'] == true"
+              />
+              <label
+                class="govuk-label govuk-checkboxes__label"
+                title="select one option"
+                for="{{ 'table-chk-id-' + index }}"
+              >
+                <span style="display: none; visibility: hidden"
+                  >Select the option</span
+                >
               </label>
             </div>
           </div>
         </td>
         <td class="govuk-table__cell" *ngIf="isRadioVisible == true">
           <fieldset class="govuk-fieldset">
-            <legend style="display: none; visibility: hidden;" class="govuk-fieldset__legend">
-            </legend>
+            <legend
+              style="display: none; visibility: hidden"
+              class="govuk-fieldset__legend"
+            ></legend>
             <div class="govuk-radios">
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" type="radio" id="{{ 'table-radio-id-' + index }}"
-                  name="table-radio-group" title="select one option" value="{{ 'table-radio-id-' + index }}"
-                  [(ngModel)]="selectedRadioId">
-                <label class="govuk-label govuk-radios__label" title="select one option"
-                  for="{{ 'table-radio-id-' + index }}">
-                  <span style="display: none; visibility: hidden;">Select the option</span>
+                <input
+                  class="govuk-radios__input"
+                  type="radio"
+                  id="{{ 'table-radio-id-' + index }}"
+                  name="table-radio-group"
+                  title="select one option"
+                  value="{{ 'table-radio-id-' + index }}"
+                  [(ngModel)]="selectedRadioId"
+                />
+                <label
+                  class="govuk-label govuk-radios__label"
+                  title="select one option"
+                  for="{{ 'table-radio-id-' + index }}"
+                >
+                  <span style="display: none; visibility: hidden"
+                    >Select the option</span
+                  >
                 </label>
               </div>
             </div>
           </fieldset>
+        </td>
+        <td class="tablular" *ngIf="!isHyperLinkVisible">
+          <a class="tablular" tabindex="0">.</a>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
 <ng-template #no_results>
-  <p class="govuk-body govuk-!-font-weight-bold">There are no matching results.</p>
+  <p class="govuk-body govuk-!-font-weight-bold">
+    There are no matching results.
+  </p>
 </ng-template>
 <div
-  *ngIf="(useServerPagination==true || useClientPagination==true) && pageCount && pageCount > 1 && tableVisibleData.length != 0"
-  class="pagination-area" aria-label="Pagination">
+  *ngIf="
+    (useServerPagination == true || useClientPagination == true) &&
+    pageCount &&
+    pageCount > 1 &&
+    tableVisibleData.length != 0
+  "
+  class="pagination-area"
+  aria-label="Pagination"
+>
   <ul>
     <li>
-      <a *ngIf="currentPage != 1" href="javascript:;" (click)="onSetPageClick(currentPage-1)" aria-label="Previous">
-        <span>{{ 'PREVIOUS' | translate }}</span>
+      <a
+        *ngIf="currentPage != 1"
+        href="javascript:;"
+        (click)="onSetPageClick(currentPage - 1)"
+        aria-label="Previous"
+      >
+        <span>{{ "PREVIOUS" | translate }}</span>
       </a>
       <a *ngIf="currentPage == 1" class="disabled" aria-label="Previous">
-        <span>{{ 'PREVIOUS' | translate }}</span>
+        <span>{{ "PREVIOUS" | translate }}</span>
       </a>
     </li>
-    <li *ngFor="let page of totalPagesArray;">
-      <a href="javascript:;" [class.active]="page == currentPage" (click)="onSetPageClick(page)">
-        {{ page}}</a>
+    <li *ngFor="let page of totalPagesArray">
+      <a
+        href="javascript:;"
+        [class.active]="page == currentPage"
+        (click)="onSetPageClick(page)"
+      >
+        {{ page }}</a
+      >
     </li>
     <li class="inline-list">
-      <a *ngIf="currentPage != pageCount" href="javascript:;" (click)="onSetPageClick(currentPage+1)" aria-label="Next">
-        <span>{{ 'NEXT' | translate }}</span>
+      <a
+        *ngIf="currentPage != pageCount"
+        href="javascript:;"
+        (click)="onSetPageClick(currentPage + 1)"
+        aria-label="Next"
+      >
+        <span>{{ "NEXT" | translate }}</span>
       </a>
       <a *ngIf="currentPage == pageCount" class="disabled" aria-label="Next">
-        <span>{{ 'NEXT' | translate }}</span>
+        <span>{{ "NEXT" | translate }}</span>
       </a>
     </li>
   </ul>

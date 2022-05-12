@@ -35,66 +35,77 @@
             <div class="ui segment">
 
                 <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds">
-                        <div class="govuk-form-group" id="first-name-form-group"
-                            [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
-                            <label class="govuk-label" for="first-name"> {{ 'FIRSTNAME' | translate }} </label>
-                            <span id="first-name-error" class="govuk-error-message"
-                                *ngIf="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
-                                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-                                'ERROR_FIRST_NAME' | translate }}
-                            </span>
-                            <input #input formControlName="firstName" class="govuk-input" id="first-name"
-                                name="first-name" type="text"
-                                [class.govuk-input--error]="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
-                        </div>
-                        <div class="govuk-form-group" id="last-name-form-group"
-                            [class.govuk-form-group--error]="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
-                            <label class="govuk-label" for="last-name"> {{ 'LASTNAME' | translate }} </label>
-                            <span id="last-name-error" class="govuk-error-message"
-                                *ngIf="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
-                                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-                                'ERROR_LAST_NAME'
-                                | translate }}
-                            </span>
-                            <input #input formControlName="lastName" class="govuk-input" id="last-name" name="last-name"
-                                type="text"
-                                [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
-                        </div>
-                        <div class="govuk-form-group">
-                            <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
-                            <div id="email-hint" class="govuk-hint">
-                                {{ 'USER_EMAIL_HINT' | translate }}
-                            </div>
-                            <input [readonly]="true" [class.disabled]="true" class="govuk-input" id="email" name="email"
-                                type="email" size="20" value="" autocomplete="email" spellcheck="false"
-                                [value]="userName">
-                        </div>
-                        <div class="govuk-form-group" id="user-mfa-form-group">
-                            <fieldset class="govuk-fieldset">
-                                <legend class="govuk-heading-s">
-                                    Security Level
-                                </legend>
-                                <app-details [detailsData]="detailsData[0]"></app-details>
-                                <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
-                                    <input [attr.disabled]=true class="govuk-checkboxes__input" id="mfaEnabled"
-                                        formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
-                                    <label class="govuk-label govuk-checkboxes__label" for="mfaEnabled">
-                                        Additional security using digital device
-                                    </label>
+                    <div class="govuk-grid-column-full">
+                        <div class="content flex">
+                            <div class="content-left">
+                                <div class="govuk-form-group" id="first-name-form-group"
+                                    [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
+                                    <label class="govuk-label" for="first-name"> {{ 'FIRSTNAME' | translate }} </label>
+                                    <span id="first-name-error" class="govuk-error-message"
+                                        *ngIf="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
+                                        <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                                        'ERROR_FIRST_NAME' | translate }}
+                                    </span>
+                                    <input #input formControlName="firstName" class="govuk-input" id="first-name"
+                                        name="first-name" type="text"
+                                        [class.govuk-input--error]="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
                                 </div>
-                            </fieldset>
+                                <div class="govuk-form-group" id="last-name-form-group"
+                                    [class.govuk-form-group--error]="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
+                                    <label class="govuk-label" for="last-name"> {{ 'LASTNAME' | translate }} </label>
+                                    <span id="last-name-error" class="govuk-error-message"
+                                        *ngIf="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
+                                        <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                                        'ERROR_LAST_NAME'
+                                        | translate }}
+                                    </span>
+                                    <input #input formControlName="lastName" class="govuk-input" id="last-name" name="last-name"
+                                        type="text"
+                                        [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
+                                </div>
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
+                                    <div id="email-hint" class="govuk-hint">
+                                        {{ 'USER_EMAIL_HINT' | translate }}
+                                    </div>
+                                    <input [readonly]="true" [class.disabled]="true" class="govuk-input" id="email" name="email"
+                                        type="email" size="20" value="" autocomplete="email" spellcheck="false"
+                                        [value]="userName">
+                                </div>
+                                <div class="govuk-form-group" id="user-mfa-form-group">
+                                    <fieldset class="govuk-fieldset">
+                                        <legend class="govuk-heading-s">
+                                            Security Level
+                                        </legend>
+                                        <app-details [detailsData]="detailsData[0]"></app-details>
+                                        <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
+                                            <input [attr.disabled]=true class="govuk-checkboxes__input" id="mfaEnabled"
+                                                formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
+                                            <label class="govuk-label govuk-checkboxes__label" for="mfaEnabled">
+                                                Additional security using digital device
+                                            </label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+        
+                                <div>
+                                    <p class="govuk-body govuk-!-font-size-19">
+                                        {{"SIGN_IN_PROVIDER"| translate}} : {{identityProviderDisplayName}}</p>
+                                </div>
+                                <button *ngIf="canChangePassword" type="button" (click)="onChangePasswordClick()"
+                                    class="govuk-button govuk-button--secondary change-password-button"
+                                    data-module="govuk-button">
+                                    {{ 'CHANGE_PASSWORD_BTN' | translate }}
+                                </button>
+                            </div>
+        
+                            <div class="content-right">
+                                <div class="card card-help">
+                                    <h3 class="card-title">Have an issue?</h3>
+                                    <a  class="navigation-text"routerLink="/contact-admin">Contact my admin</a>
+                                </div>
+                            </div>
                         </div>
-
-                        <div>
-                            <p class="govuk-body govuk-!-font-size-19">
-                                {{"SIGN_IN_PROVIDER"| translate}} : {{identityProviderDisplayName}}</p>
-                        </div>
-                        <button *ngIf="canChangePassword" type="button" (click)="onChangePasswordClick()"
-                            class="govuk-button govuk-button--secondary change-password-button"
-                            data-module="govuk-button">
-                            {{ 'CHANGE_PASSWORD_BTN' | translate }}
-                        </button>
                     </div>
                 </div>
                 <div *ngIf="userGroups.length == 0">
