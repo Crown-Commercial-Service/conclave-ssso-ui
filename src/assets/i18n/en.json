@@ -78,7 +78,7 @@
   "FAX": "Fax",
   "MOBILE":"Mobile number",
   "WEB_URL": "Web address",
-  "CONTACT_REASON": "Contact reason",
+  "CONTACT_REASON": "Contact reason (optional)",
   "MANAGE_YOUR_USER_ACCOUNTS": "Manage user accounts",
   "MANAGE_YOUR_ORGANISATION_USER_ACCOUNTS": "Manage your organisation's user accounts",
   "MANAGE_USER_DESCRIPTION": "The next steps allow you to create new user accounts, update account details and passwords.",
