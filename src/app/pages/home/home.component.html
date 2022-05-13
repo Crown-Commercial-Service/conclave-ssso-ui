@@ -1,17 +1,17 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
-<h1 class="govuk-heading-xl page-title">Public Procurement Gateway Dashboard</h1>
+<h1 class="govuk-heading-xl page-title" style="margin-top:25px">Public Procurement Gateway Dashboard</h1>
 <h2 *ngIf="ccsModules.length > 0">Here are all of your CCS Services</h2>
 <div class="row" *ngIf="ccsModules.length > 0">
   <div *ngFor="let ccsModule of ccsModules;" class="column">
     <div class="card" *ngIf="ccsModule.route">
-      <a href={{ccsModule.route}} aria-label="">
-        <a [attr.id]="getModuleElementId(ccsModule.name)" tabindex="0" role="link" class="card-title">{{ccsModule.name}}</a>
+      <a href={{ccsModule.route}} attr.aria-labelledby={{ccsModule.route}}>
+        <a [attr.id]="getModuleElementId(ccsModule.name)" tabindex="0" title={{ccsModule.name}} role="link" attr.aria-label={{ccsModule.name}} class="card-title">{{ccsModule.name}}</a>
         <p class="tile-para">{{ccsModule.description}}</p>
       </a>
     </div>
     <div class="card" *ngIf="ccsModule.href">
-      <a href="{{ccsModule.href}}" target="_blank" aria-label="">
-        <a [attr.id]="getModuleElementId(ccsModule.name)" tabindex="0" role="link" class="card-title">{{ccsModule.name}}</a>
+      <a href="{{ccsModule.href}}" target="_blank" attr.aria-labelledby={{ccsModule.href}}>
+        <a [attr.id]="getModuleElementId(ccsModule.name)" tabindex="0" title={{ccsModule.name}} role="link" attr.aria-label={{ccsModule.name}} class="card-title">{{ccsModule.name}}</a>
         <p class="tile-para">{{ccsModule.description}}</p>
       </a>
     </div>
@@ -25,8 +25,8 @@
   <div class="row">
     <div *ngFor="let systemModule of systemModules;" class="column">
       <div class="card">
-        <a routerLink={{systemModule.route}} aria-label="">
-          <a [attr.id]="getModuleElementId(systemModule.name)" tabindex="0" role="link" class="card-title">{{systemModule.name}}</a>
+        <a routerLink={{systemModule.route}} attr.aria-labelledby={{systemModule.route}}>
+          <a [attr.id]="getModuleElementId(systemModule.name)" tabindex="0" attr.aria-label={{systemModule.name}} role="link" title={{systemModule.name}} class="card-title">{{systemModule.name}}</a>
           <p class="tile-para">{{systemModule.description}}</p>
         </a>
       </div>
@@ -38,8 +38,8 @@
   <div class="row">
     <div *ngFor="let otherModule of otherModules;" class="column">
       <div class="card">
-        <a routerLink={{otherModule.route}} aria-label="">
-          <a [attr.id]="getModuleElementId(otherModule.name)" tabindex="0" role="link" class="card-title">{{otherModule.name}}</a>
+        <a routerLink={{otherModule.route}} attr.aria-labelledby={{otherModule.route}}>
+          <a [attr.id]="getModuleElementId(otherModule.name)" tabindex="0" role="link" title={{otherModule.name}} attr.aria-label={{otherModule.name}} class="card-title">{{otherModule.name}}</a>
           <p class="tile-para">{{otherModule.description}}</p>
         </a>
       </div>

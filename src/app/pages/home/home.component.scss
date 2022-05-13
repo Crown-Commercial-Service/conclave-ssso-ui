@@ -39,9 +39,9 @@
   min-height: 150px;
   height: 100%;
   border: 1px solid grey;
-
   a {
     text-decoration: none !important;
+    word-break: break-word;
   }
   a:focus {
     a {
