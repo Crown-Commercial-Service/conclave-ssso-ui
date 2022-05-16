@@ -51,7 +51,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
             this.addingRoles = this.routeData['addingRoles'];
             this.removingRoles = this.routeData['removingRoles'] || [];
             this.userCount = this.routeData['userCount'] || 0;
-            this.groupName = this.routeData.groupName;
+            this.groupName = sessionStorage.getItem('Gname') || '';
         }
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     }
