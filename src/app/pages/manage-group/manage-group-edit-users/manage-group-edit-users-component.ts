@@ -65,7 +65,7 @@ export class ManageGroupEditUsersComponent
       this.isEdit = routeData['isEdit'];
       console.log("this.isEdit",this.isEdit)
       this.editingGroupId = routeData['groupId'];
-      this.groupName = routeData['groupName'] || '';
+      this.groupName = sessionStorage.getItem('Gname') || '';
     }
     var existingUsersString = sessionStorage.getItem('group_existing_users');
     var addingUsersString = sessionStorage.getItem('group_added_users');
@@ -195,10 +195,10 @@ export class ManageGroupEditUsersComponent
       'group_removed_users',
       JSON.stringify(this.removingUsers)
     );
+    this.SharedDataService.manageGroupStorage(this.groupName);
     let data = {
       isEdit: this.isEdit,
       groupId: this.editingGroupId,
-      groupName:this.groupName
     };
     this.router.navigateByUrl(
       'manage-groups/edit-users-confirm?data=' + JSON.stringify(data)

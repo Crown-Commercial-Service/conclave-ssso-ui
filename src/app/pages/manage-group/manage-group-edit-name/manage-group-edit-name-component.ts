@@ -69,6 +69,10 @@ export class ManageGroupEditNameComponent
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit Name' : 'Create'}  - Manage Groups - CCS`
     );
+    if(this.isEdit){
+    this.groupName=sessionStorage.getItem('Gname') || ''
+    this.formGroup.controls['groupName'].setValue(this.groupName);
+    }
     this.onFormValueChange();
   }
   
@@ -103,7 +107,7 @@ export class ManageGroupEditNameComponent
     if (this.formValid(form)) {
       if (!this.specialCharsVaidation) {
         this.groupName = form.get('groupName')?.value;
-        if (this.isEdit == true) {
+        if (this.isEdit == true) {          
           let groupPatchRequestInfo: OrganisationGroupRequestInfo = {
             groupName: this.groupName,
           };
