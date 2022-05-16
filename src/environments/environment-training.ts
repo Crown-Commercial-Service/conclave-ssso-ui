@@ -73,7 +73,7 @@ export const environment = {
   rollbar: {
 
     key: 'ROLLBAR',
-
+    
     enable: true,
 
     security_log:true
