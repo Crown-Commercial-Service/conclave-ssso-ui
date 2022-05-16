@@ -149,7 +149,8 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
             'roleIds': this.roleIds,
             'addingRoles': this.addingRoles,
             'removingRoles': this.removingRoles,
-            'userCount': this.userCount
+            'userCount': this.userCount,
+            'groupName':this.groupName
         };
         this.router.navigateByUrl('manage-groups/edit-roles-confirm?data=' + JSON.stringify(data));
     }
