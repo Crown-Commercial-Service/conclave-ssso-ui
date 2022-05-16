@@ -51,12 +51,13 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
             this.addingRoles = this.routeData['addingRoles'];
             this.removingRoles = this.routeData['removingRoles'] || [];
             this.userCount = this.routeData['userCount'] || 0;
+            this.groupName = this.routeData.groupName;
         }
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     }
 
     ngOnInit() {
-        this.titleService.setTitle(`Confirm - ${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - CCS`);
+        this.titleService.setTitle(`Confirm - ${"Group - Roles"}`);
     }
 
     onConfirmClick() {

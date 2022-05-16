@@ -198,6 +198,7 @@ export class ManageGroupEditUsersComponent
     let data = {
       isEdit: this.isEdit,
       groupId: this.editingGroupId,
+      groupName:this.groupName
     };
     this.router.navigateByUrl(
       'manage-groups/edit-users-confirm?data=' + JSON.stringify(data)
