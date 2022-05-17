@@ -351,6 +351,8 @@ export class ManageOrganisationContactEditComponent
             this.createSiteContact(form);
           }
         }
+      }else{
+        this.scrollHelper.scrollToFirst('error-summary-title');
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
