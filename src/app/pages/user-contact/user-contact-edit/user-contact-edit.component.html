@@ -21,7 +21,7 @@
         <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">{{ 'EDIT_CONTACT_DETAILS' | translate }}</h1>
         <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert"
             tabindex="-1" id="error-summary" data-module="govuk-error-summary"
-            *ngIf="!formValid(formGroup) && submitted">
+            *ngIf="!formValid(formGroup) && submitted || validator && submitted">
             <h2 class="govuk-error-summary__title" id="error-summary-title">
                 {{ 'ERROR_SUMMARY' | translate }}
             </h2>

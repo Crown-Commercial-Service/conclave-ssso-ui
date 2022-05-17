@@ -307,6 +307,8 @@ export class UserContactEditComponent
               },
             });
         }
+      }else{
+        this.scrollHelper.scrollToFirst('error-summary-title');
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
