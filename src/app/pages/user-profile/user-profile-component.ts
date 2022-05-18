@@ -91,8 +91,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     super(
       viewportScroller,
       formBuilder.group({
-        firstName: ['', Validators.compose([Validators.required])],
-        lastName: ['', Validators.compose([Validators.required])],
+        firstName: ['', Validators.compose([Validators.required,Validators.pattern("^[a-zA-Z][a-zA-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
+        lastName: ['', Validators.compose([Validators.required,Validators.pattern("^[a-zA-Z][a-zA-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
         mfaEnabled: [false],
       })
     );
@@ -363,4 +363,18 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     });
     return selectedRoleIds;
   }
+
+  public customFocum(): void {
+    if (
+      this.formGroup.controls['firstName'].invalid &&
+      this.formGroup.controls['lastName'].invalid
+    ) {
+      this.inputs.toArray()[0].nativeElement.focus();
+    } else if (this.formGroup.controls['firstName'].invalid) {
+      this.inputs.toArray()[0].nativeElement.focus();
+    } else if (this.formGroup.controls['lastName'].invalid) {
+      this.inputs.toArray()[1].nativeElement.focus();
+    }
+  }
+
 }
