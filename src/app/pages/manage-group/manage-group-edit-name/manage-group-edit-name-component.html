@@ -72,7 +72,7 @@
                                 {{ 'YOU_CAN_CHANGE_THIS_LATER' | translate }}
                             </div>
                             <label *ngIf="isEdit==true" class="govuk-label govuk-radios__label"
-                                title="select one option" for="group-name">
+                                title="select one option" for="group-name" style="display: none; visibility: hidden;">
                                 <span style="display: none; visibility: hidden;">Select the option</span>
                             </label>
                             <input #input formControlName="groupName" class="govuk-input" id="group-name"
