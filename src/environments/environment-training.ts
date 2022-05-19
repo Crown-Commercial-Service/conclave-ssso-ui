@@ -77,7 +77,6 @@ export const environment = {
     enable: false,
 
     security_log:true
-    
 
   },
   cookies_policy: {

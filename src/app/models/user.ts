@@ -23,6 +23,7 @@ export interface UserDetail {
     firstName: string;
     lastName: string;
     mfaEnabled : boolean;
+    isAdminUser : boolean;
 }
 
 export interface UserRequestDetail {

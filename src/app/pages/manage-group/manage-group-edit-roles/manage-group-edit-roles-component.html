@@ -34,8 +34,12 @@
         <h2 class="govuk-heading-m">
             {{ 'SELECT_ROLES_WANT_TO_ADD' | translate }}</h2>
         <div>
-            <div class="govuk-form-group" id="search-form-group">
+            <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchText ===''">
                 <label class="govuk-label" for="search"> {{ 'SEARCH_FOR_ROLE' | translate }} </label>
+                <span id="first-name-error" class="govuk-error-message"
+                *ngIf="searchSumbited && searchText ===''">
+                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a role name
+              </span>
                 <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
                 </app-search-box>
             </div>
@@ -61,8 +65,12 @@
                 {{ 'CONTINUE_BTN' | translate }}
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
-                data-module="govuk-button">
-                {{ 'CANCEL_GO_GROUP_BTN' | translate }}
+                data-module="govuk-button" *ngIf="!isEdit">
+                Create group with no roles
+            </button>
+            <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                data-module="govuk-button" *ngIf="isEdit">
+                Cancel and go to group 
             </button>
         </div>
     </div>
