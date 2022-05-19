@@ -34,7 +34,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
     routeData: any = {};
     usersTableHeaders = ['NAME', 'EMAIL'];
     usersColumnsToDisplay = ['name', 'userName'];
-
+    groupName:string=''
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -43,6 +43,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
             this.routeData = JSON.parse(queryParams.data);
             this.isEdit = this.routeData['isEdit'];
             this.editingGroupId = this.routeData['groupId'];
+            this.groupName=this.routeData['groupName'];
         }
         var existingUsersString = sessionStorage.getItem("group_existing_users")
         var addingUsersString = sessionStorage.getItem("group_added_users");
@@ -80,7 +81,8 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
                             'isEdit': this.isEdit,
                             'groupId': this.editingGroupId,
                             'roleIds': [],
-                            'userCount': this.addingUsers.length
+                            'userCount': this.addingUsers.length,
+                            'groupName':this.groupName
                         };
                         this.clearSessionStorageGroupUserData();
                         this.router.navigateByUrl('manage-groups/edit-roles?data=' + JSON.stringify(data));

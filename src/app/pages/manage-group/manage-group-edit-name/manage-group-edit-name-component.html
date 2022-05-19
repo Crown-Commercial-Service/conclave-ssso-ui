@@ -38,6 +38,9 @@
                     <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
                         'ERROR_GROUP_NAME_EXISTS' | translate }}</a>
                 </li>
+                <li *ngIf="submitted && formGroup.controls.groupName.errors?.specialCharsincluded">
+                    <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">Enter your group name without all special characters</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -61,11 +64,15 @@
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
                                 'ERROR_GROUP_NAME_EXISTS' | translate }}
                             </span>
+                            <span id="group-name-error" class="govuk-error-message"
+                            *ngIf="submitted && formGroup.controls.groupName.errors?.specialCharsincluded">
+                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter your group name without all special characters
+                            </span>
                             <div *ngIf="isEdit!=true" id="group-name-hint" class="govuk-hint">
                                 {{ 'YOU_CAN_CHANGE_THIS_LATER' | translate }}
                             </div>
                             <label *ngIf="isEdit==true" class="govuk-label govuk-radios__label"
-                                title="select one option" for="group-name">
+                                title="select one option" for="group-name" style="display: none; visibility: hidden;">
                                 <span style="display: none; visibility: hidden;">Select the option</span>
                             </label>
                             <input #input formControlName="groupName" class="govuk-input" id="group-name"

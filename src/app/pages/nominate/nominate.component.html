@@ -29,6 +29,10 @@
                       (click)="setFocus(2)">
                       <li>Enter an email address in the correct format, like name@example.com</li>
                     </a>
+                    <a *ngIf="submitted && !formGroup.controls.firstName.errors?.required && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)" href="javascript:;" onClick="return false;"
+                    (click)="customFocum()">
+                    <li>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</li>
+                    </a>
                   </ul>
                 </div>
               </div>
@@ -37,9 +41,13 @@
               [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid">
               <label class="govuk-label" for="firstName">{{ 'FIRSTNAME' | translate }}</label>
               <span id="firstname-error" class="govuk-error-message"
-                *ngIf="submitted && formGroup.controls.firstName.invalid">
+                *ngIf="submitted && formGroup.controls.firstName.errors?.required">
                 <span class="govuk-visually-hidden">Error:</span>Enter the nominee's first name
               </span>
+              <span id="firstname-error" class="govuk-error-message"
+              *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
+              <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+            </span>
               <input class="govuk-input" #input id="firstName" formControlName="firstName" maxlength="100"
                 name="firstName" size="20" type="text" value="" autocomplete="given-name"
                 [class.govuk-input--error]="submitted && formGroup.controls.firstName.invalid">
@@ -48,9 +56,13 @@
               [class.govuk-form-group--error]="submitted && formGroup.controls.lastName.invalid">
               <label class="govuk-label" for="lastName">{{ 'LASTNAME' | translate }}</label>
               <span id="lastname-error" class="govuk-error-message"
-                *ngIf="submitted && formGroup.controls.lastName.invalid">
+                *ngIf="submitted && formGroup.controls.lastName.errors?.required">
                 <span class="govuk-visually-hidden">Error:</span>Enter the nominee's last name
               </span>
+              <span id="lastname-error" class="govuk-error-message"
+              *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
+              <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+            </span>
               <input class="govuk-input" #input id="lastName" formControlName="lastName" maxlength="100" name="lastName"
                 size="20" type="text" value="" autocomplete="family-name"
                 [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid">

@@ -32,8 +32,8 @@ private PatternService:PatternService,
     super(uiStore, viewportScroller, scrollHelper);
 
     this.formGroup = this.formBuilder.group({
-      firstName: ['', Validators.compose([Validators.required])],
-      lastName: ['', Validators.compose([Validators.required])],
+      firstName: ['', Validators.compose([Validators.required,Validators.pattern(this.PatternService.NameValidator)])],
+      lastName: ['', Validators.compose([Validators.required,Validators.pattern(this.PatternService.NameValidator)])],
       email: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
     });
     this.ciiOrganisationInfo = {}
@@ -102,6 +102,19 @@ private PatternService:PatternService,
 
   setFocus(inputIndex: number) {
     this.inputs.toArray()[inputIndex].nativeElement.focus();
+  }
+
+  public customFocum(): void {
+    if (
+      this.formGroup.controls['firstName'].invalid &&
+      this.formGroup.controls['lastName'].invalid
+    ) {
+      this.inputs.toArray()[0].nativeElement.focus();
+    } else if (this.formGroup.controls['firstName'].invalid) {
+      this.inputs.toArray()[0].nativeElement.focus();
+    } else if (this.formGroup.controls['lastName'].invalid) {
+      this.inputs.toArray()[1].nativeElement.focus();
+    }
   }
 
   /**

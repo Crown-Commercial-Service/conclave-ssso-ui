@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
@@ -18,55 +26,80 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
   styleUrls: ['./nominate.component.scss'],
   animations: [
     slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
+      close: { transform: 'translateX(12.5rem)' },
+      open: { left: '-12.5rem' },
+    }),
   ],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NominateComponent extends BaseComponent {
-
   formGroup: FormGroup;
   submitted: boolean = false;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
-  constructor(private formBuilder: FormBuilder,
-    private dataService:SharedDataService,
-    private PatternService:PatternService,
-    private authService: AuthService, private router: Router,
-    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private dataService: SharedDataService,
+    private PatternService: PatternService,
+    private authService: AuthService,
+    private router: Router,
+    protected uiStore: Store<UIState>,
+    protected viewportScroller: ViewportScroller,
+    protected scrollHelper: ScrollHelper
+  ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.formGroup = this.formBuilder.group({
-      firstName: [, Validators.compose([Validators.required])],
-      lastName: [, Validators.compose([Validators.required])],
-      email: [, Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
+      firstName: [
+        ,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(this.PatternService.NameValidator),
+        ]),
+      ],
+      lastName: [
+        ,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(this.PatternService.NameValidator),
+        ]),
+      ],
+      email: [
+        ,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(this.PatternService.emailPattern),
+        ]),
+      ],
     });
   }
 
-  validateEmailLength(data:any){
-    if(this.PatternService.emailValidator(data.target.value)){
-        this.formGroup.controls['email'].setErrors({ 'incorrect': true})
-      }
-}
+  validateEmailLength(data: any) {
+    if (this.PatternService.emailValidator(data.target.value)) {
+      this.formGroup.controls['email'].setErrors({ incorrect: true });
+    }
+  }
   public onSubmit(form: FormGroup) {
     this.submitted = true;
- if(this.PatternService.emailValidator(form.get('email')?.value)){
-  this.formGroup.controls['email'].setErrors({ 'incorrect': true})
-}
+    if (this.PatternService.emailValidator(form.get('email')?.value)) {
+      this.formGroup.controls['email'].setErrors({ incorrect: true });
+    }
     if (this.formValid(form)) {
       let uname = form.get('email')?.value;
-      this.authService.nominate(uname).toPromise().then(() => {
-        this.submitted = false;
-        this.dataService.NominiData.next(uname)
-        this.router.navigateByUrl(`nominate/success`);
-      });
+      this.authService
+        .nominate(uname)
+        .toPromise()
+        .then(() => {
+          this.submitted = false;
+          this.dataService.NominiData.next(uname);
+          this.router.navigateByUrl(`nominate/success`);
+        });
     }
   }
 
   /**
-    * iterate through each form control and validate
-    */
+   * iterate through each form control and validate
+   */
   public formValid(form: FormGroup): Boolean {
     if (form == null) return false;
     if (form.controls == null) return false;
@@ -81,9 +114,20 @@ export class NominateComponent extends BaseComponent {
       this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
   }
-
-  goBack(){
-    window.history.back();
+  public customFocum(): void {
+    if (
+      this.formGroup.controls['firstName'].invalid &&
+      this.formGroup.controls['lastName'].invalid
+    ) {
+      this.inputs.toArray()[0].nativeElement.focus();
+    } else if (this.formGroup.controls['firstName'].invalid) {
+      this.inputs.toArray()[0].nativeElement.focus();
+    } else if (this.formGroup.controls['lastName'].invalid) {
+      this.inputs.toArray()[1].nativeElement.focus();
+    }
   }
 
+  goBack() {
+    window.history.back();
+  }
 }

@@ -34,13 +34,17 @@
             </h2>
             <div class="govuk-error-summary__body">
                 <ul class="govuk-list govuk-error-summary__list">
-                    <li *ngIf="submitted && formGroup.controls.firstName.invalid">
+                    <li *ngIf="submitted && formGroup.controls.firstName.errors?.required">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
                             {{'ERROR_FIRST_NAME' | translate }} </a>
                     </li>
-                    <li *ngIf="submitted && formGroup.controls.lastName.invalid">
+                    <li *ngIf="submitted && formGroup.controls.lastName.errors?.required">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(1)">
                             {{'ERROR_LAST_NAME' | translate }}</a>
+                    </li>
+                    <li *ngIf="submitted && !formGroup.controls.firstName.errors?.required && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
+                        <a href="javascript:;" onClick="return false;" (click)="customFocum()">
+                            {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
                     </li>
                     <li *ngIf="submitted && formGroup.controls.userName.hasError('required')">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(2)">
@@ -85,10 +89,14 @@
                         [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid">
                         <label class="govuk-label" for="first-name"> {{ 'FIRSTNAME' | translate }} </label>
                         <span id="first-name-error" class="govuk-error-message"
-                            *ngIf="submitted && formGroup.controls.firstName.invalid">
+                            *ngIf="submitted && formGroup.controls.firstName.errors?.required">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
                             'ERROR_FIRST_NAME' | translate }}
                         </span>
+                        <span id="firstname-error" class="govuk-error-message"
+                        *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
+                        <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+                      </span>
                         <input #input formControlName="firstName" class="govuk-input" id="first-name" name="first-name"
                             type="text" [class.govuk-input--error]="submitted && formGroup.controls.firstName.invalid">
                     </div>
@@ -96,11 +104,15 @@
                         [class.govuk-form-group--error]="submitted && formGroup.controls.lastName.invalid">
                         <label class="govuk-label" for="last-name"> {{ 'LASTNAME' | translate }} </label>
                         <span id="last-name-error" class="govuk-error-message"
-                            *ngIf="submitted && formGroup.controls.lastName.invalid">
+                            *ngIf="submitted && formGroup.controls.lastName.errors?.required">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
                             'ERROR_LAST_NAME'
                             | translate }}
                         </span>
+                        <span id="lastname-error" class="govuk-error-message"
+                        *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
+                        <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+                      </span>
                         <input #input formControlName="lastName" class="govuk-input" id="last-name" name="last-name"
                             type="text" [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid">
                     </div>

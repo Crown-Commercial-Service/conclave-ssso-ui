@@ -37,6 +37,7 @@ import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { duration } from 'moment';
 
 @Component({
   selector: 'app-user-contact-edit',
@@ -63,7 +64,7 @@ export class UserContactEditComponent
     CountryISO.UnitedStates,
     CountryISO.UnitedKingdom,
   ];
-  public contact_error:boolean=false
+  public contact_error: boolean = false;
   public toggleInput: any = [
     {
       data: 'email',
@@ -116,7 +117,7 @@ export class UserContactEditComponent
         phone: ['', Validators.compose([])],
         mobile: ['', Validators.compose([])],
         fax: ['', Validators.compose([])],
-        webUrl: ['', Validators.compose([])],
+        webUrl: ['', Validators.compose([Validators.pattern(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/)])],
         contactReason: ['', Validators.compose([])],
       })
     );
@@ -306,6 +307,8 @@ export class UserContactEditComponent
               },
             });
         }
+      }else{
+        this.scrollHelper.scrollToFirst('error-summary-title');
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
@@ -373,10 +376,29 @@ export class UserContactEditComponent
       this.formGroup.get('fax')?.value ||
       this.formGroup.get('webUrl')?.value
     ) {
-      this.contact_error=false
+      this.contact_error = false;
       return false;
     }
-    this.contact_error=true
+    this.contact_error = true;
     return true;
   }
+
+  // public get checkboxValidator() {
+  //   let returnValue=false
+  //   this.toggleInput.forEach((f: any) => {
+  //     if (f.isChecked) {
+  //       if (this.formGroup.get(f.formControlName)?.value) {
+  //         return false
+  //       } else {
+  //         returnValue=true
+  //         this.formGroup.controls[f.formControlName].setErrors({
+  //         incorrect: true,
+  //         });
+  //         return true;
+  //       }
+  //     }
+  //     return false;
+  //   });
+  //   return returnValue;
+  // }
 }

@@ -78,8 +78,8 @@ export class ManageUserAddSingleUserDetailComponent
             viewportScroller,
             formBuilder.group({
                 userTitle: [null],
-                firstName: ['', Validators.compose([Validators.required])],
-                lastName: ['', Validators.compose([Validators.required])],
+                firstName: ['', Validators.compose([Validators.required,Validators.pattern("^[a-zA-Z][a-zA-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
+                lastName: ['', Validators.compose([Validators.required,Validators.pattern("^[a-zA-Z][a-zA-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
                 mfaEnabled: [false],
                 userName: [
                     '',
@@ -459,7 +459,19 @@ export class ManageUserAddSingleUserDetailComponent
     onDeleteClick() {
         this.router.navigateByUrl('manage-users/confirm-user-delete');
     }
-
+    
+    public customFocum(): void {
+        if (
+          this.formGroup.controls['firstName'].invalid &&
+          this.formGroup.controls['lastName'].invalid
+        ) {
+          this.inputs.toArray()[0].nativeElement.focus();
+        } else if (this.formGroup.controls['firstName'].invalid) {
+          this.inputs.toArray()[0].nativeElement.focus();
+        } else if (this.formGroup.controls['lastName'].invalid) {
+          this.inputs.toArray()[1].nativeElement.focus();
+        }
+      }
     onGroupViewClick(groupId: any) {
         var formData: UserProfileResponseInfo = {
             title: this.formGroup.get('userTitle')?.value,

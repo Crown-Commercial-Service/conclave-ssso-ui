@@ -57,6 +57,7 @@
   "ERROR_INVALID_PHONE_NUMBER": "Enter a valid phone number",
   "ERROR_INVALID_MOBILE_NUMBER": "Enter a valid mobile number",
   "ERROR_INVALID_FAX_NUMBER": "Enter a valid fax number",
+  "ERROR_INVALID_WEB_ADD": "Enter a valid web address",
   "ERROR_CURRENT_PASSWORD": "Enter your current password",
   "ERROR_NEW_PASSWORD": "Enter a new password",
   "ERROR_NEW_PASSWORD_CONTAINS_USER_INFO": "Password should not have user information",
@@ -78,7 +79,8 @@
   "FAX": "Fax",
   "MOBILE":"Mobile number",
   "WEB_URL": "Web address",
-  "CONTACT_REASON": "Contact reason (optional)",
+  "CONTACT_REASON": "Contact reason",
+  "CONTACT_REASON_FORM":"Contact reason (optional)",
   "MANAGE_YOUR_USER_ACCOUNTS": "Manage user accounts",
   "MANAGE_YOUR_ORGANISATION_USER_ACCOUNTS": "Manage your organisation's user accounts",
   "MANAGE_USER_DESCRIPTION": "The next steps allow you to create new user accounts, update account details and passwords.",
@@ -147,7 +149,7 @@
   "CONFIRM": "Confirm",
   "CONFIRM_FOLLOWING_CHANGES_TO_GROUP": "Confirm you want to make the following changes to your group",
   "CONFIRM_ADD_FOLLOWING_USERS_TO_GROUP": "Confirm you want to add following users to your group",
-  "CONFIRM_ADD_FOLLOWING_ROLES_TO_GROUP": "Confirm you want to add following roles to your group",
+  "CONFIRM_ADD_FOLLOWING_ROLES_TO_GROUP": "Confirm you want to add following roles to group",
   "USERS_ADDED_TO_GROUP": "Users added to group",
   "USERS_REMOVED_FROM_GROUP": "Users removed from group",
   "CONFIRM_BTN": "Confirm",
@@ -170,7 +172,7 @@
   "RETURN_TO_GROUP": "Return to group",
   "ADD_ROLES": "Add roles",
   "ADD_REMOVE_ROLES": "Add or remove roles",
-  "SELECT_ROLES_WANT_TO_ADD": "Select the roles you want to add",
+  "SELECT_ROLES_WANT_TO_ADD": "Select the roles you want to add. The roles applied to the group will set what services are available to the group members",
   "SEARCH_FOR_ROLE": "Search for a role",
   "SELECT_ROLE": "Select role",
   "ROLES_ADDED_TO_GROUP": "Roles added to group",
@@ -301,5 +303,6 @@
   "THIS_IS_NOT_MY_ORGANISATION_BTN": "This is not my organisation",
   "ERROR_INVALID_ASSIGNING_CONTACT_POINT_IDS": "Error invalid contacts to assign",
   "CONTACT_YOUR_ADMIN":"Contact your admin",
-  "CONTACT_AN_ADMIN":"Contact an Admin"
+  "CONTACT_AN_ADMIN":"Contact an Admin",
+  "ENTER_NAME_WITHOUT_NUM_SPECIAL":"Enter your name without special characters or numbers."
 }

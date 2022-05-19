@@ -35,5 +35,9 @@ export class ManageOrgRegOrgNotFoundComponent extends BaseComponent implements O
   }
 
   ngOnInit() { }
+ 
 
+  public Onclick():void{
+    this.router.navigateByUrl("/manage-org/register/search")
+  }
 }
