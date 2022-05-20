@@ -41,9 +41,8 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         let orgreginfo = orgInfoExists ? JSON.parse(sessionStorage.getItem('orgreginfo') || '') : '';
         if (orgreginfo != '') {
             this.formGroup = this.formBuilder.group({
-                firstName: [orgreginfo.adminUserFirstName, Validators.compose([Validators.required])],
-                lastName: [orgreginfo.adminUserLastName, Validators.compose([Validators.required])],
-                // email: [orgreginfo.adminEmail, Validators.pattern(this.PatternService.emailPattern)],
+                firstName: [orgreginfo.adminUserFirstName, Validators.compose([Validators.required,Validators.pattern(this.PatternService.NameValidator)])],
+                lastName: [orgreginfo.adminUserLastName, Validators.compose([Validators.required,Validators.pattern(this.PatternService.NameValidator)])],
                 email: [orgreginfo.adminEmail, Validators.compose([Validators.required,Validators.pattern(this.PatternService.emailPattern)])],
                 organisation: [orgreginfo.orgName, Validators.compose([Validators.required])]
             });
@@ -51,8 +50,8 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         }
         else {
             this.formGroup = this.formBuilder.group({
-                firstName: ['', Validators.compose([Validators.required])],
-                lastName: ['', Validators.compose([Validators.required])],
+                firstName: ['', Validators.compose([Validators.required,Validators.pattern(this.PatternService.NameValidator)])],
+                lastName: ['', Validators.compose([Validators.required,Validators.pattern(this.PatternService.NameValidator)])],
                 email: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
                 organisation: ['', Validators.compose([Validators.required])]
             });
@@ -99,6 +98,19 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
 
+
+    public customFocum(): void {
+        if (
+          this.formGroup.controls['firstName'].invalid &&
+          this.formGroup.controls['lastName'].invalid
+        ) {
+          this.inputs.toArray()[1].nativeElement.focus();
+        } else if (this.formGroup.controls['firstName'].invalid) {
+          this.inputs.toArray()[1].nativeElement.focus();
+        } else if (this.formGroup.controls['lastName'].invalid) {
+          this.inputs.toArray()[2].nativeElement.focus();
+        }
+      }
     /**
       * iterate through each form control and validate
       */
@@ -159,5 +171,4 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             clearTimeout(this.panelShowTimeout);
         }
     }
-
 }

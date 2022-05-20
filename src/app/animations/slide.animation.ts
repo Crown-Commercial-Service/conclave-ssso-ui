@@ -26,5 +26,5 @@ export function slideAnimation(slideStyle: ISlideAnimationStyles) {
         transition('open => close', [
             animate('500ms cubic-bezier(.3,0,0,1)'),
         ]),
-    ])
+    ]) 
 }
