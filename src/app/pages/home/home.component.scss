@@ -39,9 +39,9 @@
   min-height: 150px;
   height: 100%;
   border: 1px solid grey;
-
   a {
     text-decoration: none !important;
+    word-break: break-word;
   }
   a:focus {
     a {
@@ -93,4 +93,9 @@ h2 {
   /* /Text Primary */
 
   color: #0b0c0c;
+}
+
+.margine
+{
+  margin-top:10px
 }

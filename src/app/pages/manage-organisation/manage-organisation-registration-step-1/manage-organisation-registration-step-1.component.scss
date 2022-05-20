@@ -23,9 +23,10 @@ a{
   height: 100%;
 }
 .card.card-help {
-  float: right;
+  height: auto;
   min-width: 100px;
   max-width: 300px;
+  margin-left: auto;
 }
 
 .card-help .card-title {
@@ -34,4 +35,14 @@ a{
   font-family:"Source Sans Pro", "HelveticaNeue",
     "Helvetica Neue", "Arial", "Helvetica", sans-serif;
 }
-
+.content-flex{
+  justify-content: space-between;
+  flex-flow: wrap;
+  display: flex;
+}
+.content-left {
+  width: 66.66%;
+}
+.content-right {
+  width: 33.3%;
+}
