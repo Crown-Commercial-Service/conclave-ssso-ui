@@ -203,7 +203,7 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
         this.orgEligableRoles$.subscribe({
           next: (eRoles: Role[]) => {
             this.roles.forEach((r) => {
-              r.enabled = eRoles.some(x => x.roleName == r.roleName);
+              r.enabled = eRoles.some(x => x.roleName == r.roleName && x.serviceName == r.serviceName);
             });
             this.eRoles = eRoles;
             setTimeout(() => {

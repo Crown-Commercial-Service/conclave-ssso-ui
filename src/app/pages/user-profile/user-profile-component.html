@@ -19,13 +19,16 @@
         </h2>
         <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
-                <li *ngIf="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
+                <li *ngIf="submitted && formGroup.controls.firstName.errors?.required  && formGroup.controls.firstName.touched">
                     <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
                         'ERROR_FIRST_NAME' | translate }} </a>
                 </li>
-                <li *ngIf="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
+                <li *ngIf="submitted && formGroup.controls.lastName.errors?.required  && formGroup.controls.lastName.touched">
                     <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
                         'ERROR_LAST_NAME' | translate }}</a>
+                </li>
+                <li *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
+                    <a href="javascript:;" onClick="return false;" (click)="customFocum()"> {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
                 </li>
             </ul>
         </div>
@@ -42,9 +45,14 @@
                                     [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
                                     <label class="govuk-label" for="first-name"> {{ 'FIRSTNAME' | translate }} </label>
                                     <span id="first-name-error" class="govuk-error-message"
-                                        *ngIf="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
+                                        *ngIf="submitted && formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.touched">
                                         <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
                                         'ERROR_FIRST_NAME' | translate }}
+                                    </span>
+                                    <span id="firstname-error" class="govuk-error-message"
+                                        *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
+                                        <span class="govuk-visually-hidden">Error:</span>{{
+                                        'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
                                     </span>
                                     <input #input formControlName="firstName" class="govuk-input" id="first-name"
                                         name="first-name" type="text"
@@ -54,13 +62,18 @@
                                     [class.govuk-form-group--error]="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
                                     <label class="govuk-label" for="last-name"> {{ 'LASTNAME' | translate }} </label>
                                     <span id="last-name-error" class="govuk-error-message"
-                                        *ngIf="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
+                                        *ngIf="submitted && formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.touched">
                                         <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
                                         'ERROR_LAST_NAME'
                                         | translate }}
                                     </span>
-                                    <input #input formControlName="lastName" class="govuk-input" id="last-name" name="last-name"
-                                        type="text"
+                                    <span id="lastname-error" class="govuk-error-message"
+                                        *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
+                                        <span class="govuk-visually-hidden">Error:</span>{{
+                                        'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+                                    </span>
+                                    <input #input formControlName="lastName" class="govuk-input" id="last-name"
+                                        name="last-name" type="text"
                                         [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
                                 </div>
                                 <div class="govuk-form-group">
@@ -68,9 +81,9 @@
                                     <div id="email-hint" class="govuk-hint">
                                         {{ 'USER_EMAIL_HINT' | translate }}
                                     </div>
-                                    <input [readonly]="true" [class.disabled]="true" class="govuk-input" id="email" name="email"
-                                        type="email" size="20" value="" autocomplete="email" spellcheck="false"
-                                        [value]="userName">
+                                    <input [readonly]="true" [class.disabled]="true" class="govuk-input" id="email"
+                                        name="email" type="email" size="20" value="" autocomplete="email"
+                                        spellcheck="false" [value]="userName">
                                 </div>
                                 <div class="govuk-form-group" id="user-mfa-form-group">
                                     <fieldset class="govuk-fieldset">
@@ -87,7 +100,7 @@
                                         </div>
                                     </fieldset>
                                 </div>
-        
+
                                 <div>
                                     <p class="govuk-body govuk-!-font-size-19">
                                         {{"SIGN_IN_PROVIDER"| translate}} : {{identityProviderDisplayName}}</p>
@@ -98,11 +111,11 @@
                                     {{ 'CHANGE_PASSWORD_BTN' | translate }}
                                 </button>
                             </div>
-        
+
                             <div class="content-right">
                                 <div class="card card-help">
                                     <h3 class="card-title">Have an issue?</h3>
-                                    <a  class="navigation-text"routerLink="/contact-admin">Contact my admin</a>
+                                    <a class="navigation-text" routerLink="/contact-admin">Contact my admin</a>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +197,7 @@
                 </div>
 
                 <div class="govuk-button-group save-cancel-button-group">
-                    <button type="submit" class="govuk-button" [disabled]="!formChanged"  data-module="govuk-button">
+                    <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
                         {{ 'SAVE_BTN' | translate }}
                     </button>
                     <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
