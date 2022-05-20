@@ -5,13 +5,13 @@
   <div *ngFor="let ccsModule of ccsModules;" class="column">
     <div class="card" *ngIf="ccsModule.route">
       <a href={{ccsModule.route}}>
-        <a [attr.id]="getModuleElementId(ccsModule.name)" tabindex="0" role="link" class="card-title">{{ccsModule.name}}</a>
+        <a [attr.id]="getModuleElementId(ccsModule.name)" tabindex="-1" role="link" class="card-title">{{ccsModule.name}}</a>
         <p class="tile-para">{{ccsModule.description}}</p>
       </a>
     </div>
     <div class="card" *ngIf="ccsModule.href">
       <a href="{{ccsModule.href}}" target="_blank" attr.aria-labelledby={{ccsModule.href}}>
-        <a [attr.id]="getModuleElementId(ccsModule.name)" tabindex="0"  role="link"  class="card-title">{{ccsModule.name}}</a>
+        <a [attr.id]="getModuleElementId(ccsModule.name)" tabindex="-1"  role="link"  class="card-title">{{ccsModule.name}}</a>
         <p class="tile-para">{{ccsModule.description}}</p>
       </a>
     </div>
@@ -26,7 +26,7 @@
     <div *ngFor="let systemModule of systemModules;" class="column">
       <div class="card">
         <a routerLink={{systemModule.route}}>
-          <a [attr.id]="getModuleElementId(systemModule.name)" tabindex="0"  role="link" class="card-title">{{systemModule.name}}</a>
+          <a [attr.id]="getModuleElementId(systemModule.name)" tabindex="-1"  role="link" class="card-title">{{systemModule.name}}</a>
           <p class="tile-para">{{systemModule.description}}</p>
         </a>
       </div>
@@ -39,7 +39,7 @@
     <div *ngFor="let otherModule of otherModules;" class="column">
       <div class="card">
         <a routerLink={{otherModule.route}}>
-          <a [attr.id]="getModuleElementId(otherModule.name)" tabindex="0" role="link" class="card-title">{{otherModule.name}}</a>
+          <a [attr.id]="getModuleElementId(otherModule.name)" tabindex="-1" role="link" class="card-title">{{otherModule.name}}</a>
           <p class="tile-para">{{otherModule.description}}</p>
         </a>
       </div>

@@ -78,8 +78,8 @@ export class ManageUserAddSingleUserDetailComponent
             viewportScroller,
             formBuilder.group({
                 userTitle: [null],
-                firstName: ['', Validators.compose([Validators.required,Validators.pattern("^[a-zA-Z][a-zA-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
-                lastName: ['', Validators.compose([Validators.required,Validators.pattern("^[a-zA-Z][a-zA-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
+                firstName: ['', Validators.compose([Validators.required,Validators.pattern("^[a-zA-Z][a-z A-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
+                lastName: ['', Validators.compose([Validators.required,Validators.pattern("^[a-zA-Z][a-z A-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
                 mfaEnabled: [false],
                 userName: [
                     '',

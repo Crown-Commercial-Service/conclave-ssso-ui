@@ -34,7 +34,7 @@
                                     *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
                                     <li>Enter an email address in the correct format, like name@example.com</li>
                                 </a>
-                                <a *ngIf="submitted && !formGroup.controls.firstName.errors?.required && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)"
+                                <a *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)"
                                     href="javascript:;" onClick="return false;" (click)="customFocum()">
                                     <li>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</li>
                                 </a>

@@ -21,7 +21,7 @@ export class PatternService {
 
   decimalAllowed = /^[0-9]\d*(\.\d+)?$/;
 
-  NameValidator="^[a-zA-Z][a-zA-Z,.'-]*(?:\s+[a-zA-Z]+)?$"
+  NameValidator="^[a-zA-Z][a-z A-Z,.'-]*(?:\s+[a-zA-Z]+)?$"
 
  /**
    * Email validator for all pages
