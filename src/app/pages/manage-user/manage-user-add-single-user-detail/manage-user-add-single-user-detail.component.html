@@ -42,7 +42,8 @@
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(1)">
                             {{'ERROR_LAST_NAME' | translate }}</a>
                     </li>
-                    <li *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
+                    <li
+                        *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
                         <a href="javascript:;" onClick="return false;" (click)="customFocum()">
                             {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
                     </li>
@@ -68,8 +69,7 @@
                             {{ 'ERROR_INVALID_EMAIL'| translate }}</a>
                     </li>
                     <li *ngIf="submitted && formGroup.hasError('identityProviderRequired')">
-                        <a href="javascript:;" onClick="return false;"
-                            (click)="setFocus(3)">
+                        <a href="javascript:;" onClick="return false;" (click)="setFocus(3)">
                             {{ 'ERROR_SIGN_IN_PROVIDER_REQUIRED'| translate }}</a>
                     </li>
                 </ul>
@@ -82,7 +82,7 @@
                         <label class="govuk-label" for="userTitle">{{ 'TITLE (Optional)' | translate }}</label>
                         <select class="govuk-select" id="userTitle" name="userTitle" formControlName="userTitle">
                             <option hidden disabled selected value style="display:none" [ngValue]='null'></option>
-                            <option *ngFor="let item of userTitleArray"  [ngValue]="item">{{item}}</option>
+                            <option *ngFor="let item of userTitleArray" [ngValue]="item">{{item}}</option>
                         </select>
                     </div>
                     <div class="govuk-form-group" id="first-name-form-group"
@@ -94,9 +94,10 @@
                             'ERROR_FIRST_NAME' | translate }}
                         </span>
                         <span id="firstname-error" class="govuk-error-message"
-                        *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
-                        <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
-                      </span>
+                            *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
+                            <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' |
+                            translate }}
+                        </span>
                         <input #input formControlName="firstName" class="govuk-input" id="first-name" name="first-name"
                             type="text" [class.govuk-input--error]="submitted && formGroup.controls.firstName.invalid">
                     </div>
@@ -110,9 +111,10 @@
                             | translate }}
                         </span>
                         <span id="lastname-error" class="govuk-error-message"
-                        *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
-                        <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
-                      </span>
+                            *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
+                            <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' |
+                            translate }}
+                        </span>
                         <input #input formControlName="lastName" class="govuk-input" id="last-name" name="last-name"
                             type="text" [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid">
                     </div>
@@ -157,12 +159,22 @@
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                                 {{ 'MFA_ENABLED_ADMIN_USER'| translate }}
                             </span>
-                            <div class="govuk-checkboxes__item label-detail-text-gap">
-                                <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"
-                                    type="checkbox">
-                                <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
-                                    Additional security using digital device
-                                </label>
+                            <div *ngIf="isEdit == true && isAdmin == true">
+                                <div class="govuk-checkboxes__item label-detail-text-gap">
+                                    <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"
+                                        [attr.disabled]=true  type="checkbox">
+                                    <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
+                                        Additional security using digital device
+                                    </label>
+                                </div>
+                            </div>
+                            <div *ngIf="isEdit == false || isAdmin == false">
+                                <div class="govuk-checkboxes__item label-detail-text-gap">
+                                    <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"  type="checkbox">
+                                    <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
+                                        Additional security using digital device
+                                    </label>
+                                </div>
                             </div>
                         </fieldset>
                     </div>
@@ -170,7 +182,7 @@
                     <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">
-                                {{ 'GROUPS'| translate }}  (Optional)
+                                {{ 'GROUPS'| translate }} (Optional)
                             </legend>
                             <app-details [detailsData]="detailsData[1]"></app-details>
                             <div *ngIf="orgGroups.length == 0">
@@ -207,7 +219,7 @@
                                     <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
                                         [attr.disabled]="isEdit && orgRole.roleKey === 'ORG_DEFAULT_USER' ? true : null"
                                         [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
-                                        value="hmrc">
+                                        (ngModelChange)="onUserRoleChecked(orgRole, $event)" value="hmrc">
                                     <label *ngIf="orgRole.serviceName == null"
                                         class="govuk-label govuk-checkboxes__label"
                                         for="{{'orgRoleControl_' + orgRole.roleId}}">
