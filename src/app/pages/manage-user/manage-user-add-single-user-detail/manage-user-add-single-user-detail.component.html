@@ -159,26 +159,15 @@
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                                 {{ 'MFA_ENABLED_ADMIN_USER'| translate }}
                             </span>
-                            <div *ngIf="isEdit == true && isAdmin == true">
-                                <div class="govuk-checkboxes__item label-detail-text-gap">
-                                    <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"
-                                        [attr.disabled]=true  type="checkbox">
-                                    <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
-                                        Additional security using digital device
-                                    </label>
-                                </div>
-                            </div>
-                            <div *ngIf="isEdit == false || isAdmin == false">
-                                <div class="govuk-checkboxes__item label-detail-text-gap">
-                                    <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"  type="checkbox">
-                                    <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
-                                        Additional security using digital device
-                                    </label>
-                                </div>
+                            <div class="govuk-checkboxes__item label-detail-text-gap">
+                                <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"
+                                    [attr.disabled]="isEdit == true &&  isAdmin == true ? true : null" type="checkbox">
+                                <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
+                                    Additional security using digital device
+                                </label>
                             </div>
                         </fieldset>
                     </div>
-
                     <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">
