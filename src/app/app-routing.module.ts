@@ -538,7 +538,7 @@ const routes: Routes = [
   },
   {
     path: 'manage-users',
-    data: { title: 'Manage Users', roles: ['MANAGE_USERS'] },
+    data: { title: 'Manage User Accounts', roles: ['MANAGE_USERS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageUserProfilesComponent,
