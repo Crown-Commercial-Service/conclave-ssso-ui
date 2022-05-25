@@ -55,6 +55,7 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
       rolesToAdd: this.changes.toAdd,
     };
     this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model)).toPromise().then(() => {
+    localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
       this.router.navigateByUrl(`buyer/success`);
     }).catch(error => {
       console.log(error);
@@ -67,6 +68,7 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
   }
 
   public onBackClick() {
+    localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
     this.router.navigateByUrl('buyer/confirm/' + this.org.ciiOrganisationId);
   }
 }

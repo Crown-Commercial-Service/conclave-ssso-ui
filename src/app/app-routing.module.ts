@@ -108,6 +108,7 @@ import { ManageUserBulkUploadMigrationStatusComponent } from './pages/manage-use
 import { FindyouradministratorComponent } from './pages/manage-organisation/find-your-administrator/find-your-administrator.component';
 import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
 import { ContactAdminComponent } from './pages/contact-admin/contact-admin.component';
+import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -597,6 +598,13 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageOrganisationSiteEditComponent,
+  },
+  {
+    path: 'manage-org/profile/site/add-contact-to-site',
+    data: { title: 'Add/Edit - Site', roles: ['MANAGE_ORGS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ManageOrganisationProfileAddContactToSiteComponent,
   },
   {
     path: 'manage-org/profile/site/delete',

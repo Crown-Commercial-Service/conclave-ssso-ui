@@ -13,8 +13,11 @@
                     translate
                     }}</a>
             </li>
-            <li class="govuk-breadcrumbs__list-item">
+            <li class="govuk-breadcrumbs__list-item" *ngIf="assigningOrgId != ''">
                 <span class="govuk-breadcrumbs__link"> {{ 'SUCCESS' | translate }}</span>
+            </li>
+            <li class="govuk-breadcrumbs__list-item" *ngIf="assigningSiteId != 0">
+                <span class="govuk-breadcrumbs__link"> Site {{siteInfo.siteName}} successfully created</span>
             </li>
         </ol>
     </div>
@@ -23,9 +26,12 @@
             <p class="govuk-body-l" *ngIf="assigningOrgId != ''">
                 {{ 'ASSIGN_TO_ORG_CONTACT_SUCCESS' | translate }}
             </p>
-            <p class="govuk-body-l" *ngIf="assigningSiteId != 0">
-                {{ 'ASSIGN_TO_SITE_CONTACT_SUCCESS' | translate }}
-            </p>
+            <div *ngIf="assigningSiteId != 0">
+                <h1>You have successfully added site {{siteInfo.siteName}}</h1>
+                <p class="govuk-body-l">
+                    {{ 'ASSIGN_TO_SITE_CONTACT_SUCCESS' | translate }}
+                </p>
+            </div>
             <a href="javascript:;" *ngIf="assigningOrgId != ''" class="navigation-text"
                 (click)="onNavigateToProfileClick()">
                 {{'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>

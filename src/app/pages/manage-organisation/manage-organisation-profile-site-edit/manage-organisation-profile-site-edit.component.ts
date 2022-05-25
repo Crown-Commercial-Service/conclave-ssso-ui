@@ -217,10 +217,16 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
         {
           this.orgSiteService.createOrganisationSite(this.organisationId, orgSiteInfo).subscribe(
             {
-              next: () => {
-                this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.CreateSite}`);
+              next: (siteId) => {
+                let data = {
+                  'isEdit': false,
+                  'siteId': siteId
+                };
+                this.router.navigateByUrl('manage-org/profile/site/add-contact-to-site?data=' + JSON.stringify(data));
+                // this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.CreateSite}`);
                 this.submitted = false;
               },
+              
               error: (error: any) => {
                 console.log(error);
                 // var errorObject: ValidationErrors = {};
