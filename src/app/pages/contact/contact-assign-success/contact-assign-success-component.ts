@@ -40,7 +40,6 @@ export class ContactAssignSuccessComponent extends BaseComponent implements OnIn
 
         }
      this.organisationId = localStorage.getItem('cii_organisation_id') || '';
-     console.log("routeData",this.organisationId)
     }
 
     ngOnInit(){
