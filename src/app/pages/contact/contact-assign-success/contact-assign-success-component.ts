@@ -36,8 +36,6 @@ export class ContactAssignSuccessComponent extends BaseComponent implements OnIn
             let routeData = JSON.parse(queryParams.data);
             this.assigningSiteId = routeData['assigningSiteId'] || 0;
              this.assigningOrgId = routeData['assigningOrgId'] || "";
-          console.log("routeData",routeData)
-
         }
      this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     }
