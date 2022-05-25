@@ -52,6 +52,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
  * @param SelectedOption radio input value from html
  */
   public Continue(SelectedOption:string):void{
+    let data ={siteId:this.siteId}
     switch (SelectedOption){
       case "addnewcontact":{
           this.onContactAddClick()
@@ -62,12 +63,12 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
           break
       }
       case "skip":{
-          this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.CreateSite}`);
+          this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.CreateSite}?data=` + JSON.stringify(data));
           break
       }
   }
   }
-
+  
 /**
  * Contact add method
  */

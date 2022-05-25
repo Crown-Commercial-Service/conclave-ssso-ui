@@ -39,6 +39,7 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
             this.siteId = routeData['siteId'] || 0;
+            console.log("routeData",routeData)
         }
      this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     }
