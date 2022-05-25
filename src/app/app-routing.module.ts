@@ -815,7 +815,7 @@ const routes: Routes = [
   },
   {
     path: 'contact-assign/site-search',
-    data: { title: 'Search Site - Assign Contacts', roles: ['MANAGE_ORGS'] },
+    data: { title: "Assign a site's contacts to your organisation account", roles: ['MANAGE_ORGS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ContactAssignSiteSearchComponent,
