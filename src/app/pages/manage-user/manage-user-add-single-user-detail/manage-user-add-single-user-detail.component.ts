@@ -44,7 +44,7 @@ export class ManageUserAddSingleUserDetailComponent
   orgRoles: Role[];
   identityProviders: IdentityProvider[];
   isEdit: boolean = false;
-  isAdmin: boolean = false;
+  isAutoDisableMFA: boolean = false;
   editingUserName: string = '';
   userTitleEnum = UserTitleEnum;
   errorLinkClicked: boolean = false;
@@ -265,9 +265,9 @@ export class ManageUserAddSingleUserDetailComponent
         'orgRoleControl_' + role.roleId,
         this.formBuilder.control(userRole ? true : '')
       );
-      //Determin Login user whether Admin/Normal user.
-      if (role.roleKey == 'ORG_ADMINISTRATOR' && userRole == true && this.isAdmin == false) {
-        this.isAdmin = true;
+      //Edit mode Determin Login user whether Admin/Normal user.
+      if (role.roleKey == 'ORG_ADMINISTRATOR' && userRole == true && this.isAutoDisableMFA == false) {
+        this.isAutoDisableMFA = true;
       }
     });
   }
@@ -577,13 +577,14 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   onUserRoleChecked(obj: any, isChecked: boolean) {
+    debugger;
     var roleKey = obj.roleKey;
     if (isChecked == true && roleKey == 'ORG_ADMINISTRATOR') {
       this.formGroup.controls['mfaEnabled'].setValue(true);
-      this.formGroup.controls['mfaEnabled'].disable;
+      this.isAutoDisableMFA=true;
     } else if (isChecked == false && roleKey == 'ORG_ADMINISTRATOR') {
       this.formGroup.controls['mfaEnabled'].setValue(false);
-      this.formGroup.controls['mfaEnabled'].enable;
+      this.isAutoDisableMFA=false;
     }
   }
 }
