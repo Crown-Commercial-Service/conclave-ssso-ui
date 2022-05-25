@@ -161,7 +161,7 @@
                             </span>
                             <div class="govuk-checkboxes__item label-detail-text-gap">
                                 <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"
-                                    [attr.disabled]="isEdit == true &&  isAdmin == true ? true : null" type="checkbox">
+                                    [attr.disabled]="isAutoDisableMFA == true ? true : null" type="checkbox">
                                 <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
                                     Additional security using digital device
                                 </label>
