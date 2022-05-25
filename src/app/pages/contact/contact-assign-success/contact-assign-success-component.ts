@@ -35,9 +35,12 @@ export class ContactAssignSuccessComponent extends BaseComponent implements OnIn
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
             this.assigningSiteId = routeData['assigningSiteId'] || 0;
-            this.assigningOrgId = routeData['assigningOrgId'] || "";
+             this.assigningOrgId = routeData['assigningOrgId'] || "";
+          console.log("routeData",routeData)
+
         }
      this.organisationId = localStorage.getItem('cii_organisation_id') || '';
+     console.log("routeData",this.organisationId)
     }
 
     ngOnInit(){
@@ -45,7 +48,7 @@ export class ContactAssignSuccessComponent extends BaseComponent implements OnIn
     }
 
     private getSiteDetails():void{
-        this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
+        this.orgSiteService.getOrganisationSite(this.organisationId, this.assigningSiteId ).subscribe(
           {
             next: (siteInfo: OrganisationSiteResponse) => {
             this.siteInfo=siteInfo
