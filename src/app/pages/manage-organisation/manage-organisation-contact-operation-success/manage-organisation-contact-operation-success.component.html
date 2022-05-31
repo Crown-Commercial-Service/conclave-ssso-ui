@@ -17,13 +17,13 @@
                             translate
                             }}</a>
                     </li>
-                    <!-- <li class="govuk-breadcrumbs__list-item" *ngIf="operation != operationEnum.CreateOrgContact">
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="operation != operationEnum.CreateOrgContact && !siteCreate">
                         <span class="govuk-breadcrumbs__link" >Success</span>
-                    </li> -->
+                    </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateOrgContact">
                         <span class="govuk-breadcrumbs__link">Contact created successfully</span>
                     </li>
-                    <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateSiteContact">
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateSiteContact && siteCreate">
                         <span class="govuk-breadcrumbs__link" >Site {{siteInfo.siteName}} successfully created</span>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateSite">
@@ -52,8 +52,8 @@
                 {{ 'DELETE_SITE_SUCCESS' | translate }}
             </p>
             <div *ngIf="operation === operationEnum.CreateSiteContact">
-                <h1 class="govuk-heading-xl page-title">You have successfully added site {{siteInfo.siteName}}</h1>
-                <p class="govuk-body-l">
+                <p class="govuk-body-l" *ngIf="siteCreate">You have successfully added site {{siteInfo.siteName}}</p>
+                <p class="govuk-body govuk-!-font-size-19 gov_success_msg">
                     {{ 'ADD_SITE_CONTACT_SUCCESS' | translate }}
                 </p>
             </div>
