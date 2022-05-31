@@ -36,6 +36,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
     assigningSiteId: number = 0;
     assigningOrgId: string = "";
     searchSumbited:boolean=false;
+    siteCreate: any;
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
         protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -53,6 +54,8 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
             let routeData = JSON.parse(queryParams.data);
             this.assigningSiteId = routeData['assigningSiteId'] || 0;
             this.assigningOrgId = routeData['assigningOrgId'] || "";
+            this.siteCreate=routeData['siteCreate'] || false;
+
         }
     }
 
@@ -98,7 +101,8 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
             sessionStorage.setItem(SessionStorageKey.ContactAssignUsername, this.selectedUserName);
             let data = {
                 'assigningSiteId': this.assigningSiteId,
-                'assigningOrgId': this.assigningOrgId
+                'assigningOrgId': this.assigningOrgId,
+                'siteCreate':this.siteCreate
             };
             this.router.navigateByUrl('contact-assign?data=' + JSON.stringify(data));
         }

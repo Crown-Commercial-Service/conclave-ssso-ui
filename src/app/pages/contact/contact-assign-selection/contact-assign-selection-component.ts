@@ -27,6 +27,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
     assigningOrgId: string = "";
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
+    siteCreate: any;
 
     constructor(protected uiStore: Store<UIState>, private router: Router, private formBuilder: FormBuilder,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private activatedRoute: ActivatedRoute) {
@@ -39,6 +40,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
             let routeData = JSON.parse(queryParams.data);
             this.assigningSiteId = routeData['assigningSiteId'] || 0;
             this.assigningOrgId = routeData['assigningOrgId'] || "";
+            this.siteCreate=routeData['siteCreate'] || false;
         }
     }
 
@@ -59,7 +61,8 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
             this.submitted = false;
             let data = {
                 'assigningSiteId': this.assigningSiteId,
-                'assigningOrgId': this.assigningOrgId
+                'assigningOrgId': this.assigningOrgId,
+                'siteCreate':this.siteCreate
             };
 
             let selection = form.get('selection')?.value;

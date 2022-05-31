@@ -35,6 +35,7 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
     contactSiteId: number = 0;
     selectedContacts: ContactGridInfo[] = [];
     selectedContactIds: number[] = [];
+    siteCreate: any;
 
     constructor(private siteContactService: WrapperSiteContactService, private orgContactService: WrapperOrganisationContactService,
         protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
@@ -48,6 +49,7 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
             this.assigningOrgId = routeData['assigningOrgId'] || "";
             this.contactUserName = sessionStorage.getItem(SessionStorageKey.ContactAssignUsername) ?? "";
             this.contactSiteId = routeData['contactSiteId'] || 0;
+            this.siteCreate=routeData['siteCreate'] || false;
         }
         let selectedContactString = sessionStorage.getItem("assigning-contact-list");
         if (selectedContactString) {
@@ -107,7 +109,9 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         sessionStorage.removeItem("assigning-contact-list");
         let data = {
             'assigningSiteId': this.assigningSiteId,
-            'assigningOrgId': this.assigningOrgId
+            'assigningOrgId': this.assigningOrgId,
+            'siteCreate':this.siteCreate
+
         };
         this.router.navigateByUrl('contact-assign/success?data=' + JSON.stringify(data));
     }
