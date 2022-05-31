@@ -30,6 +30,7 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
     siteId: number = 0;
     public siteInfo:any={}
     private organisationId: string;
+    siteCreate: any;
    
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private titleService: Title,private orgSiteService: WrapperOrganisationSiteService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -39,13 +40,15 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
             this.siteId = routeData['siteId'] || 0;
-            console.log("routeData",routeData)
+            this.siteCreate=routeData['siteCreate'] || false;
         }
      this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     }
 
     ngOnInit() {
+        if(this.operation != 0 && this.operation != 2){
         this.getSiteDetails()
+        }
         let area: string = "";
         switch (this.operation) {
             case this.operationEnum.CreateOrgContact:

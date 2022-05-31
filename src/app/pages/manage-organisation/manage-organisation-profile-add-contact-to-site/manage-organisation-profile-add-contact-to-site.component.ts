@@ -44,7 +44,13 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
  
 
 
-
+ public onSiteEditClick() {
+  let data = {
+      'isEdit': true,
+      'siteId': this.siteId
+  };
+  this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
+}
 
 
 /**
@@ -52,7 +58,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
  * @param SelectedOption radio input value from html
  */
   public Continue(SelectedOption:string):void{
-    let data ={siteId:this.siteId}
+    let data ={siteId:this.siteId,siteCreate:true}
     switch (SelectedOption){
       case "addnewcontact":{
           this.onContactAddClick()
@@ -76,7 +82,8 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
     let data = {
       'isEdit': false,
       'contactId': 0,
-      'siteId': this.siteId
+      'siteId': this.siteId,
+      'siteCreate':true
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
   }
@@ -87,7 +94,8 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
    */
   public onContactAssignClick():void {
     let data = {
-      'assigningSiteId': this.siteId
+      'assigningSiteId': this.siteId,
+      'siteCreate':true
     };
     this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
   }
