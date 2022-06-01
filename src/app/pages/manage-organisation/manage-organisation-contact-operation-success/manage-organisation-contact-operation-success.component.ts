@@ -46,7 +46,7 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
     }
 
     ngOnInit() {
-        if(this.operation != 0 && this.operation != 2){
+        if(this.siteCreate){
         this.getSiteDetails()
         }
         let area: string = "";
