@@ -386,7 +386,7 @@ const routes: Routes = [
   },
   {
     path: 'manage-org/profile',
-    data: { title: 'Manage-organisation', roles: ['MANAGE_ORGS'] },
+    data: { title: 'Manage your organisation', roles: ['MANAGE_ORGS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageOrganisationProfileComponent,
