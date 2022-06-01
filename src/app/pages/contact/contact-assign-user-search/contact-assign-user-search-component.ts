@@ -117,11 +117,12 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
     }
 
     onCancelClick(){
-        let data = {
-            'assigningSiteId': this.assigningSiteId,
-            'assigningOrgId': this.assigningOrgId,
-            'contactUserName': encodeURIComponent(this.selectedUserName)
-        };
-        this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
+        window.history.back();
+        // let data = {
+        //     'assigningSiteId': this.assigningSiteId,
+        //     'assigningOrgId': this.assigningOrgId,
+        //     'contactUserName': encodeURIComponent(this.selectedUserName)
+        // };
+        // this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
     }
 }

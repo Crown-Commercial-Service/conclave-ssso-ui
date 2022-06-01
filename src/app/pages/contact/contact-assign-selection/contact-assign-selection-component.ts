@@ -92,11 +92,12 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
     }
 
     onCancelClick() {
-        if (this.assigningSiteId != 0){
-            this.onNavigateToSiteClick();
-        }
-        else{
-            this.router.navigateByUrl('manage-org/profile');
-        }
+      window.history.back();
+        // if (this.assigningSiteId != 0){
+        //     this.onNavigateToSiteClick();
+        // }
+        // else{
+        //     this.router.navigateByUrl('manage-org/profile');
+        // }
     }
 }

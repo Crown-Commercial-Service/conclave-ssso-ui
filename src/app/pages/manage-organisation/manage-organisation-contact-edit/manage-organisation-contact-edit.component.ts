@@ -485,8 +485,18 @@ export class ManageOrganisationContactEditComponent
     return form.valid;
   }
 
-  onCancelClick() {
-    window.history.back();
+  onCancelClick(click:string) {
+    if(click ==='edit'){
+      let data = {
+        isEdit: true,
+        siteId: this.siteId,
+      };
+      this.router.navigateByUrl(
+        'manage-org/profile/site/edit?data=' + JSON.stringify(data)
+      );
+    }else{
+      window.history.back();
+    }
     // if (this.siteId == 0) {
     //   this.router.navigateByUrl('manage-org/profile');
     // } else {
