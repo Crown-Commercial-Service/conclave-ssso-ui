@@ -152,16 +152,17 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
 
     onCancelClick() {
         sessionStorage.removeItem("assigning-contact-list");
-        let data = {
-            'assigningSiteId': this.assigningSiteId,
-            'assigningOrgId': this.assigningOrgId,
-            'contactSiteId': this.contactSiteId,
-        };
-        if (this.contactSiteId != 0) {
-            this.router.navigateByUrl('contact-assign/site-search?data=' + JSON.stringify(data));
-        }
-        else {
-            this.router.navigateByUrl('contact-assign/user-search?data=' + JSON.stringify(data));
-        }
+        window.history.back();
+        // let data = {
+        //     'assigningSiteId': this.assigningSiteId,
+        //     'assigningOrgId': this.assigningOrgId,
+        //     'contactSiteId': this.contactSiteId,
+        // };
+        // if (this.contactSiteId != 0) {
+        //     this.router.navigateByUrl('contact-assign/site-search?data=' + JSON.stringify(data));
+        // }
+        // else {
+        //     this.router.navigateByUrl('contact-assign/user- ?data=' + JSON.stringify(data));
+        // }
     }
 }
