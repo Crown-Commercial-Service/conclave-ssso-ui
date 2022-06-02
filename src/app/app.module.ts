@@ -160,6 +160,7 @@ import { CookiesBannerComponent } from './components/cookies-banner/cookies-bann
 import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
 import { ContactAdminComponent } from './pages/contact-admin/contact-admin.component';
 import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
+import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -285,7 +286,8 @@ export function createTranslateLoader(http: HttpClient) {
     CookiesBannerComponent,
     CookiesSettingsComponent,
     ContactAdminComponent,
-    ManageOrganisationProfileAddContactToSiteComponent
+    ManageOrganisationProfileAddContactToSiteComponent,
+    AccessibilityStatementComponent
   ],
   imports: [
     // BrowserModule,

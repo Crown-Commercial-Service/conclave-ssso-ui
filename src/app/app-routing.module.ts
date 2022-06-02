@@ -109,6 +109,7 @@ import { FindyouradministratorComponent } from './pages/manage-organisation/find
 import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
 import { ContactAdminComponent } from './pages/contact-admin/contact-admin.component';
 import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
+import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -867,6 +868,12 @@ const routes: Routes = [
     data: { title: 'Help and support' },
     pathMatch: 'full',
     component: HelpAndSupportComponent,
+  },
+  {
+    path: 'accessibility-statement',
+    data: { title: 'Accessibility-statement - CCS' },
+    pathMatch: 'full',
+    component: AccessibilityStatementComponent,
   },
   {
     path: 'mfaresetnotification',
