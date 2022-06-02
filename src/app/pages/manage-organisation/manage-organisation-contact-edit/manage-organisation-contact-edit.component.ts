@@ -94,6 +94,7 @@ export class ManageOrganisationContactEditComponent
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   siteCreate: any;
   siteInfo:any={}
+  ContactAdd: any;
 
   constructor(
     private contactService: WrapperOrganisationContactService,
@@ -146,6 +147,7 @@ export class ManageOrganisationContactEditComponent
       this.contactId = routeData['contactId'];
       this.siteId = routeData['siteId'] || 0;
       this.siteCreate=routeData['siteCreate'] || false;
+      this.ContactAdd=routeData['ContactAdd'] || false;
       console.log("queryParams.data",routeData)
     }
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
