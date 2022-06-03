@@ -13,8 +13,11 @@
                     translate
                     }}</a>
             </li>
-            <li class="govuk-breadcrumbs__list-item">
+            <li class="govuk-breadcrumbs__list-item" *ngIf="!siteCreate">
                 <span class="govuk-breadcrumbs__link"> {{ 'SUCCESS' | translate }}</span>
+            </li>
+            <li class="govuk-breadcrumbs__list-item" *ngIf="assigningSiteId != 0 && siteCreate">
+                <span class="govuk-breadcrumbs__link"> Site {{siteInfo.siteName}} successfully created</span>
             </li>
         </ol>
     </div>
@@ -23,15 +26,18 @@
             <p class="govuk-body-l" *ngIf="assigningOrgId != ''">
                 {{ 'ASSIGN_TO_ORG_CONTACT_SUCCESS' | translate }}
             </p>
-            <p class="govuk-body-l" *ngIf="assigningSiteId != 0">
-                {{ 'ASSIGN_TO_SITE_CONTACT_SUCCESS' | translate }}
-            </p>
-            <a href="javascript:;" *ngIf="assigningOrgId != ''" class="navigation-text"
+            <div *ngIf="assigningSiteId != 0">
+                <p class="govuk-body-l" *ngIf="siteCreate">You have successfully added site {{siteInfo.siteName}}</p>
+                <p class="govuk-body govuk-!-font-size-19 gov_success_msg">
+                    {{ 'ASSIGN_TO_SITE_CONTACT_SUCCESS' | translate }}
+                </p>
+            </div>
+            <a href="javascript:;" *ngIf="assigningOrgId != '' || assigningSiteId != 0" class="navigation-text"
                 (click)="onNavigateToProfileClick()">
-                {{'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>
-            <a href="javascript:;" *ngIf="assigningSiteId != 0" class="navigation-text"
+                {{'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="javascript:;" *ngIf="assigningSiteId != 0" class="navigation-text"
                 (click)="onNavigateToSiteClick()">
-                {{ 'RETURN_EDIT_SITE' | translate }} </a>
+                Return to {{siteInfo.siteName}} details </a>
         </div>
     </div>
 </div>

@@ -108,6 +108,7 @@ import { ManageUserBulkUploadMigrationStatusComponent } from './pages/manage-use
 import { FindyouradministratorComponent } from './pages/manage-organisation/find-your-administrator/find-your-administrator.component';
 import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
 import { ContactAdminComponent } from './pages/contact-admin/contact-admin.component';
+import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -385,7 +386,7 @@ const routes: Routes = [
   },
   {
     path: 'manage-org/profile',
-    data: { title: 'Manage Organisation', roles: ['MANAGE_ORGS'] },
+    data: { title: 'Manage your organisation', roles: ['MANAGE_ORGS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageOrganisationProfileComponent,
@@ -537,7 +538,7 @@ const routes: Routes = [
   },
   {
     path: 'manage-users',
-    data: { title: 'Manage Users', roles: ['MANAGE_USERS'] },
+    data: { title: 'Manage User Accounts', roles: ['MANAGE_USERS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageUserProfilesComponent,
@@ -597,6 +598,13 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageOrganisationSiteEditComponent,
+  },
+  {
+    path: 'manage-org/profile/site/add-contact-to-site',
+    data: { title: 'Add/Edit - Site', roles: ['MANAGE_ORGS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ManageOrganisationProfileAddContactToSiteComponent,
   },
   {
     path: 'manage-org/profile/site/delete',
@@ -800,14 +808,14 @@ const routes: Routes = [
   },
   {
     path: 'contact-assign/user-search',
-    data: { title: 'Search User - Assign Contacts', roles: ['MANAGE_ORGS'] },
+    data: { title: "Assign a user's contacts to your organisation account", roles: ['MANAGE_ORGS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ContactAssignUserSearchComponent,
   },
   {
     path: 'contact-assign/site-search',
-    data: { title: 'Search Site - Assign Contacts', roles: ['MANAGE_ORGS'] },
+    data: { title: "Assign a site's contacts to your organisation account", roles: ['MANAGE_ORGS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ContactAssignSiteSearchComponent,

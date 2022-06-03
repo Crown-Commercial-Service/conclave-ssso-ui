@@ -20,19 +20,19 @@
         <legend class="govuk-fieldset__legend" style="font-size: 22px;">Right to buy status</legend>
         <div class="govuk-checkboxes">
           <div class="govuk-__item">
-            <label class="govuk-label govuk-checkboxes__label">- No Changes</label>
+            <label class="govuk-label">- No Changes</label>
           </div>
         </div>
         <legend class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Default service roles available for this organisation</legend>
         <div class="govuk-checkboxes">
           <div class="govuk-__item">
-            <label class="govuk-label govuk-checkboxes__label">- No Changes</label>
+            <label class="govuk-label">- No Changes</label>
           </div>
         </div>
         <legend class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Additional service roles available for this organisation</legend>
         <div class="govuk-checkboxes">
           <div class="govuk-__item">
-            <label class="govuk-label govuk-checkboxes__label">- No Changes</label>
+            <label class="govuk-label">- No Changes</label>
           </div>
         </div>
       </fieldset>
@@ -50,15 +50,15 @@
         <legend class="govuk-fieldset__legend" style="font-size: 22px;">Right to buy status</legend>
         <div class="govuk-checkboxes">
           <div class="govuk-__item">
-            <label *ngIf="changes?.rightToBuy === changes?.org?.rightToBuy" class="govuk-label govuk-checkboxes__label">- No Changes</label>
-            <label *ngIf="changes?.rightToBuy !== changes?.org?.rightToBuy" class="govuk-label govuk-checkboxes__label">- {{changes?.rightToBuy ? 'Yes' : 'No'}}</label>
+            <label *ngIf="changes?.rightToBuy === changes?.org?.rightToBuy" class="govuk-label">- No Changes</label>
+            <label *ngIf="changes?.rightToBuy !== changes?.org?.rightToBuy" class="govuk-label">- {{changes?.rightToBuy ? 'Yes' : 'No'}}</label>
           </div>
         </div>
         <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you are adding to this organisation</legend>
         <div class="govuk-checkboxes">
           <ng-container *ngFor="let role of changes?.toAdd">
             <div class="govuk-__item">
-              <label class="govuk-label govuk-checkboxes__label">- {{role.roleName}}</label>
+              <label class="govuk-label">- {{role.roleName}}</label>
             </div>
           </ng-container>
         </div>
@@ -66,7 +66,7 @@
         <div class="govuk-checkboxes">
           <ng-container *ngFor="let role of changes?.toDelete">
             <div class="govuk-__item">
-              <label class="govuk-label govuk-checkboxes__label">- {{role.roleName}}</label>
+              <label class="govuk-label">- {{role.roleName}}</label>
             </div>
           </ng-container>
         </div>
