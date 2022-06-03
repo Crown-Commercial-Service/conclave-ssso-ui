@@ -11,19 +11,21 @@
             }}</a>
         </li>
         <li *ngIf="siteId != 0" class="govuk-breadcrumbs__list-item">
-          <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'EDIT_SITE' | translate
+          <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick('edit')">{{ 'EDIT_SITE' | translate
             }}</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
-          <span *ngIf="isEdit!=true" class="govuk-breadcrumbs__link">{{ 'ADD_ANOTHER_CONTACT' | translate
+          <span *ngIf="isEdit!=true && !siteCreate && !ContactAdd" class="govuk-breadcrumbs__link">{{ 'ADD_ANOTHER_CONTACT' | translate
             }}</span>
           <span *ngIf="isEdit==true" class="govuk-breadcrumbs__link">{{ 'EDIT_CONTACT_DETAILS' | translate
             }}</span>
+            <span *ngIf="siteCreate || ContactAdd" class="govuk-breadcrumbs__link">Add new contact {{siteInfo.siteName}}</span>
         </li>
       </ol>
     </div>
-    <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">{{ 'ADD_ANOTHER_CONTACT' | translate }}</h1>
+    <h1 *ngIf="isEdit!=true  && !siteCreate && !ContactAdd" class="govuk-heading-xl page-title">{{ 'ADD_ANOTHER_CONTACT' | translate }}</h1>
     <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">{{ 'EDIT_CONTACT_DETAILS' | translate }}</h1>
+    <h1 *ngIf="siteCreate || ContactAdd" class="govuk-heading-xl page-title">Add new contact {{siteInfo.siteName}}</h1>
     <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
       id="error-summary" data-module="govuk-error-summary" *ngIf="!formValid(formGroup) && submitted || validator && submitted">
       <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -211,7 +213,7 @@
             <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
               {{ isEdit === false ? 'Create contact' : 'Edit contact'}}
             </button>
-            <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+            <button type="button" (click)="onCancelClick('cancel')" class="govuk-button govuk-button--secondary"
               data-module="govuk-button">
               {{ 'CANCEL_BTN' | translate }}
             </button>

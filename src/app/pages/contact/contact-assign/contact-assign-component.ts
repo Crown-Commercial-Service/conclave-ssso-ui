@@ -35,6 +35,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
     contactSiteId: number = 0;
     contacts: ContactGridInfo[] = [];
     selectedContacts: ContactGridInfo[] = [];
+    siteCreate: any;
 
     constructor(private userContactService: WrapperUserContactService, private siteContactService: WrapperSiteContactService,
         private contactHelper: ContactHelper,
@@ -49,6 +50,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
             this.assigningOrgId = routeData['assigningOrgId'] || "";
             this.contactUserName = sessionStorage.getItem(SessionStorageKey.ContactAssignUsername) ?? "";
             this.contactSiteId = routeData['contactSiteId'] || 0;
+            this.siteCreate=routeData['siteCreate'] || false;
         }
         let selectedContactString = sessionStorage.getItem("assigning-contact-list");
         if (selectedContactString) {
@@ -121,6 +123,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
             'assigningSiteId': this.assigningSiteId,
             'assigningOrgId': this.assigningOrgId,
             'contactSiteId': this.contactSiteId,
+            'siteCreate':this.siteCreate
         };
         this.router.navigateByUrl('contact-assign/confirm?data=' + JSON.stringify(data));
     }
@@ -149,16 +152,17 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
 
     onCancelClick() {
         sessionStorage.removeItem("assigning-contact-list");
-        let data = {
-            'assigningSiteId': this.assigningSiteId,
-            'assigningOrgId': this.assigningOrgId,
-            'contactSiteId': this.contactSiteId,
-        };
-        if (this.contactSiteId != 0) {
-            this.router.navigateByUrl('contact-assign/site-search?data=' + JSON.stringify(data));
-        }
-        else {
-            this.router.navigateByUrl('contact-assign/user-search?data=' + JSON.stringify(data));
-        }
+        window.history.back();
+        // let data = {
+        //     'assigningSiteId': this.assigningSiteId,
+        //     'assigningOrgId': this.assigningOrgId,
+        //     'contactSiteId': this.contactSiteId,
+        // };
+        // if (this.contactSiteId != 0) {
+        //     this.router.navigateByUrl('contact-assign/site-search?data=' + JSON.stringify(data));
+        // }
+        // else {
+        //     this.router.navigateByUrl('contact-assign/user- ?data=' + JSON.stringify(data));
+        // }
     }
 }

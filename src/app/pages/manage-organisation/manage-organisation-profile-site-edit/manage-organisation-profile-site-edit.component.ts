@@ -217,10 +217,16 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
         {
           this.orgSiteService.createOrganisationSite(this.organisationId, orgSiteInfo).subscribe(
             {
-              next: () => {
-                this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.CreateSite}`);
+              next: (siteId) => {
+                let data = {
+                  'isEdit': false,
+                  'siteId': siteId
+                };
+                this.router.navigateByUrl('manage-org/profile/site/add-contact-to-site?data=' + JSON.stringify(data));
+                // this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.CreateSite}`);
                 this.submitted = false;
               },
+              
               error: (error: any) => {
                 console.log(error);
                 // var errorObject: ValidationErrors = {};
@@ -261,7 +267,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     let data = {
       'isEdit': false,
       'contactId': 0,
-      'siteId': this.siteId
+      'siteId': this.siteId,
+      'siteCreate':false,
+      'ContactAdd':true,
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
   }

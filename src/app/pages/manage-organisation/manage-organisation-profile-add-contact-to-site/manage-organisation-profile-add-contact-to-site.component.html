@@ -1,0 +1,71 @@
+<div class="govuk-grid-row">
+    <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/home">
+              {{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{ 'MANAGE_YOUR_ORGANISATION' | translate
+              }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link customlink" style="text-decoration: underline;" (click)="onSiteEditClick()">{{ 'EDIT_SITE' | translate
+            }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link">Add a contact to site {{siteInfo.siteName}}</a>
+          </li>
+        </ol>
+      </div>
+      <br><br>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="content flex">
+            <h1 class="govuk-heading-xl page-title">
+                Add a contact to site {{siteInfo.siteName}}
+            </h1>
+            <!-- <h1 class="govuk-fieldset__heading">Select one option to continue</h1> -->
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                      <h1 class="govuk-fieldset__heading">
+                        Select one option to continue
+                      </h1>
+                    </legend>
+                <div class="govuk-radios">
+                    <div class="govuk-radios__item" id="Addcontact">
+                        <input class="govuk-radios__input" type="radio" id="addcobtactbtn" value="addnewcontact"
+                        [(ngModel)]="contactSelectedOption"  />
+                        <label for="addcobtactbtn" class="govuk-label govuk-radios__label">
+                            Add a new contact
+                        </label>
+                    </div>
+                    <div class="govuk-radios__item" id="assigncontact">
+                        <input class="govuk-radios__input" type="radio" id="assigncontactbtn" value="findandassigncontact"
+                          [(ngModel)]="contactSelectedOption"/>
+                        <label for="assigncontactbtn" class="govuk-label govuk-radios__label">
+                            Find and Assign a contact
+                        </label>
+                    </div>
+                    <div class="govuk-radios__item" id="skip">
+                        <input class="govuk-radios__input" type="radio" id="skipbtn" value="skip"
+                        [(ngModel)]="contactSelectedOption"    />
+                        <label for="skipbtn" class="govuk-label govuk-radios__label">
+                            Skip and add contact details later
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+            </div>
+            <div class="govuk-button-group save-cancel-button-group">
+                <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
+                (click)="Continue(contactSelectedOption)">{{ 'CONTINUE_BTN' | translate }}</button>
+
+                <button  type="button" 
+                class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onSiteEditClick()">
+                {{ 'CANCEL_BTN' | translate }}
+            </button>
+            </div>
+        </div>
+    </div>
+</div>

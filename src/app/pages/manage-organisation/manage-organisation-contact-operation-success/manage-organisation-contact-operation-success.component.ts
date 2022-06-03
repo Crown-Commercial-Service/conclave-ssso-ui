@@ -9,6 +9,8 @@ import { OperationEnum } from 'src/app/constants/enum';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { Title } from '@angular/platform-browser';
+import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
+import { OrganisationSiteResponse } from 'src/app/models/site';
 
 @Component({
     selector: 'app-manage-organisation-contact-operation-success',
@@ -26,8 +28,11 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
     operation: OperationEnum;
     operationEnum = OperationEnum;
     siteId: number = 0;
-
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private titleService: Title,
+    public siteInfo:any={}
+    private organisationId: string;
+    siteCreate: any;
+   
+    constructor(private activatedRoute: ActivatedRoute, private router: Router, private titleService: Title,private orgSiteService: WrapperOrganisationSiteService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
@@ -35,10 +40,15 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
             this.siteId = routeData['siteId'] || 0;
+            this.siteCreate=routeData['siteCreate'] || false;
         }
+     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     }
 
     ngOnInit() {
+        if(this.siteCreate){
+        this.getSiteDetails()
+        }
         let area: string = "";
         switch (this.operation) {
             case this.operationEnum.CreateOrgContact:
@@ -85,4 +95,16 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
+
+    private getSiteDetails():void{
+        this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
+          {
+            next: (siteInfo: OrganisationSiteResponse) => {
+            this.siteInfo=siteInfo
+            },
+            error: (error: any) => {
+              console.log(error);
+            }
+          });
+       }
 }

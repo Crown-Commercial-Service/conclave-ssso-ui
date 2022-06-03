@@ -87,7 +87,6 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             await this.orgContactService.getOrganisationContacts(this.ciiOrganisationId).toPromise().then(orgContactListInfo => {
                 if (orgContactListInfo != null) {
                     this.contactData = this.contactHelper.getContactGridInfoList(orgContactListInfo.contactPoints);
-                    console.log("this.contactData",this.contactData)
                 }
             }).catch(e => {
             });

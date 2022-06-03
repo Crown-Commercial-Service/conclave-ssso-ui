@@ -34,7 +34,7 @@ export class ManageGroupEditNameComponent
   isEdit: boolean = false;
   editingGroupId: number = 0;
   groupName: string = '';
-  private specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  private specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~£€]/;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -134,6 +134,10 @@ export class ManageGroupEditNameComponent
                   form.controls['groupName'].setErrors({ alreadyExists: true });
                   this.scrollHelper.scrollToFirst('error-summary');
                 }
+                if (error.status == 400) {
+                  this.formGroup.controls['groupName'].setErrors({ 'specialCharsincluded': true})
+                  this.scrollHelper.scrollToFirst('error-summary');
+                }
                 console.log(error);
                 console.log(error.error);
               }
@@ -162,6 +166,10 @@ export class ManageGroupEditNameComponent
               (error) => {
                 if (error.status == 409) {
                   form.controls['groupName'].setErrors({ alreadyExists: true });
+                  this.scrollHelper.scrollToFirst('error-summary');
+                }
+                if (error.status == 400) {
+                  this.formGroup.controls['groupName'].setErrors({ 'specialCharsincluded': true})
                   this.scrollHelper.scrollToFirst('error-summary');
                 }
                 console.log(error);
