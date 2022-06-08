@@ -304,5 +304,6 @@
   "ERROR_INVALID_ASSIGNING_CONTACT_POINT_IDS": "Error invalid contacts to assign",
   "CONTACT_YOUR_ADMIN":"Contact your admin",
   "CONTACT_AN_ADMIN":"Contact an Admin",
-  "ENTER_NAME_WITHOUT_NUM_SPECIAL":"Enter your name without special characters or numbers."
+  "ENTER_NAME_WITHOUT_NUM_SPECIAL":"Enter your name without special characters or numbers.",
+  "RETURN_MANAGE_YOUR_USER_ACCOUNTS":"Return to Manage user accounts"
 }
