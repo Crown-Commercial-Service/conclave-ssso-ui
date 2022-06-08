@@ -96,10 +96,12 @@
                                                 formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
                                             <label class="govuk-label govuk-checkboxes__label" for="mfaEnabled">
                                                 Additional security using digital device
-                                            </label>
+                                            </label><br>
                                         </div>
                                     </fieldset>
                                 </div>
+                                <button type="button" class="govuk-button"
+                                 data-module="govuk-button" [disabled]="!formGroup.controls.mfaEnabled.value" (click)="ResetAdditionalSecurity()">Reset my additional security</button>
 
                                 <div>
                                     <p class="govuk-body govuk-!-font-size-19">

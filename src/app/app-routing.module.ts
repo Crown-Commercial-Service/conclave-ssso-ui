@@ -109,6 +109,8 @@ import { FindyouradministratorComponent } from './pages/manage-organisation/find
 import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
 import { ContactAdminComponent } from './pages/contact-admin/contact-admin.component';
 import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
+import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-reset/confirm-mfa-reset.component';
+import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -146,8 +148,22 @@ const routes: Routes = [
     component: UserProfileComponent,
   },
   {
+    path: 'confirm-user-mfa-reset',
+    data: { title: 'Additional security Reset', roles: ['MANAGE_MY_ACCOUNT'] },
+    canActivate: [AuthGuard, RoleGuard],
+    pathMatch: 'full',
+    component: ConfirmMfaResetComponent,
+  },
+  {
+    path: 'user-mfa-reset-success',
+    data: { title: 'Additional security Reset', roles: ['MANAGE_MY_ACCOUNT'] },
+    canActivate: [AuthGuard, RoleGuard],
+    pathMatch: 'full',
+    component: SuccessUserMfaComponent,
+  },
+  {
     path: 'contact-admin',
-    data: { title: 'My Profile', roles: ['MANAGE_MY_ACCOUNT'] },
+    data: { title: 'contact-admin', roles: ['MANAGE_MY_ACCOUNT'] },
     canActivate: [AuthGuard, RoleGuard],
     pathMatch: 'full',
     component: ContactAdminComponent,
