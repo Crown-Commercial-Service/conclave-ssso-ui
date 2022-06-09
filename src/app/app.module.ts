@@ -160,12 +160,8 @@ import { CookiesBannerComponent } from './components/cookies-banner/cookies-bann
 import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
 import { ContactAdminComponent } from './pages/contact-admin/contact-admin.component';
 import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
-<<<<<<< HEAD
-import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
-=======
 import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-reset/confirm-mfa-reset.component';
 import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
->>>>>>> c30dedf041590c97d11b5768ddbbb7aff3a42278
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -292,12 +288,8 @@ export function createTranslateLoader(http: HttpClient) {
     CookiesSettingsComponent,
     ContactAdminComponent,
     ManageOrganisationProfileAddContactToSiteComponent,
-<<<<<<< HEAD
-    AccessibilityStatementComponent
-=======
     ConfirmMfaResetComponent,
     SuccessUserMfaComponent
->>>>>>> c30dedf041590c97d11b5768ddbbb7aff3a42278
   ],
   imports: [
     // BrowserModule,

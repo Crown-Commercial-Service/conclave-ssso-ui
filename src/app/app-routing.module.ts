@@ -109,12 +109,9 @@ import { FindyouradministratorComponent } from './pages/manage-organisation/find
 import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
 import { ContactAdminComponent } from './pages/contact-admin/contact-admin.component';
 import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
-<<<<<<< HEAD
-import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
-=======
 import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-reset/confirm-mfa-reset.component';
 import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
->>>>>>> c30dedf041590c97d11b5768ddbbb7aff3a42278
+import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
