@@ -19,7 +19,7 @@ export class RoleGuard implements CanActivate {
   }
 
   checkRole(roles: string[]): Observable<boolean> {
-    return this.authService.getPermissions().pipe(map((response) => {
+    return this.authService.getPermissions('Null').pipe(map((response) => {
       for (let i = 0; i < roles.length; i++) {
         let role = roles[i];
         if (response.some((r: ServicePermission) => r.permissionName === role)) {         
