@@ -99,8 +99,9 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
         console.log(dataRow);
         let data = {
             'isEdit': true,
+            'rowData':dataRow.userName
         };
         sessionStorage.setItem(SessionStorageKey.ManageUserUserName, dataRow.userName);
-        this.router.navigateByUrl('manage-users/add-user/details?data=' + JSON.stringify(data));
+        this.router.navigateByUrl('manage-users/add-user/details?data=' + btoa(JSON.stringify(data)));
     }
 }
