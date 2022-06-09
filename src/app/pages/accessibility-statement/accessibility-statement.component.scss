@@ -1,0 +1,36 @@
+.app-c-print-link .app-c-print-link__link {
+    background: url(https://www.crowncommercial.gov.uk/assets/images/icon-print-2x.png) no-repeat 0 50%;
+    padding: 0.5em 0 0.5em 28px;
+    cursor: pointer;
+}
+.app-c-print-link .app-c-print-link__link {
+    background-image: url(https://www.crowncommercial.gov.uk/assets/images/icon-print-2x.png);
+    background-size: 16px 18px;
+}
+.app-c-print-link__link {
+    border: 0;
+    font-family: "Source Sans Pro","HelveticaNeue","Helvetica Neue","Arial","Helvetica",sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 16px;
+    font-size: 1rem;
+    line-height: 1.25;
+    color: #1d70b8;
+    text-decoration: underline;
+}
+.navigation-text {
+    margin-bottom: 100px;
+    font-size: 19px;
+}
+
+.footer-global .govuk-link:link, a:link {
+    color: #005ea5;
+}
+a {
+    text-decoration: underline;
+}
+.print_Screen{
+    white-space: nowrap;
+    width: auto;
+}

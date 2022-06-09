@@ -43,6 +43,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+   debugger
     this.authService.getPermissions().toPromise().then((response) => {
       this.servicePermissions = response;
       this.authService.getCcsServices().toPromise().then((data: any) => {
@@ -50,6 +51,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         response.forEach((e: any, i: any) => {
           this.loadActivities(e);
         });
+        debugger
         this.loadServices();
       });
     });
@@ -71,10 +73,12 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   loadServices() {
+    debugger
     let permissions = this.servicePermissions.filter(sp => sp.permissionName.startsWith("ACCESS_"));
     this.ccsServices.forEach((service: CcsServiceInfo) => {
       let permisson = permissions.find(p => p.permissionName == 'ACCESS_' + service.code)
       if (permisson) {
+        debugger
         this.ccsModules.push({ name: service?.name, description: service?.description, href: service?.url });
       }
     });

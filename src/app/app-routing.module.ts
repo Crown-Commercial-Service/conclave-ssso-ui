@@ -111,6 +111,7 @@ import { ContactAdminComponent } from './pages/contact-admin/contact-admin.compo
 import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
 import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-reset/confirm-mfa-reset.component';
 import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
+import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -883,6 +884,12 @@ const routes: Routes = [
     data: { title: 'Help and support' },
     pathMatch: 'full',
     component: HelpAndSupportComponent,
+  },
+  {
+    path: 'accessibility-statement',
+    data: { title: 'Accessibility-statement - CCS' },
+    pathMatch: 'full',
+    component: AccessibilityStatementComponent,
   },
   {
     path: 'mfaresetnotification',
