@@ -267,7 +267,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     let data = {
       'isEdit': false,
       'contactId': 0,
-      'siteId': this.siteId
+      'siteId': this.siteId,
+      'siteCreate':false,
+      'ContactAdd':true,
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
   }

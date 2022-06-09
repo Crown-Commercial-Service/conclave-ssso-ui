@@ -27,6 +27,7 @@ export class ContactAssignSuccessComponent extends BaseComponent implements OnIn
     siteId: number = 0;
     public siteInfo:any={}
     private organisationId: string;
+    siteCreate: any;
     
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller,private orgSiteService: WrapperOrganisationSiteService, protected scrollHelper: ScrollHelper) {
@@ -36,12 +37,16 @@ export class ContactAssignSuccessComponent extends BaseComponent implements OnIn
             let routeData = JSON.parse(queryParams.data);
             this.assigningSiteId = routeData['assigningSiteId'] || 0;
              this.assigningOrgId = routeData['assigningOrgId'] || "";
+             this.siteCreate=routeData['siteCreate'] || false;
+             console.log("routeData",routeData)
         }
      this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     }
 
     ngOnInit(){
-        this.getSiteDetails()
+        if(this.assigningSiteId!=0){
+            this.getSiteDetails()
+        }
     }
 
     private getSiteDetails():void{

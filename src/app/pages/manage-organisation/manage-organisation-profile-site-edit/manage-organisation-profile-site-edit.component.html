@@ -82,11 +82,11 @@
               [class.govuk-input--error]="submitted && formGroup.controls.streetAddress.hasError('required')">
           </div>
           <div class="govuk-form-group" id="locality-form-group">
-            <label class="govuk-label" for="locality"> {{ 'LOCALITY' | translate }} </label>
+            <label class="govuk-label" for="locality"> {{ 'LOCALITY' | translate }} (optional) </label>
             <input formControlName="locality" class="govuk-input" id="locality" name="locality" type="text">
           </div>
           <div class="govuk-form-group" id="region-form-group">
-            <label class="govuk-label" for="region"> {{ 'REGION' | translate }} </label>
+            <label class="govuk-label" for="region"> {{ 'REGION' | translate }} (optional) </label>
             <input formControlName="region" class="govuk-input" id="region" name="region" type="text">
           </div>
           <div class="govuk-form-group" id="postal-code-form-group"
@@ -159,7 +159,7 @@
         <div class="govuk-grid-column-two-thirds">
           <div class="govuk-button-group save-cancel-button-group">
             <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
-              Save and Continue 
+              {{ isEdit === false ? 'Save and Continue' : ' Save changes'}}
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
               data-module="govuk-button">

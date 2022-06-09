@@ -272,7 +272,7 @@ export class AuthService {
   }
 
   getPermissions(): Observable<any> {
-    if (this.servicePermission.length == 0) {
+    // if (this.servicePermission.length == 0) {
       return this.httpService.get<ServicePermission[]>(`${environment.uri.api.postgres}/users/permissions?user-name=`
         + encodeURIComponent(localStorage.getItem('user_name') || "") + `&service-client-id=` + environment.idam_client_id).pipe(
           map((data: ServicePermission[]) => {
@@ -284,10 +284,10 @@ export class AuthService {
             return throwError(error);
           })
         );
-    }
-    else {
-      return Observable.of(this.servicePermission);
-    }
+    // }
+    // else {
+    //   return Observable.of(this.servicePermission);
+    // }
   }
 
   hasPermission(permissionName: string) {

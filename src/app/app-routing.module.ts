@@ -109,6 +109,9 @@ import { FindyouradministratorComponent } from './pages/manage-organisation/find
 import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
 import { ContactAdminComponent } from './pages/contact-admin/contact-admin.component';
 import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
+import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-reset/confirm-mfa-reset.component';
+import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
+import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -146,8 +149,22 @@ const routes: Routes = [
     component: UserProfileComponent,
   },
   {
+    path: 'confirm-user-mfa-reset',
+    data: { title: 'Additional security Reset', roles: ['MANAGE_MY_ACCOUNT'] },
+    canActivate: [AuthGuard, RoleGuard],
+    pathMatch: 'full',
+    component: ConfirmMfaResetComponent,
+  },
+  {
+    path: 'user-mfa-reset-success',
+    data: { title: 'Additional security Reset', roles: ['MANAGE_MY_ACCOUNT'] },
+    canActivate: [AuthGuard, RoleGuard],
+    pathMatch: 'full',
+    component: SuccessUserMfaComponent,
+  },
+  {
     path: 'contact-admin',
-    data: { title: 'My Profile', roles: ['MANAGE_MY_ACCOUNT'] },
+    data: { title: 'contact-admin', roles: ['MANAGE_MY_ACCOUNT'] },
     canActivate: [AuthGuard, RoleGuard],
     pathMatch: 'full',
     component: ContactAdminComponent,
@@ -386,7 +403,7 @@ const routes: Routes = [
   },
   {
     path: 'manage-org/profile',
-    data: { title: 'Manage Organisation', roles: ['MANAGE_ORGS'] },
+    data: { title: 'Manage your organisation', roles: ['MANAGE_ORGS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageOrganisationProfileComponent,
@@ -808,14 +825,14 @@ const routes: Routes = [
   },
   {
     path: 'contact-assign/user-search',
-    data: { title: 'Search User - Assign Contacts', roles: ['MANAGE_ORGS'] },
+    data: { title: "Assign a user's contacts to your organisation account", roles: ['MANAGE_ORGS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ContactAssignUserSearchComponent,
   },
   {
     path: 'contact-assign/site-search',
-    data: { title: 'Search Site - Assign Contacts', roles: ['MANAGE_ORGS'] },
+    data: { title: "Assign a site's contacts to your organisation account", roles: ['MANAGE_ORGS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ContactAssignSiteSearchComponent,
@@ -867,6 +884,12 @@ const routes: Routes = [
     data: { title: 'Help and support' },
     pathMatch: 'full',
     component: HelpAndSupportComponent,
+  },
+  {
+    path: 'accessibility-statement',
+    data: { title: 'Accessibility-statement - CCS' },
+    pathMatch: 'full',
+    component: AccessibilityStatementComponent,
   },
   {
     path: 'mfaresetnotification',
