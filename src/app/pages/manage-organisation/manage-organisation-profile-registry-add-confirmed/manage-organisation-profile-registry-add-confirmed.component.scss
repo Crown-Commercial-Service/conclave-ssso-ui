@@ -12,3 +12,34 @@ app-manage-organisation-profile-registry-add-confirmed {
     font-size: 16px;
   }
 }
+
+
+a {
+  text-decoration: underline;
+}
+
+.govuk-link:visited,
+a:visited {
+  color: #005ea5 !important;
+}
+
+.navigation-text {
+  margin-bottom: 100px;
+  font-size: 16px;
+}
+
+.success_msg{
+  margin-top: 30px;
+}
+
+.govuk-breadcrumbs__link:link, .govuk-breadcrumbs__link:visited {
+  color: #0b0c0c !important;
+}
+.gov-uk-font-a{
+  font-size: 19px !important;
+}
+
+.govuk-breadcrumbs__link {
+  font-size: 18px !important;
+  font-weight: 400;
+}
