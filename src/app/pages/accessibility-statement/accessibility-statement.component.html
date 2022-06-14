@@ -54,17 +54,28 @@
           <h3>How accessible this website is</h3>
           <p>We know some parts of this website are not fully accessible:</p>
           <ul>
-            <li>forms do not have error validation</li>
+            <li>1.3 - Adaptable: Create content that can be presented in different ways (for example simpler layout)
+              without losing information or structure.</li>
             <li>
-              most older PDF documents are not fully accessible to screen reader
-              software
+              1.4 - Distinguishable: Make it easier for users to see and hear content including separating foreground
+              from background.
             </li>
             <li>
-              most documents have not been saved in an open document format
+              2.1 - Keyboard Accessible: Make all functionality available from a keyboard.
+            </li>
+            <li>2.4 - Navigable: Provide ways to help users navigate, find content, and determine where they are.</li>
+            <li>
+              3.1 - Readable: Make content readable and understandable.
             </li>
             <li>
-              alternative text has not been added for all of the images in the
-              news section
+              3.2 - Predictable: Make Web pages appear and operate in predictable ways.
+            </li>
+            <li>
+              3.3 - Input Assistance: Help users avoid and correct mistakes.
+            </li>
+            <li>
+              4.1 - Compatible: Maximise compatibility with current and future user agents, including assistive
+              technologies.
             </li>
           </ul>
           <h3>What to do if you cannot access parts of this website</h3>
@@ -118,94 +129,130 @@
             reasons.
           </p>
           <h3>Non compliance with the accessibility regulations</h3>
-          <p>
-            <strong>Form Fields</strong><br />
-            <span style="font-weight: 400">When no information is entered in a mandatory field, or incorrect
-              information is entered on any form on the website, the error
-              message will only show for a few seconds on most modern web
-              browsers (Chrome 5.0, IE 10.0 Firefox 4.0, Safari 10.1, Opera 9.6
-              and later versions). This fails WCAG 2.1 success criterion 3.3.1
-              (error identification). We plan to fix this by February
-              2020.</span>
-          </p>
-          <p>
-            <strong>Open document format</strong><br />
-            Many of our Word, Excel and PowerPoint documents are not saved in an
-            open document format. This fails WCAG 2.1 success criterion 4.1.2
-            (name, role, value). We plan to fix this by September 2020, where we
-            will have either replaced the documents, or we will no longer need
-            them on the website.
-          </p>
-          <p>
-            <strong>Alternative text for images</strong><br />
-            Some images do not have a text alternative, so people using a screen
-            reader cannot access the information. This fails WCAG 2.1 success
-            criterion 1.1.1 (non-text content).<br />
-            We plan to add text alternatives for all images by March 2020. When
-            we publish new content we’ll make sure our use of images meets
-            accessibility standards.
-          </p>
-          <h3>
-            Content that’s not within the scope of the accessibility regulations
-          </h3>
-          <p>
-            <strong>PDFs and other documents</strong><br />
-            Many of our older PDFs and Word documents do not meet accessibility
-            standards – for example, they may not be structured so they’re
-            accessible to a screen reader. This does not meet WCAG 2.1 success
-            criterion 4.1.2 (name, role value).
-          </p>
-          <p>
-            Some of our PDFs and Word documents are essential to providing our
-            services. For example, we have PDFs with information on how users
-            can access our services, and forms published as Word documents. By
-            September 2020, we plan to either fix these or replace them with
-            accessible HTML pages.
-          </p>
-          <p>
-            The accessibility regulations
-            <a class="navigation-text" href="http://www.legislation.gov.uk/uksi/2018/952/regulation/4/made">do not
-              require us to fix PDFs or other documents published before
-              23 September 2018</a>
-            if they’re not essential to providing our services.<br />
-            Any new PDFs or Word documents we publish will meet accessibility
-            standards.
-          </p>
-          <h4>Live Video</h4>
-          <p>
-            Live video streams do not have captions. This fails WCAG 2.1 success
-            criterion 1.2.4 (captions – live).
-          </p>
-          <p>
-            We do not plan to add captions to live video streams because live
-            video is
-            <a class="navigation-text" href="http://www.legislation.gov.uk/uksi/2018/952/regulation/4/made">exempt from
-              meeting the accessibility regulations</a>.
-          </p>
+          <div>
+            <h4 class="govuk-heading-s">1.3.1 - Info and Relationships - Level A</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - Using CSS to change the presentation of text to convey meaning without altering markup for
+                assistive technologies. The error occurs in the Org title. Line 377 {{representingTag.LevelA}}</li>
+              <li>Fix - This is currently planned for improvement in forthcoming development</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">1.3.5 - Identify Input Purpose - Level AA</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - Autocomplete attribute missing from password input field. Line 327</li>
+              <li>Fix - This is currently planned for improvement in forthcoming development</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">1.4.3 - Contrast (Minimum) - Level AA</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - Colour contrast ratio failed for the Help and Support link.</li>
+              <li>Fix - This is currently being analysed to confirm the required resolution.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">1.4.10 - Reflow - Level AA</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - Page has a small overlap when sized down to minimum width. The beta banner overlaps the
+                {{representingTag.LevelAA}} a little. Some users who are visually impaired prefer to try and consume
+                content in one column. In this case no overlap of content should occur.</li>
+              <li>Fix - This is currently planned for improvement in forthcoming development</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">2.1.1 - Keyboard - Level A</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - Clickable controls (as above {{representingTag.KeyboardLevelA}} links) do not have ARIA roles
+                (role=link). ARIA roles help assistive technologies treat the element as something other than its native
+                HTML element type.</li>
+              <li>Fix - This is currently planned for improvement in forthcoming development</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">2.4.1 - Bypass Blocks - Level A</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - Iframes ID=rpiframe and ID=opiframe do not have title attributes.</li>
+              <li>Fix - This is currently planned for improvement in forthcoming development</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">2.4.2 - Page Titled - Level A</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - No title in {{representingTag.PageTitledLevelA}} tag.</li>
+              <li>Fix - This is currently planned for improvement in forthcoming development</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">2.4.6 - Headings and Labels - Level AA</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - 'Cancel' is ambiguous. Cancel returns to select a user. Be more descriptive. 'Add user',
+                'Select a different user' or 'View Group' etc.</li>
+              <li>Fix - This is currently planned for improvement in forthcoming development</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">3.1.1 - Language of page - Level A</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - No lang attribute on rplFrame.</li>
+              <li>Fix - This is currently being analysed to confirm the required resolution.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">3.2.4 - Consistent Identification - Level AA</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - The actions on this page are present as hyperlinks rather than buttons despite them being
+                actions rather than links.</li>
+              <li>Fix - This is currently being analysed to confirm the required resolution.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">3.3.1 - Error Identification - Level A</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - Include additional Group name validation.</li>
+              <li>Fix - This is currently being analysed to confirm the required resolution.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">3.3.2 - Labels or Instructions - Level A</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - The submit button is disabled when the page is first loaded, but on a page where there is a
+                minimum set of fields required, this gives a false sense of validity.</li>
+              <li>Fix - This is currently being analysed to confirm the required resolution.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">3.3.3 - Error Suggestion Level AA</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - There are required fields, but these are not indicated to the user until the user attempts to
+                click submit.</li>
+              <li>Fix - This is currently being analysed to confirm the required resolution.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="govuk-heading-s">4.1.1 - Parsing - Level A</h4>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>Issue - Document has focusable elements with the same ID. Btn-login and btn-cancel.</li>
+              <li>Fix - This is currently being analysed to confirm the required resolution.</li>
+            </ul>
+          </div>
           <h3>How we tested this website</h3>
           <p>
-            This website was last tested on Friday 7 June 2019. The test was
-            carried out by Olenick, using users with disabilities.
-          </p>
-          <p>
-            We tested:<br />
-            our main website, available at
-            <a class="navigation-text" href="https://www.crowncommercial.gov.uk">https://www.crowncommercial.gov.uk</a>,
-            based on our most commonly visited pages.
+            <span>This website was last tested on 4 April 2022. The test was carried out by Kainos.</span><br><br>
+            <span>We tested:</span><br><br>
+            <span>All pages that are currently available within the Public Procurement Gateway (PPG).</span>
           </p>
           <h3>What we’re doing to improve accessibility</h3>
           <p>
-            We have formed a working group to remediate all accessibility issues
-            on this site, and on other CCS sites. We are also working with our
-            third party suppliers to ensure they build and design to WCAG 2.1 AA
-            standards from now on.
+            We have created a backlog to remediate all accessibility issues on this site, and on other CCS sites. We are
+            also working with our third party suppliers to ensure they build and design to WCAG 2.1 AA standards from
+            now on.
           </p>
           <p>
-            We plan to fix all accessibility issues on this website in our next
-            phase of website improvement works, due for completion in March
-            2020.
+            We plan to fix all accessibility issues on this website in our next phase of website improvement works, due
+            for completion in October 2022.
           </p>
-          <p>This statement was prepared on 23 September 2019.</p>
+          <p>This statement was prepared on 14 April 2022.</p>
         </div>
       </div>
     </div>
