@@ -32,6 +32,9 @@
             <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
               'ERROR_SITE_NAME' | translate }}</a>
           </li>
+          <li *ngIf="submitted && !formGroup.controls.name.hasError('required') && serverError == 'INVALID_SITE_NAME'">
+            <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> Site name {{dublicateSiteName}} already exists, enter a different site name.</a>
+          </li>
           <li *ngIf="submitted && formGroup.controls.streetAddress.hasError('required')">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
               'ERROR_STREET_ADDRESS' | translate }} </a>
@@ -59,15 +62,19 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <div class="govuk-form-group" id="name-form-group"
-            [class.govuk-form-group--error]="submitted && formGroup.controls.name.hasError('required')">
+            [class.govuk-form-group--error]="submitted && formGroup.controls.name.hasError('required') || !formGroup.controls.name.hasError('required') && serverError == 'INVALID_SITE_NAME'">
             <label class="govuk-label" for="name"> {{ 'SITE_NAME' | translate }} </label>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && formGroup.controls.name.hasError('required')">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
               'ERROR_SITE_NAME' | translate }}
             </span>
-            <input #input formControlName="name" class="govuk-input" id="name" name="name" type="text"
-              [class.govuk-input--error]="submitted && formGroup.controls.name.hasError('required')">
+            <span id="name-error" class="govuk-error-message"
+            *ngIf="submitted && !formGroup.controls.name.hasError('required') && serverError == 'INVALID_SITE_NAME'">
+            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>Site name {{dublicateSiteName}} already exists, enter a different site name.
+          </span>
+            <input #input formControlName="name" class="govuk-input" id="name" name="name" type="text" (input)="formValueChanged()"
+              [class.govuk-input--error]="submitted && formGroup.controls.name.hasError('required') || !formGroup.controls.name.hasError('required') && serverError == 'INVALID_SITE_NAME'">
           </div>
           <div class="govuk-form-group" id="street-address-form-group"
             [class.govuk-form-group--error]="submitted && formGroup.controls.streetAddress.hasError('required')">
