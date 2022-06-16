@@ -376,5 +376,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.inputs.toArray()[1].nativeElement.focus();
     }
   }
-
+  ResetAdditionalSecurity(){
+    if(this.formGroup.controls.mfaEnabled.value){
+      let data={
+        data:this.userName,
+        IsUser: false,
+      }
+      this.router.navigateByUrl('confirm-user-mfa-reset?data=' +btoa(JSON.stringify(data)))
+    }
+    }
 }

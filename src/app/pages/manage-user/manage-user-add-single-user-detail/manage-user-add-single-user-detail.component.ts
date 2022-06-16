@@ -60,6 +60,7 @@ export class ManageUserAddSingleUserDetailComponent
   ];
   userTitleArray = ['Mr', 'Mrs', 'Miss', 'Ms', 'Doctor', 'Unspecified'];
   public emailHaserror: boolean = false;
+  public  MFA_Enabled:any=false
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -108,14 +109,15 @@ export class ManageUserAddSingleUserDetailComponent
     );
     let queryParams = this.activatedRoute.snapshot.queryParams;
     this.state = this.router.getCurrentNavigation()?.extras.state;
-    this.locationStrategy.onPopState(() => {
-      this.onCancelClick();
-    });
+    // this.locationStrategy.onPopState(() => {
+    //   this.onCancelClick();
+    // });
     if (queryParams.data) {
-      this.routeData = JSON.parse(queryParams.data);
+      this.routeData = JSON.parse(atob(queryParams.data));
       this.isEdit = this.routeData['isEdit'];
       this.editingUserName =
         sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
+        this.editingUserName =this.routeData.rowData
     }
     this.orgGroups = [];
     this.orgRoles = [];
@@ -166,26 +168,26 @@ export class ManageUserAddSingleUserDetailComponent
       let userProfileResponseInfo = await this.wrapperUserService
         .getUser(this.editingUserName)
         .toPromise();
-      if (this.state) {
-        this.userProfileResponseInfo = this.state;
-      } else {
-        this.userProfileResponseInfo = userProfileResponseInfo;
-      }
-      this.formGroup.controls['userTitle'].setValue(
-        this.userProfileResponseInfo.title
-      );
-      this.formGroup.controls['firstName'].setValue(
-        this.userProfileResponseInfo.firstName
-      );
-      this.formGroup.controls['lastName'].setValue(
-        this.userProfileResponseInfo.lastName
-      );
-      this.formGroup.controls['userName'].setValue(
-        this.userProfileResponseInfo.userName
-      );
-      this.formGroup.controls['mfaEnabled'].setValue(
-        this.userProfileResponseInfo.mfaEnabled
-      );
+          if (this.state) {
+            this.userProfileResponseInfo = this.state;
+          } else {
+            this.userProfileResponseInfo = userProfileResponseInfo;
+          }
+              this.formGroup.controls['userTitle'].setValue(
+                this.userProfileResponseInfo.title
+              );
+              this.formGroup.controls['firstName'].setValue(
+                this.userProfileResponseInfo.firstName
+              );
+              this.formGroup.controls['lastName'].setValue(
+                this.userProfileResponseInfo.lastName
+              );
+              this.formGroup.controls['userName'].setValue(
+                this.userProfileResponseInfo.userName
+              );
+              this.formGroup.controls['mfaEnabled'].setValue(
+                this.userProfileResponseInfo.mfaEnabled
+              );
       await this.getOrgGroups();
       await this.getOrgRoles();
       await this.getIdentityProviders();
@@ -214,7 +216,10 @@ export class ManageUserAddSingleUserDetailComponent
       await this.getIdentityProviders();
       this.onFormValueChange();
     }
+    this.MFA_Enabled=this.formGroup.controls.mfaEnabled.value
   }
+
+
 
   async getIdentityProviders() {
     this.identityProviders = await this.organisationGroupService
@@ -470,7 +475,6 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   onCancelClick() {
-    console.log('cancel');
     sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
     this.router.navigateByUrl('manage-users');
   }
@@ -589,6 +593,18 @@ export class ManageUserAddSingleUserDetailComponent
     } else if (isChecked == false && roleKey == 'ORG_ADMINISTRATOR') {
       this.formGroup.controls['mfaEnabled'].setValue(false);
       this.isAutoDisableMFA=false;
+    }
+  }
+
+  public ResetAdditionalSecurity():void{
+    if(this.MFA_Enabled){
+      let data={
+        IsUser:true,
+        data:this.formGroup.controls.userName.value,
+        userName:this.formGroup.controls.firstName.value +' '+ this.formGroup.controls.lastName.value
+      }
+      this.router.navigateByUrl('confirm-user-mfa-reset?data=' +btoa(JSON.stringify(data))
+      )
     }
   }
 }

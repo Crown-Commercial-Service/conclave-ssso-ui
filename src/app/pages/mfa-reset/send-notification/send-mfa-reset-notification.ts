@@ -30,7 +30,6 @@ export class SendMFAResetNotificationComponent extends BaseComponent implements 
   }
 
   ngOnInit() {
-    debugger;
     this.route.queryParams.subscribe(para => {
       if (para.u && para.u !== '') {
         var decryptedValue = CryptoJS.AES.decrypt(decodeURIComponent(para.u), 'conclavesimpleemailencrypt');
