@@ -9,12 +9,10 @@
       </li>
     </ol>
   </div>
-  <h1>
-    <strong class="govuk-heading-xl page-title">Manage your organisation</strong>
-  </h1>
+  <h1 class="govuk-heading-xl page-title">Manage your organisation</h1>
   <div>
     <p style="margin-top:40px;">
-      <span style="font-weight: 600;font-size: 24px;">{{ org.identifier?.legalName }}</span><br />
+      <strong style="font-weight: 600;font-size: 24px;">{{ org.identifier?.legalName }}</strong><br />
       {{ org.address?.streetAddress }}<br *ngIf="org.address?.streetAddress" />
       {{ org.address?.locality }}<br *ngIf="org.address?.locality" />
       {{ org.address?.region }}<br *ngIf="org.address?.region" />
@@ -35,10 +33,10 @@
   <div class="govuk-form-group" *ngIf="idps">
     <fieldset class="govuk-fieldset">
       <legend class="govuk-heading-s">
-         {{ 'SIGN_IN_PROVIDER'| translate }}
+        {{ 'SIGN_IN_PROVIDER'| translate }}
       </legend>
       <span>
-          A sign in provider gives users the option to use a different service to sign in
+        A sign in provider gives users the option to use a different service to sign in
       </span>
       <br>
       <br>
@@ -126,7 +124,8 @@
       (click)="onRegistryAddClick()">Add new registry</button>
   </div>
   <p style="margin-top:40px;"><strong>If you have previously tried to signup or register (CII registry) and have made a
-      mistake, Please</strong> <a id="contactCCSLink" class="navigation-text" href="{{ccsContactUrl}}" target="_blank"> Contact CCS</a></p>
+      mistake, Please</strong> <a id="contactCCSLink" class="navigation-text" href="{{ccsContactUrl}}" target="_blank">
+      Contact CCS</a></p>
   <div class="govuk-button-group">
     <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button"
       (click)="onSaveChanges()" [disabled]="changedIdpList.length ==0">Save changes</button>
