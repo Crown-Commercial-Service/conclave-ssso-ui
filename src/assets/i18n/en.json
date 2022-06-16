@@ -192,7 +192,7 @@
   "ADD_ORG_CONTACT_SUCCESS": "You have successfully added an organisation contact detail.",
   "UPDATE_ORG_CONTACT_SUCCESS": "You have successfully updated the organisation contact details.",
   "DELETE_ORG_CONTACT_SUCCESS": "You have successfully deleted the contact details.",
-  "RETURN_MANAGE_YOUR_ORGANISATION": "Return to manage your organisation",
+  "RETURN_MANAGE_YOUR_ORGANISATION": "Return to Manage your Organisation",
   "SITE_DETAILS": "Site details",
   "SITE_NAME": "Site name",
   "STREET_ADDRESS": "Street address",
