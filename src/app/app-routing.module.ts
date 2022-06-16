@@ -887,7 +887,7 @@ const routes: Routes = [
   },
   {
     path: 'accessibility-statement',
-    data: { title: 'Accessibility-statement - CCS' },
+    data: { title: 'Accessibility-statement' },
     pathMatch: 'full',
     component: AccessibilityStatementComponent,
   },
