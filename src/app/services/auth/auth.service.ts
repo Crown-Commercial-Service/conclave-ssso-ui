@@ -271,8 +271,8 @@ export class AuthService {
     window.location.href = href;
   }
 
-  getPermissions(): Observable<any> {
-    if (this.servicePermission.length == 0) {
+  getPermissions(accessPage:string): Observable<any> {
+    if (this.servicePermission.length == 0 || accessPage === 'HOME') {
       return this.httpService.get<ServicePermission[]>(`${environment.uri.api.postgres}/users/permissions?user-name=`
         + encodeURIComponent(localStorage.getItem('user_name') || "") + `&service-client-id=` + environment.idam_client_id).pipe(
           map((data: ServicePermission[]) => {
@@ -291,7 +291,7 @@ export class AuthService {
   }
 
   hasPermission(permissionName: string) {
-    return this.getPermissions().pipe(
+    return this.getPermissions('Null').pipe(
       map((rolePermissions: ServicePermission[]) => {
         // Get the all the roles available for the permission
         var rolesWithThePermission = rolePermissions.filter(rp => rp.permissionName == permissionName);

@@ -29,6 +29,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   isEdit: boolean = false;
   siteId: number = 0;
   public serverError: string = '';
+  public dublicateSiteName=''
   organisationId: string;
   contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER','MOBILE_NUMBER','FAX', 'WEB_URL'];
   contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber','mobileNumber','fax', 'webUrl'];
@@ -185,6 +186,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     this.submitted = true;
     if (this.formValid(form)) {
       this.serverError = '';
+      this.dublicateSiteName=form.get('name')?.value
       let orgSiteInfo: OrganisationSiteInfo = {
         siteName: form.get('name')?.value,
         address: {
@@ -288,5 +290,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       'siteId': this.siteId
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
+  }
+
+  public formValueChanged(){
+   this.serverError=''
   }
 }

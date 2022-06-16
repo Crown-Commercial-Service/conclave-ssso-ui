@@ -271,7 +271,10 @@
                         data-module="govuk-button">
                         {{ 'RESET_USER_PASSWORD_BTN' | translate }}
                     </button>
-
+                    <br>
+                    <button *ngIf="isEdit"(click)="ResetAdditionalSecurity()" type="button"  class="govuk-button" data-module="govuk-button" [disabled]="!MFA_Enabled">
+                        Reset user’s additional security
+                    </button>
                     <div *ngIf="isEdit==true">
                         <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{
                             'DELETE_USER'

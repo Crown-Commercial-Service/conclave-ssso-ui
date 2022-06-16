@@ -1,0 +1,39 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="content flex">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" routerLink="/home">{{
+                            'ADMINISTRATOR_DASHBOARD' | translate
+                            }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="!decodedData.IsUser">
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" routerLink="/profile">{{
+                            'MANAGE_MY_ACCOUNT' | translate
+                            }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="decodedData.IsUser">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-users">{{ 'MANAGE_YOUR_USER_ACCOUNTS' |
+                            translate
+                            }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">Confirm additional security reset</span>
+                    </li>
+                </ol>
+            </div>
+            <div *ngIf="!decodedData.IsUser">
+                <h1 class="govuk-heading page-title">Confirm you want to reset additional security for your account.</h1>
+            </div>
+            <div *ngIf="decodedData.IsUser">
+                <h1 class="govuk-heading page-title">Confirm you want to reset additional security for {{decodedData.userName}}.</h1>
+            </div>
+            <div class="govuk-button-group save-cancel-button-group">
+                <button type="submit" data-module="govuk-button"class="govuk-button" (click)="navigateTosuccess()">Save and continue</button>
+                <button type="button" data-module="govuk-button"  class="govuk-button govuk-button--secondary" (click)="OnCancel()"> Cancel </button>
+                </div>
+            <br>
+        </div>
+    </div>
+</div>
