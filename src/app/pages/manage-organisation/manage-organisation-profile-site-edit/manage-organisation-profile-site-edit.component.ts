@@ -49,10 +49,10 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     private orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
     private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService) {
     super(viewportScroller, formBuilder.group({
-      name: ['', Validators.compose([Validators.required])],
-      streetAddress: ['', Validators.compose([Validators.required])],
-      locality: ['', null],
-      region: ['', null],
+      name: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:"'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
+      streetAddress: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:"'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(1)])],
+      locality: ['', Validators.compose([Validators.pattern(/^[ A-Za-z0-9.,'/&]*$/),Validators.maxLength(256)])],
+      region: [''],                                                            
       postalCode: ['', Validators.compose([Validators.required])],
       countryCode: ['', Validators.compose([Validators.required])],
     }));
@@ -82,6 +82,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
         {
           next: (siteInfo: OrganisationSiteResponse) => {
+            console.log("siteInfo",siteInfo)
             this.formGroup.setValue({
               name: siteInfo.siteName,
               streetAddress: siteInfo.address.streetAddress,
