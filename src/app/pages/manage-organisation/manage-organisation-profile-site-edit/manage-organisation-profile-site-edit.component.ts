@@ -211,6 +211,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
               // errorObject['error'] = true;
               // form.controls['countryCode'].setErrors(errorObject);
               this.serverError = error.error;
+              if(error.status==409){
+                this.serverError="INVALID_SITE_NAME"
+              }
               this.scrollHelper.scrollToFirst('error-summary');
               return;
             }
@@ -237,6 +240,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
                 // form.controls['countryCode'].setErrors(errorObject);
                 this.serverError = error.error;
                 this.scrollHelper.scrollToFirst('error-summary');
+                if(error.status==409){
+                  this.serverError="INVALID_SITE_NAME"
+                }
                 return;
               }
             });
