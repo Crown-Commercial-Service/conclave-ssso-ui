@@ -280,3 +280,49 @@ span.mlp-app-logo {
 //   nz-footer {
 //     text-align: center;
 //   }
+.govuk-custom-form-group {
+    margin-right: auto;
+    display: flex;
+    gap: 40px;
+}
+.govuk-custom-form-group button img {
+    max-width: 100%;
+}
+
+.govuk-custom-form-group button {
+    background: #0b828b url(/assets/img/icon-search-white.png) no-repeat center;
+    width: 56px;
+    height: 100%;
+    background-size: 19px 19px;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.govuk-custom-form-group .govuk-input__suffix {
+    padding: 0;
+    border: 0;
+}
+
+.govuk-custom-form-group .govuk-input {
+    border: 0;
+    color: #000;
+    padding-right: 60px;
+}
+
+.govuk-custom-form-group .govuk-label {
+    text-align: left;
+    color: #fff;
+}
+.govuk-custom-form-group .govuk-input__wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.govuk-custom-form-group .govuk-input__suffix {
+    position: absolute;
+    right: 0;
+    z-index: 2;
+}
+.govuk-custom-form-group .govuk-input:focus {
+    box-shadow: inset 0 0 0;
+}
