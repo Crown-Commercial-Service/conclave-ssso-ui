@@ -678,7 +678,6 @@
     <script src="https://cdn.auth0.com/js/polyfills/1.0/object-assign.min.js"></script>
     <script>
         function scrollToError(element, inputId) {
-            debugger;
             let elementObj = document.getElementById(element);
             let inputObj = document.getElementById(inputId);
             elementObj.scrollIntoView();
@@ -721,7 +720,6 @@
         }
 
         window.addEventListener('load', function () {
-            //debugger;
             var cookieExpirationTimeInMinutes = 525600; // 525600 => 365 Days
             setCookie("test_additional", 'test', cookieExpirationTimeInMinutes);
             var cookieBannerDiv = document.getElementById('cookieBannerDiv');
@@ -778,7 +776,6 @@
                 var passwordField = document.getElementById('password');
                 var password = passwordField.value;
 
-                debugger;
                 let emailFG = document.getElementById('email-form-group');
                 let passwordFG = document.getElementById('password-form-group');
                 emailFG.classList.remove("invalid");
