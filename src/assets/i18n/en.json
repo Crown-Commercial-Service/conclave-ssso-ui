@@ -315,5 +315,6 @@
   "ERROR_INVALID_CONTACT":"Enter Contact name without any special characters",
   "ERROR_INVALID_CONTACT_LENGTH":"Contact name length must be between 3 and 256 characters",
   "ERROR_INVALID_GROUP":"Enter a group name without any special characters",
-  "ERROR_INVALID_GROUP_LENGTH":"Group name length must be between 3 and 256 characters"
+  "ERROR_INVALID_GROUP_LENGTH":"Group name length must be between 3 and 256 characters",
+  "ERROR_INVALID_ALL_SPECIAL":"Enter your group name without all special characters"
 }
