@@ -34,7 +34,9 @@ export class ManageGroupEditNameComponent
   isEdit: boolean = false;
   editingGroupId: number = 0;
   groupName: string = '';
-  // private specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~£€]/;
+  private specialChars = /^[ @().,;:“'/#&+-]*$/;
+
+             
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -51,7 +53,7 @@ export class ManageGroupEditNameComponent
     super(
       viewportScroller,
       formBuilder.group({
-        groupName: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:"'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
+        groupName: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:“'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
       })
     );
     let queryParams = this.activatedRoute.snapshot.queryParams;
@@ -76,16 +78,17 @@ export class ManageGroupEditNameComponent
     this.onFormValueChange();
   }
   
-  //  public get specialCharsVaidation(){
-  //    let indexOfGname=this.formGroup.value.groupName.length
-  //    let indexOfspecialChars:number=0
-  //   for (let i = 0; i < this.formGroup.value.groupName.length; i++) {
-  //     if(this.specialChars.test(this.formGroup.value.groupName[i])){
-  //       indexOfspecialChars = indexOfspecialChars + 1
-  //     }
-  //   }
-  //   return indexOfGname === indexOfspecialChars ? true : false
-  //   }
+   public get specialCharsVaidation(){
+     let indexOfGname=this.formGroup.value.groupName.length
+     let indexOfspecialChars:number=0
+    for (let i = 0; i < this.formGroup.value.groupName.length; i++) {
+      if(this.specialChars.test(this.formGroup.value.groupName[i])){
+        indexOfspecialChars = indexOfspecialChars + 1
+      }
+    }
+    debugger
+    return indexOfGname === indexOfspecialChars ? true : false
+    }
 
 
  
@@ -105,7 +108,7 @@ export class ManageGroupEditNameComponent
   onSubmit(form: FormGroup) {
     this.submitted = true;
     if (this.formValid(form)) {
-      // if (!this.specialCharsVaidation) {
+      if (!this.specialCharsVaidation) {
         this.groupName = form.get('groupName')?.value;
         if (this.isEdit == true) {          
           let groupPatchRequestInfo: OrganisationGroupRequestInfo = {
@@ -177,9 +180,9 @@ export class ManageGroupEditNameComponent
               }
             );
         }
-      // }else{
-      //   this.formGroup.controls['groupName'].setErrors({ 'specialCharsincluded': true})
-      // }
+      }else{
+        this.formGroup.controls['groupName'].setErrors({ 'specialCharsincluded': true})
+      }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
     }
