@@ -1,30 +1,26 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div class="content flex">
-            <a href="javascript:;" (click)="goBack()" class="govuk-back-link">Back</a>
+            <a href="javascript:;" (click)="goBack()" class="govuk-back-link">{{ 'BACK' | translate }}</a>
             <div>
                 <h1 class="govuk-heading-xl page-title">
-                    Register your organisation</h1>
-                <h2 class="govuk-heading-m">Your organisation is not registered. You will need to register your organisation before you can create an individual account.</h2>    
-                <p class="govuk-body-l">To continue, register with us to create a secure account for your organisation
-                    and
-                    access all our services in one place. You cannot create an individual account until your
-                    organisation is
-                    registered. If you choose not to be an administrator you can nominate a colleague.</p>
+                    {{ 'REG_ORG' | translate }}</h1>
+                <h2 class="govuk-heading-m">{{ 'REG_ORG_HEAD_1' | translate }}</h2>    
+                <p class="govuk-body-l">{{ 'REG_ORG_PARA_1' | translate }}</p>
 
-                <h2><strong>When you register, you will be:</strong></h2>
+                <h2><strong>{{ 'REG_ORG_HEAD_2' | translate }}</strong></h2>
                 <ul>
-                    <li><b>The administrator of your organisation's account</b></li>
-                    <li>Responsible for managing users and creating groups</li>
-                    <li>Able to edit your organisation's details</li>
-                    <li>The sole admin user, although you can add more</li>
+                    <li><b>{{ 'REG_ORG_LIST_1' | translate }}</b></li>
+                    <li>{{ 'REG_ORG_LIST_2' | translate }}</li>
+                    <li>{{ 'REG_ORG_LIST_3' | translate }}</li>
+                    <li>{{ 'REG_ORG_LIST_4' | translate }}</li>
                 </ul>
                 <p>
-                    Registering takes around 10 minutes.
+                    {{ 'REG_ORG_PARA_2' | translate }}
                 </p>
                 <div class="govuk-form-group">
                     <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
-                        (click)="onContinueNotRegistered()">Continue</button>
+                        (click)="onContinueNotRegistered()">{{ 'CONTINUE_BTN' | translate }}</button>
                 </div>                
             </div>
         </div>

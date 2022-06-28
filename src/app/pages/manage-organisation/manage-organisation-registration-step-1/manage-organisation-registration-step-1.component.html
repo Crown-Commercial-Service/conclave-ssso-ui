@@ -2,8 +2,7 @@
   <div class="govuk-grid-column-two-thirds">
     <div class="content flex">
       <a id="returnHomeLink" class="navigation-text" href="https://www.crowncommercial.gov.uk"
-        class="govuk-back-link">Return to
-        Homepage</a>
+        class="govuk-back-link">{{ "RETURN_TO_HOME" | translate }}</a>
     </div> 
   </div>
 </div>
@@ -12,36 +11,35 @@
     <div class="content-flex">
       <div class="content-left">
         <div class="content flex">
-          <h1 class="govuk-heading-xl page-title">Create an account</h1>
-          <p class="govuk-body-l">Register your organisation to create an account and begin using our services.
-            <br>Completing the registration process will make you the administrator for your organisation’s account.
+          <h1 class="govuk-heading-xl page-title">{{ "CREATE_AN_ACCOUNT" | translate }}</h1>
+          <p class="govuk-body-l">{{ "CREATE_AN_ACCOUNT_PARA" | translate }}
+            <br>{{ "CREATE_AN_ACCOUNT_PARA_1" | translate }}
           </p>
           <br>
-          <p><strong>Before you start</strong></p>
-          <p>You will need a valid company email address and <strong>one</strong> of the following:</p>
+          <p><strong>{{ "CREATE_AN_ACCOUNT_BEFORE_START" | translate }}</strong></p>
+          <p>{{ "CREATE_AN_ACCOUNT_PARA_2" | translate }} <strong>{{ "CREATE_AN_ACCOUNT_PARA_3" | translate }}</strong> {{ "CREATE_AN_ACCOUNT_PARA_4" | translate }}</p>
           <ul>
-            <li>Companies House registered number</li>
-            <li>Dun and Bradstreet number</li>
-            <li>Charity Commission for England and Wales number</li>
-            <li>Office of The Scottish Charity Regulator (OSCR) number</li>
-            <li>The Charity Commission for Northern Ireland number</li>
-            <li>National Health Service Organisations Registry number</li>
+            <li>{{ "CREATE_AN_ACCOUNT_LIST_1" | translate }}</li>
+            <li>{{ "CREATE_AN_ACCOUNT_LIST_2" | translate }}</li>
+            <li>{{ "CREATE_AN_ACCOUNT_LIST_3" | translate }}</li>
+            <li>{{ "CREATE_AN_ACCOUNT_LIST_4" | translate }}</li>
+            <li>{{ "CREATE_AN_ACCOUNT_LIST_5" | translate }}</li>
+            <li>{{ "CREATE_AN_ACCOUNT_LIST_6" | translate }}</li>
           </ul>
           <br />
-          <p>Registering takes around 10 minutes.</p>
+          <p>{{ "CREATE_AN_ACCOUNT_PARA_5" | translate }}</p>
           <!-- <div class="govuk-inset-text">
             This service is also available <a class="navigation-text" href="javascript:;">in Welsh (Cymraeg)</a>.
           </div> -->
           <div class="govuk-details__text detail-text">
-            <p><strong>Before you start</strong></p>
-            <p>We will request some basic information from you to establish if your organisation has previously been
-              registered.</p>
+            <p><strong>{{ "CREATE_AN_ACCOUNT_BEFORE_START" | translate }}</strong></p>
+            <p>{{ "CREATE_AN_ACCOUNT_PARA_6" | translate }}</p>
           </div>
     
           <button id="startNowButton" type="button"
             class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button govuk-button--start"
             data-module="govuk-button" (click)="onClick()">
-            Start Now
+            {{ "CREATE_AN_ACCOUNT_START_BTN" | translate }}
             <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19"
               viewBox="0 0 33 40" focusable="false">
               <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
@@ -51,9 +49,9 @@
       </div>
       <div class="content-right">
         <div class="card card-help">
-          <h2 class="card-title">Guides</h2>
+          <h2 class="card-title">{{ "CREATE_AN_ACCOUNT_GUIDE" | translate }}</h2>
           <a href="https://www.crowncommercial.gov.uk/public-procurement-gateway-guides" class="navigation-text"
-            rel="noreferrer noopener" target="_blank">Learn about the Public Procurement Gateway, and how to set up an account.</a>
+            rel="noreferrer noopener" target="_blank">{{ "CREATE_AN_ACCOUNT_SETUPUP_INSTR" | translate }}</a>
         </div>
       </div>
     </div>

@@ -136,7 +136,11 @@ export class AppComponent implements OnInit {
     }
   }
 
-
+  public ChangeLanguage():void{
+    var element:any = document.getElementById("Language");
+    var Selectedvalue = element.value;
+   this.translate.setDefaultLang(Selectedvalue);
+  }
   // public isAuthenticated(): Observable<boolean> {
   //   return this.authService.isAuthenticated();
   // }

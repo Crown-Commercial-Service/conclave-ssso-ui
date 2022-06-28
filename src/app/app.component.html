@@ -28,7 +28,15 @@
                     </div>
                 </div>
             </div>
-
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="Language" style="color:White">
+                    Select your Language
+                </label>
+                <select class="govuk-select" id="Language" name="Language" style="color: black;" (change)="ChangeLanguage()">
+                  <option value="en" selected>English</option>
+                  <option value="Welsh" >welsh</option>
+                </select>
+              </div>
             <nav class="global-navigation" data-toggle="nav"
                 data-app-uri="http://www.crowncommercial.gov.uk/contact/sendToSalesforce"
                 data-app-pathinfo="/contact/sendToSalesforce" aria-hidden="false">
