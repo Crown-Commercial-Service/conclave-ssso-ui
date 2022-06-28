@@ -6,24 +6,24 @@
                     alt="Go to the CCS homepage"></a>
             <div class="govuk-custom-form-group govuk-!-width-two-thirds" *ngIf="IsActivePage === 'Dashboard'">
                 <div class="govuk-form-group govuk-!-width-one-half">
-                    <label class="govuk-label" for="weight">
+                    <label class="govuk-label" for="agreements">
                         Search agreements
                     </label>
                     <div class="govuk-input__wrapper">
-                        <input class="govuk-input" id="weight" name="weight" type="text" spellcheck="false"
+                        <input class="govuk-input" id="agreements" name="agreements" type="text" spellcheck="false"
                             (keyup.enter)="headerSearch('agreements')" [(ngModel)]="searchForm.agreements">
-                        <div class="govuk-input__suffix" aria-hidden="true"><button
+                        <div class="govuk-input__suffix" ><button
                                 (click)="headerSearch('agreements')">.</button></div>
                     </div>
                 </div>
                 <div class="govuk-form-group govuk-!-width-one-half">
-                    <label class="govuk-label" for="weight">
+                    <label class="govuk-label" for="suppliers">
                         Search suppliers
                     </label>
-                    <div class="govuk-input__wrapper"><input class="govuk-input" id="weight" name="weight" type="text"
+                    <div class="govuk-input__wrapper"><input class="govuk-input" id="suppliers" name="suppliers" type="text"
                             spellcheck="false" (keyup.enter)="headerSearch('suppliers')"
                             [(ngModel)]="searchForm.suppliers">
-                        <div class="govuk-input__suffix" aria-hidden="true"><button
+                        <div class="govuk-input__suffix" ><button
                                 (click)="headerSearch('suppliers')">.</button></div>
                     </div>
                 </div>
