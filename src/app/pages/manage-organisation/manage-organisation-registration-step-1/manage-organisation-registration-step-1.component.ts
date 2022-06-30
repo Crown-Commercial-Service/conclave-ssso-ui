@@ -32,8 +32,7 @@ export class ManageOrgRegStep1Component extends BaseComponent implements OnInit 
   }
 
   ngOnInit() {
-    interval(9000)
-    .subscribe((val) => { window.location.reload(); })
+
    }
 
   public onClick() {
