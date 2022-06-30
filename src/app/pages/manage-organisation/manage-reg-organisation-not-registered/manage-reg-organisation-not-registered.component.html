@@ -1,21 +1,20 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div class="content flex">
-            <a href="javascript:;" (click)="goBack()" class="navigation-text govuk-back-link">Back</a>
+            <a href="javascript:;" (click)="goBack()" class="navigation-text govuk-back-link">{{ 'REGISTRATION.BACK' | translate }}</a>
             <h1 class="govuk-heading-xl page-title">
-                Do you want to be the administrator of your organisation?
+                {{ 'REGISTRATION.NOT_REG_HEADER_1' | translate }}
             </h1>
-            <p class="govuk-body-l">By registering your organisation, you will be the administrator for the account.
+            <p class="govuk-body-l">{{ 'REGISTRATION.NOT_REG_PARA_1' | translate }}
             </p>
             <div style="background-color: #f8f8f8;" class="govuk-inset-text">
 
-                <h2> Before you continue</h2>
+                <h2> {{ 'REGISTRATION.NOT_REG_HEADER_2' | translate }}</h2>
                 <p>
-                    <b>If you do not want to become the administrator</b> of your organisation's
-                    account you can<b> nominate a colleague to register to become an administrator.</b>
+                    <b>{{ 'REGISTRATION.NOT_REG_PARA_2' | translate }}</b>{{ 'REGISTRATION.NOT_REG_PARA_3' | translate }}<b>{{ 'REGISTRATION.NOT_REG_PARA_4' | translate }}</b>
                 </p>
                 <p>
-                    This is a permanent position but can be shared with other colleagues 
+                    {{ 'REGISTRATION.NOT_REG_PARA_5' | translate }}
                 </p>
             </div>
 
@@ -25,30 +24,30 @@
                         <input class="govuk-radios__input" type="radio" id="orgAdminRadioButton" value="useradmin"
                             [(ngModel)]="adminSelectionMode" />
                         <label for="orgAdminRadioButton" class="govuk-label govuk-radios__label">
-                            I am happy being the administrator for my organisation
+                            {{ 'REGISTRATION.NOT_REG_LABLE_1' | translate }}
                         </label>
                     </div>
                     <div class="govuk-radios__item" id="nominateAdminRadioSelection">
                         <input class="govuk-radios__input" type="radio" id="nominateAdminRadioButton" value="nominateadmin"
                             [(ngModel)]="adminSelectionMode" />
                         <label for="nominateAdminRadioButton" class="govuk-label govuk-radios__label">
-                            I would like to nominate a colleague to register to become an administrator
+                            {{ 'REGISTRATION.NOT_REG_LABLE_2' | translate }}
                         </label>
                     </div>
                     <div class="govuk-radios__item" id="unknownAdminRadioSelection">
                         <input class="govuk-radios__input" type="radio" id="unknownAdminRadioButton" value="unkownadmin"
                             [(ngModel)]="adminSelectionMode" />
                         <label for="unknownAdminRadioButton" class="govuk-label govuk-radios__label">
-                            I do not know who my administrator would be
+                            {{ 'REGISTRATION.NOT_REG_LABLE_3' | translate }}
                         </label>
                     </div>
                 </div>
             </div>
             <div class="govuk-form-group">
                 <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
-                    (click)="onContinueClick()">Continue</button>
+                    (click)="onContinueClick()">{{ 'REGISTRATION.CONTINUE_BTN' | translate }}</button>
             </div>
-            <p><a id="homeLink" class="navigation-text" href="https://www.crowncommercial.gov.uk">Return to Crown Commercial Service homepage</a></p>
+            <p><a id="homeLink" class="navigation-text" href="https://www.crowncommercial.gov.uk">{{ 'REGISTRATION.NOT_REG_RET_LINK' | translate }}</a></p>
         </div>
     </div>
 </div>

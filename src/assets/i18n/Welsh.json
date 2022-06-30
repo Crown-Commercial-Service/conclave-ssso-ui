@@ -1,4 +1,5 @@
 {
+  "REGISTRATION":{
     "RETURN_TO_HOME": "Dychwelyd i'r Hafan",
     "CREATE_AN_ACCOUNT": "Creu cyfrif",
     "CREATE_AN_ACCOUNT_PARA": "Cofrestrwch eich sefydliad i greu cyfrif a dechrau defnyddio ein gwasanaethau.",
@@ -38,8 +39,10 @@
     "REG_ORG_PARA_1":"I barhau, cofrestrwch gyda ni i greu cyfrif diogel ar gyfer eich sefydliad a chael mynediad at ein holl wasanaethau mewn un lle. Ni allwch greu cyfrif unigol nes bod eich sefydliad wedi'i gofrestru. Os dewiswch beidio â bod yn weinyddwr gallwch enwebu cydweithiwr.",
     "REG_ORG_HEAD_2":"Pan fyddwch yn cofrestru, byddwch yn:",
     "REG_ORG_LIST_1":"Gweinyddwr cyfrif eich sefydliad",
-    "REG_ORG_LIST_2":"Responsible for managing users and creating groups",
+    "REG_ORG_LIST_2":"Yn gyfrifol am reoli defnyddwyr a chreu grwpiau",
     "REG_ORG_LIST_3":"Yn gallu golygu manylion eich sefydliad",
     "REG_ORG_LIST_4":"Yr unig ddefnyddiwr gweinyddol, er y gallwch chi ychwanegu mwy",
-    "REG_ORG_PARA_2":"Mae cofrestru yn cymryd tua 10 munud."
+    "REG_ORG_PARA_2":"Mae cofrestru yn cymryd tua 10 munud.",
+    "NOT_REG_HEADER":"Do you want to be the administrator of your organisation?"
+  }
 }

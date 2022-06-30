@@ -1,9 +1,9 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
-    <a href="javascript:;" (click)="goBack()" class="navigation-text govuk-back-link">{{ 'BACK' | translate }}</a>
+    <a href="javascript:;" (click)="goBack()" class="navigation-text govuk-back-link">{{ 'REGISTRATION.BACK' | translate }}</a>
     <h1 class="govuk-heading-xl page-title">
-        {{ 'ENTER_DETAILS' | translate }}</h1>
-    <p class="govuk-body-l">{{ 'ENTER_DETAILS_PARA_1' | translate }}</p>
+        {{ 'REGISTRATION.ENTER_DETAILS' | translate }}</h1>
+    <p class="govuk-body-l">{{ 'REGISTRATION.ENTER_DETAILS_PARA_1' | translate }}</p>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-three-quarters">
             <form class="govuk-!-width-three-quarters" [class.error]="!formValid(formGroup)" [formGroup]="formGroup">
@@ -11,32 +11,32 @@
                     <div class="govuk-error-summary govuk-grid-column-three-quarters"
                         aria-labelledby="error-summary-title" role="alert" tabindex="-1"
                         data-module="govuk-error-summary">
-                        <h2 class="govuk-error-summary__title" id="error-summary-title">{{ 'THERE_IS_PROB' | translate }}</h2>
+                        <h2 class="govuk-error-summary__title" id="error-summary-title">{{ 'REGISTRATION.THERE_IS_PROB' | translate }}</h2>
                         <div class="govuk-error-summary__body">
                             <ul class="govuk-list govuk-error-summary__list">
                                 <a onClick="return false;" (click)="setFocus(0)" href="javascript:;"
                                     *ngIf="formGroup.controls['organisation'].hasError('required')">
-                                    <li>{{ 'ORG_REQ_ERROR' | translate }}</li>
+                                    <li>{{ 'REGISTRATION.ORG_REQ_ERROR' | translate }}</li>
                                 </a>
                                 <a onClick="return false;" (click)="setFocus(1)" href="javascript:;"
                                     *ngIf="formGroup.controls['firstName'].hasError('required')">
-                                    <li>{{ 'F_NAME_REQ_ERROR' | translate }}</li>
+                                    <li>{{ 'REGISTRATION.F_NAME_REQ_ERROR' | translate }}</li>
                                 </a>
                                 <a onClick="return false;" (click)="setFocus(2)" href="javascript:;"
                                     *ngIf="formGroup.controls['lastName'].hasError('required')">
-                                    <li>{{ 'L_NAME_REQ_ERROR' | translate }}</li>
+                                    <li>{{ 'REGISTRATION.L_NAME_REQ_ERROR' | translate }}</li>
                                 </a>
                                 <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
                                     *ngIf="formGroup.controls['email'].hasError('required')">
-                                    <li>{{ 'EMAIL_REQ_ERROR' | translate }}</li>
+                                    <li>{{ 'REGISTRATION.EMAIL_REQ_ERROR' | translate }}</li>
                                 </a>
                                 <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
                                     *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
-                                    <li>{{ 'EMAIL_FORMAT_ERROR' | translate }}</li>
+                                    <li>{{ 'REGISTRATION.EMAIL_FORMAT_ERROR' | translate }}</li>
                                 </a>
                                 <a *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)"
                                     href="javascript:;" onClick="return false;" (click)="customFocum()">
-                                    <li>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</li>
+                                    <li>{{ 'REGISTRATION.ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</li>
                                 </a>
                             </ul>
                         </div>
@@ -44,10 +44,10 @@
                 </div>
                 <div class="govuk-form-group"
                     [class.govuk-form-group--error]="submitted && formGroup.controls.organisation.invalid">
-                    <label class="govuk-label" for="organisation">{{ 'ORGANISATION' | translate }}</label>
+                    <label class="govuk-label" for="organisation">{{ 'REGISTRATION.ORGANISATION' | translate }}</label>
                     <span id="firstname-error" class="govuk-error-message"
                         *ngIf="submitted && formGroup.controls.organisation.invalid">
-                        <span class="govuk-visually-hidden">Error:</span>{{ 'ORG_REQ_ERROR' | translate }}
+                        <span class="govuk-visually-hidden">Error:</span>{{ 'REGISTRATION.ORG_REQ_ERROR' | translate }}
                     </span>
                     <mat-form-field class="example-full-width">
                         <input id="organisation" [ngModel]="searchOrgName" (ngModelChange)="onSearchTextChange($event)"
@@ -75,14 +75,14 @@
                 </div>
                 <div class="govuk-form-group"
                     [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid">
-                    <label class="govuk-label" for="firstName">{{ 'FIRSTNAME' | translate }}</label>
+                    <label class="govuk-label" for="firstName">{{ 'REGISTRATION.FIRSTNAME' | translate }}</label>
                     <span id="firstname-error" class="govuk-error-message"
                         *ngIf="submitted && formGroup.controls.firstName.errors?.required">
-                        <span class="govuk-visually-hidden">Error:</span>{{ 'F_NAME_REQ_ERROR' | translate }}
+                        <span class="govuk-visually-hidden">Error:</span>{{ 'REGISTRATION.F_NAME_REQ_ERROR' | translate }}
                     </span>
                     <span id="firstname-error" class="govuk-error-message"
                         *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
-                        <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate
+                        <span class="govuk-visually-hidden">Error:</span>{{ 'REGISTRATION.ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate
                         }}
                     </span>
                     <input #input class="govuk-input" id="firstName" formControlName="firstName" maxlength="100"
@@ -91,14 +91,14 @@
                 </div>
                 <div class="govuk-form-group"
                     [class.govuk-form-group--error]="submitted && formGroup.controls.lastName.invalid">
-                    <label class="govuk-label" for="lastName">{{ 'LASTNAME' | translate }}</label>
+                    <label class="govuk-label" for="lastName">{{ 'REGISTRATION.LASTNAME' | translate }}</label>
                     <span id="lastname-error" class="govuk-error-message"
                         *ngIf="submitted && formGroup.controls.lastName.errors?.required">
-                        <span class="govuk-visually-hidden">Error:</span>{{ 'L_NAME_REQ_ERROR' | translate }}
+                        <span class="govuk-visually-hidden">Error:</span>{{ 'REGISTRATION.L_NAME_REQ_ERROR' | translate }}
                     </span>
                     <span id="lastname-error" class="govuk-error-message"
                     *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
-                    <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+                    <span class="govuk-visually-hidden">Error:</span>{{ 'REGISTRATION.ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
                   </span>
                     <input #input class="govuk-input" id="lastName" formControlName="lastName" maxlength="100"
                         name="lastName" size="20" type="text" value="" autocomplete="family-name"
@@ -106,14 +106,14 @@
                 </div>
                 <div class="govuk-form-group"
                     [class.govuk-form-group--error]="submitted && formGroup.controls.email.invalid">
-                    <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
+                    <label class="govuk-label" for="email">{{ 'REGISTRATION.EMAIL' | translate }}</label>
                     <span id="email-error" class="govuk-error-message"
                         *ngIf="submitted && formGroup.controls.email.errors?.required">
-                        <span class="govuk-visually-hidden">Error:</span>{{ 'EMAIL_REQ_ERROR' | translate }}
+                        <span class="govuk-visually-hidden">Error:</span>{{ 'REGISTRATION.EMAIL_REQ_ERROR' | translate }}
                     </span>
                     <span id="email-error" class="govuk-error-message"
                         *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
-                        <span class="govuk-visually-hidden">Error:</span>{{ 'EMAIL_FORMAT_ERROR' | translate }}
+                        <span class="govuk-visually-hidden">Error:</span>{{ 'REGISTRATION.EMAIL_FORMAT_ERROR' | translate }}
                     </span>
                     <input #input class="govuk-input" id="email" formControlName="email" name="email" size="20"
                         type="email" value="" autocomplete="email" spellcheck="false"
@@ -122,7 +122,7 @@
                 </div>
                 <div class="govuk-form-group">
                     <button id="continueButton" type="submit" class="govuk-button" data-module="govuk-button"
-                        (click)="onSubmit(formGroup)">{{ 'CONTINUE_BTN' | translate }}</button>
+                        (click)="onSubmit(formGroup)">{{ 'REGISTRATION.CONTINUE_BTN' | translate }}</button>
                 </div>
             </form>
         </div>

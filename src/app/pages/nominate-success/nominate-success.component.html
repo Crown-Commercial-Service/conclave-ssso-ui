@@ -1,11 +1,11 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
   <p class="govuk-body-l text-align">
-    An email has been sent to {{emailAddress}} to register the organisation.</p>
+    {{ "REGISTRATION.REG_NOMINATE_EMAIL_SUC_PARA_1" | translate }} {{emailAddress}} {{ "REGISTRATION.REG_NOMINATE_EMAIL_SUC_PARA_2" | translate }}</p>
   <p>
   <p class="govuk-body">
-    This person will be required to complete the organisation registration process before you can continue with your sign up process.</p>
+    {{ "REGISTRATION.REG_NOMINATE_EMAIL_SUC_PARA_3" | translate }}</p>
   <p>
-    <a class="navigation-text" href="https://www.crowncommercial.gov.uk">Return to the Crown Commercial Services homepage</a>
+    <a class="navigation-text" href="https://www.crowncommercial.gov.uk">{{ "REGISTRATION.NOT_REG_RET_LINK" | translate }}</a>
   </p>
 </div>

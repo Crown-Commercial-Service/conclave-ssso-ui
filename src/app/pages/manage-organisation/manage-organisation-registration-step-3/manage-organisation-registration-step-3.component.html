@@ -1,22 +1,22 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex" *ngIf="item$ | async as i">
   <a href="javascript:;" (click)="onBackClick()" class="govuk-back-link"
-    >Back</a
+    >{{ "REGISTRATION.BACK" | translate }}</a
   >
   <h1 class="govuk-heading-xl page-title">
-    Confirm your organisation's details
+    {{ "REGISTRATION.REG_CONFIRM_HEADER" | translate }}
   </h1>
   <div>
     <div class="govuk-form-group" *ngIf="isInvalid">
       <div class="govuk-error-summary govuk-grid-column-three-quarters"
           aria-labelledby="error-summary-title" role="alert" tabindex="-1"
           data-module="govuk-error-summary">
-          <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
+          <h2 class="govuk-error-summary__title" id="error-summary-title">{{ "REGISTRATION.THERE_IS_PROB" | translate }}</h2>
           <div class="govuk-error-summary__body">
               <ul class="govuk-list govuk-error-summary__list">
                   <a  (click)="setFocus()" 
                      *ngIf="isInvalid">
-                      <li>Select your Organisation’s Country</li>
+                      <li>{{ "REGISTRATION.REG_SELECT_COUNTRY" | translate }}</li>
                   </a>
               </ul>
           </div>
@@ -37,11 +37,11 @@
       [class.govuk-form-group--error]="isInvalid == true"
      >
         <span class="govuk-label" for="country-code">
-          {{ "Country" | translate }}
+          {{ "REGISTRATION.REG_SELECT_COUNTRY_LABLE" | translate }}
         </span>
         <span class="govuk-error-message" 
         *ngIf="isInvalid">
-        <span class="govuk-visually-hidden">Error:</span>Please select your Organisation’s Country
+        <span class="govuk-visually-hidden">Error:</span>{{ "REGISTRATION.REG_SELECT_REQ_ERROR_COUNTRY" | translate }}
        </span>
         <mat-form-field class="form-field-country form-field-required" [class.govuk-input--error]="isInvalid">
           <mat-select
@@ -57,10 +57,10 @@
                 placeholderLabel="Search"
                 noEntriesFoundLabel="No matching country found"
               >
-                <mat-icon ngxMatSelectSearchClear>clear</mat-icon>
+                <mat-icon ngxMatSelectSearchClear>{{ "REGISTRATION.REG_SELECT_CLEAR" | translate }}</mat-icon>
               </ngx-mat-select-search>
             </mat-option>
-            <mat-option *ngIf="!countryCode" value="">Select Country</mat-option>
+            <mat-option *ngIf="!countryCode" value="">{{ "REGISTRATION.REG_SELECT_COUNTRY_SEL" | translate }}</mat-option>
             <mat-option
               *ngFor="let topCountry of topCountries"
               [value]="topCountry.countryCode"
@@ -81,13 +81,13 @@
       </div>
       <p>
         <strong style="font-weight: 500"
-          >{{ schemeName }} registration number</strong
+          >{{ schemeName }} {{ "REGISTRATION.REG_SELECT_REG_NUM" | translate }}</strong
         ><br />{{ i?.identifier?.id }}
       </p>
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            Is this your organisation?
+            {{ "REGISTRATION.REG_SELECT_LABLE_1" | translate }}
           </legend>
           <div class="govuk-radios">
             <div class="govuk-radios__item" id="correctDetailsRadioSelection">
@@ -104,7 +104,7 @@
                 class="govuk-label govuk-radios__label"
                 for="correctDetailsRadioButton"
               >
-                Yes, and the details are correct
+              {{ "REGISTRATION.REG_SELECT_LABLE_2" | translate }}
               </label>
             </div>
             <div class="govuk-radios__item" id="wrongAddressRadioSelection">
@@ -120,7 +120,7 @@
                 class="govuk-label govuk-radios__label"
                 for="wrongAddressRadioButton"
               >
-                Yes, but the address is wrong
+              {{ "REGISTRATION.REG_SELECT_LABLE_3" | translate }}
               </label>
             </div>
             <div class="govuk-radios__item" id="notMyOrgRadioSelection">
@@ -136,7 +136,7 @@
                 class="govuk-label govuk-radios__label"
                 for="notMyOrgRadioButton"
               >
-                No, this isn't my organisation
+              {{ "REGISTRATION.REG_SELECT_LABLE_4" | translate }}
               </label>
             </div>
           </div>
@@ -150,7 +150,7 @@
         data-module="govuk-button"
         (click)="onSubmit()"
       >
-        Continue
+      {{ "REGISTRATION.CONTINUE_BTN" | translate }}
       </button>
     </div>
   </div>

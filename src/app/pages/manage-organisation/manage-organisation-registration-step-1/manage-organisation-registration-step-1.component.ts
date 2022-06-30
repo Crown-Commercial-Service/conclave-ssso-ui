@@ -2,6 +2,7 @@ import { ViewportScroller } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { interval } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 import { slideAnimation } from 'src/app/animations/slide.animation';
 
@@ -30,7 +31,10 @@ export class ManageOrgRegStep1Component extends BaseComponent implements OnInit 
     super(uiStore,viewportScroller,scrollHelper);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    interval(9000)
+    .subscribe((val) => { window.location.reload(); })
+   }
 
   public onClick() {
     this.router.navigateByUrl(`manage-org/register/initial-search`);

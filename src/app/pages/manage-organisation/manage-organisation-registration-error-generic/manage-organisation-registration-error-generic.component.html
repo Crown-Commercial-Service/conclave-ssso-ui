@@ -1,6 +1,6 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
-  <p class="govuk-body-l">An unexpected error has occured. Please try again in a few minutes</p>
-  <p><a id="searchWithDifferentIdLink" routerLink="/manage-org/register/search"> Search with a different organisation ID</a></p>
-  <p><a id="submitClaimLink" href="https://www.crowncommercial.gov.uk/contact" target="_blank">Contact CCS</a></p>
+  <p class="govuk-body-l">{{ "REGISTRATION.REG_GEN_ERROR_PARA_1" | translate }}</p>
+  <p><a id="searchWithDifferentIdLink" routerLink="/manage-org/register/search"> {{ "REGISTRATION.REG_GEN_ERROR_PARA_2" | translate }}</a></p>
+  <p><a id="submitClaimLink" href="https://www.crowncommercial.gov.uk/contact" target="_blank">{{ "REGISTRATION.REG_CONTACT_CCS" | translate }}</a></p>
 </div>
