@@ -92,12 +92,12 @@ export class WrapperOrganisationGroupService {
             }
             case 'JAEGGER_SUPPLIER': {
               f.roleName = 'eSourcing Service as a supplier';
-              f.serviceName = '';
+              f.serviceName = null;
               break;
             }
             case 'JAEGGER_BUYER': {
               f.roleName = 'eSourcing Service as a buyer';
-              f.serviceName = '';
+              f.serviceName = null;
               break;
             }
             case 'JAGGAER_USER': {
