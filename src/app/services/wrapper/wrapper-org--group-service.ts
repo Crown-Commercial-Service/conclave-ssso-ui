@@ -15,14 +15,6 @@ import { UserListResponse } from 'src/app/models/user';
 export class WrapperOrganisationGroupService {
   public url: string = `${environment.uri.api.isApiGateWayEnabled ?
     environment.uri.api.wrapper.apiGatewayEnabled.organisation : environment.uri.api.wrapper.apiGatewayDisabled.organisation}`;
-    private changedRoleName: any = [
-      { roleKey: 'CAT_USER' },
-      { roleKey: 'ACCESS_CAAAC_CLIENT' },
-      { roleKey: 'JAEGGER_SUPPLIER' },
-      { roleKey: 'JAEGGER_BUYER' },
-      { roleKey: 'JAGGAER_USER' },
-      { roleKey: 'ACCESS_JAGGAER' },
-    ];  
 
   constructor(private http: HttpClient) {
   }
