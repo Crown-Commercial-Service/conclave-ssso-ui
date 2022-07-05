@@ -205,7 +205,57 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
             this.roles.forEach((r) => {
               r.enabled = eRoles.some(x => x.roleName == r.roleName && x.serviceName == r.serviceName);
             });
-            this.eRoles = eRoles;
+            this.roles.map((orgRole)=>{
+              switch (orgRole.roleKey) {
+                case 'CAT_USER': {
+                  if (orgRole.roleName === 'Contract Award Service (CAS)') {
+                    orgRole.roleName = 'Contract Award Service (CAS) - service';
+                    orgRole.serviceName = 'Contract Award Service (CAS)';
+                  }
+                  break;
+                }
+                case 'ACCESS_CAAAC_CLIENT': {
+                  if (orgRole.roleName === 'Contract Award Service (CAS)') {
+                    orgRole.roleName = 'Contract Award Service (CAS) - dashboard';
+                    orgRole.serviceName = 'Contract Award Service (CAS)';
+                  }
+                  break;
+                }
+                case 'JAEGGER_SUPPLIER': {
+                  if (orgRole.roleName === 'eSourcing Service as a supplier') {
+                    orgRole.roleName = 'eSourcing Service as a supplier';
+                    orgRole.serviceName = 'eSourcing Service';
+                  }
+                  break;
+                }
+                case 'JAEGGER_BUYER': {
+                  if (orgRole.roleName === 'eSourcing Service as a buyer') {
+                    orgRole.roleName = 'eSourcing Service as a buyer';
+                    orgRole.serviceName = 'eSourcing Service ';
+                  }
+                  break;
+                }
+                case 'JAGGAER_USER': {
+                  if (orgRole.roleName === 'eSourcing Service') {
+                    orgRole.roleName = 'eSourcing Service - service';
+                    orgRole.serviceName = 'eSourcing Service';
+                  }
+                  break;
+                }
+                case 'ACCESS_JAGGAER': {
+                  if (orgRole.roleName === 'eSourcing Service') {
+                    orgRole.roleName = 'eSourcing Service - dashboard';
+                    orgRole.serviceName = 'eSourcing Service';
+                  }
+                  break;
+                }
+                default: {
+                  //statements;
+                  break;
+                }
+              }
+            })
+            this.eRoles = eRoles
             setTimeout(() => {
             }, 100);
           },
