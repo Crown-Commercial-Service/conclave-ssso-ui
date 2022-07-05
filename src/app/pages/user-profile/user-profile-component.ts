@@ -105,7 +105,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log("sanbox")
     sessionStorage.removeItem(SessionStorageKey.UserContactUsername);
     await this.auditLogService
       .createLog({
@@ -192,49 +191,48 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               }
             });
         } else {
-          console.log("else part") 
           user.detail.rolePermissionInfo &&
             user.detail.rolePermissionInfo.map((roleInfo) => {
               var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
               if (orgRole) {
                 switch (orgRole.roleKey) {
                   case 'CAT_USER': {
-                    if (orgRole.roleName === 'CAS User') {
+                    if (orgRole.roleName === 'Contract Award Service (CAS)') {
                       orgRole.roleName = 'Contract Award Service (CAS) - service';
                       orgRole.serviceName = 'Contract Award Service (CAS)';
                     }
                     break;
                   }
                   case 'ACCESS_CAAAC_CLIENT': {
-                    if (orgRole.roleName === 'Access Contract Award Service') {
+                    if (orgRole.roleName === 'Contract Award Service (CAS)') {
                       orgRole.roleName = 'Contract Award Service (CAS) - dashboard';
                       orgRole.serviceName = 'Contract Award Service (CAS)';
                     }
                     break;
                   }
                   case 'JAEGGER_SUPPLIER': {
-                    if (orgRole.roleName === 'Jaggaer Supplier') {
+                    if (orgRole.roleName === 'eSourcing Service as a supplier') {
                       orgRole.roleName = 'eSourcing Service as a supplier';
                       orgRole.serviceName = 'eSourcing Service';
                     }
                     break;
                   }
                   case 'JAEGGER_BUYER': {
-                    if (orgRole.roleName === 'Jaggaer Buyer') {
+                    if (orgRole.roleName === 'eSourcing Service as a buyer') {
                       orgRole.roleName = 'eSourcing Service as a buyer';
                       orgRole.serviceName = 'eSourcing Service ';
                     }
                     break;
                   }
                   case 'JAGGAER_USER': {
-                    if (orgRole.roleName === 'Jaggaer User') {
+                    if (orgRole.roleName === 'eSourcing Service') {
                       orgRole.roleName = 'eSourcing Service - service';
                       orgRole.serviceName = 'eSourcing Service';
                     }
                     break;
                   }
                   case 'ACCESS_JAGGAER': {
-                    if (orgRole.roleName === 'Access Jaggaer') {
+                    if (orgRole.roleName === 'eSourcing Service') {
                       orgRole.roleName = 'eSourcing Service - dashboard';
                       orgRole.serviceName = 'eSourcing Service';
                     }
