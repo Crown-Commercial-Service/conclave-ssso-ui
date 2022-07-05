@@ -105,6 +105,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+    console.log("sanbox")
     sessionStorage.removeItem(SessionStorageKey.UserContactUsername);
     await this.auditLogService
       .createLog({
