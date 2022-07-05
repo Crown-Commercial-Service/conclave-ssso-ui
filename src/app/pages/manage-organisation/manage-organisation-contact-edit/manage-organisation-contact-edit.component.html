@@ -11,21 +11,28 @@
             }}</a>
         </li>
         <li *ngIf="siteId != 0" class="govuk-breadcrumbs__list-item">
-          <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'EDIT_SITE' | translate
+          <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick('edit')">{{ 'EDIT_SITE' |
+            translate
             }}</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
-          <span *ngIf="isEdit!=true" class="govuk-breadcrumbs__link">{{ 'ADD_ANOTHER_CONTACT' | translate
+          <span *ngIf="isEdit!=true && !siteCreate && !ContactAdd" class="govuk-breadcrumbs__link">{{
+            'ADD_ANOTHER_CONTACT' | translate
             }}</span>
           <span *ngIf="isEdit==true" class="govuk-breadcrumbs__link">{{ 'EDIT_CONTACT_DETAILS' | translate
             }}</span>
+          <span *ngIf="siteCreate || ContactAdd" class="govuk-breadcrumbs__link">Add new contact
+            {{siteInfo.siteName}}</span>
         </li>
       </ol>
     </div>
-    <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">{{ 'ADD_ANOTHER_CONTACT' | translate }}</h1>
+    <h1 *ngIf="isEdit!=true  && !siteCreate && !ContactAdd" class="govuk-heading-xl page-title">{{ 'ADD_ANOTHER_CONTACT'
+      | translate }}</h1>
     <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">{{ 'EDIT_CONTACT_DETAILS' | translate }}</h1>
+    <h1 *ngIf="siteCreate || ContactAdd" class="govuk-heading-xl page-title">Add new contact {{siteInfo.siteName}}</h1>
     <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
-      id="error-summary" data-module="govuk-error-summary" *ngIf="!formValid(formGroup) && submitted || validator && submitted">
+      id="error-summary" data-module="govuk-error-summary"
+      *ngIf="!formValid(formGroup) && submitted || validator && submitted">
       <h2 class="govuk-error-summary__title" id="error-summary-title">
         {{ 'ERROR_SUMMARY' | translate }}
       </h2>
@@ -34,31 +41,41 @@
           <li *ngIf="submitted && formGroup.controls.name.errors?.required">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">Enter a contact name</a>
           </li>
+          <li *ngIf="submitted && formGroup.controls.name.errors?.pattern">
+            <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">{{
+              'ERROR_INVALID_CONTACT' | translate }}</a>
+          </li>
+          <li
+            *ngIf="submitted && (formGroup.controls.name.errors?.minlength || formGroup.controls.name.errors?.maxlength)">
+            <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">{{
+              'ERROR_INVALID_CONTACT_LENGTH' | translate }}</a>
+          </li>
           <li *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
               'ERROR_INVALID_EMAIL' | translate }} </a>
           </li>
           <li *ngIf="submitted && formGroup.controls['phone'].invalid">
             <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('phone')"> {{
-                'ERROR_INVALID_PHONE_NUMBER' | translate }} </a>
-        </li>
-        <li *ngIf="submitted && formGroup.controls['mobile'].invalid">
-          <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('mobile')"> {{
+              'ERROR_INVALID_PHONE_NUMBER' | translate }} </a>
+          </li>
+          <li *ngIf="submitted && formGroup.controls['mobile'].invalid">
+            <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('mobile')"> {{
               'ERROR_INVALID_MOBILE_NUMBER' | translate }} </a>
-      </li>
-        <li *ngIf="submitted && formGroup.controls['fax'].invalid">
+          </li>
+          <li *ngIf="submitted && formGroup.controls['fax'].invalid">
             <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('fax')"> {{
-                'ERROR_INVALID_FAX_NUMBER' | translate }} </a>
-        </li>
-        <li *ngIf="submitted && formGroup.controls['webUrl'].invalid">
-          <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('web')"> {{
+              'ERROR_INVALID_FAX_NUMBER' | translate }} </a>
+          </li>
+          <li *ngIf="submitted && formGroup.controls['webUrl'].invalid">
+            <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('web')"> {{
               'ERROR_INVALID_WEB_ADD' | translate }} </a>
-      </li>
-      <li *ngIf="submitted && validator" id="allValid">
-          <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('email-checkbox')"> Enter at least one contact
+          </li>
+          <li *ngIf="submitted && validator" id="allValid">
+            <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('email-checkbox')">
+              Enter at least one contact
               detail from either email address, telephone number, mobile number, fax number or web
               address</a>
-      </li>
+          </li>
         </ul>
       </div>
     </div>
@@ -78,148 +95,155 @@
             </select>
           </div>
           <div class="govuk-form-group" id="name-form-group"
-            [class.govuk-form-group--error]="submitted && formGroup.controls.name.errors?.required">
+            [class.govuk-form-group--error]="submitted && (formGroup.controls.name.errors?.required || formGroup.controls.name.errors?.pattern || formGroup.controls.name.errors?.minlength || formGroup.controls.name.errors?.maxlength)">
             <label class="govuk-label" for="name"> {{ 'CONTACT_NAME' | translate }} </label>
-            <span id="name-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls.name.errors?.required">
+            <span id="name-error" class="govuk-error-message"
+              *ngIf="submitted && formGroup.controls.name.errors?.required">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>Enter a contact name
             </span>
+            <span id="name-error" class="govuk-error-message"
+              *ngIf="submitted && formGroup.controls.name.errors?.pattern">
+              <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>{{
+              'ERROR_INVALID_CONTACT' | translate }}
+            </span>
+            <span id="name-error" class="govuk-error-message"
+              *ngIf="submitted && (formGroup.controls.name.errors?.minlength || formGroup.controls.name.errors?.maxlength)">
+              <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>{{
+              'ERROR_INVALID_CONTACT_LENGTH' | translate }}
+            </span>
             <input #input formControlName="name" class="govuk-input" id="name" name="name" type="text"
-              [class.govuk-input--error]="submitted && formGroup.controls.name.errors?.required">
+              [class.govuk-input--error]="submitted && (formGroup.controls.name.errors?.required || formGroup.controls.name.errors?.pattern || formGroup.controls.name.errors?.minlength || formGroup.controls.name.errors?.maxlength)">
           </div>
           <div [class.govuk-form-group--error]="submitted && validator">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m ng-tns-c265-1"> Enter at least
-                one of the following contact details </legend>
+              one of the following contact details </legend>
             <span *ngIf="submitted && validator" id="name-error"
-                class="govuk-error-message ng-tns-c265-1 ng-star-inserted"><span
-                    class="govuk-visually-hidden ng-tns-c265-1">Error:</span> Enter at least one contact
-                detail from either email address, telephone number, mobile number, fax number or web
-                address</span>
-            <div class="govuk-checkboxes__item" [class.govuk-form-group--error]="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
-                <input class="govuk-checkboxes__input" id="email-checkbox" name="email-checkbox" 
-                    [checked]="toggleInput[0].isChecked" type="checkbox" (click)="checkBoxClick('email')">
-                <label class="govuk-label govuk-checkboxes__label" for="email-checkbox">
-                    {{ 'EMAIL' | translate }}
-                </label>
-                <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[0].status">
-                    <span id="email-error" class="govuk-error-message"
-                    *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
-                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-                    'ERROR_INVALID_EMAIL'
-                    | translate }}
+              class="govuk-error-message ng-tns-c265-1 ng-star-inserted"><span
+                class="govuk-visually-hidden ng-tns-c265-1">Error:</span> Enter at least one contact
+              detail from either email address, telephone number, mobile number, fax number or web
+              address</span>
+            <div class="govuk-checkboxes__item"
+              [class.govuk-form-group--error]="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+              <input class="govuk-checkboxes__input" id="email-checkbox" name="email-checkbox"
+                [checked]="toggleInput[0].isChecked" type="checkbox" (click)="checkBoxClick('email')">
+              <label class="govuk-label govuk-checkboxes__label" for="email-checkbox">
+                {{ 'EMAIL' | translate }}
+              </label>
+              <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[0].status">
+                <span id="email-error" class="govuk-error-message"
+                  *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                  <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                  'ERROR_INVALID_EMAIL'
+                  | translate }}
                 </span>
-                    <input #input formControlName="email" class="govuk-input" id="email" name="email"
-                        type="email"
-                        [class.govuk-input--error]="submitted && formGroup.controls.email.hasError('email') || submitted && contact_error"
-                        size="20" value="" autocomplete="email" spellcheck="false"
-                        (input)="validateEmailLength($event)"
-       >
-                </div>
+                <input #input formControlName="email" class="govuk-input" id="email" name="email" type="email"
+                  [class.govuk-input--error]="submitted && formGroup.controls.email.hasError('email') || submitted && contact_error"
+                  size="20" value="" autocomplete="email" spellcheck="false" (input)="validateEmailLength($event)">
+              </div>
             </div>
             <div class="govuk-checkboxes__item"
-                [class.govuk-form-group--error]="submitted && formGroup.controls['phone'].invalid">
-                <input class="govuk-checkboxes__input" id="tel-checkbox" name="tel-checkbox" type="checkbox"
-                    (click)="checkBoxClick('Telephone')" [checked]="toggleInput[1].isChecked">
-                <label class="govuk-label govuk-checkboxes__label" for="tel-checkbox">
-                    {{ 'TELEPHONE_NUMBER' | translate }}
-                </label>
-              
-                <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[1].status">
-                    <span id="email-error" class="govuk-error-message"
-                    *ngIf="submitted && formGroup.controls['phone'].invalid">
-                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                    {{ 'ERROR_INVALID_PHONE_NUMBER' | translate }}
+              [class.govuk-form-group--error]="submitted && formGroup.controls['phone'].invalid">
+              <input class="govuk-checkboxes__input" id="tel-checkbox" name="tel-checkbox" type="checkbox"
+                (click)="checkBoxClick('Telephone')" [checked]="toggleInput[1].isChecked">
+              <label class="govuk-label govuk-checkboxes__label" for="tel-checkbox">
+                {{ 'TELEPHONE_NUMBER' | translate }}
+              </label>
+
+              <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[1].status">
+                <span id="email-error" class="govuk-error-message"
+                  *ngIf="submitted && formGroup.controls['phone'].invalid">
+                  <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                  {{ 'ERROR_INVALID_PHONE_NUMBER' | translate }}
                 </span>
-                    <ngx-intl-tel-input
-                        [cssClass]="submitted && formGroup.controls['phone'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input' "
-                        [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
-                        [enablePlaceholder]="true" [searchCountryFlag]="true" [maxLength]="'15'"
-                        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-                        [selectFirstCountry]="false" [phoneValidation]="true"
-                        [separateDialCode]="separateDialCode"
-                        [numberFormat]="PhoneNumberFormat.International" [inputId]="'phone'" name="phone"
-                        formControlName="phone">
-                    </ngx-intl-tel-input>
-                </div>
+                <ngx-intl-tel-input
+                  [cssClass]="submitted && formGroup.controls['phone'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input' "
+                  [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
+                  [searchCountryFlag]="true" [maxLength]="'15'"
+                  [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+                  [phoneValidation]="true" [separateDialCode]="separateDialCode"
+                  [numberFormat]="PhoneNumberFormat.International" [inputId]="'phone'" name="phone"
+                  formControlName="phone">
+                </ngx-intl-tel-input>
+              </div>
             </div>
             <div class="govuk-checkboxes__item"
-                [class.govuk-form-group--error]="submitted && formGroup.controls['mobile'].invalid">
-                <input class="govuk-checkboxes__input" id="mobile-checkbox" name="mobile-checkbox"
-                    [checked]="toggleInput[2].isChecked" type="checkbox" (click)="checkBoxClick('Mobile')">
-                <label class="govuk-label govuk-checkboxes__label" for="mobile-checkbox">
-                    {{ 'MOBILE_NUMBER' | translate }}
-                </label>
-                <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[2].status">
-                    <span id="email-error" class="govuk-error-message"
-                    *ngIf="submitted && formGroup.controls['mobile'].invalid">
-                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                    {{ 'ERROR_INVALID_MOBILE_NUMBER' | translate }}
+              [class.govuk-form-group--error]="submitted && formGroup.controls['mobile'].invalid">
+              <input class="govuk-checkboxes__input" id="mobile-checkbox" name="mobile-checkbox"
+                [checked]="toggleInput[2].isChecked" type="checkbox" (click)="checkBoxClick('Mobile')">
+              <label class="govuk-label govuk-checkboxes__label" for="mobile-checkbox">
+                {{ 'MOBILE_NUMBER' | translate }}
+              </label>
+              <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[2].status">
+                <span id="email-error" class="govuk-error-message"
+                  *ngIf="submitted && formGroup.controls['mobile'].invalid">
+                  <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                  {{ 'ERROR_INVALID_MOBILE_NUMBER' | translate }}
                 </span>
-                    <ngx-intl-tel-input
-                        [cssClass]="submitted && formGroup.controls['mobile'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input'"
-                        [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
-                        [enablePlaceholder]="true" [searchCountryFlag]="true"
-                        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-                        [selectFirstCountry]="false" [phoneValidation]="true"
-                        [separateDialCode]="separateDialCode" [maxLength]="'15'"
-                        [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'" name="mobile"
-                        formControlName="mobile">
-                    </ngx-intl-tel-input>
-                </div>
+                <ngx-intl-tel-input
+                  [cssClass]="submitted && formGroup.controls['mobile'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input'"
+                  [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
+                  [searchCountryFlag]="true" [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                  [selectFirstCountry]="false" [phoneValidation]="true" [separateDialCode]="separateDialCode"
+                  [maxLength]="'15'" [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'" name="mobile"
+                  formControlName="mobile">
+                </ngx-intl-tel-input>
+              </div>
             </div>
             <div class="govuk-checkboxes__item"
-                [class.govuk-form-group--error]="submitted && formGroup.controls['fax'].invalid">
-                <input class="govuk-checkboxes__input" id="fax-checkbox" name="fax-checkbox" type="checkbox"
-                    (click)="checkBoxClick('Fax')" [checked]="toggleInput[3].isChecked">
-                <label class="govuk-label govuk-checkboxes__label" for="fax-checkbox">
-                    {{ 'FAX' | translate }}
-                </label>
-                <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[3].status">
-                    <span id="email-error" class="govuk-error-message"
-                    *ngIf="submitted && formGroup.controls['fax'].invalid">
-                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                    {{ 'ERROR_INVALID_FAX_NUMBER' | translate }}
+              [class.govuk-form-group--error]="submitted && formGroup.controls['fax'].invalid">
+              <input class="govuk-checkboxes__input" id="fax-checkbox" name="fax-checkbox" type="checkbox"
+                (click)="checkBoxClick('Fax')" [checked]="toggleInput[3].isChecked">
+              <label class="govuk-label govuk-checkboxes__label" for="fax-checkbox">
+                {{ 'FAX' | translate }}
+              </label>
+              <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[3].status">
+                <span id="email-error" class="govuk-error-message"
+                  *ngIf="submitted && formGroup.controls['fax'].invalid">
+                  <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                  {{ 'ERROR_INVALID_FAX_NUMBER' | translate }}
                 </span>
-                    <ngx-intl-tel-input
-                        [cssClass]="submitted && formGroup.controls['fax'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input'"
-                        [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
-                        [enablePlaceholder]="true" [searchCountryFlag]="true" [maxLength]="'15'"
-                        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-                        [selectFirstCountry]="false" [phoneValidation]="true"
-                        [separateDialCode]="separateDialCode"
-                        [numberFormat]="PhoneNumberFormat.International" [inputId]="'fax'" name="fax"
-                        formControlName="fax">
-                    </ngx-intl-tel-input>
-                </div>
+                <ngx-intl-tel-input
+                  [cssClass]="submitted && formGroup.controls['fax'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input'"
+                  [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
+                  [searchCountryFlag]="true" [maxLength]="'15'"
+                  [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+                  [phoneValidation]="true" [separateDialCode]="separateDialCode"
+                  [numberFormat]="PhoneNumberFormat.International" [inputId]="'fax'" name="fax" formControlName="fax">
+                </ngx-intl-tel-input>
+              </div>
             </div>
             <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input" id="web-checkbox" name="web-checkbox" type="checkbox"
-                    (click)="checkBoxClick('Web')" [checked]="toggleInput[4].isChecked">
-                <label class="govuk-label govuk-checkboxes__label" for="web-checkbox">
-                    {{ 'WEB_URL' | translate }}
-                </label>
-                <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[4].status">
-                    <span id="email-error" class="govuk-error-message"
-                    *ngIf="submitted && formGroup.controls['webUrl'].invalid">
-                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                    {{ 'ERROR_INVALID_WEB_ADD' | translate }}
-                  </span>
-                    <input formControlName="webUrl" class="govuk-input" id="web" name="web" type="text" [class.govuk-input--error]="submitted && contact_error">
-                </div>
+              <input class="govuk-checkboxes__input" id="web-checkbox" name="web-checkbox" type="checkbox"
+                (click)="checkBoxClick('Web')" [checked]="toggleInput[4].isChecked">
+              <label class="govuk-label govuk-checkboxes__label" for="web-checkbox">
+                {{ 'WEB_URL' | translate }}
+              </label>
+              <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[4].status">
+                <span id="email-error" class="govuk-error-message"
+                  *ngIf="submitted && formGroup.controls['webUrl'].invalid">
+                  <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                  {{ 'ERROR_INVALID_WEB_ADD' | translate }}
+                </span>
+                <input formControlName="webUrl" class="govuk-input" id="web" name="web" type="text"
+                  [class.govuk-input--error]="submitted && contact_error">
+              </div>
             </div>
-        </div>
+          </div>
           <div class="govuk-button-group save-cancel-button-group">
             <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
               {{ isEdit === false ? 'Create contact' : 'Edit contact'}}
             </button>
-            <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+            <button type="button" (click)="onCancelClick('cancel')" class="govuk-button govuk-button--secondary"
               data-module="govuk-button">
               {{ 'CANCEL_BTN' | translate }}
             </button>
           </div>
-          <a href="javascript:;" *ngIf="isEdit==true && !isAssignedContact" (click)="onDeleteClick()" class="navigation-text delete-link">{{
+          <a href="javascript:;" *ngIf="isEdit==true && !isAssignedContact" (click)="onDeleteClick()"
+            class="navigation-text delete-link">{{
             'DELETE_CONTACT'
             | translate }}</a>
-          <a href="javascript:;" *ngIf="isEdit==true && isAssignedContact" (click)="onUnassignClick()" class="navigation-text delete-link">{{
+          <a href="javascript:;" *ngIf="isEdit==true && isAssignedContact" (click)="onUnassignClick()"
+            class="navigation-text delete-link">{{
             'UNASSIGN_CONTACT'
             | translate }}</a>
         </div>

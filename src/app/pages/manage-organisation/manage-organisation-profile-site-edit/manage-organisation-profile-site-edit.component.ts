@@ -29,6 +29,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   isEdit: boolean = false;
   siteId: number = 0;
   public serverError: string = '';
+  public dublicateSiteName=''
   organisationId: string;
   contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER','MOBILE_NUMBER','FAX', 'WEB_URL'];
   contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber','mobileNumber','fax', 'webUrl'];
@@ -47,11 +48,11 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
     private orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
     private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService) {
-    super(viewportScroller, formBuilder.group({
-      name: ['', Validators.compose([Validators.required])],
-      streetAddress: ['', Validators.compose([Validators.required])],
-      locality: ['', null],
-      region: ['', null],
+    super(viewportScroller, formBuilder.group({                                        
+      name: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:“'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
+      streetAddress: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:“'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(1)])],
+      locality: ['', Validators.compose([Validators.pattern(/^[ A-Za-z0-9.,'/&-]*$/),Validators.maxLength(256)])],
+      region: [''],                                                            
       postalCode: ['', Validators.compose([Validators.required])],
       countryCode: ['', Validators.compose([Validators.required])],
     }));
@@ -81,6 +82,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
         {
           next: (siteInfo: OrganisationSiteResponse) => {
+            console.log("siteInfo",siteInfo)
             this.formGroup.setValue({
               name: siteInfo.siteName,
               streetAddress: siteInfo.address.streetAddress,
@@ -185,6 +187,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     this.submitted = true;
     if (this.formValid(form)) {
       this.serverError = '';
+      this.dublicateSiteName=form.get('name')?.value
       let orgSiteInfo: OrganisationSiteInfo = {
         siteName: form.get('name')?.value,
         address: {
@@ -208,6 +211,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
               // errorObject['error'] = true;
               // form.controls['countryCode'].setErrors(errorObject);
               this.serverError = error.error;
+              if(error.status==409){
+                this.serverError="INVALID_SITE_NAME"
+              }
               this.scrollHelper.scrollToFirst('error-summary');
               return;
             }
@@ -217,10 +223,16 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
         {
           this.orgSiteService.createOrganisationSite(this.organisationId, orgSiteInfo).subscribe(
             {
-              next: () => {
-                this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.CreateSite}`);
+              next: (siteId) => {
+                let data = {
+                  'isEdit': false,
+                  'siteId': siteId
+                };
+                this.router.navigateByUrl('manage-org/profile/site/add-contact-to-site?data=' + JSON.stringify(data));
+                // this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.CreateSite}`);
                 this.submitted = false;
               },
+              
               error: (error: any) => {
                 console.log(error);
                 // var errorObject: ValidationErrors = {};
@@ -228,6 +240,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
                 // form.controls['countryCode'].setErrors(errorObject);
                 this.serverError = error.error;
                 this.scrollHelper.scrollToFirst('error-summary');
+                if(error.status==409){
+                  this.serverError="INVALID_SITE_NAME"
+                }
                 return;
               }
             });
@@ -261,7 +276,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     let data = {
       'isEdit': false,
       'contactId': 0,
-      'siteId': this.siteId
+      'siteId': this.siteId,
+      'siteCreate':false,
+      'ContactAdd':true,
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
   }
@@ -280,5 +297,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       'siteId': this.siteId
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
+  }
+
+  public formValueChanged(){
+   this.serverError=''
   }
 }

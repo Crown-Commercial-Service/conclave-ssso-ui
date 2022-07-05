@@ -38,6 +38,8 @@ import {
 import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
+import { OrganisationSiteResponse } from 'src/app/models/site';
 
 @Component({
   selector: 'app-manage-organisation-contact-edit',
@@ -90,6 +92,9 @@ export class ManageOrganisationContactEditComponent
     { data: 'Web', status: false, isChecked: false, formControlName: 'webUrl' },
   ];
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
+  siteCreate: any;
+  siteInfo: any = {};
+  ContactAdd: any;
 
   constructor(
     private contactService: WrapperOrganisationContactService,
@@ -103,12 +108,21 @@ export class ManageOrganisationContactEditComponent
     protected scrollHelper: ScrollHelper,
     private contactHelper: ContactHelper,
     private externalContactService: WrapperContactService,
-    private siteContactService: WrapperSiteContactService
+    private siteContactService: WrapperSiteContactService,
+    private orgSiteService: WrapperOrganisationSiteService
   ) {
     super(
       viewportScroller,
       formBuilder.group({
-        name: ['', Validators.compose([Validators.required])],
+        name: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.pattern(/^[ A-Za-z0-9&().,'/&-]*$/),
+            Validators.maxLength(256),
+            Validators.minLength(3),
+          ]),
+        ],
         email: [
           '',
           Validators.compose([
@@ -140,6 +154,8 @@ export class ManageOrganisationContactEditComponent
       this.isEdit = routeData['isEdit'];
       this.contactId = routeData['contactId'];
       this.siteId = routeData['siteId'] || 0;
+      this.siteCreate = routeData['siteCreate'] || false;
+      this.ContactAdd = routeData['ContactAdd'] || false;
     }
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.formGroup.setValidators(this.validateForSufficientDetails());
@@ -149,6 +165,9 @@ export class ManageOrganisationContactEditComponent
   }
 
   ngOnInit() {
+    if (this.siteCreate) {
+      this.getSiteDetails();
+    }
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} ${
         this.siteId == 0 ? '- Organisation Contact' : '- Site Contact'
@@ -164,7 +183,6 @@ export class ManageOrganisationContactEditComponent
             } else {
               this.getSiteContact();
             }
-            
           } else {
             this.onFormValueChange();
           }
@@ -351,7 +369,7 @@ export class ManageOrganisationContactEditComponent
             this.createSiteContact(form);
           }
         }
-      }else{
+      } else {
         this.scrollHelper.scrollToFirst('error-summary-title');
       }
     } else {
@@ -430,6 +448,7 @@ export class ManageOrganisationContactEditComponent
         next: () => {
           let data = {
             siteId: this.siteId,
+            siteCreate: this.siteCreate,
           };
           this.router.navigateByUrl(
             `manage-org/profile/contact-operation-success/${OperationEnum.CreateSiteContact}?data=` +
@@ -472,10 +491,8 @@ export class ManageOrganisationContactEditComponent
     return form.valid;
   }
 
-  onCancelClick() {
-    if (this.siteId == 0) {
-      this.router.navigateByUrl('manage-org/profile');
-    } else {
+  onCancelClick(click: string) {
+    if (click === 'edit') {
       let data = {
         isEdit: true,
         siteId: this.siteId,
@@ -483,7 +500,20 @@ export class ManageOrganisationContactEditComponent
       this.router.navigateByUrl(
         'manage-org/profile/site/edit?data=' + JSON.stringify(data)
       );
+    } else {
+      window.history.back();
     }
+    // if (this.siteId == 0) {
+    //   this.router.navigateByUrl('manage-org/profile');
+    // } else {
+    //   let data = {
+    //     isEdit: true,
+    //     siteId: this.siteId,
+    //   };
+    //   this.router.navigateByUrl(
+    //     'manage-org/profile/site/edit?data=' + JSON.stringify(data)
+    //   );
+    // }
   }
 
   onDeleteClick() {
@@ -549,5 +579,17 @@ export class ManageOrganisationContactEditComponent
     }
     this.contact_error = true;
     return true;
+  }
+  private getSiteDetails(): void {
+    this.orgSiteService
+      .getOrganisationSite(this.organisationId, this.siteId)
+      .subscribe({
+        next: (siteInfo: OrganisationSiteResponse) => {
+          this.siteInfo = siteInfo;
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+      });
   }
 }

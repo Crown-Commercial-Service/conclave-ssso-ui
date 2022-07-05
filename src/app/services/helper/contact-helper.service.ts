@@ -24,20 +24,20 @@ export class ContactHelper {
         let fax = form.get('fax')?.value;
         let mobileNumber = form.get('mobile')?.value;
         let webUrl = form.get('webUrl')?.value;
-
-        if (email != '') {
+        console.log("contactList",form)
+        if (email != '' && email != null) {
             contactList.push({ contactType: VirtualContactType.EMAIL, contactValue: email });
         }
-        if (phoneNumber != '') {
+        if (phoneNumber != '' && phoneNumber != null) {
             contactList.push({ contactType: VirtualContactType.PHONE, contactValue: phoneNumber?.e164Number });
         }
-        if (fax != '') {
+        if (fax != '' && fax != null) {
             contactList.push({ contactType: VirtualContactType.FAX, contactValue: fax?.e164Number });
         }
-        if (mobileNumber != '') {
+        if (mobileNumber != '' && mobileNumber != null) {
             contactList.push({ contactType: VirtualContactType.MOBILE, contactValue: mobileNumber?.e164Number });
         }
-        if (webUrl != '') {
+        if (webUrl != '' && webUrl != null) {
             contactList.push({ contactType: VirtualContactType.URL, contactValue: webUrl });
         }
         return contactList;

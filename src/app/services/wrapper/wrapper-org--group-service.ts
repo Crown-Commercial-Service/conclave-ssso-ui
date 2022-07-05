@@ -78,12 +78,75 @@ export class WrapperOrganisationGroupService {
     const url = `${this.url}/${organisationId}/roles`;
     return this.http.get<Role[]>(url).pipe(
       map((data: Role[]) => {
+        data.forEach((f)=>{
+          switch (f.roleKey) {
+            case 'CAT_USER': {
+              if (f.roleName === 'CAS User') {
+                f.roleName = 'Contract Award Service (CAS)';
+                f.serviceName = 'click here to add service (Mandatory)';
+              }
+              break;
+            }
+            case 'ACCESS_CAAAC_CLIENT': {
+              if (f.roleName === 'Access Contract Award Service') {
+                f.roleName = 'Contract Award Service (CAS)';
+                f.serviceName = 'click here to add to dashboard (Mandatory)';
+              }
+              break;
+            }
+            case 'JAEGGER_SUPPLIER': {
+              if (f.roleName === 'Jaggaer Supplier') {
+                f.roleName = 'eSourcing Service as a supplier';
+                f.serviceName = null;
+              }
+              break;
+            }
+            case 'JAEGGER_BUYER': {
+              if (f.roleName === 'Jaggaer Buyer') {
+                f.roleName = 'eSourcing Service as a buyer';
+                f.serviceName = null;
+              }
+              break;
+            }
+            case 'JAGGAER_USER': {
+              if (f.roleName === 'Jaggaer User') {
+                f.roleName = 'eSourcing Service';
+                f.serviceName = 'click here to add service (Mandatory)';
+              }
+              break;
+            }
+            case 'ACCESS_JAGGAER': {
+              if (f.roleName === 'Access Jaggaer') {
+                f.roleName = 'eSourcing Service';
+                f.serviceName = 'click here to add to dashboard (Mandatory)';
+              }
+              break;
+            }
+            default: {
+              //statements;
+              break;
+            }
+          }
+        })
+        return data
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  getGroupOrganisationRoles(organisationId: string): Observable<any> {
+    const url = `${this.url}/${organisationId}/roles`;
+    return this.http.get<Role[]>(url).pipe(
+      map((data: Role[]) => {
         return data;
       }), catchError(error => {
         return throwError(error);
       })
     );
   }
+
+
 
   getOrganisationIdentityProviders(organisationId: string): Observable<any> {
     let tempData:IdentityProvider[]=[]

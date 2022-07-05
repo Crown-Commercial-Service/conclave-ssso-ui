@@ -79,7 +79,7 @@
             <form class="ui form profile mb-two" [formGroup]="formGroup" (submit)="onSubmit(formGroup)">
                 <div class="ui segment">
                     <div class="govuk-form-group" id="user-title-form-group">
-                        <label class="govuk-label" for="userTitle">{{ 'TITLE' | translate }}</label>
+                        <label class="govuk-label" for="userTitle">{{ 'TITLE' | translate }} (Optional)</label>
                         <select class="govuk-select" id="userTitle" name="userTitle" formControlName="userTitle">
                             <option hidden disabled selected value style="display:none" [ngValue]='null'></option>
                             <option *ngFor="let item of userTitleArray"  [ngValue]="item">{{item}}</option>
@@ -159,7 +159,7 @@
                             </span>
                             <div class="govuk-checkboxes__item label-detail-text-gap">
                                 <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"
-                                    type="checkbox">
+                                    [attr.disabled]="isAutoDisableMFA == true ? true : null" type="checkbox">
                                 <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
                                     Additional security using digital device
                                 </label>
@@ -170,7 +170,7 @@
                     <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">
-                                {{ 'GROUPS'| translate }}
+                                {{ 'GROUPS'| translate }} (Optional)
                             </legend>
                             <app-details [detailsData]="detailsData[1]"></app-details>
                             <div *ngIf="orgGroups.length == 0">
@@ -207,7 +207,7 @@
                                     <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
                                         [attr.disabled]="isEdit && orgRole.roleKey === 'ORG_DEFAULT_USER' ? true : null"
                                         [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
-                                        value="hmrc">
+                                        (ngModelChange)="onUserRoleChecked(orgRole, $event)" value="hmrc">
                                     <label *ngIf="orgRole.serviceName == null"
                                         class="govuk-label govuk-checkboxes__label"
                                         for="{{'orgRoleControl_' + orgRole.roleId}}">
@@ -271,7 +271,10 @@
                         data-module="govuk-button">
                         {{ 'RESET_USER_PASSWORD_BTN' | translate }}
                     </button>
-
+                    <br>
+                    <button *ngIf="isEdit"(click)="ResetAdditionalSecurity()" type="button"  class="govuk-button" data-module="govuk-button" [disabled]="!MFA_Enabled">
+                        Reset user’s additional security
+                    </button>
                     <div *ngIf="isEdit==true">
                         <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{
                             'DELETE_USER'

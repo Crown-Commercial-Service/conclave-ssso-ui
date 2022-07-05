@@ -34,7 +34,9 @@ export class ManageGroupEditNameComponent
   isEdit: boolean = false;
   editingGroupId: number = 0;
   groupName: string = '';
-  private specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  private specialChars = /^[ @().,;:“'/#&+-]*$/;
+
+             
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -51,7 +53,7 @@ export class ManageGroupEditNameComponent
     super(
       viewportScroller,
       formBuilder.group({
-        groupName: ['', Validators.compose([Validators.required])],
+        groupName: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:“'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
       })
     );
     let queryParams = this.activatedRoute.snapshot.queryParams;
@@ -84,6 +86,7 @@ export class ManageGroupEditNameComponent
         indexOfspecialChars = indexOfspecialChars + 1
       }
     }
+    debugger
     return indexOfGname === indexOfspecialChars ? true : false
     }
 
@@ -134,6 +137,10 @@ export class ManageGroupEditNameComponent
                   form.controls['groupName'].setErrors({ alreadyExists: true });
                   this.scrollHelper.scrollToFirst('error-summary');
                 }
+                if (error.status == 400) {
+                  this.formGroup.controls['groupName'].setErrors({ 'specialCharsincluded': true})
+                  this.scrollHelper.scrollToFirst('error-summary');
+                }
                 console.log(error);
                 console.log(error.error);
               }
@@ -162,6 +169,10 @@ export class ManageGroupEditNameComponent
               (error) => {
                 if (error.status == 409) {
                   form.controls['groupName'].setErrors({ alreadyExists: true });
+                  this.scrollHelper.scrollToFirst('error-summary');
+                }
+                if (error.status == 400) {
+                  this.formGroup.controls['groupName'].setErrors({ 'specialCharsincluded': true})
                   this.scrollHelper.scrollToFirst('error-summary');
                 }
                 console.log(error);

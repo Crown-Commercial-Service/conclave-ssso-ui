@@ -159,6 +159,9 @@ import { DetailsComponent } from './components/details/details.component';
 import { CookiesBannerComponent } from './components/cookies-banner/cookies-banner.component';
 import { CookiesSettingsComponent } from './components/cookies-settings/cookies-settings.component';
 import { ContactAdminComponent } from './pages/contact-admin/contact-admin.component';
+import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
+import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-reset/confirm-mfa-reset.component';
+import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -283,7 +286,10 @@ export function createTranslateLoader(http: HttpClient) {
     DetailsComponent,
     CookiesBannerComponent,
     CookiesSettingsComponent,
-    ContactAdminComponent
+    ContactAdminComponent,
+    ManageOrganisationProfileAddContactToSiteComponent,
+    ConfirmMfaResetComponent,
+    SuccessUserMfaComponent
   ],
   imports: [
     // BrowserModule,
