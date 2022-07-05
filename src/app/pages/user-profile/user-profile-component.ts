@@ -105,7 +105,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log("sanbox")
     sessionStorage.removeItem(SessionStorageKey.UserContactUsername);
     await this.auditLogService
       .createLog({
@@ -192,6 +191,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               }
             });
         } else {
+          console.log("else part")
           user.detail.rolePermissionInfo &&
             user.detail.rolePermissionInfo.map((roleInfo) => {
               var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
