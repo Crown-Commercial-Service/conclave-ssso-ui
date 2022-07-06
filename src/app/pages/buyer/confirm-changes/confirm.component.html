@@ -58,7 +58,8 @@
         <div class="govuk-checkboxes">
           <ng-container *ngFor="let role of changes?.toAdd">
             <div class="govuk-__item">
-              <label class="govuk-label">{{role.roleName}} - {{role.serviceName}}</label>
+              <label class="govuk-label" *ngIf="role.serviceName == null">{{role.roleName}}</label>
+              <label class="govuk-label" *ngIf="role.serviceName != null">{{role.roleName}} - {{role.serviceName}}</label>
             </div>
           </ng-container>
         </div>
@@ -66,7 +67,8 @@
         <div class="govuk-checkboxes">
           <ng-container *ngFor="let role of changes?.toDelete">
             <div class="govuk-__item">
-              <label class="govuk-label">{{role.roleName}} - {{role.serviceName}}</label>
+              <label class="govuk-label" *ngIf="role.serviceName == null">{{role.roleName}}</label>
+              <label class="govuk-label" *ngIf="role.serviceName != null">{{role.roleName}} - {{role.serviceName}}</label>
             </div>
           </ng-container>
         </div>
