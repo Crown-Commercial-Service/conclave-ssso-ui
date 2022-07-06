@@ -49,7 +49,9 @@
             <input type="checkbox" [value]="role.roleId" [checked]="role.enabled"
               (change)="onChange($event, role?.enabled, role)" class="govuk-checkboxes__input"
               id="orgRoleControl_{{role.roleId}}" />
-            <label class="govuk-label govuk-checkboxes__label"
+            <label class="govuk-label govuk-checkboxes__label"  *ngIf="role.serviceName == null"
+              for="orgRoleControl_{{role.roleId}}">{{role.roleName}}</label>
+              <label class="govuk-label govuk-checkboxes__label" *ngIf="role.serviceName != null"
               for="orgRoleControl_{{role.roleId}}">{{role.roleName}} - {{role.serviceName}}</label>
           </div>
         </ng-container>
@@ -63,7 +65,9 @@
             <input type="checkbox" [value]="role.roleId" [checked]="role.enabled"
               (change)="onChange($event, role?.enabled, role)" class="govuk-checkboxes__input"
               id="orgRoleControl_{{role.roleId}}" />
-            <label class="govuk-label govuk-checkboxes__label"
+              <label class="govuk-label govuk-checkboxes__label" *ngIf="role.serviceName == null"
+              for="orgRoleControl_{{role.roleId}}">{{role.roleName}}</label>
+            <label class="govuk-label govuk-checkboxes__label" *ngIf="role.serviceName != null"
               for="orgRoleControl_{{role.roleId}}">{{role.roleName}} - {{role.serviceName}}</label>
           </div>
         </ng-container>
