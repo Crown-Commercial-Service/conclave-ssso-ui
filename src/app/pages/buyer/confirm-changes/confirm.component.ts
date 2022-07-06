@@ -30,7 +30,7 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
   public org: any;
   public org$!: Observable<any>;
   public changes: any;
-  private DefaultChanges:any;
+  
   constructor(private cf: ChangeDetectorRef, private organisationService: OrganisationService, 
     private wrapperOrgService: WrapperOrganisationService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -42,129 +42,18 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
           next: data => {
             this.org = data;
             this.changes = JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
-            this.DefaultChanges=JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
-            console.log("DefaultChanges",this.DefaultChanges)
-            if(this.changes.toAdd.length != 0){
-             this.FilterAddRoles()
-           }else if(this.changes.toDelete.length != 0){
-            this.FilterDeleteRoles()
-           }
+            console.log("this.changes",this.changes)
           }
         });
       }
     });
   }
 
-  private FilterDeleteRoles():void{
-    this.changes.toDelete.map((f:any)=>{
-      switch (f.roleKey) {
-        case 'CAT_USER': {
-          if (f.roleName === 'CAS User') {
-            f.roleName = 'Contract Award Service (CAS)';
-            f.serviceName = null;
-          }
-          break;
-        }
-        case 'ACCESS_CAAAC_CLIENT': {
-          if (f.roleName === 'Access Contract Award Service') {
-            f.roleName = 'Contract Award Service (CAS)';
-            f.serviceName = null;
-          }
-          break;
-        }
-        case 'JAEGGER_SUPPLIER': {
-          if (f.roleName === 'Jaggaer Supplier') {
-            f.roleName = 'eSourcing Service as a supplier';
-            f.serviceName = null;
-          }
-          break;
-        }
-        case 'JAEGGER_BUYER': {
-          if (f.roleName === 'Jaggaer Buyer') {
-            f.roleName = 'eSourcing Service as a buyer';
-            f.serviceName = null;
-          }
-          break;
-        }
-        case 'JAGGAER_USER': {
-          if (f.roleName === 'Jaggaer User') {
-            f.roleName = 'eSourcing Service';
-            f.serviceName = null;
-          }
-          break;
-        }
-        case 'ACCESS_JAGGAER': {
-          if (f.roleName === 'Access Jaggaer') {
-            f.roleName = 'eSourcing Service';
-            f.serviceName = null;
-          }
-          break;
-        }
-        default: {
-          //statements;
-          break;
-        }
-      }
-    })
-  }
-
-  private FilterAddRoles():void{
-    this.changes.toAdd.forEach((f:any)=>{
-      switch (f.roleKey) {
-        case 'CAT_USER': {
-          if (f.roleName === 'CAS User') {
-            f.roleName = 'Contract Award Service (CAS)';
-            f.serviceName = null;
-          }
-          break;
-        }
-        case 'ACCESS_CAAAC_CLIENT': {
-          if (f.roleName === 'Access Contract Award Service') {
-            f.roleName = 'Contract Award Service (CAS)';
-            f.serviceName = null;
-          }
-          break;
-        }
-        case 'JAEGGER_SUPPLIER': {
-          if (f.roleName === 'Jaggaer Supplier') {
-            f.roleName = 'eSourcing Service as a supplier';
-            f.serviceName = null;
-          }
-          break;
-        }
-        case 'JAEGGER_BUYER': {
-          if (f.roleName === 'Jaggaer Buyer') {
-            f.roleName = 'eSourcing Service as a buyer';
-            f.serviceName = null;
-          }
-          break;
-        }
-        case 'JAGGAER_USER': {
-          if (f.roleName === 'Jaggaer User') {
-            f.roleName = 'eSourcing Service';
-            f.serviceName = null;
-          }
-          break;
-        }
-        case 'ACCESS_JAGGAER': {
-          if (f.roleName === 'Access Jaggaer') {
-            f.roleName = 'eSourcing Service';
-            f.serviceName = null;
-          }
-          break;
-        }
-        default: {
-          //statements;
-          break;
-        }
-      }
-    })
-  }
   public onSubmitClick() {
     const model = {
-      isBuyer: this.DefaultChanges.rightToBuy,
-      rolesToDelete: this.DefaultChanges.toDelete,
-      rolesToAdd: this.DefaultChanges.toAdd,
+      isBuyer: this.changes.rightToBuy,
+      rolesToDelete: this.changes.toDelete,
+      rolesToAdd: this.changes.toAdd,
     };
     this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model)).toPromise().then(() => {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
