@@ -178,6 +178,106 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
   }
 
   public onSubmitClick() {
+    this.rolesToDelete.forEach((f)=>{
+      switch (f.roleKey) {
+        case 'CAT_USER': {
+          if (f.roleName === 'Contract Award Service (CAS)') {
+            f.roleName = 'CAS User';
+            f.serviceName = 'Contract Award Service';
+          }
+          break;
+        }
+        case 'ACCESS_CAAAC_CLIENT': {
+          if (f.roleName === 'Contract Award Service (CAS)') {
+            f.roleName = 'Access Contract Award Service';
+            f.serviceName = 'Dashboard Service';
+          }
+          break;
+        }
+        case 'JAEGGER_SUPPLIER': {
+          if (f.roleName === 'eSourcing Service as a supplier') {
+            f.roleName = 'Jaggaer Supplier';
+            f.serviceName = 'Login Director';
+          }
+          break;
+        }
+        case 'JAEGGER_BUYER': {
+          if (f.roleName === 'eSourcing Service as a buyer') {
+            f.roleName = 'Jaggaer Buyer';
+            f.serviceName = 'Login Director';
+          }
+          break;
+        }
+        case 'JAGGAER_USER': {
+          if (f.roleName === 'eSourcing Service') {
+            f.roleName = 'Jaggaer User';
+            f.serviceName = 'eSourcing';
+          }
+          break;
+        }
+        case 'ACCESS_JAGGAER': {
+          if (f.roleName === 'eSourcing Service') {
+            f.roleName = 'Access Jaggaer';
+            f.serviceName = 'Dashboard Service';
+          }
+          break;
+        }
+        default: {
+          //statements;
+          break;
+        }
+      }
+    })
+    this.rolesToAdd.forEach((f)=>{
+      switch (f.roleKey) {
+        case 'CAT_USER': {
+          if (f.roleName === 'Contract Award Service (CAS)') {
+            f.roleName = 'CAS User';
+            f.serviceName = 'Contract Award Service';
+          }
+          break;
+        }
+        case 'ACCESS_CAAAC_CLIENT': {
+          if (f.roleName === 'Contract Award Service (CAS)') {
+            f.roleName = 'Access Contract Award Service';
+            f.serviceName = 'Dashboard Service';
+          }
+          break;
+        }
+        case 'JAEGGER_SUPPLIER': {
+          if (f.roleName === 'eSourcing Service as a supplier') {
+            f.roleName = 'Jaggaer Supplier';
+            f.serviceName = 'Login Director';
+          }
+          break;
+        }
+        case 'JAEGGER_BUYER': {
+          if (f.roleName === 'eSourcing Service as a buyer') {
+            f.roleName = 'Jaggaer Buyer';
+            f.serviceName = 'Login Director';
+          }
+          break;
+        }
+        case 'JAGGAER_USER': {
+          if (f.roleName === 'eSourcing Service') {
+            f.roleName = 'Jaggaer User';
+            f.serviceName = 'eSourcing';
+          }
+          break;
+        }
+        case 'ACCESS_JAGGAER': {
+          if (f.roleName === 'eSourcing Service') {
+            f.roleName = 'Access Jaggaer';
+            f.serviceName = 'Dashboard Service';
+          }
+          break;
+        }
+        default: {
+          //statements;
+          break;
+        }
+      }
+    })
     let selection = {
       org: this.organisation,
       toDelete: this.rolesToDelete,
