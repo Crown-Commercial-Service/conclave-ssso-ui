@@ -178,106 +178,6 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
   }
 
   public onSubmitClick() {
-    this.rolesToDelete.forEach((f)=>{
-      switch (f.roleKey) {
-        case 'CAT_USER': {
-          if (f.roleName === 'Contract Award Service (CAS)') {
-            f.roleName = 'CAS User';
-            f.serviceName = 'Contract Award Service';
-          }
-          break;
-        }
-        case 'ACCESS_CAAAC_CLIENT': {
-          if (f.roleName === 'Contract Award Service (CAS)') {
-            f.roleName = 'Access Contract Award Service';
-            f.serviceName = 'Dashboard Service';
-          }
-          break;
-        }
-        case 'JAEGGER_SUPPLIER': {
-          if (f.roleName === 'eSourcing Service as a supplier') {
-            f.roleName = 'Jaggaer Supplier';
-            f.serviceName = 'Login Director';
-          }
-          break;
-        }
-        case 'JAEGGER_BUYER': {
-          if (f.roleName === 'eSourcing Service as a buyer') {
-            f.roleName = 'Jaggaer Buyer';
-            f.serviceName = 'Login Director';
-          }
-          break;
-        }
-        case 'JAGGAER_USER': {
-          if (f.roleName === 'eSourcing Service') {
-            f.roleName = 'Jaggaer User';
-            f.serviceName = 'eSourcing';
-          }
-          break;
-        }
-        case 'ACCESS_JAGGAER': {
-          if (f.roleName === 'eSourcing Service') {
-            f.roleName = 'Access Jaggaer';
-            f.serviceName = 'Dashboard Service';
-          }
-          break;
-        }
-        default: {
-          //statements;
-          break;
-        }
-      }
-    })
-    this.rolesToAdd.forEach((f)=>{
-      switch (f.roleKey) {
-        case 'CAT_USER': {
-          if (f.roleName === 'Contract Award Service (CAS)') {
-            f.roleName = 'CAS User';
-            f.serviceName = 'Contract Award Service';
-          }
-          break;
-        }
-        case 'ACCESS_CAAAC_CLIENT': {
-          if (f.roleName === 'Contract Award Service (CAS)') {
-            f.roleName = 'Access Contract Award Service';
-            f.serviceName = 'Dashboard Service';
-          }
-          break;
-        }
-        case 'JAEGGER_SUPPLIER': {
-          if (f.roleName === 'eSourcing Service as a supplier') {
-            f.roleName = 'Jaggaer Supplier';
-            f.serviceName = 'Login Director';
-          }
-          break;
-        }
-        case 'JAEGGER_BUYER': {
-          if (f.roleName === 'eSourcing Service as a buyer') {
-            f.roleName = 'Jaggaer Buyer';
-            f.serviceName = 'Login Director';
-          }
-          break;
-        }
-        case 'JAGGAER_USER': {
-          if (f.roleName === 'eSourcing Service') {
-            f.roleName = 'Jaggaer User';
-            f.serviceName = 'eSourcing';
-          }
-          break;
-        }
-        case 'ACCESS_JAGGAER': {
-          if (f.roleName === 'eSourcing Service') {
-            f.roleName = 'Access Jaggaer';
-            f.serviceName = 'Dashboard Service';
-          }
-          break;
-        }
-        default: {
-          //statements;
-          break;
-        }
-      }
-    })
     let selection = {
       org: this.organisation,
       toDelete: this.rolesToDelete,
@@ -299,63 +199,13 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
     this.orgRoles$.subscribe({
       next: (orgRoles: Role[]) => {
         this.roles = orgRoles;
-        this.orgEligableRoles$ = this.organisationGroupService.getOrganisationRoles(this.organisation.ciiOrganisationId).pipe(share());
+        this.orgEligableRoles$ = this.organisationGroupService.getGroupOrganisationRoles(this.organisation.ciiOrganisationId).pipe(share());
         this.orgEligableRoles$.subscribe({
           next: (eRoles: Role[]) => {
             this.roles.forEach((r) => {
               r.enabled = eRoles.some(x => x.roleName == r.roleName && x.serviceName == r.serviceName);
             });
-            this.roles.map((f)=>{
-              switch (f.roleKey) {
-                case 'CAT_USER': {
-                  if (f.roleName === 'CAS User') {
-                    f.roleName = 'Contract Award Service (CAS)';
-                    f.serviceName = 'click here to add service (Mandatory)';
-                  }
-                  break;
-                }
-                case 'ACCESS_CAAAC_CLIENT': {
-                  if (f.roleName === 'Access Contract Award Service') {
-                    f.roleName = 'Contract Award Service (CAS)';
-                    f.serviceName = 'click here to add to dashboard (Mandatory)';
-                  }
-                  break;
-                }
-                case 'JAEGGER_SUPPLIER': {
-                  if (f.roleName === 'Jaggaer Supplier') {
-                    f.roleName = 'eSourcing Service as a supplier';
-                    f.serviceName = null;
-                  }
-                  break;
-                }
-                case 'JAEGGER_BUYER': {
-                  if (f.roleName === 'Jaggaer Buyer') {
-                    f.roleName = 'eSourcing Service as a buyer';
-                    f.serviceName = null;
-                  }
-                  break;
-                }
-                case 'JAGGAER_USER': {
-                  if (f.roleName === 'Jaggaer User') {
-                    f.roleName = 'eSourcing Service';
-                    f.serviceName = 'click here to add service (Mandatory)';
-                  }
-                  break;
-                }
-                case 'ACCESS_JAGGAER': {
-                  if (f.roleName === 'Access Jaggaer') {
-                    f.roleName = 'eSourcing Service';
-                    f.serviceName = 'click here to add to dashboard (Mandatory)';
-                  }
-                  break;
-                }
-                default: {
-                  //statements;
-                  break;
-                }
-              }
-            })
-            this.eRoles = eRoles
+            this.eRoles = eRoles;
             setTimeout(() => {
             }, 100);
           },
