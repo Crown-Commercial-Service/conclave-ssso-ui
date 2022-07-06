@@ -205,47 +205,47 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
             this.roles.forEach((r) => {
               r.enabled = eRoles.some(x => x.roleName == r.roleName && x.serviceName == r.serviceName);
             });
-            this.roles.map((orgRole)=>{
-              switch (orgRole.roleKey) {
+            this.roles.map((f)=>{
+              switch (f.roleKey) {
                 case 'CAT_USER': {
-                  if (orgRole.roleName === 'Contract Award Service (CAS)') {
-                    orgRole.roleName = 'Contract Award Service (CAS) - service';
-                    orgRole.serviceName = 'Contract Award Service (CAS)';
+                  if (f.roleName === 'CAS User') {
+                    f.roleName = 'Contract Award Service (CAS)';
+                    f.serviceName = 'click here to add service (Mandatory)';
                   }
                   break;
                 }
                 case 'ACCESS_CAAAC_CLIENT': {
-                  if (orgRole.roleName === 'Contract Award Service (CAS)') {
-                    orgRole.roleName = 'Contract Award Service (CAS) - dashboard';
-                    orgRole.serviceName = 'Contract Award Service (CAS)';
+                  if (f.roleName === 'Access Contract Award Service') {
+                    f.roleName = 'Contract Award Service (CAS)';
+                    f.serviceName = 'click here to add to dashboard (Mandatory)';
                   }
                   break;
                 }
                 case 'JAEGGER_SUPPLIER': {
-                  if (orgRole.roleName === 'eSourcing Service as a supplier') {
-                    orgRole.roleName = 'eSourcing Service as a supplier';
-                    orgRole.serviceName = 'eSourcing Service';
+                  if (f.roleName === 'Jaggaer Supplier') {
+                    f.roleName = 'eSourcing Service as a supplier';
+                    f.serviceName = null;
                   }
                   break;
                 }
                 case 'JAEGGER_BUYER': {
-                  if (orgRole.roleName === 'eSourcing Service as a buyer') {
-                    orgRole.roleName = 'eSourcing Service as a buyer';
-                    orgRole.serviceName = 'eSourcing Service ';
+                  if (f.roleName === 'Jaggaer Buyer') {
+                    f.roleName = 'eSourcing Service as a buyer';
+                    f.serviceName = null;
                   }
                   break;
                 }
                 case 'JAGGAER_USER': {
-                  if (orgRole.roleName === 'eSourcing Service') {
-                    orgRole.roleName = 'eSourcing Service - service';
-                    orgRole.serviceName = 'eSourcing Service';
+                  if (f.roleName === 'Jaggaer User') {
+                    f.roleName = 'eSourcing Service';
+                    f.serviceName = 'click here to add service (Mandatory)';
                   }
                   break;
                 }
                 case 'ACCESS_JAGGAER': {
-                  if (orgRole.roleName === 'eSourcing Service') {
-                    orgRole.roleName = 'eSourcing Service - dashboard';
-                    orgRole.serviceName = 'eSourcing Service';
+                  if (f.roleName === 'Access Jaggaer') {
+                    f.roleName = 'eSourcing Service';
+                    f.serviceName = 'click here to add to dashboard (Mandatory)';
                   }
                   break;
                 }
