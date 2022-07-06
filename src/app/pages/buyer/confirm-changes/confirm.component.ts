@@ -42,13 +42,122 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
           next: data => {
             this.org = data;
             this.changes = JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
-            console.log("this.changes",this.changes)
+            if(this.changes.toAdd.length != 0){
+             this.FilterAddRoles()
+           }else if(this.changes.toDelete.length != 0){
+            this.FilterDeleteRoles()
+           }
           }
         });
       }
     });
   }
 
+  private FilterDeleteRoles():void{
+    this.changes.toDelete.map((orgRole:any)=>{
+      switch (orgRole.roleKey) {
+        case 'CAT_USER': {
+          if (orgRole.roleName === 'Contract Award Service (CAS)') {
+            orgRole.roleName = 'Contract Award Service (CAS) - service';
+            orgRole.serviceName = 'Contract Award Service (CAS)';
+          }
+          break;
+        }
+        case 'ACCESS_CAAAC_CLIENT': {
+          if (orgRole.roleName === 'Contract Award Service (CAS)') {
+            orgRole.roleName = 'Contract Award Service (CAS) - dashboard';
+            orgRole.serviceName = 'Contract Award Service (CAS)';
+          }
+          break;
+        }
+        case 'JAEGGER_SUPPLIER': {
+          if (orgRole.roleName === 'eSourcing Service as a supplier') {
+            orgRole.roleName = 'eSourcing Service as a supplier';
+            orgRole.serviceName = 'eSourcing Service';
+          }
+          break;
+        }
+        case 'JAEGGER_BUYER': {
+          if (orgRole.roleName === 'eSourcing Service as a buyer') {
+            orgRole.roleName = 'eSourcing Service as a buyer';
+            orgRole.serviceName = 'eSourcing Service ';
+          }
+          break;
+        }
+        case 'JAGGAER_USER': {
+          if (orgRole.roleName === 'eSourcing Service') {
+            orgRole.roleName = 'eSourcing Service - service';
+            orgRole.serviceName = 'eSourcing Service';
+          }
+          break;
+        }
+        case 'ACCESS_JAGGAER': {
+          if (orgRole.roleName === 'eSourcing Service') {
+            orgRole.roleName = 'eSourcing Service - dashboard';
+            orgRole.serviceName = 'eSourcing Service';
+          }
+          break;
+        }
+        default: {
+          //statements;
+          break;
+        }
+      }
+    })
+  }
+
+  private FilterAddRoles():void{
+    this.changes.toAdd.forEach((orgRole:any)=>{
+      switch (orgRole.roleKey) {
+        case 'CAT_USER': {
+          if (orgRole.roleName === 'Contract Award Service (CAS)') {
+            orgRole.roleName = 'Contract Award Service (CAS) - service';
+            orgRole.serviceName = 'Contract Award Service (CAS)';
+          }
+          break;
+        }
+        case 'ACCESS_CAAAC_CLIENT': {
+          if (orgRole.roleName === 'Contract Award Service (CAS)') {
+            orgRole.roleName = 'Contract Award Service (CAS) - dashboard';
+            orgRole.serviceName = 'Contract Award Service (CAS)';
+          }
+          break;
+        }
+        case 'JAEGGER_SUPPLIER': {
+          if (orgRole.roleName === 'eSourcing Service as a supplier') {
+            orgRole.roleName = 'eSourcing Service as a supplier';
+            orgRole.serviceName = 'eSourcing Service';
+          }
+          break;
+        }
+        case 'JAEGGER_BUYER': {
+          if (orgRole.roleName === 'eSourcing Service as a buyer') {
+            orgRole.roleName = 'eSourcing Service as a buyer';
+            orgRole.serviceName = 'eSourcing Service ';
+          }
+          break;
+        }
+        case 'JAGGAER_USER': {
+          if (orgRole.roleName === 'eSourcing Service') {
+            orgRole.roleName = 'eSourcing Service - service';
+            orgRole.serviceName = 'eSourcing Service';
+          }
+          break;
+        }
+        case 'ACCESS_JAGGAER': {
+          if (orgRole.roleName === 'eSourcing Service') {
+            orgRole.roleName = 'eSourcing Service - dashboard';
+            orgRole.serviceName = 'eSourcing Service';
+          }
+          break;
+        }
+        default: {
+          //statements;
+          break;
+        }
+      }
+    })
+  }
   public onSubmitClick() {
     const model = {
       isBuyer: this.changes.rightToBuy,
