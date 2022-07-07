@@ -153,12 +153,7 @@ export class WrapperOrganisationGroupService {
     const url = `${this.url}/${organisationId}/identity-providers`;
     return this.http.get<IdentityProvider[]>(url).pipe(
       map((data: IdentityProvider[]) => {
-        data.map((f: IdentityProvider) => {
-          if (f.name === 'User ID and password') {
-              tempData.push(f)
-          }
-      })
-         return tempData;
+         return data;
       }), catchError(error => {
         return throwError(error); 
       })
