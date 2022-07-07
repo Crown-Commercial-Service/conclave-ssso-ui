@@ -1,13 +1,13 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div class="content flex">
-            <a href="javascript:;" (click)="goBack()" class="govuk-back-link">Back</a>
+            <a href="javascript:;" (click)="goBack()" class="govuk-back-link">{{ 'REGISTRATION.BACK' | translate }}</a>
             <div>
                 <h1 class="govuk-heading-xl page-title">
-                    Duplicate organisations registered</h1>
-                <p class="govuk-body-l">More than one organisation with that name is registered. Please provide us with
-                    one of
-                    the identifying options below to proceed.</p>
+                    {{ 'REGISTRATION.REG_DUBLICATE_HEADER' | translate }}</h1>
+                <p class="govuk-body-l">
+                    {{ 'REGISTRATION.REG_DUBLICATE_PARA' | translate }}
+                    </p>
                 <app-cii-options (onOrgSeleceted)="onOrgSelected($event)"></app-cii-options>
             </div>
         </div>

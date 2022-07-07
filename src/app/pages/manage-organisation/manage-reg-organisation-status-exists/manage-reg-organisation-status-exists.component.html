@@ -1,17 +1,15 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div class="content flex">
-            <a href="javascript:;" (click)="goBack()" class="govuk-back-link">Back</a>
+            <a href="javascript:;" (click)="goBack()" class="govuk-back-link">{{ 'REGISTRATION.BACK' | translate }}</a>
             <div>
                 <h1 class="govuk-heading-xl page-title">
-                    Your organisation is already registered</h1>
+                    {{ 'REGISTRATION.REG_ALRADY_EXIST_HEADER' | translate }}</h1>
                 <app-reg-org-details ciiOrgId={{this.orgreginfo.ciiOrgId}}></app-reg-org-details>
-                <p class="govuk-body-l">There is already an administrator for your organisation. Press ‘Continue’ to
-                    confirm
-                    that the information above is correct and request access from the administrator.</p>
+                <p class="govuk-body-l">{{ 'REGISTRATION.REG_ALRADY_EXIST_PARA' | translate }}</p>
                 <div class="govuk-button-group continue-cancel-button-group">
                     <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
-                        (click)="onContinueSingleOrgRegistered()">Continue</button>
+                        (click)="onContinueSingleOrgRegistered()">{{ 'REGISTRATION.CONTINUE_BTN' | translate }}</button>
                     <button type="button" (click)="goBack()" class="govuk-button govuk-button--secondary"
                         data-module="govuk-button">
                         {{ 'THIS_IS_NOT_MY_ORGANISATION_BTN' | translate }}

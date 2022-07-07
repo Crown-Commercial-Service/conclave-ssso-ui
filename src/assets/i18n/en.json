@@ -452,6 +452,15 @@
   "REG_CONTACT_CCS":"Contact CCS",
   "REG_EXIST_ERROR":"User already exists on Public Procurement Gateway with this email address. Please try with another email address",
   "REG_SUCCESS":"You have succesfully created an account.",
-  "REG_ERROR_NOT_FOUND":"We could not find any matching records for your search. Please check the details and  try again"
+  "REG_ERROR_NOT_FOUND":"We could not find any matching records for your search. Please check the details and  try again",
+  "REG_ALRADY_EXIST_HEADER":"Your organisation is already registered",
+  "REG_ALRADY_EXIST_PARA":"There is already an administrator for your organisation. Press ‘Continue’ to confirm that the information above is correct and request access from the administrator.",
+  "REG_DUBLICATE_HEADER":"Duplicate organisations registered",
+  "REG_DUBLICATE_PARA":"More than one organisation with that name is registered. Please provide us with one of the identifying options below to proceed.",
+  "REG_ADMIN_NOTIFY_HEADER":"to notify them of your request for access",
+  "REG_ADMIN_NOTIFY_PARA":"Once access has been granted you will be able to continue creating your account",
+  "REG_ADD_IDEN_HEADER":"We found matching records for your organisation from the additional registries below",
+  "REG_ADD_IDEN_PARA":"Please unselect any that you do not want to include in your registration",
+  "REG_REG_FAIL_PARA":"Organisation with this registry ID is already registered in Public Procurement Gateway"
 }
 }

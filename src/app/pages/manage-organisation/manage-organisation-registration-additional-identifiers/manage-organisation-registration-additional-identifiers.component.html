@@ -1,11 +1,10 @@
 <div class="content flex">
-  <h1 class="govuk-heading-xl">We found matching records for your organisation from the additional registries
-    below</h1>
+  <h1 class="govuk-heading-xl">{{ "REGISTRATION.REG_ADD_IDEN_HEADER" | translate }}</h1>
   <div>
     <div>
       <fieldset *ngIf="organisation?.additionalIdentifiers.length > 0" class="govuk-fieldset">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-          Please unselect any that you do not want to include in your registration
+          {{ "REGISTRATION.REG_ADD_IDEN_PARA" | translate }}
         </legend>
         <div *ngFor="let ai of organisation?.additionalIdentifiers; let index = index" class="govuk-checkboxes"
           data-module="govuk-checkboxes">
@@ -24,7 +23,7 @@
       <div class="govuk-form-group govuk-button-group button-group">
         <button type="button" class="govuk-button" data-module="govuk-button" (click)="onSubmit()">Continue</button>
         <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-          (click)="goBack()">Back</button>
+          (click)="goBack()">{{ "REGISTRATION.CONTINUE_BTN" | translate }}</button>
       </div>
     </div>
   </div>
