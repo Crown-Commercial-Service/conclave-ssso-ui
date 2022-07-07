@@ -105,7 +105,15 @@ export class UserContactEditComponent
     super(
       viewportScroller,
       formBuilder.group({
-        name: ['', Validators.compose([Validators.required])],
+        name: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.pattern(/^[ A-Za-z0-9&().,'/&-]*$/),
+            Validators.maxLength(256),
+            Validators.minLength(3),
+          ]),
+        ],
         email: [
           '',
           Validators.compose([
@@ -117,7 +125,14 @@ export class UserContactEditComponent
         phone: ['', Validators.compose([])],
         mobile: ['', Validators.compose([])],
         fax: ['', Validators.compose([])],
-        webUrl: ['', Validators.compose([Validators.pattern(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/)])],
+        webUrl: [
+          '',
+          Validators.compose([
+            Validators.pattern(
+              /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+            ),
+          ]),
+        ],
         contactReason: ['', Validators.compose([])],
       })
     );
@@ -307,7 +322,7 @@ export class UserContactEditComponent
               },
             });
         }
-      }else{
+      } else {
         this.scrollHelper.scrollToFirst('error-summary-title');
       }
     } else {

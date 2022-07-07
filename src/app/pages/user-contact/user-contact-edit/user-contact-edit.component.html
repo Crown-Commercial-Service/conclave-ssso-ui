@@ -30,6 +30,15 @@
                     <li *ngIf="submitted && formGroup.controls.name.errors?.required">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">Enter a contact name</a>
                     </li>
+                    <li *ngIf="submitted && formGroup.controls.name.errors?.pattern">
+                        <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">{{
+                            'ERROR_INVALID_CONTACT' | translate }}</a>
+                    </li>
+                    <li
+                        *ngIf="submitted && (formGroup.controls.name.errors?.minlength || formGroup.controls.name.errors?.maxlength)">
+                        <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">{{
+                            'ERROR_INVALID_CONTACT_LENGTH' | translate }}</a>
+                    </li>
                     <li *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid"
                         href="javascript:;">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
@@ -54,7 +63,8 @@
                             'ERROR_INVALID_WEB_ADD' | translate }} </a>
                     </li>
                     <li *ngIf="submitted && validator">
-                        <a href="javascript:;" onClick="return false;" (click)="setFocusForIntlTelComponent('email-checkbox')"> Enter at least one contact
+                        <a href="javascript:;" onClick="return false;"
+                            (click)="setFocusForIntlTelComponent('email-checkbox')"> Enter at least one contact
                             detail from either email address, telephone number, mobile number, fax number or web
                             address</a>
                     </li>
@@ -78,15 +88,25 @@
                         </select>
                     </div>
                     <div class="govuk-form-group" id="name-form-group"
-                        [class.govuk-form-group--error]="submitted && formGroup.controls.name.errors?.required">
+                        [class.govuk-form-group--error]="submitted && (formGroup.controls.name.errors?.required || formGroup.controls.name.errors?.pattern || formGroup.controls.name.errors?.minlength || formGroup.controls.name.errors?.maxlength)">
                         <label class="govuk-label" for="name"> {{ 'CONTACT_NAME' | translate }} </label>
                         <span id="name-error" class="govuk-error-message"
-                           *ngIf="submitted && formGroup.controls.name.errors?.required">
-                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> 
-                              Enter a contact name
+                            *ngIf="submitted && formGroup.controls.name.errors?.required">
+                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                            Enter a contact name
+                        </span>
+                        <span id="name-error" class="govuk-error-message"
+                            *ngIf="submitted && formGroup.controls.name.errors?.pattern">
+                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>{{
+                            'ERROR_INVALID_CONTACT' | translate }}
+                        </span>
+                        <span id="name-error" class="govuk-error-message"
+                            *ngIf="submitted && (formGroup.controls.name.errors?.minlength || formGroup.controls.name.errors?.maxlength)">
+                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>{{
+                            'ERROR_INVALID_CONTACT_LENGTH' | translate }}
                         </span>
                         <input #input formControlName="name" class="govuk-input" id="name" name="name" type="text"
-                            [class.govuk-input--error]="submitted && formGroup.controls.name.errors?.required">
+                            [class.govuk-input--error]="submitted && (formGroup.controls.name.errors?.required || formGroup.controls.name.errors?.pattern || formGroup.controls.name.errors?.minlength || formGroup.controls.name.errors?.maxlength)">
                     </div>
                     <div [class.govuk-form-group--error]="submitted && validator">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m ng-tns-c265-1"> Enter at least
@@ -96,25 +116,25 @@
                                 class="govuk-visually-hidden ng-tns-c265-1">Error:</span> Enter at least one contact
                             detail from either email address, telephone number, mobile number, fax number or web
                             address</span>
-                        <div class="govuk-checkboxes__item" [class.govuk-form-group--error]="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
-                            <input class="govuk-checkboxes__input" id="email-checkbox" name="email-checkbox" 
+                        <div class="govuk-checkboxes__item"
+                            [class.govuk-form-group--error]="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                            <input class="govuk-checkboxes__input" id="email-checkbox" name="email-checkbox"
                                 [checked]="toggleInput[0].isChecked" type="checkbox" (click)="checkBoxClick('email')">
                             <label class="govuk-label govuk-checkboxes__label" for="email-checkbox">
                                 {{ 'EMAIL' | translate }}
                             </label>
                             <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[0].status">
                                 <span id="email-error" class="govuk-error-message"
-                                *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
-                                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-                                'ERROR_INVALID_EMAIL'
-                                | translate }}
-                            </span>
+                                    *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                                    'ERROR_INVALID_EMAIL'
+                                    | translate }}
+                                </span>
                                 <input #input formControlName="email" class="govuk-input" id="email" name="email"
                                     type="email"
                                     [class.govuk-input--error]="submitted && formGroup.controls.email.hasError('email') || submitted && contact_error"
                                     size="20" value="" autocomplete="email" spellcheck="false"
-                                    (input)="validateEmailLength($event)"
-                   >
+                                    (input)="validateEmailLength($event)">
                             </div>
                         </div>
                         <div class="govuk-checkboxes__item"
@@ -124,13 +144,13 @@
                             <label class="govuk-label govuk-checkboxes__label" for="tel-checkbox">
                                 {{ 'TELEPHONE_NUMBER' | translate }}
                             </label>
-                          
+
                             <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[1].status">
                                 <span id="email-error" class="govuk-error-message"
-                                *ngIf="submitted && formGroup.controls['phone'].invalid">
-                                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                                {{ 'ERROR_INVALID_PHONE_NUMBER' | translate }}
-                            </span>
+                                    *ngIf="submitted && formGroup.controls['phone'].invalid">
+                                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                                    {{ 'ERROR_INVALID_PHONE_NUMBER' | translate }}
+                                </span>
                                 <ngx-intl-tel-input
                                     [cssClass]="submitted && formGroup.controls['phone'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input' "
                                     [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
@@ -152,10 +172,10 @@
                             </label>
                             <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[2].status">
                                 <span id="email-error" class="govuk-error-message"
-                                *ngIf="submitted && formGroup.controls['mobile'].invalid">
-                                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                                {{ 'ERROR_INVALID_MOBILE_NUMBER' | translate }}
-                            </span>
+                                    *ngIf="submitted && formGroup.controls['mobile'].invalid">
+                                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                                    {{ 'ERROR_INVALID_MOBILE_NUMBER' | translate }}
+                                </span>
                                 <ngx-intl-tel-input
                                     [cssClass]="submitted && formGroup.controls['mobile'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input'"
                                     [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
@@ -177,10 +197,10 @@
                             </label>
                             <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[3].status">
                                 <span id="email-error" class="govuk-error-message"
-                                *ngIf="submitted && formGroup.controls['fax'].invalid">
-                                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                                {{ 'ERROR_INVALID_FAX_NUMBER' | translate }}
-                            </span>
+                                    *ngIf="submitted && formGroup.controls['fax'].invalid">
+                                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                                    {{ 'ERROR_INVALID_FAX_NUMBER' | translate }}
+                                </span>
                                 <ngx-intl-tel-input
                                     [cssClass]="submitted && formGroup.controls['fax'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input'"
                                     [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
@@ -201,11 +221,12 @@
                             </label>
                             <div class="box-input govuk-!-padding-top-4" *ngIf="toggleInput[4].status">
                                 <span id="email-error" class="govuk-error-message"
-                                *ngIf="submitted && formGroup.controls['webUrl'].invalid">
-                                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                                {{ 'ERROR_INVALID_WEB_ADD' | translate }}
-                              </span>
-                                <input formControlName="webUrl" class="govuk-input" id="web" name="web" type="text" [class.govuk-input--error]="submitted && contact_error">
+                                    *ngIf="submitted && formGroup.controls['webUrl'].invalid">
+                                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                                    {{ 'ERROR_INVALID_WEB_ADD' | translate }}
+                                </span>
+                                <input formControlName="webUrl" class="govuk-input" id="web" name="web" type="text"
+                                    [class.govuk-input--error]="submitted && contact_error">
                             </div>
                         </div>
                     </div>

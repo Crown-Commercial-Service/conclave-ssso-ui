@@ -22,7 +22,8 @@ export class LoadingIndicatorInterceptor implements HttpInterceptor {
       `${environment.uri.api.security}/security/authorize`,
       `${environment.uri.api.security}/security/token`,
       `${environment.uri.api.postgres}/auth/refresh-tokens`,
-      `${environment.uri.api.postgres}/auth/sessions`
+      `${environment.uri.api.postgres}/auth/sessions`,
+      `${environment.uri.api.postgres}/organisations/orgs-by-name`
     ];
   }
 
@@ -35,7 +36,7 @@ export class LoadingIndicatorInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.urlExceptions.includes(req.url)) {
+    if (this.urlExceptions.includes(req.url) || this.urlExceptions.includes(req.url.split('?')[0])) {
       this.loadingIndicatorService.isLoading.next(false);
     }else{
       this.requests.push(req);

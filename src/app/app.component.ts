@@ -25,11 +25,13 @@ export class AppComponent implements OnInit {
 
   @HostBinding('class') className = '';
   public sideNavVisible$: Observable<boolean>;
+  public IsActivePage:string=''
   isAuthenticated: boolean = false;
   toggleControl = new FormControl(false);
   opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/sessions/?origin=' + environment.uri.web.dashboard);
   rpIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.web.dashboard + '/assets/rpIFrame.html');
   ccsContactUrl: string = environment.uri.ccsContactUrl;
+  public searchForm:any={agreements:'',suppliers:''}
   constructor(private sanitizer: DomSanitizer, private globalRouteService: GlobalRouteService, private overlay: OverlayContainer, private translate: TranslateService, protected uiStore: Store<UIState>, private router: Router,
     private route: ActivatedRoute, public authService: AuthService, private gtmService: GoogleTagManagerService,
     public loadingIndicatorService: LoadingIndicatorService, private titleService: Title) {
@@ -52,6 +54,7 @@ export class AppComponent implements OnInit {
     })
     ).subscribe((data: any) => {
       if (data) {
+        this.IsActivePage=data
         let gtmTag = {
           event: 'page',
           pageName: data
@@ -120,6 +123,19 @@ export class AppComponent implements OnInit {
   public signoutAndRedirect() {
     this.authService.logOutAndRedirect();
   }
+
+  /**
+   * header search event
+   * @param inputData getting from input
+   */
+  public headerSearch(inputData:string):void{
+    if(inputData==="agreements"){
+     window.open('https://www.crowncommercial.gov.uk/agreements/search?q='+this.searchForm.agreements, "_blank");
+    }else if(inputData==="suppliers"){
+      window.open('https://www.crowncommercial.gov.uk/suppliers/search?q='+this.searchForm.suppliers, "_blank");
+    }
+  }
+
 
   // public isAuthenticated(): Observable<boolean> {
   //   return this.authService.isAuthenticated();

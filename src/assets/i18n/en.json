@@ -305,5 +305,16 @@
   "CONTACT_YOUR_ADMIN":"Contact your admin",
   "CONTACT_AN_ADMIN":"Contact an Admin",
   "ENTER_NAME_WITHOUT_NUM_SPECIAL":"Enter your name without special characters or numbers.",
-  "RETURN_MANAGE_YOUR_USER_ACCOUNTS":"Return to Manage user accounts"
+  "RETURN_MANAGE_YOUR_USER_ACCOUNTS":"Return to Manage user accounts",
+  "ERROR_INVALID_STREET":"Enter street address without any special characters",
+  "ERROR_INVALID_STREET_LENGTH":"Street address length must be between 1 and 256 characters",
+  "ERROR_INVALID_LOCALITY":"Enter Locality without any special characters",
+  "ERROR_INVALID_LOCALITY_LENGTH":"Locality length must be below 256 characters",
+  "ERROR_INVALID_SITE":"Enter a Site name without any special characters",
+  "ERROR_INVALID_SITE_LENGTH":"Site name length must be between 3 and 256 characters",
+  "ERROR_INVALID_CONTACT":"Enter Contact name without any special characters",
+  "ERROR_INVALID_CONTACT_LENGTH":"Contact name length must be between 3 and 256 characters",
+  "ERROR_INVALID_GROUP":"Enter a group name without any special characters",
+  "ERROR_INVALID_GROUP_LENGTH":"Group name length must be between 3 and 256 characters",
+  "ERROR_INVALID_ALL_SPECIAL":"Enter your group name without all special characters"
 }
