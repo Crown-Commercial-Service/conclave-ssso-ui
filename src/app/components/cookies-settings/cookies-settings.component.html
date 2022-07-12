@@ -1,12 +1,12 @@
 <div class="govuk-notification-banner govuk-notification-banner--success" *ngIf="cookiesUpdated">
     <div class="govuk-notification-banner__header">
       <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-        Success
+         {{ "COMMON_COMPONENT.COOKIE_SETTING_HEADER_1" | translate }}
       </h2>
     </div>
     <div class="govuk-notification-banner__content">
       <p class="govuk-notification-banner__heading">
-        You’ve set your cookie preferences. <a class="govuk-notification-banner__link" (click)="onback()">Go back to the page you were looking at</a>.
+        {{ "COMMON_COMPONENT.COOKIE_SETTING_PARA_1" | translate }} <a class="govuk-notification-banner__link" (click)="onback()">{{ "COMMON_COMPONENT.COOKIE_SETTING_PARA_2" | translate }}</a>.
       </p>
     </div>
   </div>
@@ -17,140 +17,137 @@
                 <div class="cookie-settings__confirmation banner banner-with-tick" data-cookie-confirmation="true"
                     role="group" tabindex="-1">
                 </div>
-                <h1 class="heading-large">Cookies</h1>
+                <h1 class="heading-large">{{ "COMMON_COMPONENT.COOKIE_SETTING_HEADER_2" | translate }}</h1>
                 <p class="govuk-body">
-                    Cookies are small files saved on your phone, tablet or computer when you visit a website.
+                    {{ "COMMON_COMPONENT.COOKIE_SETTING_PARA_3" | translate }}
                 </p>
-                <p class="govuk-body">We use cookies to make the Public Procurement Gateway work and collect information about how you use our service.</p>
+                <p class="govuk-body">{{ "COMMON_COMPONENT.COOKIE_SETTING_PARA_4" | translate }}</p>
 
-                <h2 class="heading-medium" id="essential-cookies">Essential cookies</h2>
+                <h2 class="heading-medium" id="essential-cookies">{{ "COMMON_COMPONENT.COOKIE_SETTING_HEADER_3" | translate }}</h2>
                 <p class="govuk-body">
-                    Essential cookies keep your information secure while you use the Public Procurement Gateway. We do not need to ask permission to use them.
+                    {{ "COMMON_COMPONENT.COOKIE_SETTING_PARA_5" | translate }}
                 </p>
                 <div>
                     <table class="govuk-table">
                         <thead class="govuk-table__head">
                             <tr class="govuk-table__row">
-                                <th scope="col" class="govuk-table__header">Name</th>
-                                <th scope="col" class="govuk-table__header">Purpose</th>
-                                <th scope="col" class="govuk-table__header">Expires</th>
+                                <th scope="col" class="govuk-table__header">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_HEADER_1" | translate }}</th>
+                                <th scope="col" class="govuk-table__header">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_HEADER_2" | translate }}</th>
+                                <th scope="col" class="govuk-table__header">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_HEADER_3" | translate }}</th>
                             </tr>
                         </thead>
                         <tbody class="govuk-table__body">
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">ppg_cookies_policy</td>
-                                <td class="govuk-table__cell">Saves your cookie consent settings.</td>
-                                <td class="govuk-table__cell">{{cookie_policy}} yr</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_1" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_2" | translate }}</td>
+                                <td class="govuk-table__cell">{{cookie_policy}} {{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_36" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">ccs-sso-visitedsites</td>
-                                <td class="govuk-table__cell">To handle backchannel logout (Function the Single Sign on
-                                    System).</td>
-                                <td class="govuk-table__cell">{{ccs_sso_visitedsites}} min</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_3" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_4" | translate }}</td>
+                                <td class="govuk-table__cell">{{ccs_sso_visitedsites}} {{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_37" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">opbs</td>
-                                <td class="govuk-table__cell">Opbs cookie (Function the Single Sign on System).</td>
-                                <td class="govuk-table__cell">{{opbs}} min</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_5" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_6" | translate }}</td>
+                                <td class="govuk-table__cell">{{opbs}} {{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_37" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">ccs_sso</td>
-                                <td class="govuk-table__cell">Session information (Function the Single Sign on System).
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_7" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_8" | translate }}
                                 </td>
-                                <td class="govuk-table__cell">{{ccs_sso}} min</td>
+                                <td class="govuk-table__cell">{{ccs_sso}} {{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_37" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">conclave</td>
-                                <td class="govuk-table__cell">Store the refresh token (Function the Single Sign on
-                                    System).</td>
-                                <td class="govuk-table__cell">Until Session exists</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_9" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_10" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_11" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">XSRF-TOKEN</td>
-                                <td class="govuk-table__cell">For the protection of Cross-Site Request Forgery attacks.
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_12" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_13" | translate }}
                                 </td>
-                                <td class="govuk-table__cell">Until Session exists</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_11" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">XSRF-TOKEN-SVR</td>
-                                <td class="govuk-table__cell">For the protection of Cross-Site Request Forgery attacks.
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_14" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_13" | translate }}
                                 </td>
-                                <td class="govuk-table__cell">Until Session exists</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_11" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">.AspNetCore.Antiforgery.GWNWkbbyKbw</td>
-                                <td class="govuk-table__cell">For the protection of Cross-Site Request Forgery attacks.
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_16" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_13" | translate }}
                                 </td>
-                                <td class="govuk-table__cell">Until Session exists</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_11" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">auth0</td>
-                                <td class="govuk-table__cell">Used to implement the Auth0 session layer.</td>
-                                <td class="govuk-table__cell">{{auth0}} days</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_11" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_19" | translate }}</td>
+                                <td class="govuk-table__cell">{{auth0}} {{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_38" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">auth0_compat </td>
-                                <td class="govuk-table__cell">Fallback cookie for single sign-on on browsers that don’t
-                                    support the sameSite=None attribute.</td>
-                                <td class="govuk-table__cell">{{auth0_compat}} days</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_20" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_21" | translate }}</td>
+                                <td class="govuk-table__cell">{{auth0_compat}} {{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_38" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">did</td>
-                                <td class="govuk-table__cell">Device identification for attack protection.</td>
-                                <td class="govuk-table__cell">{{did}} hr</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_22" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_23" | translate }}</td>
+                                <td class="govuk-table__cell">{{did}} {{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_39" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">did_compat</td>
-                                <td class="govuk-table__cell">Fallback cookie for anomaly detection on browsers that don’t support the sameSite=None attribute.</td>
-                                <td class="govuk-table__cell">{{did_compat}} hr</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_24" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_25" | translate }}</td>
+                                <td class="govuk-table__cell">{{did_compat}} {{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_39" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">_cf_bm </td>
-                                <td class="govuk-table__cell">This cookie is used by our authentication service Auth0 to distinguish between humans and bots. In this way, valid reports on the use of the website can be created.</td>
-                                <td class="govuk-table__cell">{{_cf_bm}} min</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_27" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_28" | translate }}</td>
+                                <td class="govuk-table__cell">{{_cf_bm}} {{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_37" | translate }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <h2 class="heading-medium" id="analytics-cookies">Analytics cookies (optional)</h2>
+                <h2 class="heading-medium" id="analytics-cookies">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_HEADER_4" | translate }}</h2>
                 <p class="govuk-body">
-                    With your permission, we use Google Analytics to collect data about how you use the Public Procurement Gateway. This information helps us to improve our service.
+                    {{ "COMMON_COMPONENT.COOKIE_SETTING_PARA_6" | translate }}
                 </p>
                 <p class="govuk-body">
-                    Google is not allowed to use or share our analytics data with anyone.
+                    {{ "COMMON_COMPONENT.COOKIE_SETTING_PARA_7" | translate }}
                 </p>
                 <p class="govuk-body">
-                    Google Analytics stores anonymised information about:
+                    {{ "COMMON_COMPONENT.COOKIE_SETTING_PARA_8" | translate }}
                 </p>
                 <ul class="govuk-list govuk-list--bullet">
-                    <li>how you got to the Public Procurement Gateway</li>
-                    <li>the pages you visit on the Public Procurement Gateway and how long you spend on them</li>
-                    <li>any errors you see while using the Public Procurement Gateway</li>
+                    <li>{{ "COMMON_COMPONENT.COOKIE_SETTING_LIST_1" | translate }}</li>
+                    <li>{{ "COMMON_COMPONENT.COOKIE_SETTING_LIST_2" | translate }}</li>
+                    <li>{{ "COMMON_COMPONENT.COOKIE_SETTING_LIST_3" | translate }}</li>
                 </ul>
                 <div>
                     <table class="govuk-table">
                         <thead class="govuk-table__head">
                             <tr class="govuk-table__row">
-                                <th scope="col" class="govuk-table__header">Name</th>
-                                <th scope="col" class="govuk-table__header">Purpose</th>
-                                <th scope="col" class="govuk-table__header">Expires</th>
+                                <th scope="col" class="govuk-table__header">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_HEADER_1" | translate }}</th>
+                                <th scope="col" class="govuk-table__header">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_HEADER_2" | translate }}</th>
+                                <th scope="col" class="govuk-table__header">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_HEADER_3" | translate }}</th>
                             </tr>
                         </thead>
                         <tbody class="govuk-table__body">
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">_ga</td>
-                                <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
-                                <td class="govuk-table__cell">2 yrs</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_29" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_30" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_31" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">_gid</td>
-                                <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
-                                <td class="govuk-table__cell">24 hrs</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_32" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_30" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_33" | translate }}</td>
                             </tr>
                             <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">_gat_UA-47046847-22</td>
-                                <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
-                                <td class="govuk-table__cell">1 min</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_34" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_30" | translate }}</td>
+                                <td class="govuk-table__cell">{{ "COMMON_COMPONENT.COOKIE_SETTING_TABLE_DATA_35" | translate }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -160,7 +157,7 @@
                         <div class="govuk-form-group govuk-!-margin-top-6">
                             <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
                                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                                    Do you want to accept analytics cookies?
+                                    {{ "COMMON_COMPONENT.COOKIE_SETTING_LABLE_1" | translate }}
                                 </legend>
                                 <div class="govuk-radios govuk-radios--inline">
                                     <div class="govuk-radios__item">
@@ -168,7 +165,7 @@
                                             name="cookies-analytics" type="radio" value="on"
                                             [(ngModel)]="SelectionMode">
                                         <label class="govuk-label govuk-radios__label" for="cookies-analytics-yes">
-                                            Yes
+                                            {{ "COMMON_COMPONENT.COOKIE_SETTING_LABLE_2" | translate }}
                                         </label>
                                     </div>
                                     <div class="govuk-radios__item">
@@ -176,13 +173,13 @@
                                             name="cookies-analytics" type="radio" value="off"
                                             [(ngModel)]="SelectionMode">
                                         <label class="govuk-label govuk-radios__label" for="cookies-analytics-no">
-                                            No
+                                            {{ "COMMON_COMPONENT.COOKIE_SETTING_LABLE_3" | translate }}
                                         </label>
                                     </div>
                                 </div>
                             </fieldset>
                         </div>
-                        <button class="govuk-button" type="submit" (click)="OnSubmit()">Save cookie settings</button>
+                        <button class="govuk-button" type="submit" (click)="OnSubmit()">{{ "COMMON_COMPONENT.COOKIE_SETTING_SAVE_BTN" | translate }}</button>
                     </form>
                 </div>
             </div>

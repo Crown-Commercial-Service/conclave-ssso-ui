@@ -3,21 +3,21 @@
     <div class="govuk-cookie-banner__message govuk-width-container">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-          <h2 class="govuk-cookie-banner__heading govuk-heading-m">Cookies on Public Procurement Gateway</h2>
+          <h2 class="govuk-cookie-banner__heading govuk-heading-m">{{ "COMMON_COMPONENT.COOKIE_BANNER_HEADER" | translate }}</h2>
           <div class="govuk-cookie-banner__content">
-            <p class="govuk-body">We use some essential cookies to make this service work.</p>
-            <p class="govuk-body">We’d like to set additional cookies so we can remember your settings, understand how people use the service and make improvements.</p>
+            <p class="govuk-body">{{ "COMMON_COMPONENT.COOKIE_BANNER_PARA_1" | translate }}</p>
+            <p class="govuk-body">{{ "COMMON_COMPONENT.COOKIE_BANNER_PARA_2" | translate }}</p>
           </div>
         </div>
       </div>
       <div class="govuk-button-group">
         <button value="accept" type="button" name="cookies" class="govuk-button" (click)="acceptCookies()">
-          Accept additional cookies
+          {{ "COMMON_COMPONENT.COOKIE_BANNER_ACCEPT_BTN" | translate }}
         </button>
         <button value="reject" type="button" name="cookies" class="govuk-button" (click)="rejectCookies()">
-          Reject additional cookies
+          {{ "COMMON_COMPONENT.COOKIE_BANNER_REJECT_BTN" | translate }}
         </button>
-        <a class="govuk-link" routerLink="/cookies">View cookies</a>
+        <a class="govuk-link" routerLink="/cookies">{{ "COMMON_COMPONENT.COOKIE_BANNER_VIEW" | translate }}</a>
       </div>
     </div>
   </div>
@@ -30,13 +30,13 @@
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-two-thirds">
             <div class="govuk-cookie-banner__content">
-              <p class="govuk-body">You’ve accepted additional cookies. You can <a class="govuk-link" routerLink="/cookies">change your cookie settings</a> at any time.</p>
+              <p class="govuk-body">{{ "COMMON_COMPONENT.COOKIE_BANNER_PARA_3" | translate }} <a class="govuk-link" routerLink="/cookies"> {{ "COMMON_COMPONENT.COOKIE_BANNER_PARA_4" | translate }}</a> {{ "COMMON_COMPONENT.COOKIE_BANNER_PARA_5" | translate }}</p>
             </div>
           </div>
         </div>
         <div class="govuk-button-group">
           <button type="button"  class="govuk-button" (click)="hideCookies()">
-            Hide this message
+            {{ "COMMON_COMPONENT.COOKIE_BANNER_HIDE_BTN" | translate }}
           </button>
         </div>
       </div>
@@ -51,13 +51,13 @@
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-two-thirds">
             <div class="govuk-cookie-banner__content">
-              <p class="govuk-body">You’ve rejected analytics cookies. You can <a class="govuk-link" routerLink="/cookies">change your cookie settings</a> at any time.</p>
+              <p class="govuk-body">{{ "COMMON_COMPONENT.COOKIE_BANNER_PARA_6" | translate }} <a class="govuk-link" routerLink="/cookies">{{ "COMMON_COMPONENT.COOKIE_BANNER_PARA_4" | translate }} </a> {{ "COMMON_COMPONENT.COOKIE_BANNER_PARA_5" | translate }}</p>
             </div>
           </div>
         </div>
         <div class="govuk-button-group">
           <button  type="button"  class="govuk-button" (click)="hideCookies()">
-            Hide this message
+            {{ "COMMON_COMPONENT.COOKIE_BANNER_HIDE_BTN" | translate }}
           </button>
         </div>
       </div>
