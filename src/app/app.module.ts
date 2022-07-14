@@ -162,6 +162,7 @@ import { ContactAdminComponent } from './pages/contact-admin/contact-admin.compo
 import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
 import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-reset/confirm-mfa-reset.component';
 import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
+import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -289,7 +290,8 @@ export function createTranslateLoader(http: HttpClient) {
     ContactAdminComponent,
     ManageOrganisationProfileAddContactToSiteComponent,
     ConfirmMfaResetComponent,
-    SuccessUserMfaComponent
+    SuccessUserMfaComponent,
+    AccessibilityStatementComponent
   ],
   imports: [
     // BrowserModule,

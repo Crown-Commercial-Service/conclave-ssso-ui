@@ -7,7 +7,7 @@
             <div class="govuk-custom-form-group govuk-!-width-two-thirds" *ngIf="IsActivePage === 'Dashboard'">
                 <div class="govuk-form-group govuk-!-width-one-half">
                     <label class="govuk-label" for="weight">
-                        Search agreements
+                        {{ "COMMON_COMPONENT.APP_AGGREMENT" | translate }}
                     </label>
                     <div class="govuk-input__wrapper">
                         <input class="govuk-input" id="weight" name="weight" type="text" spellcheck="false"
@@ -18,7 +18,7 @@
                 </div>
                 <div class="govuk-form-group govuk-!-width-one-half">
                     <label class="govuk-label" for="weight">
-                        Search suppliers
+                        {{ "COMMON_COMPONENT.APP_SUPPLIER" | translate }}
                     </label>
                     <div class="govuk-input__wrapper"><input class="govuk-input" id="weight" name="weight" type="text"
                             spellcheck="false" (keyup.enter)="headerSearch('suppliers')"
@@ -44,11 +44,11 @@
                 <ul class="nav-list nav-list--primary">
                     <li class="nav-list__item header-link"
                         *ngIf="!((this.authService.userAutnenticated$ | async) || this.isAuthenticated)">
-                        <a href="javascript:;" class="nav-list__link  " (click)="signoutAndRedirect()">Sign in</a>
+                        <a href="javascript:;" class="nav-list__link  " (click)="signoutAndRedirect()">{{ "COMMON_COMPONENT.APP_SIGN_IN" | translate }}</a>
                     </li>
                     <li class="nav-list__item header-link"
                         *ngIf="(this.authService.userAutnenticated$ | async) || this.isAuthenticated">
-                        <a href="javascript:;" class="nav-list__link  " (click)="signoutAndRedirect()">Sign out</a>
+                        <a href="javascript:;" class="nav-list__link  " (click)="signoutAndRedirect()">{{ "COMMON_COMPONENT.APP_SIGN_OUT" | translate }}</a>
                     </li>
                     <!-- <li class="nav-list__item header-link">
                         <a class="nav-list__link" routerLink="/help-support">Help and support</a>
@@ -62,12 +62,11 @@
     <div class="govuk-phase-banner">
         <p class="govuk-phase-banner__content">
             <strong class="govuk-tag govuk-phase-banner__content__tag ">
-                beta
+                {{ "COMMON_COMPONENT.APP_BETA" | translate }}
             </strong>
-            <span class="govuk-phase-banner__text">This is a new service – your <a class="navigation-text"
+            <span class="govuk-phase-banner__text">{{ "COMMON_COMPONENT.APP_NEW_SER" | translate }} <a class="navigation-text"
                     target="_blank"
-                    href="https://crowncommercial.qualtrics.com/jfe/form/SV_3xDq7uNywwujVRA">feedback</a> will help us
-                to improve it.</span>
+                    href="https://crowncommercial.qualtrics.com/jfe/form/SV_3xDq7uNywwujVRA">{{ "COMMON_COMPONENT.APP_FEED" | translate }}</a> {{ "COMMON_COMPONENT.APP_HELP_LINK" | translate }}</span>
         </p>
     </div>
     <main class="govuk-main-wrapper">
@@ -102,7 +101,7 @@
                                             </path>
                                         </svg>
                                     </span>
-                                    <span class="visuallyhidden">Follow us on Twitter</span>
+                                    <span class="visuallyhidden">{{ "COMMON_COMPONENT.APP_TWITTER" | translate }}</span>
                                 </a>
                             </li>
                             <li class="govuk-footer__inline-list-item">
@@ -115,7 +114,7 @@
                                             </path>
                                         </svg>
                                     </span>
-                                    <span class="visuallyhidden">Connect with us on LinkedIn</span>
+                                    <span class="visuallyhidden">{{ "COMMON_COMPONENT.APP_LINKEDIN" | translate }}</span>
                                 </a>
                             </li>
                         </ul>
@@ -123,24 +122,22 @@
                     <li>
                         <ul class="govuk-footer__inline-list">
                             <li class="govuk-footer__inline-list-item">
-                                <a class="govuk-footer__link" href="{{ccsContactUrl}}">Contact CCS</a>
+                                <a class="govuk-footer__link" href="{{ccsContactUrl}}">{{ "COMMON_COMPONENT.APP_CCS" | translate }}</a>
                             </li>
                             <li class="govuk-footer__inline-list-item">
-                                <a class="govuk-footer__link" routerLink="/cookies">Cookies</a>
-                            </li>
-                            <li class="govuk-footer__inline-list-item">
-                                <a class="govuk-footer__link"
-                                    href="https://www.gov.uk/government/publications/crown-commercial-service-privacy-notice">Privacy
-                                    Policy</a>
-                            </li>
-                            <li class="govuk-footer__inline-list-item">
-                                <a class="govuk-footer__link" routerLink="/accessibility-statement">Accessibility
-                                    Statement</a>
+                                <a class="govuk-footer__link" routerLink="/cookies">{{ "COMMON_COMPONENT.APP_COOKIES" | translate }}</a>
                             </li>
                             <li class="govuk-footer__inline-list-item">
                                 <a class="govuk-footer__link"
-                                    href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">©
-                                    Crown copyright</a>
+                                    href="https://www.gov.uk/government/publications/crown-commercial-service-privacy-notice">{{ "COMMON_COMPONENT.APP_PRIVACY" | translate }}</a>
+                            </li>
+                            <li class="govuk-footer__inline-list-item">
+                                <a class="govuk-footer__link" routerLink="/accessibility-statement">{{ "COMMON_COMPONENT.APP_ACCESSBILITY" | translate }}</a>
+                            </li>
+                            <li class="govuk-footer__inline-list-item">
+                                <a class="govuk-footer__link"
+                                    href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">
+                                    {{ "COMMON_COMPONENT.APP_COPYRIGHT" | translate }}</a>
                             </li>
                         </ul>
                     </li>
