@@ -306,6 +306,7 @@
   "ERROR_INVALID_GROUP":"Enter a group name without any special characters",
   "ERROR_INVALID_GROUP_LENGTH":"Group name length must be between 3 and 256 characters",
   "ERROR_INVALID_ALL_SPECIAL":"Enter your group name without all special characters",
+  "ADMINISTRATOR_DASHBOARD": "Administrator dashboard",
 
 "DASHBOARD":{
   "PPG_DASH":"Public Procurement Gateway Dashboard",
