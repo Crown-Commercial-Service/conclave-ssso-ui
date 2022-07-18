@@ -199,7 +199,7 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
     this.orgRoles$.subscribe({
       next: (orgRoles: Role[]) => {
         this.roles = orgRoles;
-        this.orgEligableRoles$ = this.organisationGroupService.getOrganisationRoles(this.organisation.ciiOrganisationId).pipe(share());
+        this.orgEligableRoles$ = this.organisationGroupService.getGroupOrganisationRoles(this.organisation.ciiOrganisationId).pipe(share());
         this.orgEligableRoles$.subscribe({
           next: (eRoles: Role[]) => {
             this.roles.forEach((r) => {

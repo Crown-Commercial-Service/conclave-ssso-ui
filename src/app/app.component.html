@@ -10,9 +10,9 @@
                         {{ "COMMON_COMPONENT.APP_AGGREMENT" | translate }}
                     </label>
                     <div class="govuk-input__wrapper">
-                        <input class="govuk-input" id="weight" name="weight" type="text" spellcheck="false"
+                        <input class="govuk-input" id="agreements" name="agreements" type="text" spellcheck="false"
                             (keyup.enter)="headerSearch('agreements')" [(ngModel)]="searchForm.agreements">
-                        <div class="govuk-input__suffix" aria-hidden="true"><button
+                        <div class="govuk-input__suffix" ><button
                                 (click)="headerSearch('agreements')">.</button></div>
                     </div>
                 </div>
@@ -20,10 +20,10 @@
                     <label class="govuk-label" for="weight">
                         {{ "COMMON_COMPONENT.APP_SUPPLIER" | translate }}
                     </label>
-                    <div class="govuk-input__wrapper"><input class="govuk-input" id="weight" name="weight" type="text"
+                    <div class="govuk-input__wrapper"><input class="govuk-input" id="suppliers" name="suppliers" type="text"
                             spellcheck="false" (keyup.enter)="headerSearch('suppliers')"
                             [(ngModel)]="searchForm.suppliers">
-                        <div class="govuk-input__suffix" aria-hidden="true"><button
+                        <div class="govuk-input__suffix" ><button
                                 (click)="headerSearch('suppliers')">.</button></div>
                     </div>
                 </div>

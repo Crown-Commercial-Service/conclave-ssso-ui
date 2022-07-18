@@ -99,7 +99,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     }
 
     getOrganisationRoles() {
-        this.orgGroupService.getOrganisationRoles(this.organisationId).subscribe({
+        this.orgGroupService.getGroupOrganisationRoles(this.organisationId).subscribe({
             next: (roleListResponse: Role[]) => {
                 if (roleListResponse != null) {
                     this.orgRoleList = roleListResponse;
