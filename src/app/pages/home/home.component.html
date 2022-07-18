@@ -1,6 +1,6 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
-<h1 class="govuk-heading-xl page-title margine">Public Procurement Gateway Dashboard</h1>
-<h2 *ngIf="ccsModules.length > 0">Here are all of your CCS Services</h2>
+<h1 class="govuk-heading-xl page-title margine">{{ "DASHBOARD.PPG_DASH" | translate }}</h1>
+<h2 *ngIf="ccsModules.length > 0">{{ "DASHBOARD.CCS_SERVICE" | translate }}</h2>
 <div class="row" *ngIf="ccsModules.length > 0">
   <div *ngFor="let ccsModule of ccsModules;" class="column">
     <div class="card" *ngIf="ccsModule.route">
@@ -20,8 +20,8 @@
 <br *ngIf="ccsModules.length > 0" />
 <br *ngIf="ccsModules.length > 0" />
 <div *ngIf="systemModules.length > 0">
-  <h2>Administrator Settings</h2>
-  <h3>For your own organisation</h3>
+  <h2>{{ "DASHBOARD.ADD_SETTING" | translate }}</h2>
+  <h3>{{ "DASHBOARD.OWN_ORG" | translate }}</h3>
   <div class="row">
     <div *ngFor="let systemModule of systemModules;" class="column">
       <div class="card">
@@ -34,7 +34,7 @@
   </div>
 </div>
 <div *ngIf="otherModules.length > 0">
-  <h3>For other organisations</h3>
+  <h3>{{ "DASHBOARD.OTHER_ORG" | translate }}</h3>
   <div class="row">
     <div *ngFor="let otherModule of otherModules;" class="column">
       <div class="card">

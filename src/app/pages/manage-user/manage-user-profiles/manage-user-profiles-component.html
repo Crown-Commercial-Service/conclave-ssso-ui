@@ -5,26 +5,26 @@
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
                         <a class="govuk-breadcrumbs__link" routerLink="/home">
-                            {{ 'ADMINISTRATOR_DASHBOARD' | translate }}</a>
+                            {{ 'USER.ADMINISTRATOR_DASHBOARD' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_YOUR_USER_ACCOUNTS' | translate }}</span>
+                        <span class="govuk-breadcrumbs__link"> {{ 'USER.MANAGE_YOUR_USER_ACCOUNTS' | translate }}</span>
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_YOUR_ORGANISATION_USER_ACCOUNTS' | translate }}</h1>
-            <p class="govuk-heading-s ">{{ 'MANAGE_USER_DESCRIPTION' | translate }}</p>
+            <h1 class="govuk-heading-xl page-title">{{ 'USER.MANAGE_YOUR_ORGANISATION_USER_ACCOUNTS' | translate }}</h1>
+            <p class="govuk-heading-s ">{{ 'USER.MANAGE_USER_DESCRIPTION' | translate }}</p>
 
             <button type="button" (click)="onAddClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button">
-                {{ 'ADD_USERS_BTN' | translate }}
+                {{ 'USER.ADD_USERS_BTN' | translate }}
             </button>
 
             <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchingUserName ===''">
-                <label class="govuk-label" for="search"> {{ 'SEARCH_USERS_BY_EMAIL' | translate }} </label>
+                <label class="govuk-label" for="search"> {{ 'USER.SEARCH_USERS_BY_EMAIL' | translate }} </label>
                 <span id="first-name-error" class="govuk-error-message"
                 *ngIf="searchSumbited && searchingUserName ===''">
-                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a user’s name or email address
+                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{ 'USER.ERROR_REQ_EMAIL_OR_NAME' | translate }}
               </span>
                 <app-search-box [(searchText)]="searchingUserName" (onSearchClickEvent)="onSearchClick()">
                 </app-search-box>

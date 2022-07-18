@@ -41,7 +41,6 @@
   "TELEPHONE_NUMBER": "Telephone number",
   "MOBILE_NUMBER": "Mobile number",
   "MANAGE_MY_ACCOUNT": "Manage my account",
-  "ADMINISTRATOR_DASHBOARD": "Administrator dashboard",
   "SUCCESS": "Success",
   "REQUEST_ROLE_CHANGE_BTN": "Request role change",
   "ADD_ANOTHER_CONTACT_BTN": "Add another contact",
@@ -81,18 +80,8 @@
   "WEB_URL": "Web address",
   "CONTACT_REASON": "Contact reason",
   "CONTACT_REASON_FORM":"Contact reason (optional)",
-  "MANAGE_YOUR_USER_ACCOUNTS": "Manage user accounts",
-  "MANAGE_YOUR_ORGANISATION_USER_ACCOUNTS": "Manage your organisation's user accounts",
-  "MANAGE_USER_DESCRIPTION": "The next steps allow you to create new user accounts, update account details and passwords.",
-  "SEARCH_USERS_BY_EMAIL": "Search for users",
-  "ADD_USERS_BTN": "Add users",
-  "ADD_USERS": "Add users",
   "ADD_USERS_GROUP": "Add users to group",
   "SELECT_DIFF_USER": "Select a different user",
-  "SELECT_ONE_OPTION_TO_CONTINUE": "Select one option to continue",
-  "ERROR_SELECT_ONE_OPTION": "Select one option to continue",
-  "ADD_SINGLE_USER": "Add single user",
-  "ADD_MULTIPLE_USERS_BY_UPLOADING_CSV": "Add multiple users by uploading a csv file",
   "CONTINUE_BTN": "Continue",
   "CREATE_NEW_USER_ACCOUNT": "Create new user account",
   "ERROR_EMAIL_REQUIRED": "Enter an email address",
@@ -317,6 +306,31 @@
   "ERROR_INVALID_GROUP":"Enter a group name without any special characters",
   "ERROR_INVALID_GROUP_LENGTH":"Group name length must be between 3 and 256 characters",
   "ERROR_INVALID_ALL_SPECIAL":"Enter your group name without all special characters",
+
+"DASHBOARD":{
+  "PPG_DASH":"Public Procurement Gateway Dashboard",
+  "CCS_SERVICE":"Here are all of your CCS Services",
+  "ADD_SETTING":"Administrator Settings",
+  "OWN_ORG":"For your own organisation",
+  "OTHER_ORG":"For other organisations"
+},
+
+"USER":{
+  "ADMINISTRATOR_DASHBOARD": "Administrator dashboard",
+  "MANAGE_YOUR_USER_ACCOUNTS": "Manage user accounts",
+  "MANAGE_YOUR_ORGANISATION_USER_ACCOUNTS": "Manage your organisation's user accounts",
+  "MANAGE_USER_DESCRIPTION": "The next steps allow you to create new user accounts, update account details and passwords.",
+  "ADD_USERS_BTN": "Add users",
+  "SEARCH_USERS_BY_EMAIL": "Search for users",
+  "ERROR_REQ_EMAIL_OR_NAME":"Enter a user’s name or email address",
+  "ADD_USERS": "Add users",
+  "ERROR_SELECT_ONE_OPTION": "Select one option to continue",
+  "SELECT_ONE_OPTION_TO_CONTINUE": "Select one option to continue",
+  "ADD_SINGLE_USER": "Add single user",
+  "ADD_MULTIPLE_USERS_BY_UPLOADING_CSV": "Add multiple users by uploading a csv file"
+},
+
+ 
 
   "REGISTRATION":{
   "BACK": "Back",
