@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-accessibility-statement',
@@ -13,8 +14,9 @@ public representingTag={
   KeyboardLevelA:'<a>',
   PageTitledLevelA:'<html>'
 }
+private userName = localStorage.getItem('user_name') || '';
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -23,4 +25,11 @@ public representingTag={
     window.print()
   }
 
+  public navigateToHome():void{
+    if(this.userName){
+      this.router.navigateByUrl(`home`);
+    }else{
+      window.location.href='https://www.crowncommercial.gov.uk';  
+    }
+  }
 }
