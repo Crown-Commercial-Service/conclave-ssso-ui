@@ -36,7 +36,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
         this.selectedOrgId = params.id;
         this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
         this.org = await this.organisationService.getOrganisation(params.id).toPromise();
-        this.registries = await this.ciiService.getOrgDetails(params.id).toPromise();
+        this.registries = await this.ciiService.getOrgDetails(params.id, true).toPromise();
         if (this.registries != undefined) {
           this.additionalIdentifiers = this.registries?.additionalIdentifiers;
         }
