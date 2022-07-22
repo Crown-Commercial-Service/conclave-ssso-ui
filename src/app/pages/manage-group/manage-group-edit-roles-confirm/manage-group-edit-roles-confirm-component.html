@@ -4,19 +4,19 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'GROUPS.ADMINISTRATOR_DASHBOARD' | translate
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'GROUPS.MANAGE_GROUPS' | translate
                             }}</a>
                     </li>
                     <li *ngIf="isEdit==true" class="govuk-breadcrumbs__list-item">
                         <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onGoToEditGroupClick()">
-                            {{'EDIT_GROUP' | translate }}</a>
+                            {{'GROUPS.EDIT_GROUP' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" >
-                        <span class="govuk-breadcrumbs__link">Confirm roles for group {{ groupName }}</span>
+                        <span class="govuk-breadcrumbs__link">{{'GROUPS.CONFIRM_ROLES' | translate }} {{ groupName }}</span>
                     </li>
                 </ol>
             </div>
@@ -26,17 +26,17 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">Confirm you want to add the following roles to group  {{groupName}}</h1>
-        <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">Confirm you want to add the following roles to group  {{groupName}}</h1>
+        <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">{{'GROUPS.CONFIRM_TO_ADD_ROLES' | translate }}  {{groupName}}</h1>
+        <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">{{'GROUPS.CONFIRM_TO_ADD_ROLES' | translate }}  {{groupName}}</h1>
     </div>
 </div>
 
 <div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-s">{{ 'ROLES_ADDED_TO_GROUP' | translate }}</h2>
+            <h2 class="govuk-heading-s">{{ 'GROUPS.ROLES_ADDED_TO_GROUP' | translate }}</h2>
             <div *ngIf="addingRoles.length == 0">
-                <p>{{'NONE'| translate}}
+                <p>{{'GROUPS.NONE'| translate}}
                 <p>
             </div>
         </div>
@@ -55,9 +55,9 @@
 <div *ngIf="isEdit==true">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-s">{{ 'ROLES_REMOVED_FROM_GROUP' | translate }}</h2>
+            <h2 class="govuk-heading-s">{{ 'GROUPS.ROLES_REMOVED_FROM_GROUP' | translate }}</h2>
             <div *ngIf="removingRoles.length == 0">
-                <p>{{'NONE'| translate}}
+                <p>{{'GROUPS.NONE'| translate}}
                 <p>
             </div>
         </div>
@@ -79,14 +79,14 @@
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-button-group save-cancel-button-group">
             <button *ngIf="addingRoles.length != 0 || isEdit" type="submit" (click)="onConfirmClick()" class="govuk-button" data-module="govuk-button">
-                {{ 'CONFIRM_BTN' | translate }}
+                {{ 'GROUPS.CONFIRM_BTN' | translate }}
             </button>
             <button *ngIf="addingRoles.length == 0 && !isEdit" type="submit" (click)="onConfirmClick()" class="govuk-button" data-module="govuk-button">
-                Create group without roles
+                {{ 'GROUPS.CREATE_GROUP_WITHOUT_ROLE' | translate }}
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button">
-                Select different roles
+                {{ 'GROUPS.SELECT_DIF_ROLES' | translate }}
             </button>
         </div>
     </div>

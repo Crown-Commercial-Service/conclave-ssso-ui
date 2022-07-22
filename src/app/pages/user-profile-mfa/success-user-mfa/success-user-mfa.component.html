@@ -5,47 +5,51 @@
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
                         <a href="javascript:;" class="govuk-breadcrumbs__link" routerLink="/home">{{
-                            'ADMINISTRATOR_DASHBOARD' | translate
+                            'MANAGE_MY_ACC.ADMINISTRATOR_DASHBOARD' | translate
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="!decodedData.IsUser">
                         <a href="javascript:;" class="govuk-breadcrumbs__link" routerLink="/profile">{{
-                            'MANAGE_MY_ACCOUNT' | translate
+                            'MANAGE_MY_ACC.MANAGE_MY_ACCOUNT' | translate
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="decodedData.IsUser">
-                        <a class="govuk-breadcrumbs__link" routerLink="/manage-users">{{ 'MANAGE_YOUR_USER_ACCOUNTS' |
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-users">{{ 'MANAGE_MY_ACC.MANAGE_YOUR_USER_ACCOUNTS' |
                             translate
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link">Additional security reset</span>
+                        <span class="govuk-breadcrumbs__link">{{ 'MANAGE_MY_ACC.ADD_SEC_RESET' |
+                            translate
+                            }}</span>
                     </li>
                 </ol>
             </div>
             <div *ngIf="sendError" class="govuk-error-summary">
                 <h2 class="govuk-error-summary__title" id="error-summary-title">
-                  There is a problem
+                    {{ 'ERROR_SUMMARY' |
+                    translate
+                    }}
                 </h2>
                 <div class="govuk-error-summary__body">
                   <ul class="govuk-list govuk-error-summary__list">
                     <li>
-                      {{ 'MFA_RESET_EMAIL_SENT_ERROR' | translate }}
+                      {{ 'MANAGE_MY_ACC.MFA_RESET_EMAIL_SENT_ERROR' | translate }}
                     </li>
                   </ul>
                   <br>
                 </div>
               </div>
             <div *ngIf="!sendError">
-                <h1 class="govuk-heading page-title">Additional security reset email has been sent to {{decodedData.data}}.</h1>
+                <h1 class="govuk-heading page-title">{{ 'MANAGE_MY_ACC.EMAIL_HAS_BEEN_SENT' | translate }} {{decodedData.data}}.</h1>
             </div>
             <div class="gov-uk-return-links" *ngIf="!decodedData.IsUser">
                 <a href="javascript:;" class="navigation-text" routerLink="/profile">
-                    {{ 'RETURN_TO_MANAGE_MY_ACCOUNT' | translate }}</a>
+                    {{ 'MANAGE_MY_ACC.RETURN_TO_MANAGE_MY_ACCOUNT' | translate }}</a>
             </div>
             <div class="gov-uk-return-links" *ngIf="decodedData.IsUser">
                 <a href="javascript:;" class="navigation-text" routerLink="/manage-users">
-                    {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
+                    {{ 'MANAGE_MY_ACC.RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
             </div>
             <br>
         </div>

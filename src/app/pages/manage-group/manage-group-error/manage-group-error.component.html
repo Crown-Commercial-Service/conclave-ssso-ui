@@ -2,9 +2,9 @@
 <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
   data-module="govuk-error-summary">
   <h2 class="govuk-error-summary__title" id="error-summary-title">
-    There is a problem
+    {{ 'ERROR_SUMMARY' | translate }}
   </h2>
   <div class="govuk-error-summary__body">
-    <a href="javascript:;" (click)="navigateBackToGroups()"> This group is configured with multifactor(additional security) enabled roles. However, there are users who are not configured for additional security. Please review users and roles in the group</a>
+    <a href="javascript:;" (click)="navigateBackToGroups()"> {{ 'GROUPS.GROUP_MFA_ERROR' | translate }}</a>
   </div>
 </div>

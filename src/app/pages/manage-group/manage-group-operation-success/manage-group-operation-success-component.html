@@ -4,49 +4,49 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'GROUPS.ADMINISTRATOR_DASHBOARD' | translate
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'GROUPS.MANAGE_GROUPS' | translate
                             }}</a>
                     </li>
                     <li *ngIf="isEdit==true" class="govuk-breadcrumbs__list-item">
                         <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToGroupClick()">
-                            {{ 'EDIT_GROUP' | translate }}</a>
+                            {{ 'GROUPS.EDIT_GROUP' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation=== operationEnum.GroupAdd">
-                        <span class="govuk-breadcrumbs__link">Group created successfully</span>
+                        <span class="govuk-breadcrumbs__link">{{ 'GROUPS.GROUP_CREATED_SUCC' | translate }}</span>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation!= operationEnum.GroupAdd" >
-                        <span class="govuk-breadcrumbs__link">Success</span>
+                        <span class="govuk-breadcrumbs__link">{{ 'GROUPS.SUCCESS' | translate }}</span>
                     </li>
                 </ol>
             </div>
             <div>
-                 <h1 *ngIf="operation=== operationEnum.GroupAdd"  class="govuk-heading-xl page-title ng-tns-c324-9 ng-star-inserted">Group {{GroupName}} created</h1>
-                 <h1 *ngIf="operation=== operationEnum.GroupDelete"  class="govuk-heading-xl page-title ng-tns-c324-9 ng-star-inserted">{{GroupName}} deleted</h1>
+                 <h1 *ngIf="operation=== operationEnum.GroupAdd"  class="govuk-heading-xl page-title ng-tns-c324-9 ng-star-inserted">{{ 'GROUPS.GROUP' | translate }} {{GroupName}} {{ 'GROUPS.CREATED' | translate }}</h1>
+                 <h1 *ngIf="operation=== operationEnum.GroupDelete"  class="govuk-heading-xl page-title ng-tns-c324-9 ng-star-inserted">{{GroupName}} {{ 'GROUPS.DELETED' | translate }}</h1>
 
                 <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupAdd" >
-                    {{ 'GROUP_ADD_SUCCESS' | translate }} {{userCount}} {{ 'USERS_SIMPLE' | translate }} {{ 'AND_SIMPLE' | translate }} {{roleCount}} {{ 'ROLES_SIMPLE' | translate }}
+                    {{ 'GROUPS.GROUP_ADD_SUCCESS' | translate }} {{userCount}} {{ 'GROUPS.USERS_SIMPLE' | translate }} {{ 'GROUPS.AND_SIMPLE' | translate }} {{roleCount}} {{ 'GROUPS.ROLES_SIMPLE' | translate }}
                 </p>
-                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupNameUpdate" >{{ 'GROUP_NAME_UPDATE_SUCCESS' | translate }}</p>
-                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupUserAdd" >{{ 'GROUP_USER_ADD_SUCCESS' | translate }}</p>
-                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupUserUpdate" >{{ 'GROUP_USER_UPDATE_SUCCESS' | translate }}</p>
-                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupRoleUpdate" >{{ 'GROUP_ROLE_UPDATE_SUCCESS' | translate }}</p>
-                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupDelete" >{{ 'GROUP_DELETE_SUCCESS' | translate }} {{GroupName}}</p>
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupNameUpdate" >{{ 'GROUPS.GROUP_NAME_UPDATE_SUCCESS' | translate }}</p>
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupUserAdd" >{{ 'GROUPS.GROUP_USER_ADD_SUCCESS' | translate }}</p>
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupUserUpdate" >{{ 'GROUPS.GROUP_USER_UPDATE_SUCCESS' | translate }}</p>
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupRoleUpdate" >{{ 'GROUPS.GROUP_ROLE_UPDATE_SUCCESS' | translate }}</p>
+                <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupDelete" >{{ 'GROUPS.GROUP_DELETE_SUCCESS' | translate }} {{GroupName}}</p>
                 <button *ngIf="operation === operationEnum.GroupAdd" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onNavigateToGroupClick()">
-                    View new group
+                    {{ 'GROUPS.VIEW_NEW_GROUP_BTN' | translate }}
                 </button>
                 <button *ngIf="isEdit" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onNavigateToGroupClick()">
-                    View group
+                    {{ 'GROUPS.VIEW_GROUP_BTN' | translate }}
                 </button>
                 <br>
                 <a href="javascript:;"  class="navigation-text" (click)="onNavigateTomanageGroup()">
-                    Return to Manage Groups homepage</a>
+                    {{ 'GROUPS.RETURN_TO_MAN_GRO_HOME' | translate }}</a>
                     <br><br>
                     <a href="javascript:;"  class="navigation-text" (click)="onNavigateTohome()">
-                        Return to dashboard</a>   
+                        {{ 'GROUPS.RETURN_TO_DASH' | translate }}</a>   
                 <!-- <a *ngIf="operation=== operationEnum.GroupDelete" class="navigation-text" routerLink="/manage-groups">
                     {{ 'RETURN_TO_MANAGE_GROUPS' | translate }}</a> -->
             </div>

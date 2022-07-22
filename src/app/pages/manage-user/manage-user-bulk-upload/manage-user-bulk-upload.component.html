@@ -3,23 +3,23 @@
         <div class="govuk-breadcrumbs">
             <ol class="govuk-breadcrumbs__list">
                 <li class="govuk-breadcrumbs__list-item">
-                    <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                    <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'USER.ADMINISTRATOR_DASHBOARD' | translate
                         }}</a>
                 </li>
                 <li class="govuk-breadcrumbs__list-item">
-                    <a class="govuk-breadcrumbs__link" routerLink="/manage-users/add-user-selection">{{ 'ADD_USERS' |
+                    <a class="govuk-breadcrumbs__link" routerLink="/manage-users/add-user-selection">{{ 'USER.ADD_USERS' |
                         translate
                         }}</a>
                 </li>
                 <li class="govuk-breadcrumbs__list-item">
-                    <span class="govuk-breadcrumbs__link"> {{ 'ADD_MULTIPLE_USERS' | translate }}</span>
+                    <span class="govuk-breadcrumbs__link"> {{ 'USER.ADD_MULTIPLE_USERS' | translate }}</span>
                 </li>
             </ol>
         </div>
 
-        <h1 class="govuk-heading-xl page-title">{{ 'ADD_MULTIPLE_USERS' | translate }}</h1>
+        <h1 class="govuk-heading-xl page-title">{{ 'USER.ADD_MULTIPLE_USERS' | translate }}</h1>
 
-        <h2 class="govuk-heading-m page-title">{{ 'ADD_MULTIPLE_USERS_BY_UPLOADING_CSV' |
+        <h2 class="govuk-heading-m page-title">{{ 'USER.ADD_MULTIPLE_USERS_BY_UPLOADING_CSV' |
             translate }}</h2>
 
         <div class="govuk-error-summary form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
@@ -32,11 +32,11 @@
                 <ul class="govuk-list govuk-error-summary__list">
                     <li *ngIf="submitted && errorRequired">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
-                            {{'ERROR_FILE_REQUIRED' | translate }}</a>
+                            {{'USER.ERROR_FILE_REQUIRED' | translate }}</a>
                     </li>
                     <li *ngIf="submitted && errorInvalidFileFormat">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
-                            {{'ERROR_INVALID_FILE_FORMAT' | translate }}</a>
+                            {{'USER.ERROR_INVALID_FILE_FORMAT' | translate }}</a>
                     </li>
                     <li *ngIf="submitted && errorServer">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
@@ -44,7 +44,7 @@
                     </li>
                     <li *ngIf="submitted && fileSizeExceedError">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
-                            {{ 'ERROR_FILE_SIZE_ERROR'| translate }} {{maxFileSize}}MB</a>
+                            {{ 'USER.ERROR_FILE_SIZE_ERROR'| translate }} {{maxFileSize}}MB</a>
                     </li>
                 </ul>
             </div>
@@ -56,16 +56,16 @@
                     <div class="govuk-form-group"
                         [class.govuk-form-group--error]="submitted && ( fileSizeExceedError || errorRequired || errorInvalidFileFormat || errorServer)">
                         <label class="govuk-label" for="file-upload">
-                            Upload the file
+                            {{ 'USER.UPLOAD_FILE'| translate }}
                         </label>
                         <span *ngIf="submitted && errorRequired" id="file-upload-error" class="govuk-error-message">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-                            'ERROR_FILE_REQUIRED' | translate }}
+                            'USER.ERROR_FILE_REQUIRED' | translate }}
                         </span>
                         <span *ngIf="submitted && errorInvalidFileFormat" id="file-upload-error"
                             class="govuk-error-message">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-                            'ERROR_INVALID_FILE_FORMAT' | translate }}
+                            'USER.ERROR_INVALID_FILE_FORMAT' | translate }}
                         </span>
                         <span *ngIf="submitted && errorServer" id="file-upload-error" class="govuk-error-message">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
@@ -73,14 +73,14 @@
                         </span>
                         <span *ngIf="submitted && fileSizeExceedError" id="file-upload-error" class="govuk-error-message">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                            {{ 'ERROR_FILE_SIZE_ERROR'| translate }} {{maxFileSize}}MB
+                            {{ 'USER.ERROR_FILE_SIZE_ERROR'| translate }} {{maxFileSize}}MB
                         </span>
                         <input #input class="govuk-file-upload" id="file-upload" name="file-upload" type="file"
                             accept=".csv" (change)="readFile($event)"
                             [class.govuk-input--error]="submitted && ( errorRequired || errorInvalidFileFormat || errorServer)">
                     </div>
                     <div><a class="navigation-text template-link" href="{{bulkUploadTemplateUrl}}" target="_blank">{{
-                            'DOWNLOAD_BULK_UPLOAD_TEMPLATE_FILE' | translate }} </a></div>
+                            'USER.DOWNLOAD_BULK_UPLOAD_TEMPLATE_FILE' | translate }} </a></div>
                     <div class="govuk-button-group save-cancel-button-group">
                         <button type="button" (click)="onContinueClick()" class="govuk-button"
                             data-module="govuk-button">

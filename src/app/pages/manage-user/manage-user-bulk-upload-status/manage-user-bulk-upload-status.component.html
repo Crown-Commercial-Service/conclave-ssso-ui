@@ -3,28 +3,28 @@
         <div class="govuk-breadcrumbs">
             <ol class="govuk-breadcrumbs__list">
                 <li class="govuk-breadcrumbs__list-item">
-                    <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                    <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'USER.ADMINISTRATOR_DASHBOARD' | translate
                         }}</a>
                 </li>
                 <li class="govuk-breadcrumbs__list-item">
-                    <a class="govuk-breadcrumbs__link" routerLink="/manage-users/add-user-selection">{{ 'ADD_USERS' |
+                    <a class="govuk-breadcrumbs__link" routerLink="/manage-users/add-user-selection">{{ 'USER.ADD_USERS' |
                         translate
                         }}</a>
                 </li>
                 <li class="govuk-breadcrumbs__list-item">
-                    <span class="govuk-breadcrumbs__link"> {{ 'BULK_UPLOAD_STATUS' | translate }}</span>
+                    <span class="govuk-breadcrumbs__link"> {{ 'USER.BULK_UPLOAD_STATUS' | translate }}</span>
                 </li>
             </ol>
         </div>
 
-        <h1 *ngIf="!statusCheckComplete" class="govuk-heading-xl page-title">{{ 'CHECKING_BULK_UPLOAD_STATUS' |
+        <h1 *ngIf="!statusCheckComplete" class="govuk-heading-xl page-title">{{ 'USER.CHECKING_BULK_UPLOAD_STATUS' |
             translate }}</h1>
         <h1 *ngIf="statusCheckComplete && errorDetails.length === 0" class="govuk-heading-xl page-title">{{
-            'VALIDATION_SUCCESS_WITHOUT_ERRORS' | translate }}</h1>
+            'USER.VALIDATION_SUCCESS_WITHOUT_ERRORS' | translate }}</h1>
         <h1 *ngIf="statusCheckComplete && errorDetails.length !== 0" class="govuk-heading-xl page-title">{{
-            'VALIDATION_SUCCESS_WITH_ERRORS' | translate }}</h1>
+            'USER.VALIDATION_SUCCESS_WITH_ERRORS' | translate }}</h1>
 
-        <h2 *ngIf="!statusCheckComplete" class="govuk-heading-m page-title">{{ 'WAIT_UNTIL_VALIDATE_FILE' |
+        <h2 *ngIf="!statusCheckComplete" class="govuk-heading-m page-title">{{ 'USER.WAIT_UNTIL_VALIDATE_FILE' |
             translate }}</h2>
     </div>
 </div>
@@ -32,11 +32,11 @@
 <div *ngIf="statusCheckComplete">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-s">{{ 'ERROR_DETAILS' | translate }}</h2>
+            <h2 class="govuk-heading-s">{{ 'USER.ERROR_DETAILS' | translate }}</h2>
             <div *ngIf="errorDetails.length == 0">
-                <p>{{'NONE'| translate}}
+                <p>{{'USER.NONE'| translate}}
                 <p>
-                <p>{{'YOU_WILL_BE_RECEIVED_AN_EMAIL_ONCE_MIGRATION_COMPLETED'| translate}}
+                <p>{{'USER.YOU_WILL_BE_RECEIVED_AN_EMAIL_ONCE_MIGRATION_COMPLETED'| translate}}
                 <p>
             </div>
         </div>

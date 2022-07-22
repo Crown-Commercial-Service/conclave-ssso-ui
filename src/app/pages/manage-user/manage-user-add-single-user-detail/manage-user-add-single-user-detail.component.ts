@@ -1,8 +1,10 @@
 import {
   Component,
   ElementRef,
+  OnChanges,
   OnInit,
   QueryList,
+  SimpleChanges,
   ViewChildren,
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -26,6 +28,7 @@ import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-manage-user-add-single-user-detail',
@@ -34,7 +37,7 @@ import { PatternService } from 'src/app/shared/pattern.service';
 })
 export class ManageUserAddSingleUserDetailComponent
   extends FormBaseComponent
-  implements OnInit
+  implements OnInit, OnChanges
 {
   organisationId: string;
   userProfileRequestInfo: UserProfileRequestInfo;
@@ -54,9 +57,9 @@ export class ManageUserAddSingleUserDetailComponent
   mfaConnectionValidationError: boolean = false;
   mfaAdminValidationError: boolean = false;
   public detailsData: any = [
-    'Add additional security steps to make an account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
-    'Groups allow you to manage large numbers of users all at once. Roles can be applied to groups to organise user’s more efficiently and allow bulk access to relevant services where it is required.',
-    'The roles selected here will set what services are available to your users.',
+    'HELP_SECURITY',
+    'HELP_GROUP',
+    'HELP_ROLES',
   ];
   userTitleArray = ['Mr', 'Mrs', 'Miss', 'Ms', 'Doctor', 'Unspecified'];
   public emailHaserror: boolean = false;
@@ -66,6 +69,7 @@ export class ManageUserAddSingleUserDetailComponent
   constructor(
     private organisationGroupService: WrapperOrganisationGroupService,
     private PatternService: PatternService,
+    private translate: TranslateService,
     private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -75,7 +79,7 @@ export class ManageUserAddSingleUserDetailComponent
     protected scrollHelper: ScrollHelper,
     private wrapperUserService: WrapperUserService,
     private authService: AuthService,
-    private locationStrategy: LocationStrategy
+    private locationStrategy: LocationStrategy,
   ) {
     super(
       viewportScroller,
@@ -150,6 +154,9 @@ export class ManageUserAddSingleUserDetailComponent
       firstName: '',
       lastName: '',
     };
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("touch",this.translate.getDefaultLang())
   }
 
   async ngOnInit() {

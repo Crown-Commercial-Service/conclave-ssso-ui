@@ -4,21 +4,21 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'GROUPS.ADMINISTRATOR_DASHBOARD' | translate
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'GROUPS.MANAGE_GROUPS' | translate
                             }}</a>
                     </li>
                     <li *ngIf="isEdit== true" class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'EDIT_GROUP' | translate }}</a>
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'GROUPS.EDIT_GROUP' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
                         <span *ngIf="isEdit== true" class="govuk-breadcrumbs__link">
-                            {{'ADD_REMOVE_ROLES'| translate }}</span>
+                            {{'GROUPS.ADD_REMOVE_ROLES'| translate }}</span>
                         <span *ngIf="isEdit!= true" class="govuk-breadcrumbs__link">
-                            {{ 'ADD_ROLES' | translate }}</span>
+                            {{ 'GROUPS.ADD_ROLES' | translate }}</span>
                     </li>
                 </ol>
             </div>
@@ -29,16 +29,16 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 *ngIf="isEdit== true" class="govuk-heading-xl page-title">
-            {{ 'ADD_REMOVE_ROLES' | translate }} : {{groupName}}</h1>
-        <h1 *ngIf="isEdit!= true" class="govuk-heading-xl page-title">{{ 'ADD_ROLES' | translate }}</h1>
+            {{ 'GROUPS.ADD_REMOVE_ROLES' | translate }} : {{groupName}}</h1>
+        <h1 *ngIf="isEdit!= true" class="govuk-heading-xl page-title">{{ 'GROUPS.ADD_ROLES' | translate }}</h1>
         <h2 class="govuk-heading-m">
-            {{ 'SELECT_ROLES_WANT_TO_ADD' | translate }}</h2>
+            {{ 'GROUPS.SELECT_ROLES_WANT_TO_ADD' | translate }}</h2>
         <div>
             <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchText ===''">
-                <label class="govuk-label" for="search"> {{ 'SEARCH_FOR_ROLE' | translate }} </label>
+                <label class="govuk-label" for="search"> {{ 'GROUPS.SEARCH_FOR_ROLE' | translate }} </label>
                 <span id="first-name-error" class="govuk-error-message"
                 *ngIf="searchSumbited && searchText ===''">
-                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a role name
+                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{ 'GROUPS.ROLE_REQ' | translate }}
               </span>
                 <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
                 </app-search-box>
@@ -62,15 +62,15 @@
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-button-group save-cancel-button-group">
             <button type="button" (click)="onContinueClick()" class="govuk-button" data-module="govuk-button">
-                {{ 'CONTINUE_BTN' | translate }}
+                {{ 'GROUPS.CONTINUE_BTN' | translate }}
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button" *ngIf="!isEdit">
-                Create group with no roles
+                {{ 'GROUPS.GROUP_NO_ROLES' | translate }}
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button" *ngIf="isEdit">
-                Cancel and go to group 
+                {{ 'GROUPS.CANCEL_GO_GROUP' | translate }}
             </button>
         </div>
     </div>

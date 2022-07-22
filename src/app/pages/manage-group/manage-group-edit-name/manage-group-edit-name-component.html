@@ -3,30 +3,30 @@
     <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
             <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate }}</a>
+                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'GROUPS.ADMINISTRATOR_DASHBOARD' | translate }}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate }}</a>
+                <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'GROUPS.MANAGE_GROUPS' | translate }}</a>
             </li>
             <li *ngIf="isEdit==true" class="govuk-breadcrumbs__list-item">
                 <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelAndGoToGroupClick()">{{
-                    'EDIT_GROUP' | translate }}</a>
+                    'GROUPS.EDIT_GROUP' | translate }}</a>
             </li>
             <li *ngIf="isEdit!=true" class="govuk-breadcrumbs__list-item">
                 <span class="govuk-breadcrumbs__link">
-                    {{ 'CREATE_GROUP' | translate }}</span>
+                    {{ 'GROUPS.CREATE_GROUP' | translate }}</span>
             </li>
             <li *ngIf="isEdit==true" class="govuk-breadcrumbs__list-item">
                 <span class="govuk-breadcrumbs__link">
-                    {{ 'UPDATE_GROUP_NAME' | translate }}</span>
+                    {{ 'GROUPS.UPDATE_GROUP_NAME' | translate }}</span>
             </li>
         </ol>
     </div>
     <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">
-        {{ 'CREATE_GROUP' | translate }}
+        {{ 'GROUPS.CREATE_GROUP' | translate }}
     </h1>
     <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">
-        {{ 'UPDATE_GROUP_NAME' | translate }}
+        {{ 'GROUPS.UPDATE_GROUP_NAME' | translate }}
     </h1>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -40,25 +40,25 @@
                     <ul class="govuk-list govuk-error-summary__list">
                         <li *ngIf="submitted && formGroup.controls.groupName.hasError('required')">
                             <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
-                                {{ 'ERROR_GROUP_NAME_REQUIRED' | translate }}
+                                {{ 'GROUPS.ERROR_GROUP_NAME_REQUIRED' | translate }}
                             </a>
                         </li>
                         <li *ngIf="submitted && formGroup.controls.groupName.hasError('alreadyExists')">
                             <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
-                                {{ 'ERROR_GROUP_NAME_EXISTS' | translate }}</a>
+                                {{ 'GROUPS.ERROR_GROUP_NAME_EXISTS' | translate }}</a>
                         </li>
                         <li *ngIf="submitted && formGroup.controls.groupName.errors?.pattern">
                             <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">{{
-                                'ERROR_INVALID_GROUP' | translate }}</a>
+                                'GROUPS.ERROR_INVALID_GROUP' | translate }}</a>
                         </li>
                         <li *ngIf="submitted && formGroup.controls.groupName.errors?.specialCharsincluded">
                             <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">{{
-                                'ERROR_INVALID_ALL_SPECIAL' | translate }}</a>
+                                'GROUPS.ERROR_INVALID_ALL_SPECIAL' | translate }}</a>
                         </li>
                         <li
                             *ngIf="submitted && (formGroup.controls.groupName.errors?.minlength || formGroup.controls.groupName.errors?.maxlength)">
                             <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">{{
-                                'ERROR_INVALID_GROUP_LENGTH' | translate }}</a>
+                                'GROUPS.ERROR_INVALID_GROUP_LENGTH' | translate }}</a>
                         </li>
                     </ul>
                 </div>
@@ -73,39 +73,39 @@
                         <div class="govuk-form-group" id="group-name-form-group"
                             [class.govuk-form-group--error]="submitted && (formGroup.controls.groupName.invalid || formGroup.controls.groupName.hasError('alreadyExists'))">
                             <label *ngIf="isEdit!=true" class="govuk-label" for="group-name">
-                                {{ 'GIVE_GROUP_NAME' | translate }}
+                                {{ 'GROUPS.GIVE_GROUP_NAME' | translate }}
                             </label>
                             <span id="group-name-error" class="govuk-error-message"
                                 *ngIf="submitted && formGroup.controls.groupName.hasError('required')">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                                {{ 'ERROR_GROUP_NAME_REQUIRED' | translate }}
+                                {{ 'GROUPS.ERROR_GROUP_NAME_REQUIRED' | translate }}
                             </span>
                             <span id="group-name-error" class="govuk-error-message"
                                 *ngIf="submitted && formGroup.controls.groupName.hasError('alreadyExists')">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                                {{ 'ERROR_GROUP_NAME_EXISTS' | translate }}
+                                {{ 'GROUPS.ERROR_GROUP_NAME_EXISTS' | translate }}
                             </span>
                             <span id="group-name-error" class="govuk-error-message"
                                 *ngIf="submitted && formGroup.controls.groupName.errors?.pattern">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                                {{ 'ERROR_INVALID_GROUP' | translate }}
+                                {{ 'GROUPS.ERROR_INVALID_GROUP' | translate }}
                             </span>
                             <span id="group-name-error" class="govuk-error-message"
                                 *ngIf="submitted && (formGroup.controls.groupName.errors?.minlength || formGroup.controls.groupName.errors?.maxlength)">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                                {{ 'ERROR_INVALID_GROUP_LENGTH' | translate }}
+                                {{ 'GROUPS.ERROR_INVALID_GROUP_LENGTH' | translate }}
                             </span>
                             <span id="group-name-error" class="govuk-error-message"
                                 *ngIf="submitted && formGroup.controls.groupName.errors?.specialCharsincluded">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                                {{ 'ERROR_INVALID_ALL_SPECIAL' | translate }}
+                                {{ 'GROUPS.ERROR_INVALID_ALL_SPECIAL' | translate }}
                             </span>
                             <div *ngIf="isEdit!=true" id="group-name-hint" class="govuk-hint">
-                                {{ 'YOU_CAN_CHANGE_THIS_LATER' | translate }}
+                                {{ 'GROUPS.YOU_CAN_CHANGE_THIS_LATER' | translate }}
                             </div>
                             <label *ngIf="isEdit==true" class="govuk-label govuk-radios__label"
                                 title="select one option" for="group-name" style="display: none; visibility: hidden">
-                                <span style="display: none; visibility: hidden">Select the option</span>
+                                <span style="display: none; visibility: hidden">{{ 'GROUPS.SELECT_OPTION' | translate }}</span>
                             </label>
                             <input #input formControlName="groupName" class="govuk-input" id="group-name"
                                 name="group-name" type="text"
@@ -116,19 +116,19 @@
                 <div class="govuk-button-group save-cancel-button-group">
                     <button *ngIf="isEdit!=true" type="submit" [disabled]="!formChanged" class="govuk-button"
                         data-module="govuk-button">
-                        {{ 'SAVE_CONTINUE_BTN' | translate }}
+                        {{ 'GROUPS.SAVE_CONTINUE_BTN' | translate }}
                     </button>
                     <button *ngIf="isEdit==true" type="submit" [disabled]="!formChanged" class="govuk-button"
                         data-module="govuk-button">
-                        {{ 'SAVE_BTN' | translate }}
+                        {{ 'GROUPS.SAVE_BTN' | translate }}
                     </button>
                     <button *ngIf="isEdit!=true" type="button" (click)="onCancelClick()"
                         class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                        {{ 'CANCEL_BTN' | translate }}
+                        {{ 'GROUPS.CANCEL_BTN' | translate }}
                     </button>
                     <button *ngIf="isEdit==true" type="button" (click)="onCancelAndGoToGroupClick()"
                         class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                        {{ 'CANCEL_GO_GROUP_BTN' | translate }}
+                        {{ 'GROUPS.CANCEL_GO_GROUP_BTN' | translate }}
                     </button>
                 </div>
             </div>

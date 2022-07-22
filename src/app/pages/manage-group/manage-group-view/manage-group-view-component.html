@@ -4,16 +4,16 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'GROUPS.ADMINISTRATOR_DASHBOARD' | translate
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'GROUPS.MANAGE_GROUPS' | translate
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
                         <span *ngIf="isEdit==true" class="govuk-breadcrumbs__link">{{group.groupName}}</span>
-                        <span *ngIf="isEdit!=true" class="govuk-breadcrumbs__link">{{ 'VIEW_GROUP' | translate}}</span>
+                        <span *ngIf="isEdit!=true" class="govuk-breadcrumbs__link">{{ 'GROUPS.VIEW_GROUP' | translate}}</span>
                     </li>
                 </ol>
             </div>
@@ -23,11 +23,11 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <a href="javascript:;" *ngIf="isEdit!=true" (click)="onGoBackClick()" class="govuk-back-link back-button">{{ 'BACK' | translate }}</a>
+        <a href="javascript:;" *ngIf="isEdit!=true" (click)="onGoBackClick()" class="govuk-back-link back-button">{{ 'GROUPS.BACK' | translate }}</a>
         <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">
-            Group : {{group.groupName}} </h1>
+            {{ 'GROUPS.GROUP_SEM' | translate}} {{group.groupName}} </h1>
         <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">
-            {{ 'VIEW_GROUP' | translate }} : {{group.groupName}} </h1>
+            {{ 'GROUPS.VIEW_GROUP' | translate }} : {{group.groupName}} </h1>
     </div>
 </div>
 
@@ -36,7 +36,7 @@
         <div class="govuk-button-group">
             <button type="button" (click)="onNameEditClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button">
-                {{ 'CHANGE_GROUP_NAME_BTN' | translate }}
+                {{ 'GROUPS.CHANGE_GROUP_NAME_BTN' | translate }}
             </button>
         </div>
     </div>
@@ -44,10 +44,10 @@
 <div class="top-margin">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-s">{{ 'ROLES_FOR_GROUP' | translate }}</h2>
+            <h2 class="govuk-heading-s">{{ 'GROUPS.ROLES_FOR_GROUP' | translate }}</h2>
             <app-details [detailsData]="detailsData[0]"></app-details>
             <div *ngIf="group.roles.length == 0">
-                <p>{{'NONE'| translate}}
+                <p>{{'GROUPS.NONE'| translate}}
                 <p>
             </div>
         </div>
@@ -66,7 +66,7 @@
             <div class="govuk-button-group">
                 <button type="button" (click)="onRoleEditClick()" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button">
-                    {{ 'MANAGE_GROUP_ROLE_BTN' | translate }}
+                    {{ 'GROUPS.MANAGE_GROUP_ROLE_BTN' | translate }}
                 </button>
             </div>
         </div>
@@ -76,14 +76,14 @@
 <div class="govuk-form-group" id="user-mfa-form-group">
     <fieldset class="govuk-fieldset">
         <legend class="govuk-heading-s">
-            Security Level
+            {{ 'GROUPS.SEC_LEVEL' | translate }}
         </legend>
      <app-details [detailsData]="detailsData[1]"></app-details>
         <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
             <input [attr.disabled]=true [checked]="group.mfaEnabled" class="govuk-checkboxes__input" id="mfaEnabled"
                 formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
             <label class="govuk-label govuk-checkboxes__label" for="mfaEnabled">
-                Additional security using digital device
+                {{ 'GROUPS.ADD_SEC_DEG_USER' | translate }}
             </label>
         </div>
     </fieldset>
@@ -93,9 +93,9 @@
     <div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h2 class="govuk-heading-s">{{ 'LIST_OF_USERS_GROUP' | translate }}</h2>
+                <h2 class="govuk-heading-s">{{ 'GROUPS.LIST_OF_USERS_GROUP' | translate }}</h2>
                 <div *ngIf="group.users.length == 0">
-                    <p>{{'NONE'| translate}}
+                    <p>{{'GROUPS.NONE'| translate}}
                     <p>
                 </div>
             </div>
@@ -115,11 +115,11 @@
             <div class="govuk-button-group">
                 <button type="button" (click)="onUserEditClick()" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button">
-                    {{ 'MANAGE_USER_BTN' | translate }}
+                    {{ 'GROUPS.MANAGE_USER_BTN' | translate }}
                 </button>
             </div>
             <div>
-                <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{ 'DELETE_GROUP' | translate }}</a>
+                <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{ 'GROUPS.DELETE_GROUP' | translate }}</a>
             </div>
         </div>
     </div>

@@ -5,27 +5,27 @@
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
                         <a class="govuk-breadcrumbs__link" routerLink="/home">
-                            {{ 'ADMINISTRATOR_DASHBOARD' | translate }}</a>
+                            {{ 'GROUPS.ADMINISTRATOR_DASHBOARD' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_GROUPS' | translate }}</span>
+                        <span class="govuk-breadcrumbs__link"> {{ 'GROUPS.MANAGE_GROUPS' | translate }}</span>
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_GROUPS' | translate }}</h1>
+            <h1 class="govuk-heading-xl page-title">{{ 'GROUPS.MANAGE_GROUPS' | translate }}</h1>
             <div class="manage-groups-bg">
-                <p>Manage large numbers of users all at once. You can give your group a name, add users and assign them roles.</p>
+                <p>{{ 'GROUPS.MANAGE_GROUPS_DES' | translate }}</p>
             </div>
             <button type="button" (click)="onAddClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button">
-                {{ 'CREATE_GROUP_BTN' | translate }}
+                {{ 'GROUPS.CREATE_GROUP_BTN' | translate }}
             </button>
 
             <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchText ===''">
-                <label class="govuk-label" for="search"> {{ 'SEARCH_FOR_GROUP' | translate }} </label>
+                <label class="govuk-label" for="search"> {{ 'GROUPS.SEARCH_FOR_GROUP' | translate }} </label>
                 <span id="first-name-error" class="govuk-error-message"
                 *ngIf="searchSumbited && searchText ===''">
-                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a group’s name
+                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{ 'GROUPS.ERR_GROUP_NAME_REQ' | translate }}
               </span>
                 <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
                 </app-search-box>

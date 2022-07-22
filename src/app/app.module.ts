@@ -163,6 +163,7 @@ import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/mana
 import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-reset/confirm-mfa-reset.component';
 import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
 import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
+import { ManageGroupErrorComponent } from './pages/manage-group/manage-group-error/manage-group-error.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -254,6 +255,7 @@ export function createTranslateLoader(http: HttpClient) {
     ManageGroupEditRolesConfirmComponent,
     ManageGroupViewComponent,
     ManageGroupOperationSuccessComponent,
+    ManageGroupErrorComponent,
     ManageGroupDeleteConfirmComponent,
     BuyerConfirmChangesComponent,
     ManageOrgRegRightToBuyComponent,
@@ -291,7 +293,7 @@ export function createTranslateLoader(http: HttpClient) {
     ManageOrganisationProfileAddContactToSiteComponent,
     ConfirmMfaResetComponent,
     SuccessUserMfaComponent,
-    AccessibilityStatementComponent
+    AccessibilityStatementComponent,
   ],
   imports: [
     // BrowserModule,
