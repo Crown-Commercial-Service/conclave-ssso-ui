@@ -36,6 +36,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
         this.selectedOrgId = params.id;
         this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
         this.org = await this.organisationService.getOrganisation(params.id).toPromise();
+        // Passing true to get hidden identifier for manage services eligibility page
         this.registries = await this.ciiService.getOrgDetails(params.id, true).toPromise();
         if (this.registries != undefined) {
           this.additionalIdentifiers = this.registries?.additionalIdentifiers;
@@ -46,7 +47,15 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
 
   public getSchemaName(schema: string): string {
     let selecedScheme = this.schemeData.find(s => s.scheme === schema);
-    return selecedScheme?.schemeName;
+    if(selecedScheme?.schemeName) {
+      return selecedScheme?.schemeName;
+    }
+    else if (schema === 'GB-CCS') {
+      return 'Internal Identifier';
+    }
+    else {
+      return '';
+    }
   }
 
   public onContinueClick() {
