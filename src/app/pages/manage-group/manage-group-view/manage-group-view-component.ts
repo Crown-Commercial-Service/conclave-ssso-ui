@@ -34,9 +34,8 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   rolesTableHeaders = ['NAME'];
   roesColumnsToDisplay = ['name'];
   detailsData = [
-    'The roles selected here will set what services are available to the users in this group.',
-    'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
-  ];
+    'MANAGE_GROUP_ROLE',
+    'MANAGE_GROUP_SECURITY']
   constructor(
     protected uiStore: Store<UIState>,
     private router: Router,

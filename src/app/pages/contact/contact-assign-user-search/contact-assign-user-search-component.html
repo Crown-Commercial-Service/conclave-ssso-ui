@@ -4,37 +4,42 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' |
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'MANAGE_MY_ORG.ADMINISTRATOR_DASHBOARD'
+                            |
                             translate}}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
                         <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{
-                            'MANAGE_YOUR_ORGANISATION'
+                            'MANAGE_MY_ORG.MANAGE_YOUR_ORGANISATION'
                             |translate}}</a>
                     </li>
                     <li *ngIf="assigningSiteId != 0" class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{
+                            'MANAGE_MY_ORG.EDIT_SITE' |
                             translate
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'CONTACT_ASSIGN_SELECTION'
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{
+                            'MANAGE_MY_ORG.CONTACT_ASSIGN_SELECTION'
                             |translate}}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link"> {{ 'SEARCH_USERS' | translate }}</span>
+                        <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_MY_ORG.SEARCH_USERS' | translate }}</span>
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title"> {{ 'SELECT_USER_FOR_CONTACTS' | translate }}</h1>
-            <p class="govuk-heading-s ">{{ 'SEARCH_AND_SELECT_USER' | translate }}</p>
+            <h1 class="govuk-heading-xl page-title"> {{ 'MANAGE_MY_ORG.SELECT_USER_FOR_CONTACTS' | translate }}</h1>
+            <p class="govuk-heading-s ">{{ 'MANAGE_MY_ORG.SEARCH_AND_SELECT_USER' | translate }}</p>
 
-            <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchingUserName ===''">
-                <label class="govuk-label" for="search"> {{ 'SEARCH_USERS_BY_EMAIL' | translate }} </label>
+            <div class="govuk-form-group" id="search-form-group"
+                [class.govuk-form-group--error]="searchSumbited && searchingUserName ===''">
+                <label class="govuk-label" for="search"> {{ 'MANAGE_MY_ORG.SEARCH_USERS_BY_EMAIL' | translate }} </label>
                 <span id="first-name-error" class="govuk-error-message"
-                *ngIf="searchSumbited && searchingUserName ===''">
-                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a user’s name or email address
-              </span>
+                    *ngIf="searchSumbited && searchingUserName ===''">
+                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                    'MANAGE_MY_ORG.ERROR_REQ_EMAIL_OR_NAME' | translate }}
+                </span>
                 <app-search-box [(searchText)]="searchingUserName" (onSearchClickEvent)="onSearchClick()">
                 </app-search-box>
             </div>
@@ -55,11 +60,11 @@
     <div class="govuk-button-group continue-button-group">
         <button type="button" [disabled]="selectedUserName == ''" class="govuk-button" data-module="govuk-button"
             (click)="onContinue()">
-            {{ 'CONTINUE_BTN' | translate }}
+            {{ 'MANAGE_MY_ORG.CONTINUE_BTN' | translate }}
         </button>
         <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
             data-module="govuk-button">
-            {{ 'CANCEL_BTN' | translate }}
+            {{ 'MANAGE_MY_ORG.CANCEL_BTN' | translate }}
         </button>
     </div>
 

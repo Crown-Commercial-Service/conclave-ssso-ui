@@ -2,23 +2,23 @@
     <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
             <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'MANAGE_MY_ORG.ADMINISTRATOR_DASHBOARD' | translate}}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{ 'MANAGE_YOUR_ORGANISATION'
+                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{ 'MANAGE_MY_ORG.MANAGE_YOUR_ORGANISATION'
                     |translate}}</a>
             </li>
             <li *ngIf="assigningSiteId != 0" class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'MANAGE_MY_ORG.EDIT_SITE' |
                     translate
                     }}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
-                <span class="govuk-breadcrumbs__link"> {{ 'CONTACT_ASSIGN_SELECTION' | translate }}</span>
+                <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_MY_ORG.CONTACT_ASSIGN_SELECTION' | translate }}</span>
             </li>
         </ol>
     </div>
-    <h1 class="govuk-heading-xl page-title"> {{ 'SELECT_CONTACT_TYPE_TO_ASSIGN' | translate }}</h1>
+    <h1 class="govuk-heading-xl page-title"> {{ 'MANAGE_MY_ORG.SELECT_CONTACT_TYPE_TO_ASSIGN' | translate }}</h1>
 
     <div class="govuk-error-summary radio-form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
         id="error-summary" data-module="govuk-error-summary" *ngIf="formValid(selectionForm) == false && submitted">
@@ -29,7 +29,7 @@
             <ul class="govuk-list govuk-error-summary__list">
                 <li *ngIf="formValid(selectionForm) == false && submitted">
                     <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
-                        {{ assigningSiteId != 0 ?  ('ERROR_SELECT_BELOW_OPTION' | translate) : ('ERROR_SELECT_ONE_OPTION' | translate) }} </a>
+                        {{ assigningSiteId != 0 ?  ('MANAGE_MY_ORG.ERROR_SELECT_BELOW_OPTION' | translate) : ('MANAGE_MY_ORG.ERROR_SELECT_ONE_OPTION' | translate) }} </a>
                 </li>
             </ul>
         </div>
@@ -40,26 +40,26 @@
                 [class.govuk-form-group--error]="formValid(selectionForm) == false && submitted">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        {{ assigningSiteId != 0 ? ('SELECT_BELOW_OPTION_TO_CONTINUE' | translate) : ('SELECT_ONE_OPTION_TO_CONTINUE' | translate )}}
+                        {{ assigningSiteId != 0 ? ('MANAGE_MY_ORG.SELECT_BELOW_OPTION_TO_CONTINUE' | translate) : ('MANAGE_MY_ORG.SELECT_ONE_OPTION_TO_CONTINUE' | translate )}}
                     </legend>
                     <span *ngIf="formValid(selectionForm) == false && submitted" id="select-one-error"
                         class="govuk-error-message">
                         <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                        {{  assigningSiteId != 0 ?  ('ERROR_SELECT_BELOW_OPTION' | translate) : ('ERROR_SELECT_ONE_OPTION' | translate) }}
+                        {{  assigningSiteId != 0 ?  ('MANAGE_MY_ORG.ERROR_SELECT_BELOW_OPTION' | translate) : ('MANAGE_MY_ORG.ERROR_SELECT_ONE_OPTION' | translate) }}
                     </span>
                     <div class="govuk-radios">
                         <div class="govuk-radios__item">
                             <input #input class="govuk-radios__input" id="user-contact" type="radio" value="userContact"
                                 formControlName="selection">
                             <label class="govuk-label govuk-radios__label" for="user-contact">
-                                {{ 'ASSIGN_USER_CONTACT' | translate }}
+                                {{ 'MANAGE_MY_ORG.ASSIGN_USER_CONTACT' | translate }}
                             </label>
                         </div>
                         <div class="govuk-radios__item" *ngIf="assigningOrgId && assigningOrgId != ''">
                             <input #input class="govuk-radios__input" id="site-contact" type="radio" value="siteContact"
                                 formControlName="selection">
                             <label class="govuk-label govuk-radios__label" for="site-contact">
-                                {{ 'ASSIGN_SITE_CONTACT' | translate }}
+                                {{ 'MANAGE_MY_ORG.ASSIGN_SITE_CONTACT' | translate }}
                             </label>
                         </div>
                     </div>
@@ -67,11 +67,11 @@
             </div>
             <div class="govuk-button-group continue-button-group">
                 <button type="submit" class="govuk-button" data-module="govuk-button">
-                    {{ 'CONTINUE_BTN' | translate }}
+                    {{ 'MANAGE_MY_ORG.CONTINUE_BTN' | translate }}
                 </button>
                 <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button">
-                    {{ 'CANCEL_BTN' | translate }}
+                    {{ 'MANAGE_MY_ORG.CANCEL_BTN' | translate }}
                 </button>
             </div>
         </form>

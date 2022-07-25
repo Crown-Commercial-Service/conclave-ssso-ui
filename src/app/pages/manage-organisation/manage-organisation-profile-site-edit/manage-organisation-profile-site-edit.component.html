@@ -4,22 +4,23 @@
       <ol class="govuk-breadcrumbs__list">
         <li class="govuk-breadcrumbs__list-item">
           <a class="govuk-breadcrumbs__link" routerLink="/home">
-            {{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+            {{ 'MANAGE_MY_ORG.ADMINISTRATOR_DASHBOARD' | translate}}</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
-          <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{ 'MANAGE_YOUR_ORGANISATION' | translate
+          <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{
+            'MANAGE_MY_ORG.MANAGE_YOUR_ORGANISATION' | translate
             }}</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
-          <span *ngIf="isEdit!=true" class="govuk-breadcrumbs__link">{{ 'ADD_SITE' | translate
+          <span *ngIf="isEdit!=true" class="govuk-breadcrumbs__link">{{ 'MANAGE_MY_ORG.ADD_SITE' | translate
             }}</span>
-          <span *ngIf="isEdit==true" class="govuk-breadcrumbs__link">{{ 'EDIT_SITE' | translate
+          <span *ngIf="isEdit==true" class="govuk-breadcrumbs__link">{{ 'MANAGE_MY_ORG.EDIT_SITE' | translate
             }}</span>
         </li>
       </ol>
     </div>
-    <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">{{ 'ADD_SITE' | translate }}</h1>
-    <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">{{ 'EDIT_SITE' | translate }}</h1>
+    <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">{{ 'MANAGE_MY_ORG.ADD_SITE' | translate }}</h1>
+    <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">{{ 'MANAGE_MY_ORG.EDIT_SITE' | translate }}</h1>
     <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
       id="error-summary" data-module="govuk-error-summary"
       *ngIf="(!formValid(formGroup) || serverError.length > 0) && submitted">
@@ -30,51 +31,52 @@
         <ul class="govuk-list govuk-error-summary__list">
           <li *ngIf="submitted && formGroup.controls.name.hasError('required')">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
-              'ERROR_SITE_NAME' | translate }}</a>
+              'MANAGE_MY_ORG.ERROR_SITE_NAME' | translate }}</a>
           </li>
           <li *ngIf="submitted && formGroup.controls.name.errors?.pattern">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
-              'ERROR_INVALID_SITE' | translate }}</a>
+              'MANAGE_MY_ORG.ERROR_INVALID_SITE' | translate }}</a>
           </li>
           <li
             *ngIf="submitted && (formGroup.controls.name.errors?.minlength || formGroup.controls.name.errors?.maxlength)">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
-              'ERROR_INVALID_SITE_LENGTH' | translate }}</a>
+              'MANAGE_MY_ORG.ERROR_INVALID_SITE_LENGTH' | translate }}</a>
           </li>
           <li *ngIf="submitted && !formGroup.controls.name.hasError('required') && serverError == 'INVALID_SITE_NAME'">
-            <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> Site name {{dublicateSiteName}}
-              already exists, enter a different site name.</a>
+            <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">{{ 'MANAGE_MY_ORG.SITE_NAME' | translate }}
+              {{dublicateSiteName}}
+              {{ 'MANAGE_MY_ORG.ENTER_DIFF_SITE' | translate }}</a>
           </li>
           <li *ngIf="submitted && formGroup.controls.streetAddress.hasError('required')">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
-              'ERROR_STREET_ADDRESS' | translate }} </a>
+              'MANAGE_MY_ORG.ERROR_STREET_ADDRESS' | translate }} </a>
           </li>
           <li *ngIf="submitted && formGroup.controls.streetAddress.errors?.pattern">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
-              'ERROR_INVALID_STREET' | translate }} </a>
+              'MANAGE_MY_ORG.ERROR_INVALID_STREET' | translate }} </a>
           </li>
           <li
             *ngIf="submitted && (formGroup.controls.streetAddress.errors?.minlength || formGroup.controls.streetAddress.errors?.maxlength)">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
-              'ERROR_INVALID_STREET_LENGTH' | translate }} </a>
+              'MANAGE_MY_ORG.ERROR_INVALID_STREET_LENGTH' | translate }} </a>
           </li>
           <li *ngIf="submitted && formGroup.controls.locality.errors?.pattern">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(2)"> {{
-              'ERROR_INVALID_LOCALITY' | translate }} </a>
+              'MANAGE_MY_ORG.ERROR_INVALID_LOCALITY' | translate }} </a>
           </li>
           <li
             *ngIf="submitted && (formGroup.controls.locality.errors?.minlength || formGroup.controls.locality.errors?.maxlength)">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(2)"> {{
-              'ERROR_INVALID_LOCALITY_LENGTH' | translate }} </a>
+              'MANAGE_MY_ORG.ERROR_INVALID_LOCALITY_LENGTH' | translate }} </a>
           </li>
           <li *ngIf="submitted && formGroup.controls.postalCode.hasError('required')">
             <a href="javascript:;" onClick="return false;" (click)="setFocus(4)"> {{
-              'ERROR_POSTAL_CODE' | translate }} </a>
+              'MANAGE_MY_ORG.ERROR_POSTAL_CODE' | translate }} </a>
           </li>
           <li
             *ngIf="submitted && (formGroup.controls.countryCode.hasError('required') || serverError == 'INVALID_COUNTRY_CODE')">
             <a href="javascript:;" onClick="return false;" (click)="scrollToAnchor('country-code-form-group')"> {{
-              'ERROR_COUNTRY_CODE' | translate }} </a>
+              'MANAGE_MY_ORG.ERROR_COUNTRY_CODE' | translate }} </a>
           </li>
         </ul>
       </div>
@@ -91,26 +93,27 @@
         <div class="govuk-grid-column-two-thirds">
           <div class="govuk-form-group" id="name-form-group"
             [class.govuk-form-group--error]="submitted && (formGroup.controls.name.hasError('required') || (!formGroup.controls.name.hasError('required') && serverError == 'INVALID_SITE_NAME') || (formGroup.controls.name.errors?.pattern || (formGroup.controls.name.errors?.minlength || formGroup.controls.name.errors?.maxlength)))">
-            <label class="govuk-label" for="name"> {{ 'SITE_NAME' | translate }} </label>
+            <label class="govuk-label" for="name"> {{ 'MANAGE_MY_ORG.SITE_NAME' | translate }} </label>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && formGroup.controls.name.hasError('required')">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-              'ERROR_SITE_NAME' | translate }}
+              'MANAGE_MY_ORG.ERROR_SITE_NAME' | translate }}
             </span>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && !formGroup.controls.name.hasError('required') && serverError == 'INVALID_SITE_NAME'">
-              <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>Site name {{dublicateSiteName}}
-              already exists, enter a different site name.
+              <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>{{ 'MANAGE_MY_ORG.SITE_NAME' | translate }}
+              {{dublicateSiteName}}
+              {{ 'MANAGE_MY_ORG.ENTER_DIFF_SITE' | translate }}
             </span>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && formGroup.controls.name.errors?.pattern">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-              'ERROR_INVALID_SITE' | translate }}
+              'MANAGE_MY_ORG.ERROR_INVALID_SITE' | translate }}
             </span>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && (formGroup.controls.name.errors?.minlength || formGroup.controls.name.errors?.maxlength)">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-              'ERROR_INVALID_SITE_LENGTH' | translate }}
+              'MANAGE_MY_ORG.ERROR_INVALID_SITE_LENGTH' | translate }}
             </span>
             <input #input formControlName="name" class="govuk-input" id="name" name="name" type="text"
               (input)="formValueChanged()"
@@ -119,21 +122,21 @@
 
           <div class="govuk-form-group" id="street-address-form-group"
             [class.govuk-form-group--error]="submitted && (formGroup.controls.streetAddress.hasError('required') || formGroup.controls.streetAddress.errors?.pattern || (formGroup.controls.streetAddress.errors?.minlength || formGroup.controls.streetAddress.errors?.maxlength))">
-            <label class="govuk-label" for="street-address"> {{ 'STREET_ADDRESS' | translate }} </label>
+            <label class="govuk-label" for="street-address"> {{ 'MANAGE_MY_ORG.STREET_ADDRESS' | translate }} </label>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && formGroup.controls.streetAddress.hasError('required')">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-              'ERROR_STREET_ADDRESS' | translate }}
+              'MANAGE_MY_ORG.ERROR_STREET_ADDRESS' | translate }}
             </span>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && formGroup.controls.streetAddress.errors?.pattern">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-              'ERROR_INVALID_STREET' | translate }}
+              'MANAGE_MY_ORG.ERROR_INVALID_STREET' | translate }}
             </span>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && (formGroup.controls.streetAddress.errors?.minlength || formGroup.controls.streetAddress.errors?.maxlength)">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-              'ERROR_INVALID_STREET_LENGTH' | translate }}
+              'MANAGE_MY_ORG.ERROR_INVALID_STREET_LENGTH' | translate }}
             </span>
             <input #input formControlName="streetAddress" class="govuk-input" id="street-address" name="street-address"
               type="text"
@@ -142,32 +145,34 @@
 
           <div class="govuk-form-group" id="locality-form-group"
             [class.govuk-form-group--error]="submitted && (formGroup.controls.locality.errors?.pattern || (formGroup.controls.locality.errors?.minlength || formGroup.controls.locality.errors?.maxlength))">
-            <label class="govuk-label" for="locality"> {{ 'LOCALITY' | translate }} (optional) </label>
+            <label class="govuk-label" for="locality"> {{ 'MANAGE_MY_ORG.LOCALITY' | translate }} </label>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && formGroup.controls.locality.errors?.pattern">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-              'ERROR_INVALID_LOCALITY' | translate }}
+              'MANAGE_MY_ORG.ERROR_INVALID_LOCALITY' | translate }}
             </span>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && (formGroup.controls.locality.errors?.minlength || formGroup.controls.locality.errors?.maxlength)">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-              'ERROR_INVALID_LOCALITY_LENGTH' | translate }}
+              'MANAGE_MY_ORG.ERROR_INVALID_LOCALITY_LENGTH' | translate }}
             </span>
-            <input #input formControlName="locality" [class.govuk-input--error]="submitted && (formGroup.controls.locality.errors?.pattern || formGroup.controls.locality.errors?.minlength || formGroup.controls.locality.errors?.maxlength)" class="govuk-input" id="locality" name="locality" type="text">
+            <input #input formControlName="locality"
+              [class.govuk-input--error]="submitted && (formGroup.controls.locality.errors?.pattern || formGroup.controls.locality.errors?.minlength || formGroup.controls.locality.errors?.maxlength)"
+              class="govuk-input" id="locality" name="locality" type="text">
           </div>
 
           <div class="govuk-form-group" id="region-form-group">
-            <label class="govuk-label" for="region"> {{ 'REGION' | translate }} (optional) </label>
+            <label class="govuk-label" for="region"> {{ 'MANAGE_MY_ORG.REGION' | translate }} </label>
             <input #input formControlName="region" class="govuk-input" id="region" name="region" type="text">
           </div>
 
           <div class="govuk-form-group" id="postal-code-form-group"
             [class.govuk-form-group--error]="submitted && formGroup.controls.postalCode.hasError('required')">
-            <label class="govuk-label" for="postal-code"> {{ 'POSTAL_CODE' | translate }} </label>
+            <label class="govuk-label" for="postal-code"> {{ 'MANAGE_MY_ORG.POSTAL_CODE' | translate }} </label>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && formGroup.controls.postalCode.hasError('required')">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-              'ERROR_POSTAL_CODE' | translate }}
+              'MANAGE_MY_ORG.ERROR_POSTAL_CODE' | translate }}
             </span>
             <input #input formControlName="postalCode" class="govuk-input" id="postal-code" name="postal-code"
               type="text" [class.govuk-input--error]="submitted && formGroup.controls.postalCode.hasError('required')">
@@ -176,13 +181,13 @@
           <div class="govuk-form-group" id="country-code-form-group"
             [class.govuk-form-group--error]="submitted && formGroup.controls.countryCode.hasError('required')">
             <span class="govuk-label" for="country-code">
-              {{ 'COUNTRY_CODE' | translate }}
+              {{ 'MANAGE_MY_ORG.COUNTRY_CODE' | translate }}
             </span>
             <span class="govuk-error-message"></span>
             <span id="name-error" class="govuk-error-message"
               *ngIf="submitted && (formGroup.controls.countryCode.hasError('required') ||  serverError == 'INVALID_COUNTRY_CODE')">
               <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-              'ERROR_COUNTRY_CODE' | translate }}
+              'MANAGE_MY_ORG.ERROR_COUNTRY_CODE' | translate }}
             </span>
             <mat-form-field class="form-field-country"
               [class.govuk-input--error]="submitted && formGroup.controls.countryCode.hasError('required')">
@@ -213,7 +218,7 @@
       <div class="govuk-grid-row" *ngIf="isEdit==true">
         <div class="govuk-grid-column-full">
           <div>
-            <h2> {{ 'CONTACT_DETAILS' | translate }}</h2>
+            <h2> {{ 'MANAGE_MY_ORG.CONTACT_DETAILS' | translate }}</h2>
             <app-govuk-table [headerTextKeys]="contactTableHeaders" [data]="contactData"
               [dataKeys]="contactColumnsToDisplay" [isHyperLinkVisible]="true" [hyperLinkText]="'EDIT'"
               (hyperLinkClickEvent)="onContactEditClick($event)" [useClientPagination]="true">
@@ -222,10 +227,10 @@
           <div class="govuk-form-group govuk-button-group">
             <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
               (click)="onContactAddClick()">
-              {{ 'ADD_ANOTHER_CONTACT_BTN' | translate }}</button>
+              {{ 'MANAGE_MY_ORG.ADD_ANOTHER_CONTACT_BTN' | translate }}</button>
             <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
               (click)="onContactAssignClick()">
-              {{ 'FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
+              {{ 'MANAGE_MY_ORG.FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
           </div>
         </div>
       </div>
@@ -233,16 +238,21 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <div class="govuk-button-group save-cancel-button-group">
-            <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
-              {{ isEdit === false ? 'Save and Continue' : ' Save changes'}}
+            <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button"
+              *ngIf="isEdit === false">
+              {{ 'MANAGE_MY_ORG.SAVE_AND_CON_BTN' | translate }}
+            </button>
+            <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button"
+              *ngIf="isEdit != false">
+              {{ 'MANAGE_MY_ORG.SAVE_BTN' | translate }}
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
               data-module="govuk-button">
-              {{ 'CANCEL_BTN' | translate }}
+              {{ 'MANAGE_MY_ORG.CANCEL_BTN' | translate }}
             </button>
           </div>
           <a href="javascript:;" *ngIf="isEdit==true" (click)="onDeleteClick()" class="navigation-text delete-link">{{
-            'DELETE_SITE'
+            'MANAGE_MY_ORG.DELETE_SITE'
             | translate }}</a>
         </div>
       </div>

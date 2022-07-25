@@ -4,47 +4,62 @@
       <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
           <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+            <a class="govuk-breadcrumbs__link" routerLink="/home">{{
+              "ORG_USER_SUPPORT.ADMINISTRATOR_DASHBOARD" | translate
+              }}</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">
-            <span class="govuk-breadcrumbs__link">Organisation user support</span>
+            <span class="govuk-breadcrumbs__link">{{
+              "ORG_USER_SUPPORT.ORG_USER_SUP" | translate
+              }}</span>
           </li>
         </ol>
       </div>
-      <h1 class="govuk-heading-xl page-title">Organisation user support</h1>
-      <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchText ===''">
-        <label class="govuk-label" for="search"> Search for organisation or users </label>
-        <span id="first-name-error" class="govuk-error-message"
-        *ngIf="searchSumbited && searchText ===''">
-        <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter an organisation’s name
-      </span>
+      <h1 class="govuk-heading-xl page-title">
+        {{ "ORG_USER_SUPPORT.ORG_USER_SUP" | translate }}
+      </h1>
+      <div class="govuk-form-group" id="search-form-group"
+        [class.govuk-form-group--error]="searchSumbited && searchText === ''">
+        <label class="govuk-label" for="search">
+          {{ "ORG_USER_SUPPORT.SEARCH_FOR_ORG" | translate }}
+        </label>
+        <span id="first-name-error" class="govuk-error-message" *ngIf="searchSumbited && searchText === ''">
+          <span class="govuk-visually-hidden">{{
+            "ERROR_PREFIX" | translate
+            }}</span>
+          {{ "ORG_USER_SUPPORT.ENTER_ORG_NAME" | translate }}
+        </span>
         <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
         </app-search-box>
       </div>
     </div>
   </div>
 
-  <div class="govuk-grid-row" *ngIf="data && data.orgUserList.length !=0;else no_results">
+  <div class="govuk-grid-row" *ngIf="data && data.orgUserList.length != 0; else no_results">
     <div class="govuk-grid-column-full">
       <div>
-        <app-govuk-table [headerTextKeys]="tableHeaders" [data]="data.orgUserList"
-        [dataKeys]="tableColumnsToDisplay" [isRadioVisible]="true" 
-        (radioClickEvent)="onSelectRow($event)" [serverPageCount]="pageCount" 
-        [useServerPagination]="true" [serverPageCurrentPage]="currentPage"
-        (changeCurrentPageEvent)="setPage($event)"></app-govuk-table>
+        <app-govuk-table [headerTextKeys]="tableHeaders" [data]="data.orgUserList" [dataKeys]="tableColumnsToDisplay"
+          [isRadioVisible]="true" (radioClickEvent)="onSelectRow($event)" [serverPageCount]="pageCount"
+          [useServerPagination]="true" [serverPageCurrentPage]="currentPage" (changeCurrentPageEvent)="setPage($event)">
+        </app-govuk-table>
       </div>
     </div>
   </div>
 
   <ng-template #no_results>
-    <p class="govuk-body govuk-!-font-weight-bold">There are no matching results.</p>
+    <p class="govuk-body govuk-!-font-weight-bold">
+      {{ "NO_MATCHES" | translate }}
+    </p>
   </ng-template>
   <div class="govuk-button-group">
     <!-- <button class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button" (click)="onContinueClick()">Continue</button> -->
-    <button type="button" class="govuk-button"
-      [class.govuk-button--disabled]="selectedRowId === ''" data-module="govuk-button" (click)="onContinueClick()"
-      [disabled]="selectedRowId === ''">Continue</button>
-    <button  type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onCancelClick()">Cancel</button>
+    <button type="button" class="govuk-button" [class.govuk-button--disabled]="selectedRowId === ''"
+      data-module="govuk-button" (click)="onContinueClick()" [disabled]="selectedRowId === ''">
+      {{ "ORG_USER_SUPPORT.CONTINUE_BTN" | translate }}
+    </button>
+    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+      (click)="onCancelClick()">
+      {{ "ORG_USER_SUPPORT.CANCEL_BTN" | translate }}
+    </button>
   </div>
 </div>

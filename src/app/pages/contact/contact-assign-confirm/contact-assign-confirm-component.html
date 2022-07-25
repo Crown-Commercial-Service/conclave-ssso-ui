@@ -2,23 +2,23 @@
     <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
             <li class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToHomeClick()">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToHomeClick()">{{ 'MANAGE_MY_ORG.ADMINISTRATOR_DASHBOARD' | translate}}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToOrgClick()">{{ 'MANAGE_YOUR_ORGANISATION'
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToOrgClick()">{{ 'MANAGE_MY_ORG.MANAGE_YOUR_ORGANISATION'
                     |translate}}</a>
             </li>
             <li *ngIf="assigningSiteId != 0" class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'MANAGE_MY_ORG.EDIT_SITE' |
                     translate
                     }}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
-                <span class="govuk-breadcrumbs__link"> {{ 'ASSIGN_CONTACTS' | translate }}</span>
+                <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_MY_ORG.ASSIGN_CONTACTS' | translate }}</span>
             </li>
         </ol>
     </div>
-    <h1 class="govuk-heading-xl page-title"> {{ 'ASSIGN_CONTACTS_CONFIRM' | translate }}</h1>
+    <h1 class="govuk-heading-xl page-title"> {{ 'MANAGE_MY_ORG.ASSIGN_CONTACTS_CONFIRM' | translate }}</h1>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <div>
@@ -30,11 +30,11 @@
     </div>
     <div class="govuk-button-group continue-button-group">
         <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onConfirmClick()">
-            {{ 'CONFIRM_BTN' | translate }}
+            {{ 'MANAGE_MY_ORG.CONFIRM_BTN' | translate }}
         </button>
         <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
             data-module="govuk-button">
-            {{ 'CANCEL_BTN' | translate }}
+            {{ 'MANAGE_MY_ORG.CANCEL_BTN' | translate }}
         </button>
-    </div>
+    </div> 
 </div>

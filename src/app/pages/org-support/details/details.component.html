@@ -3,12 +3,10 @@
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
       <li class="govuk-breadcrumbs__list-item">
-        <a class="govuk-breadcrumbs__link" routerLink="/home">{{
-          "ADMINISTRATOR_DASHBOARD" | translate
-        }}</a>
+        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ "ORG_USER_SUPPORT.ADMINISTRATOR_DASHBOARD" | translate }}</a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
-        <span class="govuk-breadcrumbs__link">Organisation user support</span>
+        <span class="govuk-breadcrumbs__link">{{ "ORG_USER_SUPPORT.ORG_USER_SUP" | translate }} </span>
       </li>
     </ol>
   </div>
@@ -16,109 +14,65 @@
     {{ u.firstName }} {{ u.lastName }}
   </h1>
   <h2 style="top: -20px; position: relative">
-    Please choose appropriate actions you would like to perform for
+    {{ "ORG_USER_SUPPORT.CHOOSE_APPROPRIATE" | translate }}
     {{ u.userName }}
   </h2>
   <div>
     <div *ngIf="hasAdminRole()" style="font-size: 24px">
-      <input
-        id="chkUnassign"
-        type="checkbox"
-        name="changeRole"
-        [(ngModel)]="changeRoleEnabled"
-        #assignChk
-        (click)="onSelect($event, false)"
-        style="
+      <input id="chkUnassign" type="checkbox" name="changeRole" [(ngModel)]="changeRoleEnabled" #assignChk
+        (click)="onSelect($event, false)" style="
           margin-right: 15px;
           width: 20px;
           height: 20px;
           top: 3px;
           position: relative;
           font-weight: 500;
-        "
-      /><label (click)="onSelect($event, false)" for="chkUnassign"
-        >Unassign organisation administrator role</label
-      >
+        " /><label (click)="onSelect($event, false)" for="chkUnassign">{{ "ORG_USER_SUPPORT.UNASSIGN_ADMIN" | translate }}</label>
     </div>
     <div *ngIf="!hasAdminRole()" style="font-size: 24px">
-      <input
-        type="checkbox"
-        name="changeRole"
-        [(ngModel)]="changeRoleEnabled"
-        #assignChk
-        (click)="onSelect($event, true)"
-        id="chkChangeRole"
-        style="
+      <input type="checkbox" name="changeRole" [(ngModel)]="changeRoleEnabled" #assignChk
+        (click)="onSelect($event, true)" id="chkChangeRole" style="
           margin-right: 15px;
           width: 20px;
           height: 20px;
           top: 3px;
           position: relative;
           font-weight: 500;
-        "
-      /><label (click)="onSelect($event, true)" for="chkChangeRole"
-        >Assign organisation administrator role</label
-      >
+        " /><label (click)="onSelect($event, true)" for="chkChangeRole">{{ "ORG_USER_SUPPORT.ASSIGN_ADMIN" | translate }}</label>
     </div>
   </div>
   <div style="margin-top: 15px">
     <div style="font-size: 24px">
-      <input
-        type="checkbox"
-        [disabled]="!isUserPasswordIdentifier()"
-        name="resetPassword"
-        #resetPassword
-        [(ngModel)]="resetPasswordEnabled"
-        id="chkresetPwd"
-        style="
+      <input type="checkbox" [disabled]="!isUserPasswordIdentifier()" name="resetPassword" #resetPassword
+        [(ngModel)]="resetPasswordEnabled" id="chkresetPwd" style="
           margin-right: 15px;
           width: 20px;
           height: 20px;
           top: 3px;
           position: relative;
-        "
-      /><label (click)="onResetSelect($event)" for="chkresetPwd"
-        >Reset user's password</label
-      >
+        " /><label (click)="onResetSelect($event)" for="chkresetPwd">{{ "ORG_USER_SUPPORT.RESET_USER" | translate }}</label>
     </div>
   </div>
   <div style="margin-top: 15px">
     <div style="font-size: 24px">
-      <input
-        type="checkbox"
-        id="chkResetMFA"
-        [disabled]="!this.user.mfaEnabled"
-        name="resetMfa"
-        [(ngModel)]="resetMfaEnabled"
-        style="
+      <input type="checkbox" id="chkResetMFA" [disabled]="!this.user.mfaEnabled" name="resetMfa"
+        [(ngModel)]="resetMfaEnabled" style="
           margin-right: 15px;
           width: 20px;
           height: 20px;
           top: 3px;
           position: relative;
-        "
-      />
-      <label (click)="onMfaResetSelect($event)" for="chkResetMFA"
-        >Reset user's additional security</label
-      >
+        " />
+      <label (click)="onMfaResetSelect($event)" for="chkResetMFA">{{ "ORG_USER_SUPPORT.RESER_ADD" | translate }}</label>
     </div>
   </div>
   <div class="govuk-button-group" style="margin-top: 40px">
-    <button
-      type="button"
-      class="govuk-button"
-      data-module="govuk-button"
-      (click)="onContinueClick()"
-    >
-      Continue
+    <button type="button" class="govuk-button" data-module="govuk-button" (click)="onContinueClick()">
+      {{ "ORG_USER_SUPPORT.CONTINUE_BTN" | translate }}
     </button>
-    <button
-      type="button"
-      class="govuk-button govuk-button--secondary"
-      data-module="govuk-button"
-      (click)="onCancelClick()"
-    >
-      Cancel
+    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+      (click)="onCancelClick()">
+      {{ "ORG_USER_SUPPORT.CANCEL_BTN" | translate }}
     </button>
   </div>
 </div>

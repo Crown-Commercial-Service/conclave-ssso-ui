@@ -1,13 +1,13 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
-  <a href="javascript:;" (click)="goBack()" class="govuk-back-link">Back</a>
-  <h1 class="govuk-heading-xl page-title">Confirm you want to remove the below from your registries?</h1>
+  <a href="javascript:;" (click)="goBack()" class="govuk-back-link">{{ 'MANAGE_MY_ORG.BACK' | translate }}</a>
+  <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_MY_ORG.REG_DEL_CONFIRM' | translate }}</h1>
   <p *ngIf="item$ | async as i">
     <strong style="font-weight: 500;">{{ i?.identifier?.scheme }}</strong>
     <br />{{ i?.identifier?.id }} - {{ i?.identifier?.legalName }}
   </p>
-  <p style="font-weight: bold;">This cannot be undone</p>
-  <button type="submit" (click)="onSubmit()" class="govuk-button govuk-button--warning">Confirm and delete</button>
+  <p style="font-weight: bold;">{{ 'MANAGE_MY_ORG.THIS_CANNOT_BE_UNDONE' | translate }}</p>
+  <button type="submit" (click)="onSubmit()" class="govuk-button govuk-button--warning">{{ 'MANAGE_MY_ORG.CONFIRM_DELETE_BTN' | translate }}</button>
   <button type="button" style="margin-left:20px;" (click)="goBack()"
-    class="govuk-button govuk-button--secondary">Cancel</button>
+    class="govuk-button govuk-button--secondary">{{ 'MANAGE_MY_ORG.CANCEL_BTN' | translate }}</button>
 </div>

@@ -1,6 +1,6 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
-  <p class="govuk-body-l">Kindly contact your registry authority to update your organisation details</p>
-  <p><a href="javascript:;" (click)="goToSearch()">Search with a different organisation ID</a></p>
-  <p><a href="{{ccsContactUrl}}" target="_blank">Submit a conflict/claim form</a></p>
+  <p class="govuk-body-l">{{ 'MANAGE_MY_ORG.CONT_YOUR_AUTH' | translate }}</p>
+  <p><a href="javascript:;" (click)="goToSearch()">{{ 'MANAGE_MY_ORG.SER_DIFF_ORG' | translate }}</a></p>
+  <p><a href="{{ccsContactUrl}}" target="_blank">{{ 'MANAGE_MY_ORG.SUB_CLAIM' | translate }}</a></p>
 </div>

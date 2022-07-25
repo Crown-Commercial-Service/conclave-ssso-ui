@@ -3,17 +3,17 @@
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
       <li class="govuk-breadcrumbs__list-item">
-        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'MANAGE_SER.ADMINISTRATOR_DASHBOARD' | translate}}</a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
-        <a class="govuk-breadcrumbs__link" routerLink="/buyer/search">Manage service eligibility</a>
+        <a class="govuk-breadcrumbs__link" routerLink="/buyer/search">{{ 'MANAGE_SER.MANAGE_SER_ELIG' | translate}}</a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
-        <span class="govuk-breadcrumbs__link">Confirm your organisation selection</span>
+        <span class="govuk-breadcrumbs__link">{{ 'MANAGE_SER.CONFIRM_SELECTION' | translate}}</span>
       </li>
     </ol>
   </div>
-  <h1 class="govuk-heading-xl page-title">Confirm your organisation selection</h1>
+  <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_SER.CONFIRM_SELECTION' | translate}}</h1>
   <div *ngIf="org">
     <p style="margin-top:40px;">
       <span style="font-weight: 700;">{{ org?.identifier?.legalName }}</span><br />
@@ -24,14 +24,13 @@
       {{ org?.address?.countryName }}<br *ngIf="org?.address?.countryName" />
     </p>
   </div>
-  <h2 class="govuk-heading-s">Registries</h2>
+  <h2 class="govuk-heading-s">{{ 'MANAGE_SER.RIGISTERY' | translate}}</h2>
   <table class="govuk-table">
-    <caption class="govuk-table__caption govuk-table__caption--m">Below are all the registries currently linked to this
-      organisation</caption>
+    <caption class="govuk-table__caption govuk-table__caption--m">{{ 'MANAGE_SER.CUR_LINK_ORG' | translate}}</caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header">Registry</th>
-        <th scope="col" class="govuk-table__header">ID</th>
+        <th scope="row" class="govuk-table__header">{{ 'MANAGE_SER.TH_REGISTRY' | translate}}</th>
+        <th scope="col" class="govuk-table__header">{{ 'MANAGE_SER.TH_ID' | translate}}</th>
         <th scope="col" class="govuk-table__header remove_element">.</th>
       </tr>
     </thead>
@@ -39,7 +38,7 @@
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">{{ getSchemaName(registries.identifier?.scheme||'') }}</th>
         <td class="govuk-table__cell">{{ registries.identifier?.id}}</td>
-        <td class="govuk-table__cell">Primary</td>
+        <td class="govuk-table__cell">{{ 'MANAGE_SER.PRIMARY' | translate}}</td>
       </tr>
       <tr class="govuk-table__row" *ngFor="let row of additionalIdentifiers">
         <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
@@ -50,8 +49,8 @@
   </table>
   <div class="govuk-button-group">
     <button type="button" class="govuk-button" data-module="govuk-button"
-      (click)="onContinueClick()">Continue</button>
+      (click)="onContinueClick()">{{ 'MANAGE_SER.CONTINUE_BTN' | translate}}</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onCancelClick()">Cancel</button>
+      (click)="onCancelClick()">{{ 'MANAGE_SER.CANCEL_BTN' | translate}}</button>
   </div>
 </div>

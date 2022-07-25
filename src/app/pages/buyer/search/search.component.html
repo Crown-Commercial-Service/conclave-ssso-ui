@@ -5,21 +5,21 @@
       <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
           <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+            <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'MANAGE_SER.ADMINISTRATOR_DASHBOARD' | translate}}</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">
-            <span class="govuk-breadcrumbs__link">Manage service eligibility</span>
+            <span class="govuk-breadcrumbs__link">{{ 'MANAGE_SER.MANAGE_SER_ELIG' | translate}}</span>
           </li>
         </ol>
       </div>
-      <h1 class="govuk-heading-xl page-title">Manage service eligibility</h1>
-      <h2 style="margin-top: -25px; margin-bottom: 40px;">Search and select the organisation profile that you would like
-        to manage the buyer status for</h2>
+      <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_SER.MANAGE_SER_ELIG' | translate}}</h1>
+      <h2 style="margin-top: -25px; margin-bottom: 40px;">{{ 'MANAGE_SER.BUYER_STATUS_FOR' | translate}}</h2>
+        
       <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchText ===''">
-        <label class="govuk-label" for="search"> Search for organisation </label>
+        <label class="govuk-label" for="search"> {{ 'MANAGE_SER.SEARCH_FOR_ORG' | translate}} </label>
         <span id="first-name-error" class="govuk-error-message"
         *ngIf="searchSumbited && searchText ===''">
-        <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter an organisation’s name
+        <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{ 'MANAGE_SER.ENTER_ORG_NAME' | translate}}
       </span>
         <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
         </app-search-box>
@@ -38,13 +38,13 @@
   </div>
 
   <ng-template #no_results>
-    <p class="govuk-body govuk-!-font-weight-bold">There are no matching results.</p>
+    <p class="govuk-body govuk-!-font-weight-bold">{{ 'NO_MATCHES' | translate}} </p>
   </ng-template>
   <div class="govuk-button-group">
     <button type="button" class="govuk-button"
       [class.govuk-button--disabled]="selectedOrgId === ''" data-module="govuk-button" (click)="onContinueClick()"
-      [disabled]="selectedOrgId === ''">Continue</button>
+      [disabled]="selectedOrgId === ''">{{ 'MANAGE_SER.CONTINUE_BTN' | translate}}</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onCancelClick()">Cancel</button>
+      (click)="onCancelClick()">{{ 'MANAGE_SER.CANCEL_BTN' | translate}}</button>
   </div>
 </div>

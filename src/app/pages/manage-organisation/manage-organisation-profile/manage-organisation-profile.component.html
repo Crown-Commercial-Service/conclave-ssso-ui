@@ -2,14 +2,14 @@
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
       <li class="govuk-breadcrumbs__list-item">
-        <a class="govuk-breadcrumbs__link" routerLink="/home">Administrator dashboard</a>
+        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'MANAGE_MY_ORG.ADMINISTRATOR_DASHBOARD' | translate }}</a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
-        <span class="govuk-breadcrumbs__link">Manage your organisation</span>
+        <span class="govuk-breadcrumbs__link">{{ 'MANAGE_MY_ORG.MANAGE_YOUR_ORGANISATION' | translate }}</span>
       </li>
     </ol>
   </div>
-  <h1 class="govuk-heading-xl page-title">Manage your organisation</h1>
+  <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_MY_ORG.MANAGE_YOUR_ORGANISATION' | translate }}</h1>
   <div>
     <p style="margin-top:40px;">
       <strong style="font-weight: 600;font-size: 24px;">{{ org.identifier?.legalName }}</strong><br />
@@ -20,23 +20,23 @@
       {{ org.address?.countryName }}<br *ngIf="org.address?.countryName" />
     </p>
   </div>
-  <h2 class="govuk-heading-s"> {{ 'BUYER_SUPPLIER_TYPE' | translate }}</h2>
+  <h2 class="govuk-heading-s"> {{ 'MANAGE_MY_ORG.BUYER_SUPPLIER_TYPE' | translate }}</h2>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <div>
-        <p *ngIf="org.detail?.supplierBuyerType == 0">{{ 'SUPPLIER_TYPE' | translate }}</p>
-        <p *ngIf="org.detail?.supplierBuyerType == 1">{{ 'BUYER_TYPE' | translate }}</p>
-        <p *ngIf="org.detail?.supplierBuyerType == 2">{{ 'BUYER_AND_SUPPLIER_TYPE' | translate }}</p>
+        <p *ngIf="org.detail?.supplierBuyerType == 0">{{ 'MANAGE_MY_ORG.SUPPLIER_TYPE' | translate }}</p>
+        <p *ngIf="org.detail?.supplierBuyerType == 1">{{ 'MANAGE_MY_ORG.BUYER_TYPE' | translate }}</p>
+        <p *ngIf="org.detail?.supplierBuyerType == 2">{{ 'MANAGE_MY_ORG.BUYER_AND_SUPPLIER_TYPE' | translate }}</p>
       </div>
     </div>
   </div>
   <div class="govuk-form-group" *ngIf="idps">
     <fieldset class="govuk-fieldset">
       <legend class="govuk-heading-s">
-        {{ 'SIGN_IN_PROVIDER'| translate }}
+        {{ 'MANAGE_MY_ORG.SIGN_IN_PROVIDER'| translate }}
       </legend>
       <span>
-        A sign in provider gives users the option to use a different service to sign in
+        {{ 'MANAGE_MY_ORG.OPTION_SIGN_IN_PROV'| translate }}
       </span>
       <br>
       <br>
@@ -53,7 +53,7 @@
       </div>
     </fieldset>
   </div>
-  <h2 class="govuk-heading-s"> {{ 'CONTACT_DETAILS' | translate }}</h2>
+  <h2 class="govuk-heading-s"> {{ 'MANAGE_MY_ORG.CONTACT_DETAILS' | translate }}</h2>
   <app-details [detailsData]="detailsData[0]"></app-details>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -68,12 +68,12 @@
   <div class="govuk-form-group govuk-button-group">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
       (click)="onContactAddClick()">{{
-      'ADD_ANOTHER_CONTACT_BTN' | translate }}</button>
+      'MANAGE_MY_ORG.ADD_ANOTHER_CONTACT_BTN' | translate }}</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
       (click)="onContactAssignClick()">
-      {{ 'FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
+      {{ 'MANAGE_MY_ORG.FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
   </div>
-  <h2 class="govuk-heading-s">{{ 'SITE_DETAILS' | translate }}</h2>
+  <h2 class="govuk-heading-s">{{ 'MANAGE_MY_ORG.SITE_DETAILS' | translate }}</h2>
   <app-details [detailsData]="detailsData[1]"></app-details>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -87,19 +87,19 @@
   </div>
   <div class="govuk-form-group govuk-button-group">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onSiteAddClick()">Add a new site</button>
+      (click)="onSiteAddClick()">{{ 'MANAGE_MY_ORG.ADD_NEW_SITE' | translate }}</button>
   </div>
 
-  <h2 class="govuk-heading-s" *ngIf="registries">Registries</h2>
+  <h2 class="govuk-heading-s" *ngIf="registries">{{ 'MANAGE_MY_ORG.RIGISTERY' | translate }}</h2>
   <app-details [detailsData]="detailsData[2]"></app-details>
   <table class="govuk-table" *ngIf="registries">
-    <caption class="govuk-table__caption govuk-table__caption--m">Below are the registries currently linked to your
-      organisation</caption>
+    <caption class="govuk-table__caption govuk-table__caption--m">{{ 'MANAGE_MY_ORG.ORG_CAPTION' | translate }}
+      </caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header">Registry</th>
-        <th scope="col" class="govuk-table__header">ID</th>
-        <th scope="col" class="govuk-table__header">Legal name</th>
+        <th scope="row" class="govuk-table__header">{{ 'MANAGE_MY_ORG.TH_REGISTRY' | translate }}</th>
+        <th scope="col" class="govuk-table__header">{{ 'MANAGE_MY_ORG.TH_ID' | translate }}</th>
+        <th scope="col" class="govuk-table__header">{{ 'MANAGE_MY_ORG.TH_LEGAL' | translate }}</th>
         <td scope="col" class="govuk-table__header"></td>
       </tr>
     </thead>
@@ -114,21 +114,20 @@
         <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
         <td class="govuk-table__cell">{{ row.id }}</td>
         <td class="govuk-table__cell">{{ row.legalName}}</td>
-        <td class="govuk-table__cell"><a href="javascript:;" (click)="onRegistryRemoveClick(row)">Remove</a></td>
+        <td class="govuk-table__cell"><a href="javascript:;" (click)="onRegistryRemoveClick(row)">{{ 'MANAGE_MY_ORG.REMOVE' | translate }}</a></td>
       </tr>
     </tbody>
   </table>
   <div class="govuk-form-group govuk-button-group" *ngIf="registries != null">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onRegistryAddClick()">Add new registry</button>
+      (click)="onRegistryAddClick()">{{ 'MANAGE_MY_ORG.ADD_NEW_REG' | translate }}</button>
   </div>
-  <p style="margin-top:40px;"><strong>If you have previously tried to signup or register (CII registry) and have made a
-      mistake, Please</strong> <a id="contactCCSLink" class="navigation-text" href="{{ccsContactUrl}}" target="_blank">
-      Contact CCS</a></p>
+  <p style="margin-top:40px;"><strong>{{ 'MANAGE_MY_ORG.CII_REG' | translate }}</strong> <a id="contactCCSLink" class="navigation-text" href="{{ccsContactUrl}}" target="_blank">
+    {{ 'MANAGE_MY_ORG.ORG_CONTACT_CCS' | translate }}</a></p>
   <div class="govuk-button-group">
     <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button"
-      (click)="onSaveChanges()" [disabled]="changedIdpList.length ==0">Save changes</button>
+      (click)="onSaveChanges()" [disabled]="changedIdpList.length ==0">{{ 'MANAGE_MY_ORG.SAVE_BTN' | translate }}</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onCancel()">Cancel</button>
+      (click)="onCancel()">{{ 'MANAGE_MY_ORG.CANCEL_BTN' | translate }}</button>
   </div>
 </div>

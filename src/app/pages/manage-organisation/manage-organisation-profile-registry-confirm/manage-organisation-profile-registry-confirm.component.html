@@ -3,17 +3,18 @@
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
       <li class="govuk-breadcrumbs__list-item">
-        <a class="govuk-breadcrumbs__link" routerLink="/home">Administrator dashboard</a>
+        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'MANAGE_MY_ORG.ADMINISTRATOR_DASHBOARD' | translate
+          }}</a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
-        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">Manage your organisation</a>
+        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{ 'MANAGE_MY_ORG.MANAGE_YOUR_ORGANISATION' | translate }}</a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
-        <a class="govuk-breadcrumbs__link">Add new registry</a>
+        <a class="govuk-breadcrumbs__link">{{ 'MANAGE_MY_ORG.ADD_NEW_REG' | translate }}</a>
       </li>
     </ol>
   </div>
-  <h1 class="govuk-heading-xl page-title">Confirm your organisation details</h1>
+  <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_MY_ORG.REG_CONFIRM_HEADER' | translate }}</h1>
   <br>
   <div>
     <div>
@@ -26,42 +27,41 @@
         {{ i?.address?.countryName }}
       </p>
       <br>
-      <p><strong style="font-weight: 500;">{{ schemeName }} registration number</strong><br />{{ i?.identifier?.id }}
+      <p><strong style="font-weight: 500;">{{ schemeName }} {{ 'MANAGE_MY_ORG.REG_SELECT_REG_NUM' | translate }}</strong><br />{{ i?.identifier?.id }}
       </p>
       <br>
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            Is this your organisation?
+            {{ 'MANAGE_MY_ORG.REG_SELECT_LABLE_1' | translate }}
           </legend>
           <div class="govuk-radios">
             <div class="govuk-radios__item">
               <input id="lblurOrg" class="govuk-radios__input" type="radio" name="orgGroup" checked="checked"
                 value="CorrectOrganisation" [(ngModel)]="detailValidityOption">
               <label for="lblurOrg" class="govuk-label govuk-radios__label">
-                Yes, and the details are correct
+                {{ 'MANAGE_MY_ORG.REG_SELECT_LABLE_2' | translate }}
               </label>
             </div>
             <div class="govuk-radios__item">
               <input id="wrngAddress" class="govuk-radios__input" type="radio" name="orgGroup" value="WrongAddress"
                 [(ngModel)]="detailValidityOption">
               <label for="wrngAddress" class="govuk-label govuk-radios__label">
-                Yes, but the address is wrong
+                {{ 'MANAGE_MY_ORG.REG_SELECT_LABLE_3' | translate }}
               </label>
             </div>
             <div class="govuk-radios__item">
               <input id="notMyOrg" class="govuk-radios__input" type="radio" name="orgGroup" value="WrongOrganisation"
                 [(ngModel)]="detailValidityOption">
               <label for="notMyOrg" class="govuk-label govuk-radios__label">
-                No, this isn't my organisation
+                {{ 'MANAGE_MY_ORG.REG_SELECT_LABLE_4' | translate }}
               </label>
             </div>
           </div>
 
         </fieldset>
       </div>
-      <button type="button" class="govuk-button" data-module="govuk-button"
-        (click)="onSubmit()">Continue</button>
+      <button type="button" class="govuk-button" data-module="govuk-button" (click)="onSubmit()">{{ 'MANAGE_MY_ORG.CONTINUE_BTN' | translate }}</button>
     </div>
   </div>
 </div>

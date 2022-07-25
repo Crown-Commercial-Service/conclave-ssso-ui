@@ -2,19 +2,19 @@
     <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
             <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'MANAGE_MY_ORG.ADMINISTRATOR_DASHBOARD' | translate}}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{ 'MANAGE_YOUR_ORGANISATION'
+                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{ 'MANAGE_MY_ORG.MANAGE_YOUR_ORGANISATION'
                     |translate}}</a>
             </li>
             <li *ngIf="assigningSiteId != 0" class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'MANAGE_MY_ORG.EDIT_SITE' |
                     translate
                     }}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
-                <span class="govuk-breadcrumbs__link"> {{ 'ERROR' | translate }}</span>
+                <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_MY_ORG.ERROR' | translate }}</span>
             </li>
         </ol>
     </div>
@@ -25,10 +25,10 @@
             </p>
             <a href="javascript:;" *ngIf="assigningSiteId == 0" class="navigation-text"
                 (click)="onNavigateToProfileClick()">
-                {{'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>
+                {{'MANAGE_MY_ORG.RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>
             <a href="javascript:;" *ngIf="assigningSiteId != 0" class="navigation-text"
                 (click)="onNavigateToSiteClick()">
-                {{ 'RETURN_EDIT_SITE' | translate }} </a>
+                {{ 'MANAGE_MY_ORG.RETURN_EDIT_SITE' | translate }} </a>
         </div>
     </div>
 </div>

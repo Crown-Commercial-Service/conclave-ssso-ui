@@ -4,31 +4,31 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' |
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'MANAGE_MY_ORG.ADMINISTRATOR_DASHBOARD' |
                             translate}}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
                         <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{
-                            'MANAGE_YOUR_ORGANISATION'
+                            'MANAGE_MY_ORG.MANAGE_YOUR_ORGANISATION'
                             |translate}}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'CONTACT_ASSIGN_SELECTION'
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'MANAGE_MY_ORG.CONTACT_ASSIGN_SELECTION'
                             |translate}}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link"> {{ 'SEARCH_SITES' | translate }}</span>
+                        <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_MY_ORG.SEARCH_SITES' | translate }}</span>
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title"> {{ 'SELECT_SITE_FOR_CONTACTS' | translate }}</h1>
-            <p class="govuk-heading-s ">{{ 'SEARCH_AND_SELECT_SITE' | translate }}</p>
+            <h1 class="govuk-heading-xl page-title"> {{ 'MANAGE_MY_ORG.SELECT_SITE_FOR_CONTACTS' | translate }}</h1>
+            <p class="govuk-heading-s ">{{ 'MANAGE_MY_ORG.SEARCH_AND_SELECT_SITE' | translate }}</p>
 
             <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchSiteName ===''">
-                <label class="govuk-label" for="search"> {{ 'SEARCH_SITE_BY_NAME' | translate }} </label>
+                <label class="govuk-label" for="search"> {{ 'MANAGE_MY_ORG.SEARCH_SITE_BY_NAME' | translate }} </label>
                 <span id="first-name-error" class="govuk-error-message"
                 *ngIf="searchSumbited && searchSiteName ===''">
-                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a site name
+                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{ 'MANAGE_MY_ORG.ERROR_SITE_NAME' | translate }}
               </span>
                 <app-search-box [(searchText)]="searchSiteName" (onSearchClickEvent)="onSearchClick()">
                 </app-search-box>
@@ -49,11 +49,11 @@
     <div class="govuk-button-group continue-button-group">
         <button type="button" [disabled]="selectedSiteId == 0" class="govuk-button" data-module="govuk-button"
             (click)="onContinue()">
-            {{ 'CONTINUE_BTN' | translate }}
+            {{ 'MANAGE_MY_ORG.CONTINUE_BTN' | translate }}
         </button>
         <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
             data-module="govuk-button">
-            {{ 'CANCEL_BTN' | translate }}
+            {{ 'MANAGE_MY_ORG.CANCEL_BTN' | translate }}
         </button>
     </div>
 

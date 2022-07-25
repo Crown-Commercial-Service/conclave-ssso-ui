@@ -2,42 +2,42 @@
     <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
             <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'MANAGE_MY_ORG.ADMINISTRATOR_DASHBOARD' | translate}}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{ 'MANAGE_YOUR_ORGANISATION'
+                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">{{ 'MANAGE_MY_ORG.MANAGE_YOUR_ORGANISATION'
                     |translate}}</a>
             </li>
             <li *ngIf="assigningSiteId != 0" class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'MANAGE_MY_ORG.EDIT_SITE' |
                     translate
                     }}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item" *ngIf="!siteCreate">
-                <span class="govuk-breadcrumbs__link"> {{ 'SUCCESS' | translate }}</span>
+                <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_MY_ORG.SUCCESS' | translate }}</span>
             </li>
             <li class="govuk-breadcrumbs__list-item" *ngIf="assigningSiteId != 0 && siteCreate">
-                <span class="govuk-breadcrumbs__link"> Site {{siteInfo.siteName}} successfully created</span>
+                <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_MY_ORG.SITE' | translate }} {{siteInfo.siteName}} {{ 'MANAGE_MY_ORG.SUC_CREATED' | translate }}</span>
             </li>
         </ol>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <p class="govuk-body-l" *ngIf="assigningOrgId != ''">
-                {{ 'ASSIGN_TO_ORG_CONTACT_SUCCESS' | translate }}
+                {{ 'MANAGE_MY_ORG.ASSIGN_TO_ORG_CONTACT_SUCCESS' | translate }}
             </p>
             <div *ngIf="assigningSiteId != 0">
-                <p class="govuk-body-l" *ngIf="siteCreate">You have successfully added site {{siteInfo.siteName}}</p>
+                <p class="govuk-body-l" *ngIf="siteCreate">{{ 'MANAGE_MY_ORG.SITE_CREATED' | translate }} {{siteInfo.siteName}}</p>
                 <p class="govuk-body govuk-!-font-size-19 gov_success_msg">
-                    {{ 'ASSIGN_TO_SITE_CONTACT_SUCCESS' | translate }}
+                    {{ 'MANAGE_MY_ORG.ASSIGN_TO_SITE_CONTACT_SUCCESS' | translate }}
                 </p>
             </div>
             <a href="javascript:;" *ngIf="assigningOrgId != '' || assigningSiteId != 0" class="navigation-text"
                 (click)="onNavigateToProfileClick()">
-                {{'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                {{'MANAGE_MY_ORG.RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>&nbsp;&nbsp;&nbsp;&nbsp;
                       <a href="javascript:;" *ngIf="assigningSiteId != 0" class="navigation-text"
                 (click)="onNavigateToSiteClick()">
-                Return to {{siteInfo.siteName}} details </a>
+                {{'MANAGE_MY_ORG.RETURN_TO' | translate }} {{siteInfo.siteName}} {{'MANAGE_MY_ORG.DETAILS' | translate }} </a>
         </div>
     </div>
 </div>
