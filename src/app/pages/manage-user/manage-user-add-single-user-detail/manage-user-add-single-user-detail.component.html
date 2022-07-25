@@ -42,7 +42,8 @@
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(1)">
                             {{'ERROR_LAST_NAME' | translate }}</a>
                     </li>
-                    <li *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
+                    <li
+                        *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
                         <a href="javascript:;" onClick="return false;" (click)="customFocum()">
                             {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
                     </li>
@@ -68,8 +69,7 @@
                             {{ 'ERROR_INVALID_EMAIL'| translate }}</a>
                     </li>
                     <li *ngIf="submitted && formGroup.hasError('identityProviderRequired')">
-                        <a href="javascript:;" onClick="return false;"
-                            (click)="setFocus(3)">
+                        <a href="javascript:;" onClick="return false;" (click)="setFocus(3)">
                             {{ 'ERROR_SIGN_IN_PROVIDER_REQUIRED'| translate }}</a>
                     </li>
                 </ul>
@@ -82,7 +82,7 @@
                         <label class="govuk-label" for="userTitle">{{ 'TITLE' | translate }} (Optional)</label>
                         <select class="govuk-select" id="userTitle" name="userTitle" formControlName="userTitle">
                             <option hidden disabled selected value style="display:none" [ngValue]='null'></option>
-                            <option *ngFor="let item of userTitleArray"  [ngValue]="item">{{item}}</option>
+                            <option *ngFor="let item of userTitleArray" [ngValue]="item">{{item}}</option>
                         </select>
                     </div>
                     <div class="govuk-form-group" id="first-name-form-group"
@@ -94,9 +94,10 @@
                             'ERROR_FIRST_NAME' | translate }}
                         </span>
                         <span id="firstname-error" class="govuk-error-message"
-                        *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
-                        <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
-                      </span>
+                            *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
+                            <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' |
+                            translate }}
+                        </span>
                         <input #input formControlName="firstName" class="govuk-input" id="first-name" name="first-name"
                             type="text" [class.govuk-input--error]="submitted && formGroup.controls.firstName.invalid">
                     </div>
@@ -110,9 +111,10 @@
                             | translate }}
                         </span>
                         <span id="lastname-error" class="govuk-error-message"
-                        *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
-                        <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
-                      </span>
+                            *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
+                            <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' |
+                            translate }}
+                        </span>
                         <input #input formControlName="lastName" class="govuk-input" id="last-name" name="last-name"
                             type="text" [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid">
                     </div>
@@ -231,18 +233,19 @@
                                 {{ 'SIGN_IN_PROVIDER'| translate }}
                             </legend>
                             <span>
-                                A sign in provider gives users the option to use a different service to sign in
+                                A sign in provider gives users the option to use a different service to sign in. Sign in
+                                providers are set at an organisational level. To update the sign in providers for your
+                                Organisation’s users please go to Manage organisations
                             </span>
                             <span id="group-error" class="govuk-error-message label-detail-text-gap"
                                 *ngIf="submitted && formGroup.hasError('identityProviderRequired')">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                                 {{'ERROR_SIGN_IN_PROVIDER_REQUIRED' | translate }}
                             </span>
-
+                            <!-- [attr.disabled]="true" -->
                             <div class="govuk-checkboxes label-detail-text-gap">
-                                <div class="govuk-checkboxes__item"
-                                    *ngFor="let identityProvider of identityProviders; let i=index">
-                                    <input #input class="govuk-checkboxes__input"
+                                <div class="govuk-checkboxes__item" *ngFor="let identityProvider of allIdps">
+                                    <input #input class="govuk-checkboxes__input" [attr.disabled]="true"
                                         id="{{'signInProviderControl_' + identityProvider.id}}"
                                         [formControlName]="'signInProviderControl_' + identityProvider.id"
                                         type="checkbox" value="idp">
@@ -272,7 +275,8 @@
                         {{ 'RESET_USER_PASSWORD_BTN' | translate }}
                     </button>
                     <br>
-                    <button *ngIf="isEdit"(click)="ResetAdditionalSecurity()" type="button"  class="govuk-button" data-module="govuk-button" [disabled]="!MFA_Enabled">
+                    <button *ngIf="isEdit" (click)="ResetAdditionalSecurity()" type="button" class="govuk-button"
+                        data-module="govuk-button" [disabled]="!MFA_Enabled">
                         Reset user’s additional security
                     </button>
                     <div *ngIf="isEdit==true">
