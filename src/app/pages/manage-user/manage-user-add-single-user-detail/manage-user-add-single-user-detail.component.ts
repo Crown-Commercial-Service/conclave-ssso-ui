@@ -232,11 +232,14 @@ export class ManageUserAddSingleUserDetailComponent
       let anyOrganisationIdp = this.identityProviders.find((x: any) => x.connectionName === idp.connectionName);
       if (anyOrganisationIdp) {
         idp.id = anyOrganisationIdp.id;
-        let havingIdp: boolean | any = true;
 
-        havingIdp = this.userProfileResponseInfo.detail.identityProviders?.some((userIdp) => userIdp.identityProviderId == idp.id);
-        this.formGroup.addControl('signInProviderControl_' + idp.id, this.formBuilder.control(havingIdp ? true : ''));
-
+        if (this.isEdit) {
+          let havingIdp: boolean | any = true;
+          havingIdp = this.userProfileResponseInfo.detail.identityProviders?.some((userIdp) => userIdp.identityProviderId == idp.id);
+          this.formGroup.addControl('signInProviderControl_' + idp.id, this.formBuilder.control(havingIdp ? true : ''));
+        } else {
+          this.formGroup.addControl('signInProviderControl_' + idp.id, this.formBuilder.control(true));
+        }
         this.allIdps.push(idp);
       } else {
         this.formGroup.addControl('signInProviderControl_' + idp.id, this.formBuilder.control(false));

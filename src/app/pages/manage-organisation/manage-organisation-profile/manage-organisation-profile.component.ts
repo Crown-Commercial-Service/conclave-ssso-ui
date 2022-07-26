@@ -195,6 +195,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     public onSaveChanges() {
         this.submitted = true;
         if (!this.isIdpChanged || !this.isValid) {
+            this.setFocus();
             return;
         }
         const ciiOrgId = this.tokenService.getCiiOrgId();
