@@ -26,6 +26,7 @@ import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 
 @Component({
   selector: 'app-manage-user-add-single-user-detail',
@@ -34,8 +35,7 @@ import { PatternService } from 'src/app/shared/pattern.service';
 })
 export class ManageUserAddSingleUserDetailComponent
   extends FormBaseComponent
-  implements OnInit
-{
+  implements OnInit {
   organisationId: string;
   userProfileRequestInfo: UserProfileRequestInfo;
   userProfileResponseInfo: UserProfileResponseInfo;
@@ -43,6 +43,7 @@ export class ManageUserAddSingleUserDetailComponent
   orgGroups: Group[];
   orgRoles: Role[];
   identityProviders: IdentityProvider[];
+  allIdps: IdentityProvider[];
   isEdit: boolean = false;
   isAutoDisableMFA: boolean = false;
   editingUserName: string = '';
@@ -60,11 +61,12 @@ export class ManageUserAddSingleUserDetailComponent
   ];
   userTitleArray = ['Mr', 'Mrs', 'Miss', 'Ms', 'Doctor', 'Unspecified'];
   public emailHaserror: boolean = false;
-  public  MFA_Enabled:any=false
+  public MFA_Enabled: any = false;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
     private organisationGroupService: WrapperOrganisationGroupService,
+    private configWrapperService: WrapperConfigurationService,
     private PatternService: PatternService,
     private formBuilder: FormBuilder,
     private router: Router,
@@ -117,11 +119,12 @@ export class ManageUserAddSingleUserDetailComponent
       this.isEdit = this.routeData['isEdit'];
       this.editingUserName =
         sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
-        this.editingUserName =this.routeData.rowData
+      this.editingUserName = this.routeData.rowData;
     }
     this.orgGroups = [];
     this.orgRoles = [];
     this.identityProviders = [];
+    this.allIdps = [];
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userProfileRequestInfo = {
       organisationId: this.organisationId,
@@ -168,26 +171,26 @@ export class ManageUserAddSingleUserDetailComponent
       let userProfileResponseInfo = await this.wrapperUserService
         .getUser(this.editingUserName)
         .toPromise();
-          if (this.state) {
-            this.userProfileResponseInfo = this.state;
-          } else {
-            this.userProfileResponseInfo = userProfileResponseInfo;
-          }
-              this.formGroup.controls['userTitle'].setValue(
-                this.userProfileResponseInfo.title
-              );
-              this.formGroup.controls['firstName'].setValue(
-                this.userProfileResponseInfo.firstName
-              );
-              this.formGroup.controls['lastName'].setValue(
-                this.userProfileResponseInfo.lastName
-              );
-              this.formGroup.controls['userName'].setValue(
-                this.userProfileResponseInfo.userName
-              );
-              this.formGroup.controls['mfaEnabled'].setValue(
-                this.userProfileResponseInfo.mfaEnabled
-              );
+      if (this.state) {
+        this.userProfileResponseInfo = this.state;
+      } else {
+        this.userProfileResponseInfo = userProfileResponseInfo;
+      }
+      this.formGroup.controls['userTitle'].setValue(
+        this.userProfileResponseInfo.title
+      );
+      this.formGroup.controls['firstName'].setValue(
+        this.userProfileResponseInfo.firstName
+      );
+      this.formGroup.controls['lastName'].setValue(
+        this.userProfileResponseInfo.lastName
+      );
+      this.formGroup.controls['userName'].setValue(
+        this.userProfileResponseInfo.userName
+      );
+      this.formGroup.controls['mfaEnabled'].setValue(
+        this.userProfileResponseInfo.mfaEnabled
+      );
       await this.getOrgGroups();
       await this.getOrgRoles();
       await this.getIdentityProviders();
@@ -216,12 +219,38 @@ export class ManageUserAddSingleUserDetailComponent
       await this.getIdentityProviders();
       this.onFormValueChange();
     }
-    this.MFA_Enabled=this.formGroup.controls.mfaEnabled.value
+    this.MFA_Enabled = this.formGroup.controls.mfaEnabled.value;
   }
 
-
-
   async getIdentityProviders() {
+    let masterIdps = await this.configWrapperService.getIdentityProviders().toPromise().catch();
+    this.identityProviders = await this.organisationGroupService.getOrganisationIdentityProviders(this.organisationId).toPromise();
+    console.log(this.userProfileResponseInfo.detail.identityProviders);
+    for (const idp of masterIdps) {
+      if (idp.connectionName === 'none') continue;
+
+      let anyOrganisationIdp = this.identityProviders.find((x: any) => x.connectionName === idp.connectionName);
+      if (anyOrganisationIdp) {
+        idp.id = anyOrganisationIdp.id;
+
+        if (this.isEdit) {
+          let havingIdp: boolean | any = true;
+          havingIdp = this.userProfileResponseInfo.detail.identityProviders?.some((userIdp) => userIdp.identityProviderId == idp.id);
+          this.formGroup.addControl('signInProviderControl_' + idp.id, this.formBuilder.control(havingIdp ? true : ''));
+        } else {
+          this.formGroup.addControl('signInProviderControl_' + idp.id, this.formBuilder.control(true));
+        }
+        this.allIdps.push(idp);
+      } else {
+        this.formGroup.addControl('signInProviderControl_' + idp.id, this.formBuilder.control(false));
+
+        this.allIdps.push(idp);
+      }
+    }
+
+  }
+
+  async getIdentityProviders_1() {
     this.identityProviders = await this.organisationGroupService
       .getOrganisationIdentityProviders(this.organisationId)
       .toPromise();
@@ -393,10 +422,9 @@ export class ManageUserAddSingleUserDetailComponent
               this.editingUserName
             );
             this.router.navigateByUrl(
-              `operation-success/${
-                userEditResponseInfo.isRegisteredInIdam
-                  ? OperationEnum.UserUpdateWithIdamRegister
-                  : OperationEnum.UserUpdate
+              `operation-success/${userEditResponseInfo.isRegisteredInIdam
+                ? OperationEnum.UserUpdateWithIdamRegister
+                : OperationEnum.UserUpdate
               }`
             );
           } else {
@@ -424,10 +452,9 @@ export class ManageUserAddSingleUserDetailComponent
           this.editingUserName
         );
         this.router.navigateByUrl(
-          `operation-success/${
-            userEditResponseInfo.isRegisteredInIdam
-              ? OperationEnum.UserCreateWithIdamRegister
-              : OperationEnum.UserCreate
+          `operation-success/${userEditResponseInfo.isRegisteredInIdam
+            ? OperationEnum.UserCreateWithIdamRegister
+            : OperationEnum.UserCreate
           }`
         );
       },
@@ -589,22 +616,26 @@ export class ManageUserAddSingleUserDetailComponent
     var roleKey = obj.roleKey;
     if (isChecked == true && roleKey == 'ORG_ADMINISTRATOR') {
       this.formGroup.controls['mfaEnabled'].setValue(true);
-      this.isAutoDisableMFA=true;
+      this.isAutoDisableMFA = true;
     } else if (isChecked == false && roleKey == 'ORG_ADMINISTRATOR') {
       this.formGroup.controls['mfaEnabled'].setValue(false);
-      this.isAutoDisableMFA=false;
+      this.isAutoDisableMFA = false;
     }
   }
 
-  public ResetAdditionalSecurity():void{
-    if(this.MFA_Enabled){
-      let data={
-        IsUser:true,
-        data:this.formGroup.controls.userName.value,
-        userName:this.formGroup.controls.firstName.value +' '+ this.formGroup.controls.lastName.value
-      }
-      this.router.navigateByUrl('confirm-user-mfa-reset?data=' +btoa(JSON.stringify(data))
-      )
+  public ResetAdditionalSecurity(): void {
+    if (this.MFA_Enabled) {
+      let data = {
+        IsUser: true,
+        data: this.formGroup.controls.userName.value,
+        userName:
+          this.formGroup.controls.firstName.value +
+          ' ' +
+          this.formGroup.controls.lastName.value,
+      };
+      this.router.navigateByUrl(
+        'confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data))
+      );
     }
   }
 }
