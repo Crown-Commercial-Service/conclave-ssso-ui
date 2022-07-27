@@ -92,4 +92,16 @@ export class OrganisationService {
       })
     );
   }
+
+  getUserAffectedByRemovedIdps(orgId: string, removedIdps: number[]): Observable<any> {
+    const url = `${this.url}/${orgId}/users?idps=${encodeURIComponent(removedIdps.join(','))}`;
+    return this.http.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
 }
