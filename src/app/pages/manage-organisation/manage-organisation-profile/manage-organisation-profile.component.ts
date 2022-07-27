@@ -198,14 +198,20 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             this.setFocus();
             return;
         }
-        const ciiOrgId = this.tokenService.getCiiOrgId();
-        let identityProviderSummary: IdentityProviderSummary = {
-            ciiOrganisationId: ciiOrgId,
-            changedOrgIdentityProviders: this.changedIdpList
+
+        if (this.changedIdpList.find(x => x.enabled === false)) {
+            this.router.navigateByUrl('manage-org/idp-confirm?data=' + JSON.stringify(this.changedIdpList));
+
+        } else {
+            const ciiOrgId = this.tokenService.getCiiOrgId();
+            let identityProviderSummary: IdentityProviderSummary = {
+                ciiOrganisationId: ciiOrgId,
+                changedOrgIdentityProviders: this.changedIdpList
+            }
+            this.organisationGroupService.enableIdentityProvider(identityProviderSummary).subscribe(data => {
+                this.router.navigateByUrl(`manage-org/profile/success`);
+            });
         }
-        this.organisationGroupService.enableIdentityProvider(identityProviderSummary).subscribe(data => {
-            this.router.navigateByUrl(`manage-org/profile/success`);
-        });
 
     }
 
