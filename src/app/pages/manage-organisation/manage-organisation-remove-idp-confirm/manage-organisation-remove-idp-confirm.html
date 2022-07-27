@@ -17,29 +17,38 @@
                     </li>
                 </ol>
             </div>
+
+
+            <h1 class="govuk-heading-xl"> {{ 'CONFIRM_REMOVE_SIGN_IN_PROVIDER' | translate }}</h1>
             <p class="govuk-body">
                 Removing sign in provider(s) {{idpNames}} from your Organisation will affect {{affectedUsers}} users
                 within your
                 organisation. The affected users will receive an email notifying them of the updates to your
                 Organisation's sign in providers. The affected users will be:
-
-                Logged out 10 minutes after you action this,
-
-                User's workflows may be interrupted,
-
-                To minimise the impact consider doing this action out of hours.
             </p>
 
-            <h1 class="govuk-heading-xl"> {{ 'CONFIRM_REMOVE_SIGN_IN_PROVIDER' | translate }}</h1>
-            <p class="govuk-body">{{ 'THIS_CANNOT_BE_UNDONE' | translate }}</p>
+            <ul class="list-content">
+                <li>
+                    Logged out 10 minutes after you action this
+                </li>
+                <li>
+                    User's workflows may be interrupted
+                </li>
+                <li>
+                    To minimise the impact consider doing this action out of hours
+                </li>
+            </ul>
+
+
+            <p class="govuk-body">{{ 'DO_YOU_WANT_TO_PROCEED' | translate }}</p>
             <div class="govuk-button-group continue-cancel-button-group">
-                <button type="submit" (click)="onRemoveIdpConfirmClick()" class="govuk-button govuk-button--warning"
+                <button type="submit" (click)="onRemoveIdpConfirmClick()" class="govuk-button"
                     data-module="govuk-button">
-                    {{ 'CONFIRM_DELETE_BTN' | translate }}
+                    {{ 'YES_DELETE_BTN' | translate }}
                 </button>
                 <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button">
-                    {{ 'CANCEL_BTN' | translate }}
+                    {{ 'NO_DELETE_BTN' | translate }}
                 </button>
             </div>
 
