@@ -28,7 +28,7 @@
 
         <div class="govuk-error-summary user-profile-form-error" aria-labelledby="error-summary-title" role="alert"
             tabindex="-1" id="error-summary" data-module="govuk-error-summary"
-            *ngIf="(formValid(formGroup) == false || mfaConnectionValidationError || mfaAdminValidationError || formGroup.hasError('identityProviderRequired')) && submitted">
+            *ngIf="(formValid(formGroup) == false || mfaAdminValidationError || formGroup.hasError('identityProviderRequired')) && submitted">
             <h2 class="govuk-error-summary__title" id="error-summary-title">
                 {{ 'ERROR_SUMMARY' | translate }}
             </h2>
@@ -54,10 +54,6 @@
                     <li *ngIf="submitted && formGroup.controls.userName.hasError('alreadyExists')">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(2)">
                             {{'ERROR_USER_ALREADY_EXISTS' | translate }}</a>
-                    </li>
-                    <li *ngIf="submitted && mfaConnectionValidationError">
-                        <a href="javascript:;" onClick="return false;" (click)="scrollToAnchor('user-mfa-form-group')">
-                            {{ 'MFA_ENABLED_INVALID_CONNECTION'| translate }}</a>
                     </li>
                     <li *ngIf="submitted && mfaAdminValidationError">
                         <a href="javascript:;" onClick="return false;" (click)="scrollToAnchor('user-mfa-form-group')">
@@ -143,17 +139,12 @@
                             || formGroup.controls.userName.hasError('alreadyExists')">
                     </div>
                     <div class="govuk-form-group" id="user-mfa-form-group"
-                        [class.govuk-form-group--error]="submitted && (mfaConnectionValidationError || mfaAdminValidationError)">
+                        [class.govuk-form-group--error]="submitted && (mfaAdminValidationError)">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">
                                 Security Level
                             </legend>
                             <app-details [detailsData]="detailsData[0]"></app-details>
-                            <span id="mfa-error-con" class="govuk-error-message label-detail-text-gap"
-                                *ngIf="submitted && mfaConnectionValidationError">
-                                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                                {{ 'MFA_ENABLED_INVALID_CONNECTION'| translate }}
-                            </span>
                             <span id="mfa-error-admin" class="govuk-error-message label-detail-text-gap"
                                 *ngIf="submitted && mfaAdminValidationError">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>

@@ -52,7 +52,6 @@ export class ManageUserAddSingleUserDetailComponent
   routeData: any = {};
   state: any;
   hasGroupViewPermission: boolean = false;
-  mfaConnectionValidationError: boolean = false;
   mfaAdminValidationError: boolean = false;
   public detailsData: any = [
     'Add additional security steps to make an account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
@@ -338,7 +337,6 @@ export class ManageUserAddSingleUserDetailComponent
 
   public onSubmit(form: FormGroup) {
     this.emailHaserror = false;
-    this.mfaConnectionValidationError = false;
     this.mfaAdminValidationError = false;
     this.submitted = true;
 
@@ -432,10 +430,7 @@ export class ManageUserAddSingleUserDetailComponent
           }
         },
         error: (err: any) => {
-          if (err.error == 'MFA_ENABLED_INVALID_CONNECTION') {
-            this.mfaConnectionValidationError = true;
-            this.scrollView();
-          } else if (err.error == 'MFA_DISABLED_USER') {
+          if (err.error == 'MFA_DISABLED_USER') {
             this.mfaAdminValidationError = true;
             this.scrollView();
           }
@@ -466,9 +461,6 @@ export class ManageUserAddSingleUserDetailComponent
         } else {
           if (err.error == 'INVALID_USER_ID') {
             form.controls['userName'].setErrors({ invalidEmail: true });
-            this.scrollView();
-          } else if (err.error == 'MFA_ENABLED_INVALID_CONNECTION') {
-            this.mfaConnectionValidationError = true;
             this.scrollView();
           } else if (err.error == 'MFA_DISABLED_USER') {
             this.mfaAdminValidationError = true;
