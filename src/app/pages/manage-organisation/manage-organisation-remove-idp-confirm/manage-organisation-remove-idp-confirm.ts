@@ -42,7 +42,7 @@ export class ManageOrganisationRemoveIdpConfirmComponent extends BaseComponent i
 
     ngOnInit() {
         const ciiOrgId = this.tokenService.getCiiOrgId();
-        this.idpNames = this.changedIdpList.filter(x => x.enabled === false).map(x => x.name).join(',');
+        this.idpNames = this.changedIdpList.filter(x => x.enabled === false).map(x => x.name).join('/');
         const idpIds = this.changedIdpList.filter(x => x.enabled === false).map(x => x.id);
 
         this.organisationService.getUserAffectedByRemovedIdps(ciiOrgId, idpIds).subscribe(data => {
