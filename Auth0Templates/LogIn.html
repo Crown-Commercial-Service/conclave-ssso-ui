@@ -389,6 +389,28 @@
             width: 100%;
         }
     }
+    .fed-log img {
+       width: 50px;
+    }
+   
+   .fed-log button {
+     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: wrap;
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
+  
+  .fed-log span {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .fed-log-lable {
+    padding: 20px 17px 14px;
+    font-weight: bold;
+  }
 </style>
 
 <body class="govuk-template__body show-flourishes pillar--none js-enabled">
@@ -539,13 +561,10 @@
                     <div class="content-left">
                         <form class="ui form login mb-two" onsubmit="return false;" method="post">
                             <div id="email-form-group" class="govuk-form-group">
-                                <div>
-                                    <h1 class="govuk-heading-m">If you don’t have an account you can create an account
-                                        here</h1>
-                                    <button class="govuk-button" type="button"
-                                        onclick="location.href='https://dev.identify.crowncommercial.gov.uk/manage-org/register';">Create
-                                        an account</button>
-                                </div>
+                              <div>
+                                <h1 class="govuk-heading-m">If you don’t have an account you can create an account here</h1>
+                                <button class="govuk-button" type="button" onclick="location.href='https://dev.identify.crowncommercial.gov.uk/manage-org/register';">Create an account</button>
+                              </div>
                                 <label class="govuk-label" style="margin-top:8px;margin-bottom:0px" for="email">Email
                                     address<br />
                                     <div class="govuk-hint">This is the email address you used to setup your account
@@ -576,24 +595,41 @@
                                     password</a>
                                 <br />
                             </div>
-                            <label class="govuk-label" style="margin-bottom:30px">Log into your account</label>
-                            <button type="button" id="googleButton" style="width: 400px;" class="govuk-button">
-                                Log In with Google
-                            </button>
-                            <br />
-                            <button type="button" id="facebookButton" style="width: 400px;" class="govuk-button">
-                                Log In with Facebook
-                            </button>
-                            <br />
-                            <button type="button" id="microsoftButton" style="width: 400px;" class="govuk-button">
-                                Log In with Microsoft
-                            </button>
-                            <br />
-                            <button type="button" id="linkedinButton" style="width: 400px;" class="govuk-button">
-                                Log In with LinkedIn
-                            </button>
-
-
+                            <div class="govuk-grid-row fed-log">
+                        <label class="govuk-label fed-log-lable">Or, if configured sign in with:</label>
+                        <div class="govuk-grid-column-two-thirds">
+                            <div class="govuk-grid-row">
+                                <div class="govuk-grid-column-one-half">
+                                    <button type="button" id="googleButton">
+                                        <img
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-google.svg">
+                                        <span class="col-left">Google</span>
+                                    </button>
+                                </div>
+                                <div class="govuk-grid-column-one-half">
+                                    <button type="button" id="facebookButton">
+                                        <img
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-facebook.svg">
+                                        <span class="col-right">Facebook</span>
+                                    </button>
+                                </div>
+                                <div class="govuk-grid-column-one-half">
+                                    <button type="button" id="microsoftButton">
+                                        <img
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-microsoft.svg">
+                                        <span class="col-left">Microsoft</span>
+                                    </button>
+                                </div>
+                                <div class="govuk-grid-column-one-half">
+                                    <button type="button" id="linkedinButton">
+                                        <img
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-linkedin.svg">
+                                        <span class="col-right">LinkedIn</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
                         </form>
                     </div>
                     <div class="content-right">
@@ -666,8 +702,7 @@
                                 </li>
                                 <li class="govuk-footer__inline-list-item">
                                     <a class="govuk-footer__link"
-                                        href="https://dev.identify.crowncommercial.gov.uk/accessibility-statement">Accessibility
-                                        Statement</a>
+                                        href="https://dev.identify.crowncommercial.gov.uk/accessibility-statement">Accessibility Statement</a>
                                 </li>
                                 <li class="govuk-footer__inline-list-item">
                                     <a class="govuk-footer__link"
@@ -697,7 +732,6 @@
     <script src="https://cdn.auth0.com/js/polyfills/1.0/object-assign.min.js"></script>
     <script>
         function scrollToError(element, inputId) {
-            debugger;
             let elementObj = document.getElementById(element);
             let inputObj = document.getElementById(inputId);
             elementObj.scrollIntoView();
@@ -740,7 +774,6 @@
         }
 
         window.addEventListener('load', function () {
-            //debugger;
             var cookieExpirationTimeInMinutes = 525600; // 525600 => 365 Days
             setCookie("test_additional", 'test', cookieExpirationTimeInMinutes);
             var cookieBannerDiv = document.getElementById('cookieBannerDiv');
@@ -797,7 +830,6 @@
                 var passwordField = document.getElementById('password');
                 var password = passwordField.value;
 
-                debugger;
                 let emailFG = document.getElementById('email-form-group');
                 let passwordFG = document.getElementById('password-form-group');
                 emailFG.classList.remove("invalid");
