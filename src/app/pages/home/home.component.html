@@ -10,7 +10,7 @@
       </a>
     </div>
     <div class="card" *ngIf="ccsModule.href">
-      <a href="{{ccsModule.href}}" target="_blank" attr.aria-labelledby={{ccsModule.href}}>
+      <a href="{{ccsModule.href}}" target="_blank" attr.aria-labelledby={{getModuleElementId(ccsModule.name)}}>
         <a [attr.id]="getModuleElementId(ccsModule.name)" tabindex="-1"  role="link"  class="card-title">{{ccsModule.name}}</a>
         <p class="tile-para">{{ccsModule.description}}</p>
       </a>
