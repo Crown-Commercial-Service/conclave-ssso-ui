@@ -11,48 +11,71 @@
                         <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
                             Delegated access</a>
                     </li>
-                    <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link">Delegate access to a user</span>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode =='add'">
+                        <span class="govuk-breadcrumbs__link" >Delegate access to a user</span>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode =='edit'">
+                        <span class="govuk-breadcrumbs__link" >Edit current delegated access</span>
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title">Delegate access to a user from outside your Organisation</h1>
+            <h1 *ngIf="pageAccessMode =='add'" class="govuk-heading-xl page-title">Delegate access to a user
+                from outside your Organisation</h1>
+            <h1 *ngIf="pageAccessMode =='edit'" class="govuk-heading-xl page-title">Edit current delegated
+                access</h1>
             <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert"
-            tabindex="-1" id="error-summary" data-module="govuk-error-summary"
-            *ngIf="formValid(formGroup) == false && submitted">
-            <h2 class="govuk-error-summary__title" id="error-summary-title">
-                {{ 'ERROR_SUMMARY' | translate }}
-            </h2>
-            <div class="govuk-error-summary__body">
-                <ul class="govuk-list govuk-error-summary__list">
-                    <li *ngIf="submitted && (formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
-                        <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">Enter start date</a>
-                    </li>
-                    <li  *ngIf="submitted && StartDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
-                        <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">Enter valid start date</a>
-                    </li>
-                    <li  *ngIf="submitted && PastDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
-                        <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">The start date cannot be in the past</a>
-                    </li>
-                    <li  *ngIf="submitted && (formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required'))">
-                        <a href="javascript:;" onClick="return false;" (click)="setFocus('end-day')">Enter end date</a>
-                    </li>
-                    <li  *ngIf="submitted && EndDateValidation && !(formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required'))">
-                        <a href="javascript:;" onClick="return false;" (click)="setFocus('end-day')">Enter valid end date</a>
-                    </li>
-                    <li  *ngIf="submitted && !(formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required')) && EndDateDaysValidation && !EndDateValidation">
-                        <a href="javascript:;" onClick="return false;" (click)="setFocus('end-day')">The end date cannot be more than 365 days or less than 28 days from start date</a>
-                    </li>
-                    <li  *ngIf="submitted && getSelectedRoleIds(formGroup).length == 0">
-                        <a href="javascript:;" onClick="return false;" (click)="setFocus('orgRoleControl_' + roleDataList[0].roleId)">Select at least one permission for the delegated user</a>
-                    </li>
-                </ul>
+                tabindex="-1" id="error-summary" data-module="govuk-error-summary"
+                *ngIf="formValid(formGroup) == false && submitted">
+                <h2 class="govuk-error-summary__title" id="error-summary-title"> 
+                    {{ 'ERROR_SUMMARY' | translate }}
+                </h2>
+                <div class="govuk-error-summary__body">
+                    <ul class="govuk-list govuk-error-summary__list">
+                        <li
+                            *ngIf="submitted && (formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">Enter start
+                                date</a>
+                        </li>
+                        <li
+                            *ngIf="submitted && StartDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">Enter valid
+                                start date</a>
+                        </li>
+                        <li
+                            *ngIf="submitted && PastDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">The start
+                                date cannot be in the past</a>
+                        </li>
+                        <li
+                            *ngIf="submitted && (formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required'))">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('end-day')">Enter end
+                                date</a>
+                        </li>
+                        <li
+                            *ngIf="submitted && EndDateValidation && !(formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required'))">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('end-day')">Enter valid end
+                                date</a>
+                        </li>
+                        <li
+                            *ngIf="submitted && !(formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required')) && EndDateDaysValidation && !EndDateValidation">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('end-day')">The end date
+                                cannot be more than 365 days or less than 28 days from start date</a>
+                        </li>
+                        <li *ngIf="submitted && getSelectedRoleIds(formGroup).length == 0">
+                            <a href="javascript:;" onClick="return false;"
+                                (click)="setFocus('orgRoleControl_' + roleDataList[0].roleId)">Select at least one
+                                permission for the delegated user</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
             <div class="manage-groups-bg">
-                <p>
+                <p *ngIf="pageAccessMode =='add'">
                     Delegate a user from another organisation to access the Public Procurement Gateway on behalf of your
                     organisation. Care must be taken when selecting permissions, the user will have.
+                </p>
+                <p *ngIf="pageAccessMode =='edit'">
+                    Manage details of current delegated access for user
                 </p>
             </div>
             <div>
@@ -64,27 +87,29 @@
                     </h2>
                     <div class="span-group govuk-!-margin-top-4">
                         <p class="govuk-body">
-                            Name:<strong class="govuk-!-margin-left-2">{{userDetails.firstName}} {{userDetails.lastName}}</strong>
+                            Name:<strong class="govuk-!-margin-left-2">{{userDetails.firstName}}
+                                {{userDetails.lastName}}</strong>
                         </p>
                         <p class="govuk-body">
                             Email address:<strong class="govuk-!-margin-left-2">{{userDetails.userName}}</strong>
                         </p>
                         <p class="govuk-body">
-                            User's Organisation:<strong class="govuk-!-margin-left-2">{{userDetails.originOrganisationName}}</strong>
+                            User's Organisation:<strong
+                                class="govuk-!-margin-left-2">{{userDetails.originOrganisationName}}</strong>
                         </p>
-                       
+
                         <details class="govuk-details" data-module="govuk-details">
                             <summary class="govuk-details__summary">
-                              <span class="govuk-details__summary-text">
-                                Addtional security
-                              </span>
+                                <span class="govuk-details__summary-text">
+                                    Addtional security
+                                </span>
                             </summary>
                             <div class="govuk-details__text">
                                 <p class="govuk-body">
                                     MFA status:<strong class="govuk-!-margin-left-2">{{userDetails.mfaEnabled}}</strong>
                                 </p>
                             </div>
-                          </details>
+                        </details>
                     </div>
                     <div class="form-group">
                         <!-- start date  -->
@@ -187,7 +212,8 @@
                                         <span id="name-error" class="govuk-error-message"
                                             *ngIf="submitted && !(formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required')) && EndDateDaysValidation && !EndDateValidation">
                                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
-                                                }}</span> The end date cannot be more than 365 days or less than 28 days from start date
+                                                }}</span> The end date cannot be more than 365 days or less than 28 days
+                                            from start date
                                         </span>
                                         <div class="govuk-date-input__item">
                                             <div class="govuk-form-group">
@@ -232,7 +258,8 @@
                             </div>
                             <!-- End date  -->
                             <!-- user permission -->
-                            <div class="govuk-form-group"  [class.govuk-form-group--error]="submitted && getSelectedRoleIds(formGroup).length == 0">
+                            <div class="govuk-form-group"
+                                [class.govuk-form-group--error]="submitted && getSelectedRoleIds(formGroup).length == 0">
                                 <fieldset class="govuk-fieldset" aria-describedby="waste-hint">
                                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                                         <h1 class="govuk-fieldset__heading govuk-!-font-size-24">
@@ -244,18 +271,23 @@
                                         permission must be selected.
                                     </div>
                                     <span id="name-error" class="govuk-error-message"
-                                    *ngIf="submitted && getSelectedRoleIds(formGroup).length == 0">
-                                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
-                                        }}</span> Select at least one permission for the delegated user
-                                </span>
-                                    <div class="govuk-checkboxes__item" *ngFor="let orgRole of roleDataList; let i=index">
-                                        <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                            [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc">
-                                        <label *ngIf="orgRole.serviceName == null" class="govuk-label govuk-checkboxes__label"
+                                        *ngIf="submitted && getSelectedRoleIds(formGroup).length == 0">
+                                        <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
+                                            }}</span> Select at least one permission for the delegated user
+                                    </span>
+                                    <div class="govuk-checkboxes__item"
+                                        *ngFor="let orgRole of roleDataList; let i=index">
+                                        <input class="govuk-checkboxes__input"
+                                            id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                            [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                            value="hmrc">
+                                        <label *ngIf="orgRole.serviceName == null"
+                                            class="govuk-label govuk-checkboxes__label"
                                             for="{{'orgRoleControl_' + orgRole.roleId}}">
                                             {{orgRole.accessRoleName}}
                                         </label>
-                                        <label *ngIf="orgRole.serviceName != null" class="govuk-label govuk-checkboxes__label"
+                                        <label *ngIf="orgRole.serviceName != null"
+                                            class="govuk-label govuk-checkboxes__label"
                                             for="{{'orgRoleControl_' + orgRole.roleId}}">
                                             {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
                                         </label>
@@ -264,7 +296,8 @@
                             </div>
                             <!-- user permission -->
                             <br>
-                            <a  *ngIf="userDetails.pageaccessmode != 'add'" href="javascript:;" class="navigation-text" routerLink="/delegated-access"> Resent
+                            <a *ngIf="pageAccessMode == 'edit'" href="javascript:;" class="navigation-text"
+                                routerLink="/delegated-access"> Resent
                                 activation link</a>
                             <div class="govuk-button-group save-cancel-button-group govuk-!-margin-top-7">
                                 <button type="submit" class="govuk-button" data-module="govuk-button"
@@ -276,7 +309,8 @@
                                     Cancel
                                 </button>
                             </div>
-                            <a *ngIf="userDetails.pageaccessmode != 'add'"  href="javascript:;" class="navigation-text text-danger" (click)="RemoveAccess()"> Remove
+                            <a *ngIf="pageAccessMode == 'edit'" href="javascript:;"
+                                class="navigation-text text-danger" (click)="RemoveAccess()"> Remove
                                 access </a>
                         </form>
                     </div>

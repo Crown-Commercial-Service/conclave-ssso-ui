@@ -14,8 +14,8 @@ import { PatternService } from 'src/app/shared/pattern.service';
 export class FindDelegatedUserComponent implements OnInit {
   public formGroup!: FormGroup;
   public submitted: boolean = false;
-  public organisationId: string = ''
-
+  private organisationId: string = ''
+  public error:string=''
   constructor(
     private route: Router,
     private formBuilder: FormBuilder,
@@ -62,7 +62,7 @@ export class FindDelegatedUserComponent implements OnInit {
   public GetUserStatus(from: FormGroup) {
     this.submitted = true;
     if(this.formValid(from)){
-      this.WrapperUserDelegatedService.getuserDetail(from.controls.email.value).subscribe({
+      this.WrapperUserDelegatedService.getuserDetail(from.controls.email.value,this.organisationId).subscribe({
         next: (userResponse: any) => {
           if (userResponse.organisationId === this.organisationId) {
             let data = {
@@ -78,13 +78,18 @@ export class FindDelegatedUserComponent implements OnInit {
           }
         },
         error: (error: any) => {
-          let data = {
-            header: 'We could not find this user in our system',
-            Description: 'This Email address does not exist in our database. Please make sure that the Email address you entered is correct or contact the User you want to give the delegated access to.',
-            Breadcrumb: 'User not found',
-            status: '002'
+          if(error.status === 409){
+            this.error='ALREADY_EXIST'
+            this.formGroup.controls['email'].setErrors({ alreadyExists: true });
+          }else if(error.status === 404){
+            let data = {
+              header: 'We could not find this user in our system',
+              Description: 'This Email address does not exist in our database. Please make sure that the Email address you entered is correct or contact the User you want to give the delegated access to.',
+              Breadcrumb: 'User not found',
+              status: '002'
+            }
+            this.route.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
           }
-          this.route.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
         }
       });
     }else{

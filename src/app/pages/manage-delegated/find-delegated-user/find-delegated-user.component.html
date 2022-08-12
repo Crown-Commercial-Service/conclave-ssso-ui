@@ -36,9 +36,13 @@
                                         <li>Enter your email address</li>
                                     </a>
                                     <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
-                                        *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                                        *ngIf="submitted && !formGroup.controls.email.errors?.required && (formGroup.controls.email.hasError('incorrect') || formGroup.controls.email.hasError('pattern'))">
                                         <li>Enter an email address in the correct format, like name@example.com</li>
                                     </a>
+                                    <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
+                                    *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.hasError('alreadyExists')">
+                                    <li>User already has delegated access</li>
+                                </a>
                                 </ul>
                             </div>
                         </div>
@@ -51,10 +55,14 @@
                             <span class="govuk-visually-hidden">Error:</span>Enter your email address
                         </span>
                         <span id="email-error" class="govuk-error-message"
-                            *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                            *ngIf="submitted && !formGroup.controls.email.errors?.required && (formGroup.controls.email.hasError('incorrect') || formGroup.controls.email.hasError('pattern'))">
                             <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct
                             format,
                             like name@example.com
+                        </span>
+                        <span id="email-error" class="govuk-error-message"
+                            *ngIf="submitted && formGroup.controls.email.hasError('alreadyExists')">
+                            <span class="govuk-visually-hidden">Error:</span>User already has delegated access
                         </span>
                         <input #input class="govuk-input" id="email" formControlName="email" name="email" size="20"
                             type="email" value="" autocomplete="email" spellcheck="false"
@@ -63,10 +71,12 @@
                     </div>
                 </form>
                 <div class="govuk-button-group save-cancel-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button" (click)="GetUserStatus(formGroup)">
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                        (click)="GetUserStatus(formGroup)">
                         Continue
                     </button>
-                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="Cancel()">
+                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                        (click)="Cancel()">
                         Cancel
                     </button>
                 </div>

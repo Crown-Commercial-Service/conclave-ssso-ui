@@ -19,8 +19,10 @@ export class DelegatedAccessUserComponent implements OnInit {
   public submitted: boolean = false;
   public userDetails: any = {}
   public roleDataList: any[] = [];
+  public pageAccessMode:string='';
   public assignedRoleDataList: any[] = [];
   private organisationId: string;
+
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private route: Router,
@@ -37,6 +39,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   ngOnInit(): void {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userDetails = JSON.parse(atob(para.data));
+      this.pageAccessMode=this.userDetails.pageaccessmode
       if(this.userDetails.pageaccessmode === 'edit'){
         this.getUserDetails(this.userDetails.userName,this.organisationId)
       }
@@ -51,7 +54,6 @@ export class DelegatedAccessUserComponent implements OnInit {
     });
 
     this.getOrgRoles()
-    // this.getUserDetails(this.RouteData.userName,this.organisationId)
   }
 
   public getUserDetails(userId: string, delegatedOrgId: string) {
@@ -65,14 +67,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     }, 10);
   }
 
-  public ConfirmDelegation(): void {
-    let data = {
-      status: '003',
-    };
-    this.route.navigateByUrl(
-      'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
-    );
-  }
+
 
   public RemoveAccess(): void {
     let data = {
@@ -105,16 +100,13 @@ export class DelegatedAccessUserComponent implements OnInit {
             startDate: StartDate,
             endDate: EndDate,
           },
+          roleDetails:this.getSelectedRoleDetails(form),
+          userDetails:this.userDetails
         };
         this.route.navigateByUrl(
           'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
         );
-        this.DelegatedService.createDelegatedUser(data).subscribe({
-          next: (roleListResponse: any) => {
-            console.log("roleListResponse", roleListResponse)
-          },
-          error: (error: any) => { },
-        });
+    
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
     }
@@ -189,6 +181,16 @@ export class DelegatedAccessUserComponent implements OnInit {
     this.roleDataList.map((role) => {
       if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
         selectedRoleIds.push(role.roleId);
+      }
+    });
+    return selectedRoleIds;
+  }
+
+  public getSelectedRoleDetails(form: FormGroup) {
+    let selectedRoleIds: number[] = [];
+    this.roleDataList.map((role) => {
+      if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
+        selectedRoleIds.push(role);
       }
     });
     return selectedRoleIds;

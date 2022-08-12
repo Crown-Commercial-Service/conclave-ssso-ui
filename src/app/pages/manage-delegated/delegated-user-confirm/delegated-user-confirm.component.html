@@ -30,36 +30,36 @@
                 </h2>
                 <div class="span-group govuk-!-margin-top-4">
                     <p class="govuk-body">
-                        Name:<strong class="govuk-!-margin-left-2">Ajith M***</strong>
+                        Name:<strong class="govuk-!-margin-left-2">{{userInfo.firstName}} {{userInfo.lastName}}</strong>
                     </p>
                     <p class="govuk-body">
-                        Email address:<strong class="govuk-!-margin-left-2">ajithghas456@gmail.com</strong>
+                        Email address:<strong class="govuk-!-margin-left-2">{{userInfo.userName}}</strong>
                     </p>
                     <p class="govuk-body">
-                        User's Organisation:<strong class="govuk-!-margin-left-2">Dream guys</strong>
+                        User's Organisation:<strong class="govuk-!-margin-left-2">{{userInfo.originOrganisationName}}</strong>
                     </p>
+                    <details class="govuk-details" data-module="govuk-details">
+                        <summary class="govuk-details__summary">
+                          <span class="govuk-details__summary-text">
+                            Addtional security
+                          </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                            <p class="govuk-body">
+                                MFA status:<strong class="govuk-!-margin-left-2">{{userInfo.mfaEnabled}}</strong>
+                            </p>
+                        </div>
+                      </details>
                     <p class="govuk-body">
-                        MFA status:<strong class="govuk-!-margin-left-2">Enabled</strong>
-                    </p>
-                    <p class="govuk-body">
-                        <strong>The user will have a delegated access from 05.08.2022 to 10.08.2022.</strong>
+                        <strong>The user will have a delegated access from {{UserSelectedinfo.detail.startDate | date: 'dd/MM/yyyy'}} to {{UserSelectedinfo.detail.endDate | date: 'dd/MM/yyyy'}}.</strong>
                     </p>
                     <div>
                         <p class="govuk-body">
                             <strong class="">The user will be given a below permissions.</strong>
                         </p>
-                        <ul class="govuk-list">
-                            <li>
-                                Organisation Administrator - Dashboard Service
-                            </li>
-                            <li>
-                                Organisation User - Dashboard Service
-                            </li>
-                            <li>
-                                Manage Subscription - Dashboard Service
-                            </li>
-                            <li>
-                                Organisation Users Support - Dashboard Service
+                        <ul class="govuk-list"> 
+                            <li *ngFor="let details of UserSelectedinfo.roleDetails">
+                                {{details.accessRoleName}} - {{details.serviceName}}
                             </li>
                           </ul>
                     </div>
@@ -70,9 +70,9 @@
             <button type="submit" class="govuk-button" data-module="govuk-button" (click)="UpdateDelegateToUser()">
                 Continue
             </button>
-            <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+            <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="Cancel()">
                 Cancel
             </button>
         </div>
     </div>
-</div>
+</div> 

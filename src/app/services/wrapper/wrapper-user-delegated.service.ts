@@ -30,7 +30,6 @@ GetCurrentUsers(organisationId: string, searchString: string, currentPage: numbe
   const url = `${this.Orgurl}/${organisationId}/users?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&include-self=${includeSelf}&delegated-only=${true}&delegated-expired-only=${false}`;
   return this.http.get<UserListResponse>(url).pipe(
     map((data: UserListResponse) => {
-      console.log("GetCurrentUsers")
       return data;
     }), catchError(error => {
       return throwError(error);
@@ -43,7 +42,6 @@ GetExpiredUsers(organisationId: string, searchString: string, currentPage: numbe
   const url = `${this.Orgurl}/${organisationId}/users?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&include-self=${includeSelf}&delegated-only=${true}&delegated-expired-only=${true}`;
   return this.http.get<UserListResponse>(url).pipe(
     map((data: UserListResponse) => {
-      console.log("GetExpiredUsers")
       return data;
     }), catchError(error => {
       return throwError(error);
@@ -64,7 +62,6 @@ createDelegatedUser(userRequest: delegateduser): Observable<any> {
       })
     );
 }
-// https://localhost:44309/users?user-id=8848&delegatedOrgId=58748'
 
 getEdituserDetails(userId: string, delegatedOrgId: string): Observable<any> {
   const url = `${this.Usersurl}?user-id=${userId}&is-delegated=${true}&delegated-organisation-id=${delegatedOrgId}`;
@@ -77,9 +74,8 @@ getEdituserDetails(userId: string, delegatedOrgId: string): Observable<any> {
   );
 }
 
-
-getuserDetail(userId: string): Observable<any> {
-  const url = `${this.Usersurl}?user-id=${userId}&is-delegated=${true}`;
+getuserDetail(userId: string,delegatedOrgId: string): Observable<any> {
+  const url = `${this.Usersurl}?user-id=${userId}&is-delegated=${true}&is-delegated-search=${true}&delegated-organisation-id=${delegatedOrgId}`;
   return this.http.get<delegateduser>(url).pipe(
     map((data: delegateduser) => {
       return data;
