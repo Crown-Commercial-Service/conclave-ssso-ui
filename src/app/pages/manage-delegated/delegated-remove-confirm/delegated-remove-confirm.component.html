@@ -1,0 +1,34 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
+                            Delegated access</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">Confirm</span>
+                    </li>
+                </ol>
+            </div>
+            <div class="manage-groups-bg page-title">
+                <p>
+                    Confirm the removeal of the delegated access to {{RouteData.userName}}
+                </p>
+            </div>
+            <div class="govuk-button-group save-cancel-button-group">
+                <button class="govuk-button govuk-button--warning" data-module="govuk-button" (click)="ConfirmRemoveUser()">
+                    confirm and remove
+                  </button>
+                <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

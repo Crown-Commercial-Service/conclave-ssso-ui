@@ -113,6 +113,13 @@ import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-r
 import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
 import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
 import { ManageOrganisationRemoveIdpConfirmComponent } from './pages/manage-organisation/manage-organisation-remove-idp-confirm/manage-organisation-remove-idp-confirm';
+import { DelegatedUserListComponent } from './pages/manage-delegated/delegated-user-list/delegated-user-list.component';
+import { FindDelegatedUserComponent } from './pages/manage-delegated/find-delegated-user/find-delegated-user.component';
+import { DelegatedUserStatusComponent } from './pages/manage-delegated/delegated-user-status/delegated-user-status.component';
+import { DelegatedAccessUserComponent } from './pages/manage-delegated/delegated-access-user/delegated-access-user.component';
+import { DelegatedUserConfirmComponent } from './pages/manage-delegated/delegated-user-confirm/delegated-user-confirm.component';
+import { DelegatedSuccessComponent } from './pages/manage-delegated/delegated-success/delegated-success.component';
+import { DelegatedRemoveConfirmComponent } from './pages/manage-delegated/delegated-remove-confirm/delegated-remove-confirm.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -916,6 +923,47 @@ const routes: Routes = [
     data: { title: 'Additional security Reset' },
     pathMatch: 'full',
     component: MFAResetComponent,
+  },
+  {
+    path: 'delegated-access',
+    data: { title: 'delegated-access' },
+    pathMatch: 'full',
+    component: DelegatedUserListComponent,
+  },
+  {
+    path: 'find-delegated-user',
+    data: { title: 'find-delegated-user' },
+    pathMatch: 'full',
+    component: FindDelegatedUserComponent,
+  },
+  {
+    path: 'delegated-user-status',
+    data: { title: 'delegated-user-status' },
+    pathMatch: 'full',
+    component: DelegatedUserStatusComponent,
+  },
+  {
+    path: 'delegate-access-user',
+    data: { title: 'Delegate access to a user' },
+    pathMatch: 'full',
+    component: DelegatedAccessUserComponent,
+  },
+  {
+    path: 'delegate-user-confirm',
+    data: { title: 'Delegate access to a user' },
+    pathMatch: 'full',
+    component: DelegatedUserConfirmComponent,
+  },
+  {
+    path: 'delegated-success',
+    data: { title: 'Delegate access to a user' },
+    pathMatch: 'full',
+    component: DelegatedSuccessComponent,
+  },  {
+    path: 'delegated-remove-confirm',
+    data: { title: 'Delegate access to a user' },
+    pathMatch: 'full',
+    component: DelegatedRemoveConfirmComponent,
   },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];

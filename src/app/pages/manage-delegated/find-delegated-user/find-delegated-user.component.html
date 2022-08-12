@@ -1,0 +1,76 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
+                            Delegated access</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">Find a user</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl page-title">Find a user</h1>
+            <div class="manage-groups-bg">
+                <p>
+                    Search for a user to delegate an access to your approved services.
+                </p>
+            </div>
+            <div>
+                <form [formGroup]="formGroup">
+                    <div class="govuk-form-group" *ngIf="formValid(formGroup) == false && submitted">
+                        <div class="govuk-error-summary govuk-grid-column-three-quarters"
+                            aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+                            data-module="govuk-error-summary">
+                            <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
+                            <div class="govuk-error-summary__body">
+                                <ul class="govuk-list govuk-error-summary__list">
+                                    <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
+                                        *ngIf="formGroup.controls['email'].hasError('required')">
+                                        <li>Enter your email address</li>
+                                    </a>
+                                    <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
+                                        *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                                        <li>Enter an email address in the correct format, like name@example.com</li>
+                                    </a>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="govuk-form-group"
+                        [class.govuk-form-group--error]="submitted && formGroup.controls.email.invalid">
+                        <label class="govuk-label" for="email">Enter Email address</label>
+                        <span id="email-error" class="govuk-error-message"
+                            *ngIf="submitted && formGroup.controls.email.errors?.required">
+                            <span class="govuk-visually-hidden">Error:</span>Enter your email address
+                        </span>
+                        <span id="email-error" class="govuk-error-message"
+                            *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                            <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct
+                            format,
+                            like name@example.com
+                        </span>
+                        <input #input class="govuk-input" id="email" formControlName="email" name="email" size="20"
+                            type="email" value="" autocomplete="email" spellcheck="false"
+                            (input)="validateEmailLength($event)"
+                            [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
+                    </div>
+                </form>
+                <div class="govuk-button-group save-cancel-button-group">
+                    <button type="submit" class="govuk-button" data-module="govuk-button" (click)="GetUserStatus(formGroup)">
+                        Continue
+                    </button>
+                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="Cancel()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

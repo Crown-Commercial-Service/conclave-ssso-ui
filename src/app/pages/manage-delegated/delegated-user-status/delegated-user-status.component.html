@@ -1,0 +1,39 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
+                            Delegated access</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/find-delegated-user">
+                            Find a user</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">{{UserStatus.Breadcrumb}}</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl page-title">{{UserStatus.header}}</h1>
+            <div class="manage-groups-bg">
+                <p>
+                    {{UserStatus.Description}}
+                </p>
+            </div>
+            <div class="govuk-button-group save-cancel-button-group">
+                <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="BackToDelegated()">
+                    Back to Delegated access
+                </button>
+                <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="BackToDashboard()">
+                    Back to the Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

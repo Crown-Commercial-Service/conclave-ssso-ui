@@ -163,6 +163,13 @@ import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/mana
 import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-reset/confirm-mfa-reset.component';
 import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
 import { ManageOrganisationRemoveIdpConfirmComponent } from './pages/manage-organisation/manage-organisation-remove-idp-confirm/manage-organisation-remove-idp-confirm';
+import { DelegatedUserListComponent } from './pages/manage-delegated/delegated-user-list/delegated-user-list.component';
+import { FindDelegatedUserComponent } from './pages/manage-delegated/find-delegated-user/find-delegated-user.component';
+import { DelegatedAccessUserComponent } from './pages/manage-delegated/delegated-access-user/delegated-access-user.component';
+import { DelegatedUserStatusComponent } from './pages/manage-delegated/delegated-user-status/delegated-user-status.component';
+import { DelegatedUserConfirmComponent } from './pages/manage-delegated/delegated-user-confirm/delegated-user-confirm.component';
+import { DelegatedSuccessComponent } from './pages/manage-delegated/delegated-success/delegated-success.component';
+import { DelegatedRemoveConfirmComponent } from './pages/manage-delegated/delegated-remove-confirm/delegated-remove-confirm.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -291,7 +298,14 @@ export function createTranslateLoader(http: HttpClient) {
     ContactAdminComponent,
     ManageOrganisationProfileAddContactToSiteComponent,
     ConfirmMfaResetComponent,
-    SuccessUserMfaComponent
+    SuccessUserMfaComponent,
+    DelegatedUserListComponent,
+    FindDelegatedUserComponent,
+    DelegatedAccessUserComponent,
+    DelegatedUserStatusComponent,
+    DelegatedUserConfirmComponent,
+    DelegatedSuccessComponent,
+    DelegatedRemoveConfirmComponent
   ],
   imports: [
     // BrowserModule,
