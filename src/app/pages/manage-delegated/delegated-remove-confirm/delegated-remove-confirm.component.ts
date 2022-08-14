@@ -22,11 +22,37 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
   }
 
   public ConfirmRemoveUser(){
+    let data ={
+      status:'delete',
+      userName:this.RouteData.userName
+    }
     this.DelegatedService.deleteDelegatedUser(this.RouteData.userName,this.organisationId).subscribe({
-      next: (data: any) => {
-        console.log("data", data)
+      next: (responce: any) => {
+      this.router.navigateByUrl('delegated-success?data=' +btoa(JSON.stringify(data)))
       },
-      error: (error: any) => { },
+      error: (error: any) => { 
+      this.router.navigateByUrl('delegated-error')
+      }
     });
+  }
+
+
+  public ConfirmResentLink(){
+    let data ={
+      status:'resent',
+      userName:this.RouteData.userName
+    }
+    this.DelegatedService.resentActivationLink(this.RouteData.userName,this.organisationId).subscribe({
+      next: (responce: any) => {
+      this.router.navigateByUrl('delegated-success?data=' +btoa(JSON.stringify(data)))
+      },
+      error: (error: any) => { 
+      this.router.navigateByUrl('delegated-error')
+      }
+    });
+  }
+
+  public Cancel():void{
+    window.history.back();
   }
 }

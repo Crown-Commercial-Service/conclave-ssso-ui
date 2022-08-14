@@ -12,10 +12,10 @@
                             Delegated access</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode =='add'">
-                        <span class="govuk-breadcrumbs__link" >Delegate access to a user</span>
+                        <span class="govuk-breadcrumbs__link">Delegate access to a user</span>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode =='edit'">
-                        <span class="govuk-breadcrumbs__link" >Edit current delegated access</span>
+                        <span class="govuk-breadcrumbs__link">Edit current delegated access</span>
                     </li>
                 </ol>
             </div>
@@ -25,8 +25,8 @@
                 access</h1>
             <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert"
                 tabindex="-1" id="error-summary" data-module="govuk-error-summary"
-                *ngIf="formValid(formGroup) == false && submitted">
-                <h2 class="govuk-error-summary__title" id="error-summary-title"> 
+                *ngIf="(formValid(formGroup) == false && submitted) || (submitted && (StartDateValidation || EndDateValidation || PastDateValidation || EndDateDaysValidation || getSelectedRoleIds(formGroup).length == 0))">
+                <h2 class="govuk-error-summary__title" id="error-summary-title">
                     {{ 'ERROR_SUMMARY' | translate }}
                 </h2>
                 <div class="govuk-error-summary__body">
@@ -297,7 +297,7 @@
                             <!-- user permission -->
                             <br>
                             <a *ngIf="pageAccessMode == 'edit'" href="javascript:;" class="navigation-text"
-                                routerLink="/delegated-access"> Resent
+                              (click)="Resentactivation()"> Resent
                                 activation link</a>
                             <div class="govuk-button-group save-cancel-button-group govuk-!-margin-top-7">
                                 <button type="submit" class="govuk-button" data-module="govuk-button"
@@ -309,8 +309,8 @@
                                     Cancel
                                 </button>
                             </div>
-                            <a *ngIf="pageAccessMode == 'edit'" href="javascript:;"
-                                class="navigation-text text-danger" (click)="RemoveAccess()"> Remove
+                            <a *ngIf="pageAccessMode == 'edit'" href="javascript:;" class="navigation-text text-danger"
+                                (click)="RemoveAccess()"> Remove
                                 access </a>
                         </form>
                     </div>

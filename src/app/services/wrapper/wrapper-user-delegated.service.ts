@@ -63,6 +63,21 @@ createDelegatedUser(userRequest: delegateduser): Observable<any> {
     );
 }
 
+
+updateDelegatedUser(userRequest: delegateduser): Observable<any> {
+  const url = `${this.url}`;
+  return this.http
+    .put<delegateduser>(url, userRequest, this.options)
+    .pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+}
+
 getEdituserDetails(userId: string, delegatedOrgId: string): Observable<any> {
   const url = `${this.Usersurl}?user-id=${userId}&is-delegated=${true}&delegated-organisation-id=${delegatedOrgId}`;
   return this.http.get<delegateduser>(url).pipe(
@@ -97,4 +112,15 @@ deleteDelegatedUser(userId: string, organizationId: string): Observable<any> {
   );
   }
 
+  
+  resentActivationLink(userId: string, organizationId: string){
+    const url = `${this.Usersurl}/delegate-user-resend-activation?user-id=${userId}&organisation-id=${organizationId}`;
+    return this.http.put(url,this.options).pipe(
+      map(() => {
+        return true;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
 }

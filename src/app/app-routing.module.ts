@@ -120,6 +120,7 @@ import { DelegatedAccessUserComponent } from './pages/manage-delegated/delegated
 import { DelegatedUserConfirmComponent } from './pages/manage-delegated/delegated-user-confirm/delegated-user-confirm.component';
 import { DelegatedSuccessComponent } from './pages/manage-delegated/delegated-success/delegated-success.component';
 import { DelegatedRemoveConfirmComponent } from './pages/manage-delegated/delegated-remove-confirm/delegated-remove-confirm.component';
+import { DelegatedErrorComponent } from './pages/manage-delegated/delegated-error/delegated-error.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -950,20 +951,26 @@ const routes: Routes = [
   },
   {
     path: 'delegate-user-confirm',
-    data: { title: 'Delegate access to a user' },
+    data: { title: 'delegate-user-confirm' },
     pathMatch: 'full',
     component: DelegatedUserConfirmComponent,
   },
   {
     path: 'delegated-success',
-    data: { title: 'Delegate access to a user' },
+    data: { title: 'delegated-success' },
     pathMatch: 'full',
     component: DelegatedSuccessComponent,
   },  {
     path: 'delegated-remove-confirm',
-    data: { title: 'Delegate access to a user' },
+    data: { title: 'delegated-remove-confirm' },
     pathMatch: 'full',
     component: DelegatedRemoveConfirmComponent,
+  },
+  {
+    path: 'delegated-error',
+    data: { title: 'Delegate access to a user' },
+    pathMatch: 'full',
+    component: DelegatedErrorComponent,
   },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];

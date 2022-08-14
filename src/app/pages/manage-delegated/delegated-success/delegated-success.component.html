@@ -16,12 +16,25 @@
                     </li>
                 </ol>
             </div>
+            <div *ngIf="userInfo.status==='create'">
             <h1 class="govuk-heading-xl page-title">You have given a delegated access to a user {{userInfo.userName}}</h1>
             <div class="manage-groups-bg">
                 <p>
                     The user will be emailed with notification that the delegated access was granted
                 </p>
             </div>
+          </div>
+          <div *ngIf="userInfo.status==='update'">
+            <h1 class="govuk-body-l page-title">You have updated a delegated access for a user {{userInfo.userName}}</h1>
+          </div>
+
+          <div *ngIf="userInfo.status==='delete'">
+            <h1 class="govuk-body-l page-title">You have removed a delegated access for a user {{userInfo.userName}}</h1>
+          </div>
+
+          <div *ngIf="userInfo.status==='resent'">
+            <h1 class="govuk-body-l page-title">A new activation link for a delegated access has been set to user {{userInfo.userName}}</h1>
+          </div>
         </div>
         <div>
             <a href="javascript:;"  class="navigation-text" routerLink="/delegated-access"> Return to delegate access </a><br><br>

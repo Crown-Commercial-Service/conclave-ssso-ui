@@ -170,6 +170,7 @@ import { DelegatedUserStatusComponent } from './pages/manage-delegated/delegated
 import { DelegatedUserConfirmComponent } from './pages/manage-delegated/delegated-user-confirm/delegated-user-confirm.component';
 import { DelegatedSuccessComponent } from './pages/manage-delegated/delegated-success/delegated-success.component';
 import { DelegatedRemoveConfirmComponent } from './pages/manage-delegated/delegated-remove-confirm/delegated-remove-confirm.component';
+import { DelegatedErrorComponent } from './pages/manage-delegated/delegated-error/delegated-error.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -305,7 +306,8 @@ export function createTranslateLoader(http: HttpClient) {
     DelegatedUserStatusComponent,
     DelegatedUserConfirmComponent,
     DelegatedSuccessComponent,
-    DelegatedRemoveConfirmComponent
+    DelegatedRemoveConfirmComponent,
+    DelegatedErrorComponent
   ],
   imports: [
     // BrowserModule,

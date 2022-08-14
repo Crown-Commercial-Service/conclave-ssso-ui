@@ -22,7 +22,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   public pageAccessMode:string='';
   public assignedRoleDataList: any[] = [];
   private organisationId: string;
-
+  private RoleInfo:any=[]
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private route: Router,
@@ -40,8 +40,10 @@ export class DelegatedAccessUserComponent implements OnInit {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userDetails = JSON.parse(atob(para.data));
       this.pageAccessMode=this.userDetails.pageaccessmode
-      if(this.userDetails.pageaccessmode === 'edit'){
+      if(this.pageAccessMode === 'edit'){
         this.getUserDetails(this.userDetails.userName,this.organisationId)
+      }else{
+        this.getOrgRoles()
       }
     });
     this.formGroup = this.formbuilder.group({
@@ -52,29 +54,88 @@ export class DelegatedAccessUserComponent implements OnInit {
       endmonth: ['', [Validators.required]],
       endyear: ['', [Validators.required]],
     });
-
-    this.getOrgRoles()
   }
 
   public getUserDetails(userId: string, delegatedOrgId: string) {
     setTimeout(() => {
       this.DelegatedService.getEdituserDetails(userId, delegatedOrgId).subscribe({
         next: (response: any) => {
+         this.getOrgRoles()
+          this.RoleInfo=response
           this.userDetails=response
+          const startDate=this.userDetails.detail.delegatedOrgs[0].startDate.split('-')
+          const endDate=this.userDetails.detail.delegatedOrgs[0].endDate.split('-')
+          this.formGroup.patchValue({
+            startday: startDate[2].slice(0, 2),
+            startmonth: startDate[1],
+            startyear: startDate[0],
+            endday:  endDate[2].slice(0, 2),
+            endmonth:endDate[1],
+            endyear:endDate[0]
+          });
+          this.formGroup.controls['startday'].disable()
+          this.formGroup.controls['startmonth'].disable(
+          )
+          this.formGroup.controls['startyear'].disable()
         },
-        error: (error: any) => { },
+        error: (error: any) => { 
+          this.route.navigateByUrl('delegated-error')
+        },
       });
     }, 10);
   }
 
+  public getOrgRoles(): void {
+      this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise() .then((orgRoles: Role[]) => {
+          orgRoles.forEach((element) => {
+            this.roleDataList.push({
+              roleId: element.roleId,
+              roleKey: element.roleKey,
+              accessRoleName: element.roleName,
+              serviceName: element.serviceName,
+            });
+            this.formGroup.addControl(
+              'orgRoleControl_' + element.roleId,
+              this.formbuilder.control(this.RoleMatch(element.roleId))
+            );
+          });
+      });
+
+  }
+
+
+  public  RoleMatch(roleId:any){
+   const result = this.RoleInfo.detail.rolePermissionInfo.find((rols:any) => rols.roleId === roleId);
+   if(result){
+    return true
+   }
+   else{
+    return false
+   }
+  }
+
+  public getSelectedRoleDetails(form: FormGroup) {
+    let selectedRoleIds: number[] = [];
+    this.roleDataList.map((role) => {
+      if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
+        selectedRoleIds.push(role);
+      }
+    });
+    return selectedRoleIds;
+  }
 
 
   public RemoveAccess(): void {
-    let data = {
-      removeaccess: true,
-    };
+    this.userDetails.pageaccessmode='remove'
     this.route.navigateByUrl(
-      'delegated-remove-confirm?data=' + btoa(JSON.stringify(data))
+      'delegated-remove-confirm?data=' + btoa(JSON.stringify(this.userDetails))
+    );
+  }
+
+  public Resentactivation():void{
+    this.userDetails.pageaccessmode='resent'
+    this.route.navigateByUrl(
+      'delegated-remove-confirm?data=' + btoa(JSON.stringify(this.userDetails))
     );
   }
 
@@ -86,8 +147,7 @@ export class DelegatedAccessUserComponent implements OnInit {
 
   public onSubmit(form: FormGroup) {
     this.submitted = true;
-    console.log("StartDateValidation",this.StartDateValidation)
-    if (this.formValid(form) && !(this.StartDateValidation && this.EndDateValidation && this.PastDateValidation && this.EndDateDaysValidation)) {
+    if (this.formValid(form) && !(this.StartDateValidation && this.EndDateValidation && this.PastDateValidation && this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
         const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
         const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
         let EndDate = new Date(EndtDateForm);
@@ -101,8 +161,9 @@ export class DelegatedAccessUserComponent implements OnInit {
             endDate: EndDate,
           },
           roleDetails:this.getSelectedRoleDetails(form),
-          userDetails:this.userDetails
+          userDetails:this.userDetails,
         };
+        this.userDetails.pageaccessmode=this.pageAccessMode
         this.route.navigateByUrl(
           'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
         );
@@ -111,6 +172,7 @@ export class DelegatedAccessUserComponent implements OnInit {
       this.scrollHelper.scrollToFirst('error-summary');
     }
   }
+
 
   ngAfterViewChecked() {
     this.scrollHelper.doScroll();
@@ -186,32 +248,8 @@ export class DelegatedAccessUserComponent implements OnInit {
     return selectedRoleIds;
   }
 
-  public getSelectedRoleDetails(form: FormGroup) {
-    let selectedRoleIds: number[] = [];
-    this.roleDataList.map((role) => {
-      if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
-        selectedRoleIds.push(role);
-      }
-    });
-    return selectedRoleIds;
-  }
 
-  public getOrgRoles(): void {
-    this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise().then((orgRoles: Role[]) => {
-      orgRoles.forEach((element) => {
-        this.roleDataList.push({
-          roleId: element.roleId,
-          roleKey: element.roleKey,
-          accessRoleName: element.roleName,
-          serviceName: element.serviceName,
-        });
-        this.formGroup.addControl(
-          'orgRoleControl_' + element.roleId,
-          this.formbuilder.control(this.assignedRoleDataList ? false : '')
-        );
-      });
-    });
-  }
+
 
   public Cancel() {
     window.history.back();

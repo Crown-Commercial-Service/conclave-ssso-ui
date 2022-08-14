@@ -15,7 +15,7 @@ export class FindDelegatedUserComponent implements OnInit {
   public formGroup!: FormGroup;
   public submitted: boolean = false;
   private organisationId: string = ''
-  public error:string=''
+  public error: string = ''
   constructor(
     private route: Router,
     private formBuilder: FormBuilder,
@@ -53,7 +53,7 @@ export class FindDelegatedUserComponent implements OnInit {
     return form.valid;
   }
 
-  public setFocus(data: any) { 
+  public setFocus(data: any) {
     document.getElementById('email')?.focus();
   }
 
@@ -61,8 +61,8 @@ export class FindDelegatedUserComponent implements OnInit {
 
   public GetUserStatus(from: FormGroup) {
     this.submitted = true;
-    if(this.formValid(from)){
-      this.WrapperUserDelegatedService.getuserDetail(from.controls.email.value,this.organisationId).subscribe({
+    if (this.formValid(from)) {
+      this.WrapperUserDelegatedService.getuserDetail(from.controls.email.value, this.organisationId).subscribe({
         next: (userResponse: any) => {
           if (userResponse.organisationId === this.organisationId) {
             let data = {
@@ -73,15 +73,15 @@ export class FindDelegatedUserComponent implements OnInit {
             }
             this.route.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
           } else {
-            userResponse.pageaccessmode="add"
+            userResponse.pageaccessmode = "add"
             this.route.navigateByUrl('delegate-access-user?data=' + btoa(JSON.stringify(userResponse)))
           }
         },
         error: (error: any) => {
-          if(error.status === 409){
-            this.error='ALREADY_EXIST'
+          if (error.status === 409) {
+            this.error = 'ALREADY_EXIST'
             this.formGroup.controls['email'].setErrors({ alreadyExists: true });
-          }else if(error.status === 404){
+          } else if (error.status === 404) {
             let data = {
               header: 'We could not find this user in our system',
               Description: 'This Email address does not exist in our database. Please make sure that the Email address you entered is correct or contact the User you want to give the delegated access to.',
@@ -89,16 +89,18 @@ export class FindDelegatedUserComponent implements OnInit {
               status: '002'
             }
             this.route.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
+          } else {
+            this.route.navigateByUrl('delegated-error')
           }
         }
       });
-    }else{
+    } else {
       this.scrollHelper.scrollToFirst('error-summary');
     }
 
   }
 
-  public Cancel(){
+  public Cancel() {
     window.history.back();
   }
 }

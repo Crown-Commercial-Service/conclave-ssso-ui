@@ -21,18 +21,46 @@ export class DelegatedUserConfirmComponent implements OnInit {
   }
 
 
-  public UpdateDelegateToUser():void{
+
+  public onSubmit():void{
+   if(this.UserSelectedinfo.userDetails.pageaccessmode === "edit"){
+    this.updateDelegatedUser()
+   }else{
+    this.createDelegateUser()
+   }
+  }
+
+  public createDelegateUser():void{
     delete this.UserSelectedinfo.userDetails
     delete this.UserSelectedinfo.roleDetails
     this.DelegatedService.createDelegatedUser(this.UserSelectedinfo).subscribe({
       next: (roleListResponse: any) => {
         let data ={
-          status:'003',
+          status:'create',
           userName:this.UserSelectedinfo.userName
         }
         this.route.navigateByUrl('delegated-success?data=' +btoa(JSON.stringify(data)))
       },
-      error: (error: any) => { },
+      error: (error: any) => { 
+        this.route.navigateByUrl('delegated-error')
+      },
+    });
+  }
+
+  public updateDelegatedUser():void{
+    delete this.UserSelectedinfo.userDetails
+    delete this.UserSelectedinfo.roleDetails
+    this.DelegatedService.updateDelegatedUser(this.UserSelectedinfo).subscribe({
+      next: (roleListResponse: any) => {
+        let data ={
+          status:'update',
+          userName:this.UserSelectedinfo.userName
+        }
+        this.route.navigateByUrl('delegated-success?data=' +btoa(JSON.stringify(data)))
+      },
+      error: (error: any) => { 
+        this.route.navigateByUrl('delegated-error')
+      },
     });
   }
 

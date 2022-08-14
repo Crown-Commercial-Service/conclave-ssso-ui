@@ -11,23 +11,43 @@
                         <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
                             Delegated access</a>
                     </li>
-                    <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link">Confirm</span>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="RouteData.pageaccessmode ==='remove'">
+                        <span class="govuk-breadcrumbs__link">Remove delegated access</span>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="RouteData.pageaccessmode ==='resent'">
+                        <span class="govuk-breadcrumbs__link">Remove delegated access</span>
                     </li>
                 </ol>
             </div>
-            <div class="manage-groups-bg page-title">
-                <p>
-                    Confirm the removeal of the delegated access to {{RouteData.userName}}
-                </p>
+            <div class="manage-groups-bg page-title"  *ngIf="RouteData.pageaccessmode ==='remove'">
+                <h1>
+                    Confirm you want to remove delegated access for user {{RouteData.userName}}
+                </h1>
+                <p class="govuk-body-l">This cannot be undone</p>
+                <div class="govuk-button-group save-cancel-button-group">
+                    <button class="govuk-button govuk-button--warning" data-module="govuk-button" (click)="ConfirmRemoveUser()">
+                        Confirm and remove
+                      </button>
+                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="Cancel()">
+                        Cancel
+                    </button>
+                </div>
             </div>
-            <div class="govuk-button-group save-cancel-button-group">
-                <button class="govuk-button govuk-button--warning" data-module="govuk-button" (click)="ConfirmRemoveUser()">
-                    confirm and remove
-                  </button>
-                <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                    cancel
-                </button>
+            <div class="manage-groups-bg page-title"  *ngIf="RouteData.pageaccessmode ==='resent'">
+                <h1>
+                    Confirm resend activation link for a delegated access
+                </h1>
+                <p class="govuk-body-l">Send new activation link for a delegated access to user {{RouteData.userName}}</p>
+                <div class="govuk-button-group save-cancel-button-group">
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                        (click)="ConfirmResentLink()">
+                        Resend activation link
+                    </button>
+                    <button type="button" class="govuk-button govuk-button--secondary"
+                        data-module="govuk-button" (click)="Cancel()">
+                        Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>
