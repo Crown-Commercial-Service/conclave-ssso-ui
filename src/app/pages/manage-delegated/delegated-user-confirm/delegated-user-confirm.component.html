@@ -1,0 +1,78 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
+                            Delegated access</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">Confirm delegation</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl page-title">Confirm you want to delegate access to the user</h1>
+            <div class="manage-groups-bg">
+                <p>
+                    You are giving permission for a delegated access to your Organisation to a user:
+                </p>
+            </div>
+            <div class="govuk-form-group">
+                <h2 class="govuk-label-wrapper">
+                    <strong>
+                        You are granting a delegated access to:
+                    </strong>
+                </h2>
+                <div class="span-group govuk-!-margin-top-4">
+                    <p class="govuk-body">
+                        Name:<strong class="govuk-!-margin-left-2">{{userInfo.firstName}} {{userInfo.lastName}}</strong>
+                    </p>
+                    <p class="govuk-body">
+                        Email address:<strong class="govuk-!-margin-left-2">{{userInfo.userName}}</strong>
+                    </p>
+                    <p class="govuk-body">
+                        User's Organisation:<strong class="govuk-!-margin-left-2">{{userInfo.originOrganisationName}}</strong>
+                    </p>
+                    <details class="govuk-details" data-module="govuk-details">
+                        <summary class="govuk-details__summary">
+                          <span class="govuk-details__summary-text">
+                            Addtional security
+                          </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                            <p class="govuk-body">
+                                MFA status:<strong class="govuk-!-margin-left-2">{{userInfo.mfaEnabled}}</strong>
+                            </p>
+                        </div>
+                      </details>
+                    <p class="govuk-body">
+                        <strong>The user will have a delegated access from {{UserSelectedinfo.detail.startDate | date: 'dd/MM/yyyy'}} to {{UserSelectedinfo.detail.endDate | date: 'dd/MM/yyyy'}}.</strong>
+                    </p>
+                    <div>
+                        <p class="govuk-body">
+                            <strong class="">The user will be given a below permissions.</strong>
+                        </p>
+                        <ul class="govuk-list"> 
+                            <li *ngFor="let details of UserSelectedinfo.roleDetails">
+                                {{details.accessRoleName}} - {{details.serviceName}}
+                            </li>
+                          </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="govuk-button-group save-cancel-button-group">
+            <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onSubmit()">
+                Continue
+            </button>
+            <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="Cancel()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div> 
