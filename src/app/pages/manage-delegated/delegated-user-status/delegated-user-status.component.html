@@ -1,0 +1,190 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
+                            Delegated access</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="UserStatus.status != '003'">
+                        <a class="govuk-breadcrumbs__link" routerLink="/find-delegated-user">
+                            Find a user</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">{{UserStatus.Breadcrumb}}</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl page-title">{{UserStatus.header}}</h1>
+            <div class="manage-groups-bg">
+                <p>
+                    {{UserStatus.Description}}
+                </p>
+            </div>
+            <div class="span-group govuk-!-margin-top-4" *ngIf="UserStatus.status === '003'">
+                <p class="govuk-body">
+                    Name:<strong class="govuk-!-margin-left-2">{{userInfo.firstName}} {{userInfo.lastName}}</strong>
+                </p>
+                <p class="govuk-body">
+                    Email address:<strong class="govuk-!-margin-left-2">{{userInfo.userName}}</strong>
+                </p>
+                <p class="govuk-body">
+                    User's Organisation:<strong
+                        class="govuk-!-margin-left-2">{{userInfo.originOrganisationName}}</strong>
+                </p>
+
+
+                <div>
+                    <h1 class="govuk-heading-s">Delegated user’s permissions</h1>
+                    <p>You cannot edit permissions for user with expired delegated access.</p>
+                </div>
+                <form [formGroup]="formGroup">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset" role="group" aria-describedby="start-hint">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                <h1 class="govuk-fieldset__heading govuk-!-font-size-24">
+                                    Start date
+                                </h1>
+                            </legend>
+                            <div id="start-hint" class="govuk-hint">
+                                You cannot edit start date for expired delegation.
+                            </div>
+                            <div class="govuk-date-input" id="start">
+                                <div class="govuk-date-input__item">
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label govuk-date-input__label" for="start-day">
+                                            Day
+                                        </label>
+                                        <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                            id="start-day" name="start-day" type="text" inputmode="numeric"
+                                            formControlName="startday" maxlength="2">
+                                    </div>
+                                </div>
+                                <div class="govuk-date-input__item">
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label govuk-date-input__label" for="start-month">
+                                            Month
+                                        </label>
+                                        <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                            id="start-month" name="start-month" type="text" inputmode="numeric"
+                                            formControlName="startmonth" maxlength="2">
+                                    </div>
+                                </div>
+                                <div class="govuk-date-input__item">
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label govuk-date-input__label" for="start-year">
+                                            Year
+                                        </label>
+                                        <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                            id="start-year" name="start-year" type="text" inputmode="numeric"
+                                            formControlName="startyear" maxlength="4">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                    <!-- start date  -->
+                    <!-- End date  -->
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset" role="group" aria-describedby="end-hint">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                <h1 class="govuk-fieldset__heading govuk-!-font-size-24">
+                                    End date
+                                </h1>
+                            </legend>
+                            <div id="end-hint" class="govuk-hint">
+                                You cannot edit end date for expired delegation.
+                            </div>
+                            <div class="govuk-date-input" id="end">
+                                <div class="govuk-date-input__item">
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label govuk-date-input__label" for="end-day">
+                                            Day
+                                        </label>
+                                        <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                            id="end-day" name="end-day" type="text" inputmode="numeric"
+                                            formControlName="endday" maxlength="2">
+                                    </div>
+                                </div>
+                                <div class="govuk-date-input__item">
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label govuk-date-input__label" for="end-month">
+                                            Month
+                                        </label>
+                                        <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                            id="end-month" name="end-month" type="text" inputmode="numeric"
+                                            formControlName="endmonth" maxlength="2">
+                                    </div>
+                                </div>
+                                <div class="govuk-date-input__item">
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label govuk-date-input__label" for="end-year">
+                                            Year
+                                        </label>
+                                        <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                            id="end-year" name="end-year" type="text" inputmode="numeric"
+                                            formControlName="endyear" maxlength="4">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                    <!-- End date  -->
+                    <!-- user permission -->
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset" aria-describedby="waste-hint">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                <h1 class="govuk-fieldset__heading govuk-!-font-size-24">
+                                    Delegated user's permissions
+                                </h1>
+                            </legend>
+                            <div id="waste-hint" class="govuk-hint">
+                                You cannot edit permissions for user with expired delegated access
+                            </div>
+                            <div class="govuk-checkboxes__item"
+                                *ngFor="let orgRole of roleDataList; let i=index">
+                                <input class="govuk-checkboxes__input" 
+                                    id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                    [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                    value="hmrc" [attr.disabled]="true" >
+                                <label *ngIf="orgRole.serviceName == null"
+                                    class="govuk-label govuk-checkboxes__label"
+                                    for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                    {{orgRole.accessRoleName}}
+                                </label>
+                                <label *ngIf="orgRole.serviceName != null"
+                                    class="govuk-label govuk-checkboxes__label"
+                                    for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                    {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <!-- user permission -->
+
+                <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                    (click)="Back()">
+                    Back
+                </button>
+                </form>
+            </div>
+            <div class="govuk-button-group save-cancel-button-group" *ngIf="UserStatus.status != '003'">
+                <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                    (click)="BackToDelegated()">
+                    Back to Delegated access
+                </button>
+                <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                    (click)="BackToDashboard()">
+                    Back to the Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
