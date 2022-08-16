@@ -121,6 +121,7 @@ import { DelegatedUserConfirmComponent } from './pages/manage-delegated/delegate
 import { DelegatedSuccessComponent } from './pages/manage-delegated/delegated-success/delegated-success.component';
 import { DelegatedRemoveConfirmComponent } from './pages/manage-delegated/delegated-remove-confirm/delegated-remove-confirm.component';
 import { DelegatedErrorComponent } from './pages/manage-delegated/delegated-error/delegated-error.component';
+import { DelegatedUserActivationComponent } from './pages/manage-delegated/landing-pages/delegated-user-activation/delegated-user-activation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -965,6 +966,12 @@ const routes: Routes = [
     data: { title: 'delegated-remove-confirm' },
     pathMatch: 'full',
     component: DelegatedRemoveConfirmComponent,
+  },
+  {
+    path: 'delegated-user-activation',
+    data: { title: 'deleagted-user-activation' },
+    pathMatch: 'full',
+    component: DelegatedUserActivationComponent,
   },
   {
     path: 'delegated-error',
