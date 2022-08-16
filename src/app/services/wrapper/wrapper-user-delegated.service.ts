@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ContactPoint } from 'src/app/models/contactInfo';
 import { delegateduser } from 'src/app/models/delegated.model';
 import { UserListResponse } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
@@ -14,7 +13,7 @@ export class WrapperUserDelegatedService {
  private url: string = `${environment.uri.api.isApiGateWayEnabled ?
     environment.uri.api.wrapper.apiGatewayEnabled.user : environment.uri.api.wrapper.apiGatewayDisabled.user}/delegate-user`;
 private Orgurl=`${environment.uri.api.isApiGateWayEnabled ?
-  environment.uri.api.wrapper.apiGatewayEnabled.user : environment.uri.api.wrapper.apiGatewayDisabled.organisation}`;
+  environment.uri.api.wrapper.apiGatewayEnabled.organisation : environment.uri.api.wrapper.apiGatewayDisabled.organisation}`;
   private Usersurl=`${environment.uri.api.isApiGateWayEnabled ?
     environment.uri.api.wrapper.apiGatewayEnabled.user : environment.uri.api.wrapper.apiGatewayDisabled.user}`  
 private options = {
