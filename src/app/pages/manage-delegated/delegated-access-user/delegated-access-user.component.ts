@@ -94,10 +94,17 @@ export class DelegatedAccessUserComponent implements OnInit {
               accessRoleName: element.roleName,
               serviceName: element.serviceName,
             });
-            this.formGroup.addControl(
-              'orgRoleControl_' + element.roleId,
-              this.formbuilder.control(this.RoleMatch(element.roleId))
-            );
+            if(this.pageAccessMode === 'edit'){
+              this.formGroup.addControl(
+                'orgRoleControl_' + element.roleId,
+                this.formbuilder.control(this.RoleMatch(element.roleId))
+              );
+            }else{
+              this.formGroup.addControl(
+                'orgRoleControl_' + element.roleId,
+                this.formbuilder.control(false)
+              );
+            }
           });
       });
 
@@ -156,7 +163,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   }
 
 public createuserdetails(form:FormGroup){
-  if (this.formValid(form) && !(this.StartDateValidation && this.EndDateValidation && this.PastDateValidation && this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
+  if (this.formValid(form) && (!this.StartDateValidation && !this.EndDateValidation && !this.PastDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
     const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
     const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
     let EndDate = new Date(EndtDateForm);
@@ -183,7 +190,7 @@ public createuserdetails(form:FormGroup){
 }
 
 public edituserdetails(form:FormGroup){
-  if (this.formValid(form) && !(this.StartDateValidation && this.EndDateValidation && this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
+  if (this.formValid(form) && (!this.StartDateValidation && !this.EndDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
     const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
     const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
     let EndDate = new Date(EndtDateForm);
