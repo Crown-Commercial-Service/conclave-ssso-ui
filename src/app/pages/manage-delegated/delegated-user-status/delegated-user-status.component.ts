@@ -75,7 +75,6 @@ export class DelegatedUserStatusComponent implements OnInit {
       this.DelegatedService.getEdituserDetails(userId, this.organisationId).subscribe({
         next: (response: any) => {
           this.userInfo=response
-          console.log("response",response)
           const startDate=response.detail.delegatedOrgs[0].startDate.split('-')
           const endDate=response.detail.delegatedOrgs[0].endDate.split('-')
           this.formGroup.patchValue({
@@ -116,10 +115,7 @@ export class DelegatedUserStatusComponent implements OnInit {
           }
         });
       })
-      console.log("orgRoles",orgRoles)
     })
-      
-        console.log("roleDataList",this.roleDataList)
   }
 
   public BackToDelegated():void {
