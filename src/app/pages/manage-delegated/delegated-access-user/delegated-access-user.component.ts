@@ -145,33 +145,70 @@ export class DelegatedAccessUserComponent implements OnInit {
     return form.valid;
   }
 
-  public onSubmit(form: FormGroup) {
+
+  public onSubmit(form: FormGroup){
     this.submitted = true;
-    if (this.formValid(form) && !(this.StartDateValidation && this.EndDateValidation && this.PastDateValidation && this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
-        const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
-        const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
-        let EndDate = new Date(EndtDateForm);
-        let StartDate = new Date(StartDateForm);
-        let data = {
-          userName: this.userDetails.userName,
-          detail: {
-            delegatedOrgId: this.organisationId,
-            roleIds: this.getSelectedRoleIds(form),
-            startDate: StartDate,
-            endDate: EndDate,
-          },
-          roleDetails:this.getSelectedRoleDetails(form),
-          userDetails:this.userDetails,
-        };
-        this.userDetails.pageaccessmode=this.pageAccessMode
-        this.route.navigateByUrl(
-          'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
-        );
-    
-    } else {
-      this.scrollHelper.scrollToFirst('error-summary');
+    if(this.pageAccessMode === 'edit'){
+      this.edituserdetails(form)
+    }else{
+      this.createuserdetails(form)
     }
   }
+
+public createuserdetails(form:FormGroup){
+  if (this.formValid(form) && !(this.StartDateValidation && this.EndDateValidation && this.PastDateValidation && this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
+    const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
+    const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
+    let EndDate = new Date(EndtDateForm);
+    let StartDate = new Date(StartDateForm);
+    let data = {
+      userName: this.userDetails.userName,
+      detail: {
+        delegatedOrgId: this.organisationId,
+        roleIds: this.getSelectedRoleIds(form),
+        startDate: StartDate,
+        endDate: EndDate,
+      },
+      roleDetails:this.getSelectedRoleDetails(form),
+      userDetails:this.userDetails,
+    };
+    this.userDetails.pageaccessmode=this.pageAccessMode
+    this.route.navigateByUrl(
+      'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
+    );
+
+} else {
+  this.scrollHelper.scrollToFirst('error-summary');
+}
+}
+
+public edituserdetails(form:FormGroup){
+  if (this.formValid(form) && !(this.StartDateValidation && this.EndDateValidation && this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
+    const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
+    const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
+    let EndDate = new Date(EndtDateForm);
+    let StartDate = new Date(StartDateForm);
+    let data = {
+      userName: this.userDetails.userName,
+      detail: {
+        delegatedOrgId: this.organisationId,
+        roleIds: this.getSelectedRoleIds(form),
+        startDate: StartDate,
+        endDate: EndDate,
+      },
+      roleDetails:this.getSelectedRoleDetails(form),
+      userDetails:this.userDetails,
+    };
+    this.userDetails.pageaccessmode=this.pageAccessMode
+    this.route.navigateByUrl(
+      'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
+    );
+
+} else {
+  this.scrollHelper.scrollToFirst('error-summary');
+}
+}
+
 
 
   ngAfterViewChecked() {

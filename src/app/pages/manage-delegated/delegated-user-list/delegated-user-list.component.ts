@@ -72,6 +72,8 @@ export class DelegatedUserListComponent implements OnInit {
     }, 10);
     this.getOrganisationCurrentUsers()
   }
+
+
   public onLinkClick(data: any): void {
     if (data.event.target.innerText === "Remove") {
       data.pageaccessmode = 'remove'
@@ -97,6 +99,7 @@ export class DelegatedUserListComponent implements OnInit {
     this.currentUserstableConfig.currentPage = pageNumber;
     this.getOrganisationCurrentUsers();
   }
+  
   setPageexpiredUsers(pageNumber: any) {
     this.expiredUserstableConfig.currentPage = pageNumber;
     this.getOrganisationExpiredUsers();
