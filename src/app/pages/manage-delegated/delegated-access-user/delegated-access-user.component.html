@@ -317,7 +317,7 @@
                             </div>
                             <!-- user permission -->
                             <br>
-                            <a *ngIf="pageAccessMode == 'edit'" href="javascript:;" class="navigation-text"
+                            <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" href="javascript:;" class="navigation-text"
                                 (click)="Resentactivation()"> Resent
                                 activation link</a>
                             <div class="govuk-button-group save-cancel-button-group govuk-!-margin-top-7">

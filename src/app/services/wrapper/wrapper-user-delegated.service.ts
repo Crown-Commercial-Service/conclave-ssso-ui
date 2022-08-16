@@ -122,4 +122,16 @@ deleteDelegatedUser(userId: string, organizationId: string): Observable<any> {
       })
     );
   }
+
+  activateUser(activationCode: string): Observable<any> {
+    const url = `${this.Usersurl}/delegate-user-validation?acceptance-code=${activationCode}`;
+    return this.http.get<any>(url,this.options).pipe(
+      map((data: any) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+  
 }

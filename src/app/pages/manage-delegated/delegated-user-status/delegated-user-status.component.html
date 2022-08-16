@@ -28,14 +28,14 @@
             </div>
             <div class="span-group govuk-!-margin-top-4" *ngIf="UserStatus.status === '003'">
                 <p class="govuk-body">
-                    Name:<strong class="govuk-!-margin-left-2">{{userInfo.firstName}} {{userInfo.lastName}}</strong>
+                    Name:<strong class="govuk-!-margin-left-2">{{UserStatus.event.name}}</strong>
                 </p>
                 <p class="govuk-body">
-                    Email address:<strong class="govuk-!-margin-left-2">{{userInfo.userName}}</strong>
+                    Email address:<strong class="govuk-!-margin-left-2">{{UserStatus.event.userName}}</strong>
                 </p>
                 <p class="govuk-body">
                     User's Organisation:<strong
-                        class="govuk-!-margin-left-2">{{userInfo.originOrganisationName}}</strong>
+                        class="govuk-!-margin-left-2">{{UserStatus.event.originOrganisation}}</strong>
                 </p>
 
 
