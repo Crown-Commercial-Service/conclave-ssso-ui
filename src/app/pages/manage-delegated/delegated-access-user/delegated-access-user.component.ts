@@ -149,13 +149,13 @@ export class DelegatedAccessUserComponent implements OnInit {
   public onSubmit(form: FormGroup){
     this.submitted = true;
     if(this.pageAccessMode === 'edit'){
-      this.Edituserdetails(form)
+      this.edituserdetails(form)
     }else{
-      this.Createuserdetails(form)
+      this.createuserdetails(form)
     }
   }
 
-public Createuserdetails(form:FormGroup){
+public createuserdetails(form:FormGroup){
   if (this.formValid(form) && !(this.StartDateValidation && this.EndDateValidation && this.PastDateValidation && this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
     const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
     const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
@@ -182,7 +182,7 @@ public Createuserdetails(form:FormGroup){
 }
 }
 
-public Edituserdetails(form:FormGroup){
+public edituserdetails(form:FormGroup){
   if (this.formValid(form) && !(this.StartDateValidation && this.EndDateValidation && this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
     const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
     const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
