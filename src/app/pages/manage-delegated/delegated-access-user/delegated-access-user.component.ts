@@ -87,7 +87,6 @@ export class DelegatedAccessUserComponent implements OnInit {
 
   public getOrgRoles(): void {
       this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise() .then((orgRoles: Role[]) => {
-        console.log("roles",orgRoles)
           orgRoles.forEach((element) => {
             this.roleDataList.push({
               roleId: element.roleId,
@@ -113,8 +112,6 @@ export class DelegatedAccessUserComponent implements OnInit {
 
 
   public  RoleMatch(roleId:any){
-    debugger
-    console.log("this.RoleInfo.detail.rolePermissionInfo",this.RoleInfo.detail.rolePermissionInfo)
    const result = this.RoleInfo.detail.rolePermissionInfo.find((rols:any) => rols.roleId === roleId);
    if(result){
     return true
