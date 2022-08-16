@@ -15,8 +15,7 @@ export class DelegatedUserStatusComponent implements OnInit {
   private organisationId: string;
   public roleDataList: any[] = [];
   public assignedRoleDataList: any[] = [];
-  public userInfo:any={}
-  public UserStatus = {
+  public UserStatus:any = {
     header: '',
     Description: '',
     Breadcrumb: '',
@@ -57,7 +56,7 @@ export class DelegatedUserStatusComponent implements OnInit {
             endmonth: [{value: '', disabled: true}, [Validators.required]],
             endyear: [{value: '', disabled: true}, [Validators.required]],
           });
-          this.getUserDetails(RouteData.event.userName)
+          this.getUserDetails(RouteData)
           //statements;
           break;
         }
@@ -70,37 +69,24 @@ export class DelegatedUserStatusComponent implements OnInit {
   }
 
 
-  public getUserDetails(userId: string) {
-    setTimeout(() => {
-      this.DelegatedService.getEdituserDetails(userId, this.organisationId).subscribe({
-        next: (response: any) => {
-          this.userInfo=response
-          const startDate=response.detail.delegatedOrgs[0].startDate.split('-')
-          const endDate=response.detail.delegatedOrgs[0].endDate.split('-')
-          this.formGroup.patchValue({
-            startday: startDate[2].slice(0, 2),
-            startmonth: startDate[1],
-            startyear: startDate[0],
-            endday:  endDate[2].slice(0, 2),
-            endmonth:endDate[1],
-            endyear:endDate[0]
-          });
-          // this.formGroup.controls['startday'].disable()
-          // this.formGroup.controls['startmonth'].disable()
-          // this.formGroup.controls['startyear'].disable()
-          this.getOrgRoles()
-        },
-        error: (error: any) => { 
-          this.router.navigateByUrl('delegated-error')
-        },
-      });
-    }, 10);
+  public getUserDetails(response: any) {
+    const startDate=response.event.startDate.split('-')
+    const endDate=response.event.endDate.split('-')
+    this.formGroup.patchValue({
+      startday: startDate[2].slice(0, 2),
+      startmonth: startDate[1],
+      startyear: startDate[0],
+      endday:  endDate[2].slice(0, 2),
+      endmonth:endDate[1],
+      endyear:endDate[0]
+    });
+    this.getOrgRoles(response)
   }
-  public getOrgRoles(): void {
+  public getOrgRoles(roleResponse:any): void {
     this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise() .then((response: Role[])=>{
       let orgRoles=response
       orgRoles.forEach((f)=>{
-        this.userInfo.detail.rolePermissionInfo.forEach((element:any) => {
+        roleResponse.event.rolePermissionInfo.forEach((element:any) => {
           if(element.roleId === f.roleId){
             this.roleDataList.push({
               roleId: f.roleId,

@@ -21,6 +21,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   public roleDataList: any[] = [];
   public pageAccessMode:string='';
   public assignedRoleDataList: any[] = [];
+  public delegationAccepted:boolean=false;
   private organisationId: string;
   private RoleInfo:any=[]
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
@@ -61,8 +62,10 @@ export class DelegatedAccessUserComponent implements OnInit {
       this.DelegatedService.getEdituserDetails(userId, delegatedOrgId).subscribe({
         next: (response: any) => {
          this.getOrgRoles()
-          this.RoleInfo=response
+          this.RoleInfo=response 
           this.userDetails=response
+          this.delegationAccepted=response.detail.delegatedOrgs[0].delegationAccepted
+          console.log("delegationAccepted",this.delegationAccepted)
           const startDate=this.userDetails.detail.delegatedOrgs[0].startDate.split('-')
           const endDate=this.userDetails.detail.delegatedOrgs[0].endDate.split('-')
           this.formGroup.patchValue({
