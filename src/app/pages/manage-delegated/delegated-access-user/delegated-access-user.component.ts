@@ -65,7 +65,6 @@ export class DelegatedAccessUserComponent implements OnInit {
           this.RoleInfo=response 
           this.userDetails=response
           this.delegationAccepted=response.detail.delegatedOrgs[0].delegationAccepted
-          console.log("delegationAccepted",this.delegationAccepted)
           const startDate=this.userDetails.detail.delegatedOrgs[0].startDate.split('-')
           const endDate=this.userDetails.detail.delegatedOrgs[0].endDate.split('-')
           this.formGroup.patchValue({
@@ -91,22 +90,24 @@ export class DelegatedAccessUserComponent implements OnInit {
   public getOrgRoles(): void {
       this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise() .then((orgRoles: Role[]) => {
           orgRoles.forEach((element) => {
-            this.roleDataList.push({
-              roleId: element.roleId,
-              roleKey: element.roleKey,
-              accessRoleName: element.roleName,
-              serviceName: element.serviceName,
-            });
-            if(this.pageAccessMode === 'edit'){
-              this.formGroup.addControl(
-                'orgRoleControl_' + element.roleId,
-                this.formbuilder.control(this.RoleMatch(element.roleId))
-              );
-            }else{
-              this.formGroup.addControl(
-                'orgRoleControl_' + element.roleId,
-                this.formbuilder.control(false)
-              );
+            if(element.roleKey != "ORG_ADMINISTRATOR" && element.roleKey !="ORG_DEFAULT_USER" &&element.roleKey != "ORG_USER_SUPPORT" && element.roleKey != "MANAGE_SUBSCRIPTIONS"){
+              this.roleDataList.push({
+                roleId: element.roleId,
+                roleKey: element.roleKey,
+                accessRoleName: element.roleName,
+                serviceName: element.serviceName,
+              });
+              if(this.pageAccessMode === 'edit'){
+                this.formGroup.addControl(
+                  'orgRoleControl_' + element.roleId,
+                  this.formbuilder.control(this.RoleMatch(element.roleId))
+                );
+              }else{
+                this.formGroup.addControl(
+                  'orgRoleControl_' + element.roleId,
+                  this.formbuilder.control(false)
+                );
+              }
             }
           });
       });
