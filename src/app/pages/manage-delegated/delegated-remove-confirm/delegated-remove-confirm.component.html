@@ -15,12 +15,12 @@
                         <span class="govuk-breadcrumbs__link">Remove delegated access</span>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="RouteData.pageaccessmode ==='resent'">
-                        <span class="govuk-breadcrumbs__link">Remove delegated access</span>
+                        <span class="govuk-breadcrumbs__link">Confirm resend activation link</span>
                     </li>
                 </ol>
             </div>
             <div class="manage-groups-bg page-title"  *ngIf="RouteData.pageaccessmode ==='remove'">
-                <h1>
+                <h1 class="header-bread-align govuk-heading-l page-title">
                     Confirm you want to remove delegated access for user {{RouteData.userName}}
                 </h1>
                 <p class="govuk-body-l">This cannot be undone</p>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="manage-groups-bg page-title"  *ngIf="RouteData.pageaccessmode ==='resent'">
-                <h1>
+                <h1 class="header-bread-align govuk-heading-xl page-title">
                     Confirm resend activation link for a delegated access
                 </h1>
                 <p class="govuk-body-l">Send new activation link for a delegated access to user {{RouteData.userName}}</p>
