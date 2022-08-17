@@ -133,6 +133,16 @@ export class HomeComponent extends BaseComponent implements OnInit {
           description: 'View details for your organisation',
           route: '/manage-org/profile',
         });
+        this.otherModules.push({
+          name: 'Delegated access',
+          description: 'Manage delegated access to your approved services',
+          route: '/delegated-access',
+        });
+        this.otherModules.push({
+          name: 'Manage my delegated access',
+          description: 'Switch between your primary and delegating Organisation',
+          route: '/delegated-organisation',
+        });
       }
     }
     if (e.permissionName === 'MANAGE_GROUPS') {
@@ -186,11 +196,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
           name: 'Organisation users support',
           description: 'Support for users of other organisations',
           route: '/org-support/search',
-        });
-        this.otherModules.push({
-          name: 'Delegated access',
-          description: 'Manage delegated access to your approved services.',
-          route: '/delegated-access',
         });
       }
     }

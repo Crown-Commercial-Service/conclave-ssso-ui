@@ -133,5 +133,17 @@ deleteDelegatedUser(userId: string, organizationId: string): Observable<any> {
       })
     );
   }
+
+
+  getDeligatedOrg(userId:string): Observable<any> {
+    const url = `${this.Usersurl}?user-id=${userId}&is-delegated=${true}`;
+    return this.http.get<delegateduser>(url).pipe(
+      map((data: delegateduser) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
   
 }
