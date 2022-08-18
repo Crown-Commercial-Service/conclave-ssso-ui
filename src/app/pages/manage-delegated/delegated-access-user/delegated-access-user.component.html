@@ -281,27 +281,40 @@
                                             id="{{'orgRoleControl_' + orgRole.roleId}}"
                                             [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
                                             value="hmrc">
-<<<<<<< HEAD
-                                        <label *ngIf="orgRole.serviceName == null"
-=======
                                         <label
->>>>>>> 078f8aef63f1a39062d92339fc323d8c32523470
                                             class="govuk-label govuk-checkboxes__label"
                                             for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                            {{orgRole.accessRoleName}}
-                                        </label>
-                                        <label *ngIf="orgRole.serviceName != null"
-                                            class="govuk-label govuk-checkboxes__label"
-                                            for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                            {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
+                                            {{
+                                            orgRole.roleKey === "JAEGGER_SUPPLIER"
+                                            ? "eSourcing Service as a supplier"
+                                            :orgRole.roleKey === "ACCESS_JAGGAER"
+                                            ? "eSourcing Service - click here to add to dashboard (Mandatory)"
+                                            :orgRole.roleKey === "CAT_USER"
+                                            ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
+                                            :orgRole.roleKey === "ACCESS_CAAAC_CLIENT"
+                                            ? "Contract Award Service (CAS) - click here to add to dashboard
+                                            (Mandatory)"
+                                            :orgRole.roleKey === "JAEGGER_BUYER"
+                                            ? "eSourcing Service as a buyer"
+                                            :orgRole.roleKey === "JAGGAER_USER"
+                                            ? "eSourcing Service - click here to add service (Mandatory)"
+                                            :orgRole.accessRoleName}}
+                                            <span *ngIf="
+                                            orgRole.roleKey != 'JAEGGER_SUPPLIER' &&
+                                            orgRole.roleKey != 'ACCESS_JAGGAER' &&
+                                            orgRole.roleKey != 'CAT_USER' &&
+                                            orgRole.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                                            orgRole.roleKey != 'JAEGGER_BUYER' &&
+                                            orgRole.roleKey != 'JAGGAER_USER' && orgRole.serviceName != null
+                                            ">- {{ orgRole.serviceName }}</span>
                                         </label>
                                     </div>
                                 </fieldset>
                             </div>
                             <!-- user permission -->
                             <br>
-                            <a *ngIf="pageAccessMode == 'edit'" href="javascript:;" class="navigation-text"
-                              (click)="Resentactivation()"> Resent
+                            <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" href="javascript:;" class="navigation-text"
+                                (click)="Resentactivation()"> Resent
                                 activation link</a>
                             <div class="govuk-button-group save-cancel-button-group govuk-!-margin-top-7">
                                 <button type="submit" class="govuk-button" data-module="govuk-button"
