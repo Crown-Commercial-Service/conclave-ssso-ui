@@ -17,23 +17,23 @@
                 </ol>
             </div>
             <div *ngIf="userInfo.status==='create'">
-            <h1 class="govuk-heading-xl page-title">You have given a delegated access to a user {{userInfo.userName}}</h1>
+            <h1 class="govuk-heading-l page-title header-bread-align">You have given a delegated access to a user {{userInfo.userName}}</h1>
             <div class="manage-groups-bg">
-                <p>
+                <p class="govuk-body-l">
                     The user will be emailed with notification that the delegated access was granted
                 </p>
             </div>
           </div>
           <div *ngIf="userInfo.status==='update'">
-            <h1 class="govuk-body-l page-title">You have updated a delegated access for a user {{userInfo.userName}}</h1>
+            <h1 class="govuk-heading-l page-title header-bread-align">You have updated a delegated access for a user {{userInfo.userName}}</h1>
           </div>
 
           <div *ngIf="userInfo.status==='delete'">
-            <h1 class="govuk-body-l page-title">You have removed a delegated access for a user {{userInfo.userName}}</h1>
+            <h1 class="govuk-heading-l page-title header-bread-align">You have removed a delegated access for a user {{userInfo.userName}}</h1>
           </div>
 
           <div *ngIf="userInfo.status==='resent'">
-            <h1 class="govuk-body-l page-title">A new activation link for a delegated access has been set to user {{userInfo.userName}}</h1>
+            <h1 class="govuk-heading-l page-title header-bread-align">A new activation link for a delegated access has been set to user {{userInfo.userName}}</h1>
           </div>
         </div>
         <div>

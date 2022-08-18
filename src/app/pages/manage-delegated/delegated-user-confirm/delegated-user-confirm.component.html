@@ -16,9 +16,9 @@
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title">Confirm you want to delegate access to the user</h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align">Confirm you want to delegate access to the user</h1>
             <div class="manage-groups-bg">
-                <p>
+                <p class="govuk-body-l">
                     You are giving permission for a delegated access to your Organisation to a user:
                 </p>
             </div>
@@ -46,7 +46,7 @@
                         </summary>
                         <div class="govuk-details__text">
                             <p class="govuk-body">
-                                MFA status:<strong class="govuk-!-margin-left-2">{{userInfo.mfaEnabled}}</strong>
+                                MFA status:<strong class="govuk-!-margin-left-2">{{userInfo.mfaEnabled == 'true' ? 'Enable' : 'Disable'}}</strong>
                             </p>
                         </div>
                       </details>
