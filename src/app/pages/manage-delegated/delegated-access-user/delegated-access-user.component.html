@@ -19,9 +19,9 @@
                     </li>
                 </ol>
             </div>
-            <h1 *ngIf="pageAccessMode =='add'" class="govuk-heading-xl page-title">Delegate access to a user
+            <h1 *ngIf="pageAccessMode =='add'" class="govuk-heading-xl page-title header-bread-align">Delegate access to a user
                 from outside your Organisation</h1>
-            <h1 *ngIf="pageAccessMode =='edit'" class="govuk-heading-xl page-title">Edit current delegated
+            <h1 *ngIf="pageAccessMode =='edit'" class="govuk-heading-xl page-title header-bread-align">Edit current delegated
                 access</h1>
             <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert"
                 tabindex="-1" id="error-summary" data-module="govuk-error-summary"
@@ -70,11 +70,11 @@
                 </div>
             </div>
             <div class="manage-groups-bg">
-                <p *ngIf="pageAccessMode =='add'">
+                <p *ngIf="pageAccessMode =='add'" class="govuk-body-l">
                     Delegate a user from another organisation to access the Public Procurement Gateway on behalf of your
                     organisation. Care must be taken when selecting permissions, the user will have.
                 </p>
-                <p *ngIf="pageAccessMode =='edit'">
+                <p *ngIf="pageAccessMode =='edit'" class="govuk-body-l">
                     Manage details of current delegated access for user
                 </p>
             </div>
@@ -106,7 +106,7 @@
                             </summary>
                             <div class="govuk-details__text">
                                 <p class="govuk-body">
-                                    MFA status:<strong class="govuk-!-margin-left-2">{{userDetails.mfaEnabled}}</strong>
+                                    MFA status:<strong class="govuk-!-margin-left-2">{{userDetails.mfaEnabled == 'true' ? 'Enable' : 'Disable'}}</strong>
                                 </p>
                             </div>
                         </details>
@@ -281,7 +281,11 @@
                                             id="{{'orgRoleControl_' + orgRole.roleId}}"
                                             [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
                                             value="hmrc">
+<<<<<<< HEAD
                                         <label *ngIf="orgRole.serviceName == null"
+=======
+                                        <label
+>>>>>>> 078f8aef63f1a39062d92339fc323d8c32523470
                                             class="govuk-label govuk-checkboxes__label"
                                             for="{{'orgRoleControl_' + orgRole.roleId}}">
                                             {{orgRole.accessRoleName}}
