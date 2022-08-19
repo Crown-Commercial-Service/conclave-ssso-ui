@@ -80,7 +80,7 @@ export const environment = {
   
         enable: true,
 
-        security_log:true
+        security_log: false
   
     },
     
