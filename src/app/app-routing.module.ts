@@ -949,7 +949,7 @@ const routes: Routes = [
     path: 'delegate-access-user',
     data: { title: 'Delegate access to a user' },
     pathMatch: 'full',
-    component: DelegatedAccessUserComponent,
+    component: DelegatedAccessUserComponent, 
   },
   {
     path: 'delegate-user-confirm',
