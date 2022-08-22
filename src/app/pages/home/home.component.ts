@@ -23,6 +23,7 @@ import { ViewportScroller } from '@angular/common';
 import { CcsServiceInfo } from 'src/app/models/configurations';
 import { ServicePermission } from 'src/app/models/servicePermission';
 import { ciiService } from 'src/app/services/cii/cii.service';
+import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent extends BaseComponent implements OnInit {
-  public OrgDetails: any = {};
+  public orgDetails: any = {};
   systemModules: SystemModule[] = [];
   ccsModules: SystemModule[] = [];
   otherModules: SystemModule[] = [];
@@ -53,14 +54,14 @@ export class HomeComponent extends BaseComponent implements OnInit {
     protected uiStore: Store<UIState>,
     private sanitizer: DomSanitizer,
     private authService: AuthService,
-    private organisationService: OrganisationService,
-    private wrapperUserService: WrapperUserService,
     private readonly tokenService: TokenService,
     private ciiService: ciiService,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper
+    protected scrollHelper: ScrollHelper,
+    private delegatedApiService: WrapperUserDelegatedService,
   ) {
     super(uiStore, viewportScroller, scrollHelper);
+
   }
 
   ngOnInit() {
@@ -71,8 +72,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
             response.forEach((e: any, i: any) => {
               this.loadActivities(e);
             });
-              this.GetOrgDetails();
               this.loadServices();
+              this.getDelegatedOrganisation();
+              setTimeout(() => {
+              this.GetOrgDetails()
+              }, );
           });
       });
   }
@@ -133,16 +137,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
           description: 'View details for your organisation',
           route: '/manage-org/profile',
         });
-        this.otherModules.push({
-          name: 'Delegated access',
-          description: 'Manage delegated access to your approved services',
-          route: '/delegated-access',
-        });
-        this.otherModules.push({
-          name: 'Manage my delegated access',
-          description: 'Switch between your primary and delegating Organisation',
-          route: '/delegated-organisation',
-        });
+
+
       }
     }
     if (e.permissionName === 'MANAGE_GROUPS') {
@@ -168,6 +164,15 @@ export class HomeComponent extends BaseComponent implements OnInit {
         });
       }
     }
+
+    if (e.permissionName === 'DELEGATED_ACCESS') {
+        this.systemModules.push({
+          name: 'Delegated access',
+          description: 'Manage delegated access to your approved services',
+          route: '/delegated-access',
+        });
+    }
+    
     // if (e.permissionName === 'MANAGE_SIGN_IN_PROVIDERS') {
     //   if (this.systemModules.findIndex(x => x.name === 'Manage sign in providers') === -1) {
     //     this.systemModules.push({ name: 'Manage sign in providers', description: 'Add and manage sign in providers', route: '/' });
@@ -206,10 +211,27 @@ export class HomeComponent extends BaseComponent implements OnInit {
     return moduleName.toLowerCase().replace(/ /g, '_');
   }
 
+  private getDelegatedOrganisation(): void {
+    this.delegatedApiService.getDeligatedOrg().subscribe({
+      next: (data: any) => {
+        if(data.detail.delegatedOrgs.length > 0){
+          this.systemModules.push({
+            name: 'Manage my delegated access',
+            description: 'Switch between your primary and delegating Organisation',
+            route: '/delegated-organisation',
+          });
+        }
+      },
+      error: (error: any) => {
+        console.log("error",error)
+      },
+    });
+  }
+
   public GetOrgDetails() {
     this.ciiService
-      .getOrgDetails(this.ciiOrganisationId).toPromise().then((data) => {
-        this.OrgDetails=data
+      .getOrgDetails(localStorage.getItem('permission_organisation_id') || "").toPromise().then((data:any) => {
+        this.orgDetails=data.identifier.legalName
       })
       .catch((err) => {
         console.log('err', err);

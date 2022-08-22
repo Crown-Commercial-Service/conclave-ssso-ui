@@ -135,8 +135,8 @@ deleteDelegatedUser(userId: string, organizationId: string): Observable<any> {
   }
 
 
-  getDeligatedOrg(userId:string): Observable<any> {
-    const url = `${this.Usersurl}?user-id=${userId}&is-delegated=${true}`;
+  getDeligatedOrg(): Observable<any> {
+    const url = `${this.Usersurl}?user-id=${localStorage.getItem('user_name')}&is-delegated=${true}`;
     return this.http.get<delegateduser>(url).pipe(
       map((data: delegateduser) => {
         return data;

@@ -142,7 +142,6 @@ export class AuthService {
   }
 
   token(code: string): Observable<any> {
-    debugger
     const options = {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     }
@@ -165,7 +164,7 @@ export class AuthService {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     }
 
-    let body = `client_id=${environment.idam_client_id}&refresh_token=${refreshToken}&grant_type=refresh_token`;
+    let body = `client_id=${environment.idam_client_id}&refresh_token=${refreshToken}&delegated_org_id=${localStorage.getItem('delegatedOrg')}&grant_type=refresh_token`;
     this.RollbarErrorService.RollbarDebug('renewToken:'+ body)
     return this.httpService.post<TokenInfo>(`${this.url}/security/token`, body, options);
     
@@ -249,6 +248,7 @@ export class AuthService {
     localStorage.removeItem('currentGlobalRoute');
     localStorage.removeItem('cii_organisation_id');
     localStorage.removeItem('at_exp');
+    localStorage.removeItem('permission_organisation_id');
   }
 
   public logOutAndRedirect() {
@@ -274,7 +274,7 @@ export class AuthService {
   getPermissions(accessPage:string): Observable<any> {
     if (this.servicePermission.length == 0 || accessPage === 'HOME') {
       return this.httpService.get<ServicePermission[]>(`${environment.uri.api.postgres}/users/permissions?user-name=`
-        + encodeURIComponent(localStorage.getItem('user_name') || "") + `&service-client-id=` + environment.idam_client_id).pipe(
+        + encodeURIComponent(localStorage.getItem('user_name') || "") + `&service-client-id=` + environment.idam_client_id +'&organisation-id='+ localStorage.getItem('permission_organisation_id') || "").pipe(
           map((data: ServicePermission[]) => {
             // Cache permissions locally
             this.servicePermission = data;
