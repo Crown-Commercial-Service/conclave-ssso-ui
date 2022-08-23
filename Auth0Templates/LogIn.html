@@ -389,6 +389,28 @@
             width: 100%;
         }
     }
+    .fed-log img {
+       width: 50px;
+    }
+   
+   .fed-log button {
+     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: wrap;
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
+  
+  .fed-log span {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .fed-log-lable {
+    padding: 20px 17px 14px;
+    font-weight: bold;
+  }
 </style>
 
 <body class="govuk-template__body show-flourishes pillar--none js-enabled">
@@ -573,9 +595,41 @@
                                     password</a>
                                 <br />
                             </div>
-        
-                            <!-- <div style="margin-top:30px;" class="form-group">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </button> -->
+                            <div class="govuk-grid-row fed-log">
+                        <label class="govuk-label fed-log-lable">Or, if configured sign in with:</label>
+                        <div class="govuk-grid-column-two-thirds">
+                            <div class="govuk-grid-row">
+                                <div class="govuk-grid-column-one-half">
+                                    <button type="button" id="googleButton">
+                                        <img
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-google.svg">
+                                        <span class="col-left">Google</span>
+                                    </button>
+                                </div>
+                                <div class="govuk-grid-column-one-half">
+                                    <button type="button" id="facebookButton">
+                                        <img
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-facebook.svg">
+                                        <span class="col-right">Facebook</span>
+                                    </button>
+                                </div>
+                                <div class="govuk-grid-column-one-half">
+                                    <button type="button" id="microsoftButton">
+                                        <img
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-microsoft.svg">
+                                        <span class="col-left">Microsoft</span>
+                                    </button>
+                                </div>
+                                <div class="govuk-grid-column-one-half">
+                                    <button type="button" id="linkedinButton">
+                                        <img
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-linkedin.svg">
+                                        <span class="col-right">LinkedIn</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
                         </form>
                     </div>
                     <div class="content-right">
@@ -927,10 +981,10 @@
 
 
             document.getElementById('loginButton').addEventListener('click', login);
-            // document.getElementById('googleButton').addEventListener('click', loginWithGoogle);
-            // document.getElementById('facebookButton').addEventListener('click', loginWithFacebook);
-            // document.getElementById('microsoftButton').addEventListener('click', loginWithMicrosoft);
-            // document.getElementById('linkedinButton').addEventListener('click', loginWithLinkedIn);
+            document.getElementById('googleButton').addEventListener('click', loginWithGoogle);
+            document.getElementById('facebookButton').addEventListener('click', loginWithFacebook);
+            document.getElementById('microsoftButton').addEventListener('click', loginWithMicrosoft);
+            document.getElementById('linkedinButton').addEventListener('click', loginWithLinkedIn);
             document.getElementById('acceptCookieButton').addEventListener('click', acceptAdditionalCookies);
             document.getElementById('rejectCookieButton').addEventListener('click', rejectAdditionalCookies);
             document.getElementById('hideCookieMsgOnAcceptButton').addEventListener('click', hideCookieMsg);
