@@ -1,0 +1,74 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ 'ADMINISTRATOR_DASHBOARD' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link"> Delegated access</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl page-title header-bread-align">Delegated access</h1>
+            <div class="manage-groups-bg">
+                <p class="govuk-body-l">The following steps allow you to create, remove and update delegated users</p>
+            </div>
+            <button type="button"  class="govuk-button govuk-button--secondary"
+                data-module="govuk-button" (click)="FindDelegateUser()">
+                Delegate to an external user
+            </button>
+
+            <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchText ===''">
+                <label class="govuk-label" for="search"> Search for users </label>
+                <span id="first-name-error" class="govuk-error-message"
+                *ngIf="searchSumbited && searchText ===''">
+                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a user’s name
+              </span>
+                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
+                </app-search-box>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="govuk-tabs" data-module="govuk-tabs">
+    <h2 class="govuk-tabs__title">
+        testing
+    </h2>
+    <ul class="govuk-tabs__list">
+      <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.currentusers}" (click)="tabChanged('currentusers')">
+        <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+            Current users with delegated access to your Organisation
+        </a>
+      </li>
+      <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.expiredusers}" (click)="tabChanged('expiredusers')">
+        <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+            Users with expired delegated access to your Organisation
+        </a>
+      </li>
+    </ul>
+    <div class="govuk-tabs__panel" id="past-day" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.expiredusers}">
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="user-table">
+            <app-govuk-table [headerTextKeys]="currentUserstableConfig.usersTableHeaders" [data]="currentUserstableConfig.userList.userList"
+                [dataKeys]="currentUserstableConfig.usersColumnsToDisplay" [isHyperLinkVisible]="false"
+                [pageName]="currentUserstableConfig.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=currentUserstableConfig.hyperTextrray
+                (hyperLinkClickEvent)="onLinkClick($event)" [useServerPagination]="true" [serverPageCount]="currentUserstableConfig.pageCount"
+                [serverPageCurrentPage]="currentUserstableConfig.currentPage" (changeCurrentPageEvent)="setPagecurrentUsers($event)"></app-govuk-table>
+        </div>
+    </div>
+</div>
+    </div>
+    <div class="govuk-tabs__panel" id="past-week" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.currentusers}">
+      <div class="user-table">
+        <app-govuk-table [headerTextKeys]="expiredUserstableConfig.usersTableHeaders" [data]="expiredUserstableConfig.userList.userList"
+        [dataKeys]="expiredUserstableConfig.usersColumnsToDisplay" [isHyperLinkVisible]="false"
+        [pageName]="expiredUserstableConfig.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=expiredUserstableConfig.hyperTextrray
+        (hyperLinkClickEvent)="OnClickView($event)" [useServerPagination]="true" [serverPageCount]="expiredUserstableConfig.pageCount"
+        [serverPageCurrentPage]="expiredUserstableConfig.currentPage" (changeCurrentPageEvent)="setPageexpiredUsers($event)"></app-govuk-table>
+    </div>
+    </div>
+  </div>
