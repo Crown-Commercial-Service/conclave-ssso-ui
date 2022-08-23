@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -34,8 +34,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     siteData: SiteGridInfo[];
     registries: CiiOrgIdentifiersDto;
     additionalIdentifiers: CiiAdditionalIdentifier[];
-    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER','MOBILE_NUMBER', 'FAX', 'WEB_URL'];
-    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber','mobileNumber', 'fax', 'webUrl'];
+    contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'MOBILE_NUMBER', 'FAX', 'WEB_URL'];
+    contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'mobileNumber', 'fax', 'webUrl'];
     siteTableHeaders = ['SITE_NAME', 'STREET_ADDRESS', 'POSTAL_CODE', 'COUNTRY_CODE'];
     siteColumnsToDisplay = ['siteName', 'streetAddress', 'postalCode', 'countryCode'];
     registriesTableDisplayedColumns: string[] = ['authority', 'id', 'type', 'actions'];
@@ -43,13 +43,17 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     public idps: any;
     public orgIdps: any[] = [];
     changedIdpList: { id: number, enabled: boolean, connectionName: string, name: string }[] = [];
-    ccsContactUrl : string = environment.uri.ccsContactUrl;
+    ccsContactUrl: string = environment.uri.ccsContactUrl;
     schemeData: any[] = [];
     public detailsData: any = [
         'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
         "Manage information about your organisation's specific business locations. For instance, you can add details about your head office and additional sites to organise deliveries.",
         'Save the information you used to register your organisation for instance your Companies House Number or Dun & Bradstreet Number.',
     ];
+    submitted: boolean = false;
+    @ViewChildren('input') inputs!: QueryList<ElementRef>;
+
+
 
     constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
@@ -80,7 +84,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                     if (idp.connectionName == element.connectionName) {
                         idp.enabled = true;
                     }
-                    
+
                 });
             });
 
@@ -109,7 +113,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                             streetAddress: site.address.streetAddress,
                             postalCode: site.address.postalCode,
                             countryCode: site.address.countryCode,
-                            countryName:site.address.countryName,
+                            countryName: site.address.countryName,
                             locality: site.address.locality,
                             region: site.address.region,
                         };
@@ -166,6 +170,11 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     }
 
     public onIdentityProviderChange(e: any, row: any) {
+        var selectedItem = this.idps.find((x: any) => x.id === row.id);
+        if (selectedItem) {
+            selectedItem.enabled = e.target.checked;
+        }
+
         var dataIndex = this.changedIdpList.map(function (item) { return item.id; }).indexOf(row.id);
         if (dataIndex > -1) {
             this.changedIdpList.splice(dataIndex, 1);
@@ -175,16 +184,39 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         }
     }
 
-    public onSaveChanges() {
-        const ciiOrgId = this.tokenService.getCiiOrgId();
-        let identityProviderSummary: IdentityProviderSummary = {
-            ciiOrganisationId: ciiOrgId,
-            changedOrgIdentityProviders: this.changedIdpList
-        }
-        this.organisationGroupService.enableIdentityProvider(identityProviderSummary).subscribe(data => {
-            this.router.navigateByUrl(`manage-org/profile/success`);
-        });
+    get isIdpChanged(): boolean {
+        return this.changedIdpList.length > 0;
+    }
 
+    get isValid(): boolean {
+        return this.idps.find((x: any) => x.enabled === true) ? true : false;
+    }
+
+    public onSaveChanges() {
+        this.submitted = true;
+        if (!this.isIdpChanged || !this.isValid) {
+            this.setFocus();
+            return;
+        }
+
+        if (this.changedIdpList.find(x => x.enabled === false)) {
+            this.router.navigateByUrl('manage-org/idp-confirm?data=' + JSON.stringify(this.changedIdpList));
+
+        } else {
+            const ciiOrgId = this.tokenService.getCiiOrgId();
+            let identityProviderSummary: IdentityProviderSummary = {
+                ciiOrganisationId: ciiOrgId,
+                changedOrgIdentityProviders: this.changedIdpList
+            }
+            this.organisationGroupService.enableIdentityProvider(identityProviderSummary).subscribe(data => {
+                this.router.navigateByUrl(`manage-org/profile/success`);
+            });
+        }
+
+    }
+
+    setFocus() {
+        this.inputs.toArray().find(x => x.nativeElement.id = 'orgRoleControl_1')?.nativeElement.focus();
     }
 
     public onCancel() {
@@ -198,9 +230,9 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
     public onContactAssignClick() {
         let data = {
-          'assigningOrgId': this.ciiOrganisationId
+            'assigningOrgId': this.ciiOrganisationId
         };
         this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
-      }
+    }
 
 }
