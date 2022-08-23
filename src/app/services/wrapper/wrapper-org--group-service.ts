@@ -78,7 +78,7 @@ export class WrapperOrganisationGroupService {
     const url = `${this.url}/${organisationId}/roles`;
     return this.http.get<Role[]>(url).pipe(
       map((data: Role[]) => {
-        data.forEach((f)=>{
+        data.forEach((f) => {
           switch (f.roleKey) {
             case 'CAT_USER': {
               if (f.roleName === 'CAS User') {
@@ -149,18 +149,14 @@ export class WrapperOrganisationGroupService {
 
 
   getOrganisationIdentityProviders(organisationId: string): Observable<any> {
-    let tempData:IdentityProvider[]=[]
+    let tempData: IdentityProvider[] = []
     const url = `${this.url}/${organisationId}/identity-providers`;
     return this.http.get<IdentityProvider[]>(url).pipe(
       map((data: IdentityProvider[]) => {
-        data.map((f: IdentityProvider) => {
-          if (f.name === 'User ID and password') {
-              tempData.push(f)
-          }
-      })
-         return tempData;
+        return data.filter((f: IdentityProvider) => f.connectionName !== 'none');
+
       }), catchError(error => {
-        return throwError(error); 
+        return throwError(error);
       })
     );
   }
@@ -174,8 +170,8 @@ export class WrapperOrganisationGroupService {
       })
     );
   }
-  
-  getUsersAdmin(organisationId: string,  currentPage: number, pageSize: number): Observable<any> {
+
+  getUsersAdmin(organisationId: string, currentPage: number, pageSize: number): Observable<any> {
     pageSize = pageSize <= 0 ? 10 : pageSize;
     const url = `${this.url}/${organisationId}/adminusers?currentPage=${currentPage}&pageSize=${pageSize}`;
     return this.http.get<UserListResponse>(url).pipe(
