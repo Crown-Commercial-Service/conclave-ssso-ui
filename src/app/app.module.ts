@@ -162,6 +162,7 @@ import { ContactAdminComponent } from './pages/contact-admin/contact-admin.compo
 import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/manage-organisation/manage-organisation-profile-add-contact-to-site/manage-organisation-profile-add-contact-to-site.component';
 import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-reset/confirm-mfa-reset.component';
 import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
+import { ManageOrganisationRemoveIdpConfirmComponent } from './pages/manage-organisation/manage-organisation-remove-idp-confirm/manage-organisation-remove-idp-confirm';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -221,6 +222,7 @@ export function createTranslateLoader(http: HttpClient) {
     ManageOrganisationRegistryDeleteComponent,
     ManageOrganisationRegistryDeleteConfirmationComponent,
     ManageOrganisationRegistryErrorComponent,
+    ManageOrganisationRemoveIdpConfirmComponent,
     ErrorComponent,
     GovUKTableComponent,
     SearchBoxComponent,
