@@ -249,6 +249,7 @@ export class AuthService {
     localStorage.removeItem('cii_organisation_id');
     localStorage.removeItem('at_exp');
     localStorage.removeItem('permission_organisation_id');
+    localStorage.removeItem('delegatedOrg');
   }
 
   public logOutAndRedirect() {
