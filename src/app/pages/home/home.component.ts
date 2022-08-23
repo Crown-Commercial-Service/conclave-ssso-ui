@@ -31,7 +31,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent extends BaseComponent implements OnInit {
-  public orgDetails: any = {};
+  public orgDetails: any = ''
   systemModules: SystemModule[] = [];
   ccsModules: SystemModule[] = [];
   otherModules: SystemModule[] = [];
@@ -76,7 +76,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
               this.getDelegatedOrganisation();
               setTimeout(() => {
               this.GetOrgDetails()
-              }, );
+              },10 );
           });
       });
   }
@@ -211,7 +211,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     return moduleName.toLowerCase().replace(/ /g, '_');
   }
 
-  private getDelegatedOrganisation(): void {
+  public getDelegatedOrganisation(): void {
     this.delegatedApiService.getDeligatedOrg().subscribe({
       next: (data: any) => {
         if(data.detail.delegatedOrgs.length > 0){

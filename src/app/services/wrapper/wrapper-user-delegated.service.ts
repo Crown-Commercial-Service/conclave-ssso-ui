@@ -24,6 +24,18 @@ constructor(private http: HttpClient) {
 }
 
 
+getDeligatedOrg(): Observable<any> {
+  const url = `${this.Usersurl}?user-id=${localStorage.getItem('user_name')}&is-delegated=${true}`;
+  return this.http.get<delegateduser>(url).pipe(
+    map((data: delegateduser) => {
+      return data;
+    }), catchError(error => {
+      return throwError(error);
+    })
+  );
+}
+
+
 GetCurrentUsers(organisationId: string, searchString: string, currentPage: number, pageSize: number, includeSelf: boolean = false): Observable<any> {
   pageSize = pageSize <= 0 ? 10 : pageSize;
   const url = `${this.Orgurl}/${organisationId}/users?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&include-self=${includeSelf}&delegated-only=${true}&delegated-expired-only=${false}`;
@@ -135,15 +147,6 @@ deleteDelegatedUser(userId: string, organizationId: string): Observable<any> {
   }
 
 
-  getDeligatedOrg(): Observable<any> {
-    const url = `${this.Usersurl}?user-id=${localStorage.getItem('user_name')}&is-delegated=${true}`;
-    return this.http.get<delegateduser>(url).pipe(
-      map((data: delegateduser) => {
-        return data;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
-  }
+
   
 }
