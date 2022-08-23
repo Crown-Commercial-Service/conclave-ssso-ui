@@ -1,0 +1,338 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
+                            Delegated access</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode =='add'">
+                        <span class="govuk-breadcrumbs__link">Delegate access to a user</span>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode =='edit'">
+                        <span class="govuk-breadcrumbs__link">Edit current delegated access</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 *ngIf="pageAccessMode =='add'" class="govuk-heading-xl page-title header-bread-align">Delegate access to a user
+                from outside your Organisation</h1>
+            <h1 *ngIf="pageAccessMode =='edit'" class="govuk-heading-xl page-title header-bread-align">Edit current delegated
+                access</h1>
+            <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert"
+                tabindex="-1" id="error-summary" data-module="govuk-error-summary"
+                *ngIf="(formValid(formGroup) == false && submitted) || (submitted && (StartDateValidation || EndDateValidation || PastDateValidation || EndDateDaysValidation || getSelectedRoleIds(formGroup).length == 0))">
+                <h2 class="govuk-error-summary__title" id="error-summary-title">
+                    {{ 'ERROR_SUMMARY' | translate }}
+                </h2>
+                <div class="govuk-error-summary__body">
+                    <ul class="govuk-list govuk-error-summary__list">
+                        <li
+                            *ngIf="submitted && (formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">Enter start
+                                date</a>
+                        </li>
+                        <li
+                            *ngIf="submitted && StartDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">Enter valid
+                                start date</a>
+                        </li>
+                        <li
+                            *ngIf="submitted && PastDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">The start
+                                date cannot be in the past</a>
+                        </li>
+                        <li
+                            *ngIf="submitted && (formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required'))">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('end-day')">Enter end
+                                date</a>
+                        </li>
+                        <li
+                            *ngIf="submitted && EndDateValidation && !(formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required'))">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('end-day')">Enter valid end
+                                date</a>
+                        </li>
+                        <li
+                            *ngIf="submitted && !(formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required')) && EndDateDaysValidation && !EndDateValidation">
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('end-day')">The end date
+                                cannot be more than 365 days or less than 28 days from start date</a>
+                        </li>
+                        <li *ngIf="submitted && getSelectedRoleIds(formGroup).length == 0">
+                            <a href="javascript:;" onClick="return false;"
+                                (click)="setFocus('orgRoleControl_' + roleDataList[0].roleId)">Select at least one
+                                permission for the delegated user</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="manage-groups-bg">
+                <p *ngIf="pageAccessMode =='add'" class="govuk-body-l">
+                    Delegate a user from another organisation to access the Public Procurement Gateway on behalf of your
+                    organisation. Care must be taken when selecting permissions, the user will have.
+                </p>
+                <p *ngIf="pageAccessMode =='edit'" class="govuk-body-l">
+                    Manage details of current delegated access for user
+                </p>
+            </div>
+            <div>
+                <div class="govuk-form-group">
+                    <h2 class="govuk-label-wrapper">
+                        <strong>
+                            You are granting a delegated access to:
+                        </strong>
+                    </h2>
+                    <div class="span-group govuk-!-margin-top-4">
+                        <p class="govuk-body">
+                            Name:<strong class="govuk-!-margin-left-2">{{userDetails.firstName}}
+                                {{userDetails.lastName}}</strong>
+                        </p>
+                        <p class="govuk-body">
+                            Email address:<strong class="govuk-!-margin-left-2">{{userDetails.userName}}</strong>
+                        </p>
+                        <p class="govuk-body">
+                            User's Organisation:<strong
+                                class="govuk-!-margin-left-2">{{userDetails.originOrganisationName}}</strong>
+                        </p>
+
+                        <details class="govuk-details" data-module="govuk-details">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text">
+                                    Addtional security
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body">
+                                    MFA status:<strong class="govuk-!-margin-left-2">{{userDetails.mfaEnabled == 'true' ? 'Enable' : 'Disable'}}</strong>
+                                </p>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="form-group">
+                        <!-- start date  -->
+                        <form [formGroup]="formGroup" (submit)="onSubmit(formGroup)">
+                            <div class="govuk-form-group"
+                                [class.govuk-form-group--error]="submitted && (StartDateValidation || PastDateValidation || formGroup.controls.startday.invalid || formGroup.controls.startmonth.invalid || formGroup.controls.startyear.invalid)">
+                                <fieldset class="govuk-fieldset" role="group" aria-describedby="start-hint">
+                                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                        <h1 class="govuk-fieldset__heading govuk-!-font-size-24">
+                                            Start date
+                                        </h1>
+                                    </legend>
+                                    <div id="start-hint" class="govuk-hint">
+                                        Please enter the start date for delegated access. Note, it cannot be in the
+                                        past.
+                                    </div>
+                                    <div class="govuk-date-input" id="start">
+                                        <span id="name-error" class="govuk-error-message"
+                                            *ngIf="submitted && (formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
+                                                }}</span> Enter start date
+                                        </span>
+                                        <span id="name-error" class="govuk-error-message"
+                                            *ngIf="submitted && StartDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
+                                                }}</span> Enter valid start date
+                                        </span>
+                                        <span id="name-error" class="govuk-error-message"
+                                            *ngIf="submitted && PastDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
+                                                }}</span> The start date cannot be in the past
+                                        </span>
+                                        <div class="govuk-date-input__item">
+                                            <div class="govuk-form-group">
+                                                <label class="govuk-label govuk-date-input__label" for="start-day">
+                                                    Day
+                                                </label>
+                                                <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                    id="start-day" name="start-day" type="text"
+                                                    [class.govuk-input--error]="submitted && (formGroup.controls.startday.invalid || StartDateValidation || PastDateValidation)"
+                                                    inputmode="numeric" formControlName="startday" maxlength="2"
+                                                    (input)="ValueChanged(formGroup.controls.startday.value,'start-day','startdate')">
+                                            </div>
+                                        </div>
+                                        <div class="govuk-date-input__item">
+                                            <div class="govuk-form-group">
+                                                <label class="govuk-label govuk-date-input__label" for="start-month">
+                                                    Month
+                                                </label>
+                                                <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                    id="start-month" name="start-month" type="text"
+                                                    [class.govuk-input--error]="submitted && (formGroup.controls.startmonth.invalid || StartDateValidation || PastDateValidation)"
+                                                    (keydown.backspace)="tiggerBackspace(formGroup.controls.startmonth.value,'start-month','startdate')"
+                                                    inputmode="numeric" formControlName="startmonth" maxlength="2"
+                                                    (input)="ValueChanged(formGroup.controls.startmonth.value,'start-month','startdate')">
+                                            </div>
+                                        </div>
+                                        <div class="govuk-date-input__item">
+                                            <div class="govuk-form-group">
+                                                <label class="govuk-label govuk-date-input__label" for="start-year">
+                                                    Year
+                                                </label>
+                                                <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                                    id="start-year" name="start-year" type="text"
+                                                    [class.govuk-input--error]="submitted && (formGroup.controls.startyear.invalid || StartDateValidation || PastDateValidation)"
+                                                    inputmode="numeric" formControlName="startyear" maxlength="4"
+                                                    (keydown.backspace)="tiggerBackspace(formGroup.controls.startyear.value,'start-year','startdate')">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </div>
+                            <!-- start date  -->
+                            <!-- End date  -->
+                            <div class="govuk-form-group"
+                                [class.govuk-form-group--error]="submitted && (EndDateValidation  || EndDateDaysValidation || formGroup.controls.endday.invalid || formGroup.controls.endmonth.invalid || formGroup.controls.endyear.invalid)">
+                                <fieldset class="govuk-fieldset" role="group" aria-describedby="end-hint">
+                                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                        <h1 class="govuk-fieldset__heading govuk-!-font-size-24">
+                                            End date
+                                        </h1>
+                                    </legend>
+                                    <div id="end-hint" class="govuk-hint">
+                                        Please enter the end date for delegated access. Note, it cannot be more than 365
+                                        days
+                                        and less than 28 from the start date.
+                                    </div>
+                                    <div class="govuk-date-input" id="end">
+                                        <span id="name-error" class="govuk-error-message"
+                                            *ngIf="submitted && (formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required'))">
+                                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
+                                                }}</span> Enter end date
+                                        </span>
+                                        <span id="name-error" class="govuk-error-message"
+                                            *ngIf="submitted && EndDateValidation && !(formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required'))">
+                                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
+                                                }}</span> Enter valid end date
+                                        </span>
+                                        <span id="name-error" class="govuk-error-message"
+                                            *ngIf="submitted && !(formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required')) && EndDateDaysValidation && !EndDateValidation">
+                                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
+                                                }}</span> The end date cannot be more than 365 days or less than 28 days
+                                            from start date
+                                        </span>
+                                        <div class="govuk-date-input__item">
+                                            <div class="govuk-form-group">
+                                                <label class="govuk-label govuk-date-input__label" for="end-day">
+                                                    Day
+                                                </label>
+                                                <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                    id="end-day" name="end-day" type="text"
+                                                    [class.govuk-input--error]="submitted && (formGroup.controls.endday.invalid || EndDateValidation || EndDateDaysValidation)"
+                                                    inputmode="numeric" formControlName="endday" maxlength="2"
+                                                    (input)="ValueChanged(formGroup.controls.endday.value,'end-day','enddate')">
+                                            </div>
+                                        </div>
+                                        <div class="govuk-date-input__item">
+                                            <div class="govuk-form-group">
+                                                <label class="govuk-label govuk-date-input__label" for="end-month">
+                                                    Month
+                                                </label>
+                                                <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                    id="end-month" name="end-month" type="text"
+                                                    [class.govuk-input--error]="submitted && (formGroup.controls.endmonth.invalid || EndDateValidation || EndDateDaysValidation)"
+                                                    (keydown.backspace)="tiggerBackspace(formGroup.controls.endmonth.value,'end-month','enddate')"
+                                                    inputmode="numeric" formControlName="endmonth" maxlength="2"
+                                                    (input)="ValueChanged(formGroup.controls.endmonth.value,'end-month','enddate')">
+                                            </div>
+                                        </div>
+                                        <div class="govuk-date-input__item">
+                                            <div class="govuk-form-group">
+                                                <label class="govuk-label govuk-date-input__label" for="end-year">
+                                                    Year
+                                                </label>
+                                                <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                                    id="end-year" name="end-year" type="text"
+                                                    [class.govuk-input--error]="submitted && (formGroup.controls.endyear.invalid || EndDateValidation || EndDateDaysValidation)"
+                                                    (keydown.backspace)="tiggerBackspace(formGroup.controls.endyear.value,'end-year','enddate')"
+                                                    inputmode="numeric" formControlName="endyear" maxlength="4">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </div>
+                            <!-- End date  -->
+                            <!-- user permission -->
+                            <div class="govuk-form-group"
+                                [class.govuk-form-group--error]="submitted && getSelectedRoleIds(formGroup).length == 0">
+                                <fieldset class="govuk-fieldset" aria-describedby="waste-hint">
+                                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                        <h1 class="govuk-fieldset__heading govuk-!-font-size-24">
+                                            Delegated user's permissions
+                                        </h1>
+                                    </legend>
+                                    <div id="waste-hint" class="govuk-hint">
+                                        Select which applications the delegated user should have access to. At least one
+                                        permission must be selected.
+                                    </div>
+                                    <span id="name-error" class="govuk-error-message"
+                                        *ngIf="submitted && getSelectedRoleIds(formGroup).length == 0">
+                                        <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
+                                            }}</span> Select at least one permission for the delegated user
+                                    </span>
+                                    <div class="govuk-checkboxes__item"
+                                        *ngFor="let orgRole of roleDataList; let i=index">
+                                        <input class="govuk-checkboxes__input"
+                                            id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                            [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                            value="hmrc">
+                                        <label
+                                            class="govuk-label govuk-checkboxes__label"
+                                            for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                            {{
+                                            orgRole.roleKey === "JAEGGER_SUPPLIER"
+                                            ? "eSourcing Service as a supplier"
+                                            :orgRole.roleKey === "ACCESS_JAGGAER"
+                                            ? "eSourcing Service - click here to add to dashboard (Mandatory)"
+                                            :orgRole.roleKey === "CAT_USER"
+                                            ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
+                                            :orgRole.roleKey === "ACCESS_CAAAC_CLIENT"
+                                            ? "Contract Award Service (CAS) - click here to add to dashboard
+                                            (Mandatory)"
+                                            :orgRole.roleKey === "JAEGGER_BUYER"
+                                            ? "eSourcing Service as a buyer"
+                                            :orgRole.roleKey === "JAGGAER_USER"
+                                            ? "eSourcing Service - click here to add service (Mandatory)"
+                                            :orgRole.accessRoleName}}
+                                            <span *ngIf="
+                                            orgRole.roleKey != 'JAEGGER_SUPPLIER' &&
+                                            orgRole.roleKey != 'ACCESS_JAGGAER' &&
+                                            orgRole.roleKey != 'CAT_USER' &&
+                                            orgRole.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                                            orgRole.roleKey != 'JAEGGER_BUYER' &&
+                                            orgRole.roleKey != 'JAGGAER_USER' && orgRole.serviceName != null
+                                            ">- {{ orgRole.serviceName }}</span>
+                                        </label>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <!-- user permission -->
+                            <br>
+                            <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" href="javascript:;" class="navigation-text"
+                                (click)="Resentactivation()"> Resent
+                                activation link</a>
+                            <div class="govuk-button-group save-cancel-button-group govuk-!-margin-top-7">
+                                <button type="submit" class="govuk-button" data-module="govuk-button"
+                                    (click)="onSubmit(formGroup)">
+                                    Save and continue
+                                </button>
+                                <button type="button" class="govuk-button govuk-button--secondary"
+                                    data-module="govuk-button" (click)="Cancel()">
+                                    Cancel
+                                </button>
+                            </div>
+                            <a *ngIf="pageAccessMode == 'edit'" href="javascript:;" class="navigation-text text-danger"
+                                (click)="RemoveAccess()"> Remove
+                                access </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
