@@ -1,6 +1,6 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <h1 class="govuk-heading-xl page-title margine">Public Procurement Gateway Dashboard</h1>
-<strong>Organisation: {{OrgDetails.identifier.legalName}}</strong>
+<strong>Organisation: {{orgDetails}}</strong>
 <h2 *ngIf="ccsModules.length > 0">Here are all of your CCS Services</h2>
 <div class="row" *ngIf="ccsModules.length > 0">
   <div *ngFor="let ccsModule of ccsModules;" class="column">
@@ -21,7 +21,7 @@
 <br *ngIf="ccsModules.length > 0" />
 <br *ngIf="ccsModules.length > 0" />
 <div *ngIf="systemModules.length > 0">
-  <h2>Administrator Settings</h2>
+  <h2 class="gov_uk_header">Administrator Settings</h2>
   <h3>For your own organisation</h3>
   <div class="row">
     <div *ngFor="let systemModule of systemModules;" class="column">
