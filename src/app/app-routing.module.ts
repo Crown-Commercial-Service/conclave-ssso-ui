@@ -112,6 +112,7 @@ import { ManageOrganisationProfileAddContactToSiteComponent } from './pages/mana
 import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-reset/confirm-mfa-reset.component';
 import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
 import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
+import { ManageOrganisationRemoveIdpConfirmComponent } from './pages/manage-organisation/manage-organisation-remove-idp-confirm/manage-organisation-remove-idp-confirm';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -407,6 +408,13 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageOrganisationProfileComponent,
+  },
+  {
+    path: 'manage-org/idp-confirm',
+    data: { title: 'removing a sign in provider', roles: ['MANAGE_ORGS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ManageOrganisationRemoveIdpConfirmComponent,
   },
   {
     path: 'manage-org/profile/contact-edit',
@@ -921,4 +929,4 @@ export const routingConfiguration: ExtraOptions = {
   imports: [RouterModule.forRoot(routes, routingConfiguration)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
