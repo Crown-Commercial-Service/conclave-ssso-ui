@@ -122,6 +122,7 @@ import { DelegatedSuccessComponent } from './pages/manage-delegated/delegated-su
 import { DelegatedRemoveConfirmComponent } from './pages/manage-delegated/delegated-remove-confirm/delegated-remove-confirm.component';
 import { DelegatedErrorComponent } from './pages/manage-delegated/delegated-error/delegated-error.component';
 import { DelegatedUserActivationComponent } from './pages/manage-delegated/landing-pages/delegated-user-activation/delegated-user-activation.component';
+import { DelegatedOrganisationComponent } from './pages/manage-delegated/user/delegated-organisation/delegated-organisation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -972,6 +973,12 @@ const routes: Routes = [
     data: { title: 'deleagted-user-activation' },
     pathMatch: 'full',
     component: DelegatedUserActivationComponent,
+  },
+  {
+    path: 'delegated-organisation',
+    data: { title: 'delegated-organisation' },
+    pathMatch: 'full',
+    component: DelegatedOrganisationComponent,
   },
   {
     path: 'delegated-error',
