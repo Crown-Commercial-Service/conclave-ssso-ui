@@ -11,7 +11,7 @@
     </thead>
     <tbody class="govuk-table__body">
       <tr (click)="onRowClick(dataRow, index,$event)" class="govuk-table__row" [class.clickable]="
-          isCheckBoxVisible || isHyperLinkVisible || isRadioVisible
+          isCheckBoxVisible || isHyperLinkVisible || isRadioVisible || hyperArrayVisible
         " *ngFor="let dataRow of tableVisibleData; let index = index">
         <td class="govuk-table__cell" *ngFor="let dataKey of dataKeys" [ngClass]="[
             pageName === 'Contactadmin' && dataKey ==='email'
