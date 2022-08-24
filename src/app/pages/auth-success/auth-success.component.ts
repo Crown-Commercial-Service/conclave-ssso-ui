@@ -53,6 +53,7 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                     let accessToken = this.tokenService.getDecodedToken(tokenInfo.access_token);
                     localStorage.setItem('cii_organisation_id', accessToken.ciiOrgId);
                     localStorage.setItem('permission_organisation_id', accessToken.ciiOrgId);
+                    localStorage.setItem('delegatedOrg', '');
                     this.workerService.storeTokenInWorker(tokenInfo);
                     localStorage.setItem('user_name', idToken.email);
                     localStorage.setItem('at_exp', accessToken.exp);

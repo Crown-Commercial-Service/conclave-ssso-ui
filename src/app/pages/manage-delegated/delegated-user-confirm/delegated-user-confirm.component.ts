@@ -33,6 +33,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
   public createDelegateUser():void{
     delete this.UserSelectedinfo.userDetails
     delete this.UserSelectedinfo.roleDetails
+    sessionStorage.removeItem('deleagted_user_details')
     this.DelegatedService.createDelegatedUser(this.UserSelectedinfo).subscribe({
       next: (roleListResponse: any) => {
         let data ={
@@ -50,6 +51,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
   public updateDelegatedUser():void{
     delete this.UserSelectedinfo.userDetails
     delete this.UserSelectedinfo.roleDetails
+    sessionStorage.removeItem('deleagted_user_details')
     this.DelegatedService.updateDelegatedUser(this.UserSelectedinfo).subscribe({
       next: (roleListResponse: any) => {
         let data ={
