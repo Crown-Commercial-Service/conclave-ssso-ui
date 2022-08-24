@@ -4,11 +4,11 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                        <a class="govuk-breadcrumbs__link" (click)="nevigate('home')">
                             {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
+                        <a class="govuk-breadcrumbs__link" (click)="nevigate('delegated-access')">
                             Delegated access</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode =='add'">
@@ -106,7 +106,7 @@
                             </summary>
                             <div class="govuk-details__text">
                                 <p class="govuk-body">
-                                    MFA status:<strong class="govuk-!-margin-left-2">{{userDetails.mfaEnabled == 'true' ? 'Enable' : 'Disable'}}</strong>
+                                    MFA status:<strong class="govuk-!-margin-left-2">{{userDetails.mfaEnabled == true ? 'Enable' : 'Disable'}}</strong>
                                 </p>
                             </div>
                         </details>

@@ -22,7 +22,7 @@ export class DelegatedUserListComponent implements OnInit {
   public currentUserstableConfig: any = {
     currentPage: 1,
     pageCount: 0,
-    pageSize: 5,
+    pageSize: environment.listPageSize,
     usersTableHeaders: ['NAME', 'EMAIL', 'Remaining days', 'origin organasation'],
     usersColumnsToDisplay: ['name', 'userName', 'remainingDays', 'originOrganisation'],
     userList: '',
@@ -33,7 +33,7 @@ export class DelegatedUserListComponent implements OnInit {
   public expiredUserstableConfig: any = {
     currentPage: 1,
     pageCount: 0,
-    pageSize: 5,
+    pageSize: environment.listPageSize,
     usersTableHeaders: ['NAME', 'EMAIL', 'Expiry date', 'Origin organisation'],
     usersColumnsToDisplay: ['name', 'userName', 'endDate', 'originOrganisation'],
     userList: '',

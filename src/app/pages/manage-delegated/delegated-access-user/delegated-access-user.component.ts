@@ -19,11 +19,12 @@ export class DelegatedAccessUserComponent implements OnInit {
   public submitted: boolean = false;
   public userDetails: any = {}
   public roleDataList: any[] = [];
-  public pageAccessMode:string='';
+  public pageAccessMode: string = '';
   public assignedRoleDataList: any[] = [];
-  public delegationAccepted:boolean=false;
+  public delegationAccepted: boolean = false;
   private organisationId: string;
-  private RoleInfo:any=[]
+  private RoleInfo: any = []
+  private userSelectedFormData: any;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private route: Router,
@@ -35,16 +36,23 @@ export class DelegatedAccessUserComponent implements OnInit {
     private ActivatedRoute: ActivatedRoute
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
+    this.userSelectedFormData = sessionStorage.getItem('deleagted_user_details')
   }
 
   ngOnInit(): void {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userDetails = JSON.parse(atob(para.data));
-      this.pageAccessMode=this.userDetails.pageaccessmode
-      if(this.pageAccessMode === 'edit'){
-        this.getUserDetails(this.userDetails.userName,this.organisationId)
-      }else{
+      this.pageAccessMode = this.userDetails.pageaccessmode
+      if (this.userSelectedFormData) {
+        this.userSelectedData(this.userDetails.userName, this.organisationId)
+      }
+      else if (this.pageAccessMode === 'edit') {
+        this.getUserDetails(this.userDetails.userName, this.organisationId)
+      } else {
         this.getOrgRoles()
+        setTimeout(() => {
+          this.patchDefaultDate()
+        }, 10);
       }
     });
     this.formGroup = this.formbuilder.group({
@@ -57,30 +65,78 @@ export class DelegatedAccessUserComponent implements OnInit {
     });
   }
 
-  public getUserDetails(userId: string, delegatedOrgId: string) {
+  private patchDefaultDate() {
+    let startDate = new Date()
+    let endDate = new Date(startDate)
+    endDate.setDate(startDate.getDate() + 365)
+    this.formGroup.patchValue({
+      startday: startDate.getDate(),
+      startmonth: startDate.getMonth() + 1,
+      startyear: startDate.getFullYear(),
+      endday: endDate.getDate(),
+      endmonth: endDate.getMonth() + 1,
+      endyear: endDate.getFullYear()
+    });
+  }
+
+
+
+
+  private userSelectedData(userId: string, delegatedOrgId: string): void {
+    let data = JSON.parse(this.userSelectedFormData)
+    this.userSelectedFormData = JSON.parse(data)
     setTimeout(() => {
       this.DelegatedService.getEdituserDetails(userId, delegatedOrgId).subscribe({
         next: (response: any) => {
-         this.getOrgRoles()
-          this.RoleInfo=response 
-          this.userDetails=response
-          this.delegationAccepted=response.detail.delegatedOrgs[0].delegationAccepted
-          const startDate=this.userDetails.detail.delegatedOrgs[0].startDate.split('-')
-          const endDate=this.userDetails.detail.delegatedOrgs[0].endDate.split('-')
+          this.getOrgRoles()
+          this.RoleInfo = this.userSelectedFormData
+          this.userDetails = response
+          this.delegationAccepted = response.detail.delegatedOrgs[0].delegationAccepted
+          const startDate = this.userSelectedFormData.detail.startDate.split('-')
+          const endDate = this.userSelectedFormData.detail.endDate.split('-')
           this.formGroup.patchValue({
             startday: startDate[2].slice(0, 2),
             startmonth: startDate[1],
             startyear: startDate[0],
-            endday:  endDate[2].slice(0, 2),
-            endmonth:endDate[1],
-            endyear:endDate[0]
+            endday: endDate[2].slice(0, 2),
+            endmonth: endDate[1],
+            endyear: endDate[0]
           });
           this.formGroup.controls['startday'].disable()
-          this.formGroup.controls['startmonth'].disable(
-          )
+          this.formGroup.controls['startmonth'].disable()
           this.formGroup.controls['startyear'].disable()
         },
-        error: (error: any) => { 
+        error: (error: any) => {
+          this.route.navigateByUrl('delegated-error')
+        },
+      });
+    }, 10);
+  }
+
+
+  public getUserDetails(userId: string, delegatedOrgId: string) {
+    setTimeout(() => {
+      this.DelegatedService.getEdituserDetails(userId, delegatedOrgId).subscribe({
+        next: (response: any) => {
+          this.getOrgRoles()
+          this.RoleInfo = response
+          this.userDetails = response
+          this.delegationAccepted = response.detail.delegatedOrgs[0].delegationAccepted
+          const startDate = this.userDetails.detail.delegatedOrgs[0].startDate.split('-')
+          const endDate = this.userDetails.detail.delegatedOrgs[0].endDate.split('-')
+          this.formGroup.patchValue({
+            startday: startDate[2].slice(0, 2),
+            startmonth: startDate[1],
+            startyear: startDate[0],
+            endday: endDate[2].slice(0, 2),
+            endmonth: endDate[1],
+            endyear: endDate[0]
+          });
+          this.formGroup.controls['startday'].disable()
+          this.formGroup.controls['startmonth'].disable()
+          this.formGroup.controls['startyear'].disable()
+        },
+        error: (error: any) => {
           this.route.navigateByUrl('delegated-error')
         },
       });
@@ -88,41 +144,58 @@ export class DelegatedAccessUserComponent implements OnInit {
   }
 
   public getOrgRoles(): void {
-      this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise() .then((orgRoles: Role[]) => {
-          orgRoles.forEach((element) => {
-            if(element.roleKey != "ORG_ADMINISTRATOR" && element.roleKey !="ORG_DEFAULT_USER" &&element.roleKey != "ORG_USER_SUPPORT" && element.roleKey != "MANAGE_SUBSCRIPTIONS"){
-              this.roleDataList.push({
-                roleId: element.roleId,
-                roleKey: element.roleKey,
-                accessRoleName: element.roleName,
-                serviceName: element.serviceName,
-              });
-              if(this.pageAccessMode === 'edit'){
-                this.formGroup.addControl(
-                  'orgRoleControl_' + element.roleId,
-                  this.formbuilder.control(this.RoleMatch(element.roleId))
-                );
-              }else{
-                this.formGroup.addControl(
-                  'orgRoleControl_' + element.roleId,
-                  this.formbuilder.control(false)
-                );
-              }
-            }
+    this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise().then((orgRoles: Role[]) => {
+      orgRoles.forEach((element) => {
+        if (element.roleKey != "ORG_ADMINISTRATOR" && element.roleKey != "ORG_DEFAULT_USER" && element.roleKey != "ORG_USER_SUPPORT" && element.roleKey != "MANAGE_SUBSCRIPTIONS") {
+          this.roleDataList.push({
+            roleId: element.roleId,
+            roleKey: element.roleKey,
+            accessRoleName: element.roleName,
+            serviceName: element.serviceName,
           });
+          if (this.userSelectedFormData) {
+            this.formGroup.addControl(
+              'orgRoleControl_' + element.roleId,
+              this.formbuilder.control(this.patchRoleMatches(element.roleId))
+            );
+          }
+          else if (this.pageAccessMode === 'edit') {
+            this.formGroup.addControl(
+              'orgRoleControl_' + element.roleId,
+              this.formbuilder.control(this.RoleMatch(element.roleId))
+            );
+          } else {
+            this.formGroup.addControl(
+              'orgRoleControl_' + element.roleId,
+              this.formbuilder.control(false)
+            );
+          }
+        }
       });
+    });
 
   }
 
 
-  public  RoleMatch(roleId:any){
-   const result = this.RoleInfo.detail.rolePermissionInfo.find((rols:any) => rols.roleId === roleId);
-   if(result){
-    return true
-   }
-   else{
-    return false
-   }
+  public RoleMatch(roleId: any) {
+    const result = this.RoleInfo.detail.rolePermissionInfo.find((rols: any) => rols.roleId === roleId);
+    if (result) {
+      return true
+    }
+    else {
+      return false
+    }
+  }
+
+
+  public patchRoleMatches(roleId: any) {
+    const result = this.RoleInfo.roleDetails.find((rols: any) => rols.roleId === roleId);
+    if (result) {
+      return true
+    }
+    else {
+      return false
+    }
   }
 
   public getSelectedRoleDetails(form: FormGroup) {
@@ -137,14 +210,16 @@ export class DelegatedAccessUserComponent implements OnInit {
 
 
   public RemoveAccess(): void {
-    this.userDetails.pageaccessmode='remove'
+    this.userDetails.pageaccessmode = 'remove'
+    sessionStorage.removeItem('deleagted_user_details')
     this.route.navigateByUrl(
       'delegated-remove-confirm?data=' + btoa(JSON.stringify(this.userDetails))
     );
   }
 
-  public Resentactivation():void{
-    this.userDetails.pageaccessmode='resent'
+  public Resentactivation(): void {
+    this.userDetails.pageaccessmode = 'resent'
+    sessionStorage.removeItem('deleagted_user_details')
     this.route.navigateByUrl(
       'delegated-remove-confirm?data=' + btoa(JSON.stringify(this.userDetails))
     );
@@ -157,68 +232,72 @@ export class DelegatedAccessUserComponent implements OnInit {
   }
 
 
-  public onSubmit(form: FormGroup){
+  public onSubmit(form: FormGroup) {
     this.submitted = true;
-    if(this.pageAccessMode === 'edit'){
+    if (this.pageAccessMode === 'edit') {
       this.edituserdetails(form)
-    }else{
+    } else {
       this.createuserdetails(form)
     }
   }
 
-public createuserdetails(form:FormGroup){
-  if (this.formValid(form) && (!this.StartDateValidation && !this.EndDateValidation && !this.PastDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
-    const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
-    const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
-    let EndDate = new Date(EndtDateForm);
-    let StartDate = new Date(StartDateForm);
-    let data = {
-      userName: this.userDetails.userName,
-      detail: {
-        delegatedOrgId: this.organisationId,
-        roleIds: this.getSelectedRoleIds(form),
-        startDate: StartDate,
-        endDate: EndDate,
-      },
-      roleDetails:this.getSelectedRoleDetails(form),
-      userDetails:this.userDetails,
-    };
-    this.userDetails.pageaccessmode=this.pageAccessMode
-    this.route.navigateByUrl(
-      'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
-    );
+  public createuserdetails(form: FormGroup) {
+    if (this.formValid(form) && (!this.StartDateValidation && !this.EndDateValidation && !this.PastDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
+      const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
+      const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
+      let EndDate = new Date(EndtDateForm);
+      let StartDate = new Date(StartDateForm);
+      let data = {
+        userName: this.userDetails.userName,
+        detail: {
+          delegatedOrgId: this.organisationId,
+          roleIds: this.getSelectedRoleIds(form),
+          startDate: StartDate,
+          endDate: EndDate,
+        },
+        roleDetails: this.getSelectedRoleDetails(form),
+        userDetails: this.userDetails,
+      };
+      this.userDetails.pageaccessmode = this.pageAccessMode
+      let stringifyData = JSON.stringify(data)
+      sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData))
+      this.route.navigateByUrl(
+        'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
+      );
 
-} else {
-  this.scrollHelper.scrollToFirst('error-summary');
-}
-}
+    } else {
+      this.scrollHelper.scrollToFirst('error-summary');
+    }
+  }
 
-public edituserdetails(form:FormGroup){
-  if (this.formValid(form) && (!this.StartDateValidation && !this.EndDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
-    const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
-    const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
-    let EndDate = new Date(EndtDateForm);
-    let StartDate = new Date(StartDateForm);
-    let data = {
-      userName: this.userDetails.userName,
-      detail: {
-        delegatedOrgId: this.organisationId,
-        roleIds: this.getSelectedRoleIds(form),
-        startDate: StartDate,
-        endDate: EndDate,
-      },
-      roleDetails:this.getSelectedRoleDetails(form),
-      userDetails:this.userDetails,
-    };
-    this.userDetails.pageaccessmode=this.pageAccessMode
-    this.route.navigateByUrl(
-      'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
-    );
+  public edituserdetails(form: FormGroup) {
+    if (this.formValid(form) && (!this.StartDateValidation && !this.EndDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
+      const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
+      const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
+      let EndDate = new Date(EndtDateForm);
+      let StartDate = new Date(StartDateForm);
+      let data = {
+        userName: this.userDetails.userName,
+        detail: {
+          delegatedOrgId: this.organisationId,
+          roleIds: this.getSelectedRoleIds(form),
+          startDate: StartDate,
+          endDate: EndDate,
+        },
+        roleDetails: this.getSelectedRoleDetails(form),
+        userDetails: this.userDetails,
+      };
+      this.userDetails.pageaccessmode = this.pageAccessMode
+      let stringifyData = JSON.stringify(data)
+      sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData))
+      this.route.navigateByUrl(
+        'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
+      );
 
-} else {
-  this.scrollHelper.scrollToFirst('error-summary');
-}
-}
+    } else {
+      this.scrollHelper.scrollToFirst('error-summary');
+    }
+  }
 
 
 
@@ -300,6 +379,12 @@ public edituserdetails(form:FormGroup){
 
 
   public Cancel() {
+    sessionStorage.removeItem('deleagted_user_details')
     window.history.back();
+  }
+
+  public nevigate(path:string){
+    this.route.navigateByUrl(path)
+    sessionStorage.removeItem('deleagted_user_details')
   }
 }
