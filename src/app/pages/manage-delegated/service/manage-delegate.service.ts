@@ -1,19 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManageDelegateService {
 
-  public delegatedOrg: BehaviorSubject<any> = new BehaviorSubject(null);
-  private  organisationId: string;
-
-    constructor(private AuthService:AuthService,private route: Router,) {
-    this.organisationId = localStorage.getItem('cii_organisation_id') || '';
-   }
+  constructor() { }
 
 
   public ValueChanged(data: string, box: string, form: string): void {
@@ -52,30 +44,4 @@ export class ManageDelegateService {
     document.getElementById(inputIndex)?.focus();
 
   }
-
-  public setDelegatedOrg(org: any): void {
-    localStorage.setItem('delegatedOrg', org);
-    this.delegatedOrg.next(org)
-    this.AuthService.renewAccessToken()
-    this.setPermissionOrgDetails()
-  }
-
-  public get getDelegatedOrg():any {
-    return localStorage.getItem('delegatedOrg');
-  }
-
-
-  public setPermissionOrgDetails(){
-    this.delegatedOrg.subscribe((data)=>{
-    if(data == 0 || data == null){
-     localStorage.setItem('permission_organisation_id',this.organisationId);
-    }else{
-      localStorage.setItem('permission_organisation_id',this.getDelegatedOrg);
-    }
-    setTimeout(() => {
-      this.route.navigateByUrl('/home');
-    }, 100);
-    })
-  }
-  
 }

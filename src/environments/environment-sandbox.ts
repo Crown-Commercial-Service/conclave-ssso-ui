@@ -37,7 +37,7 @@ export const environment = {
   rollbar: {
     key: 'ROLLBAR',
     enable : false,
-    security_log: false
+    security_log:true
   },
   cookies_policy: {
     essentialcookies: {

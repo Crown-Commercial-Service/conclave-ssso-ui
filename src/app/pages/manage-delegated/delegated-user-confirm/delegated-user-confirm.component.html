@@ -16,14 +16,18 @@
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align">Confirm you want to delegate access to the user
-            </h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align">Confirm you want to delegate access to the user</h1>
             <div class="manage-groups-bg">
                 <p class="govuk-body-l">
                     You are giving permission for a delegated access to your Organisation to a user:
                 </p>
             </div>
             <div class="govuk-form-group">
+                <h2 class="govuk-label-wrapper">
+                    <strong>
+                        You are granting a delegated access to:
+                    </strong>
+                </h2>
                 <div class="span-group govuk-!-margin-top-4">
                     <p class="govuk-body">
                         Name:<strong class="govuk-!-margin-left-2">{{userInfo.firstName}} {{userInfo.lastName}}</strong>
@@ -32,57 +36,32 @@
                         Email address:<strong class="govuk-!-margin-left-2">{{userInfo.userName}}</strong>
                     </p>
                     <p class="govuk-body">
-                        User's Organisation:<strong
-                            class="govuk-!-margin-left-2">{{userInfo.originOrganisationName}}</strong>
+                        User's Organisation:<strong class="govuk-!-margin-left-2">{{userInfo.originOrganisationName}}</strong>
                     </p>
                     <details class="govuk-details" data-module="govuk-details">
                         <summary class="govuk-details__summary">
-                            <span class="govuk-details__summary-text">
-                                Addtional security
-                            </span>
+                          <span class="govuk-details__summary-text">
+                            Addtional security
+                          </span>
                         </summary>
                         <div class="govuk-details__text">
                             <p class="govuk-body">
-                                MFA status:<strong class="govuk-!-margin-left-2">{{userInfo.mfaEnabled == true ?
-                                    'Enable' : 'Disable'}}</strong>
+                                MFA status:<strong class="govuk-!-margin-left-2">{{userInfo.mfaEnabled == 'true' ? 'Enable' : 'Disable'}}</strong>
                             </p>
                         </div>
-                    </details>
+                      </details>
                     <p class="govuk-body">
-                        <strong>The user will have a delegated access from {{UserSelectedinfo.detail.startDate | date:
-                            'dd/MM/yyyy'}} to {{UserSelectedinfo.detail.endDate | date: 'dd/MM/yyyy'}}.</strong>
+                        <strong>The user will have a delegated access from {{UserSelectedinfo.detail.startDate | date: 'dd/MM/yyyy'}} to {{UserSelectedinfo.detail.endDate | date: 'dd/MM/yyyy'}}.</strong>
                     </p>
                     <div>
                         <p class="govuk-body">
                             <strong class="">The user will be given a below permissions.</strong>
                         </p>
-                        <ul class="govuk-list">
+                        <ul class="govuk-list"> 
                             <li *ngFor="let details of UserSelectedinfo.roleDetails">
-                                {{
-                                details.roleKey === "JAEGGER_SUPPLIER"
-                                ? "eSourcing Service as a supplier"
-                                :details.roleKey === "ACCESS_JAGGAER"
-                                ? "eSourcing Service - dashboard"
-                                :details.roleKey === "CAT_USER"
-                                ? "Contract Award Service (CAS) - service"
-                                :details.roleKey === "ACCESS_CAAAC_CLIENT"
-                                ? "Contract Award Service (CAS) - dashboard"
-                                :details.roleKey === "JAEGGER_BUYER"
-                                ? "eSourcing Service as a buyer"
-                                :details.roleKey === "JAGGAER_USER"
-                                ? "eSourcing Service - service"
-                                :details.accessRoleName
-                                }}
-                                <span *ngIf="
-                                  details.roleKey != 'JAEGGER_SUPPLIER' &&
-                                  details.roleKey != 'ACCESS_JAGGAER' &&
-                                  details.roleKey != 'CAT_USER' &&
-                                  details.roleKey != 'ACCESS_CAAAC_CLIENT' &&
-                                  details.roleKey != 'JAEGGER_BUYER' &&
-                                  details.roleKey != 'JAGGAER_USER'
-                                ">- {{ details.serviceName }}</span>
+                                {{details.accessRoleName}} - {{details.serviceName}}
                             </li>
-                        </ul>
+                          </ul>
                     </div>
                 </div>
             </div>
@@ -91,10 +70,9 @@
             <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onSubmit()">
                 Continue
             </button>
-            <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                (click)="Cancel()">
+            <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="Cancel()">
                 Cancel
             </button>
         </div>
     </div>
-</div>
+</div> 

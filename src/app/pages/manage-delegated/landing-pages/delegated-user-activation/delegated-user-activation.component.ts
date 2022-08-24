@@ -10,7 +10,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 })
 export class DelegatedUserActivationComponent implements OnInit {
   
-  public userActivation:any;
+  public userActivation:boolean=false
 
   constructor(
     private route: ActivatedRoute,
