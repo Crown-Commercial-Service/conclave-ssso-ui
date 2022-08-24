@@ -163,8 +163,9 @@ export class AuthService {
     const options = {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     }
-
-    let body = `client_id=${environment.idam_client_id}&refresh_token=${refreshToken}&delegated_org_id=${localStorage.getItem('delegatedOrg')}&grant_type=refresh_token`;
+    let delegated_org_id = localStorage.getItem('delegatedOrg');
+    delegated_org_id = delegated_org_id == null || delegated_org_id == 'undefined' ? '' : delegated_org_id;
+    let body = `client_id=${environment.idam_client_id}&refresh_token=${refreshToken}&delegated_org_id=${delegated_org_id}&grant_type=refresh_token`;
     this.RollbarErrorService.RollbarDebug('renewToken:'+ body)
     return this.httpService.post<TokenInfo>(`${this.url}/security/token`, body, options);
     
