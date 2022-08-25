@@ -24,7 +24,7 @@ export class DelegatedOrganisationComponent implements OnInit {
   ngOnInit(): void {
     if (
       this.DelegateService.getDelegatedOrg == '0' ||
-      this.DelegateService.getDelegatedOrg == null
+      this.DelegateService.getDelegatedOrg == null || this.DelegateService.getDelegatedOrg == ''
     ) {
       this.roleInfo=0
       this.primaryRoleSelected = 'primaryselected';
