@@ -195,6 +195,58 @@
                                 {{ 'ROLES'| translate }}
                             </legend>
                             <app-details [detailsData]="detailsData[2]"></app-details>
+                            <span class="table_caption">To help you choose the correct roles use the table below:</span>
+                            <table>
+                                <thead>
+                                  <tr>
+                                    <th>For whom</th>
+                                    <th>Task</th>
+                                    <th>Roles to tick</th>
+                                  </tr>
+                                </thead>
+                                <tbody >
+                                  <tr>
+                                    <td>Organisational Administrators of Public Procurement Gateway (PPG)</td>
+                                    <td>
+                                        <span class="custom-table">Add an additional PPG administrator</span><br>
+                                        <hr>
+                                        <span class="custom-table">Add user to PPG</span>
+                                    </td>
+                                    <td>
+                                        <ul class="roles_padding">
+                                            <li class="custom-table">Organisation Administrator - Dashboard Service</li>
+                                            <li class="custom-table">Organisation User - Dashboard Service</li>
+                                        </ul>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Buyers</td>
+                                    <td>
+                                        <span class="custom-table">Enable Contract Award Service</span><br>
+                                        <hr>
+                                        <span class="custom-table">Enable eSourcing</span>
+                                    </td>
+                                    <ul class="roles_padding">
+                                        <li class="custom-table">eSourcing Service as a buyer</li>
+                                        <li class="custom-table">eSourcing Service - add service</li>
+                                        <li class="custom-table">eSourcing Service - add to dashboard</li>
+                                    </ul>
+                                  </tr>
+                                  <tr>
+                                    <td>Suppliers</td>
+                                    <td>Enable eSourcing
+                                    </td>
+                                    <td>
+                                        <ul class="roles_padding">
+                                            <li class="custom-table">eSourcing Service as a supplier</li>
+                                            <li class="custom-table">eSourcing Service - add service</li>
+                                            <li class="custom-table">eSourcing Service - add to dashboard</li>
+                                        </ul>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <br>
                             <div class="govuk-checkboxes">
                                 <div class="govuk-checkboxes__item" *ngFor="let orgRole of orgRoles; let i=index">
                                     <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
