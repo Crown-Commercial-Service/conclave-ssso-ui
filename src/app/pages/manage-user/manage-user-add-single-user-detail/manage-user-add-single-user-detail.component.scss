@@ -66,7 +66,13 @@ hr {
 
 .roles_padding {
   padding-left: 30px;
+  padding-right: 10px;
+  font-size: 16px;
+  font-weight: 400;
+  white-space: nowrap;
 }
+
+
 
 .custom-table{
     font-size: 16px;
@@ -79,4 +85,18 @@ hr {
 }
 table {
     margin-top: 10px !important;
+}
+.litrel_space{
+    white-space: nowrap;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+.column_one_space{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+.listing li {
+    font-size: 16px;
+    font-weight: 400;
 }
