@@ -8,34 +8,47 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
   styleUrls: ['./delegated-user-confirm.component.scss']
 })
 export class DelegatedUserConfirmComponent implements OnInit {
-  public userInfo:any={}
-  public UserSelectedinfo:any;
-  constructor(private route:Router,private ActivatedRoute: ActivatedRoute,private DelegatedService: WrapperUserDelegatedService) { }
+  public userInfo: any = {}
+  public UserSelectedinfo: any;
+  constructor(private route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService) { }
 
   ngOnInit(): void {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data)).userDetails;
-      this.UserSelectedinfo= JSON.parse(atob(para.data))
-      console.log("this.RouteData", this.UserSelectedinfo)
+      this.UserSelectedinfo = JSON.parse(atob(para.data))
     });
   }
 
 
 
-  public onSubmit():void{
-   if(this.UserSelectedinfo.userDetails.pageaccessmode === "edit"){
-    this.updateDelegatedUser()
-   }else{
-    this.createDelegateUser()
-   }
+  public onSubmit(): void {
+    if (this.UserSelectedinfo.userDetails.pageaccessmode === "edit") {
+      this.updateDelegatedUser()
+    } else {
+      this.createDelegateUser()
+    }
   }
 
-  public createDelegateUser():void{
+  public createDelegateUser(): void {
     delete this.UserSelectedinfo.userDetails
     delete this.UserSelectedinfo.roleDetails
     sessionStorage.removeItem('deleagted_user_details')
-    this.UserSelectedinfo.detail.startDate = new Date (this.UserSelectedinfo.detail.startDate)
-    this.UserSelectedinfo.detail.endDate = new Date (this.UserSelectedinfo.detail.endDate)
+    const startDate = this.UserSelectedinfo.detail.startDate.split('-')
+    const endDate = this.UserSelectedinfo.detail.endDate.split('-')
+    if (startDate[1].length <= 1) {
+      startDate[1] = 0 + startDate[1]
+    }
+    if (startDate[2].length <= 1) {
+      startDate[2] = 0 + startDate[2]
+    }
+    if (endDate[1].length <= 1) {
+      endDate[1] = 0 + endDate[1]
+    }
+    if (endDate[2].length <= 1) {
+      endDate[2] = 0 + endDate[2]
+    }
+    this.UserSelectedinfo.detail.startDate=startDate[0] + '-'+startDate[1] + '-'+startDate[2]
+    this.UserSelectedinfo.detail.endDate=endDate[0]+ '-'+ endDate[1] + '-'+ endDate[2]
     this.DelegatedService.createDelegatedUser(this.UserSelectedinfo).subscribe({
       next: (roleListResponse: any) => {
         let data ={
@@ -50,21 +63,35 @@ export class DelegatedUserConfirmComponent implements OnInit {
     });
   }
 
-  public updateDelegatedUser():void{
+  public updateDelegatedUser(): void {
     delete this.UserSelectedinfo.userDetails
     delete this.UserSelectedinfo.roleDetails
     sessionStorage.removeItem('deleagted_user_details')
-    this.UserSelectedinfo.detail.startDate = new Date (this.UserSelectedinfo.detail.startDate)
-    this.UserSelectedinfo.detail.endDate = new Date (this.UserSelectedinfo.detail.endDate)
+    const startDate = this.UserSelectedinfo.detail.startDate.split('-')
+    const endDate = this.UserSelectedinfo.detail.endDate.split('-')
+    if (startDate[1].length <= 1) {
+      startDate[1] = 0 + startDate[1]
+    }
+    if (startDate[2].length <= 1) {
+      startDate[2] = 0 + startDate[2]
+    }
+    if (endDate[1].length <= 1) {
+      endDate[1] = 0 + endDate[1]
+    }
+    if (endDate[2].length <= 1) {
+      endDate[2] = 0 + endDate[2]
+    }
+    this.UserSelectedinfo.detail.startDate=startDate[0] + '-'+ startDate[1] + '-'+ startDate[2]
+    this.UserSelectedinfo.detail.endDate=endDate[0] + '-'+ endDate[1] + '-'+ endDate[2]
     this.DelegatedService.updateDelegatedUser(this.UserSelectedinfo).subscribe({
       next: (roleListResponse: any) => {
-        let data ={
-          status:'update',
-          userName:this.UserSelectedinfo.userName
+        let data = {
+          status: 'update',
+          userName: this.UserSelectedinfo.userName
         }
-        this.route.navigateByUrl('delegated-success?data=' +btoa(JSON.stringify(data)))
+        this.route.navigateByUrl('delegated-success?data=' + btoa(JSON.stringify(data)))
       },
-      error: (error: any) => { 
+      error: (error: any) => {
         this.route.navigateByUrl('delegated-error')
       },
     });
