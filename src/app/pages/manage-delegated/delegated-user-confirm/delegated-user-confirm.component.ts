@@ -16,7 +16,6 @@ export class DelegatedUserConfirmComponent implements OnInit {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data)).userDetails;
       this.UserSelectedinfo= JSON.parse(atob(para.data))
-      console.log("this.RouteData", this.UserSelectedinfo)
     });
   }
 
@@ -34,8 +33,6 @@ export class DelegatedUserConfirmComponent implements OnInit {
     delete this.UserSelectedinfo.userDetails
     delete this.UserSelectedinfo.roleDetails
     sessionStorage.removeItem('deleagted_user_details')
-    this.UserSelectedinfo.detail.startDate = new Date (this.UserSelectedinfo.detail.startDate)
-    this.UserSelectedinfo.detail.endDate = new Date (this.UserSelectedinfo.detail.endDate)
     this.DelegatedService.createDelegatedUser(this.UserSelectedinfo).subscribe({
       next: (roleListResponse: any) => {
         let data ={
@@ -54,8 +51,6 @@ export class DelegatedUserConfirmComponent implements OnInit {
     delete this.UserSelectedinfo.userDetails
     delete this.UserSelectedinfo.roleDetails
     sessionStorage.removeItem('deleagted_user_details')
-    this.UserSelectedinfo.detail.startDate = new Date (this.UserSelectedinfo.detail.startDate)
-    this.UserSelectedinfo.detail.endDate = new Date (this.UserSelectedinfo.detail.endDate)
     this.DelegatedService.updateDelegatedUser(this.UserSelectedinfo).subscribe({
       next: (roleListResponse: any) => {
         let data ={
