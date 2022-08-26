@@ -985,6 +985,7 @@ const routes: Routes = [
   {
     path: 'delegated-user-activation',
     data: { title: 'deleagted-user-activation' },
+    pathMatch: 'full',
     component: DelegatedUserActivationComponent,
   },
   {
@@ -996,7 +997,8 @@ const routes: Routes = [
   },
   {
     path: 'delegated-error',
-    data: { title: 'Delegated-error' },
+    data: { title: 'Delegate-error' },
+    pathMatch: 'full',
     component: DelegatedErrorComponent,
   },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
