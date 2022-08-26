@@ -997,7 +997,7 @@ const routes: Routes = [
   },
   {
     path: 'delegated-error',
-    data: { title: 'Delegate access to a user' },
+    data: { title: 'Delegate-error' },
     pathMatch: 'full',
     component: DelegatedErrorComponent,
   },
