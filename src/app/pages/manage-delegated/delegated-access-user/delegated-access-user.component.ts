@@ -47,7 +47,7 @@ export class DelegatedAccessUserComponent implements OnInit {
         this.userSelectedData(this.userDetails.userName, this.organisationId)
       }
       else if (this.pageAccessMode === 'edit') {
-        this.getUserDetails(this.userDetails.userName, this.organisationId)
+        this.getUserDetails(this.userDetails.userName, this.organisationId, this.userDetails.startDate, this.userDetails.endDate, this.userDetails.delegationAccepted)
       } else {
         this.getOrgRoles()
         setTimeout(() => {
@@ -114,16 +114,16 @@ export class DelegatedAccessUserComponent implements OnInit {
   }
 
 
-  public getUserDetails(userId: string, delegatedOrgId: string) {
+  public getUserDetails(userId: string, delegatedOrgId: string, startDateFromListPage: any, endDateFromListPage: any, delegationAcceptedFromListPage: any) {
     setTimeout(() => {
       this.DelegatedService.getEdituserDetails(userId, delegatedOrgId).subscribe({
         next: (response: any) => {
           this.getOrgRoles()
           this.RoleInfo = response
           this.userDetails = response
-          this.delegationAccepted = response.detail.delegatedOrgs[0].delegationAccepted
-          const startDate = this.userDetails.detail.delegatedOrgs[0].startDate.split('-')
-          const endDate = this.userDetails.detail.delegatedOrgs[0].endDate.split('-')
+          this.delegationAccepted = response.detail.delegatedOrgs[0] ?  response.detail.delegatedOrgs[0].delegationAccepted : delegationAcceptedFromListPage
+          const startDate = startDateFromListPage.split('-')
+          const endDate = endDateFromListPage.split('-')
           this.formGroup.patchValue({
             startday: startDate[2].slice(0, 2),
             startmonth: startDate[1],
