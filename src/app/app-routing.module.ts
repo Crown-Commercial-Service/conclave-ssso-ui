@@ -113,6 +113,16 @@ import { ConfirmMfaResetComponent } from './pages/user-profile-mfa/confirm-mfa-r
 import { SuccessUserMfaComponent } from './pages/user-profile-mfa/success-user-mfa/success-user-mfa.component';
 import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
 import { ManageOrganisationRemoveIdpConfirmComponent } from './pages/manage-organisation/manage-organisation-remove-idp-confirm/manage-organisation-remove-idp-confirm';
+import { DelegatedUserListComponent } from './pages/manage-delegated/delegated-user-list/delegated-user-list.component';
+import { FindDelegatedUserComponent } from './pages/manage-delegated/find-delegated-user/find-delegated-user.component';
+import { DelegatedUserStatusComponent } from './pages/manage-delegated/delegated-user-status/delegated-user-status.component';
+import { DelegatedAccessUserComponent } from './pages/manage-delegated/delegated-access-user/delegated-access-user.component';
+import { DelegatedUserConfirmComponent } from './pages/manage-delegated/delegated-user-confirm/delegated-user-confirm.component';
+import { DelegatedSuccessComponent } from './pages/manage-delegated/delegated-success/delegated-success.component';
+import { DelegatedRemoveConfirmComponent } from './pages/manage-delegated/delegated-remove-confirm/delegated-remove-confirm.component';
+import { DelegatedErrorComponent } from './pages/manage-delegated/delegated-error/delegated-error.component';
+import { DelegatedUserActivationComponent } from './pages/manage-delegated/landing-pages/delegated-user-activation/delegated-user-activation.component';
+import { DelegatedOrganisationComponent } from './pages/manage-delegated/user/delegated-organisation/delegated-organisation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -833,14 +843,20 @@ const routes: Routes = [
   },
   {
     path: 'contact-assign/user-search',
-    data: { title: "Assign a user's contacts to your organisation account", roles: ['MANAGE_ORGS'] },
+    data: {
+      title: "Assign a user's contacts to your organisation account",
+      roles: ['MANAGE_ORGS'],
+    },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ContactAssignUserSearchComponent,
   },
   {
     path: 'contact-assign/site-search',
-    data: { title: "Assign a site's contacts to your organisation account", roles: ['MANAGE_ORGS'] },
+    data: {
+      title: "Assign a site's contacts to your organisation account",
+      roles: ['MANAGE_ORGS'],
+    },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ContactAssignSiteSearchComponent,
@@ -917,6 +933,74 @@ const routes: Routes = [
     pathMatch: 'full',
     component: MFAResetComponent,
   },
+  {
+    path: 'delegated-access',
+    data: { title: 'delegated-access', roles: ['DELEGATED_ACCESS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: DelegatedUserListComponent,
+  },
+  {
+    path: 'find-delegated-user',
+    data: { title: 'find-delegated-user' , roles: ['DELEGATED_ACCESS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: FindDelegatedUserComponent,
+  },
+  {
+    path: 'delegated-user-status',
+    data: { title: 'delegated-user-status', roles: ['DELEGATED_ACCESS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: DelegatedUserStatusComponent,
+  },
+  {
+    path: 'delegate-access-user',
+    data: { title: 'Delegate access to a user', roles: ['DELEGATED_ACCESS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: DelegatedAccessUserComponent,
+  },
+  {
+    path: 'delegate-user-confirm',
+    data: { title: 'delegate-user-confirm', roles: ['DELEGATED_ACCESS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: DelegatedUserConfirmComponent,
+  },
+  {
+    path: 'delegated-success',
+    data: { title: 'delegated-success', roles: ['DELEGATED_ACCESS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: DelegatedSuccessComponent,
+  },
+  {
+    path: 'delegated-remove-confirm',
+    data: { title: 'delegated-remove-confirm', roles: ['DELEGATED_ACCESS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: DelegatedRemoveConfirmComponent,
+  },
+  {
+    path: 'delegated-user-activation',
+    data: { title: 'deleagted-user-activation' },
+    pathMatch: 'full',
+    component: DelegatedUserActivationComponent,
+  },
+  {
+    path: 'delegated-organisation',
+    data: { title: 'delegated-organisation'},
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    component: DelegatedOrganisationComponent,
+  },
+  {
+    path: 'delegated-error',
+    data: { title: 'Delegate-error' },
+    pathMatch: 'full',
+    component: DelegatedErrorComponent,
+  },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 
@@ -929,4 +1013,4 @@ export const routingConfiguration: ExtraOptions = {
   imports: [RouterModule.forRoot(routes, routingConfiguration)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

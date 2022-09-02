@@ -1,0 +1,52 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
+                            Delegated access</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">Success</span>
+                    </li>
+                </ol>
+            </div>
+            <div *ngIf="userInfo.status==='create'">
+            <h1 class="govuk-heading-l page-title header-bread-align">You have given a delegated access to a user {{userInfo.userName}}</h1>
+            <div class="manage-groups-bg">
+                <p class="govuk-body-l">
+                    The user will be emailed with notification that the delegated access was granted
+                </p>
+            </div>
+          </div>
+          <div *ngIf="userInfo.status==='update'">
+            <h1 class="govuk-heading-l page-title header-bread-align">You have updated a delegated access for a user {{userInfo.userName}}</h1>
+          </div>
+
+          <div *ngIf="userInfo.status==='delete'">
+            <h1 class="govuk-heading-l page-title header-bread-align">You have removed a delegated access for a user {{userInfo.userName}}</h1>
+          </div>
+
+          <div *ngIf="userInfo.status==='resent'">
+            <h1 class="govuk-heading-l page-title header-bread-align">A new activation link for a delegated access has been set to user {{userInfo.userName}}</h1>
+          </div>
+        </div>
+        <div>
+            <a href="javascript:;"  class="navigation-text" routerLink="/delegated-access"> Return to delegate access </a><br><br>
+            <a href="javascript:;"  class="navigation-text" routerLink="/home"> Return to the dashboard </a>
+        </div>
+        <!-- <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <a class="govuk-link">Return to delegate access</a>
+            </div>
+            <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                <a class="govuk-link">Return to the dashboard</a>
+            </div>  
+        </div> -->
+    </div>
+</div>
