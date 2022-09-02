@@ -112,78 +112,166 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="analytics">
                 <h2 class="heading-medium" id="analytics-cookies">Analytics cookies (optional)</h2>
-                <p class="govuk-body">
-                    With your permission, we use Google Analytics to collect data about how you use the Public Procurement Gateway. This information helps us to improve our service.
-                </p>
-                <p class="govuk-body">
-                    Google is not allowed to use or share our analytics data with anyone.
-                </p>
-                <p class="govuk-body">
-                    Google Analytics stores anonymised information about:
-                </p>
-                <ul class="govuk-list govuk-list--bullet">
-                    <li>how you got to the Public Procurement Gateway</li>
-                    <li>the pages you visit on the Public Procurement Gateway and how long you spend on them</li>
-                    <li>any errors you see while using the Public Procurement Gateway</li>
-                </ul>
-                <div>
-                    <table class="govuk-table">
-                        <thead class="govuk-table__head">
-                            <tr class="govuk-table__row">
-                                <th scope="col" class="govuk-table__header">Name</th>
-                                <th scope="col" class="govuk-table__header">Purpose</th>
-                                <th scope="col" class="govuk-table__header">Expires</th>
-                            </tr>
-                        </thead>
-                        <tbody class="govuk-table__body">
-                            <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">_ga</td>
-                                <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
-                                <td class="govuk-table__cell">2 yrs</td>
-                            </tr>
-                            <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">_gid</td>
-                                <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
-                                <td class="govuk-table__cell">24 hrs</td>
-                            </tr>
-                            <tr class="govuk-table__row">
-                                <td class="govuk-table__cell">_gat_UA-47046847-22</td>
-                                <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
-                                <td class="govuk-table__cell">1 min</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="cookie-settings__form-wrapper">
-                    <form data-module="cookie-settings">
-                        <div class="govuk-form-group govuk-!-margin-top-6">
-                            <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
-                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                                    Do you want to accept analytics cookies?
-                                </legend>
-                                <div class="govuk-radios govuk-radios--inline">
-                                    <div class="govuk-radios__item">
-                                        <input class="govuk-radios__input" id="cookies-analytics-yes"
-                                            name="cookies-analytics" type="radio" value="on"
-                                            [(ngModel)]="SelectionMode">
-                                        <label class="govuk-label govuk-radios__label" for="cookies-analytics-yes">
-                                            Yes
-                                        </label>
-                                    </div>
-                                    <div class="govuk-radios__item">
-                                        <input class="govuk-radios__input" id="cookies-analytics-no"
-                                            name="cookies-analytics" type="radio" value="off"
-                                            [(ngModel)]="SelectionMode">
-                                        <label class="govuk-label govuk-radios__label" for="cookies-analytics-no">
-                                            No
-                                        </label>
-                                    </div>
-                                </div>
-                            </fieldset>
+                    <div class="googleanalytics">
+                        <h3 class="govuk-heading-s">Google Analytics</h3>
+                        <p class="govuk-body">
+                            With your permission, we use Google Analytics to collect data about how you use the Public Procurement Gateway. This information helps us to improve our service.
+                        </p>
+                        <p class="govuk-body">
+                            Google is not allowed to use or share our analytics data with anyone.
+                        </p>
+                        <p class="govuk-body">
+                            Google Analytics stores anonymised information about:
+                        </p>
+                        <ul class="govuk-list govuk-list--bullet">
+                            <li>how you got to the Public Procurement Gateway</li>
+                            <li>the pages you visit on the Public Procurement Gateway and how long you spend on them</li>
+                            <li>any errors you see while using the Public Procurement Gateway</li>
+                        </ul>
+                        <div>
+                            <table class="govuk-table">
+                                <thead class="govuk-table__head">
+                                    <tr class="govuk-table__row">
+                                        <th scope="col" class="govuk-table__header">Name</th>
+                                        <th scope="col" class="govuk-table__header">Purpose</th>
+                                        <th scope="col" class="govuk-table__header">Expires</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="govuk-table__body">
+                                    <tr class="govuk-table__row">
+                                        <td class="govuk-table__cell">_ga</td>
+                                        <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
+                                        <td class="govuk-table__cell">2 yrs</td>
+                                    </tr>
+                                    <tr class="govuk-table__row">
+                                        <td class="govuk-table__cell">_gid</td>
+                                        <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
+                                        <td class="govuk-table__cell">24 hrs</td>
+                                    </tr>
+                                    <tr class="govuk-table__row">
+                                        <td class="govuk-table__cell">_gat_UA-47046847-22</td>
+                                        <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
+                                        <td class="govuk-table__cell">1 min</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <button class="govuk-button" type="submit" (click)="OnSubmit()">Save cookie settings</button>
-                    </form>
+                        <div class="cookie-settings__form-wrapper">
+                            <form data-module="cookie-settings">
+                                <div class="govuk-form-group govuk-!-margin-top-6">
+                                    <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
+                                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                            Do you want to accept analytics cookies?
+                                        </legend>
+                                        <div class="govuk-radios govuk-radios--inline">
+                                            <div class="govuk-radios__item">
+                                                <input class="govuk-radios__input" id="cookies-analytics-yes"
+                                                    name="cookies-analytics" type="radio" [value]="true"
+                                                    [(ngModel)]="cookiesValue.additional">
+                                                <label class="govuk-label govuk-radios__label" for="cookies-analytics-yes">
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="govuk-radios__item">
+                                                <input class="govuk-radios__input" id="cookies-analytics-no"
+                                                    name="cookies-analytics" type="radio" [value]="false"
+                                                    [(ngModel)]="cookiesValue.additional">
+                                                <label class="govuk-label govuk-radios__label" for="cookies-analytics-no">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="glass-box">
+                        <h3 class="govuk-heading-s">Glass box</h3>
+                        <p class="govuk-body">
+                            We use Glassbox software to collect information about how you use the Public Procurement Gateway. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.
+                        </p>
+                        <p class="govuk-body">
+                            Glassbox stores information about:
+                        </p>
+                        <ul class="govuk-list govuk-list--bullet">
+                            <li>Browsing activity</li>
+                            <li>Click-stream activity,</li>
+                            <li>Session heatmaps and</li>
+                            <li>Scrolls</li>
+                        </ul>
+                        <p class="govuk-body">
+                            We don’t collect or store your personal information (e.g. your name or address) so this information can’t be used to identify who you are.
+                        </p>
+                        <p class="govuk-body">
+                            We don’t allow Glassbox to use or share our analytics data.
+                        </p>
+                        <div>
+                            <table class="govuk-table">
+                                <thead class="govuk-table__head">
+                                    <tr class="govuk-table__row">
+                                        <th scope="col" class="govuk-table__header">Name</th>
+                                        <th scope="col" class="govuk-table__header">Purpose</th>
+                                        <th scope="col" class="govuk-table__header">Expires</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="govuk-table__body">
+                                    <tr class="govuk-table__row">
+                                        <td class="govuk-table__cell">_cls_s</td>
+                                        <td class="govuk-table__cell">The session identifying cookie. It also indicates if the visitor is new or existing.
+                                            <ul>
+                                                <li>
+                                                    0: New
+                                                </li>
+                                                <li>
+                                                    1: Existing
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td class="govuk-table__cell">2 yrs</td>
+                                    </tr>
+                                    <tr class="govuk-table__row">
+                                        <td class="govuk-table__cell">_cls_v</td>
+                                        <td class="govuk-table__cell">The visitor identifying cookie.</td>
+                                        <td class="govuk-table__cell">2 yrs</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="cookie-settings__form-wrapper">
+                            <form data-module="cookie-settings">
+                                <div class="govuk-form-group govuk-!-margin-top-6">
+                                    <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
+                                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                            Do you want to accept analytics cookies for Glass box?
+                                        </legend>
+                                        <div class="govuk-radios govuk-radios--inline">
+                                            <div class="govuk-radios__item">
+                                                <input class="govuk-radios__input" id="cookies-glassbox-yes"
+                                                    name="cookies-glassbox" type="radio" [value]="true"
+                                                    [(ngModel)]="cookiesValue.glassbox">
+                                                <label class="govuk-label govuk-radios__label" for="cookies-glassbox-yes">
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="govuk-radios__item">
+                                                <input class="govuk-radios__input" id="cookies-glassbox-no"
+                                                    name="cookies-glassbox" type="radio" [value]="false"
+                                                    [(ngModel)]="cookiesValue.glassbox">
+                                                <label class="govuk-label govuk-radios__label" for="cookies-glassbox-no">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <button class="govuk-button" type="submit" (click)="OnSubmit()">Save cookie settings</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

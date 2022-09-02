@@ -9,17 +9,12 @@
     <title>Sign In - CCS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Google Tag Manager -->
+     <script async src="https://www.googletagmanager.com/gtag/js?id=G-624NHLKTKL"></script>
     <script>
-        (function (w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != 'dataLayer' ? '&l=' + l : '';
-            j.async = true;
-            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-KZ26G49');
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-624NHLKTKL');
     </script>
     <!-- End Google Tag Manager -->
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"> -->
@@ -732,6 +727,7 @@
     <script src="https://cdn.auth0.com/js/polyfills/1.0/object-assign.min.js"></script>
     <script>
         function scrollToError(element, inputId) {
+            // debugger;
             let elementObj = document.getElementById(element);
             let inputObj = document.getElementById(inputId);
             elementObj.scrollIntoView();
@@ -767,13 +763,17 @@
         }
 
         function deleteAdditionalCookies() { // delete additional cookies
-            deleteCookie("test_additional", 'test');
-            deleteCookie("_gid", 'removed');
-            deleteCookie("_ga", 'removed');
-            deleteCookie("_gat_UA-47046847-22", 'removed');
-        }
+                deleteCookie("test_additional", 'test');
+                deleteCookie("_gid", 'removed');
+                deleteCookie("_ga", 'removed');
+                deleteCookie("_gat_UA-47046847-22", 'removed');
+                deleteCookie("_cls_s", 'removed');
+                deleteCookie("_cls_v", 'removed');
+            }
+    
 
         window.addEventListener('load', function () {
+            //debugger;
             var cookieExpirationTimeInMinutes = 525600; // 525600 => 365 Days
             setCookie("test_additional", 'test', cookieExpirationTimeInMinutes);
             var cookieBannerDiv = document.getElementById('cookieBannerDiv');
@@ -791,7 +791,7 @@
                 }
             } else {
                 cookieBannerDiv.style.display = 'block';
-                setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', cookieExpirationTimeInMinutes);
+                setCookie("ppg_cookies_policy", '{"essential":true,"additional":false,"glassbox":false}', cookieExpirationTimeInMinutes);
                 deleteAdditionalCookies();
             }
 
@@ -830,6 +830,7 @@
                 var passwordField = document.getElementById('password');
                 var password = passwordField.value;
 
+                //debugger;
                 let emailFG = document.getElementById('email-form-group');
                 let passwordFG = document.getElementById('password-form-group');
                 emailFG.classList.remove("invalid");
@@ -962,7 +963,7 @@
                 cookieBannerSelectionDiv.style.display = 'none';
                 acceptCookieDiv.style.display = 'block';
                 setCookie("ppg_cookies_preferences_set", true, cookieExpirationTimeInMinutes);
-                setCookie("ppg_cookies_policy", '{"essential":true,"additional":true}', cookieExpirationTimeInMinutes);
+                setCookie("ppg_cookies_policy", '{"essential":true,"additional":true,"glassbox":true}', cookieExpirationTimeInMinutes);
             }
 
             function rejectAdditionalCookies(e) {
@@ -970,7 +971,7 @@
                 cookieBannerSelectionDiv.style.display = 'none';
                 rejectCookieDiv.style.display = 'block';
                 setCookie("ppg_cookies_preferences_set", true, cookieExpirationTimeInMinutes);
-                setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', cookieExpirationTimeInMinutes);
+                setCookie("ppg_cookies_policy", '{"essential":true,"additional":false,"glassbox":false}', cookieExpirationTimeInMinutes);
                 deleteAdditionalCookies();
             }
 
