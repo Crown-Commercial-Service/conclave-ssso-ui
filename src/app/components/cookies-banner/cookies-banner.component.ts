@@ -31,11 +31,11 @@ export class CookiesBannerComponent implements OnInit {
     if (cookiePreferenceSetCookie != '' && cookiePolicyCookie != '') {
       this.hideCookies();
       if (!JSON.parse(cookiePolicyCookie).additional) {
-        this.CookiesService.deleteAdditionalCookies();
+        this.CookiesService.deleteAdditionalCookies(); 
       }
     } else {
       this.CookiesService.deleteAdditionalCookies();
-      this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', this.cookieExpirationTimeInMinutes);
+      this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false,"glassbox":false}', this.cookieExpirationTimeInMinutes);
     }
    }
 
@@ -44,7 +44,7 @@ export class CookiesBannerComponent implements OnInit {
     this.cookiesData.coockiebanner = false;
     this.cookiesData.acceptAnalyticsCookies = true;
     this.cookiesData.rejectAnalyticsCookies = false;
-    this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":true}', this.cookieExpirationTimeInMinutes);
+    this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":true,"glassbox":true}', this.cookieExpirationTimeInMinutes);
     this.CookiesService.setCookie("ppg_cookies_preferences_set", 'true', this.cookieExpirationTimeInMinutes);
   }
 
@@ -52,7 +52,7 @@ export class CookiesBannerComponent implements OnInit {
     this.cookiesData.coockiebanner = false;
     this.cookiesData.acceptAnalyticsCookies = false;
     this.cookiesData.rejectAnalyticsCookies = true;
-    this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false}', this.cookieExpirationTimeInMinutes);
+    this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false,"glassbox":false}', this.cookieExpirationTimeInMinutes);
     this.CookiesService.setCookie("ppg_cookies_preferences_set", 'true', this.cookieExpirationTimeInMinutes);
     this.CookiesService.deleteAdditionalCookies()
   }
