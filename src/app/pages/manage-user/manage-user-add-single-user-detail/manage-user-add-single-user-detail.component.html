@@ -196,57 +196,71 @@
                             </legend>
                             <app-details [detailsData]="detailsData[2]"></app-details>
                             <span class="table_caption">To help you choose the correct roles use the table below:</span>
-                            <table>
-                                <thead>
-                                  <tr>
+                            <table style="width:100%">
+                                <tr>
                                     <th>For whom</th>
                                     <th>Task</th>
                                     <th>Roles to tick</th>
-                                  </tr>
-                                </thead>
-                                <tbody >
-                                  <tr>
-                                    <td>Organisational Administrators of Public Procurement Gateway (PPG)</td>
-                                    <td>
-                                        <span class="custom-table">Add an additional PPG administrator</span><br>
-                                        <hr>
-                                        <span class="custom-table">Add user to PPG</span>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2" class="column_one_space">
+                                        Organisational Administrators of Public Procurement Gateway (PPG)
                                     </td>
-                                    <td>
-                                        <ul class="roles_padding">
-                                            <li class="custom-table">Organisation Administrator - Dashboard Service</li>
-                                            <li class="custom-table">Organisation User - Dashboard Service</li>
+                                    <td class="litrel_space">Add an additional PPG administrator</td>
+                                    <td class="roles_padding">
+                                        <ul class="listing">
+                                            <li>Organisation Administrator - Dashboard Service</li>
                                         </ul>
                                     </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Buyers</td>
-                                    <td>
-                                        <span class="custom-table">Enable Contract Award Service</span><br>
-                                        <hr>
-                                        <span class="custom-table">Enable eSourcing</span>
-                                    </td>
-                                    <ul class="roles_padding">
-                                        <li class="custom-table">eSourcing Service as a buyer</li>
-                                        <li class="custom-table">eSourcing Service - add service</li>
-                                        <li class="custom-table">eSourcing Service - add to dashboard</li>
-                                    </ul>
-                                  </tr>
-                                  <tr>
-                                    <td>Suppliers</td>
-                                    <td>Enable eSourcing
-                                    </td>
-                                    <td>
-                                        <ul class="roles_padding">
-                                            <li class="custom-table">eSourcing Service as a supplier</li>
-                                            <li class="custom-table">eSourcing Service - add service</li>
-                                            <li class="custom-table">eSourcing Service - add to dashboard</li>
+                                </tr>
+                                <tr>
+                                    <td class="litrel_space" class="column_one_space">Add user to PPG</td>
+                                    <td class="roles_padding">
+                                        <ul class="listing">
+                                            <li>Organisation User - Dashboard Service</li>
                                         </ul>
                                     </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              <br>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2" class="column_one_space">
+                                        Buyers
+                                    </td>
+                                    <td class="litrel_space">Enable Contract Award Service</td>
+                                    <td class="roles_padding">
+                                        <ul class="listing">
+                                            <li>eSourcing Service as a buyer</li>
+                                            <li>Contract Award Service (CAS) - add service</li>
+                                            <li>Contract Award Service (CAS) - add to dashboard</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="litrel_space">Enable eSourcing</td>
+                                    <td class="roles_padding">
+                                        <ul class="listing">
+                                            <li>eSourcing Service as a buyer
+                                            </li>
+                                            <li>eSourcing Service - add service
+                                            </li>
+                                            <li>eSourcing Service - add to dashboard
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="column_one_space">Suppliers</td>
+                                    <td class="litrel_space">Enable eSourcing</td>
+                                    <td class="roles_padding">
+                                        <ul class="listing">
+                                            <li>eSourcing Service as a supplier</li>
+                                            <li>eSourcing Service - add service</li>
+                                            <li>eSourcing Service - add to dashboard</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                            </table>
+                            <br>
                             <div class="govuk-checkboxes">
                                 <div class="govuk-checkboxes__item" *ngFor="let orgRole of orgRoles; let i=index">
                                     <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
@@ -275,7 +289,7 @@
                             <legend class="govuk-heading-s">
                                 {{ 'SIGN_IN_PROVIDER'| translate }}
                             </legend>
-                            <span>
+                            <span class="sign_in_prov">
                                 A sign in provider gives users the option to use a different service to sign in. Sign in
                                 providers are set at an organisational level. To update the sign in providers for your
                                 Organisation’s users please go to Manage organisations
