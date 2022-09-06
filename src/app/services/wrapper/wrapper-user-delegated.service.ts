@@ -113,7 +113,7 @@ getuserDetail(userId: string,delegatedOrgId: string): Observable<any> {
 
 
 deleteDelegatedUser(userId: string, organizationId: string): Observable<any> {
-  const url = `${this.Usersurl}/delegate-user?user-id=${userId}&organisation-id=${organizationId}`;
+  const url = `${this.Usersurl}/delegate-user?user-id=${userId}&delegated-organisation-id=${organizationId}`;
   return this.http.delete(url,this.options).pipe(
     map(() => {
       return true;
@@ -125,7 +125,7 @@ deleteDelegatedUser(userId: string, organizationId: string): Observable<any> {
 
   
   resentActivationLink(userId: string, organizationId: string){
-    const url = `${this.Usersurl}/delegate-user-resend-activation?user-id=${userId}&organisation-id=${organizationId}`;
+    const url = `${this.Usersurl}/delegate-user-resend-activation?user-id=${userId}&delegated-organisation-id=${organizationId}`;
     return this.http.put(url,this.options).pipe(
       map(() => {
         return true;
