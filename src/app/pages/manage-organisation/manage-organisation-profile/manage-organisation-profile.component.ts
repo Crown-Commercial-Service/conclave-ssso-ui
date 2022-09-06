@@ -78,16 +78,13 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             this.org = org;
             this.idps = await this.configWrapperService.getIdentityProviders().toPromise().catch();
             this.orgIdps = await this.organisationGroupService.getOrganisationIdentityProviders(ciiOrgId).toPromise().catch();
+            this.idps = this.idps.filter((x : IdentityProvider) => x.connectionName != 'none');
 
             this.idps.forEach((idp: any,index: any, arr: any) => {
                 this.orgIdps.forEach((element: any) => {
                     if (idp.connectionName == element.connectionName) {
                         idp.enabled = true;
                     }
-                    if(idp.connectionName === 'none'){
-                        arr.splice(index, 1);
-                    }
-
                 });
             });
 
