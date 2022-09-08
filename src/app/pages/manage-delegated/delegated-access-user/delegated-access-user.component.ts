@@ -102,9 +102,6 @@ export class DelegatedAccessUserComponent implements OnInit {
             endmonth: endDate[1],
             endyear: endDate[0]
           });
-          this.formGroup.controls['startday'].disable()
-          this.formGroup.controls['startmonth'].disable()
-          this.formGroup.controls['startyear'].disable()
         },
         error: (error: any) => {
           this.route.navigateByUrl('delegated-error')
