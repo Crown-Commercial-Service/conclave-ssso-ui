@@ -38,6 +38,7 @@ export class CookiesBannerComponent implements OnInit {
       }
     } else {
       this.CookiesService.deleteAdditionalCookies();
+      this.CookiesService.deleteGlassBoxCookies(); 
       this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false,"glassbox":false}', this.cookieExpirationTimeInMinutes);
     }
    }
