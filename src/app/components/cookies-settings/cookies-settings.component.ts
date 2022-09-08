@@ -45,9 +45,19 @@ export class CookiesSettingsComponent implements OnInit {
     this.CookiesService.setCookie('ppg_cookies_policy', cookies_prefernace, this.cookieExpirationTimeInMinutes);
     this.CookiesService.setCookie('ppg_cookies_preferences_set', 'true', this.cookieExpirationTimeInMinutes);
     this.cookiesUpdated = true;
+    this.checkCompination(this.cookiesValue)
     setTimeout(() => {
       this.scrollView()
     }, 500);
+  }
+
+  public checkCompination(cookiesValue:any):void{
+   if(cookiesValue.additional === false){
+    this.CookiesService.deleteAdditionalCookies()
+   }
+   if(cookiesValue.glassbox === false){
+    this.CookiesService.deleteGlassBoxCookies()
+   }
   }
 
   public onback(): void {
