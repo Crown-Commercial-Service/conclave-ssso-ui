@@ -34,7 +34,7 @@ export class CookiesBannerComponent implements OnInit {
         this.CookiesService.deleteAdditionalCookies(); 
       }
       if (!JSON.parse(cookiePolicyCookie).glassbox) {
-        this.CookiesService.deleteGlassBoxCookies(); 
+        this.CookiesService.deleteGlassBoxCookies();  
       }
     } else {
       this.CookiesService.deleteAdditionalCookies();
