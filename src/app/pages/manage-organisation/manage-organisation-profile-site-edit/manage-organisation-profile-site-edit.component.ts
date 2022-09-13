@@ -49,7 +49,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     private orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
     private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService) {
     super(viewportScroller, formBuilder.group({                                        
-      name: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:"'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
+      name: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:“'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
       streetAddress: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:“'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(1)])],
       locality: ['', Validators.compose([Validators.pattern(/^[ A-Za-z0-9.,'/&-]*$/),Validators.maxLength(256)])],
       region: [''],                                                            
