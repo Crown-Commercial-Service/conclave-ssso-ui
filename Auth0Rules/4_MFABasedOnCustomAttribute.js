@@ -2,7 +2,6 @@ function guardianMultifactor(user, context, callback) {
     //const CLIENTS_WITH_MFA = ['REPLACE_WITH_YOUR_CLIENT_ID'];
 
     //console.log("MFA log 1");
-    //console.log(user);
 
     if (context.protocol === 'oauth2-refresh-token')
         return callback(null, user, context);
@@ -15,10 +14,6 @@ function guardianMultifactor(user, context, callback) {
         console.log(context.authentication.methods);
     }
 
-    let findMFA = authMethods.find((method) => method.name === 'mfa');
-    console.log("Finding authMethods for mfa", findMFA);
-    console.log("Finding authMethods for !!mfa", !!findMFA);
-
 
     const completedMfa = !!authMethods.find((method) => method.name === 'mfa');
     console.log("MFA log3  ccompletedMfa");
@@ -27,8 +22,6 @@ function guardianMultifactor(user, context, callback) {
         return callback(null, user, context);
     }
 
-    let socialLogin = !!user.identities.find((identity) => identity.provider === "google-oauth2");
-    console.log('user.user_metadata-', user.user_metadata);
 
     // run only for the specified clients
     //if (CLIENTS_WITH_MFA.indexOf(context.clientID) !== -1) {
