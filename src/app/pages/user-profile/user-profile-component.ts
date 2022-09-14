@@ -361,6 +361,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
       this.userService.updateUser(this.userName, userRequest).subscribe(
         (data) => {
+          this.authService.renewAccessToken();
           this.router.navigateByUrl(
             `operation-success/${OperationEnum.MyAccountUpdate}`
           );

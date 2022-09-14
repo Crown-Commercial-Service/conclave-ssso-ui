@@ -21,24 +21,22 @@
 
             <h1 class="govuk-heading-xl"> {{ 'CONFIRM_REMOVE_SIGN_IN_PROVIDER' | translate }}</h1>
             <p class="govuk-body">
-                Removing sign in provider(s) {{idpNames}} from your Organisation will affect {{affectedUsers}} users
-                within your
-                organisation. The affected users will receive an email notifying them of the updates to your
-                Organisation's sign in providers. The affected users will be:
+                Removing sign in provider(s) {{idpNames}} will affect the users within your organisation. <br/>
+                All users will receive an email notifying them that {{idpNames}} will no longer be available as a sign-in option. <br/>
+                The users who are currently logged in using the removed {{idpNames}} will be:
             </p>
 
             <ul class="list-content">
                 <li>
-                    Logged out 10 minutes after you action this
+                    Logged out within 10 minutes after you action this and their workflows may be interrupted
                 </li>
                 <li>
-                    User's workflows may be interrupted
-                </li>
-                <li>
-                    To minimise the impact consider doing this action out of hours
+                    Required to configure a new sign-in provider when they next sign-in
                 </li>
             </ul>
-
+            <p class="govuk-body">
+                To minimise the impact to your users, consider doing this action out of hours.
+            </p>
 
             <p class="govuk-body">{{ 'DO_YOU_WANT_TO_PROCEED' | translate }}</p>
             <div class="govuk-button-group continue-cancel-button-group">
