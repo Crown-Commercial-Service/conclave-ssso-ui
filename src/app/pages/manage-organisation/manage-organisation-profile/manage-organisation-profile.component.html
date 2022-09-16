@@ -56,7 +56,7 @@
       </div>
       <span *ngIf="!isValid && submitted" id="group-error" class="govuk-error-message label-detail-text-gap">
         <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-        {{'ERROR_SIGN_IN_PROVIDER_REQUIRED' | translate }}
+        {{'ERROR_AT_LEAST_ONE_SIGN_IN_PROVIDER' | translate }}
       </span>
       <div class="govuk-checkboxes label-detail-text-gap">
         <div class="govuk-checkboxes__item" *ngFor="let idp of idps">
