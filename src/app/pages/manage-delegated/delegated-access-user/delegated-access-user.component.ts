@@ -7,6 +7,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { ManageDelegateService } from '../service/manage-delegate.service';
+
 @Component({
   selector: 'app-delegated-access-user',
   templateUrl: './delegated-access-user.component.html',
@@ -301,9 +302,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   public get StartDateValidation() {
     const StartDate = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
     let IsInValidDate: any = new Date(StartDate)
-    var ListofDays = [31,28,31,30,31,30,31,31,30,31,30,31];
-    let leapMonths=ListofDays[this.formGroup.get('startmonth').value - 1]
-    if (IsInValidDate == 'Invalid Date' || leapMonths < this.formGroup.get('startday').value) {
+    if (IsInValidDate == 'Invalid Date') {
       return true;
     } else {
       return false;
@@ -311,12 +310,11 @@ export class DelegatedAccessUserComponent implements OnInit {
   }
 
 
+
   public get EndDateValidation() {
     const EndtDate = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
     let IsInValidDate: any = new Date(EndtDate)
-    var ListofDays = [31,28,31,30,31,30,31,31,30,31,30,31];
-    let leapMonths=ListofDays[this.formGroup.get('endmonth').value - 1]
-    if (IsInValidDate == 'Invalid Date' || leapMonths < this.formGroup.get('endday').value) {
+    if (IsInValidDate == 'Invalid Date') {
       return true;
     } else {
       return false;
@@ -344,7 +342,6 @@ export class DelegatedAccessUserComponent implements OnInit {
     }
     return false
   }
-
 
   public setFocus(inputIndex: string) {
     this.ManageDelegateService.SetInputFocus(inputIndex)
