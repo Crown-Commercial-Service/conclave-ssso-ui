@@ -1,6 +1,8 @@
 function guardianMultifactor(user, context, callback) {
     //const CLIENTS_WITH_MFA = ['REPLACE_WITH_YOUR_CLIENT_ID'];
 
+    //console.log("MFA log 1");
+
     if (context.protocol === 'oauth2-refresh-token')
         return callback(null, user, context);
 
@@ -8,10 +10,14 @@ function guardianMultifactor(user, context, callback) {
     let authMethods = [];
     if (context.authentication && Array.isArray(context.authentication.methods)) {
         authMethods = context.authentication.methods;
+        console.log("MFA log2  context.authentication.methods");
+        console.log(context.authentication.methods);
     }
 
-    const completedMfa = !!authMethods.find((method) => method.name === 'mfa');
 
+    const completedMfa = !!authMethods.find((method) => method.name === 'mfa');
+    console.log("MFA log3  ccompletedMfa");
+    console.log(completedMfa);
     if (completedMfa) {
         return callback(null, user, context);
     }
@@ -22,13 +28,14 @@ function guardianMultifactor(user, context, callback) {
 
     // uncomment the following if clause in case you want to request a second factor only from user's that have user_metadata.use_mfa === true
     if (user.user_metadata && user.user_metadata.use_mfa === true) {
+        console.log('Inside mfa true condition');
         context.multifactor = {
             // required
             provider: 'any',
 
             // optional, defaults to true. Set to false to force Guardian authentication every time.
             // See https://auth0.com/docs/multifactor-authentication/custom#change-the-frequency-of-authentication-requests for details
-            allowRememberBrowser: true
+            allowRememberBrowser: false
         };
         //}
     }
