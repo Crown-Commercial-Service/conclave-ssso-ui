@@ -46,3 +46,12 @@ a {
   text-decoration-thickness: 3px;
   text-decoration-style: solid;
 }
+.no-bullets {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+  padding-left: 0px !important;
+}
+.govuk-breadcrumbs__list{
+  padding-left: 0px !important;
+}

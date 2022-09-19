@@ -14,7 +14,7 @@ export class TermsConditionsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
+ 
   public navigateToHome():void{
     if(this.userName){
       this.router.navigateByUrl(`home`);
@@ -25,7 +25,6 @@ export class TermsConditionsComponent implements OnInit {
 
   public scrollContent(id:string):void{
     document.getElementById(id) ?.scrollIntoView({
-      behavior: "smooth",
       block: "start",
       inline: "nearest"
     });

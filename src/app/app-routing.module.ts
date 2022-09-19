@@ -1004,7 +1004,7 @@ const routes: Routes = [
   },
   {
     path: 'terms-of-use',
-    data: { title: 'terms-of-use' },
+    data: { title: 'Terms of Use' },
     pathMatch: 'full',
     component: TermsConditionsComponent,
   },
