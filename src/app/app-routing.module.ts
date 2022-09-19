@@ -123,6 +123,7 @@ import { DelegatedRemoveConfirmComponent } from './pages/manage-delegated/delega
 import { DelegatedErrorComponent } from './pages/manage-delegated/delegated-error/delegated-error.component';
 import { DelegatedUserActivationComponent } from './pages/manage-delegated/landing-pages/delegated-user-activation/delegated-user-activation.component';
 import { DelegatedOrganisationComponent } from './pages/manage-delegated/user/delegated-organisation/delegated-organisation.component';
+import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1000,6 +1001,12 @@ const routes: Routes = [
     data: { title: 'Delegate-error' },
     pathMatch: 'full',
     component: DelegatedErrorComponent,
+  },
+  {
+    path: 'terms-of-use',
+    data: { title: 'terms-of-use' },
+    pathMatch: 'full',
+    component: TermsConditionsComponent,
   },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];

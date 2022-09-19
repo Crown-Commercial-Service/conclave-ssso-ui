@@ -1,0 +1,48 @@
+.header-bread-align {
+  margin-bottom: 30px !important;
+  margin-top: 30px !important;
+}
+ol li {
+  list-style: none;
+}
+
+ol {
+  padding-left: 25px !important;
+}
+
+.sub-strong {
+  color: black;
+}
+ul {
+  padding-left: 50px !important;
+}
+a {
+  text-decoration: underline;
+}
+.govuk-link:visited, a:visited {
+  color: #005ea5;
+}
+a {
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  transition: color 0.3s;
+  -webkit-text-decoration-skip: objects;
+}
+.navigation-text:hover {
+  color: #003078;
+  text-decoration-color: rgb(0, 48, 120);
+  text-decoration-line: underline;
+  text-decoration-skip-ink: none;
+  text-decoration-style: solid;
+  text-decoration-thickness: 3px;
+}
+.navigation-text:focus {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  text-decoration-color: #0b0c0c !important;
+  text-decoration-line: underline;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: 3px;
+  text-decoration-style: solid;
+}
