@@ -302,7 +302,8 @@ export class DelegatedAccessUserComponent implements OnInit {
   public get StartDateValidation() {
     const StartDate = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
     let IsInValidDate: any = new Date(StartDate)
-    if (IsInValidDate == 'Invalid Date') {
+    let days = new Date(this.formGroup.get('startyear').value, this.formGroup.get('startmonth').value, 0).getDate()
+    if (IsInValidDate == 'Invalid Date' || days < this.formGroup.get('startday').value) {
       return true;
     } else {
       return false;
@@ -313,8 +314,9 @@ export class DelegatedAccessUserComponent implements OnInit {
 
   public get EndDateValidation() {
     const EndtDate = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
+    let days = new Date(this.formGroup.get('endyear').value, this.formGroup.get('endmonth').value, 0).getDate()
     let IsInValidDate: any = new Date(EndtDate)
-    if (IsInValidDate == 'Invalid Date') {
+    if (IsInValidDate == 'Invalid Date' || days < this.formGroup.get('endday').value) {
       return true;
     } else {
       return false;
@@ -322,14 +324,19 @@ export class DelegatedAccessUserComponent implements OnInit {
   }
 
   public get PastDateValidation() {
+    if(!this.StartDateValidation){
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const StartDate = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
     const date = new Date(StartDate);
     return date < today;
+   } else {
+    return false
+   }
   }
 
   public get EndDateDaysValidation() {
+    if(!this.EndDateValidation){
     const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
     const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
     let EndDate = new Date(EndtDateForm);
@@ -341,6 +348,9 @@ export class DelegatedAccessUserComponent implements OnInit {
       return true
     }
     return false
+  } else{
+    return false
+   }
   }
 
   public setFocus(inputIndex: string) {
