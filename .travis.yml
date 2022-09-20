@@ -1,4 +1,5 @@
-language: xenial
+dist: xenial
+language: node_js
 node_js:
 - 12.16.1
 addons:
