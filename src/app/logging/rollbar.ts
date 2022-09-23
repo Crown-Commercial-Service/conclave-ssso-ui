@@ -22,7 +22,7 @@ export class RollbarErrorHandler implements ErrorHandler {
     constructor(@Inject(RollbarService) private rollbar: Rollbar) { }
 
     handleError(err: any): void {
-        if (environment.rollbar.enable && environment.rollbar.security_log) {
+        if (environment.rollbar.enable) {
             this.rollbar.configure({logLevel: 'info', payload: {environment: this.rollbarEnvironment}});
             this.rollbar.error(err.originalError || err);
         } else {
