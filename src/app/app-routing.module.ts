@@ -936,14 +936,14 @@ const routes: Routes = [
   },
   {
     path: 'delegated-access',
-    data: { title: 'delegated-access', roles: ['DELEGATED_ACCESS'] },
+    data: { title: 'Delegated access', roles: ['DELEGATED_ACCESS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: DelegatedUserListComponent,
   },
   {
     path: 'find-delegated-user',
-    data: { title: 'find-delegated-user' , roles: ['DELEGATED_ACCESS'] },
+    data: { title: 'Find a user' , roles: ['DELEGATED_ACCESS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: FindDelegatedUserComponent,

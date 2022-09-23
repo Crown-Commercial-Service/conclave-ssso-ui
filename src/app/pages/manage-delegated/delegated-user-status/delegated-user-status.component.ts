@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Role } from 'src/app/models/organisationGroup';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
@@ -28,6 +29,7 @@ export class DelegatedUserStatusComponent implements OnInit {
     private orgRoleService: WrapperOrganisationGroupService,
     private formbuilder: FormBuilder,
     private DelegatedService: WrapperUserDelegatedService,
+    private titleService: Title,
     ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     }
@@ -38,10 +40,16 @@ export class DelegatedUserStatusComponent implements OnInit {
       switch (RouteData.status) {
         case '001': {
           this.UserStatus = RouteData;
+          this.titleService.setTitle(
+            `${ 'User from your Organisation'}   - CCS`
+          );
           break;
         }
         case '002': {
           this.UserStatus = RouteData;
+          this.titleService.setTitle(
+            `${ 'User not found'}  - CCS`
+          );
           break;
         }
         case '003': {
@@ -56,6 +64,9 @@ export class DelegatedUserStatusComponent implements OnInit {
             endmonth: [{value: '', disabled: true}, [Validators.required]],
             endyear: [{value: '', disabled: true}, [Validators.required]],
           });
+          this.titleService.setTitle(
+            `${ 'Edit Name' }  - Manage Groups - CCS`
+          );
           this.getUserDetails(RouteData)
           //statements;
           break;
