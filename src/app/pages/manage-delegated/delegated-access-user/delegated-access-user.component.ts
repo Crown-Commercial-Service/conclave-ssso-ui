@@ -1,6 +1,7 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Role } from 'src/app/models/organisationGroup';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
@@ -33,7 +34,8 @@ export class DelegatedAccessUserComponent implements OnInit {
     private ManageDelegateService: ManageDelegateService,
     private orgRoleService: WrapperOrganisationGroupService,
     protected scrollHelper: ScrollHelper,
-    private ActivatedRoute: ActivatedRoute
+    private ActivatedRoute: ActivatedRoute,
+    private titleService: Title
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userSelectedFormData = sessionStorage.getItem('deleagted_user_details')
@@ -48,6 +50,9 @@ export class DelegatedAccessUserComponent implements OnInit {
       }
       else if (this.pageAccessMode === 'edit') {
         this.getUserDetails(this.userDetails.userName, this.organisationId, this.userDetails.startDate, this.userDetails.endDate, this.userDetails.delegationAccepted)
+        this.titleService.setTitle(
+          `${ 'Edit current delegated access'}   - CCS`
+        );
       } else {
         this.getOrgRoles()
         setTimeout(() => {

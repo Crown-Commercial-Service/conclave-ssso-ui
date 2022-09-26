@@ -985,13 +985,13 @@ const routes: Routes = [
   },
   {
     path: 'delegated-user-activation',
-    data: { title: 'deleagted-user-activation' },
+    data: { title: 'Delegated user activation' },
     pathMatch: 'full',
     component: DelegatedUserActivationComponent,
   },
   {
     path: 'delegated-organisation',
-    data: { title: 'delegated-organisation'},
+    data: { title: 'Manage your delegated access'},
     pathMatch: 'full',
     canActivate: [AuthGuard],
     component: DelegatedOrganisationComponent,

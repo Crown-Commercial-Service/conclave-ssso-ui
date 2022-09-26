@@ -65,7 +65,7 @@ export class DelegatedUserStatusComponent implements OnInit {
             endyear: [{value: '', disabled: true}, [Validators.required]],
           });
           this.titleService.setTitle(
-            `${ 'Edit Name' }  - Manage Groups - CCS`
+            `${ 'View expired delegated access' }  - CCS`
           );
           this.getUserDetails(RouteData)
           //statements;
@@ -116,7 +116,7 @@ export class DelegatedUserStatusComponent implements OnInit {
   }
 
   public BackToDelegated():void {
-    this.router.navigateByUrl('delegated-access');
+    this.router.navigateByUrl('find-delegated-user');
   }
   public BackToDashboard():void {
     this.router.navigateByUrl('home');
