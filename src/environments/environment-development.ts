@@ -39,8 +39,8 @@ export const environment = {
     listPageSize: 10,
     rollbar: {
         key: 'ROLLBAR',
-        enable: true,
-        security_log: true,
+        enable: false,
+        security_log: false,
         environment: 'QA Testing'
     },
     cookies_policy: {
