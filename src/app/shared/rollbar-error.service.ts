@@ -13,7 +13,9 @@ export class RollbarErrorService {
   constructor(@Inject(RollbarService) private rollbar: Rollbar) { }
 
   public RollbarDebug(data: string):void{
+    console.log("this.security_log_start",this.security_log)
     if(this.security_log){
+      console.log("this.security_log_end",this.security_log)
       this.rollbar.configure({logLevel: 'info', payload: {environment: this.rollbarEnvironment}});
       this.rollbar.debug(data)
     }
