@@ -39,7 +39,7 @@ export const environment = {
     listPageSize: 10,
     rollbar: {
         key: 'ROLLBAR',
-        enable: false,
+        enable: true,
         security_log: false,
         environment: 'development'
     },
