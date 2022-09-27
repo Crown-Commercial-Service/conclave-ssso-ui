@@ -41,7 +41,7 @@ export const environment = {
         key: 'ROLLBAR',
         enable: true,
         security_log: false,
-        environment: 'development'
+        environment: 'QA Testing'
     },
     cookies_policy: {
         essentialcookies: {
