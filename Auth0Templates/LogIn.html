@@ -8,7 +8,17 @@
     <link rel="stylesheet" href="https://crown-commercial-service.github.io/conclave-ssso-ui/toolkit.styles.min.css">
     <title>Sign In - CCS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Google Tag Manager -->
+    <!-- GA4 script -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-624NHLKTKL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-624NHLKTKL');
+    </script>
+    <!--  GA4 script -->
+      <!-- Google Tag Manager -->
     <script>
         (function (w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -602,28 +612,28 @@
                                 <div class="govuk-grid-column-one-half">
                                     <button type="button" id="googleButton">
                                         <img
-                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-google.svg">
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-google.svg" alt="Google Logo">
                                         <span class="col-left">Google</span>
                                     </button>
                                 </div>
                                 <div class="govuk-grid-column-one-half">
                                     <button type="button" id="facebookButton">
                                         <img
-                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-facebook.svg">
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-facebook.svg" alt="FaceBook Logo">
                                         <span class="col-right">Facebook</span>
                                     </button>
                                 </div>
                                 <div class="govuk-grid-column-one-half">
                                     <button type="button" id="microsoftButton">
                                         <img
-                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-microsoft.svg">
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-microsoft.svg" alt="Microsoft Logo">
                                         <span class="col-left">Microsoft</span>
                                     </button>
                                 </div>
                                 <div class="govuk-grid-column-one-half">
                                     <button type="button" id="linkedinButton">
                                         <img
-                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-linkedin.svg">
+                                            src="https://crown-commercial-service.github.io/conclave-ssso-ui/images/ccs-linkedin.svg" alt="LinkedIn Logo">
                                         <span class="col-right">LinkedIn</span>
                                     </button>
                                 </div>
@@ -699,6 +709,10 @@
                                     <a class="govuk-footer__link"
                                         href="https://www.gov.uk/government/publications/crown-commercial-service-privacy-notice">Privacy
                                         Policy</a>
+                                </li>
+                                 <li class="govuk-footer__inline-list-item">
+                                    <a class="govuk-footer__link"
+                                        href="https://dev.identify.crowncommercial.gov.uk/terms-of-use">Terms of Use</a>
                                 </li>
                                 <li class="govuk-footer__inline-list-item">
                                     <a class="govuk-footer__link"
@@ -791,7 +805,6 @@
             let cookiePolicyCookie = getCookie("ppg_cookies_policy");
             if (cookiePreferenceSetCookie != "" && cookiePolicyCookie != "") {
                 if (!JSON.parse(cookiePolicyCookie).additional) {
-                    console.log("NOT_ENABLE_ADDITONAL_COOKIES");
                     deleteAdditionalCookies();
                 }
             } else {
