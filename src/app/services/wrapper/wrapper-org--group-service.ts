@@ -173,7 +173,7 @@ export class WrapperOrganisationGroupService {
 
   getUsersAdmin(organisationId: string, currentPage: number, pageSize: number): Observable<any> {
     pageSize = pageSize <= 0 ? 10 : pageSize;
-    const url = `${this.url}/${organisationId}/adminusers?currentPage=${currentPage}&pageSize=${pageSize}`;
+    const url = `${this.url}/${organisationId}/users?currentPage=${currentPage}&pageSize=${pageSize}&isAdmin=true&includeSelf=true`;
     return this.http.get<UserListResponse>(url).pipe(
       map((data: UserListResponse) => {
         return data;
