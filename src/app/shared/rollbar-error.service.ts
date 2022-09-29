@@ -9,18 +9,20 @@ import { RollbarService } from '../logging/rollbar';
 export class RollbarErrorService {
 
   private  security_log = environment.rollbar.security_log
-
+  private  rollbarEnvironment=environment.rollbar.environment
   constructor(@Inject(RollbarService) private rollbar: Rollbar) { }
 
-  public RollbarDebug(error: string):void{
+  public RollbarDebug(data: string):void{
     if(this.security_log){
-      this.rollbar.debug(error)
+      this.rollbar.configure({logLevel: 'info', payload: {environment: this.rollbarEnvironment}});
+      this.rollbar.debug(data)
     }
   } 
   
-  public rollBarHttp(error: string,data:any):void{
+  public rollBarHttp(data: string):void{
     if(this.security_log){
-      this.rollbar.debug(error)
+      this.rollbar.configure({logLevel: 'info', payload: {environment: this.rollbarEnvironment}});
+      this.rollbar.debug(data)
     }
   } 
 }
