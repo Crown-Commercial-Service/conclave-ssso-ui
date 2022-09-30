@@ -23,7 +23,7 @@ export class DelegatedUserListComponent implements OnInit {
     currentPage: 1,
     pageCount: 0,
     pageSize: environment.listPageSize,
-    usersTableHeaders: ['NAME', 'EMAIL', 'Remaining days', 'origin organasation'],
+    usersTableHeaders: ['NAME', 'EMAIL', 'Remaining days', 'Origin organisation'],
     usersColumnsToDisplay: ['name', 'userName', 'remainingDays', 'originOrganisation'],
     userList: '',
     pageName: 'Contactadmin',
