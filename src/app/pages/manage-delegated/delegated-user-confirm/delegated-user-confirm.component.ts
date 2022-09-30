@@ -20,7 +20,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
     });
     if (this.UserSelectedinfo.userDetails.pageaccessmode === "edit") {
       this.titleService.setTitle(
-        `${ 'User from your Organisation'}  - CCS`
+        `${ 'Confirm Delegation'}  - CCS`
       );
     } else {
       this.titleService.setTitle(
@@ -108,7 +108,11 @@ export class DelegatedUserConfirmComponent implements OnInit {
     });
   }
 
-
+  public onClickNevigation(path:string):void{
+    this.route.navigateByUrl(path)
+    sessionStorage.removeItem('deleagted_user_details')
+  }
+  
   public Cancel() {
     window.history.back();
   }
