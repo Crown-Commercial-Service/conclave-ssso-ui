@@ -936,14 +936,14 @@ const routes: Routes = [
   },
   {
     path: 'delegated-access',
-    data: { title: 'delegated-access', roles: ['DELEGATED_ACCESS'] },
+    data: { title: 'Delegated access', roles: ['DELEGATED_ACCESS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: DelegatedUserListComponent,
   },
   {
     path: 'find-delegated-user',
-    data: { title: 'find-delegated-user' , roles: ['DELEGATED_ACCESS'] },
+    data: { title: 'Find a user' , roles: ['DELEGATED_ACCESS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: FindDelegatedUserComponent,
@@ -985,13 +985,13 @@ const routes: Routes = [
   },
   {
     path: 'delegated-user-activation',
-    data: { title: 'deleagted-user-activation' },
+    data: { title: 'Delegated user activation' },
     pathMatch: 'full',
     component: DelegatedUserActivationComponent,
   },
   {
     path: 'delegated-organisation',
-    data: { title: 'delegated-organisation'},
+    data: { title: 'Manage your delegated access'},
     pathMatch: 'full',
     canActivate: [AuthGuard],
     component: DelegatedOrganisationComponent,
