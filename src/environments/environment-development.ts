@@ -42,7 +42,6 @@ export const environment = {
         enable: true,
 	security_log:false,
       environment: 'development'
-    },
     cookies_policy: {
         essentialcookies: {
             notify_admin_session: 20,
