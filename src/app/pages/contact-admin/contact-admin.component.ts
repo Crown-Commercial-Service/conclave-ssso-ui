@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserListResponse } from 'src/app/models/user';
+import { AdminUserListResponse, UserListResponse } from 'src/app/models/user';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { environment } from 'src/environments/environment';
 
@@ -10,25 +10,25 @@ import { environment } from 'src/environments/environment';
 })
 export class ContactAdminComponent implements OnInit {
   private organisationId: string = '';
-  usersTableHeaders = ['Name','', 'Email address','Role'];
-  usersColumnsToDisplay = ['firstName', 'lastName','email','role'];
+  usersTableHeaders = ['Name', 'Email address', 'Role'];
+  usersColumnsToDisplay = ['name', 'userName', 'role'];
   currentPage: number = 1;
   pageCount: number = 0;
   pageSize: number = environment.listPageSize;
-  userList: UserListResponse;
-  pageName='Contactadmin';
+  userListResponse: AdminUserListResponse;
+  pageName = 'Contactadmin';
 
   constructor(
     private WrapperOrganisationGroupService: WrapperOrganisationGroupService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
-    this.userList = {
+    this.userListResponse = {
       currentPage: this.currentPage,
       pageCount: 0,
       rowCount: 0,
       organisationId: this.organisationId,
       userList: []
-  }
+    }
   }
 
   ngOnInit(): void {
@@ -46,21 +46,21 @@ export class ContactAdminComponent implements OnInit {
       this.currentPage,
       this.pageSize
     ).subscribe({
-      next: (userListResponse: any) => {
-        if (userListResponse != null) {
-          this.userList = userListResponse;
-          this.userList.userList = userListResponse.adminUserList;
-          this.pageCount = this.userList.pageCount;
+      next: (response: any) => {
+        if (response != null) {
+          this.userListResponse = response;
+          this.userListResponse.userList.forEach(x => x.role = 'Admin');
+          this.pageCount = this.userListResponse.pageCount;
         }
       },
-      error: (error: any) => {},
+      error: (error: any) => { },
     });
   }
 
   setPage(pageNumber: any) {
     this.currentPage = pageNumber;
     this.getOrganisationUsers();
-}
+  }
   goBack() {
     window.history.back();
   }
