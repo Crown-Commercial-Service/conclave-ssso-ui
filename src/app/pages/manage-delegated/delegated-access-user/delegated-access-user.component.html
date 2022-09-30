@@ -148,7 +148,7 @@
                                                     Day
                                                 </label>
                                                 <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                                    id="start-day" name="start-day" type="text"
+                                                    id="start-day" name="start-day" type="text" 
                                                     [class.govuk-input--error]="submitted && (formGroup.controls.startday.invalid || StartDateValidation || PastDateValidation)"
                                                     inputmode="numeric" formControlName="startday" maxlength="2"
                                                     (input)="ValueChanged(formGroup.controls.startday.value,'start-day','startdate')">
@@ -160,7 +160,7 @@
                                                     Month
                                                 </label>
                                                 <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                                    id="start-month" name="start-month" type="text"
+                                                    id="start-month" name="start-month" type="text" 
                                                     [class.govuk-input--error]="submitted && (formGroup.controls.startmonth.invalid || StartDateValidation || PastDateValidation)"
                                                     (keydown.backspace)="tiggerBackspace(formGroup.controls.startmonth.value,'start-month','startdate')"
                                                     inputmode="numeric" formControlName="startmonth" maxlength="2"
@@ -173,7 +173,7 @@
                                                     Year
                                                 </label>
                                                 <input class="govuk-input govuk-date-input__input govuk-input--width-4"
-                                                    id="start-year" name="start-year" type="text"
+                                                    id="start-year" name="start-year" type="text" 
                                                     [class.govuk-input--error]="submitted && (formGroup.controls.startyear.invalid || StartDateValidation || PastDateValidation)"
                                                     inputmode="numeric" formControlName="startyear" maxlength="4"
                                                     (keydown.backspace)="tiggerBackspace(formGroup.controls.startyear.value,'start-year','startdate')">
