@@ -30,7 +30,7 @@
     "classlist.js": "^1.1.20150312",
     "crypto": "^1.0.1",
     "crypto-js": "^4.1.1",
-    "google-libphonenumber": "^3.2.23",
+    "google-libphonenumber": "^3.2.31",
     "govuk-frontend": "^3.13.1",
     "intl-tel-input": "^17.0.13",
     "jw-angular-pagination": "^1.2.0",
