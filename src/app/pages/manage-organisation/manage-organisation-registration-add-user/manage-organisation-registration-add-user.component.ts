@@ -127,7 +127,7 @@ private PatternService:PatternService,
   }
 
   goBack() {
-    this.router.navigateByUrl(`manage-org/register/search/${this.ciiOrganisationInfo.identifier?.scheme}?id=${this.ciiOrganisationInfo.identifier?.id}`);
+    window.history.back();
   }
 
 }
