@@ -193,10 +193,13 @@
                                             End date
                                         </h1>
                                     </legend>
-                                    <div id="end-hint" class="govuk-hint">
+                                    <div id="end-hint" class="govuk-hint" *ngIf="pageAccessMode =='add'">
                                         Please enter the end date for delegated access. Note, it cannot be more than 365
                                         days
                                         and less than 28 from the start date.
+                                    </div>
+                                    <div id="end-hint" class="govuk-hint" *ngIf="pageAccessMode =='edit'">
+                                        You can edit end date for delegated access. Note, it cannot be more than 365 days and less than 28 days from the start date.
                                     </div>
                                     <div class="govuk-date-input" id="end">
                                         <span id="name-error" class="govuk-error-message"
@@ -266,9 +269,12 @@
                                             Delegated user's permissions
                                         </h1>
                                     </legend>
-                                    <div id="waste-hint" class="govuk-hint">
+                                    <div id="waste-hint" class="govuk-hint" *ngIf="pageAccessMode =='add'">
                                         Select which applications the delegated user should have access to. At least one
                                         permission must be selected.
+                                    </div>
+                                    <div id="waste-hint" class="govuk-hint" *ngIf="pageAccessMode =='edit'">
+                                        Edit which applications the delegated user should have access to. At least one permission must be selected.
                                     </div>
                                     <span id="name-error" class="govuk-error-message"
                                         *ngIf="submitted && getSelectedRoleIds(formGroup).length == 0">
@@ -314,8 +320,7 @@
                             <!-- user permission -->
                             <br>
                             <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" href="javascript:;" class="navigation-text"
-                                (click)="Resentactivation()"> Resent
-                                activation link</a>
+                                (click)="Resentactivation()"> Resend activation link </a>
                             <div class="govuk-button-group save-cancel-button-group govuk-!-margin-top-7">
                                 <button type="submit" class="govuk-button" data-module="govuk-button"
                                     (click)="onSubmit(formGroup)">
