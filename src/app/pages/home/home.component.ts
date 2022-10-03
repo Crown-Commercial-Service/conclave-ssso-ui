@@ -65,7 +65,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Angular - Call for permission');
     this.authService.getPermissions('HOME').toPromise().then((response) => {
       this.servicePermissions = response;
         this.authService.getCcsServices().toPromise().then((data: any) => {
