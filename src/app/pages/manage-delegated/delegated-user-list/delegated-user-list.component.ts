@@ -23,7 +23,7 @@ export class DelegatedUserListComponent implements OnInit {
     currentPage: 1,
     pageCount: 0,
     pageSize: environment.listPageSize,
-    usersTableHeaders: ['NAME', 'EMAIL', 'Remaining days', 'Origin organisation'],
+    usersTableHeaders: ['NAME', 'EMAIL', 'Remaining days', 'Organisation'],
     usersColumnsToDisplay: ['name', 'userName', 'remainingDays', 'originOrganisation'],
     userList: '',
     pageName: 'Contactadmin',
@@ -34,7 +34,7 @@ export class DelegatedUserListComponent implements OnInit {
     currentPage: 1,
     pageCount: 0,
     pageSize: environment.listPageSize,
-    usersTableHeaders: ['NAME', 'EMAIL', 'Expiry date', 'Origin organisation'],
+    usersTableHeaders: ['NAME', 'EMAIL', 'Expiry date', 'Organisation'],
     usersColumnsToDisplay: ['name', 'userName', 'endDate', 'originOrganisation'],
     userList: '',
     pageName: 'Contactadmin',
@@ -59,6 +59,7 @@ export class DelegatedUserListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.tabChanged(sessionStorage.getItem('activetab') || '')
     setTimeout(() => {
       this.getOrganisationExpiredUsers()
     }, 10);
@@ -141,6 +142,7 @@ export class DelegatedUserListComponent implements OnInit {
 
 
   public tabChanged(activetab: string): void {
+     sessionStorage.setItem('activetab',activetab)
     if (activetab === 'currentusers') {
       this.tabConfig.currentusers = true
       this.tabConfig.expiredusers = false

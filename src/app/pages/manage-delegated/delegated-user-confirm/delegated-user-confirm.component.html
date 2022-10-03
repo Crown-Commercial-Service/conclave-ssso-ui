@@ -16,11 +16,14 @@
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align">Confirm you want to delegate access to the user
-            </h1>
+            <h1 *ngIf="pageAccessMode == 'add'" class="govuk-heading-xl page-title header-bread-align">Confirm you want to delegate access to the user</h1>
+            <h1 *ngIf="pageAccessMode == 'edit'" class="govuk-heading-xl page-title header-bread-align">Confirm you want to update access for the delegated user</h1>
             <div class="manage-groups-bg">
-                <p class="govuk-body-l">
+                <p class="govuk-body-l" *ngIf="pageAccessMode == 'add'">
                     You are giving permission for a delegated access to your Organisation to a user:
+                </p>
+                <p class="govuk-body-l" *ngIf="pageAccessMode == 'edit'">
+                    You are updating permissions for a delegated user to your Organisation:
                 </p>
             </div>
             <div class="govuk-form-group">
