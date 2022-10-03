@@ -56,7 +56,7 @@ export class ManageDelegateService {
   public setDelegatedOrg(org: any): void {
     localStorage.setItem('delegatedOrg', org);
     this.delegatedOrg.next(org)
-    this.AuthService.renewAccessToken()
+    this.AuthService.renewAccessToken('/home')
     this.setPermissionOrgDetails()
   }
 
