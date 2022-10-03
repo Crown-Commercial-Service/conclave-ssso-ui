@@ -36,6 +36,10 @@ export class HttpJwtAuthInterceptor implements HttpInterceptor {
                 request = request.clone({ headers: request.headers.delete('Content-Type') });
             }
             var cookie = this.getXsrfCookie();
+            var isPermissionCall = request.url.indexOf('permissions');
+            if(isPermissionCall > 0){
+                console.log('Angular - Cookie', cookie);
+            }
             if (cookie != '' && cookie != undefined) {
                 request = request.clone({ headers: request.headers.set('X-XSRF-TOKEN', cookie) });
             }
