@@ -72,10 +72,9 @@ export class ManageDelegateService {
     }else{
       localStorage.setItem('permission_organisation_id',this.getDelegatedOrg);
     }
-    // setTimeout(() => {
-    //   console.log('Angular - Navigate to Home');
-    //   this.route.navigateByUrl('/home');
-    // }, 100);
+    setTimeout(() => {
+      this.route.navigateByUrl('/home');
+    }, 100);
     })
   }
   
