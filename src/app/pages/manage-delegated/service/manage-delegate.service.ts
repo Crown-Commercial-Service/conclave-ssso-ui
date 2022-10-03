@@ -56,7 +56,7 @@ export class ManageDelegateService {
   public setDelegatedOrg(org: any): void {
     localStorage.setItem('delegatedOrg', org);
     this.delegatedOrg.next(org)
-    this.AuthService.renewAccessToken()
+    this.AuthService.renewAccessToken('/home')
     this.setPermissionOrgDetails()
   }
 
@@ -72,10 +72,10 @@ export class ManageDelegateService {
     }else{
       localStorage.setItem('permission_organisation_id',this.getDelegatedOrg);
     }
-    setTimeout(() => {
-      console.log('Angular - Navigate to Home');
-      this.route.navigateByUrl('/home');
-    }, 100);
+    // setTimeout(() => {
+    //   console.log('Angular - Navigate to Home');
+    //   this.route.navigateByUrl('/home');
+    // }, 100);
     })
   }
   
