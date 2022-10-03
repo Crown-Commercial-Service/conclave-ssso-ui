@@ -13,7 +13,6 @@ public userInfo:any;
   ngOnInit(): void {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data));
-      console.log("this.userInfo",this.userInfo)
     });
   }
 

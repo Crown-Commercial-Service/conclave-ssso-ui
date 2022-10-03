@@ -32,7 +32,7 @@
                   <input [(ngModel)]="primaryRoleSelected" class="govuk-radios__input" id="originorganisationname"
                     name="originorganisationname" type="radio" value="primaryselected" (click)="setPrimaryOrg()">
                   <label class="govuk-label govuk-radios__label" for="originorganisationname">
-                    {{userDetails.originOrganisationName}} (original)
+                    {{userDetails.originOrganisationName}} (My organisation)
                   </label>
                 </div>
                 <div class="govuk-radios__item" *ngFor="let org of organisationList">
