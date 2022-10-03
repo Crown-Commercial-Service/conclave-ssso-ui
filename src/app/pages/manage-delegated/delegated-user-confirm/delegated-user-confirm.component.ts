@@ -11,14 +11,16 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 export class DelegatedUserConfirmComponent implements OnInit {
   public userInfo: any = {}
   public UserSelectedinfo: any;
+  public pageAccessMode=''
   constructor(private route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService,private titleService: Title,) { }
 
   ngOnInit(): void {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data)).userDetails;
       this.UserSelectedinfo = JSON.parse(atob(para.data))
+      this.pageAccessMode = this.UserSelectedinfo.userDetails.pageaccessmode
     });
-    if (this.UserSelectedinfo.userDetails.pageaccessmode === "edit") {
+    if (this.pageAccessMode === "edit") {
       this.titleService.setTitle(
         `${ 'Confirm Delegation'}  - CCS`
       );
@@ -33,7 +35,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
 
 
   public onSubmit(): void {
-    if (this.UserSelectedinfo.userDetails.pageaccessmode === "edit") {
+    if (this.pageAccessMode === "edit") {
       this.updateDelegatedUser()
     } else {
       this.createDelegateUser()
