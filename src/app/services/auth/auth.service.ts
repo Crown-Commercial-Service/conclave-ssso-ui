@@ -80,6 +80,7 @@ export class AuthService {
   renewAccessToken(url: string = '') {
     let data: any
     data = this.getRefreshToken().toPromise().then((refreshToken: any) => {
+      console.log('Angular -  Core Refresh Token Call');
     return this.renewToken(refreshToken || '').toPromise().then((tokenInfo: TokenInfo) => {
         this.workerService.storeTokenInWorker(tokenInfo);
         return this.createSession(tokenInfo.refresh_token).toPromise().then(() => {
