@@ -9,11 +9,11 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class ManageDelegateService {
 
   public delegatedOrg: BehaviorSubject<any> = new BehaviorSubject(null);
-  private  organisationId: string;
+  private organisationId: string;
 
-    constructor(private AuthService:AuthService,private route: Router,) {
+  constructor(private AuthService: AuthService, private route: Router,) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
-   }
+  }
 
 
   public ValueChanged(data: string, box: string, form: string): void {
@@ -48,7 +48,7 @@ export class ManageDelegateService {
     }
   }
 
-  public SetInputFocus(inputIndex: string):void{
+  public SetInputFocus(inputIndex: string): void {
     document.getElementById(inputIndex)?.focus();
 
   }
@@ -56,26 +56,29 @@ export class ManageDelegateService {
   public setDelegatedOrg(org: any): void {
     localStorage.setItem('delegatedOrg', org);
     this.delegatedOrg.next(org)
-    this.AuthService.renewAccessToken()
+    // Redirect to home page once refresh token call completed 
+    this.AuthService.renewAccessToken('/home')
     this.setPermissionOrgDetails()
+
   }
 
-  public get getDelegatedOrg():any {
+  public get getDelegatedOrg(): any {
     return localStorage.getItem('delegatedOrg');
   }
 
 
-  public setPermissionOrgDetails(){
-    this.delegatedOrg.subscribe((data)=>{
-    if(data == 0 || data == null){
-     localStorage.setItem('permission_organisation_id',this.organisationId);
-    }else{
-      localStorage.setItem('permission_organisation_id',this.getDelegatedOrg);
-    }
-    setTimeout(() => {
-      this.route.navigateByUrl('/home');
-    }, 100);
+  public setPermissionOrgDetails() {
+    this.delegatedOrg.subscribe((data) => {
+      if (data == 0 || data == null) {
+        localStorage.setItem('permission_organisation_id', this.organisationId);
+      } else {
+        localStorage.setItem('permission_organisation_id', this.getDelegatedOrg);
+      }
+      // To fix permission API issue - move this redirection to renewAccessToken method
+      // setTimeout(() => {
+      //   this.route.navigateByUrl('/home');
+      // }, 100);
     })
   }
-  
+
 }
