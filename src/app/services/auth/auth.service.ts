@@ -78,13 +78,14 @@ export class AuthService {
   }
 
   renewAccessToken(url: string = '') {
-    let data: any
+    let data: any    
     data = this.getRefreshToken().toPromise().then((refreshToken: any) => {
     return this.renewToken(refreshToken || '').toPromise().then((tokenInfo: TokenInfo) => {
         this.workerService.storeTokenInWorker(tokenInfo);
         return this.createSession(tokenInfo.refresh_token).toPromise().then(() => {
           let decodedAccessToken = this.tokenService.getDecodedToken(tokenInfo.access_token);
           localStorage.setItem('at_exp', decodedAccessToken.exp);
+          localStorage.setItem('show_loading_indicator', 'false');
           if (url.length > 0) {
             this.router.navigateByUrl(url, { replaceUrl: true });
           }
@@ -92,6 +93,7 @@ export class AuthService {
         });
       },
         (err) => {
+          localStorage.setItem('show_loading_indicator', 'false');
          this.RollbarErrorService.RollbarDebug('renewAccessTokenError:'+ JSON.stringify(err))
           // This could due to invalid refresh token (refresh token rotation)  
           if (err.error == "INVALID_CREDENTIALS" || err.error.error_description == "PENDING_PASSWORD_CHANGE"
@@ -101,6 +103,7 @@ export class AuthService {
           }
         })
     }).catch((error: any) => {
+      localStorage.setItem('show_loading_indicator', 'false');
       this.RollbarErrorService.RollbarDebug('renewAccessTokenError:' + JSON.stringify(error))
       if (error.status == 404) {
         window.location.href = this.getAuthorizedEndpoint();
