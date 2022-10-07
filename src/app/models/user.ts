@@ -70,6 +70,7 @@ export interface UserListInfo {
 
 export interface AdminUserListInfo extends UserListInfo {
     role: string;
+    email: string;
 }
 
 export interface UserListResponse extends PaginationInfo {
