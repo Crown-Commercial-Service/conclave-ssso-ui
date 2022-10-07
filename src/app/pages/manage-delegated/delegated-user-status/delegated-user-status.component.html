@@ -8,7 +8,7 @@
                             {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
+                        <a class="govuk-breadcrumbs__link" (click)="goToDelegatedAccessPage()" routerLink="/delegated-access">
                             Delegated access</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="UserStatus.status != '003'">
