@@ -122,6 +122,11 @@ export class DelegatedUserStatusComponent implements OnInit {
     this.router.navigateByUrl('home');
   }
   public Back():void{
+    sessionStorage.setItem('activetab','expiredusers')
     window.history.back();
+  }
+  public goToDelegatedAccessPage(){
+    sessionStorage.setItem('activetab','expiredusers')
+    this.router.navigateByUrl('delegated-access');
   }
 }
