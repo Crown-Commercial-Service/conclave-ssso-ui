@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 export class ContactAdminComponent implements OnInit {
   private organisationId: string = '';
   usersTableHeaders = ['Name', 'Email address', 'Role'];
-  usersColumnsToDisplay = ['name', 'userName', 'role'];
+  usersColumnsToDisplay = ['name', 'email', 'role'];
   currentPage: number = 1;
   pageCount: number = 0;
   pageSize: number = environment.listPageSize;
@@ -36,7 +36,7 @@ export class ContactAdminComponent implements OnInit {
   }
 
   public openEmailWindow(data: any): void {
-    let AdminEmail = 'mailto:' + data.email;
+    let AdminEmail = 'mailto:' + data.userName;
     window.location.href = AdminEmail;
   }
 
@@ -49,7 +49,11 @@ export class ContactAdminComponent implements OnInit {
       next: (response: any) => {
         if (response != null) {
           this.userListResponse = response;
-          this.userListResponse.userList.forEach(x => x.role = 'Admin');
+          this.userListResponse.userList.forEach(x => {
+            x.role = 'Admin';
+            x.email = x.userName; // the common component expect the field as email 
+          });
+
           this.pageCount = this.userListResponse.pageCount;
         }
       },
