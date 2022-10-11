@@ -83,14 +83,14 @@ export class WrapperOrganisationGroupService {
             case 'CAT_USER': {
               if (f.roleName === 'CAS User') {
                 f.roleName = 'Contract Award Service (CAS)';
-                f.serviceName = 'click here to add service (Mandatory)';
+                f.serviceName = 'add service';
               }
               break;
             }
             case 'ACCESS_CAAAC_CLIENT': {
               if (f.roleName === 'Access Contract Award Service') {
                 f.roleName = 'Contract Award Service (CAS)';
-                f.serviceName = 'click here to add to dashboard (Mandatory)';
+                f.serviceName = 'add to dashboard';
               }
               break;
             }
@@ -111,14 +111,14 @@ export class WrapperOrganisationGroupService {
             case 'JAGGAER_USER': {
               if (f.roleName === 'Jaggaer User') {
                 f.roleName = 'eSourcing Service';
-                f.serviceName = 'click here to add service (Mandatory)';
+                f.serviceName = 'add service';
               }
               break;
             }
             case 'ACCESS_JAGGAER': {
               if (f.roleName === 'Access Jaggaer') {
                 f.roleName = 'eSourcing Service';
-                f.serviceName = 'click here to add to dashboard (Mandatory)';
+                f.serviceName = 'add to dashboard';
               }
               break;
             }
