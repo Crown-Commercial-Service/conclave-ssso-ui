@@ -388,15 +388,15 @@ export class DelegatedAccessUserComponent implements OnInit {
    * @returns boolean
    */
   public get PastDateValidation() {
-    if(!this.StartDateValidation){
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const StartDate = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
-    const date = new Date(StartDate);
-    return date < today;
-   } else {
-    return false
-   }
+    if(this.pageAccessMode == 'add'){
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const StartDate = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
+      const date = new Date(StartDate);
+      return date < today;
+    }else {
+      return false
+    }
   }
 
 
