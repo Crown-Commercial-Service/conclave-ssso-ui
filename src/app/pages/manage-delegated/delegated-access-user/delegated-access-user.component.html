@@ -151,6 +151,7 @@
                                                     id="start-day" name="start-day" type="text" 
                                                     [class.govuk-input--error]="submitted && pageAccessMode != 'edit' && (formGroup.controls.startday.invalid || StartDateValidation || PastDateValidation)"
                                                     inputmode="numeric" formControlName="startday" maxlength="2"
+                                                    [class.disable]="pageAccessMode == 'edit'"
                                                     (input)="ValueChanged(formGroup.controls.startday.value,'start-day','startdate')">
                                             </div>
                                         </div>
@@ -164,6 +165,7 @@
                                                     [class.govuk-input--error]="submitted && pageAccessMode != 'edit'  && (formGroup.controls.startmonth.invalid || StartDateValidation || PastDateValidation)"
                                                     (keydown.backspace)="tiggerBackspace(formGroup.controls.startmonth.value,'start-month','startdate')"
                                                     inputmode="numeric" formControlName="startmonth" maxlength="2"
+                                                    [class.disable]="pageAccessMode == 'edit'"
                                                     (input)="ValueChanged(formGroup.controls.startmonth.value,'start-month','startdate')">
                                             </div>
                                         </div>
@@ -176,6 +178,7 @@
                                                     id="start-year" name="start-year" type="text" 
                                                     [class.govuk-input--error]="submitted && pageAccessMode != 'edit' && (formGroup.controls.startyear.invalid || StartDateValidation || PastDateValidation)"
                                                     inputmode="numeric" formControlName="startyear" maxlength="4"
+                                                    [class.disable]="pageAccessMode == 'edit'"
                                                     (keydown.backspace)="tiggerBackspace(formGroup.controls.startyear.value,'start-year','startdate')">
                                             </div>
                                         </div>
