@@ -469,9 +469,11 @@ export class DelegatedAccessUserComponent implements OnInit {
     * forms disable function used in edit scenerio
     */
   private formDisable(){
-    this.formGroup.controls['startday'].disable()
-    this.formGroup.controls['startmonth'].disable()
-    this.formGroup.controls['startyear'].disable()
+    if(this.pageAccessMode === 'edit'){
+      this.formGroup.controls['startday'].disable()
+      this.formGroup.controls['startmonth'].disable()
+      this.formGroup.controls['startyear'].disable()
+    }
   }
  
    /**
