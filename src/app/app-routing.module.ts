@@ -125,6 +125,11 @@ import { DelegatedUserActivationComponent } from './pages/manage-delegated/landi
 import { DelegatedOrganisationComponent } from './pages/manage-delegated/user/delegated-organisation/delegated-organisation.component';
 import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
 import { ForgotPasswordErrorComponent } from './pages/forgot-password-error/forgot-password-error.component';
+import { BuyerBothRequestsComponent } from './pages/manage-buyer-and-both-requests/buyer-both-requests/buyer-both-requests.component';
+import { ConfirmDeclineComponent } from './pages/manage-buyer-and-both-requests/confirm-decline/confirm-decline.component';
+import { BuyerBothRequestsSuccessComponent } from './pages/manage-buyer-and-both-requests/buyer-both-requests-success/buyer-both-requests-success.component';
+import { ConfirmAcceptComponent } from './pages/manage-buyer-and-both-requests/confirm-accept/confirm-accept.component';
+import { ViewPendingVerificationComponent } from './pages/manage-buyer-and-both-requests/view-pending-verification/view-pending-verification.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1008,6 +1013,36 @@ const routes: Routes = [
     data: { title: 'Delegate-error' },
     pathMatch: 'full',
     component: DelegatedErrorComponent,
+  },
+  {
+    path: 'manage-buyer-both',
+    data: { title: 'Manage Buyer / Both Requests' },
+    pathMatch: 'full',
+    component: BuyerBothRequestsComponent,
+  },
+  {
+    path: 'confirm-decline',
+    data: { title: 'Decline right to buy' },
+    pathMatch: 'full',
+    component: ConfirmDeclineComponent,
+  },
+  {
+    path: 'confirm-accept',
+    data: { title: 'Accept right to buy' },
+    pathMatch: 'full',
+    component: ConfirmAcceptComponent,
+  },
+  {
+    path: 'pending-verification',
+    data: { title: 'Manage Buyer / Both Requests – Pending verification' },
+    pathMatch: 'full',
+    component: ViewPendingVerificationComponent,
+  },
+  {
+    path: 'buyer-and-both-success',
+    data: { title: 'Decline right to buy – success' },
+    pathMatch: 'full',
+    component: BuyerBothRequestsSuccessComponent,
   },
   {
     path: 'terms-of-use',

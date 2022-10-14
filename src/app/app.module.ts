@@ -175,6 +175,11 @@ import { DelegatedUserActivationComponent } from './pages/manage-delegated/landi
 import { DelegatedOrganisationComponent } from './pages/manage-delegated/user/delegated-organisation/delegated-organisation.component';
 import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
 import { ForgotPasswordErrorComponent } from './pages/forgot-password-error/forgot-password-error.component';
+import { BuyerBothRequestsComponent } from './pages/manage-buyer-and-both-requests/buyer-both-requests/buyer-both-requests.component';
+import { ConfirmDeclineComponent } from './pages/manage-buyer-and-both-requests/confirm-decline/confirm-decline.component';
+import { BuyerBothRequestsSuccessComponent } from './pages/manage-buyer-and-both-requests/buyer-both-requests-success/buyer-both-requests-success.component';
+import { ConfirmAcceptComponent } from './pages/manage-buyer-and-both-requests/confirm-accept/confirm-accept.component';
+import { ViewPendingVerificationComponent } from './pages/manage-buyer-and-both-requests/view-pending-verification/view-pending-verification.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -315,7 +320,12 @@ export function createTranslateLoader(http: HttpClient) {
     DelegatedUserActivationComponent,
     DelegatedOrganisationComponent,
     TermsConditionsComponent,
-    ForgotPasswordErrorComponent
+    ForgotPasswordErrorComponent,
+    BuyerBothRequestsComponent,
+    ConfirmDeclineComponent,
+    BuyerBothRequestsSuccessComponent,
+    ConfirmAcceptComponent,
+    ViewPendingVerificationComponent
   ],
   imports: [
     // BrowserModule,

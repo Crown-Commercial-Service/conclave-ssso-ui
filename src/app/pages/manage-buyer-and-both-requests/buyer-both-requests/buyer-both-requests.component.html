@@ -1,0 +1,70 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ 'ADMINISTRATOR_DASHBOARD' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">Manage Buyer / Both Requests</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl page-title header-bread-align">Manage Buyer / Both Requests</h1>
+            <div class="manage-groups-bg">
+                <p class="govuk-body-l">This page allows you to approve the organisation as a verified buyer
+                </p>
+            </div>
+            <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchText ===''">
+                <label class="govuk-label" for="search"> Search for organisations </label>
+                <span id="first-name-error" class="govuk-error-message"
+                *ngIf="searchSumbited && searchText ===''">
+                <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a organisation name
+              </span>
+                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
+                </app-search-box>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="govuk-tabs" data-module="govuk-tabs">
+    <h2 class="govuk-tabs__title">
+        testing
+    </h2>
+    <ul class="govuk-tabs__list">
+      <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.currentusers}" (click)="tabChanged('currentusers')">
+        <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+            Buyer / Both organisations pending verification
+        </a>
+      </li>
+      <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.expiredusers}" (click)="tabChanged('expiredusers')">
+        <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+            Verified Buyer / Both organisations 
+        </a>
+      </li>
+    </ul>
+    <div class="govuk-tabs__panel" id="past-day" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.expiredusers}">
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="user-table">
+            <app-govuk-table [headerTextKeys]="pendingVerificationBuyerAndBoth.usersTableHeaders" [data]="pendingVerificationBuyerAndBoth.userList.userList"
+                [dataKeys]="pendingVerificationBuyerAndBoth.usersColumnsToDisplay" [isHyperLinkVisible]="false"
+                [pageName]="pendingVerificationBuyerAndBoth.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=pendingVerificationBuyerAndBoth.hyperTextrray
+                (hyperLinkClickEvent)="onLinkClick($event)" [useServerPagination]="true" [serverPageCount]="pendingVerificationBuyerAndBoth.pageCount"
+                [serverPageCurrentPage]="pendingVerificationBuyerAndBoth.currentPage" (changeCurrentPageEvent)="setPagecurrentUsers($event)"></app-govuk-table>
+        </div>
+    </div>
+</div>
+    </div> 
+    <div class="govuk-tabs__panel" id="past-week" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.currentusers}">
+      <div class="user-table">
+        <app-govuk-table [headerTextKeys]="verifiedBuyerAndBoth.usersTableHeaders" [data]="verifiedBuyerAndBoth.userList.userList"
+        [dataKeys]="verifiedBuyerAndBoth.usersColumnsToDisplay" [isHyperLinkVisible]="false"
+        [pageName]="verifiedBuyerAndBoth.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=verifiedBuyerAndBoth.hyperTextrray
+        (hyperLinkClickEvent)="OnClickView($event)" [useServerPagination]="true" [serverPageCount]="verifiedBuyerAndBoth.pageCount"
+        [serverPageCurrentPage]="verifiedBuyerAndBoth.currentPage" (changeCurrentPageEvent)="setPageexpiredUsers($event)"></app-govuk-table>
+    </div>
+    </div>
+  </div>

@@ -202,9 +202,13 @@ export class HomeComponent extends BaseComponent implements OnInit {
           description: 'Support for users of other organisations',
           route: '/org-support/search',
         });
+        this.otherModules.push({
+          name: 'Manage Buyer / Both Requests',
+          description: 'Verify Buyer / Both organisations that require manual validation',
+          route: '/manage-buyer-both',
+        });
       }
     }
-
   }
 
   getModuleElementId(moduleName: string) {
