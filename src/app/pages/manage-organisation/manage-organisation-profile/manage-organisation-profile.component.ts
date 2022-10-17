@@ -200,7 +200,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         }
 
         if (this.changedIdpList.find(x => x.enabled === false)) {
-            this.router.navigateByUrl('manage-org/idp-confirm?data=' + JSON.stringify(this.changedIdpList));
+            this.router.navigateByUrl('manage-org/idp-confirm?data=' +btoa(JSON.stringify(this.changedIdpList)));
 
         } else {
             const ciiOrgId = this.tokenService.getCiiOrgId();

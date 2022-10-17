@@ -38,7 +38,7 @@ export const environment = {
     key: 'ROLLBAR',
     enable : true,
     security_log: false,
-    environment:'sandbox'
+    environment: 'sandbox'
   },
   cookies_policy: {
     essentialcookies: {
