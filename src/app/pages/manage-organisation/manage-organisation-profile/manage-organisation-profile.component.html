@@ -61,6 +61,7 @@
       <div class="govuk-checkboxes label-detail-text-gap">
         <div class="govuk-checkboxes__item" *ngFor="let idp of idps">
           <input type="checkbox" [value]="idp.id" #input [checked]="idp.enabled === true"
+            [attr.disabled]="true"
             (change)="onIdentityProviderChange($event,idp)" class="govuk-checkboxes__input"
             id="orgRoleControl_{{idp.id}}">
           <label class="govuk-label govuk-checkboxes__label" for="orgRoleControl_{{idp.id}}">{{idp.name}}</label>

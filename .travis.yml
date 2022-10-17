@@ -13,20 +13,6 @@ before_script:
 - npm install -g @angular/cli
 script: npm run build
 after_script: ls
-language: node_js
-node_js:
-- 12.16.1
-addons:
-  chrome: stable
-cache:
-  directories:
-  - "./node_modules"
-install:
-- npm install
-before_script:
-- npm install -g @angular/cli
-script: npm run build
-after_script: ls
 deploy:
 - provider: script
   script: sh app.sh
