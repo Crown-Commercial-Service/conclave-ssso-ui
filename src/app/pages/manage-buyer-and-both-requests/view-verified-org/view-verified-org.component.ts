@@ -4,11 +4,11 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-view-pending-verification',
-  templateUrl: './view-pending-verification.component.html',
-  styleUrls: ['./view-pending-verification.component.scss'],
+  selector: 'app-view-verified-org',
+  templateUrl: './view-verified-org.component.html',
+  styleUrls: ['./view-verified-org.component.scss']
 })
-export class ViewPendingVerificationComponent implements OnInit {
+export class ViewVerifiedOrgComponent implements OnInit {
   private organisationId: string = '';
   pageName = 'Contactadmin';
   public organisationAdministrator = {
@@ -42,7 +42,8 @@ export class ViewPendingVerificationComponent implements OnInit {
   };
 
   constructor(
-    private WrapperOrganisationGroupService: WrapperOrganisationGroupService,private router:Router
+    private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
+    private router:Router
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -123,20 +124,16 @@ export class ViewPendingVerificationComponent implements OnInit {
     });
   }
 
+
+  public removeRightToBuy():void{
+    let data = {
+      id:'123456'
+    }
+    this.router.navigateByUrl(
+      'remove-right-to-buy?data=' + btoa(JSON.stringify(data))
+    );
+  }
   goBack() {
     window.history.back();
-  }
-
-  public acceptRightToBuy(){
-    let data = {}
-    this.router.navigateByUrl(
-      'confirm-accept?data=' + btoa(JSON.stringify(data))
-    );
-  }
-  public declineRightToBuy(){
-    let data = {}
-    this.router.navigateByUrl(
-      'confirm-decline?data=' + btoa(JSON.stringify(data))
-    );
   }
 }

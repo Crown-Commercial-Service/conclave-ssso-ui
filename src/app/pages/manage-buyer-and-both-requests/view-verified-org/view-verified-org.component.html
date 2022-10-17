@@ -12,14 +12,15 @@
                             Manage Buyer / Both Requests</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link">Pending verification</span>
+                        <span class="govuk-breadcrumbs__link">Verified organisations</span>
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align">View organisation pending buyer status verification</h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align">View organisation with verified buyer status</h1>
             <div>
                 <p  class="govuk-body-l">
-                    View details of the organisation that is pending manual verification process for buyer status. If you want to accept this organisation as a verified buyer, please use ‘Accept buyer status’ button on the bottom of this page.
+                    View details of the organisation that is a verified buyer
+
                 </p>
             </div>
             <div class="span-group govuk-!-margin-top-4">
@@ -89,12 +90,10 @@
             </div>
          </div>
          <div class="govuk-button-group">
-            <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button"
-              (click)="acceptRightToBuy()" >Accept right to buy</button>
             <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
-            (click)="declineRightToBuy()">Decline right to buy</button>
+            (click)="removeRightToBuy()">Remove right to buy</button>
+            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+              (click)="goBack()" >Back</button>
           </div>
-          <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-          (click)="goBack()">Cancel</button>
     </div>
 </div>

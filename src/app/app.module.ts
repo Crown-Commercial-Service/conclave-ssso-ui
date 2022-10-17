@@ -180,6 +180,9 @@ import { ConfirmDeclineComponent } from './pages/manage-buyer-and-both-requests/
 import { BuyerBothRequestsSuccessComponent } from './pages/manage-buyer-and-both-requests/buyer-both-requests-success/buyer-both-requests-success.component';
 import { ConfirmAcceptComponent } from './pages/manage-buyer-and-both-requests/confirm-accept/confirm-accept.component';
 import { ViewPendingVerificationComponent } from './pages/manage-buyer-and-both-requests/view-pending-verification/view-pending-verification.component';
+import { ViewVerifiedOrgComponent } from './pages/manage-buyer-and-both-requests/view-verified-org/view-verified-org.component';
+import { RemoveRightToBuyComponent } from './pages/manage-buyer-and-both-requests/remove-right-to-buy/remove-right-to-buy.component';
+import { SuccessRightToBuyComponent } from './pages/manage-buyer-and-both-requests/success-right-to-buy/success-right-to-buy.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -325,7 +328,10 @@ export function createTranslateLoader(http: HttpClient) {
     ConfirmDeclineComponent,
     BuyerBothRequestsSuccessComponent,
     ConfirmAcceptComponent,
-    ViewPendingVerificationComponent
+    ViewPendingVerificationComponent,
+    ViewVerifiedOrgComponent,
+    RemoveRightToBuyComponent,
+    SuccessRightToBuyComponent
   ],
   imports: [
     // BrowserModule,

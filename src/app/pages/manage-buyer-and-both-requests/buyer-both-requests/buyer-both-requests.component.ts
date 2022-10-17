@@ -110,7 +110,7 @@ export class BuyerBothRequestsComponent implements OnInit {
       event: event,
     };
     this.router.navigateByUrl(
-      'delegated-user-status?data=' + btoa(JSON.stringify(data))
+      'verified-organisations?data=' + btoa(JSON.stringify(data))
     );
   }
 

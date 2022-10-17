@@ -130,6 +130,9 @@ import { ConfirmDeclineComponent } from './pages/manage-buyer-and-both-requests/
 import { BuyerBothRequestsSuccessComponent } from './pages/manage-buyer-and-both-requests/buyer-both-requests-success/buyer-both-requests-success.component';
 import { ConfirmAcceptComponent } from './pages/manage-buyer-and-both-requests/confirm-accept/confirm-accept.component';
 import { ViewPendingVerificationComponent } from './pages/manage-buyer-and-both-requests/view-pending-verification/view-pending-verification.component';
+import { ViewVerifiedOrgComponent } from './pages/manage-buyer-and-both-requests/view-verified-org/view-verified-org.component';
+import { RemoveRightToBuyComponent } from './pages/manage-buyer-and-both-requests/remove-right-to-buy/remove-right-to-buy.component';
+import { SuccessRightToBuyComponent } from './pages/manage-buyer-and-both-requests/success-right-to-buy/success-right-to-buy.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1037,6 +1040,24 @@ const routes: Routes = [
     data: { title: 'Manage Buyer / Both Requests – Pending verification' },
     pathMatch: 'full',
     component: ViewPendingVerificationComponent,
+  },
+  {
+    path: 'verified-organisations',
+    data: { title: 'Manage Buyer / Both Requests – verified organisation' },
+    pathMatch: 'full',
+    component: ViewVerifiedOrgComponent,
+  },
+  {
+    path: 'remove-right-to-buy',
+    data: { title: 'Remove right to buy' },
+    pathMatch: 'full',
+    component: RemoveRightToBuyComponent,
+  },
+  {
+    path: 'remove-right-to-buy-success',
+    data: { title: 'Remove right to buy – success' },
+    pathMatch: 'full',
+    component: SuccessRightToBuyComponent,
   },
   {
     path: 'buyer-and-both-success',
