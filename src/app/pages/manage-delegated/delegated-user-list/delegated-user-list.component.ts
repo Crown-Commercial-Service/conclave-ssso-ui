@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserListResponse } from 'src/app/models/user';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './delegated-user-list.component.html',
   styleUrls: ['./delegated-user-list.component.scss'],
 })
-export class DelegatedUserListComponent implements OnInit {
+export class DelegatedUserListComponent implements OnInit ,OnDestroy {
   public searchText: string = '';
   public searchSumbited: boolean = false;
   public tabConfig = {
@@ -23,7 +23,7 @@ export class DelegatedUserListComponent implements OnInit {
     currentPage: 1,
     pageCount: 0,
     pageSize: environment.listPageSize,
-    usersTableHeaders: ['NAME', 'EMAIL', 'Remaining days', 'origin organasation'],
+    usersTableHeaders: ['NAME', 'EMAIL', 'Remaining days', 'Organisation'],
     usersColumnsToDisplay: ['name', 'userName', 'remainingDays', 'originOrganisation'],
     userList: '',
     pageName: 'Contactadmin',
@@ -34,7 +34,7 @@ export class DelegatedUserListComponent implements OnInit {
     currentPage: 1,
     pageCount: 0,
     pageSize: environment.listPageSize,
-    usersTableHeaders: ['NAME', 'EMAIL', 'Expiry date', 'Origin organisation'],
+    usersTableHeaders: ['NAME', 'EMAIL', 'Expiry date', 'Organisation'],
     usersColumnsToDisplay: ['name', 'userName', 'endDate', 'originOrganisation'],
     userList: '',
     pageName: 'Contactadmin',
@@ -58,7 +58,9 @@ export class DelegatedUserListComponent implements OnInit {
     };
   }
 
+
   ngOnInit() {
+    this.tabChanged(sessionStorage.getItem('activetab') || 'currentusers')
     setTimeout(() => {
       this.getOrganisationExpiredUsers()
     }, 10);
@@ -141,13 +143,17 @@ export class DelegatedUserListComponent implements OnInit {
 
 
   public tabChanged(activetab: string): void {
+     
     if (activetab === 'currentusers') {
       this.tabConfig.currentusers = true
       this.tabConfig.expiredusers = false
     } else {
       this.tabConfig.expiredusers = true
       this.tabConfig.currentusers = false
-
     }
+  }
+
+  ngOnDestroy(): void {
+    sessionStorage.removeItem('activetab')
   }
 }
