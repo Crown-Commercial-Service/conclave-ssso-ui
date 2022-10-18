@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   renewAccessToken(url: string = '') {
-    let data: any
+    let data: any    
     data = this.getRefreshToken().toPromise().then((refreshToken: any) => {
     return this.renewToken(refreshToken || '').toPromise().then((tokenInfo: TokenInfo) => {
         this.workerService.storeTokenInWorker(tokenInfo);
@@ -93,8 +93,8 @@ export class AuthService {
         });
       },
         (err) => {
-        localStorage.setItem('show_loading_indicator', 'false');
-        this.RollbarErrorService.RollbarDebug('renewAccessTokenError:'+ JSON.stringify(err))
+          localStorage.setItem('show_loading_indicator', 'false');
+         this.RollbarErrorService.RollbarDebug('renewAccessTokenError:'+ JSON.stringify(err))
           // This could due to invalid refresh token (refresh token rotation)  
           if (err.error == "INVALID_CREDENTIALS" || err.error.error_description == "PENDING_PASSWORD_CHANGE"
             || err.error.error == 'invalid_grant' || err.error.error == 'invalid_request') {

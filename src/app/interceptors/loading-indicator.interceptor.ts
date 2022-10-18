@@ -36,15 +36,8 @@ export class LoadingIndicatorInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.urlExceptions.includes(req.url) || this.urlExceptions.includes(req.url.split('?')[0])) {
-      var showLoadingIndicator = localStorage.getItem('show_loading_indicator');
-      if(showLoadingIndicator == 'true') {
-        this.requests.push(req);
-        this.loadingIndicatorService.isLoading.next(true);
-      }
-      else {
-        this.loadingIndicatorService.isLoading.next(false);
-      }
+    if (localStorage.getItem('show_loading_indicator') === 'false' && (this.urlExceptions.includes(req.url) || this.urlExceptions.includes(req.url.split('?')[0]))) {
+      this.loadingIndicatorService.isLoading.next(false);
     }else{
       this.requests.push(req);
       this.loadingIndicatorService.isLoading.next(true);
