@@ -174,6 +174,7 @@ import { DelegatedErrorComponent } from './pages/manage-delegated/delegated-erro
 import { DelegatedUserActivationComponent } from './pages/manage-delegated/landing-pages/delegated-user-activation/delegated-user-activation.component';
 import { DelegatedOrganisationComponent } from './pages/manage-delegated/user/delegated-organisation/delegated-organisation.component';
 import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
+import { ForgotPasswordErrorComponent } from './pages/forgot-password-error/forgot-password-error.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -313,7 +314,8 @@ export function createTranslateLoader(http: HttpClient) {
     DelegatedErrorComponent,
     DelegatedUserActivationComponent,
     DelegatedOrganisationComponent,
-    TermsConditionsComponent
+    TermsConditionsComponent,
+    ForgotPasswordErrorComponent
   ],
   imports: [
     // BrowserModule,

@@ -31,7 +31,7 @@ export class ManageOrgRegOrgNotFoundComponent extends BaseComponent implements O
   }
 
   goBack() {
-    this.router.navigateByUrl(sessionStorage['previousGlobalRoute']);
+    window.history.back();
   }
 
   ngOnInit() { }
