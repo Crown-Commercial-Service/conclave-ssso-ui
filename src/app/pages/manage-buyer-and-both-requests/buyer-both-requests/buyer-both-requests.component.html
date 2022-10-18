@@ -34,18 +34,18 @@
         testing
     </h2>
     <ul class="govuk-tabs__list">
-      <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.currentusers}" (click)="tabChanged('currentusers')">
+      <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.pendingOrg}" (click)="tabChanged('pendingOrg')">
         <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
             Buyer / Both organisations pending verification
         </a>
       </li>
-      <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.expiredusers}" (click)="tabChanged('expiredusers')">
+      <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.verifiedOrg}" (click)="tabChanged('verifiedOrg')">
         <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
             Verified Buyer / Both organisations 
         </a>
       </li>
     </ul>
-    <div class="govuk-tabs__panel" id="past-day" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.expiredusers}">
+    <div class="govuk-tabs__panel" id="past-day" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.verifiedOrg}">
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <div class="user-table">
@@ -58,7 +58,7 @@
     </div>
 </div>
     </div> 
-    <div class="govuk-tabs__panel" id="past-week" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.currentusers}">
+    <div class="govuk-tabs__panel" id="past-week" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.pendingOrg}">
       <div class="user-table">
         <app-govuk-table [headerTextKeys]="verifiedBuyerAndBoth.usersTableHeaders" [data]="verifiedBuyerAndBoth.userList.userList"
         [dataKeys]="verifiedBuyerAndBoth.usersColumnsToDisplay" [isHyperLinkVisible]="false"

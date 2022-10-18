@@ -134,6 +134,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
     );
   }
   goBack() {
+    sessionStorage.setItem('activetab','verifiedOrg')
     window.history.back();
   }
 }

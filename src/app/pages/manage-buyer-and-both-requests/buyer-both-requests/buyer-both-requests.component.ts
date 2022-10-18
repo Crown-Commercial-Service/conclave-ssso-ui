@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserListResponse } from 'src/app/models/user';
-import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -13,20 +13,19 @@ export class BuyerBothRequestsComponent implements OnInit {
   public searchText: string = '';
   public searchSumbited: boolean = false;
   public tabConfig = {
-    currentusers: true,
-    expiredusers: false,
+    pendingOrg: true,
+    verifiedOrg: false,
   };
   private organisationId: string = '';
   public pendingVerificationBuyerAndBoth: any = {
     currentPage: 1,
     pageCount: 0,
     pageSize: environment.listPageSize,
-    usersTableHeaders: ['NAME', 'EMAIL', 'Remaining days', 'Organisation'],
+    usersTableHeaders: ['Organisation name ', 'Organisation type ', 'Date of registration'],
     usersColumnsToDisplay: [
-      'name',
-      'userName',
-      'remainingDays',
-      'originOrganisation',
+      'organisatioName',
+      'organisationType',
+      'dateofRegistration',
     ],
     userList: '',
     pageName: 'Contactadmin',
@@ -37,12 +36,11 @@ export class BuyerBothRequestsComponent implements OnInit {
     currentPage: 1,
     pageCount: 0,
     pageSize: environment.listPageSize,
-    usersTableHeaders: ['NAME', 'EMAIL', 'Expiry date', 'Organisation'],
+    usersTableHeaders: ['Organisation name ', 'Organisation type ', 'Date of registration'],
     usersColumnsToDisplay: [
-      'name',
-      'userName',
-      'endDate',
-      'originOrganisation',
+      'organisatioName',
+      'organisationType',
+      'dateofRegistration',
     ],
     userList: '',
     pageName: 'Contactadmin',
@@ -50,7 +48,7 @@ export class BuyerBothRequestsComponent implements OnInit {
   };
   constructor(
     private router: Router,
-    private WrapperUserDelegatedService: WrapperUserDelegatedService
+    private wrapperBuyerAndBothService:WrapperBuyerBothService,
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.pendingVerificationBuyerAndBoth.userList = {
@@ -70,19 +68,13 @@ export class BuyerBothRequestsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tabChanged(sessionStorage.getItem('activetab') || 'currentusers');
-    setTimeout(() => {
-      this.getOrganisationExpiredUsers();
-    }, 10);
-    this.getOrganisationCurrentUsers();
+    this.tabChanged(sessionStorage.getItem('activetab') || 'pendingOrg');
+    this.getPendingVerificationOrg();
   }
 
   public onSearchClick(): void {
     this.searchSumbited = true;
-    setTimeout(() => {
-      this.getOrganisationExpiredUsers();
-    }, 10);
-    this.getOrganisationCurrentUsers();
+    this.getPendingVerificationOrg();
   }
 
   public onLinkClick(data: any): void {
@@ -116,16 +108,16 @@ export class BuyerBothRequestsComponent implements OnInit {
 
   setPagecurrentUsers(pageNumber: any) {
     this.pendingVerificationBuyerAndBoth.currentPage = pageNumber;
-    this.getOrganisationCurrentUsers();
+    this.getPendingVerificationOrg();
   }
 
   setPageexpiredUsers(pageNumber: any) {
     this.verifiedBuyerAndBoth.currentPage = pageNumber;
-    this.getOrganisationExpiredUsers();
+    this.geVerifiedOrg();
   }
 
-  getOrganisationCurrentUsers() {
-    this.WrapperUserDelegatedService.GetCurrentUsers(
+  getPendingVerificationOrg() {
+    this.wrapperBuyerAndBothService.getpendingVerificationOrg(
       this.organisationId,
       this.searchText,
       this.pendingVerificationBuyerAndBoth.currentPage,
@@ -136,16 +128,18 @@ export class BuyerBothRequestsComponent implements OnInit {
           this.pendingVerificationBuyerAndBoth.userList = userListResponse;
           this.pendingVerificationBuyerAndBoth.pageCount =
             this.pendingVerificationBuyerAndBoth.userList.pageCount;
+            console.log("test",this.pendingVerificationBuyerAndBoth.userList)
         }
+        this.geVerifiedOrg()
       },
       error: (error: any) => {
-        this.router.navigateByUrl('delegated-error');
+        // this.router.navigateByUrl('delegated-error');
       },
     });
   }
 
-  getOrganisationExpiredUsers() {
-    this.WrapperUserDelegatedService.GetExpiredUsers(
+  geVerifiedOrg() {
+    this.wrapperBuyerAndBothService.getVerifiedOrg(
       this.organisationId,
       this.searchText,
       this.verifiedBuyerAndBoth.currentPage,
@@ -165,12 +159,13 @@ export class BuyerBothRequestsComponent implements OnInit {
   }
 
   public tabChanged(activetab: string): void {
-    if (activetab === 'currentusers') {
-      this.tabConfig.currentusers = true;
-      this.tabConfig.expiredusers = false;
+    console.log("activetab",activetab)
+    if (activetab === 'verifiedOrg') {
+      this.tabConfig.pendingOrg = true;
+      this.tabConfig.verifiedOrg = false;
     } else {
-      this.tabConfig.expiredusers = true;
-      this.tabConfig.currentusers = false;
+      this.tabConfig.pendingOrg = true;
+      this.tabConfig.verifiedOrg = false;
     }
   }
 
