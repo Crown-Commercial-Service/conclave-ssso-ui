@@ -78,13 +78,13 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             this.org = org;
             this.idps = await this.configWrapperService.getIdentityProviders().toPromise().catch();
             this.orgIdps = await this.organisationGroupService.getOrganisationIdentityProviders(ciiOrgId).toPromise().catch();
+            this.idps = this.idps.filter((x : IdentityProvider) => x.connectionName != 'none');
 
-            this.idps.forEach((idp: any) => {
+            this.idps.forEach((idp: any,index: any, arr: any) => {
                 this.orgIdps.forEach((element: any) => {
                     if (idp.connectionName == element.connectionName) {
                         idp.enabled = true;
                     }
-
                 });
             });
 
@@ -200,7 +200,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         }
 
         if (this.changedIdpList.find(x => x.enabled === false)) {
-            this.router.navigateByUrl('manage-org/idp-confirm?data=' + JSON.stringify(this.changedIdpList));
+            this.router.navigateByUrl('manage-org/idp-confirm?data=' +btoa(JSON.stringify(this.changedIdpList)));
 
         } else {
             const ciiOrgId = this.tokenService.getCiiOrgId();

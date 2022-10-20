@@ -61,4 +61,13 @@ export class CookiesService {
        this.deleteCookie("_ga", 'removed');
        this.deleteCookie("_gat_UA-47046847-22", 'removed');
    }
+
+
+    /**
+     * Delete GlassBox cookies calling methode
+     */
+    public deleteGlassBoxCookies(){
+        this.deleteCookie("_cls_s", 'removed');
+        this.deleteCookie("_cls_v", 'removed');
+    }
 }

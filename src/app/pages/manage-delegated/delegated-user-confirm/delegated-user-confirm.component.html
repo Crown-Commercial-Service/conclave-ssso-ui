@@ -1,0 +1,103 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" (click)="onClickNevigation('home')">
+                            {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" (click)="onClickNevigation('delegated-access')">
+                            Delegated access</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">Confirm delegation</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 *ngIf="pageAccessMode == 'add'" class="govuk-heading-xl page-title header-bread-align">Confirm you want to delegate access to the user</h1>
+            <h1 *ngIf="pageAccessMode == 'edit'" class="govuk-heading-xl page-title header-bread-align">Confirm you want to update access for the delegated user</h1>
+            <div class="manage-groups-bg">
+                <p class="govuk-body-l" *ngIf="pageAccessMode == 'add'">
+                    You are giving permission for a delegated access to your Organisation to a user:
+                </p>
+                <p class="govuk-body-l" *ngIf="pageAccessMode == 'edit'">
+                    You are updating permissions for a delegated user to your Organisation:
+                </p>
+            </div>
+            <div class="govuk-form-group">
+                <div class="span-group govuk-!-margin-top-4">
+                    <p class="govuk-body">
+                        Name:<strong class="govuk-!-margin-left-2">{{userInfo.firstName}} {{userInfo.lastName}}</strong>
+                    </p>
+                    <p class="govuk-body">
+                        Email address:<strong class="govuk-!-margin-left-2">{{userInfo.userName}}</strong>
+                    </p>
+                    <p class="govuk-body">
+                        User's Organisation:<strong
+                            class="govuk-!-margin-left-2">{{userInfo.originOrganisationName}}</strong>
+                    </p>
+                    <details class="govuk-details" data-module="govuk-details">
+                        <summary class="govuk-details__summary">
+                            <span class="govuk-details__summary-text">
+                                Addtional security
+                            </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                            <p class="govuk-body">
+                                MFA status:<strong class="govuk-!-margin-left-2">{{userInfo.mfaEnabled == true ?
+                                    'Enabled' : 'Disabled'}}</strong>
+                            </p>
+                        </div>
+                    </details>
+                    <p class="govuk-body">
+                        <strong>The user will have a delegated access from {{UserSelectedinfo.detail.startDate | date:
+                            'dd/MM/yyyy'}} to {{UserSelectedinfo.detail.endDate | date: 'dd/MM/yyyy'}}.</strong>
+                    </p>
+                    <div>
+                        <p class="govuk-body">
+                            <strong class="">The user will be given a below permissions.</strong>
+                        </p>
+                        <ul class="govuk-list">
+                            <li *ngFor="let details of UserSelectedinfo.roleDetails">
+                                {{
+                                details.roleKey === "JAEGGER_SUPPLIER"
+                                ? "eSourcing Service as a supplier"
+                                :details.roleKey === "ACCESS_JAGGAER"
+                                ? "eSourcing Service - dashboard"
+                                :details.roleKey === "CAT_USER"
+                                ? "Contract Award Service (CAS) - service"
+                                :details.roleKey === "ACCESS_CAAAC_CLIENT"
+                                ? "Contract Award Service (CAS) - dashboard"
+                                :details.roleKey === "JAEGGER_BUYER"
+                                ? "eSourcing Service as a buyer"
+                                :details.roleKey === "JAGGAER_USER"
+                                ? "eSourcing Service - service"
+                                :details.accessRoleName
+                                }}
+                                <span *ngIf="
+                                  details.roleKey != 'JAEGGER_SUPPLIER' &&
+                                  details.roleKey != 'ACCESS_JAGGAER' &&
+                                  details.roleKey != 'CAT_USER' &&
+                                  details.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                                  details.roleKey != 'JAEGGER_BUYER' &&
+                                  details.roleKey != 'JAGGAER_USER'
+                                ">- {{ details.serviceName }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="govuk-button-group save-cancel-button-group">
+            <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onSubmit()">
+                Continue
+            </button>
+            <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                (click)="Cancel()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>

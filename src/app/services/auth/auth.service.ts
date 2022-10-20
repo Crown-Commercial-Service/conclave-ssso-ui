@@ -78,13 +78,14 @@ export class AuthService {
   }
 
   renewAccessToken(url: string = '') {
-    let data: any
+    let data: any    
     data = this.getRefreshToken().toPromise().then((refreshToken: any) => {
     return this.renewToken(refreshToken || '').toPromise().then((tokenInfo: TokenInfo) => {
         this.workerService.storeTokenInWorker(tokenInfo);
         return this.createSession(tokenInfo.refresh_token).toPromise().then(() => {
           let decodedAccessToken = this.tokenService.getDecodedToken(tokenInfo.access_token);
           localStorage.setItem('at_exp', decodedAccessToken.exp);
+          localStorage.setItem('show_loading_indicator', 'false');
           if (url.length > 0) {
             this.router.navigateByUrl(url, { replaceUrl: true });
           }
@@ -92,6 +93,7 @@ export class AuthService {
         });
       },
         (err) => {
+          localStorage.setItem('show_loading_indicator', 'false');
          this.RollbarErrorService.RollbarDebug('renewAccessTokenError:'+ JSON.stringify(err))
           // This could due to invalid refresh token (refresh token rotation)  
           if (err.error == "INVALID_CREDENTIALS" || err.error.error_description == "PENDING_PASSWORD_CHANGE"
@@ -101,6 +103,7 @@ export class AuthService {
           }
         })
     }).catch((error: any) => {
+      localStorage.setItem('show_loading_indicator', 'false');
       this.RollbarErrorService.RollbarDebug('renewAccessTokenError:' + JSON.stringify(error))
       if (error.status == 404) {
         window.location.href = this.getAuthorizedEndpoint();
@@ -142,7 +145,6 @@ export class AuthService {
   }
 
   token(code: string): Observable<any> {
-    debugger
     const options = {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     }
@@ -164,8 +166,9 @@ export class AuthService {
     const options = {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     }
-
-    let body = `client_id=${environment.idam_client_id}&refresh_token=${refreshToken}&grant_type=refresh_token`;
+    let delegated_org_id = localStorage.getItem('delegatedOrg');
+    delegated_org_id = delegated_org_id == null || delegated_org_id == 'undefined' ? '' : delegated_org_id;
+    let body = `client_id=${environment.idam_client_id}&refresh_token=${refreshToken}&delegated_org_id=${delegated_org_id}&grant_type=refresh_token`;
     this.RollbarErrorService.RollbarDebug('renewToken:'+ body)
     return this.httpService.post<TokenInfo>(`${this.url}/security/token`, body, options);
     
@@ -249,6 +252,8 @@ export class AuthService {
     localStorage.removeItem('currentGlobalRoute');
     localStorage.removeItem('cii_organisation_id');
     localStorage.removeItem('at_exp');
+    localStorage.removeItem('permission_organisation_id');
+    localStorage.removeItem('delegatedOrg');
   }
 
   public logOutAndRedirect() {
@@ -274,7 +279,7 @@ export class AuthService {
   getPermissions(accessPage:string): Observable<any> {
     if (this.servicePermission.length == 0 || accessPage === 'HOME') {
       return this.httpService.get<ServicePermission[]>(`${environment.uri.api.postgres}/users/permissions?user-name=`
-        + encodeURIComponent(localStorage.getItem('user_name') || "") + `&service-client-id=` + environment.idam_client_id).pipe(
+        + encodeURIComponent(localStorage.getItem('user_name') || "") + `&service-client-id=` + environment.idam_client_id +'&organisation-id='+ localStorage.getItem('permission_organisation_id') || "").pipe(
           map((data: ServicePermission[]) => {
             // Cache permissions locally
             this.servicePermission = data;
