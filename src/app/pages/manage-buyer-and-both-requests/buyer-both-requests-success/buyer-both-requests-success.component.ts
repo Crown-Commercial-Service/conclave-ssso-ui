@@ -11,7 +11,6 @@ export class BuyerBothRequestsSuccessComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {
     this.route.queryParams.subscribe((para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
-      console.log("RouteData",this.routeDetails)
     });
   }
 
@@ -21,7 +20,7 @@ export class BuyerBothRequestsSuccessComponent implements OnInit {
     this.router.navigateByUrl('manage-buyer-both');
   }
 
-  public returnToRDashBoard() {
+  public returnToDashBoard() {
     this.router.navigateByUrl('home');
   }
 }

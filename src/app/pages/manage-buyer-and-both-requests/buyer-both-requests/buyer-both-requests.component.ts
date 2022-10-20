@@ -128,7 +128,6 @@ export class BuyerBothRequestsComponent implements OnInit {
           this.pendingVerificationBuyerAndBoth.userList = userListResponse;
           this.pendingVerificationBuyerAndBoth.pageCount =
             this.pendingVerificationBuyerAndBoth.userList.pageCount;
-            console.log("test",this.pendingVerificationBuyerAndBoth.userList)
         }
         this.geVerifiedOrg()
       },
@@ -159,10 +158,9 @@ export class BuyerBothRequestsComponent implements OnInit {
   }
 
   public tabChanged(activetab: string): void {
-    console.log("activetab",activetab)
     if (activetab === 'verifiedOrg') {
-      this.tabConfig.pendingOrg = true;
-      this.tabConfig.verifiedOrg = false;
+      this.tabConfig.pendingOrg = false;
+      this.tabConfig.verifiedOrg = true;
     } else {
       this.tabConfig.pendingOrg = true;
       this.tabConfig.verifiedOrg = false;
