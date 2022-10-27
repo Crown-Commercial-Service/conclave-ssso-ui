@@ -203,8 +203,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
           route: '/org-support/search',
         });
         this.otherModules.push({
-          name: 'Manage Buyer / Both Requests',
-          description: 'Verify Buyer / Both organisations that require manual validation',
+          name: 'Manage Buyer status requests',
+          description: 'Verify and approve or decline Buyer status requests',
           route: '/manage-buyer-both',
         });
       }

@@ -8,13 +8,13 @@
                             {{ 'ADMINISTRATOR_DASHBOARD' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link">Manage Buyer / Both Requests</span>
+                        <span class="govuk-breadcrumbs__link">Manage Buyer status requests</span>
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align">Manage Buyer / Both Requests</h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align">Manage Buyer status requests</h1>
             <div class="manage-groups-bg">
-                <p class="govuk-body-l">This page allows you to approve the organisation as a verified buyer
+                <p class="govuk-body-l">This page allows you to approve or decline the Buyer status requests for organisations
                 </p>
             </div>
             <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchText ===''">
@@ -33,12 +33,12 @@
     <ul class="govuk-tabs__list">
       <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.pendingOrg}" (click)="tabChanged('pendingOrg')">
         <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
-            Buyer / Both organisations pending verification
+            Buyer status pending
         </a>
       </li>
       <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.verifiedOrg}" (click)="tabChanged('verifiedOrg')">
         <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
-            Verified Buyer / Both organisations 
+            Approved / declined Buyer status requests 
         </a>
       </li>
     </ul>

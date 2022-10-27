@@ -9,18 +9,17 @@
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
                         <a class="govuk-breadcrumbs__link" routerLink="/manage-buyer-both">
-                            Manage Buyer / Both Requests</a>
+                            Manage Buyer status requests</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
                         <span class="govuk-breadcrumbs__link">Success</span>
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align" *ngIf="routeDetails.status === 'decline'">You have declined a right to buy for organisation Organisation name</h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align" *ngIf="routeDetails.status === 'decline'">You have declined the right to buy status for organisation Organisation name</h1>
             <h1 class="govuk-heading-xl page-title header-bread-align" *ngIf="routeDetails.status === 'accept'">You have accepted a right to buy for organisation Organisation name</h1>
             <div>
-                <a  (click)="returnToRequests()" class="navigation-text">Return to Manage Buyer /
-                    Both Requests page</a>
+                <a  (click)="returnToRequests()" class="navigation-text">Return to Manage Buyer status requests</a>
                 <br><br>
                 <a  (click)="returnToDashBoard()"  class="navigation-text">Return to the
                     dashboard</a>

@@ -1019,13 +1019,13 @@ const routes: Routes = [
   },
   {
     path: 'manage-buyer-both',
-    data: { title: 'Manage Buyer / Both Requests' },
+    data: { title: 'Manage Buyer status Requests' },
     pathMatch: 'full',
     component: BuyerBothRequestsComponent,
   },
   {
     path: 'confirm-decline',
-    data: { title: 'Decline right to buy' },
+    data: { title: 'Decline right to buy status' },
     pathMatch: 'full',
     component: ConfirmDeclineComponent,
   },
@@ -1061,7 +1061,7 @@ const routes: Routes = [
   },
   {
     path: 'buyer-and-both-success',
-    data: { title: 'Decline right to buy – success' },
+    data: { title: 'Decline right to buy status – success' },
     pathMatch: 'full',
     component: BuyerBothRequestsSuccessComponent,
   },
