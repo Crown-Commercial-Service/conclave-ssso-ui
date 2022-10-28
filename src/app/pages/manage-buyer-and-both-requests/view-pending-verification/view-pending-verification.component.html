@@ -9,17 +9,17 @@
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
                         <a class="govuk-breadcrumbs__link" routerLink="/manage-buyer-both">
-                            Manage Buyer / Both Requests</a>
+                            Return to Manage Buyer status requests</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link">Pending verification</span>
+                        <span class="govuk-breadcrumbs__link">View request</span>
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align">View organisation pending buyer status verification</h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align">View organisations’ Buyer status request</h1>
             <div>
                 <p  class="govuk-body-l">
-                    View details of the organisation that is pending manual verification process for buyer status. If you want to accept this organisation as a verified buyer, please use ‘Accept buyer status’ button on the bottom of this page.
+                    View the details of the organisation that is pending the manual verification process for buyer status. If you want to accept this organisation as a verified buyer, please use ‘Accept buyer status’ button on the bottom of this page.
                 </p>
             </div>
             <div class="span-group govuk-!-margin-top-4">
@@ -32,7 +32,8 @@
                 </p>
                 <p class="govuk-body">
                     Date of registration:<strong
-                        class="govuk-!-margin-left-2">30-01-1997</strong>
+                        class="govuk-!-margin-left-2">30-01-1997
+                    </strong>
                 </p>
         </div>
         <div class="span-group govuk-!-margin-top-4">
@@ -90,9 +91,9 @@
          </div>
          <div class="govuk-button-group">
             <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button"
-              (click)="acceptRightToBuy()" >Accept right to buy</button>
+              (click)="acceptRightToBuy()" >Accept right to buy status</button>
             <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
-            (click)="declineRightToBuy()">Decline right to buy</button>
+            (click)="declineRightToBuy()">Decline right to buy status</button>
           </div>
           <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
           (click)="goBack()">Cancel</button>
