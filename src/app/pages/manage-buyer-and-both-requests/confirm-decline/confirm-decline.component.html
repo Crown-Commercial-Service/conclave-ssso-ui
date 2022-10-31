@@ -1,0 +1,37 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-buyer-both">
+                            Manage Buyer status requests</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">
+                            Decline right to buy status</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl page-title header-bread-align">Confirm you want to decline right to buy status for organisation Organisation name</h1>
+            <div>
+                <p  class="govuk-body-l">
+                    The organisation’s administrator(s) will be notified that the right to buy status was declined.
+                </p>
+            <div class="govuk-button-group save-cancel-button-group">
+                <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button"
+                    (click)="confirmAndDecline()">
+                    Decline
+                </button>
+                <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                    (click)="Back()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

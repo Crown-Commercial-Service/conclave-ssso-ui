@@ -20,7 +20,7 @@
               ? 'navigation-text'
               : ''
           ]">
-          {{ dataKey == 'endDate' ?  (dataRow[dataKey] | date: 'dd/MM/yyyy') : dataRow[dataKey] }}
+          {{ dataKey == 'endDate' ?  (dataRow[dataKey] | date: 'dd/MM/yyyy') : dataKey == 'dateofRegistration' ?  (dataRow[dataKey] | date: 'dd/MM/yyyy') : dataRow[dataKey] }}
         </td>
         <td class="govuk-table__cell" *ngIf="isHyperLinkVisible == true">
           <a class="navigation-text" href="javascript:;">
@@ -29,7 +29,7 @@
         <td *ngIf="hyperArrayVisible == true" class="govuk-table__cell">
           <div class="govuk-table_action-links">
             <span *ngFor="let hypertex of hyperLinkArray">
-              <a class="navigation-text" href="javascript:;" [ngClass]="{'navigation-text-red' : hypertex == 'Remove'}">
+              <a class="navigation-text" href="javascript:;" [ngClass]="{'navigation-text-red': hypertex == 'Remove' || hypertex == 'Decline' }">
                 {{ hypertex }}</a>
               </span>
           </div>          

@@ -1,0 +1,98 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" (click)="goBack()">
+                            Return to Manage Buyer status requests</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">View Buyer status for the organisation</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl page-title header-bread-align">View organisations’ Buyer status</h1>
+            <div>
+                <p  class="govuk-body-l">
+                    View details of organisations’ Buyer status
+                </p>
+            </div>
+            <div class="span-group govuk-!-margin-top-4">
+                <h2 class="govuk-heading-m">Organisation details</h2>
+                <p class="govuk-body">
+                    Organisation name:<strong class="govuk-!-margin-left-2">Dream Guys</strong>
+                </p>
+                <p class="govuk-body">
+                    Organisation type:<strong class="govuk-!-margin-left-2">Both</strong>
+                </p>
+                <p class="govuk-body">
+                    Date of registration:<strong
+                        class="govuk-!-margin-left-2">30-01-1997</strong>
+                </p>
+        </div>
+        <div class="span-group govuk-!-margin-top-4">
+            <h2 class="govuk-heading-m">Organisation Administrator(s)</h2>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="user-table">
+                        <app-govuk-table [headerTextKeys]="organisationAdministrator.usersTableHeaders" [data]="organisationAdministrator.userListResponse.userList"
+                            [dataKeys]="organisationAdministrator.usersColumnsToDisplay" [isHyperLinkVisible]="true"
+                            (hyperLinkClickEvent)="openEmailWindow($event)" [useServerPagination]="true"
+                            [serverPageCount]="organisationAdministrator.pageCount" [serverPageCurrentPage]="organisationAdministrator.currentPage"
+                            (changeCurrentPageEvent)="setPageOrganisationAdministrator($event)" [pageName]="pageName"></app-govuk-table>
+                    </div>
+                </div>
+            </div>
+         </div>
+         <div class="span-group govuk-!-margin-top-4">
+            <h2 class="govuk-heading-m">Organisation registries</h2>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="user-table">
+                        <table class="govuk-table">
+                            <thead class="govuk-table__head">
+                              <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">Registry</th>
+                                <th scope="col" class="govuk-table__header">ID</th>
+                                <th scope="col" class="govuk-table__header remove_element">.</th>
+                              </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                              <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">Companies House</th>
+                                <td class="govuk-table__cell">10745577</td>
+                                <td class="govuk-table__cell">Primary</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+         </div>
+         <div class="span-group govuk-!-margin-top-4">
+            <h2 class="govuk-heading-m">Event log</h2>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="user-table">
+                        <app-govuk-table [headerTextKeys]="eventLog.usersTableHeaders" [data]="eventLog.userListResponse.userList"
+                            [dataKeys]="eventLog.usersColumnsToDisplay" [isHyperLinkVisible]="true"
+                            (hyperLinkClickEvent)="openEmailWindow($event)" [useServerPagination]="true"
+                            [serverPageCount]="eventLog.pageCount" [serverPageCurrentPage]="eventLog.currentPage"
+                            (changeCurrentPageEvent)="setPageOrganisationAdministrator($event)"></app-govuk-table>
+                    </div>
+                </div>
+            </div>
+         </div>
+         <div class="govuk-button-group">
+            <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
+            (click)="removeRightToBuy()">Remove right to buy status</button>
+            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+              (click)="goBack()" >Back</button>
+          </div>
+    </div>
+</div>
