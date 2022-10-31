@@ -125,6 +125,14 @@ import { DelegatedUserActivationComponent } from './pages/manage-delegated/landi
 import { DelegatedOrganisationComponent } from './pages/manage-delegated/user/delegated-organisation/delegated-organisation.component';
 import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
 import { ForgotPasswordErrorComponent } from './pages/forgot-password-error/forgot-password-error.component';
+import { BuyerBothRequestsComponent } from './pages/manage-buyer-and-both-requests/buyer-both-requests/buyer-both-requests.component';
+import { ConfirmDeclineComponent } from './pages/manage-buyer-and-both-requests/confirm-decline/confirm-decline.component';
+import { BuyerBothRequestsSuccessComponent } from './pages/manage-buyer-and-both-requests/buyer-both-requests-success/buyer-both-requests-success.component';
+import { ConfirmAcceptComponent } from './pages/manage-buyer-and-both-requests/confirm-accept/confirm-accept.component';
+import { ViewPendingVerificationComponent } from './pages/manage-buyer-and-both-requests/view-pending-verification/view-pending-verification.component';
+import { ViewVerifiedOrgComponent } from './pages/manage-buyer-and-both-requests/view-verified-org/view-verified-org.component';
+import { RemoveRightToBuyComponent } from './pages/manage-buyer-and-both-requests/remove-right-to-buy/remove-right-to-buy.component';
+import { SuccessRightToBuyComponent } from './pages/manage-buyer-and-both-requests/success-right-to-buy/success-right-to-buy.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1008,6 +1016,53 @@ const routes: Routes = [
     data: { title: 'Delegate-error' },
     pathMatch: 'full',
     component: DelegatedErrorComponent,
+  },
+  {
+    path: 'manage-buyer-both',
+    data: { title: 'Manage Buyer status Requests' },
+    pathMatch: 'full',
+    component: BuyerBothRequestsComponent,
+  },
+  {
+    path: 'confirm-decline',
+    data: { title: 'Decline right to buy status' },
+    pathMatch: 'full',
+    component: ConfirmDeclineComponent,
+  },
+  {
+    path: 'confirm-accept',
+    data: { title: 'Approve right to buy status' },
+    pathMatch: 'full',
+    component: ConfirmAcceptComponent,
+  },
+  {
+    path: 'pending-verification',
+    data: { title: 'Manage Buyer status requests - View request' },
+    pathMatch: 'full',
+    component: ViewPendingVerificationComponent,
+  },
+  {
+    path: 'verified-organisations',
+    data: { title: 'Manage Buyer status requests - View Buyer status for the organisation' },
+    pathMatch: 'full',
+    component: ViewVerifiedOrgComponent,
+  },
+  {
+    path: 'remove-right-to-buy',
+    data: { title: 'Remove right to buy status' },
+    pathMatch: 'full',
+    component: RemoveRightToBuyComponent,
+  },
+  {
+    path: 'remove-right-to-buy-success',
+    data: { title: 'Remove right to buy status – success' },
+    pathMatch: 'full',
+    component: SuccessRightToBuyComponent,
+  },
+  {
+    path: 'buyer-and-both-success',
+    pathMatch: 'full',
+    component: BuyerBothRequestsSuccessComponent,
   },
   {
     path: 'terms-of-use',
