@@ -77,7 +77,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     }
 
     onAddClick() {
-        this.router.navigateByUrl("manage-users/add-user/details");
+        this.router.navigateByUrl("manage-users/add-user-selection");
     }
 
     searchTextChanged(event: any) {

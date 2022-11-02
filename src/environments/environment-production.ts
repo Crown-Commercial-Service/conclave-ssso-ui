@@ -34,13 +34,14 @@ export const environment = {
   cookieExpirationTimeInMinutes: 525600,
   bulkUploadPollingFrequencyInSeconds: 5,
   bulkUploadMaxFileSizeInBytes:1048576,
-  bulkUploadTemplateFileUrl: 'BUCKET_URL', // Put the publicly accessible url of the template file
+  bulkUploadTemplateFileUrl: 'https://paas-s3-broker-prod-lon-9422de6a-c312-4407-87ae-119e5a09db78.s3.amazonaws.com/Templates/DataMigrationTemplate.csv', // Put the publicly accessible url of the template file
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,  
   rollbar: {
     key: 'ROLLBAR',
-    enable : false,
-    security_log: false
+    enable : true,
+    security_log:false,
+    environment: 'production'
   },
   cookies_policy: {
     essentialcookies: {
