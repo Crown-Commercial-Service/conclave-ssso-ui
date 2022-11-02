@@ -291,9 +291,9 @@
                                 {{ 'SIGN_IN_PROVIDER'| translate }}
                             </legend>
                             <span class="sign_in_prov">
-                                {{ idpStatus == false ? 'A sign in provider gives users the option to use a different service to sign in. Sign in
+                                A sign in provider gives users the option to use a different service to sign in. Sign in
                                 providers are set at an organisational level. To update the sign in providers for your
-                                Organisation’s users please go to Manage organisations' : (idpStatus == true ? 'You can only use a User ID and password to sign in. You may be able to use additional sign-in methods in the future.' : '')}}
+                                Organisation’s users please go to Manage organisations
                             </span>
                             <span id="group-error" class="govuk-error-message label-detail-text-gap"
                                 *ngIf="submitted && formGroup.hasError('identityProviderRequired')">

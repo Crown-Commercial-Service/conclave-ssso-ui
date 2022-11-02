@@ -31,16 +31,12 @@ export class WrapperConfigurationService {
     const url = `${this.url}/identity-providers`;
     return this.http.get<IdentityProvider[]>(url, this.options).pipe(
       map((data: IdentityProvider[]) => {
-        if(environment.appSetting.hideIDP){
           data.map((f: IdentityProvider) => {
-            if (f.name === 'User ID and password') {
-                tempData.push(f)
-            }
-        })
-           return tempData;
-        } else {
-          return data
-        }
+          if (f.name === 'User ID and password') {
+              tempData.push(f)
+          }
+      })
+         return tempData;
       }), catchError(error => {
         return throwError(error);
       })
