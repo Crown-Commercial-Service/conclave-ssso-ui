@@ -27,6 +27,7 @@ import { FormBaseComponent } from 'src/app/components/form-base/form-base.compon
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-user-add-single-user-detail',
@@ -53,6 +54,7 @@ export class ManageUserAddSingleUserDetailComponent
   state: any;
   hasGroupViewPermission: boolean = false;
   mfaAdminValidationError: boolean = false;
+  public idpStatus = environment.appSetting.hideIDP
   public detailsData: any = [
     'Add additional security steps to make an account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
     'Groups allow you to manage large numbers of users all at once. Roles can be applied to groups to organise user’s more efficiently and allow bulk access to relevant services where it is required.',
