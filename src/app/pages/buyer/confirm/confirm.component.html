@@ -39,7 +39,7 @@
             (click)="onSelect(true)"
           />
           <label for="chkyes" class="govuk-label govuk-radios__label">
-            Yes
+            Supplier
           </label>
         </div>
         <div class="govuk-radios__item">
@@ -53,7 +53,21 @@
             (click)="onSelect(false)"
           />
           <label for="chkno" class="govuk-label govuk-radios__label">
-            No
+            Buyer
+          </label>
+        </div>
+        <div class="govuk-radios__item">
+          <input
+            #isBuyerFalse
+            class="govuk-radios__input"
+            type="radio"
+            id="chkno"
+            value="{{ o.rightToBuy }}"
+            [checked]="o.rightToBuy == false"
+            (click)="onSelect(false)"
+          />
+          <label for="chkno" class="govuk-label govuk-radios__label">
+            Both
           </label>
         </div>
       </div>
