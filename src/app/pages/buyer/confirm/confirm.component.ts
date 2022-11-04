@@ -186,7 +186,7 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
       hasChanges: (this.organisation.rightToBuy === this.verified && this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0) ? false : true
     };
     localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
-    this.router.navigateByUrl(`buyer/confirm-changes/${this.organisation.ciiOrganisationId}`);
+    // this.router.navigateByUrl(`buyer/confirm-changes/${this.organisation.ciiOrganisationId}`);
   }
 
   public onCancelClick() {
