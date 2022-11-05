@@ -25,7 +25,7 @@
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend">
-        Update organisation type
+        Is this organisation a verified buyer for CCS?
       </legend>
       <div class="govuk-radios">
         <div class="govuk-radios__item">
@@ -39,7 +39,7 @@
             (click)="onSelect(true)"
           />
           <label for="chkyes" class="govuk-label govuk-radios__label">
-            Supplier
+            Yes
           </label>
         </div>
         <div class="govuk-radios__item">
@@ -53,21 +53,7 @@
             (click)="onSelect(false)"
           />
           <label for="chkno" class="govuk-label govuk-radios__label">
-            Buyer
-          </label>
-        </div>
-        <div class="govuk-radios__item">
-          <input
-            #isBuyerFalse
-            class="govuk-radios__input"
-            type="radio"
-            id="chkno"
-            value="{{ o.rightToBuy }}"
-            [checked]="o.rightToBuy == false"
-            (click)="onSelect(false)"
-          />
-          <label for="chkno" class="govuk-label govuk-radios__label">
-            Both
+            No
           </label>
         </div>
       </div>
