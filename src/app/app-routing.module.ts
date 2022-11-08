@@ -133,6 +133,8 @@ import { ViewPendingVerificationComponent } from './pages/manage-buyer-and-both-
 import { ViewVerifiedOrgComponent } from './pages/manage-buyer-and-both-requests/view-verified-org/view-verified-org.component';
 import { RemoveRightToBuyComponent } from './pages/manage-buyer-and-both-requests/remove-right-to-buy/remove-right-to-buy.component';
 import { SuccessRightToBuyComponent } from './pages/manage-buyer-and-both-requests/success-right-to-buy/success-right-to-buy.component';
+import { UpdateOrgTypeComponent } from './pages/buyer/update-org-type/update-org-type.component';
+import { ConfirmOrgTypeComponent } from './pages/buyer/confirm-org-type/confirm-org-type.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -701,6 +703,13 @@ const routes: Routes = [
     component: BuyerConfirmComponent,
   },
   {
+    path: 'update-org-type/confirm/:id',
+    data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: UpdateOrgTypeComponent,
+  },
+  {
     path: 'buyer/confirm-changes/:id',
     data: {
       title: 'Confirm Changes - Manage Buyers',
@@ -709,6 +718,16 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: BuyerConfirmChangesComponent,
+  },
+  {
+    path: 'update-org-type/confirm-changes/:id',
+    data: {
+      title: 'Confirm Changes - Manage Buyers',
+      roles: ['MANAGE_SUBSCRIPTIONS'],
+    },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ConfirmOrgTypeComponent,
   },
   {
     path: 'buyer/error',

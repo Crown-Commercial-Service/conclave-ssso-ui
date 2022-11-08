@@ -59,7 +59,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   }
 
   public onContinueClick() {
-    this.router.navigateByUrl(`buyer/confirm/${this.selectedOrgId}`);
+    this.router.navigateByUrl(`update-org-type/confirm/${this.selectedOrgId}`);
   }
 
   public onCancelClick() {

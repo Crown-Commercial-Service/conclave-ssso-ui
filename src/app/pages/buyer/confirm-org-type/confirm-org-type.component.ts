@@ -13,9 +13,9 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 
 @Component({
-  selector: 'app-buyer-confirm-changes',
-  templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.scss'],
+  selector: 'app-confirm-org-type',
+  templateUrl: './confirm-org-type.component.html',
+  styleUrls: ['./confirm-org-type.component.scss'],
   animations: [
     slideAnimation({
       close: { 'transform': 'translateX(12.5rem)' },
@@ -25,8 +25,7 @@ import { ViewportScroller } from '@angular/common';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BuyerConfirmChangesComponent extends BaseComponent {
-
+export class ConfirmOrgTypeComponent  extends BaseComponent {
   public org: any;
   public org$!: Observable<any>;
   public changes: any;
@@ -70,6 +69,6 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
 
   public onBackClick() {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
-    this.router.navigateByUrl('buyer/confirm/' + this.org.ciiOrganisationId);
+    this.router.navigateByUrl('update-org-type/confirm/' + this.org.ciiOrganisationId);
   }
 }
