@@ -51,4 +51,15 @@ export class WrapperOrganisationService {
       })
     );
   }
+
+  getAutoValidationStatus(organisationId: string) {
+    const url = `${this.url}/${organisationId}/autovalidate`;
+    return this.http.get<OrganisationDto>(url).pipe(
+      map((data: OrganisationDto) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
 }
