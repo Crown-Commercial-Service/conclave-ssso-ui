@@ -35,7 +35,7 @@ export class ManageOrgRegDetailsWrongComponent extends BaseComponent {
   }
 
   goBack() {
-    this.router.navigateByUrl(sessionStorage['previousGlobalRoute']);
+    window.history.back();
   }
 
 }

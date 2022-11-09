@@ -34,6 +34,11 @@ export class ManageOrgRegBuyerTypeComponent extends BaseComponent implements OnI
 
   }
 
+  onBack(){
+    window.history.back();
+  }
+  
+
   public onSubmit() {
     localStorage.setItem("manage-org_buyer_type", this.defaultChoice);
     //this.router.navigateByUrl(`manage-org/register/start`);

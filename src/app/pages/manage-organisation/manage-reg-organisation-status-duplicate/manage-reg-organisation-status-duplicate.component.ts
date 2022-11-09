@@ -44,7 +44,7 @@ export class ManageOrgRegSearchStatusDuplicateComponent {
     }
 
     goBack() {
-        this.router.navigateByUrl(`manage-org/register/initial-search`);
+        window.history.back();
     }
 
     setOrgIdForOrgDetails(ciiOrgId: string) {

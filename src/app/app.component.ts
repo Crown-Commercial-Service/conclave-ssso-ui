@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
           pageName: data
         };
         // Can be removed this event when tested by analytics team
-        this.gtmService.pushTag(gtmTag);
+        // this.gtmService.pushTag(gtmTag);
         this.titleService.setTitle(data + ' - CCS');
       }
     });

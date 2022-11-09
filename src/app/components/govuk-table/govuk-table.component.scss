@@ -72,3 +72,8 @@ a {
   text-decoration: underline;
   color: #942828;
 }
+.govuk-table_action-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}

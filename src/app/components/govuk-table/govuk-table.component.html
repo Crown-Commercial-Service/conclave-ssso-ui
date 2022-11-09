@@ -5,6 +5,8 @@
         <th *ngFor="let header of headerTextKeys" scope="col" class="govuk-table__header">
           {{ header | translate }}
         </th>
+        <th class="govuk-table__header" *ngIf="hyperArrayVisible == true"></th>
+        <th class="govuk-table__header" *ngIf="!isHyperLinkVisible"></th>
         <td *ngIf="isCheckBoxVisible || isHyperLinkVisible || isRadioVisible" scope="col" class="govuk-table__header">
         </td>
       </tr>
@@ -24,12 +26,14 @@
           <a class="navigation-text" href="javascript:;">
             {{ hyperLinkText || "" | translate }}</a>
         </td>
-        <div *ngIf="hyperArrayVisible == true">
-          <td class="govuk-table__cell" *ngFor="let hypertex of hyperLinkArray">
-            <a class="navigation-text" href="javascript:;" [ngClass]="{'navigation-text-red' : hypertex == 'Remove'}">
-              {{ hypertex }}</a>
-          </td>
-        </div>
+        <td *ngIf="hyperArrayVisible == true" class="govuk-table__cell">
+          <div class="govuk-table_action-links">
+            <span *ngFor="let hypertex of hyperLinkArray">
+              <a class="navigation-text" href="javascript:;" [ngClass]="{'navigation-text-red' : hypertex == 'Remove'}">
+                {{ hypertex }}</a>
+              </span>
+          </div>          
+        </td>
 
         <td class="govuk-table__cell" *ngIf="isCheckBoxVisible == true">
           <div class="govuk-checkboxes" data-module="govuk-checkboxes">

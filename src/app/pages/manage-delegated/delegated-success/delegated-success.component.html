@@ -29,11 +29,11 @@
           </div>
 
           <div *ngIf="userInfo.status==='delete'">
-            <h1 class="govuk-heading-l page-title header-bread-align">You have removed a delegated access for a user {{userInfo.userName}}</h1>
+            <h1 class="govuk-heading-l page-title header-bread-align">You have removed delegated access for user {{userInfo.userName}}</h1>
           </div>
 
           <div *ngIf="userInfo.status==='resent'">
-            <h1 class="govuk-heading-l page-title header-bread-align">A new activation link for a delegated access has been set to user {{userInfo.userName}}</h1>
+            <h1 class="govuk-heading-l page-title header-bread-align">A new activation link for a delegated user has been sent to {{userInfo.userName}}</h1>
           </div>
         </div>
         <div>

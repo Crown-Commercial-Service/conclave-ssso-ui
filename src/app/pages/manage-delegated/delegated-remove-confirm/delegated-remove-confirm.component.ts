@@ -17,7 +17,6 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((para: any) => {
       this.RouteData = JSON.parse(atob(para.data));
-      console.log("RouteData",this.RouteData)
     });
   }
 

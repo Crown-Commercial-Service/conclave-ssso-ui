@@ -123,6 +123,8 @@ import { DelegatedRemoveConfirmComponent } from './pages/manage-delegated/delega
 import { DelegatedErrorComponent } from './pages/manage-delegated/delegated-error/delegated-error.component';
 import { DelegatedUserActivationComponent } from './pages/manage-delegated/landing-pages/delegated-user-activation/delegated-user-activation.component';
 import { DelegatedOrganisationComponent } from './pages/manage-delegated/user/delegated-organisation/delegated-organisation.component';
+import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
+import { ForgotPasswordErrorComponent } from './pages/forgot-password-error/forgot-password-error.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -230,6 +232,12 @@ const routes: Routes = [
     data: { title: 'Success - Forgot Password' },
     pathMatch: 'full',
     component: ForgotPasswordSuccessComponent,
+  },
+  {
+    path: 'forgot-password-error',
+    data: { title: 'Error - Forgot Password' },
+    pathMatch: 'full',
+    component: ForgotPasswordErrorComponent,
   },
   {
     path: 'resend-link-success',
@@ -935,14 +943,14 @@ const routes: Routes = [
   },
   {
     path: 'delegated-access',
-    data: { title: 'delegated-access', roles: ['DELEGATED_ACCESS'] },
+    data: { title: 'Delegated access', roles: ['DELEGATED_ACCESS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: DelegatedUserListComponent,
   },
   {
     path: 'find-delegated-user',
-    data: { title: 'find-delegated-user' , roles: ['DELEGATED_ACCESS'] },
+    data: { title: 'Find a user' , roles: ['DELEGATED_ACCESS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: FindDelegatedUserComponent,
@@ -984,13 +992,13 @@ const routes: Routes = [
   },
   {
     path: 'delegated-user-activation',
-    data: { title: 'deleagted-user-activation' },
+    data: { title: 'Delegated user activation' },
     pathMatch: 'full',
     component: DelegatedUserActivationComponent,
   },
   {
     path: 'delegated-organisation',
-    data: { title: 'delegated-organisation'},
+    data: { title: 'Manage your delegated access'},
     pathMatch: 'full',
     canActivate: [AuthGuard],
     component: DelegatedOrganisationComponent,
@@ -1000,6 +1008,12 @@ const routes: Routes = [
     data: { title: 'Delegate-error' },
     pathMatch: 'full',
     component: DelegatedErrorComponent,
+  },
+  {
+    path: 'terms-of-use',
+    data: { title: 'Terms of Use' },
+    pathMatch: 'full',
+    component: TermsConditionsComponent,
   },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];

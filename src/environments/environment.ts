@@ -62,4 +62,8 @@ export const environment = {
   appSetting: {
     hideIDP:true,
    },
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> f0ce2159dc91f32653b0f3fbd5c5defac4cd8bfd

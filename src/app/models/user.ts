@@ -22,8 +22,8 @@ export interface UserDetail {
     title: string;
     firstName: string;
     lastName: string;
-    mfaEnabled : boolean;
-    isAdminUser : boolean;
+    mfaEnabled: boolean;
+    isAdminUser: boolean;
 }
 
 export interface UserRequestDetail {
@@ -33,15 +33,15 @@ export interface UserRequestDetail {
     identityProviderIds?: number[];
 }
 
-export interface UserResponseDetail{
-    id : number,
+export interface UserResponseDetail {
+    id: number,
     userGroups?: UserGroup[];
     canChangePassword: boolean;
     rolePermissionInfo?: RolePermissionInfo[];
     identityProviders?: UserIdentityProviderInfo[]
 }
 
-export interface UserIdentityProviderInfo{
+export interface UserIdentityProviderInfo {
     identityProviderId?: number;
     identityProvider?: string;
     identityProviderDisplayName?: string;
@@ -52,14 +52,14 @@ export interface RolePermissionInfo {
     roleKey: string;
     roleId: number,
     serviceClientId: string;
-    serviceClientName : string;
+    serviceClientName: string;
 }
 
 export interface UserProfileRequestInfo extends UserDetail {
     detail: UserRequestDetail
 }
 
-export interface UserProfileResponseInfo extends UserDetail {    
+export interface UserProfileResponseInfo extends UserDetail {
     detail: UserResponseDetail
 }
 
@@ -68,9 +68,19 @@ export interface UserListInfo {
     userName: string;
 }
 
+export interface AdminUserListInfo extends UserListInfo {
+    role: string;
+    email: string;
+}
+
 export interface UserListResponse extends PaginationInfo {
     organisationId: string;
     userList: UserListInfo[];
+}
+
+export interface AdminUserListResponse extends PaginationInfo {
+    organisationId: string;
+    userList: AdminUserListInfo[];
 }
 
 export interface UserEditResponseInfo {

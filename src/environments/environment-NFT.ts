@@ -45,11 +45,39 @@ export const environment = {
       }
 
     },
+<<<<<<< HEAD
 
     web: {
 
       dashboard: 'https://nft.identify.crowncommercial.gov.uk'
 
+=======
+  
+    googleTagMangerId: 'GTM',
+  
+    cookieExpirationTimeInMinutes: 525600,
+  
+    bulkUploadPollingFrequencyInSeconds: 5,
+  
+    bulkUploadMaxFileSizeInBytes:1048576,
+  
+    bulkUploadTemplateFileUrl: 'BUCKET_URL',
+  
+    usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
+  
+    listPageSize: 10,
+  
+    rollbar: {
+  
+      key: 'ROLLBAR',
+  
+      enable: true,
+  
+      security_log: false,
+      
+      environment: 'nft'
+  
+>>>>>>> f0ce2159dc91f32653b0f3fbd5c5defac4cd8bfd
     },
 
     ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"

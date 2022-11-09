@@ -71,7 +71,11 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
             .then(() => {
                 sessionStorage.setItem(SessionStorageKey.ForgotPasswordUserName, form.get('userName')?.value);
                 this.router.navigateByUrl(`forgot-password-success`);
-            });
+            },(err) => {
+                if (err.error == "ERROR_MAX_ATTEMPT") {
+                    this.router.navigateByUrl(`forgot-password-error`);
+                }
+        })
         }
     }
 

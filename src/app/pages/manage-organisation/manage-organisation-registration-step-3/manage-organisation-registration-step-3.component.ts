@@ -213,7 +213,7 @@ export class ManageOrgRegStep3Component
   }
 
   public onBackClick() {
-    this.router.navigateByUrl('manage-org/register/search');
+    window.history.back();
   }
 
   public onSubmit() {
