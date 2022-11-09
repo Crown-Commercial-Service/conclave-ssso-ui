@@ -59,10 +59,5 @@ export const environment = {
         __cf_bm: 30
     },
   },
-  appSetting: {
-    hideIDP:true,
-    hideDelegation:true,
-    hideBulkupload:true
-   }
 };
 
