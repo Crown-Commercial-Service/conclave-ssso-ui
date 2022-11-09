@@ -28,23 +28,23 @@
           Update organisation type
         </legend>
           <div class="govuk-radios">
-              <div class="govuk-radios__item" id="orgAdminRadioSelection" (click)="onSelect(0)">
+              <div class="govuk-radios__item" id="orgAdminRadioSelection" >
                   <input class="govuk-radios__input" type="radio" id="supplierRadioButton" value="0"
-                      [(ngModel)]="adminSelectionMode" />
+                      [(ngModel)]="adminSelectionMode" (click)="onSelect(0)"/>
                   <label for="supplierRadioButton" class="govuk-label govuk-radios__label">
                     Supplier
                   </label>
               </div>
-              <div class="govuk-radios__item" id="nominateAdminRadioSelection" (click)="onSelect(1)">
+              <div class="govuk-radios__item" id="nominateAdminRadioSelection">
                   <input class="govuk-radios__input" type="radio" id="buyerRadioButton" value="1"
-                      [(ngModel)]="adminSelectionMode" />
+                      [(ngModel)]="adminSelectionMode"  (click)="onSelect(1)" />
                   <label for="buyerRadioButton" class="govuk-label govuk-radios__label">
                     Buyer
                   </label>
               </div>
-              <div class="govuk-radios__item" id="unknownAdminRadioSelection" (click)="onSelect(2)">
+              <div class="govuk-radios__item" id="unknownAdminRadioSelection">
                   <input class="govuk-radios__input" type="radio" id="bothRadioButton" value="2"
-                      [(ngModel)]="adminSelectionMode" />
+                      [(ngModel)]="adminSelectionMode" (click)="onSelect(2)" />
                   <label for="bothRadioButton" class="govuk-label govuk-radios__label">
                     Both
                   </label>
@@ -52,96 +52,51 @@
           </div>
       </fieldset>
     </div>
-  
     <div
-      class="govuk-form-group"
-      style="margin-top: 30px"
-    >
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend">
-          Roles for this organisation, select/unselect where appropriate
-        </legend>
-        <div class="govuk-checkboxes" *ngIf="orgEligableRoles$ | async as o">
-          <ng-container *ngFor="let role of roles">
-            <div
-              class="govuk-checkboxes__item"
-            >
-              <input
-                type="checkbox"
-                [value]="role.roleId"
-                [checked]="role.enabled"
-                (change)="onChange($event, role?.enabled, role)"
-                class="govuk-checkboxes__input"
-                id="orgRoleControl_{{ role.roleId }}"
-              />
-              <label
-                class="govuk-label govuk-checkboxes__label"
-                for="orgRoleControl_{{ role.roleId }}"
-                >{{
-                  role.roleKey === "JAEGGER_SUPPLIER"
-                    ? "eSourcing Service as a supplier"
-                    : role.roleKey === "ACCESS_JAGGAER"
-                    ? "eSourcing Service - click here to add to dashboard (Mandatory)"
-                    : role.roleKey === "CAT_USER"
-                    ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
-                    : role.roleKey === "ACCESS_CAAAC_CLIENT"
-                    ? "Contract Award Service (CAS) - click here to add to dashboard (Mandatory)"
-                    : role.roleKey === "JAEGGER_BUYER"
-                    ? "eSourcing Service as a buyer"
-                    : role.roleKey === "JAGGAER_USER"
-                    ? "eSourcing Service - click here to add service (Mandatory)"
-                    : role.roleName
-                }}
-                <span
-                  *ngIf="
-                    role.roleKey != 'JAEGGER_SUPPLIER' &&
-                    role.roleKey != 'ACCESS_JAGGAER' &&
-                    role.roleKey != 'CAT_USER' &&
-                    role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
-                    role.roleKey != 'JAEGGER_BUYER' &&
-                    role.roleKey != 'JAGGAER_USER'
-                  "
-                  >- {{ role.serviceName }}</span
-                ></label
-              >
-            </div>
-          </ng-container>
-        </div>
-        <legend class="govuk-fieldset__legend" style="margin-top: 30px">
-          Service roles for this organisation, select/unselect where appropriate
-        </legend>
-        <div class="govuk-checkboxes" *ngIf="orgEligableRoles$ | async as o">
-          <ng-container *ngFor="let role of roles">
-            <div
-              class="govuk-checkboxes__item"
-            >
-              <input
-                type="checkbox"
-                [value]="role.roleId"
-                [checked]="role.enabled"
-                (change)="onChange($event, role?.enabled, role)"
-                class="govuk-checkboxes__input"
-                id="orgRoleControl_{{ role.roleId }}"
-              />
-              <label
-                class="govuk-label govuk-checkboxes__label"
-                for="orgRoleControl_{{ role.roleId }}"
-                >{{
-                  role.roleKey === "JAEGGER_SUPPLIER"
-                    ? "eSourcing Service as a supplier"
-                    : role.roleKey === "ACCESS_JAGGAER"
-                    ? "eSourcing Service - click here to add to dashboard (Mandatory)"
-                    : role.roleKey === "CAT_USER"
-                    ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
-                    : role.roleKey === "ACCESS_CAAAC_CLIENT"
-                    ? "Contract Award Service (CAS) - click here to add to dashboard (Mandatory)"
-                    : role.roleKey === "JAEGGER_BUYER"
-                    ? "eSourcing Service as a buyer"
-                    : role.roleKey === "JAGGAER_USER"
-                    ? "eSourcing Service - click here to add service (Mandatory)"
-                    : role.roleName
-                }}
-                <span
+    class="govuk-form-group"
+    style="margin-top: 30px"
+  >
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend">
+        Roles for this organisation, select/unselect where appropriate
+      </legend>
+      <div class="govuk-checkboxes" *ngIf="orgEligableRoles$ | async as o">
+        <ng-container *ngFor="let role of roles">
+          <div
+            class="govuk-checkboxes__item"
+            *ngIf="
+              role.subscriptionTypeEligibility === 0 &&
+              role.tradeEligibility !== 0 &&
+              role.orgTypeEligibility !== 0
+            "
+          >
+            <input
+              type="checkbox"
+              [value]="role.roleId"
+              [checked]="role.enabled"
+              (change)="onChange($event, role?.enabled, role)"
+              class="govuk-checkboxes__input"
+              id="orgRoleControl_{{ role.roleId }}"
+            />
+            <label
+              class="govuk-label govuk-checkboxes__label"
+              for="orgRoleControl_{{ role.roleId }}"
+              >{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                  ? "eSourcing Service as a supplier"
+                  : role.roleKey === "ACCESS_JAGGAER"
+                  ? "eSourcing Service - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "CAT_USER"
+                  ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
+                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                  ? "Contract Award Service (CAS) - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "JAEGGER_BUYER"
+                  ? "eSourcing Service as a buyer"
+                  : role.roleKey === "JAGGAER_USER"
+                  ? "eSourcing Service - click here to add service (Mandatory)"
+                  : role.roleName
+              }}
+              <span
                 *ngIf="
                   role.roleKey != 'JAEGGER_SUPPLIER' &&
                   role.roleKey != 'ACCESS_JAGGAER' &&
@@ -151,13 +106,67 @@
                   role.roleKey != 'JAGGAER_USER'
                 "
                 >- {{ role.serviceName }}</span
-              >
-              </label>
-            </div>
-          </ng-container>
-        </div>
-      </fieldset>
-    </div>
+              ></label
+            >
+          </div>
+        </ng-container>
+      </div>
+      <legend class="govuk-fieldset__legend" style="margin-top: 30px">
+        Service roles for this organisation, select/unselect where appropriate
+      </legend>
+      <div class="govuk-checkboxes" *ngIf="orgEligableRoles$ | async as o">
+        <ng-container *ngFor="let role of roles">
+          <div
+            class="govuk-checkboxes__item"
+            *ngIf="
+              role.subscriptionTypeEligibility === 1 &&
+              role.tradeEligibility !== 0 &&
+              role.orgTypeEligibility !== 0
+            "
+          >
+            <input
+              type="checkbox"
+              [value]="role.roleId"
+              [checked]="role.enabled"
+              (change)="onChange($event, role?.enabled, role)"
+              class="govuk-checkboxes__input"
+              id="orgRoleControl_{{ role.roleId }}"
+            />
+            <label
+              class="govuk-label govuk-checkboxes__label"
+              for="orgRoleControl_{{ role.roleId }}"
+              >{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                  ? "eSourcing Service as a supplier"
+                  : role.roleKey === "ACCESS_JAGGAER"
+                  ? "eSourcing Service - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "CAT_USER"
+                  ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
+                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                  ? "Contract Award Service (CAS) - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "JAEGGER_BUYER"
+                  ? "eSourcing Service as a buyer"
+                  : role.roleKey === "JAGGAER_USER"
+                  ? "eSourcing Service - click here to add service (Mandatory)"
+                  : role.roleName
+              }}
+              <span
+              *ngIf="
+                role.roleKey != 'JAEGGER_SUPPLIER' &&
+                role.roleKey != 'ACCESS_JAGGAER' &&
+                role.roleKey != 'CAT_USER' &&
+                role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                role.roleKey != 'JAEGGER_BUYER' &&
+                role.roleKey != 'JAGGAER_USER'
+              "
+              >- {{ role.serviceName }}</span
+            >
+            </label>
+          </div>
+        </ng-container>
+      </div>
+    </fieldset>
+  </div>
     <div class="govuk-button-group" style="margin-top: 40px">
       <button
         type="button"

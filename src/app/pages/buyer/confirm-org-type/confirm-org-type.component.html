@@ -50,11 +50,12 @@
           <legend class="govuk-fieldset__legend" style="font-size: 22px;">Organisation type</legend>
           <div class="govuk-checkboxes">
             <div class="govuk-__item">
-              <label *ngIf="changes?.orgType === changes?.org?.supplierBuyerType" class="govuk-label">- No Changes</label>
-              <label *ngIf="changes?.orgType !== changes?.org?.supplierBuyerType" class="govuk-label">- {{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : '')}}</label>
+              <label *ngIf="changes?.orgType == changes?.org?.supplierBuyerType" class="govuk-label">- No Changes</label>
+              <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">- {{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : '')}} depending on what organisation type was selected </label>
             </div>
           </div>
-          <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you are adding to this organisation</legend>
+          <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you are adding to this organisation – this section to be included only if any service roles were added
+          </legend>
           <div class="govuk-checkboxes">
             <ng-container *ngFor="let role of changes?.toAdd">
               <div class="govuk-__item">
@@ -87,7 +88,7 @@
               </div>
             </ng-container>
           </div>
-          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you are removing from this organisation</legend>
+          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you are removing from this organisation - this section to be included only if any service roles were removed </legend>
           <div class="govuk-checkboxes">
             <ng-container *ngFor="let role of changes?.toDelete">
               <div class="govuk-__item">
