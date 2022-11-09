@@ -14,6 +14,7 @@ export class DelegatedOrganisationComponent implements OnInit {
   public userDetails: any = {};
   public primaryRoleSelected: any;
   public secondaryRoleSelected: any;
+  private roleData:any;
   private roleInfo: any;
   private isDeleagation:boolean=environment.appSetting.hideDelegation
   constructor(
@@ -35,12 +36,22 @@ export class DelegatedOrganisationComponent implements OnInit {
     ) {
       this.roleInfo=0
       this.primaryRoleSelected = 'primaryselected';
+      this.roleData=0
     } else {
       this.secondaryRoleSelected = this.DelegateService.getDelegatedOrg;
       this.roleInfo=this.DelegateService.getDelegatedOrg;
+      this.roleData=this.DelegateService.getDelegatedOrg
     }
     this.getDelegatedOrganisation();
   }
+
+    public  get isDisabled(){
+      if(this.roleData == this.roleInfo){
+         return true
+      }else{
+         return false
+      }
+    }
 
   private getDelegatedOrganisation(): void {
     this.delegatedService.getDeligatedOrg().subscribe({
@@ -56,7 +67,7 @@ export class DelegatedOrganisationComponent implements OnInit {
 
   public setPrimaryOrg() {
     this.secondaryRoleSelected = null;
-    this.roleInfo = 0;
+    this.roleInfo = 0; 
   }
 
   public setSecondaryOrg(orgDetails: any) {
