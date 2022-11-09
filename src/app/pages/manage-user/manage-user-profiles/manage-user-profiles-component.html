@@ -17,7 +17,7 @@
 
             <button type="button" (click)="onAddClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button">
-                {{ 'ADD_USERS_BTN' | translate }}
+                {{ isBulkUpload ? 'Add user' : 'ADD_USERS_BTN' | translate }}
             </button>
 
             <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchingUserName ===''">

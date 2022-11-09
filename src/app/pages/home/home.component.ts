@@ -40,6 +40,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   idam_client_id: string = environment.idam_client_id;
   targetURL: string = environment.uri.api.security;
   accesstoken: any;
+  isDelegation:boolean=!environment.appSetting.hideDelegation
   opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(
     environment.uri.api.security +
       '/security/sessions/?origin=' +
@@ -165,7 +166,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
       }
     }
 
-    if (e.permissionName === 'DELEGATED_ACCESS') {
+    if (e.permissionName === 'DELEGATED_ACCESS' && this.isDelegation) {
         this.systemModules.push({
           name: 'Delegated access',
           description: 'Manage delegated access to your approved services',
@@ -214,7 +215,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   public getDelegatedOrganisation(): void {
     this.delegatedApiService.getDeligatedOrg().subscribe({
       next: (data: any) => {
-        if(data.detail.delegatedOrgs.length > 0){
+        if(data.detail.delegatedOrgs.length > 0 && this.isDelegation){
           this.systemModules.push({
             name: 'Manage my delegated access',
             description: 'Switch between your primary and delegating Organisation',
