@@ -80,7 +80,8 @@ export class UpdateOrgTypeComponent implements OnInit {
    if(type == 1){
       buyerRemoveList.map((removeRoleKey:any)=>{
       this.roles.map((buyerRoles,index)=>{
-       if(buyerRoles.roleKey == removeRoleKey && buyerRoles.enabled === false){
+       if(buyerRoles.roleKey == removeRoleKey){
+        this.rolesToDelete.push(buyerRoles);
         this.roles.splice(index,1)
        }
       })
