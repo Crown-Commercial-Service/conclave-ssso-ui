@@ -40,8 +40,9 @@ export const environment = {
   listPageSize: 10,
   rollbar: {
     key: 'ROLLBAR',
-    enable: false,
-    security_log:true
+    enable: true,
+    security_log:false,
+    environment: 'uat'
   },
   cookies_policy: {
     essentialcookies: {
@@ -62,5 +63,5 @@ export const environment = {
         auth0: 3,
         __cf_bm: 30
     },
-  },
+  }
 };

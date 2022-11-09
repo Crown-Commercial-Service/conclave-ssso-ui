@@ -80,7 +80,9 @@ export const environment = {
   
         enable: true,
 
-        security_log:true
+        security_log:false,
+      
+      environment: 'pre-production'
   
     },
     
@@ -103,6 +105,6 @@ export const environment = {
             auth0: 3,
             __cf_bm: 30
         },
-    },
+    }
   };
   
