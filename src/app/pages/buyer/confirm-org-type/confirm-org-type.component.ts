@@ -54,7 +54,7 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
       rolesToDelete: this.changes.toDelete,
       rolesToAdd: this.changes.toAdd,
     };
-    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model)).toPromise().then(() => {
+    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'switch').toPromise().then(() => {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
       this.router.navigateByUrl(`buyer/success`);
     }).catch(error => {
