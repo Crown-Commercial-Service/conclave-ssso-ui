@@ -37,10 +37,10 @@ export class UpdateOrgTypeComponent implements OnInit {
   public orgEligableRoles$!: Observable<Role[]>;
   public orgRoles$!: Observable<Role[]>;
   eRoles: Role[];
+  private defaultRole:Role[]=[];
   rolesToAdd: Role[];
   rolesToDelete: Role[];
   adminSelectionMode : string = "";
-
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,private WrapperOrganisationService:WrapperOrganisationService,
     private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService, 
@@ -70,13 +70,37 @@ export class UpdateOrgTypeComponent implements OnInit {
     });
   }
 
-  public onSelect(type: number) {
+  public onSelect(type: string | number) {
+  const buyerRemoveList=['EL_JNR_SUPPLIER','EL_SNR_SUPPLIER','JAEGGER_SUPPLIER']
+  const supplierRemoveList=['JAEGGER_BUYER','ACCESS_CAAAC_CLIENT','CAT_USER','ACCESS_FP_CLIENT','FP_USER']
   this.rolesToAdd = [];
   this.rolesToDelete = [];
+  this.roles = JSON.parse((localStorage.getItem('defaultRole')) || '')
+  //buyer
+   if(type == 1){
+      buyerRemoveList.map((removeRoleKey:any)=>{
+      this.roles.map((buyerRoles,index)=>{
+       if(buyerRoles.roleKey == removeRoleKey && buyerRoles.enabled === false){
+        this.roles.splice(index,1)
+       }
+      })
+    })
+    }
+    // supplier 
+    else if(type == 0){
+      supplierRemoveList.map((removeRoleKey:any)=>{
+        this.roles.map((buyerRoles,index)=>{
+         if(buyerRoles.roleKey == removeRoleKey && buyerRoles.enabled === false){
+          this.roles.splice(index,1)
+         }
+        })
+      })
+    }
+
   this.roles.forEach((f:any)=>{
       if(f.autoValidationRoleTypeEligibility.length != 0){
         f.autoValidationRoleTypeEligibility.forEach((x:any)=>{
-         if(x == type){
+         if(x == type && f.enabled == false){
           f.enabled = true
           this.rolesToAdd.push(f);
          }
@@ -139,7 +163,9 @@ export class UpdateOrgTypeComponent implements OnInit {
               r.enabled = eRoles.some(x => x.roleName == r.roleName && x.serviceName == r.serviceName);
             });
             this.eRoles = eRoles;
+            localStorage.setItem('defaultRole',JSON.stringify(this.roles));
             setTimeout(() => {
+            this.onSelect(this.adminSelectionMode)
             }, 100);
           },
           error: (err: any) => {
