@@ -30,6 +30,7 @@ import { SessionStorageKey } from "src/app/constants/constant";
     ]
 })
 export class ManageUserProfilesComponent extends BaseComponent implements OnInit {
+    public isBulkUpload=environment.appSetting.hideBulkupload
     userList: UserListResponse;
     organisationId: string;
     searchingUserName: string = "";
@@ -77,7 +78,11 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     }
 
     onAddClick() {
-        this.router.navigateByUrl("manage-users/add-user-selection");
+        if(!this.isBulkUpload){
+            this.router.navigateByUrl("manage-users/add-user-selection");
+        } else {
+            this.router.navigateByUrl("manage-users/add-user/details");
+        }
     }
 
     searchTextChanged(event: any) {
