@@ -26,7 +26,8 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Input() serverPageCurrentPage?: number;
   @Input() useClientPagination?: boolean;
   @Input() pageName?: string;
-  
+  @Input() hyperLinkArray?:string[];
+  @Input() hyperArrayVisible?:boolean;
   @Output() hyperLinkClickEvent = new EventEmitter<any>();
   @Output() checkBoxClickEvent = new EventEmitter<any>();
   @Output() radioClickEvent = new EventEmitter<any>();
@@ -63,7 +64,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
     }
   }
 
-  onRowClick(dataRow: any, index: number) {
+  onRowClick(dataRow: any, index: number,event:any) {
     if (this.isCheckBoxVisible) {
       dataRow.isChecked = !dataRow.isChecked;
       this.checkBoxClickEvent.emit(dataRow);
@@ -72,8 +73,14 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
       this.selectedRadioId = 'table-radio-id-' + index;
       this.radioClickEvent.emit(dataRow);
     }
-    else if (this.isHyperLinkVisible) {
-      this.hyperLinkClickEvent.emit(dataRow);
+    else if (this.isHyperLinkVisible || this.hyperArrayVisible) {
+      if(this.hyperArrayVisible){
+        dataRow.event=event
+        this.hyperLinkClickEvent.emit(dataRow);
+      }else{
+        this.hyperLinkClickEvent.emit(dataRow);
+
+      }
     }
     else {
     }
