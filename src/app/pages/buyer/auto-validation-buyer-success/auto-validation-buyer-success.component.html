@@ -53,7 +53,7 @@
               <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">- {{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : '')}}</label>
             </div>
           </div>
-          <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you are assigning to this organisation:
+          <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you have assigned to this organisation:
           </legend>
           <div class="govuk-checkboxes">
             <ng-container *ngFor="let role of changes?.toAdd">
@@ -87,7 +87,7 @@
               </div>
             </ng-container>
           </div>
-          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you are unassigning from this organisation:
+          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you have unassigned from this organisation
           </legend>
           <div class="govuk-checkboxes">
             <ng-container *ngFor="let role of changes?.toDelete">
