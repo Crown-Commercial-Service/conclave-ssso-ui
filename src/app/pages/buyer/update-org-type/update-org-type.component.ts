@@ -110,6 +110,27 @@ export class UpdateOrgTypeComponent implements OnInit {
   })
   }
 
+
+  public tradeEligibilityStatus(role:any){
+    if(this.adminSelectionMode == '0'){
+      if(role.tradeEligibility == '0' || role.tradeEligibility == '2'){
+        return true
+      }
+    } else if (this.adminSelectionMode == '1'){
+      if(role.tradeEligibility == '1' || role.tradeEligibility == '2'){
+        return true
+      }
+    }
+      else if (this.adminSelectionMode == '2'){
+        if(role.tradeEligibility == '0' || role.tradeEligibility == '1' || role.tradeEligibility == '2'){
+          return true
+        }
+    }
+    return false
+  }
+
+
+
   onChange(event: any, defaultValue: any, role: any) {
     if (defaultValue === true && !event.target.checked) {
       this.rolesToDelete.push(role);
@@ -132,7 +153,6 @@ export class UpdateOrgTypeComponent implements OnInit {
   }
 
   public onSubmitClick() {
-    let autoValidationStatus:any;
     let selection = {
       org: this.organisation,
       toDelete: this.rolesToDelete,
@@ -141,7 +161,6 @@ export class UpdateOrgTypeComponent implements OnInit {
       hasChanges: (this.organisation.supplierBuyerType === this.adminSelectionMode && this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0) ? false : true,
       autoValidate:true
     };
-     debugger
     if((this.adminSelectionMode == '1' || this.adminSelectionMode == '2' ) && this.organisation.supplierBuyerType == '0'){
       this.WrapperOrganisationService.getAutoValidationStatus(this.organisation.ciiOrganisationId).toPromise().then((responce:any) => {
          selection.autoValidate = responce.autoValidationSuccess
@@ -176,7 +195,6 @@ export class UpdateOrgTypeComponent implements OnInit {
               r.enabled = eRoles.some(x => x.roleName == r.roleName && x.serviceName == r.serviceName);
             });
             this.eRoles = eRoles;
-            localStorage.setItem('defaultRole',JSON.stringify(this.roles));
             setTimeout(() => {
             this.onSelect(this.adminSelectionMode)
             }, 100);
