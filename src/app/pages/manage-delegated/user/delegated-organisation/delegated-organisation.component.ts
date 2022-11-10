@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { environment } from 'src/environments/environment';
 import { ManageDelegateService } from '../../service/manage-delegate.service';
 
 @Component({
@@ -15,12 +16,18 @@ export class DelegatedOrganisationComponent implements OnInit {
   public secondaryRoleSelected: any;
   private roleData:any;
   private roleInfo: any;
+  private isDeleagation:boolean=environment.appSetting.hideDelegation
   constructor(
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private delegatedService: WrapperUserDelegatedService,
     private DelegateService: ManageDelegateService
-  ) {}
+  ) {
+    if(this.isDeleagation === true){
+      this.route.navigateByUrl('/home');
+      return
+     }
+  }
 
   ngOnInit(): void {
     if (

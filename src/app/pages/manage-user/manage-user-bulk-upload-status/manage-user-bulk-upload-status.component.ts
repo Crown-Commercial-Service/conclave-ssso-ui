@@ -23,8 +23,13 @@ export class ManageUserBulkUploadStatusComponent implements OnInit {
     errorTableHeaders = ['ERROR_HEADING', "ERROR_DESCRIPTION"];
     errorColumnsToDisplay = ['errorHeading', 'errorDescription'];
     errorsGridInfoList: BulkUploadErrorsGridInfo[] = [];
+    isBulkUpload = environment.appSetting.hideBulkupload
     constructor(private router: Router, private activatedRoute: ActivatedRoute, private bulkUploadService: BulkUploadService) {
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
+        if(this.isBulkUpload){
+            this.router.navigateByUrl('home');
+            return
+         }  
     }
 
     ngOnInit() {
