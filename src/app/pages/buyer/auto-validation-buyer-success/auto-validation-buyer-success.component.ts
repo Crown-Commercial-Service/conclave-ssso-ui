@@ -11,11 +11,10 @@ import { share } from 'rxjs/operators';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
-
 @Component({
-  selector: 'app-confirm-org-type',
-  templateUrl: './confirm-org-type.component.html',
-  styleUrls: ['./confirm-org-type.component.scss'],
+  selector: 'app-auto-validation-buyer-success',
+  templateUrl: './auto-validation-buyer-success.component.html',
+  styleUrls: ['./auto-validation-buyer-success.component.scss'],
   animations: [
     slideAnimation({
       close: { 'transform': 'translateX(12.5rem)' },
@@ -25,7 +24,8 @@ import { ViewportScroller } from '@angular/common';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfirmOrgTypeComponent  extends BaseComponent {
+export class AutoValidationBuyerSuccessComponent extends BaseComponent {
+
   public org: any;
   public org$!: Observable<any>;
   public changes: any;
@@ -41,7 +41,7 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
           next: data => {
             this.org = data;
             this.changes = JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
-            console.log("this.changes",this.changes)
+            console.log("this.changessuccess",this.changes)
           }
         });
       }
@@ -55,7 +55,8 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
       rolesToAdd: this.changes.toAdd,
     };
     this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'roles').toPromise().then(() => {
-      this.router.navigateByUrl(`update-org-type/buyer-success/${this.org.ciiOrganisationId}`);
+    localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
+      this.router.navigateByUrl(`update-org-type/buyer-success`);
     }).catch(error => {
       console.log(error);
       this.router.navigateByUrl(`buyer/error`);

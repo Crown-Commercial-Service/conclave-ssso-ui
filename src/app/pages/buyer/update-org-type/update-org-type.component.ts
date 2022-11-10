@@ -132,20 +132,32 @@ export class UpdateOrgTypeComponent implements OnInit {
   }
 
   public onSubmitClick() {
+    let autoValidationStatus:any;
     let selection = {
       org: this.organisation,
       toDelete: this.rolesToDelete,
       toAdd: this.rolesToAdd,
       orgType:this.adminSelectionMode,
-      hasChanges: (this.organisation.supplierBuyerType === this.adminSelectionMode && this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0) ? false : true
+      hasChanges: (this.organisation.supplierBuyerType === this.adminSelectionMode && this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0) ? false : true,
+      autoValidate:true
     };
-    this.WrapperOrganisationService.getAutoValidationStatus(this.organisation.ciiOrganisationId).toPromise().then(() => {
-       localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
-       this.router.navigateByUrl(`update-org-type/confirm-changes/${this.organisation.ciiOrganisationId}`)
-      }).catch(error => {
-        console.log(error);
-       });
+     debugger
+    if((this.adminSelectionMode == '1' || this.adminSelectionMode == '2' ) && this.organisation.supplierBuyerType == '0'){
+      this.WrapperOrganisationService.getAutoValidationStatus(this.organisation.ciiOrganisationId).toPromise().then((responce:any) => {
+         selection.autoValidate = responce.autoValidationSuccess
+         localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
+         this.router.navigateByUrl(`update-org-type/confirm-changes/${this.organisation.ciiOrganisationId}`)
+        }).catch(error => {
+          console.log(error);
+         });
+     } else {
+         localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
+        this.router.navigateByUrl(`update-org-type/confirm-changes/${this.organisation.ciiOrganisationId}`)
+     }
   }
+
+
+
 
   public onCancelClick() {
     localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
