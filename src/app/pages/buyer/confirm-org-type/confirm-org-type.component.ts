@@ -13,9 +13,9 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 
 @Component({
-  selector: 'app-buyer-confirm-changes',
-  templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.scss'],
+  selector: 'app-confirm-org-type',
+  templateUrl: './confirm-org-type.component.html',
+  styleUrls: ['./confirm-org-type.component.scss'],
   animations: [
     slideAnimation({
       close: { 'transform': 'translateX(12.5rem)' },
@@ -25,8 +25,7 @@ import { ViewportScroller } from '@angular/common';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BuyerConfirmChangesComponent extends BaseComponent {
-
+export class ConfirmOrgTypeComponent  extends BaseComponent {
   public org: any;
   public org$!: Observable<any>;
   public changes: any;
@@ -42,7 +41,6 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
           next: data => {
             this.org = data;
             this.changes = JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
-            console.log("this.changes",this.changes)
           }
         });
       }
@@ -55,9 +53,8 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
       rolesToDelete: this.changes.toDelete,
       rolesToAdd: this.changes.toAdd,
     };
-    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'roles').toPromise().then(() => {
-    localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
-      this.router.navigateByUrl(`buyer/success`);
+    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'switch').toPromise().then(() => {
+      this.router.navigateByUrl(`update-org-type/buyer-success/${this.org.ciiOrganisationId}`);
     }).catch(error => {
       console.log(error);
       this.router.navigateByUrl(`buyer/error`);
@@ -70,6 +67,6 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
 
   public onBackClick() {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
-    this.router.navigateByUrl('buyer/confirm/' + this.org.ciiOrganisationId);
+    this.router.navigateByUrl('update-org-type/confirm/' + this.org.ciiOrganisationId);
   }
 }
