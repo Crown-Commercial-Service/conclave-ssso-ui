@@ -41,7 +41,6 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
           next: data => {
             this.org = data;
             this.changes = JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
-            console.log("this.changes",this.changes)
           }
         });
       }
@@ -54,7 +53,7 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
       rolesToDelete: this.changes.toDelete,
       rolesToAdd: this.changes.toAdd,
     };
-    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'roles').toPromise().then(() => {
+    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'switch').toPromise().then(() => {
       this.router.navigateByUrl(`update-org-type/buyer-success/${this.org.ciiOrganisationId}`);
     }).catch(error => {
       console.log(error);
