@@ -133,6 +133,9 @@ import { ViewPendingVerificationComponent } from './pages/manage-buyer-and-both-
 import { ViewVerifiedOrgComponent } from './pages/manage-buyer-and-both-requests/view-verified-org/view-verified-org.component';
 import { RemoveRightToBuyComponent } from './pages/manage-buyer-and-both-requests/remove-right-to-buy/remove-right-to-buy.component';
 import { SuccessRightToBuyComponent } from './pages/manage-buyer-and-both-requests/success-right-to-buy/success-right-to-buy.component';
+import { UpdateOrgTypeComponent } from './pages/buyer/update-org-type/update-org-type.component';
+import { ConfirmOrgTypeComponent } from './pages/buyer/confirm-org-type/confirm-org-type.component';
+import { AutoValidationBuyerSuccessComponent } from './pages/buyer/auto-validation-buyer-success/auto-validation-buyer-success.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -701,6 +704,20 @@ const routes: Routes = [
     component: BuyerConfirmComponent,
   },
   {
+    path: 'update-org-type/confirm/:id',
+    data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: UpdateOrgTypeComponent,
+  },
+  {
+    path: 'update-org-type/buyer-success/:id',
+    data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: AutoValidationBuyerSuccessComponent,
+  },
+  {
     path: 'buyer/confirm-changes/:id',
     data: {
       title: 'Confirm Changes - Manage Buyers',
@@ -709,6 +726,16 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: BuyerConfirmChangesComponent,
+  },
+  {
+    path: 'update-org-type/confirm-changes/:id',
+    data: {
+      title: 'Confirm Changes - Manage Buyers',
+      roles: ['MANAGE_SUBSCRIPTIONS'],
+    },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ConfirmOrgTypeComponent,
   },
   {
     path: 'buyer/error',
@@ -1019,49 +1046,60 @@ const routes: Routes = [
   },
   {
     path: 'manage-buyer-both',
-    data: { title: 'Manage Buyer status Requests' },
+    data: { title: 'Manage Buyer status Requests',roles: ['MANAGE_SUBSCRIPTIONS'] },
     pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
     component: BuyerBothRequestsComponent,
   },
   {
     path: 'confirm-decline',
-    data: { title: 'Decline right to buy status' },
+    data: { title: 'Decline right to buy status',
+    roles: ['MANAGE_SUBSCRIPTIONS'] },
     pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
     component: ConfirmDeclineComponent,
+    
   },
   {
     path: 'confirm-accept',
-    data: { title: 'Approve right to buy status' },
+    data: { title: 'Approve right to buy status',roles: ['MANAGE_SUBSCRIPTIONS'] },
     pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
     component: ConfirmAcceptComponent,
   },
   {
     path: 'pending-verification',
-    data: { title: 'Manage Buyer status requests - View request' },
+    data: { title: 'Manage Buyer status requests - View request',roles: ['MANAGE_SUBSCRIPTIONS'] },
     pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
     component: ViewPendingVerificationComponent,
   },
   {
     path: 'verified-organisations',
-    data: { title: 'Manage Buyer status requests - View Buyer status for the organisation' },
+    data: { title: 'Manage Buyer status requests - View Buyer status for the organisation' ,roles: ['MANAGE_SUBSCRIPTIONS']},
     pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
     component: ViewVerifiedOrgComponent,
   },
   {
     path: 'remove-right-to-buy',
-    data: { title: 'Remove right to buy status' },
+    data: { title: 'Remove right to buy status',roles: ['MANAGE_SUBSCRIPTIONS'] },
     pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
     component: RemoveRightToBuyComponent,
   },
   {
     path: 'remove-right-to-buy-success',
-    data: { title: 'Remove right to buy status – success' },
+    data: { title: 'Remove right to buy status – success',roles: ['MANAGE_SUBSCRIPTIONS'] },
     pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
     component: SuccessRightToBuyComponent,
   },
   {
     path: 'buyer-and-both-success',
     pathMatch: 'full',
+    data: { roles: ['MANAGE_SUBSCRIPTIONS'] },
+    canActivate: [AuthGuard, RoleGuard],
     component: BuyerBothRequestsSuccessComponent,
   },
   {
