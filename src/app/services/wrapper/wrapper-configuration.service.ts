@@ -32,9 +32,9 @@ export class WrapperConfigurationService {
     return this.http.get<IdentityProvider[]>(url, this.options).pipe(
       map((data: IdentityProvider[]) => {
           data.map((f: IdentityProvider) => {
-          //if (f.name === 'User ID and password') {
+          if (f.name === 'User ID and password') {
               tempData.push(f)
-          //}
+          }
       })
          return tempData;
       }), catchError(error => {
