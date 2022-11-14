@@ -183,6 +183,9 @@ import { ViewPendingVerificationComponent } from './pages/manage-buyer-and-both-
 import { ViewVerifiedOrgComponent } from './pages/manage-buyer-and-both-requests/view-verified-org/view-verified-org.component';
 import { RemoveRightToBuyComponent } from './pages/manage-buyer-and-both-requests/remove-right-to-buy/remove-right-to-buy.component';
 import { SuccessRightToBuyComponent } from './pages/manage-buyer-and-both-requests/success-right-to-buy/success-right-to-buy.component';
+import { UpdateOrgTypeComponent } from './pages/buyer/update-org-type/update-org-type.component';
+import { ConfirmOrgTypeComponent } from './pages/buyer/confirm-org-type/confirm-org-type.component';
+import { AutoValidationBuyerSuccessComponent } from './pages/buyer/auto-validation-buyer-success/auto-validation-buyer-success.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -331,7 +334,10 @@ export function createTranslateLoader(http: HttpClient) {
     ViewPendingVerificationComponent,
     ViewVerifiedOrgComponent,
     RemoveRightToBuyComponent,
-    SuccessRightToBuyComponent
+    SuccessRightToBuyComponent,
+    UpdateOrgTypeComponent,
+    ConfirmOrgTypeComponent,
+    AutoValidationBuyerSuccessComponent
   ],
   imports: [
     // BrowserModule,
