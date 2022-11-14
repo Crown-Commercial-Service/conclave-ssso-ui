@@ -12,6 +12,7 @@ import { TokenService } from './token.service';
 })
 export class RoleGuard implements CanActivate {
   private isDeleagtion = environment.appSetting.hideDelegation
+
   constructor(public authService: AuthService, public tokenService: TokenService, private router: Router) {
   }
 

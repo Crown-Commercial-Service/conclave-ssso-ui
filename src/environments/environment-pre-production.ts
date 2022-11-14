@@ -79,11 +79,12 @@ export const environment = {
         key: 'ROLLBAR',
   
         enable: false,
-
-        security_log: false
-  
-    },
-    cookies_policy: {
+        
+        security_log:false,
+        
+        environment:'preprod-ccs-sso'
+  },
+  cookies_policy: {
     essentialcookies: {
       notify_admin_session: 20,
       cookie_policy: 1,
@@ -104,9 +105,9 @@ export const environment = {
     },
   },
   appSetting: {
-   hideIDP:true,
-   hideDelegation:true,
-   hideBulkupload:true
-  },
+    hideIDP:true,
+    hideDelegation:true,
+    hideBulkupload:true
+   },
 };
-  
+

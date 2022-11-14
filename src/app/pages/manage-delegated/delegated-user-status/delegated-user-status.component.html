@@ -8,7 +8,7 @@
                             {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
+                        <a class="govuk-breadcrumbs__link" (click)="goToDelegatedAccessPage()" routerLink="/delegated-access">
                             Delegated access</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="UserStatus.status != '003'">
@@ -37,10 +37,6 @@
                     User's Organisation:<strong
                         class="govuk-!-margin-left-2">{{UserStatus.event.originOrganisation}}</strong>
                 </p>
-                <div>
-                    <h1 class="govuk-heading-s">Delegated user’s permissions</h1>
-                    <p>You cannot edit permissions for user with expired delegated access.</p>
-                </div>
                 <form [formGroup]="formGroup">
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset" role="group" aria-describedby="start-hint">

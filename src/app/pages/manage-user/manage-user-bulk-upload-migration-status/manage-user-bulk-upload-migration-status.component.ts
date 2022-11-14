@@ -27,7 +27,7 @@ export class ManageUserBulkUploadMigrationStatusComponent implements OnInit {
         if(this.isBulkUpload){
             this.router.navigateByUrl('home');
             return
-         }   
+         }    
     }
 
     ngOnInit() {

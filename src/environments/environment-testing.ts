@@ -37,8 +37,9 @@ export const environment = {
   listPageSize: 10,  
   rollbar: {
         key: 'ROLLBAR',
-        enable : false,
-        security_log:true
+        enable : true,
+        security_log:false,
+        environment: 'testing'
   },
   cookies_policy: {
     essentialcookies: {
