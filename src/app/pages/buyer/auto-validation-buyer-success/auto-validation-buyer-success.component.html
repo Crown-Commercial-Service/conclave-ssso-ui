@@ -1,0 +1,244 @@
+<div class="content flex" *ngIf="org$ | async as o">
+    <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" routerLink="/home">Administrator dashboard</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" routerLink="/buyer/search">Manage service eligibility</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">
+              <a class="govuk-breadcrumbs__link">Success</a>
+            </li>
+        </ol>
+    </div>
+    <h1 class="govuk-heading-xl page-title">You have successfully saved the changes</h1>
+    <ng-container *ngIf="changes?.hasChanges === false">
+      <div class="govuk-form-group" style="margin-top:30px;">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend" style="font-size: 22px;">Right to buy status</legend>
+          <div class="govuk-checkboxes">
+            <div class="govuk-__item">
+              <label class="govuk-label">- No Changes</label>
+            </div>
+          </div>
+          <legend class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Default service roles available for this organisation</legend>
+          <div class="govuk-checkboxes">
+            <div class="govuk-__item">
+              <label class="govuk-label">- No Changes</label>
+            </div>
+          </div>
+          <legend class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Additional service roles available for this organisation</legend>
+          <div class="govuk-checkboxes">
+            <div class="govuk-__item">
+              <label class="govuk-label">- No Changes</label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="govuk-button-group" style="margin-top: 40px;">
+        <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" 
+        (click)="onBackClick()">Back</button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="changes?.hasChanges === true">
+      <!-- <p style="font-size: 26px;">Is this organisation a verified buyer for CCS?</p>
+      <div style="font-size: 24px;">{{changes?.org?.rightToBuy ? 'Yes' : 'No'}}</div> -->
+      <div class="govuk-form-group" style="margin-top:30px;"*ngIf="changes?.autoValidate === true">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend" style="font-size: 22px;">Organisation type:</legend>
+          <div class="govuk-checkboxes">
+            <div class="govuk-__item">
+              <label *ngIf="changes?.orgType == changes?.org?.supplierBuyerType" class="govuk-label">- No Changes</label>
+              <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">- {{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : '')}}</label>
+            </div>
+          </div>
+          <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you have assigned to this organisation:
+          </legend>
+          <div class="govuk-checkboxes">
+            <ng-container *ngFor="let role of changes?.toAdd">
+              <div class="govuk-__item">
+                <label class="govuk-label">{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                ? "eSourcing Service as a supplier"
+                : role.roleKey === "ACCESS_JAGGAER"
+                ? "eSourcing Service - dashboard"
+                : role.roleKey === "CAT_USER"
+                ? "Contract Award Service (CAS) - service"
+                : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                ? "Contract Award Service (CAS) - dashboard"
+                : role.roleKey === "JAEGGER_BUYER"
+                ? "eSourcing Service as a buyer"
+                : role.roleKey === "JAGGAER_USER"
+                ? "eSourcing Service - service"
+                : role.roleName
+                }}
+                <span
+                *ngIf="
+                  role.roleKey != 'JAEGGER_SUPPLIER' &&
+                  role.roleKey != 'ACCESS_JAGGAER' &&
+                  role.roleKey != 'CAT_USER' &&
+                  role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                  role.roleKey != 'JAEGGER_BUYER' &&
+                  role.roleKey != 'JAGGAER_USER'
+                "
+                >- {{ role.serviceName }}</span
+              ></label>
+              </div>
+            </ng-container>
+          </div>
+          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you have unassigned from this organisation
+          </legend>
+          <div class="govuk-checkboxes">
+            <ng-container *ngFor="let role of changes?.toDelete">
+              <div class="govuk-__item">
+                <label class="govuk-label">{{
+                  role.roleKey === "JAEGGER_SUPPLIER"
+                  ? "eSourcing Service as a supplier"
+                  : role.roleKey === "ACCESS_JAGGAER"
+                  ? "eSourcing Service - dashboard"
+                  : role.roleKey === "CAT_USER"
+                  ? "Contract Award Service (CAS) - service"
+                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                  ? "Contract Award Service (CAS) - dashboard"
+                  : role.roleKey === "JAEGGER_BUYER"
+                  ? "eSourcing Service as a buyer"
+                  : role.roleKey === "JAGGAER_USER"
+                  ? "eSourcing Service - service"
+                  : role.roleName
+                  }}
+                  <span
+                  *ngIf="
+                    role.roleKey != 'JAEGGER_SUPPLIER' &&
+                    role.roleKey != 'ACCESS_JAGGAER' &&
+                    role.roleKey != 'CAT_USER' &&
+                    role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                    role.roleKey != 'JAEGGER_BUYER' &&
+                    role.roleKey != 'JAGGAER_USER'
+                  "
+                  >- {{ role.serviceName }}</span
+                ></label>
+              </div>
+            </ng-container>
+          </div>
+        </fieldset>
+      </div>
+      <div class="govuk-form-group" style="margin-top:30px;" *ngIf="changes?.autoValidate === false">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend" style="font-size: 22px;">Organisation type:</legend>
+          <div class="govuk-checkboxes">
+            <div class="govuk-__item">
+              <label *ngIf="changes?.orgType == changes?.org?.supplierBuyerType" class="govuk-label">- No Changes</label>
+              <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">- {{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : '')}} - Automatic validation of verified buyer status has been unsuccessful. This will require manual validation and a request will be created on the 'Manage buyer status requests' page.</label>
+            </div>
+          </div>
+          <legend *ngIf="changes?.toAutoValid.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Roles which will be assigned after manual validation is completed:
+          </legend>
+          <div class="govuk-checkboxes">
+            <ng-container *ngFor="let role of changes?.toAutoValid">
+              <div class="govuk-__item">
+                <label class="govuk-label">{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                ? "eSourcing Service as a supplier"
+                : role.roleKey === "ACCESS_JAGGAER"
+                ? "eSourcing Service - dashboard"
+                : role.roleKey === "CAT_USER"
+                ? "Contract Award Service (CAS) - service"
+                : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                ? "Contract Award Service (CAS) - dashboard"
+                : role.roleKey === "JAEGGER_BUYER"
+                ? "eSourcing Service as a buyer"
+                : role.roleKey === "JAGGAER_USER"
+                ? "eSourcing Service - service"
+                : role.roleName
+                }}
+                <span
+                *ngIf="
+                  role.roleKey != 'JAEGGER_SUPPLIER' &&
+                  role.roleKey != 'ACCESS_JAGGAER' &&
+                  role.roleKey != 'CAT_USER' &&
+                  role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                  role.roleKey != 'JAEGGER_BUYER' &&
+                  role.roleKey != 'JAGGAER_USER'
+                "
+                >- {{ role.serviceName }}</span
+              ></label>
+              </div>
+            </ng-container>
+          </div>
+          <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you have assigned to this organisation:
+          </legend>
+          <div class="govuk-checkboxes">
+            <ng-container *ngFor="let role of changes?.toAdd">
+              <div class="govuk-__item">
+                <label class="govuk-label">{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                ? "eSourcing Service as a supplier"
+                : role.roleKey === "ACCESS_JAGGAER"
+                ? "eSourcing Service - dashboard"
+                : role.roleKey === "CAT_USER"
+                ? "Contract Award Service (CAS) - service"
+                : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                ? "Contract Award Service (CAS) - dashboard"
+                : role.roleKey === "JAEGGER_BUYER"
+                ? "eSourcing Service as a buyer"
+                : role.roleKey === "JAGGAER_USER"
+                ? "eSourcing Service - service"
+                : role.roleName
+                }}
+                <span
+                *ngIf="
+                  role.roleKey != 'JAEGGER_SUPPLIER' &&
+                  role.roleKey != 'ACCESS_JAGGAER' &&
+                  role.roleKey != 'CAT_USER' &&
+                  role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                  role.roleKey != 'JAEGGER_BUYER' &&
+                  role.roleKey != 'JAGGAER_USER'
+                "
+                >- {{ role.serviceName }}</span
+              ></label>
+              </div>
+            </ng-container>
+          </div>
+          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you have unassigned from this organisation:
+          </legend>
+          <div class="govuk-checkboxes">
+            <ng-container *ngFor="let role of changes?.toDelete">
+              <div class="govuk-__item">
+                <label class="govuk-label">{{
+                  role.roleKey === "JAEGGER_SUPPLIER"
+                  ? "eSourcing Service as a supplier"
+                  : role.roleKey === "ACCESS_JAGGAER"
+                  ? "eSourcing Service - dashboard"
+                  : role.roleKey === "CAT_USER"
+                  ? "Contract Award Service (CAS) - service"
+                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                  ? "Contract Award Service (CAS) - dashboard"
+                  : role.roleKey === "JAEGGER_BUYER"
+                  ? "eSourcing Service as a buyer"
+                  : role.roleKey === "JAGGAER_USER"
+                  ? "eSourcing Service - service"
+                  : role.roleName
+                  }}
+                  <span
+                  *ngIf="
+                    role.roleKey != 'JAEGGER_SUPPLIER' &&
+                    role.roleKey != 'ACCESS_JAGGAER' &&
+                    role.roleKey != 'CAT_USER' &&
+                    role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                    role.roleKey != 'JAEGGER_BUYER' &&
+                    role.roleKey != 'JAGGAER_USER'
+                  "
+                  >- {{ role.serviceName }}</span
+                ></label>
+              </div>
+            </ng-container>
+          </div>
+        </fieldset>
+      </div>
+    </ng-container>
+  <div>
+  <p><a class="navigation-text" href="javascript:;" routerLink="/buyer/search">Return to Manage service eligibility</a></p>
+  <p><a *ngIf="changes?.autoValidate != true" class="navigation-text" href="javascript:;" routerLink="/manage-buyer-both">Go to Manage Buyer status requests</a></p>
+  </div>
+  </div>
