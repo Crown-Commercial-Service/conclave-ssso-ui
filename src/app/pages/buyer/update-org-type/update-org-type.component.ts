@@ -37,8 +37,8 @@ export class UpdateOrgTypeComponent implements OnInit {
   public orgEligableRoles$!: Observable<Role[]>;
   public orgRoles$!: Observable<Role[]>;
   eRoles: Role[];
-  private defaultRole:Role[]=[];
   rolesToAdd: Role[];
+  rolesToAddAutoValidation: Role[] | any;
   rolesToDelete: Role[];
   adminSelectionMode : string = "";
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,private WrapperOrganisationService:WrapperOrganisationService,
@@ -70,13 +70,21 @@ export class UpdateOrgTypeComponent implements OnInit {
     });
   }
 
+/**
+ * select radio button
+ * @param type supplier, buyer, both
+ * supplier = 0
+ * buyer    = 1
+ * both     =  2
+ */
   public onSelect(type: string | number) {
   const buyerRemoveList=['EL_JNR_SUPPLIER','EL_SNR_SUPPLIER','JAEGGER_SUPPLIER']
   const supplierRemoveList=['JAEGGER_BUYER','ACCESS_CAAAC_CLIENT','CAT_USER','ACCESS_FP_CLIENT','FP_USER']
   this.rolesToAdd = [];
   this.rolesToDelete = [];
+  this.rolesToAddAutoValidation = []
   this.roles = JSON.parse((localStorage.getItem('defaultRole')) || '')
-  //buyer
+  //buyer roles hidden 
    if(type == 1){
       buyerRemoveList.map((removeRoleKey:any)=>{
       this.roles.map((buyerRoles,index)=>{
@@ -87,7 +95,7 @@ export class UpdateOrgTypeComponent implements OnInit {
       })
     })
     }
-    // supplier 
+    // supplier roles hidden
     else if(type == 0){
       supplierRemoveList.map((removeRoleKey:any)=>{
         this.roles.map((buyerRoles,index)=>{
@@ -98,19 +106,26 @@ export class UpdateOrgTypeComponent implements OnInit {
       })
     }
 
+  //  pre- tick for all type
   this.roles.forEach((f:any)=>{
       if(f.autoValidationRoleTypeEligibility.length != 0){
         f.autoValidationRoleTypeEligibility.forEach((x:any)=>{
          if(x == type && f.enabled == false){
-          f.enabled = true
-          this.rolesToAdd.push(f);
+           f.enabled = true
+           f.autoValidate = true
+          this.rolesToAdd.push(f); 
+          this.rolesToAddAutoValidation?.push(f)
          }
         })
       }
-  })
+   })
   }
 
-
+/**
+ *  trade elegibity checking for all listed roles
+ * @param role getting from html when *ngFor happen
+ * @returns return boolean value based on condtion
+ */
   public tradeEligibilityStatus(role:any){
     if(this.adminSelectionMode == '0'){
       if(role.tradeEligibility == '0' || role.tradeEligibility == '2'){
@@ -130,9 +145,18 @@ export class UpdateOrgTypeComponent implements OnInit {
   }
 
 
-
-  onChange(event: any, defaultValue: any, role: any) {
-    if (defaultValue === true && !event.target.checked) {
+/**
+ * Check box evenets 
+ * @param event oberverving HTML DOM event 
+ * @param defaultValue Init Value
+ * @param role object of role
+ */
+  public onChange(event: any, defaultValue: any, role: any) {
+    if(role.autoValidate === true && !event.target.checked){
+      const index = this.rolesToAddAutoValidation?.indexOf(role);
+      this.rolesToAddAutoValidation?.splice(index,1)
+    }
+    else if (defaultValue === true && !event.target.checked) {
       this.rolesToDelete.push(role);
     }
     else if (defaultValue == true && event.target.checked) {
@@ -152,11 +176,15 @@ export class UpdateOrgTypeComponent implements OnInit {
     }
   }
 
+  /**
+   * On submit save call.
+   */
   public onSubmitClick() {
     let selection = {
       org: this.organisation,
       toDelete: this.rolesToDelete,
       toAdd: this.rolesToAdd,
+      toAutoValid : this.rolesToAddAutoValidation,
       orgType:this.adminSelectionMode,
       hasChanges: (this.organisation.supplierBuyerType === this.adminSelectionMode && this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0) ? false : true,
       autoValidate:true
@@ -176,14 +204,19 @@ export class UpdateOrgTypeComponent implements OnInit {
   }
 
 
-
-
+/**
+ * cancel button call , removing all the local storage details
+ */
   public onCancelClick() {
     localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
     this.router.navigateByUrl('buyer/search');
   }
 
-  getOrgRoles(){
+
+  /**
+   * getting all roles and find elegible role call.
+   */
+  public getOrgRoles(){
     this.orgRoles$ = this.wrapperConfigService.getRoles().pipe(share());
     this.orgRoles$.subscribe({
       next: (orgRoles: Role[]) => {
@@ -195,6 +228,7 @@ export class UpdateOrgTypeComponent implements OnInit {
               r.enabled = eRoles.some(x => x.roleName == r.roleName && x.serviceName == r.serviceName);
             });
             this.eRoles = eRoles;
+            localStorage.setItem('defaultRole',JSON.stringify(this.roles))
             setTimeout(() => {
             this.onSelect(this.adminSelectionMode)
             }, 100);
