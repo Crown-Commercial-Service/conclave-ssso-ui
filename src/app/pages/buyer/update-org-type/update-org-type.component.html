@@ -30,21 +30,21 @@
           <div class="govuk-radios">
               <div class="govuk-radios__item" id="orgAdminRadioSelection" >
                   <input class="govuk-radios__input" type="radio" id="supplierRadioButton" value="0"
-                      [(ngModel)]="adminSelectionMode" (click)="onSelect(0)"/>
+                      [(ngModel)]="adminSelectionMode" (click)="onSelect(0,'html')"/>
                   <label for="supplierRadioButton" class="govuk-label govuk-radios__label">
                     Supplier
                   </label>
               </div>
               <div class="govuk-radios__item" id="nominateAdminRadioSelection">
                   <input class="govuk-radios__input" type="radio" id="buyerRadioButton" value="1"
-                      [(ngModel)]="adminSelectionMode"  (click)="onSelect(1)" />
+                      [(ngModel)]="adminSelectionMode"  (click)="onSelect(1,'html')" />
                   <label for="buyerRadioButton" class="govuk-label govuk-radios__label">
                     Buyer
                   </label>
               </div>
               <div class="govuk-radios__item" id="unknownAdminRadioSelection">
                   <input class="govuk-radios__input" type="radio" id="bothRadioButton" value="2"
-                      [(ngModel)]="adminSelectionMode" (click)="onSelect(2)" />
+                      [(ngModel)]="adminSelectionMode" (click)="onSelect(2,'html')" />
                   <label for="bothRadioButton" class="govuk-label govuk-radios__label">
                     Both
                   </label>
