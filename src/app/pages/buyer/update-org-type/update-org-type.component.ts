@@ -106,7 +106,7 @@ export class UpdateOrgTypeComponent implements OnInit {
       })
     }
     
-    if(accessfrom === "html"){
+    if(accessfrom === "html" && type != this.adminSelectionMode){
       this.preTickRoles(type)
     }
   }
@@ -192,7 +192,7 @@ export class UpdateOrgTypeComponent implements OnInit {
       toAdd: this.rolesToAdd,
       toAutoValid : this.rolesToAddAutoValidation,
       orgType:this.adminSelectionMode,
-      hasChanges: (this.organisation.supplierBuyerType === this.adminSelectionMode && this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0) ? false : true,
+      hasChanges: (this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0 && this.organisation.supplierBuyerType == this.adminSelectionMode) ? false : true,
       autoValidate:true
     };
     if((this.adminSelectionMode == '1' || this.adminSelectionMode == '2' ) && this.organisation.supplierBuyerType == '0'){
