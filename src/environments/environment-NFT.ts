@@ -75,8 +75,10 @@ export const environment = {
       key: 'ROLLBAR',
   
       enable: false,
-  
-      security_log: false
+
+      security_log: false,
+      
+      environment: 'nft-ccs-sso'
   
     },
     cookies_policy: {
@@ -98,6 +100,10 @@ export const environment = {
           auth0: 3,
           __cf_bm: 30
       },
-    }
-  
+    },
+     appSetting: {
+    hideIDP:true,
+    hideDelegation:true,
+    hideBulkupload:true
+   },
   };

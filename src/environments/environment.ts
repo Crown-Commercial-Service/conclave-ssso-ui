@@ -36,7 +36,8 @@ export const environment = {
   rollbar: {
     key: '',
     enable: false,
-    security_log:true
+    security_log:false,
+    environment:'dev-ccs-sso'
   } ,
   cookies_policy: {
     essentialcookies: {
@@ -58,5 +59,9 @@ export const environment = {
       __cf_bm : 30 
     },
   },
+  appSetting: {
+    hideIDP:true,
+    hideDelegation:true,
+    hideBulkupload:true
+   },
 };
-

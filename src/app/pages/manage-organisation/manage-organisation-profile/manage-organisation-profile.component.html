@@ -45,30 +45,26 @@
     </div>
   </div>
 
-  <div class="govuk-form-group" *ngIf="idps">
+  <div class="govuk-form-group" *ngIf="idps" [class.govuk-form-group--error]="!isValid && submitted">
     <fieldset class="govuk-fieldset">
       <legend class="govuk-heading-s">
         {{ 'SIGN_IN_PROVIDER'| translate }}
       </legend>
-      <span>
-        A sign in provider gives users the option to use a different service to sign in. Sign in providers are set at an
-        organisational level. Any updates applied here will apply to all of your organisation’s users
-      </span>
-      <br>
-      <br>
+      <div id="signin-hint" class="govuk-hint" style="color: black;">
+        {{ idpStatus == false ? 'A sign in provider gives users the option to use a different service to sign in. Sign in providers are set at an
+        organisational level. Any updates applied here will apply to all of your organisation’s users' : (idpStatus == true ? 'Users can only use a User ID and password to sign in. You may be able to allow additional sign-in methods in the future.' : '')}}
+      </div>
       <span *ngIf="!isValid && submitted" id="group-error" class="govuk-error-message label-detail-text-gap">
         <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-        {{'ERROR_SIGN_IN_PROVIDER_REQUIRED' | translate }}
+        {{'ERROR_AT_LEAST_ONE_SIGN_IN_PROVIDER' | translate }}
       </span>
-
       <div class="govuk-checkboxes label-detail-text-gap">
         <div class="govuk-checkboxes__item" *ngFor="let idp of idps">
-          <div *ngIf="idp.connectionName !== 'none'">
-            <input type="checkbox" [value]="idp.id" #input [checked]="idp.enabled === true"
-              (change)="onIdentityProviderChange($event,idp)" class="govuk-checkboxes__input"
-              id="orgRoleControl_{{idp.id}}">
-            <label class="govuk-label govuk-checkboxes__label" for="orgRoleControl_{{idp.id}}">{{idp.name}}</label>
-          </div>
+          <input type="checkbox" [value]="idp.id" #input [checked]="idp.enabled === true"
+            [attr.disabled]="true"
+            (change)="onIdentityProviderChange($event,idp)" class="govuk-checkboxes__input"
+            id="orgRoleControl_{{idp.id}}">
+          <label class="govuk-label govuk-checkboxes__label" for="orgRoleControl_{{idp.id}}">{{idp.name}}</label>
         </div>
       </div>
     </fieldset>
