@@ -2,8 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { delegateduser } from 'src/app/models/delegated.model';
-import { UserListResponse } from 'src/app/models/user';
+import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 import { environment } from 'src/environments/environment';
 
 
@@ -19,61 +18,13 @@ export class WrapperBuyerBothService {
 
   constructor(private http: HttpClient) { }
 
-
-  public pendingVerification = {
-    "organisationId": "474281654063910288",
-    "userList": [
-        {
-            organisatioName : "Dreams Tech",
-            organisationType : "buyer",
-            dateofRegistration: "2022-10-11T00:00:00"
-        },
-        {
-            organisatioName : "Dreams Guys",
-            organisationType : "Both",
-            dateofRegistration: "2022-10-11T00:00:00"
-        },
-        {
-            organisatioName: "Brickendon",
-            organisationType: "Both",
-            dateofRegistration: "2022-10-11T00:00:00"
-        }
-    ],
-    "currentPage": 1,
-    "pageCount": 1,
-    "rowCount": 1
-  }
-
-  public VerifiedOrg = {
-    "organisationId": "474281654063910288",
-    "userList": [
-        {
-            organisatioName : "srishit innovative",
-            organisationType : "buyer",
-            dateofRegistration: "2022-10-11T00:00:00"
-        },
-        {
-            organisatioName : "sunvis softwares",
-            organisationType : "Both",
-            dateofRegistration: "2022-10-11T00:00:00"
-        },
-        {
-            organisatioName: "rounds edge",
-            organisationType: "Both",
-            dateofRegistration: "2022-10-11T00:00:00"
-        }
-    ],
-    "currentPage": 1,
-    "pageCount": 1,
-    "rowCount": 1
-  }
-
   getpendingVerificationOrg(organisationId: string, searchString: string, currentPage: number, pageSize: number, includeSelf: boolean = false): Observable<any> {
+    debugger;
     pageSize = pageSize <= 0 ? 10 : pageSize;
-    const url = `${this.org}/${organisationId}/users?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&include-self=${includeSelf}&delegated-only=${true}&delegated-expired-only=${false}`;
-    return this.http.get<UserListResponse>(url).pipe(
-      map((data: UserListResponse) => {
-        return  this.pendingVerification
+    const url = `${this.org}/audits?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&pending-only=true`;
+    return this.http.get<OrganisationAuditListResponse>(url).pipe(
+      map((data: OrganisationAuditListResponse) => {
+        return  data
       }), catchError(error => {
         return throwError(error);
       })
@@ -82,10 +33,10 @@ export class WrapperBuyerBothService {
 
   getVerifiedOrg(organisationId: string, searchString: string, currentPage: number, pageSize: number, includeSelf: boolean = false): Observable<any> {
     pageSize = pageSize <= 0 ? 10 : pageSize;
-    const url = `${this.org}/${organisationId}/users?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&include-self=${includeSelf}&delegated-only=${true}&delegated-expired-only=${false}`;
-    return this.http.get<UserListResponse>(url).pipe(
-      map((data: UserListResponse) => {
-        return  this.VerifiedOrg
+    const url = `${this.org}/audits?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&pending-only=false`;
+    return this.http.get<OrganisationAuditListResponse>(url).pipe(
+      map((data: OrganisationAuditListResponse) => {
+        return  data
       }), catchError(error => {
         return throwError(error);
       })
