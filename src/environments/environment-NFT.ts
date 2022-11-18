@@ -2,7 +2,7 @@ export const environment = {
 
     production: true,
   
-    idam_client_id: 'IDAM',
+    idam_client_id: 'IDAM_ID',
   
     uri: {
   
@@ -74,11 +74,11 @@ export const environment = {
   
       key: 'ROLLBAR',
   
-      enable: true,
-  
+      enable: false,
+
       security_log: false,
       
-      environment: 'nft'
+      environment: 'nft-ccs-sso'
   
     },
     cookies_policy: {
@@ -100,6 +100,10 @@ export const environment = {
           auth0: 3,
           __cf_bm: 30
       },
-    }
-  
+    },
+     appSetting: {
+    hideIDP:true,
+    hideDelegation:true,
+    hideBulkupload:true
+   },
   };
