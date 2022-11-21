@@ -78,31 +78,36 @@ export const environment = {
   
         key: 'ROLLBAR',
   
-        enable: true,
-
-        security_log:true
-  
+        enable: false,
+        
+        security_log:false,
+        
+        environment:'preprod-ccs-sso'
+  },
+  cookies_policy: {
+    essentialcookies: {
+      notify_admin_session: 20,
+      cookie_policy: 1,
+      ccs_sso_visitedsites :30,
+      opbs :30,
+      ccs_sso:30,
+      conclave:30,
+      XSRF_TOKEN:30,
+      XSRF_TOKEN_SVR:30,
+      AspNetCore_Antiforgery_GWNWkbbyKbw:30
     },
-    
-    cookies_policy: {
-        essentialcookies: {
-            notify_admin_session: 20,
-            cookie_policy: 1,
-            ccs_sso_visitedsites: 60,
-            opbs: 60,
-            ccs_sso: 60,
-            conclave: 60,
-            XSRF_TOKEN: 30,
-            XSRF_TOKEN_SVR: 30,
-            AspNetCore_Antiforgery_GWNWkbbyKbw: 30
-        },
-        Auth0cookies: {
-            auth0_compat: 3,
-            did_compat: 6,
-            did: 6,
-            auth0: 3,
-            __cf_bm: 30
-        },
-    }
-  };
-  
+    Auth0cookies: {
+      auth0_compat : 3,
+      did_compat  : 6,
+      did  : 6,
+      auth0   : 3,
+      __cf_bm : 30 
+    },
+  },
+  appSetting: {
+    hideIDP:true,
+    hideDelegation:true,
+    hideBulkupload:true
+   },
+};
+

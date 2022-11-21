@@ -41,26 +41,32 @@ export const environment = {
   rollbar: {
     key: 'ROLLBAR',
     enable: false,
-    security_log: false
+    security_log:false,
+    environment: 'uat-ccs-sso'
   },
   cookies_policy: {
-    essentialcookies: {
-        notify_admin_session: 20,
-        cookie_policy: 1,
-        ccs_sso_visitedsites: 60,
-        opbs: 60,
-        ccs_sso: 60,
-        conclave: 60,
-        XSRF_TOKEN: 30,
-        XSRF_TOKEN_SVR: 30,
-        AspNetCore_Antiforgery_GWNWkbbyKbw: 30
+      essentialcookies: {
+          notify_admin_session: 20,
+          cookie_policy: 1,
+          ccs_sso_visitedsites: 60,
+          opbs: 60,
+          ccs_sso: 60,
+          conclave: 60,
+          XSRF_TOKEN: 30,
+          XSRF_TOKEN_SVR: 30,
+          AspNetCore_Antiforgery_GWNWkbbyKbw: 30
+      },
+      Auth0cookies: {
+          auth0_compat: 3,
+          did_compat: 6,
+          did: 6,
+          auth0: 3,
+          __cf_bm: 30
+      },
     },
-    Auth0cookies: {
-        auth0_compat: 3,
-        did_compat: 6,
-        did: 6,
-        auth0: 3,
-        __cf_bm: 30
-    },
-  }
-};
+     appSetting: {
+    hideIDP:false,
+    hideDelegation:false,
+    hideBulkupload:false
+   },
+  };
