@@ -35,8 +35,8 @@ export const environment = {
   listPageSize: 10,
   rollbar: {
     key: '',
-    enable: true,
-    security_log:true,
+    enable: false,
+    security_log:false,
     environment:'dev-ccs-sso'
   } ,
   cookies_policy: {
