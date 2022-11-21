@@ -89,7 +89,9 @@ export class UpdateOrgTypeComponent implements OnInit {
       buyerRemoveList.map((removeRoleKey:any)=>{
       this.roles.map((buyerRoles,index)=>{
        if(buyerRoles.roleKey == removeRoleKey){
-        this.rolesToDelete.push(buyerRoles);
+        if(accessfrom === "html"){
+          this.rolesToDelete.push(buyerRoles);
+        }
         this.roles.splice(index,1)
        }
       })
