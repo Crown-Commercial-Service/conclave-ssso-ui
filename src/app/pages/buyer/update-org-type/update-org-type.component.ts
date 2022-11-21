@@ -77,7 +77,7 @@ export class UpdateOrgTypeComponent implements OnInit {
  * buyer    = 1
  * both     =  2
  */
-  public onSelect(type: string | number) {
+  public onSelect(type: string | number,accessfrom:string) {
   const buyerRemoveList=['EL_JNR_SUPPLIER','EL_SNR_SUPPLIER','JAEGGER_SUPPLIER']
   const supplierRemoveList=['JAEGGER_BUYER','ACCESS_CAAAC_CLIENT','CAT_USER','ACCESS_FP_CLIENT','FP_USER']
   this.rolesToAdd = [];
@@ -105,8 +105,14 @@ export class UpdateOrgTypeComponent implements OnInit {
         })
       })
     }
+    
+    if(accessfrom === "html" && type != this.adminSelectionMode){
+      this.preTickRoles(type)
+    }
+  }
 
-  //  pre- tick for all type
+
+  public preTickRoles(type:any):void{
   this.roles.forEach((f:any)=>{
       if(f.autoValidationRoleTypeEligibility.length != 0){
         f.autoValidationRoleTypeEligibility.forEach((x:any)=>{
@@ -186,7 +192,7 @@ export class UpdateOrgTypeComponent implements OnInit {
       toAdd: this.rolesToAdd,
       toAutoValid : this.rolesToAddAutoValidation,
       orgType:this.adminSelectionMode,
-      hasChanges: (this.organisation.supplierBuyerType === this.adminSelectionMode && this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0) ? false : true,
+      hasChanges: (this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0 && this.organisation.supplierBuyerType == this.adminSelectionMode) ? false : true,
       autoValidate:true
     };
     if((this.adminSelectionMode == '1' || this.adminSelectionMode == '2' ) && this.organisation.supplierBuyerType == '0'){
@@ -230,7 +236,7 @@ export class UpdateOrgTypeComponent implements OnInit {
             this.eRoles = eRoles;
             localStorage.setItem('defaultRole',JSON.stringify(this.roles))
             setTimeout(() => {
-            this.onSelect(this.adminSelectionMode)
+            this.onSelect(this.adminSelectionMode,'none')
             }, 100);
           },
           error: (err: any) => {
