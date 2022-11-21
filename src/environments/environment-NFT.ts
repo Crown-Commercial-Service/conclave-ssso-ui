@@ -102,8 +102,8 @@ export const environment = {
       },
     },
      appSetting: {
-    hideIDP:true,
-    hideDelegation:true,
-    hideBulkupload:true
+    hideIDP:false,
+    hideDelegation:false,
+    hideBulkupload:false
    },
   };
