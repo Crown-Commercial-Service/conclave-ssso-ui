@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserListResponse } from 'src/app/models/user';
+import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-buyer-both-requests',
@@ -23,11 +24,11 @@ export class BuyerBothRequestsComponent implements OnInit {
     pageSize: environment.listPageSize,
     usersTableHeaders: ['Organisation name ', 'Organisation type ', 'Date of registration'],
     usersColumnsToDisplay: [
-      'organisatioName',
-      'organisationType',
-      'dateofRegistration',
+      'organisationName',
+      'organisationTypeName',
+      'dateOfRegistration',
     ],
-    userList: '',
+    organisationAuditList: '',
     pageName: 'Contactadmin',
     hyperTextrray: ['Decline', 'Accept', 'View'],
   };
@@ -38,32 +39,33 @@ export class BuyerBothRequestsComponent implements OnInit {
     pageSize: environment.listPageSize,
     usersTableHeaders: ['Organisation name ', 'Organisation type ', 'Date of registration'],
     usersColumnsToDisplay: [
-      'organisatioName',
-      'organisationType',
-      'dateofRegistration',
+      'organisationName',
+      'organisationTypeName',
+      'dateOfRegistration',
     ],
-    userList: '',
+    organisationAuditList: '',
     pageName: 'Contactadmin',
     hyperTextrray: ['View'],
   };
   constructor(
     private router: Router,
     private wrapperBuyerAndBothService:WrapperBuyerBothService,
+    private translate: TranslateService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
-    this.pendingVerificationBuyerAndBoth.userList = {
+    this.pendingVerificationBuyerAndBoth.organisationAuditList = {
       currentPage: this.pendingVerificationBuyerAndBoth.currentPage,
       pageCount: 0,
       rowCount: 0,
       organisationId: this.organisationId,
-      userList: [],
+      organisationAuditList: [],
     };
-    this.verifiedBuyerAndBoth.userList = {
+    this.verifiedBuyerAndBoth.organisationAuditList = {
       currentPage: this.pendingVerificationBuyerAndBoth.currentPage,
       pageCount: 0,
       rowCount: 0,
       organisationId: this.organisationId,
-      userList: [],
+      organisationAuditList: [],
     };
   }
 
@@ -95,9 +97,9 @@ export class BuyerBothRequestsComponent implements OnInit {
 
   public OnClickView(event: any) {
     let data = {
-      header: 'View expired delegated access',
+      header: 'View request',
       Description: '',
-      Breadcrumb: 'View expired delegated access',
+      Breadcrumb: 'View request',
       status: '003',
       event: event,
     };
@@ -123,11 +125,11 @@ export class BuyerBothRequestsComponent implements OnInit {
       this.pendingVerificationBuyerAndBoth.currentPage,
       this.pendingVerificationBuyerAndBoth.pageSize
     ).subscribe({
-      next: (userListResponse: UserListResponse) => {
-        if (userListResponse != null) {
-          this.pendingVerificationBuyerAndBoth.userList = userListResponse;
-          this.pendingVerificationBuyerAndBoth.pageCount =
-            this.pendingVerificationBuyerAndBoth.userList.pageCount;
+      next: (orgListResponse: OrganisationAuditListResponse) => {
+        if (orgListResponse != null) {
+          this.pendingVerificationBuyerAndBoth.organisationAuditList = orgListResponse;
+          this.pendingVerificationBuyerAndBoth.pageCount = orgListResponse.pageCount;
+          this.assignOrgTypeName(orgListResponse);
         }
         this.geVerifiedOrg()
       },
@@ -144,11 +146,11 @@ export class BuyerBothRequestsComponent implements OnInit {
       this.verifiedBuyerAndBoth.currentPage,
       this.verifiedBuyerAndBoth.pageSize
     ).subscribe({
-      next: (userListResponse: UserListResponse) => {
-        if (userListResponse != null) {
-          this.verifiedBuyerAndBoth.userList = userListResponse;
-          this.verifiedBuyerAndBoth.pageCount =
-            this.verifiedBuyerAndBoth.userList.pageCount;
+      next: (orgListResponse: OrganisationAuditListResponse) => {
+        if (orgListResponse != null) {
+          this.verifiedBuyerAndBoth.organisationAuditList = orgListResponse;
+          this.verifiedBuyerAndBoth.pageCount = orgListResponse.pageCount;
+          this.assignOrgTypeName(orgListResponse);
         }
       },
       error: (error: any) => {
@@ -165,6 +167,20 @@ export class BuyerBothRequestsComponent implements OnInit {
       this.tabConfig.pendingOrg = true;
       this.tabConfig.verifiedOrg = false;
     }
+  }
+
+  private assignOrgTypeName(orgListResponse: OrganisationAuditListResponse): void{
+    orgListResponse.organisationAuditList.forEach(org => {
+      if(org.organisationType == 0){
+        this.translate.get('SUPPLIER_TYPE').subscribe(val => org.organisationTypeName = val);
+      }
+      else if(org.organisationType == 1){
+        this.translate.get('BUYER_TYPE').subscribe(val => org.organisationTypeName = val);
+      }
+      else if(org.organisationType == 2){
+        this.translate.get('BUYER_AND_SUPPLIER_TYPE').subscribe(val => org.organisationTypeName = val);
+      }
+    });
   }
 
   ngOnDestroy(): void {
