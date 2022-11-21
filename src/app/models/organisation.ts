@@ -84,3 +84,18 @@ export interface OrganisationAuditList
 export interface OrganisationAuditListResponse extends PaginationInfo {
     organisationAuditList: OrganisationAuditList[];
 }
+
+export interface OrganisationAuditEventList
+{
+    organisationId: number;
+    firstName: string;
+    lastName: string;
+    actionedBy: string;
+    owner: string;
+    event: string;
+    date: Date;
+}
+
+export interface OrganisationAuditEventListResponse extends PaginationInfo {
+    organisationAuditEventList: OrganisationAuditEventList[];
+}
