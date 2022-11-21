@@ -46,7 +46,7 @@
     <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <div class="user-table">
-            <app-govuk-table [headerTextKeys]="pendingVerificationBuyerAndBoth.usersTableHeaders" [data]="pendingVerificationBuyerAndBoth.userList.userList"
+            <app-govuk-table [headerTextKeys]="pendingVerificationBuyerAndBoth.usersTableHeaders" [data]="pendingVerificationBuyerAndBoth.organisationAuditList.organisationAuditList"
                 [dataKeys]="pendingVerificationBuyerAndBoth.usersColumnsToDisplay" [isHyperLinkVisible]="false"
                 [pageName]="pendingVerificationBuyerAndBoth.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=pendingVerificationBuyerAndBoth.hyperTextrray
                 (hyperLinkClickEvent)="onLinkClick($event)" [useServerPagination]="true" [serverPageCount]="pendingVerificationBuyerAndBoth.pageCount"
@@ -57,7 +57,7 @@
     </div> 
     <div class="govuk-tabs__panel" id="past-week" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.pendingOrg}">
       <div class="user-table">
-        <app-govuk-table [headerTextKeys]="verifiedBuyerAndBoth.usersTableHeaders" [data]="verifiedBuyerAndBoth.userList.userList"
+        <app-govuk-table [headerTextKeys]="verifiedBuyerAndBoth.usersTableHeaders" [data]="verifiedBuyerAndBoth.organisationAuditList.organisationAuditList"
         [dataKeys]="verifiedBuyerAndBoth.usersColumnsToDisplay" [isHyperLinkVisible]="false"
         [pageName]="verifiedBuyerAndBoth.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=verifiedBuyerAndBoth.hyperTextrray
         (hyperLinkClickEvent)="OnClickView($event)" [useServerPagination]="true" [serverPageCount]="verifiedBuyerAndBoth.pageCount"
