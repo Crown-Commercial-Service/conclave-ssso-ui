@@ -16,7 +16,7 @@
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align">View organisations’ Buyer status</h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align">View organisation's Buyer status</h1>
             <div>
                 <p class="govuk-body-l">
                     View details of organisations’ Buyer status
@@ -34,7 +34,7 @@
                     Date of registration:<strong class="govuk-!-margin-left-2">{{routeDetails.event.dateOfRegistration}}</strong>
                 </p>
                 <p class="govuk-body">
-                    Right to buy status:<strong class="govuk-!-margin-left-2">Approved</strong>
+                    Right to buy status:<strong class="govuk-!-margin-left-2">{{routeDetails.event.rightToBuy ? 'Approved' : 'Declined'}}</strong>
                 </p>
             </div>
         <div class="span-group govuk-!-margin-top-4">

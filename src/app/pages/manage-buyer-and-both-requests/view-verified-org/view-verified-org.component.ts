@@ -5,6 +5,7 @@ import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { environment } from 'src/environments/environment';
 import { ciiService } from 'src/app/services/cii/cii.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view-verified-org',
@@ -51,7 +52,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private wrapperBuyerAndBothService:WrapperBuyerBothService,
     private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
-    private router:Router, private ciiService: ciiService
+    private router:Router, private ciiService: ciiService, private translate: TranslateService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -80,7 +81,6 @@ export class ViewVerifiedOrgComponent implements OnInit {
        this.additionalIdentifiers = this.registries?.additionalIdentifiers;
      }
      this.getOrganisationUsers();
-     this.getEventLogDetails();
     });
   }
 
@@ -93,7 +93,8 @@ export class ViewVerifiedOrgComponent implements OnInit {
     this.WrapperOrganisationGroupService.getUsersAdmin(
       this.routeDetails.event.organisationId,
       this.organisationAdministrator.currentPage,
-      this.organisationAdministrator.pageSize
+      this.organisationAdministrator.pageSize,
+      true
     ).subscribe({
       next: (response: any) => {
         if (response != null) {
@@ -107,6 +108,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
           this.organisationAdministrator.pageCount =
             this.organisationAdministrator.userListResponse.pageCount;
         }
+        this.getEventLogDetails();
       },
       error: (error: any) => {},
     });
@@ -130,13 +132,27 @@ export class ViewVerifiedOrgComponent implements OnInit {
     ).subscribe({
       next: (response: any) => {
         if (response != null) {
-          debugger;
           this.eventLog.organisationAuditEventListResponse = response;
           this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
             (f: any) => {
-              f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') +' ' + (f.actionedBy ?? '')
-            }
-          );
+              f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') +' ' + (f.actionedBy ?? '');
+              if(f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||
+                 f.event?.toUpperCase() == "ADMINROLEASSIGNED" || f.event?.toUpperCase() == "ADMINROLEUNASSIGNED")
+              {
+                this.translate.get(f.event).subscribe(val => f.event = val);
+                if(f.event.includes('[RoleName]')){
+                  if(f.role?.length > 0){
+                    f.event = f.event.replace('[RoleName]', f.role);
+                  }
+                  else{
+                    f.event = f.event.replace('[RoleName]', 'None');
+                  }
+                }
+              }
+              else{
+                this.translate.get(f.event).subscribe(val => f.event = val);
+              }
+            });
           this.eventLog.pageCount =
             this.eventLog.organisationAuditEventListResponse.pageCount;
         }
