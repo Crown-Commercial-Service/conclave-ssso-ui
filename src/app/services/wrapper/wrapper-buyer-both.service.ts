@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { OrganisationAuditListResponse } from 'src/app/models/organisation';
+import { OrganisationAuditEventListResponse, OrganisationAuditListResponse } from 'src/app/models/organisation';
 import { environment } from 'src/environments/environment';
 
 
@@ -19,7 +19,6 @@ export class WrapperBuyerBothService {
   constructor(private http: HttpClient) { }
 
   getpendingVerificationOrg(organisationId: string, searchString: string, currentPage: number, pageSize: number, includeSelf: boolean = false): Observable<any> {
-    debugger;
     pageSize = pageSize <= 0 ? 10 : pageSize;
     const url = `${this.org}/audits?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&pending-only=true`;
     return this.http.get<OrganisationAuditListResponse>(url).pipe(
@@ -42,5 +41,26 @@ export class WrapperBuyerBothService {
       })
     );
   }
-   
+
+  getOrgEventLogs(organisationId: string, currentPage: number, pageSize: number): Observable<any> {
+    pageSize = pageSize <= 0 ? 10 : pageSize;
+    const url = `${this.org}/${organisationId}/auditevents?currentPage=${currentPage}&pageSize=${pageSize}`;
+    return this.http.get<OrganisationAuditEventListResponse>(url).pipe(
+      map((data: OrganisationAuditEventListResponse) => {
+        return  data
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  manualValidation(ciiOrgId: string, status:number): Observable<any> {
+    return this.http.put<any>(`${this.org}/${ciiOrgId}/manualvalidate?status=${status}`, '').pipe(
+      map((data: any) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
 }

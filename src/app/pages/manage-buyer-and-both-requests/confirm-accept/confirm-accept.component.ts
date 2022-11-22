@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ManualValidationStatus } from 'src/app/constants/enum';
+import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 
 @Component({
   selector: 'app-confirm-accept',
@@ -9,29 +11,32 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ConfirmAcceptComponent implements OnInit {
 
   private organisationId: string;
+  public routeDetails:any;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, 
+    private wrapperBuyerAndBothService:WrapperBuyerBothService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((para: any) => {
-      let RouteData = JSON.parse(atob(para.data));
+      this.routeDetails = JSON.parse(atob(para.data));
     });
   }
 
   public confirm(): void {
-    // let UserSelectedinfo:any;
-    // this.DelegatedService.createDelegatedUser(UserSelectedinfo).subscribe({
-    //   next: (roleListResponse: any) => {
-    //     this.router.navigateByUrl('buyer-and-both-success');
-    //   },
-    //   error: (error: any) => {
-    //     this.route.navigateByUrl('delegated-error')
-    //   },
-    // });
+    this.wrapperBuyerAndBothService.manualValidation(this.routeDetails.organisationId, ManualValidationStatus.approve).subscribe({
+      next: (response: any) => {
+        this.router.navigateByUrl('buyer-and-both-success');
+      },
+      error: (error: any) => {
+        this.router.navigateByUrl('buyer-and-both-fail');
+      },
+    });
     let data = {
       status: 'accept',
+      organisationId: this.routeDetails.organisationId,
+      organisationName: this.routeDetails.organisationName
     };
     this.router.navigateByUrl(
       'buyer-and-both-success?data=' + btoa(JSON.stringify(data))
