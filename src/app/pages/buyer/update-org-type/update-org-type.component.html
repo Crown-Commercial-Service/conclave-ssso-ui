@@ -22,6 +22,18 @@
     <h1 class="govuk-heading-xl page-title">
       Review service roles for the organisation
     </h1>
+    <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" *ngIf="autoValidationPending">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+          Important
+        </h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <p class="govuk-notification-banner__heading">
+          This organisation is currently awaiting verification of its buyer status. You won't be able to make any changes to the roles assigned to this organisation until the verification process is complete.
+        </p>
+      </div>
+    </div>
     <div class="govuk-form-group">
       <fieldset class="govuk-fieldset">
         <legend class="govuk-fieldset__legend">
@@ -30,21 +42,21 @@
           <div class="govuk-radios">
               <div class="govuk-radios__item" id="orgAdminRadioSelection" >
                   <input class="govuk-radios__input" type="radio" id="supplierRadioButton" value="0"
-                      [(ngModel)]="adminSelectionMode" (click)="onSelect(0,'html')"/>
+                      [(ngModel)]="adminSelectionMode" (click)="onSelect(0,'html')" [attr.disabled]="autoValidationPending"/>
                   <label for="supplierRadioButton" class="govuk-label govuk-radios__label">
                     Supplier
                   </label>
               </div>
               <div class="govuk-radios__item" id="nominateAdminRadioSelection">
                   <input class="govuk-radios__input" type="radio" id="buyerRadioButton" value="1"
-                      [(ngModel)]="adminSelectionMode"  (click)="onSelect(1,'html')" />
+                      [(ngModel)]="adminSelectionMode"  (click)="onSelect(1,'html')" [attr.disabled]="autoValidationPending" />
                   <label for="buyerRadioButton" class="govuk-label govuk-radios__label">
                     Buyer
                   </label>
               </div>
               <div class="govuk-radios__item" id="unknownAdminRadioSelection">
                   <input class="govuk-radios__input" type="radio" id="bothRadioButton" value="2"
-                      [(ngModel)]="adminSelectionMode" (click)="onSelect(2,'html')" />
+                      [(ngModel)]="adminSelectionMode" (click)="onSelect(2,'html')"  [attr.disabled]="autoValidationPending"/>
                   <label for="bothRadioButton" class="govuk-label govuk-radios__label">
                     Both
                   </label>
@@ -72,6 +84,7 @@
               (change)="onChange($event, role?.enabled, role)"
               class="govuk-checkboxes__input"
               id="orgRoleControl_{{ role.roleId }}"
+              [attr.disabled]="autoValidationPending"
             />
             <label
               class="govuk-label govuk-checkboxes__label"
@@ -126,6 +139,7 @@
               (change)="onChange($event, role?.enabled, role)"
               class="govuk-checkboxes__input"
               id="orgRoleControl_{{ role.roleId }}"
+              [attr.disabled]="autoValidationPending"
             />
             <label
               class="govuk-label govuk-checkboxes__label"
@@ -164,6 +178,7 @@
   </div>
     <div class="govuk-button-group" style="margin-top: 40px">
       <button
+       *ngIf="!autoValidationPending"
         type="button"
         class="govuk-button"
         data-module="govuk-button"
