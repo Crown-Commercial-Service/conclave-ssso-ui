@@ -20,7 +20,9 @@
               ? 'navigation-text'
               : ''
           ]">
-          {{ dataKey == 'endDate' ?  (dataRow[dataKey] | date: 'dd/MM/yyyy') : dataKey == 'dateofRegistration' ?  (dataRow[dataKey] | date: 'dd/MM/yyyy') : dataRow[dataKey] }}
+          {{ findDateKey(dataKey) ?  (dataRow[dataKey] | date: 'dd/MM/yyyy') : dataRow[dataKey] }}
+          <br>
+          <span *ngIf="findDateKey(dataKey)">{{ dataRow[dataKey] | date: 'HH:mm'}}</span>
         </td>
         <td class="govuk-table__cell" *ngIf="isHyperLinkVisible == true">
           <a class="navigation-text" href="javascript:;">

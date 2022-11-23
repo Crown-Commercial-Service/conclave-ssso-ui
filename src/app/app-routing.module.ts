@@ -704,7 +704,7 @@ const routes: Routes = [
     component: BuyerConfirmComponent,
   },
   {
-    path: 'update-org-type/confirm/:id',
+    path: 'update-org-type/confirm',
     data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
@@ -728,7 +728,7 @@ const routes: Routes = [
     component: BuyerConfirmChangesComponent,
   },
   {
-    path: 'update-org-type/confirm-changes/:id',
+    path: 'update-org-type/confirm-changes',
     data: {
       title: 'Confirm Changes - Manage Buyers',
       roles: ['MANAGE_SUBSCRIPTIONS'],

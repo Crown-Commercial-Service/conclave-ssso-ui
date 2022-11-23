@@ -101,4 +101,30 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
       this.changeCurrentPageEvent.emit(pageNumber);
     }
   }
+
+
+  public findDateKey(key:string){
+    switch(key) { 
+      case 'endDate': { 
+         return true
+         break; 
+      } 
+      case 'dateofRegistration': { 
+        return true 
+         break; 
+      } 
+      case 'dateOfRegistration': { 
+        return true 
+         break; 
+      } 
+      case 'date': { 
+        return true 
+         break; 
+      } 
+      default: { 
+        return false  
+         break; 
+      } 
+   } 
+  }
 }
