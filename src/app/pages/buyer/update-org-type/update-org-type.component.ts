@@ -41,6 +41,7 @@ export class UpdateOrgTypeComponent implements OnInit {
   rolesToAddAutoValidation: Role[] | any;
   rolesToDelete: Role[];
   adminSelectionMode : string = "";
+  public autoValidationPending = null;
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,private WrapperOrganisationService:WrapperOrganisationService,
     private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService, 
@@ -77,7 +78,7 @@ export class UpdateOrgTypeComponent implements OnInit {
  * buyer    = 1
  * both     =  2
  */
-  public onSelect(type: string | number,accessfrom:string) {
+  public onSelect(type: string | number,accessFrom:string) {
   const buyerRemoveList=['EL_JNR_SUPPLIER','EL_SNR_SUPPLIER','JAEGGER_SUPPLIER']
   const supplierRemoveList=['JAEGGER_BUYER','ACCESS_CAAAC_CLIENT','CAT_USER','ACCESS_FP_CLIENT','FP_USER']
   this.rolesToAdd = [];
@@ -89,7 +90,9 @@ export class UpdateOrgTypeComponent implements OnInit {
       buyerRemoveList.map((removeRoleKey:any)=>{
       this.roles.map((buyerRoles,index)=>{
        if(buyerRoles.roleKey == removeRoleKey){
-        this.rolesToDelete.push(buyerRoles);
+        if(accessFrom === "html" && buyerRoles.enabled){
+          this.rolesToDelete.push(buyerRoles);
+        }
         this.roles.splice(index,1)
        }
       })
@@ -99,14 +102,17 @@ export class UpdateOrgTypeComponent implements OnInit {
     else if(type == 0){
       supplierRemoveList.map((removeRoleKey:any)=>{
         this.roles.map((buyerRoles,index)=>{
-         if(buyerRoles.roleKey == removeRoleKey && buyerRoles.enabled === false){
+         if(buyerRoles.roleKey == removeRoleKey){
+          if(accessFrom === "html" && buyerRoles.enabled){
+            this.rolesToDelete.push(buyerRoles);
+          }
           this.roles.splice(index,1)
          }
         })
       })
     }
     
-    if(accessfrom === "html" && type != this.adminSelectionMode){
+    if(accessFrom === "html" && type != this.adminSelectionMode){
       this.preTickRoles(type)
     }
   }
@@ -161,6 +167,7 @@ export class UpdateOrgTypeComponent implements OnInit {
     if(role.autoValidate === true && !event.target.checked){
       const index = this.rolesToAddAutoValidation?.indexOf(role);
       this.rolesToAddAutoValidation?.splice(index,1)
+      this.rolesToAdd.splice(index, 1);
     }
     else if (defaultValue === true && !event.target.checked) {
       this.rolesToDelete.push(role);
