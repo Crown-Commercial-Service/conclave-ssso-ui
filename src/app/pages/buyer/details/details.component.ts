@@ -62,8 +62,14 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   public onContinueClick() {
     if(environment.appSetting.hideAutoValidation){
      this.router.navigateByUrl(`buyer/confirm/${this.selectedOrgId}`);
-    }else {
-      this.router.navigateByUrl(`update-org-type/confirm/${this.selectedOrgId}`);
+    }
+    else {
+      let data = {
+        companyHouseId:this.registries.identifier?.id,
+        Id:this.selectedOrgId
+      }
+      this.router.navigateByUrl('update-org-type/confirm?data=' + btoa(JSON.stringify(data)));
+
     }
   }
 
