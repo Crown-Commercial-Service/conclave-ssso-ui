@@ -29,14 +29,15 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
   public org: any;
   public org$!: Observable<any>;
   public changes: any;
-  
+  private routeData:any = {}
   constructor(private cf: ChangeDetectorRef, private organisationService: OrganisationService, 
     private wrapperOrgService: WrapperOrganisationService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
-    this.route.params.subscribe(params => {
-      if (params.id) {
-        this.org$ = this.organisationService.getById(params.id).pipe(share());
+    this.route.queryParams.subscribe(params => {
+      this.routeData = JSON.parse(atob(params.data))
+      if (this.routeData.ciiOrganisationId) {
+        this.org$ = this.organisationService.getById(this.routeData.ciiOrganisationId).pipe(share());
         this.org$.subscribe({
           next: data => {
             this.org = data;
@@ -52,6 +53,7 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
       orgType:parseInt(this.changes.orgType),
       rolesToDelete: this.changes.toDelete,
       rolesToAdd: this.changes.toAdd,
+      companyHouseId:this.routeData.companyHouseId
     };
     this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'switch').toPromise().then(() => {
       this.router.navigateByUrl(`update-org-type/buyer-success/${this.org.ciiOrganisationId}`);
@@ -67,6 +69,10 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
 
   public onBackClick() {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
-    this.router.navigateByUrl('update-org-type/confirm/' + this.org.ciiOrganisationId);
+    let data = {
+      companyHouseId:this.routeData.companyHouseId,
+      Id:this.org.ciiOrganisationId
+    }
+    this.router.navigateByUrl('update-org-type/confirm?data=' + btoa(JSON.stringify(data)));
   }
 }
