@@ -78,7 +78,7 @@ export class UpdateOrgTypeComponent implements OnInit {
  * buyer    = 1
  * both     =  2
  */
-  public onSelect(type: string | number,accessfrom:string) {
+  public onSelect(type: string | number,accessFrom:string) {
   const buyerRemoveList=['EL_JNR_SUPPLIER','EL_SNR_SUPPLIER','JAEGGER_SUPPLIER']
   const supplierRemoveList=['JAEGGER_BUYER','ACCESS_CAAAC_CLIENT','CAT_USER','ACCESS_FP_CLIENT','FP_USER']
   this.rolesToAdd = [];
@@ -90,7 +90,7 @@ export class UpdateOrgTypeComponent implements OnInit {
       buyerRemoveList.map((removeRoleKey:any)=>{
       this.roles.map((buyerRoles,index)=>{
        if(buyerRoles.roleKey == removeRoleKey){
-        if(accessfrom === "html" && buyerRoles.enabled){
+        if(accessFrom === "html" && buyerRoles.enabled){
           this.rolesToDelete.push(buyerRoles);
         }
         this.roles.splice(index,1)
@@ -103,7 +103,7 @@ export class UpdateOrgTypeComponent implements OnInit {
       supplierRemoveList.map((removeRoleKey:any)=>{
         this.roles.map((buyerRoles,index)=>{
          if(buyerRoles.roleKey == removeRoleKey){
-          if(accessfrom === "html" && buyerRoles.enabled){
+          if(accessFrom === "html" && buyerRoles.enabled){
             this.rolesToDelete.push(buyerRoles);
           }
           this.roles.splice(index,1)
@@ -112,7 +112,7 @@ export class UpdateOrgTypeComponent implements OnInit {
       })
     }
     
-    if(accessfrom === "html" && type != this.adminSelectionMode){
+    if(accessFrom === "html" && type != this.adminSelectionMode){
       this.preTickRoles(type)
     }
   }
