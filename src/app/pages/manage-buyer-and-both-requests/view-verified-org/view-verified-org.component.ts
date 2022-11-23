@@ -76,10 +76,14 @@ export class ViewVerifiedOrgComponent implements OnInit {
     this.route.queryParams.subscribe(async (para: any) => {
      this.routeDetails = JSON.parse(atob(para.data));
      this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
-     this.registries = await this.ciiService.getOrgDetails(this.routeDetails.event.organisationId, true).toPromise();
-     if (this.registries != undefined) {
-       this.additionalIdentifiers = this.registries?.additionalIdentifiers;
-     }
+     await this.ciiService.getOrgDetails(this.routeDetails.event.organisationId, true).toPromise()
+                      .then((data:any) => {
+                        this.registries = data;
+                        if (this.registries != undefined) {
+                          this.additionalIdentifiers = this.registries?.additionalIdentifiers;
+                        }
+                      })
+                      .catch((err) => {console.log('err', err);});
      this.getOrganisationUsers();
     });
   }
