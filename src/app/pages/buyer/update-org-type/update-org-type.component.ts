@@ -42,6 +42,7 @@ export class UpdateOrgTypeComponent implements OnInit {
   rolesToDelete: Role[];
   adminSelectionMode : string = "";
   public routeData:any={}
+  public autoValidationPending:any=null
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,private WrapperOrganisationService:WrapperOrganisationService,
     private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService, 
