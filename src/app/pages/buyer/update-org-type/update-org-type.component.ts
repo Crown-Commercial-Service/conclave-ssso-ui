@@ -41,7 +41,7 @@ export class UpdateOrgTypeComponent implements OnInit {
   rolesToAddAutoValidation: Role[] | any;
   rolesToDelete: Role[];
   adminSelectionMode : string = "";
-  public autoValidationPending = null;
+  public routeData:any={}
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,private WrapperOrganisationService:WrapperOrganisationService,
     private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService, 
@@ -57,9 +57,10 @@ export class UpdateOrgTypeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      if (params.id) {
-        this.org$ = this.organisationService.getById(params.id).pipe(share());
+    this.route.queryParams.subscribe(params => {
+      this.routeData = JSON.parse(atob(params.data));
+      if (this.routeData.Id) {
+        this.org$ = this.organisationService.getById(this.routeData.Id).pipe(share());
         this.org$.subscribe({
           next: data => {
             this.organisation = data;
@@ -78,7 +79,7 @@ export class UpdateOrgTypeComponent implements OnInit {
  * buyer    = 1
  * both     =  2
  */
-  public onSelect(type: string | number,accessFrom:string) {
+  public onSelect(type: string | number,accessfrom:string) {
   const buyerRemoveList=['EL_JNR_SUPPLIER','EL_SNR_SUPPLIER','JAEGGER_SUPPLIER']
   const supplierRemoveList=['JAEGGER_BUYER','ACCESS_CAAAC_CLIENT','CAT_USER','ACCESS_FP_CLIENT','FP_USER']
   this.rolesToAdd = [];
@@ -90,7 +91,7 @@ export class UpdateOrgTypeComponent implements OnInit {
       buyerRemoveList.map((removeRoleKey:any)=>{
       this.roles.map((buyerRoles,index)=>{
        if(buyerRoles.roleKey == removeRoleKey){
-        if(accessFrom === "html" && buyerRoles.enabled){
+        if(accessfrom === "html"){
           this.rolesToDelete.push(buyerRoles);
         }
         this.roles.splice(index,1)
@@ -102,17 +103,14 @@ export class UpdateOrgTypeComponent implements OnInit {
     else if(type == 0){
       supplierRemoveList.map((removeRoleKey:any)=>{
         this.roles.map((buyerRoles,index)=>{
-         if(buyerRoles.roleKey == removeRoleKey){
-          if(accessFrom === "html" && buyerRoles.enabled){
-            this.rolesToDelete.push(buyerRoles);
-          }
+         if(buyerRoles.roleKey == removeRoleKey && buyerRoles.enabled === false){
           this.roles.splice(index,1)
          }
         })
       })
     }
     
-    if(accessFrom === "html" && type != this.adminSelectionMode){
+    if(accessfrom === "html" && type != this.adminSelectionMode){
       this.preTickRoles(type)
     }
   }
@@ -167,7 +165,6 @@ export class UpdateOrgTypeComponent implements OnInit {
     if(role.autoValidate === true && !event.target.checked){
       const index = this.rolesToAddAutoValidation?.indexOf(role);
       this.rolesToAddAutoValidation?.splice(index,1)
-      this.rolesToAdd.splice(index, 1);
     }
     else if (defaultValue === true && !event.target.checked) {
       this.rolesToDelete.push(role);
@@ -206,13 +203,21 @@ export class UpdateOrgTypeComponent implements OnInit {
       this.WrapperOrganisationService.getAutoValidationStatus(this.organisation.ciiOrganisationId).toPromise().then((responce:any) => {
          selection.autoValidate = responce.autoValidationSuccess
          localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
-         this.router.navigateByUrl(`update-org-type/confirm-changes/${this.organisation.ciiOrganisationId}`)
+         let data = {
+          ciiOrganisationId:this.organisation.ciiOrganisationId,
+          companyHouseId:this.routeData.companyHouseId,
+          }
+         this.router.navigateByUrl(`update-org-type/confirm-changes?data=`+ btoa(JSON.stringify(data)))
         }).catch(error => {
           console.log(error);
          });
      } else {
+       let data = {
+        ciiOrganisationId:this.organisation.ciiOrganisationId,
+        companyHouseId:this.routeData.companyHouseId,
+        }
          localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
-        this.router.navigateByUrl(`update-org-type/confirm-changes/${this.organisation.ciiOrganisationId}`)
+        this.router.navigateByUrl(`update-org-type/confirm-changes?data=`+ btoa(JSON.stringify(data)))
      }
   }
 
