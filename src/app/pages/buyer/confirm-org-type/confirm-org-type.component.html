@@ -130,7 +130,7 @@
           <div class="govuk-checkboxes">
             <div class="govuk-__item">
               <label *ngIf="changes?.orgType == changes?.org?.supplierBuyerType" class="govuk-label">- No Changes</label>
-              <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">{{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : '')}} - Automatic validation of verified buyer status has been unsuccessful. This will require manual validation and a request will be created on the 'Manage buyer status requests' page.</label>
+              <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">{{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : 'Supplier')}} - Automatic validation of verified buyer status has been unsuccessful. This will require manual validation and a request will be created on the 'Manage buyer status requests' page.</label>
             </div>
           </div>
           <legend *ngIf="changes?.toAutoValid.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles which will be assigned after manual validation is completed:
