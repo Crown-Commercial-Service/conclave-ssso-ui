@@ -91,6 +91,7 @@ export interface OrganisationAuditEventList
     organisationId: number;
     firstName: string;
     lastName: string;
+    actioned: string;
     actionedBy: string;
     owner: string;
     event: string;

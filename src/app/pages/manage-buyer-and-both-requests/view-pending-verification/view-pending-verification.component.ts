@@ -136,6 +136,18 @@ export class ViewPendingVerificationComponent implements OnInit {
           this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
             (f: any) => {
               f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') +' ' + (f.actionedBy ?? '');
+              if(f.owner.trim() == ''){
+                if(f.event?.toUpperCase() == "INACTIVEORGANISATIONREMOVED"){
+                  f.owner = "Automatic organisation removal";
+                }
+                else if(f.actioned?.toUpperCase() == "AUTOVALIDATION"){
+                  f.owner = "Autovalidation";
+                }
+                else if(f.actioned?.toUpperCase() == "JOB"){
+                  f.owner = "Job";
+                }
+              }
+
               if(f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||
                  f.event?.toUpperCase() == "ADMINROLEASSIGNED" || f.event?.toUpperCase() == "ADMINROLEUNASSIGNED")
               {
