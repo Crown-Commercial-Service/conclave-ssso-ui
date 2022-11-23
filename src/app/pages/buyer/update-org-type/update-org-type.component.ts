@@ -41,6 +41,7 @@ export class UpdateOrgTypeComponent implements OnInit {
   rolesToAddAutoValidation: Role[] | any;
   rolesToDelete: Role[];
   adminSelectionMode : string = "";
+  public autoValidationPending = null;
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,private WrapperOrganisationService:WrapperOrganisationService,
     private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService, 
@@ -89,7 +90,7 @@ export class UpdateOrgTypeComponent implements OnInit {
       buyerRemoveList.map((removeRoleKey:any)=>{
       this.roles.map((buyerRoles,index)=>{
        if(buyerRoles.roleKey == removeRoleKey){
-        if(accessfrom === "html"){
+        if(accessfrom === "html" && buyerRoles.enabled){
           this.rolesToDelete.push(buyerRoles);
         }
         this.roles.splice(index,1)
@@ -101,7 +102,10 @@ export class UpdateOrgTypeComponent implements OnInit {
     else if(type == 0){
       supplierRemoveList.map((removeRoleKey:any)=>{
         this.roles.map((buyerRoles,index)=>{
-         if(buyerRoles.roleKey == removeRoleKey && buyerRoles.enabled === false){
+         if(buyerRoles.roleKey == removeRoleKey){
+          if(accessfrom === "html" && buyerRoles.enabled){
+            this.rolesToDelete.push(buyerRoles);
+          }
           this.roles.splice(index,1)
          }
         })
@@ -163,6 +167,7 @@ export class UpdateOrgTypeComponent implements OnInit {
     if(role.autoValidate === true && !event.target.checked){
       const index = this.rolesToAddAutoValidation?.indexOf(role);
       this.rolesToAddAutoValidation?.splice(index,1)
+      this.rolesToAdd.splice(index, 1);
     }
     else if (defaultValue === true && !event.target.checked) {
       this.rolesToDelete.push(role);
