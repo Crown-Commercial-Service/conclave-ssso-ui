@@ -28,7 +28,7 @@
           </span>
           <span *ngIf="dataKey == 'owner'">
             <span *ngIf="dataRow['defaultOwnerChanges'] == false">
-              {{ dataKey == 'owner' ?  dataRow['firstName'] + dataRow['lastName'] : dataRow[dataKey]}}
+              {{  dataRow['firstName']}} {{ dataRow['lastName'] }}
               <br>
               <span>{{dataRow['actionedBy']}}</span>
             </span>

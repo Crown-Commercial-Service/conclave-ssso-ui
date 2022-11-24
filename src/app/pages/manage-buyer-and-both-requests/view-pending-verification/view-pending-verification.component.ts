@@ -139,6 +139,7 @@ export class ViewPendingVerificationComponent implements OnInit {
             (f: any) => {
               f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') +' ' + (f.actionedBy ?? '');
               if(f.owner.trim() == ''){
+                f.defaultOwnerChanges = true
                 if(f.event?.toUpperCase() == "INACTIVEORGANISATIONREMOVED"){
                   f.owner = "Automatic organisation removal";
                 }
@@ -148,6 +149,8 @@ export class ViewPendingVerificationComponent implements OnInit {
                 else if(f.actioned?.toUpperCase() == "JOB"){
                   f.owner = "Job";
                 }
+              } else {
+                f.defaultOwnerChanges = false;
               }
 
               if(f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||

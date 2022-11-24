@@ -42,7 +42,6 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
           next: data => {
             this.org = data;
             this.changes = JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
-            console.log("this.changes",this.changes)
           }
         });
       }

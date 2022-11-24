@@ -50,7 +50,7 @@
           <div class="govuk-checkboxes">
             <div class="govuk-__item">
               <label *ngIf="changes?.orgType == changes?.org?.supplierBuyerType" class="govuk-label">- No Changes</label>
-              <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">- {{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : '')}}</label>
+              <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">{{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : 'Supplier')}}</label>
             </div>
           </div>
           <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you have assigned to this organisation:
@@ -87,7 +87,7 @@
               </div>
             </ng-container>
           </div>
-          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you have unassigned from this organisation
+          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you have unassigned from this organisation:
           </legend>
           <div class="govuk-checkboxes">
             <ng-container *ngFor="let role of changes?.toDelete">
@@ -129,7 +129,7 @@
           <div class="govuk-checkboxes">
             <div class="govuk-__item">
               <label *ngIf="changes?.orgType == changes?.org?.supplierBuyerType" class="govuk-label">- No Changes</label>
-              <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">- {{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : '')}} - Automatic validation of verified buyer status has been unsuccessful. This will require manual validation and a request will be created on the 'Manage buyer status requests' page.</label>
+              <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">{{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : 'Supplier')}} - Automatic validation of verified buyer status has been unsuccessful. This will require manual validation and a request will be created on the 'Manage buyer status requests' page.</label>
             </div>
           </div>
           <legend *ngIf="changes?.toAutoValid.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Roles which will be assigned after manual validation is completed:
