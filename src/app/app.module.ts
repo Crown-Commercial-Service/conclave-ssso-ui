@@ -186,6 +186,7 @@ import { SuccessRightToBuyComponent } from './pages/manage-buyer-and-both-reques
 import { UpdateOrgTypeComponent } from './pages/buyer/update-org-type/update-org-type.component';
 import { ConfirmOrgTypeComponent } from './pages/buyer/confirm-org-type/confirm-org-type.component';
 import { AutoValidationBuyerSuccessComponent } from './pages/buyer/auto-validation-buyer-success/auto-validation-buyer-success.component';
+import { BuyerBothErrorComponent } from './pages/manage-buyer-and-both-requests/buyer-both-error/buyer-both-error.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -337,7 +338,8 @@ export function createTranslateLoader(http: HttpClient) {
     SuccessRightToBuyComponent,
     UpdateOrgTypeComponent,
     ConfirmOrgTypeComponent,
-    AutoValidationBuyerSuccessComponent
+    AutoValidationBuyerSuccessComponent,
+    BuyerBothErrorComponent
   ],
   imports: [
     // BrowserModule,

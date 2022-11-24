@@ -80,8 +80,10 @@ export class ViewPendingVerificationComponent implements OnInit {
     if (this.registries != undefined) {
       this.additionalIdentifiers = this.registries?.additionalIdentifiers;
     }
-    this.getOrganisationUsers();
     });
+    setTimeout(() => {
+    this.getOrganisationUsers();
+    }, 10);
   }
 
   public openEmailWindow(data: any): void {
