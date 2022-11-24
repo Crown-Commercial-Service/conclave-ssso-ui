@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ManualValidationStatus } from 'src/app/constants/enum';
+import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 
 @Component({
   selector: 'app-remove-right-to-buy',
@@ -8,9 +10,14 @@ import { Router } from '@angular/router';
 })
 export class RemoveRightToBuyComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private route: ActivatedRoute,private wrapperBuyerAndBothService:WrapperBuyerBothService) { }
+  public routeDetails:any = {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(async (para: any) => {
+      this.routeDetails = JSON.parse(atob(para.data));
+    })
+    
   }
 
  public Back():void {
@@ -19,9 +26,18 @@ export class RemoveRightToBuyComponent implements OnInit {
   public confirm(){
     let data = {
       status: 'remove',
+      orgName: this.routeDetails.orgName
     };
-    this.router.navigateByUrl(
-      'remove-right-to-buy-success?data=' + btoa(JSON.stringify(data))
-    );
+    this.wrapperBuyerAndBothService.manualValidation(this.routeDetails.id, ManualValidationStatus.decline).subscribe({
+      next: (response: any) => {
+        this.router.navigateByUrl(
+          'remove-right-to-buy-success?data=' + btoa(JSON.stringify(data))
+        );
+      },
+      error: (error: any) => {
+        this.router.navigateByUrl('buyer-and-both-fail');
+      },
+    });
+ 
   }
 }
