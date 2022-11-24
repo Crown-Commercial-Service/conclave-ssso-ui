@@ -22,8 +22,8 @@ export class ViewVerifiedOrgComponent implements OnInit {
   public routeDetails: any;
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
-  schemeData: any[] = [];
-
+  public schemeData: any[] = [];
+  public defaultOwnerChanges:boolean = false
   public organisationAdministrator = {
     usersTableHeaders: ['Name', 'Email address', 'Role'],
     usersColumnsToDisplay: ['name', 'email', 'role'],
@@ -157,6 +157,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
             (f: any) => {
               f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') +' ' + (f.actionedBy ?? '');
               if(f.owner.trim() == ''){
+                this.defaultOwnerChanges = true
                 if(f.event?.toUpperCase() == "INACTIVEORGANISATIONREMOVED"){
                   f.owner = "Automatic organisation removal";
                 }
@@ -166,7 +167,9 @@ export class ViewVerifiedOrgComponent implements OnInit {
                 else if(f.actioned?.toUpperCase() == "JOB"){
                   f.owner = "Job";
                 }
-              }
+              } else {
+                   this.defaultOwnerChanges = false;
+                }
               
               if(f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||
                  f.event?.toUpperCase() == "ADMINROLEASSIGNED" || f.event?.toUpperCase() == "ADMINROLEUNASSIGNED")

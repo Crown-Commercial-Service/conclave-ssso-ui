@@ -20,16 +20,18 @@
               ? 'navigation-text'
               : ''
           ]">
+       
+          <!-- {{ findDateKey(dataKey) ?  (dataRow[dataKey] | date: 'dd/MM/yyyy') : dataRow[dataKey] }} -->
           <span *ngIf="findDateKey(dataKey)">
                {{dataRow[dataKey] | date: 'dd/MM/yyyy'}} <br>
-            <span>{{ dataRow[dataKey] | date: 'HH:mm'}}</span>
+            <span *ngIf="findDateKey(dataKey)">{{ dataRow[dataKey] | date: 'HH:mm'}}</span>
           </span>
-          <span *ngIf="dataKey == 'owner'">
+          <span *ngIf="dataKey == 'owner' && !eventLog">
             {{ dataKey == 'owner' ?  dataRow['firstName'] + dataRow['lastName'] : dataRow[dataKey]}}
             <br>
             <span>{{dataRow['actionedBy']}}</span>
           </span>
-          <span *ngIf="!findDateKey(dataKey) && dataKey != 'owner'">
+          <span *ngIf="!findDateKey(dataKey) && (dataKey != 'owner' || eventLog)">
             {{dataRow[dataKey]}}
           </span>
           <br>
