@@ -89,7 +89,7 @@
                             <app-govuk-table [headerTextKeys]="eventLog.usersTableHeaders"
                                 [data]="eventLog.organisationAuditEventListResponse.organisationAuditEventList"
                                 [dataKeys]="eventLog.usersColumnsToDisplay"
-                                 [useServerPagination]="true" [eventLog]="defaultOwnerChanges"
+                                 [useServerPagination]="true"
                                 [serverPageCount]="eventLog.pageCount" [serverPageCurrentPage]="eventLog.currentPage"
                                 (changeCurrentPageEvent)="setPageOrganisationEventLogs($event)"></app-govuk-table>
                         </div>
