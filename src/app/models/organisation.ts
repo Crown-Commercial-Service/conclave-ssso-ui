@@ -96,6 +96,8 @@ export interface OrganisationAuditEventList
     owner: string;
     event: string;
     date: Date;
+    role: string;
+    roleKey: string;
 }
 
 export interface OrganisationAuditEventListResponse extends PaginationInfo {

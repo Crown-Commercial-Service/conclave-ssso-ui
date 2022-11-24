@@ -143,56 +143,77 @@ export class ViewVerifiedOrgComponent implements OnInit {
     this.eventLog.currentPage = pageNumber;
     this.getEventLogDetails();
   }
-
-  public getEventLogDetails(): void {
-    this.wrapperBuyerAndBothService
-      .getOrgEventLogs(
-        this.routeDetails.event.organisationId,
-        this.eventLog.currentPage,
-        this.eventLog.pageSize
-      )
-      .subscribe({
-        next: (response: any) => {
-          if (response != null) {
-            this.eventLog.organisationAuditEventListResponse = response;
-            console.log('response', response);
-            this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
-              (f: any) => {
-                f.owner =
-                  (f.firstName ?? '') +
-                  ' ' +
-                  (f.lastName ?? '') +
-                  ' ' +
-                  (f.actionedBy ?? '');
-                if (
-                  f.event?.toUpperCase() == 'ORGROLEASSIGNED' ||
-                  f.event?.toUpperCase() == 'ORGROLEUNASSIGNED' ||
-                  f.event?.toUpperCase() == 'ADMINROLEASSIGNED' ||
-                  f.event?.toUpperCase() == 'ADMINROLEUNASSIGNED'
-                ) {
-                  this.translate
-                    .get(f.event)
-                    .subscribe((val) => (f.event = val));
-                  if (f.event.includes('[RoleName]')) {
-                    if (f.role?.length > 0) {
-                      f.event = f.event.replace('[RoleName]', f.role);
-                    } else {
-                      f.event = f.event.replace('[RoleName]', 'None');
-                    }
-                  }
-                } else {
-                  this.translate
-                    .get(f.event)
-                    .subscribe((val) => (f.event = val));
+  
+  public getEventLogDetails():void{
+    this.wrapperBuyerAndBothService.getOrgEventLogs(
+      this.routeDetails.event.organisationId,
+      this.eventLog.currentPage,
+      this.eventLog.pageSize
+    ).subscribe({
+      next: (response: any) => {
+        if (response != null) {
+          this.eventLog.organisationAuditEventListResponse = response;
+          this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
+            (f: any) => {
+              f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') +' ' + (f.actionedBy ?? '');
+              if(f.owner.trim() == ''){
+                if(f.event?.toUpperCase() == "INACTIVEORGANISATIONREMOVED"){
+                  f.owner = "Automatic organisation removal";
+                }
+                else if(f.actioned?.toUpperCase() == "AUTOVALIDATION"){
+                  f.owner = "Autovalidation";
+                }
+                else if(f.actioned?.toUpperCase() == "JOB"){
+                  f.owner = "Job";
                 }
               }
-            );
-            this.eventLog.pageCount =
-              this.eventLog.organisationAuditEventListResponse.pageCount;
-          }
-        },
-        error: (error: any) => {},
-      });
+              
+              if(f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||
+                 f.event?.toUpperCase() == "ADMINROLEASSIGNED" || f.event?.toUpperCase() == "ADMINROLEUNASSIGNED")
+              {
+                this.translate.get(f.event).subscribe(val => f.event = val);
+                if(f.event.includes('[RoleName]'))
+                {
+                  var role = f.role;
+                  switch (f.roleKey){
+                    case 'CAT_USER': {
+                      role = 'Contract Award Service (CAS) - add service';
+                      break;
+                    }
+                    case 'ACCESS_CAAAC_CLIENT': {
+                      role ='Contract Award Service (CAS) - add to dashboard';
+                      break;
+                    }
+                    case 'JAEGGER_SUPPLIER': {
+                      role = 'eSourcing Service as a supplier';
+                      break;
+                    }
+                    case 'JAEGGER_BUYER': {
+                      role = 'eSourcing Service as a buyer';
+                      break;
+                    }
+                    case 'JAGGAER_USER': {
+                      role = 'eSourcing Service - add service';
+                      break;
+                    }
+                    case 'ACCESS_JAGGAER': {
+                      role = 'eSourcing Service - add to dashboard';
+                      break;
+                    }
+                  }
+                  f.event = f.event.replace('[RoleName]', role);
+                }
+              }
+              else{
+                this.translate.get(f.event).subscribe(val => f.event = val);
+              }
+            });
+          this.eventLog.pageCount =
+            this.eventLog.organisationAuditEventListResponse.pageCount;
+        }
+      },
+      error: (error: any) => {},
+    });
   }
 
   public removeRightToBuy(): void {
