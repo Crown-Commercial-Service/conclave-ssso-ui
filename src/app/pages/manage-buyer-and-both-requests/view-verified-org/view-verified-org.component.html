@@ -16,7 +16,7 @@
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align">View organisation's Buyer status</h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align">View organisations’ Buyer status</h1>
             <div>
                 <p class="govuk-body-l">
                     View details of organisations’ Buyer status
@@ -88,8 +88,8 @@
                         <div class="user-table">
                             <app-govuk-table [headerTextKeys]="eventLog.usersTableHeaders"
                                 [data]="eventLog.organisationAuditEventListResponse.organisationAuditEventList"
-                                [dataKeys]="eventLog.usersColumnsToDisplay" [isHyperLinkVisible]="true"
-                                (hyperLinkClickEvent)="openEmailWindow($event)" [useServerPagination]="true"
+                                [dataKeys]="eventLog.usersColumnsToDisplay"
+                                 [useServerPagination]="true"
                                 [serverPageCount]="eventLog.pageCount" [serverPageCurrentPage]="eventLog.currentPage"
                                 (changeCurrentPageEvent)="setPageOrganisationEventLogs($event)"></app-govuk-table>
                         </div>
@@ -97,11 +97,16 @@
                 </div>
             </div>
             <br>
-            <div class="govuk-button-group">
+            <div class="govuk-button-group" *ngIf="routeDetails.event.rightToBuy === true">
                 <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
                     (click)="removeRightToBuy()">Remove right to buy status</button>
                 <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
                     (click)="goBack()">Back</button>
+            </div>
+            <div *ngIf="routeDetails.event.rightToBuy != true">
+                <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                (click)="goBack()">Back</button>
+                <p class="govuk-body"><a target="_blank" class="govuk-link navigation-text" (click)="nevigateViewEdit()">View / edit organisations’ right to buy status</a></p>
             </div>
         </div>
     </div>

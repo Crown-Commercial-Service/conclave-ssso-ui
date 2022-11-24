@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-success-right-to-buy',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SuccessRightToBuyComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private router:Router,private route: ActivatedRoute) { }
+  
+  public routeDetails:any = {}
   ngOnInit(): void {
+    this.route.queryParams.subscribe(async (para: any) => {
+      this.routeDetails = JSON.parse(atob(para.data));
+    })
   }
 
 }

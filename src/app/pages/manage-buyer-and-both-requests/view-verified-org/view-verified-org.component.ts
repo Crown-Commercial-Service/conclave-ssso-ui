@@ -1,25 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
+import {
+  CiiAdditionalIdentifier,
+  CiiOrgIdentifiersDto,
+} from 'src/app/models/org';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { environment } from 'src/environments/environment';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ManualValidationStatus } from 'src/app/constants/enum';
 
 @Component({
   selector: 'app-view-verified-org',
   templateUrl: './view-verified-org.component.html',
-  styleUrls: ['./view-verified-org.component.scss']
+  styleUrls: ['./view-verified-org.component.scss'],
 })
 export class ViewVerifiedOrgComponent implements OnInit {
   private organisationId: string = '';
   pageName = 'Contactadmin';
-  public routeDetails:any;
+  public routeDetails: any;
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   schemeData: any[] = [];
-  
+
   public organisationAdministrator = {
     usersTableHeaders: ['Name', 'Email address', 'Role'],
     usersColumnsToDisplay: ['name', 'email', 'role'],
@@ -50,9 +54,13 @@ export class ViewVerifiedOrgComponent implements OnInit {
     },
   };
 
-  constructor(private route: ActivatedRoute, private wrapperBuyerAndBothService:WrapperBuyerBothService,
+  constructor(
+    private route: ActivatedRoute,
+    private wrapperBuyerAndBothService: WrapperBuyerBothService,
     private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
-    private router:Router, private ciiService: ciiService, private translate: TranslateService
+    private router: Router,
+    private ciiService: ciiService,
+    private translate: TranslateService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -74,17 +82,25 @@ export class ViewVerifiedOrgComponent implements OnInit {
 
   async ngOnInit() {
     this.route.queryParams.subscribe(async (para: any) => {
-     this.routeDetails = JSON.parse(atob(para.data));
-     this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
-     await this.ciiService.getOrgDetails(this.routeDetails.event.organisationId, true).toPromise()
-                      .then((data:any) => {
-                        this.registries = data;
-                        if (this.registries != undefined) {
-                          this.additionalIdentifiers = this.registries?.additionalIdentifiers;
-                        }
-                      })
-                      .catch((err) => {console.log('err', err);});
-     this.getOrganisationUsers();
+      this.routeDetails = JSON.parse(atob(para.data));
+      this.schemeData = (await this.ciiService
+        .getSchemes()
+        .toPromise()) as any[];
+      await this.ciiService
+        .getOrgDetails(this.routeDetails.event.organisationId, true)
+        .toPromise()
+        .then((data: any) => {
+          this.registries = data;
+          if (this.registries != undefined) {
+            this.additionalIdentifiers = this.registries?.additionalIdentifiers;
+          }
+          setTimeout(() => {
+          this.getOrganisationUsers();
+          }, 10);
+        })
+        .catch((err) => {
+          console.log('err', err);
+        });
     });
   }
 
@@ -128,67 +144,94 @@ export class ViewVerifiedOrgComponent implements OnInit {
     this.getEventLogDetails();
   }
 
-  public getEventLogDetails():void{
-    this.wrapperBuyerAndBothService.getOrgEventLogs(
-      this.routeDetails.event.organisationId,
-      this.eventLog.currentPage,
-      this.eventLog.pageSize
-    ).subscribe({
-      next: (response: any) => {
-        if (response != null) {
-          this.eventLog.organisationAuditEventListResponse = response;
-          this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
-            (f: any) => {
-              f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') +' ' + (f.actionedBy ?? '');
-              if(f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||
-                 f.event?.toUpperCase() == "ADMINROLEASSIGNED" || f.event?.toUpperCase() == "ADMINROLEUNASSIGNED")
-              {
-                this.translate.get(f.event).subscribe(val => f.event = val);
-                if(f.event.includes('[RoleName]')){
-                  if(f.role?.length > 0){
-                    f.event = f.event.replace('[RoleName]', f.role);
+  public getEventLogDetails(): void {
+    this.wrapperBuyerAndBothService
+      .getOrgEventLogs(
+        this.routeDetails.event.organisationId,
+        this.eventLog.currentPage,
+        this.eventLog.pageSize
+      )
+      .subscribe({
+        next: (response: any) => {
+          if (response != null) {
+            this.eventLog.organisationAuditEventListResponse = response;
+            console.log('response', response);
+            this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
+              (f: any) => {
+                f.owner =
+                  (f.firstName ?? '') +
+                  ' ' +
+                  (f.lastName ?? '') +
+                  ' ' +
+                  (f.actionedBy ?? '');
+                if (
+                  f.event?.toUpperCase() == 'ORGROLEASSIGNED' ||
+                  f.event?.toUpperCase() == 'ORGROLEUNASSIGNED' ||
+                  f.event?.toUpperCase() == 'ADMINROLEASSIGNED' ||
+                  f.event?.toUpperCase() == 'ADMINROLEUNASSIGNED'
+                ) {
+                  this.translate
+                    .get(f.event)
+                    .subscribe((val) => (f.event = val));
+                  if (f.event.includes('[RoleName]')) {
+                    if (f.role?.length > 0) {
+                      f.event = f.event.replace('[RoleName]', f.role);
+                    } else {
+                      f.event = f.event.replace('[RoleName]', 'None');
+                    }
                   }
-                  else{
-                    f.event = f.event.replace('[RoleName]', 'None');
-                  }
+                } else {
+                  this.translate
+                    .get(f.event)
+                    .subscribe((val) => (f.event = val));
                 }
               }
-              else{
-                this.translate.get(f.event).subscribe(val => f.event = val);
-              }
-            });
-          this.eventLog.pageCount =
-            this.eventLog.organisationAuditEventListResponse.pageCount;
-        }
-      },
-      error: (error: any) => {},
-    });
+            );
+            this.eventLog.pageCount =
+              this.eventLog.organisationAuditEventListResponse.pageCount;
+          }
+        },
+        error: (error: any) => {},
+      });
   }
 
-
-  public removeRightToBuy():void{
+  public removeRightToBuy(): void {
     let data = {
-      id:'123456'
-    }
+      id: this.routeDetails.event.organisationId,
+      status :ManualValidationStatus.decline,
+      orgName : this.routeDetails.event.organisationName
+    };
     this.router.navigateByUrl(
       'remove-right-to-buy?data=' + btoa(JSON.stringify(data))
     );
   }
+
   goBack() {
-    sessionStorage.setItem('activetab','verifiedOrg')
+    sessionStorage.setItem('activetab', 'verifiedOrg');
     window.history.back();
   }
 
   public getSchemaName(schema: string): string {
-    let selecedScheme = this.schemeData.find(s => s.scheme === schema);
-    if(selecedScheme?.schemeName) {
+    let selecedScheme = this.schemeData.find((s) => s.scheme === schema);
+    if (selecedScheme?.schemeName) {
       return selecedScheme?.schemeName;
-    }
-    else if (schema === 'GB-CCS') {
+    } else if (schema === 'GB-CCS') {
       return 'Internal Identifier';
-    }
-    else {
+    } else {
       return '';
     }
+  }
+
+  public nevigateViewEdit() {
+    let data = {
+      companyHouseId: this.registries.identifier?.id,
+      Id: this.routeDetails.event.organisationId,
+    };
+    window.open(
+      environment.uri.web.dashboard +
+        '/update-org-type/confirm?data=' +
+        btoa(JSON.stringify(data)),
+      '_blank'
+    );
   }
 }
