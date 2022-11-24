@@ -16,29 +16,27 @@
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align">View organisations’ Buyer status</h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align">View organisation's Buyer status</h1>
             <div>
-                <p  class="govuk-body-l">
+                <p class="govuk-body-l">
                     View details of organisations’ Buyer status
                 </p>
             </div>
             <div class="span-group govuk-!-margin-top-4">
                 <h2 class="govuk-heading-m">Organisation details</h2>
                 <p class="govuk-body">
-                    Organisation name:<strong class="govuk-!-margin-left-2">Dream Guys</strong>
+                    Organisation name:<strong class="govuk-!-margin-left-2">{{routeDetails.event.organisationName}}</strong>
                 </p>
                 <p class="govuk-body">
-                    Organisation type:<strong class="govuk-!-margin-left-2">Both</strong>
+                    Organisation type:<strong class="govuk-!-margin-left-2">{{routeDetails.event.organisationTypeName}}</strong>
                 </p>
                 <p class="govuk-body">
-                    Date of registration:<strong
-                        class="govuk-!-margin-left-2">30-01-1997</strong>
+                    Date of registration:<strong class="govuk-!-margin-left-2 govuk-!-display-inline-block govuk-valign-top">{{routeDetails.event.dateOfRegistration | date: 'dd/MM/yyyy'}} <br>{{routeDetails.event.dateOfRegistration | date: 'HH:mm'}}</strong>
                 </p>
                 <p class="govuk-body">
-                    Right to buy status:<strong
-                        class="govuk-!-margin-left-2">Approved</strong>
+                    Right to buy status:<strong class="govuk-!-margin-left-2">{{routeDetails.event.rightToBuy ? 'Approved' : 'Declined'}}</strong>
                 </p>
-        </div>
+            </div>
         <div class="span-group govuk-!-margin-top-4">
             <h2 class="govuk-heading-m">Organisation Administrator(s)</h2>
             <div class="govuk-grid-row">
@@ -52,51 +50,58 @@
                     </div>
                 </div>
             </div>
-         </div>
-         <div class="span-group govuk-!-margin-top-4">
-            <h2 class="govuk-heading-m">Organisation registries</h2>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full">
-                    <div class="user-table">
-                        <table class="govuk-table">
-                            <thead class="govuk-table__head">
-                              <tr class="govuk-table__row">
-                                <th scope="row" class="govuk-table__header">Registry</th>
-                                <th scope="col" class="govuk-table__header">ID</th>
-                                <th scope="col" class="govuk-table__header remove_element">.</th>
-                              </tr>
-                            </thead>
-                            <tbody class="govuk-table__body">
-                              <tr class="govuk-table__row">
-                                <th scope="row" class="govuk-table__header">Companies House</th>
-                                <td class="govuk-table__cell">10745577</td>
-                                <td class="govuk-table__cell">Primary</td>
-                              </tr>
-                            </tbody>
-                          </table>
+            <div class="span-group govuk-!-margin-top-4">
+                <h2 class="govuk-heading-m">Organisation registries</h2>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full">
+                        <div class="user-table">
+                            <table class="govuk-table">
+                                <thead class="govuk-table__head">
+                                    <tr class="govuk-table__row">
+                                        <th scope="row" class="govuk-table__header">Registry</th>
+                                        <th scope="col" class="govuk-table__header">ID</th>
+                                        <th scope="col" class="govuk-table__header remove_element">.</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="govuk-table__body">
+                                    <tr class="govuk-table__row">
+                                        <th scope="row" class="govuk-table__header">{{
+                                            getSchemaName(registries.identifier?.scheme||'') }}</th>
+                                        <td class="govuk-table__cell">{{ registries.identifier?.id}}</td>
+                                        <td class="govuk-table__cell">Primary</td>
+                                    </tr>
+                                    <tr class="govuk-table__row" *ngFor="let row of additionalIdentifiers">
+                                        <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
+                                        <td class="govuk-table__cell">{{ row.id }}</td>
+                                        <td class="govuk-table__cell"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-         </div>
-         <div class="span-group govuk-!-margin-top-4">
-            <h2 class="govuk-heading-m">Event log</h2>
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full">
-                    <div class="user-table">
-                        <app-govuk-table [headerTextKeys]="eventLog.usersTableHeaders" [data]="eventLog.userListResponse.userList"
-                            [dataKeys]="eventLog.usersColumnsToDisplay" [isHyperLinkVisible]="true"
-                            (hyperLinkClickEvent)="openEmailWindow($event)" [useServerPagination]="true"
-                            [serverPageCount]="eventLog.pageCount" [serverPageCurrentPage]="eventLog.currentPage"
-                            (changeCurrentPageEvent)="setPageOrganisationAdministrator($event)"></app-govuk-table>
+            <div class="span-group govuk-!-margin-top-4">
+                <h2 class="govuk-heading-m">Event log</h2>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full">
+                        <div class="user-table">
+                            <app-govuk-table [headerTextKeys]="eventLog.usersTableHeaders"
+                                [data]="eventLog.organisationAuditEventListResponse.organisationAuditEventList"
+                                [dataKeys]="eventLog.usersColumnsToDisplay" [isHyperLinkVisible]="true"
+                                (hyperLinkClickEvent)="openEmailWindow($event)" [useServerPagination]="true"
+                                [serverPageCount]="eventLog.pageCount" [serverPageCurrentPage]="eventLog.currentPage"
+                                (changeCurrentPageEvent)="setPageOrganisationEventLogs($event)"></app-govuk-table>
+                        </div>
                     </div>
                 </div>
             </div>
-         </div>
-         <div class="govuk-button-group">
-            <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
-            (click)="removeRightToBuy()">Remove right to buy status</button>
-            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-              (click)="goBack()" >Back</button>
-          </div>
+            <br>
+            <div class="govuk-button-group">
+                <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
+                    (click)="removeRightToBuy()">Remove right to buy status</button>
+                <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                    (click)="goBack()">Back</button>
+            </div>
+        </div>
     </div>
-</div>

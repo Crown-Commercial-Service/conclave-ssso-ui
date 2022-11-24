@@ -79,8 +79,27 @@ export interface OrganisationAuditList
     organisationType: number;
     organisationTypeName: string;
     dateOfRegistration: Date;
+    rightToBuy: boolean;
 }
 
 export interface OrganisationAuditListResponse extends PaginationInfo {
     organisationAuditList: OrganisationAuditList[];
+}
+
+export interface OrganisationAuditEventList
+{
+    organisationId: number;
+    firstName: string;
+    lastName: string;
+    actioned: string;
+    actionedBy: string;
+    owner: string;
+    event: string;
+    date: Date;
+    role: string;
+    roleKey: string;
+}
+
+export interface OrganisationAuditEventListResponse extends PaginationInfo {
+    organisationAuditEventList: OrganisationAuditEventList[];
 }

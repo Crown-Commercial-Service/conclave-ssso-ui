@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
+import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { environment } from 'src/environments/environment';
+import { ciiService } from 'src/app/services/cii/cii.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view-verified-org',
@@ -11,6 +15,11 @@ import { environment } from 'src/environments/environment';
 export class ViewVerifiedOrgComponent implements OnInit {
   private organisationId: string = '';
   pageName = 'Contactadmin';
+  public routeDetails:any;
+  public registries: CiiOrgIdentifiersDto;
+  public additionalIdentifiers?: CiiAdditionalIdentifier[];
+  schemeData: any[] = [];
+  
   public organisationAdministrator = {
     usersTableHeaders: ['Name', 'Email address', 'Role'],
     usersColumnsToDisplay: ['name', 'email', 'role'],
@@ -28,22 +37,22 @@ export class ViewVerifiedOrgComponent implements OnInit {
 
   public eventLog = {
     usersTableHeaders: ['Owner', 'Event', 'Date'],
-    usersColumnsToDisplay: ['name', 'email', 'role'],
+    usersColumnsToDisplay: ['owner', 'event', 'date'],
     currentPage: 1,
     pageCount: 0,
     pageSize: environment.listPageSize,
-    userListResponse: {
+    organisationAuditEventListResponse: {
       currentPage: 0,
       pageCount: 0,
       rowCount: 0,
       organisationId: this.organisationId,
-      userList: [],
+      organisationAuditEventList: [],
     },
   };
 
-  constructor(
+  constructor(private route: ActivatedRoute, private wrapperBuyerAndBothService:WrapperBuyerBothService,
     private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
-    private router:Router
+    private router:Router, private ciiService: ciiService, private translate: TranslateService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -53,17 +62,30 @@ export class ViewVerifiedOrgComponent implements OnInit {
       organisationId: this.organisationId,
       userList: [],
     };
-    this.eventLog.userListResponse = {
+    this.eventLog.organisationAuditEventListResponse = {
       currentPage: this.eventLog.currentPage,
       pageCount: 0,
       rowCount: 0,
       organisationId: this.organisationId,
-      userList: [],
+      organisationAuditEventList: [],
     };
+    this.registries = {};
   }
 
-   ngOnInit() {
-   this.getOrganisationUsers();
+  async ngOnInit() {
+    this.route.queryParams.subscribe(async (para: any) => {
+     this.routeDetails = JSON.parse(atob(para.data));
+     this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
+     await this.ciiService.getOrgDetails(this.routeDetails.event.organisationId, true).toPromise()
+                      .then((data:any) => {
+                        this.registries = data;
+                        if (this.registries != undefined) {
+                          this.additionalIdentifiers = this.registries?.additionalIdentifiers;
+                        }
+                      })
+                      .catch((err) => {console.log('err', err);});
+     this.getOrganisationUsers();
+    });
   }
 
   public openEmailWindow(data: any): void {
@@ -73,9 +95,10 @@ export class ViewVerifiedOrgComponent implements OnInit {
 
   public getOrganisationUsers() {
     this.WrapperOrganisationGroupService.getUsersAdmin(
-      this.organisationId,
+      this.routeDetails.event.organisationId,
       this.organisationAdministrator.currentPage,
-      this.organisationAdministrator.pageSize
+      this.organisationAdministrator.pageSize,
+      true
     ).subscribe({
       next: (response: any) => {
         if (response != null) {
@@ -88,9 +111,8 @@ export class ViewVerifiedOrgComponent implements OnInit {
           );
           this.organisationAdministrator.pageCount =
             this.organisationAdministrator.userListResponse.pageCount;
-    this.getEventLogDetails()
-
         }
+        this.getEventLogDetails();
       },
       error: (error: any) => {},
     });
@@ -101,23 +123,77 @@ export class ViewVerifiedOrgComponent implements OnInit {
     this.getOrganisationUsers();
   }
 
+  public setPageOrganisationEventLogs(pageNumber: any) {
+    this.eventLog.currentPage = pageNumber;
+    this.getEventLogDetails();
+  }
+
   public getEventLogDetails():void{
-    this.WrapperOrganisationGroupService.getUsersAdmin(
-      this.organisationId,
+    this.wrapperBuyerAndBothService.getOrgEventLogs(
+      this.routeDetails.event.organisationId,
       this.eventLog.currentPage,
       this.eventLog.pageSize
     ).subscribe({
       next: (response: any) => {
         if (response != null) {
-          this.eventLog.userListResponse = response;
-          this.eventLog.userListResponse.userList.forEach(
+          this.eventLog.organisationAuditEventListResponse = response;
+          this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
             (f: any) => {
-              f.role = 'Admin';
-              f.email = f.userName; // the common component expect the field as email
-            }
-          );
+              f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') +' ' + (f.actionedBy ?? '');
+              if(f.owner.trim() == ''){
+                if(f.event?.toUpperCase() == "INACTIVEORGANISATIONREMOVED"){
+                  f.owner = "Automatic organisation removal";
+                }
+                else if(f.actioned?.toUpperCase() == "AUTOVALIDATION"){
+                  f.owner = "Autovalidation";
+                }
+                else if(f.actioned?.toUpperCase() == "JOB"){
+                  f.owner = "Job";
+                }
+              }
+              
+              if(f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||
+                 f.event?.toUpperCase() == "ADMINROLEASSIGNED" || f.event?.toUpperCase() == "ADMINROLEUNASSIGNED")
+              {
+                this.translate.get(f.event).subscribe(val => f.event = val);
+                if(f.event.includes('[RoleName]'))
+                {
+                  var role = f.role;
+                  switch (f.roleKey){
+                    case 'CAT_USER': {
+                      role = 'Contract Award Service (CAS) - add service';
+                      break;
+                    }
+                    case 'ACCESS_CAAAC_CLIENT': {
+                      role ='Contract Award Service (CAS) - add to dashboard';
+                      break;
+                    }
+                    case 'JAEGGER_SUPPLIER': {
+                      role = 'eSourcing Service as a supplier';
+                      break;
+                    }
+                    case 'JAEGGER_BUYER': {
+                      role = 'eSourcing Service as a buyer';
+                      break;
+                    }
+                    case 'JAGGAER_USER': {
+                      role = 'eSourcing Service - add service';
+                      break;
+                    }
+                    case 'ACCESS_JAGGAER': {
+                      role = 'eSourcing Service - add to dashboard';
+                      break;
+                    }
+                  }
+                  f.event = f.event.replace('[RoleName]', role);
+                }
+              }
+              else{
+                this.translate.get(f.event).subscribe(val => f.event = val);
+              }
+            });
           this.eventLog.pageCount =
-            this.eventLog.userListResponse.pageCount;
+            this.eventLog.organisationAuditEventListResponse.pageCount;
         }
       },
       error: (error: any) => {},
@@ -136,5 +212,18 @@ export class ViewVerifiedOrgComponent implements OnInit {
   goBack() {
     sessionStorage.setItem('activetab','verifiedOrg')
     window.history.back();
+  }
+
+  public getSchemaName(schema: string): string {
+    let selecedScheme = this.schemeData.find(s => s.scheme === schema);
+    if(selecedScheme?.schemeName) {
+      return selecedScheme?.schemeName;
+    }
+    else if (schema === 'GB-CCS') {
+      return 'Internal Identifier';
+    }
+    else {
+      return '';
+    }
   }
 }

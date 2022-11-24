@@ -57,9 +57,10 @@ export class UpdateOrgTypeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      if (params.id) {
-        this.org$ = this.organisationService.getById(params.id).pipe(share());
+    this.route.queryParams.subscribe(params => {
+      this.routeData = JSON.parse(atob(params.data));
+      if (this.routeData.Id) {
+        this.org$ = this.organisationService.getById(this.routeData.Id).pipe(share());
         this.org$.subscribe({
           next: data => {
             this.organisation = data;
@@ -206,13 +207,21 @@ export class UpdateOrgTypeComponent implements OnInit {
       this.WrapperOrganisationService.getAutoValidationStatus(this.organisation.ciiOrganisationId).toPromise().then((responce:any) => {
          selection.autoValidate = responce.autoValidationSuccess
          localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
-         this.router.navigateByUrl(`update-org-type/confirm-changes/${this.organisation.ciiOrganisationId}`)
+         let data = {
+          ciiOrganisationId:this.organisation.ciiOrganisationId,
+          companyHouseId:this.routeData.companyHouseId,
+          }
+         this.router.navigateByUrl(`update-org-type/confirm-changes?data=`+ btoa(JSON.stringify(data)))
         }).catch(error => {
           console.log(error);
          });
      } else {
+       let data = {
+        ciiOrganisationId:this.organisation.ciiOrganisationId,
+        companyHouseId:this.routeData.companyHouseId,
+        }
          localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
-        this.router.navigateByUrl(`update-org-type/confirm-changes/${this.organisation.ciiOrganisationId}`)
+        this.router.navigateByUrl(`update-org-type/confirm-changes?data=`+ btoa(JSON.stringify(data)))
      }
   }
 
