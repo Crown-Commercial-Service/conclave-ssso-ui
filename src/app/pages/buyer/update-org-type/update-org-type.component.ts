@@ -65,6 +65,7 @@ export class UpdateOrgTypeComponent implements OnInit {
         this.org$.subscribe({
           next: data => {
             this.organisation = data;
+            this.autoValidationPending = data.isAutovalidationPending
             this.adminSelectionMode = data.supplierBuyerType.toString();
             this.getOrgRoles();
           }

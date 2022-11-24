@@ -28,7 +28,7 @@ export class RemoveRightToBuyComponent implements OnInit {
       status: 'remove',
       orgName: this.routeDetails.orgName
     };
-    this.wrapperBuyerAndBothService.manualValidation(this.routeDetails.id, ManualValidationStatus.decline).subscribe({
+    this.wrapperBuyerAndBothService.manualValidation(this.routeDetails.id, ManualValidationStatus.remove).subscribe({
       next: (response: any) => {
         this.router.navigateByUrl(
           'remove-right-to-buy-success?data=' + btoa(JSON.stringify(data))

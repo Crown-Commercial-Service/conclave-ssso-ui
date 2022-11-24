@@ -28,6 +28,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Input() pageName?: string;
   @Input() hyperLinkArray?:string[];
   @Input() hyperArrayVisible?:boolean;
+  @Input() eventLog?:boolean;
   @Output() hyperLinkClickEvent = new EventEmitter<any>();
   @Output() checkBoxClickEvent = new EventEmitter<any>();
   @Output() radioClickEvent = new EventEmitter<any>();
@@ -50,6 +51,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges() {
+    console.log("event",this.eventLog)
     if (this.useClientPagination) {
       this.pageCount = Math.ceil(this.data.length / this.pageSize);
       this.totalPagesArray = Array(this.pageCount).fill(0).map((x, i) => i + 1);
@@ -104,6 +106,9 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
 
 
   public findDateKey(key:string){
+    // if(!this.eventLog){{
+    //   return true
+    // }}
     switch(key) { 
       case 'endDate': { 
          return true
