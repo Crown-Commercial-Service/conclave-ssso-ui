@@ -67,7 +67,7 @@ export class UpdateOrgTypeComponent implements OnInit {
             this.organisation = data;
             this.autoValidationPending = data.isAutovalidationPending
             this.adminSelectionMode = data.supplierBuyerType.toString();
-            if(data.isAutovalidationPending === true && data.supplierBuyerType != 0){
+            if(data.isAutovalidationPending === true){
                 this.autoValidationPending = true
             } else{
               this.autoValidationPending = null
@@ -219,8 +219,8 @@ export class UpdateOrgTypeComponent implements OnInit {
             if(!f.autoValidate){
               preTickRemoved.push(f)
             }
-            selection.toAdd = preTickRemoved
           })
+          selection.toAdd = preTickRemoved
          }
          localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
          let data = {
