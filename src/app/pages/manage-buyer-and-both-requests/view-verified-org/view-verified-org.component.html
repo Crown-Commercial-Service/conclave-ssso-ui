@@ -23,7 +23,7 @@
                 </p>
             </div>
             <div class="span-group govuk-!-margin-top-4">
-                <h2 class="govuk-heading-m">Organisation details</h2>
+                <h2 class="govuk-heading-m">Organisation details</h2> 
                 <p class="govuk-body">
                     Organisation name&nbsp;:<strong class="govuk-!-margin-left-2">{{routeDetails.event.organisationName}}</strong>
                 </p>
@@ -52,7 +52,7 @@
             </div>
             <div class="span-group govuk-!-margin-top-4">
                 <h2 class="govuk-heading-m">Organisation registries</h2>
-                <div class="govuk-grid-row">
+                <div class="govuk-grid-row" *ngIf="additionalIdentifiers != undefined">
                     <div class="govuk-grid-column-full">
                         <div class="user-table">
                             <table class="govuk-table">
@@ -80,6 +80,9 @@
                         </div>
                     </div>
                 </div>
+                <p class="govuk-body govuk-!-font-weight-bold" *ngIf="additionalIdentifiers == undefined">
+                    There are no matching results.
+                  </p>
             </div>
             <div class="span-group govuk-!-margin-top-4">
                 <h2 class="govuk-heading-m">Event log</h2>

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
+import {
+  CiiAdditionalIdentifier,
+  CiiOrgIdentifiersDto,
+} from 'src/app/models/org';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { environment } from 'src/environments/environment';
@@ -15,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class ViewPendingVerificationComponent implements OnInit {
   private organisationId: string = '';
   pageName = 'View request';
-  public routeDetails:any;
+  public routeDetails: any;
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   schemeData: any[] = [];
@@ -50,9 +53,13 @@ export class ViewPendingVerificationComponent implements OnInit {
     },
   };
 
-  constructor(private route: ActivatedRoute, private wrapperBuyerAndBothService:WrapperBuyerBothService,
-    private WrapperOrganisationGroupService: WrapperOrganisationGroupService,private router:Router,
-    private ciiService: ciiService, private translate: TranslateService
+  constructor(
+    private route: ActivatedRoute,
+    private wrapperBuyerAndBothService: WrapperBuyerBothService,
+    private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
+    private router: Router,
+    private ciiService: ciiService,
+    private translate: TranslateService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -73,17 +80,28 @@ export class ViewPendingVerificationComponent implements OnInit {
   }
 
   async ngOnInit() {
-   this.route.queryParams.subscribe(async (para: any) => {
-    this.routeDetails = JSON.parse(atob(para.data));
-    this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
-    this.registries = await this.ciiService.getOrgDetails(this.routeDetails.organisationId, true).toPromise();
-    if (this.registries != undefined) {
-      this.additionalIdentifiers = this.registries?.additionalIdentifiers;
-    }
+    this.route.queryParams.subscribe(async (para: any) => {
+      this.routeDetails = JSON.parse(atob(para.data));
+      this.schemeData = (await this.ciiService
+        .getSchemes()
+        .toPromise()) as any[];
+        await this.ciiService
+        .getOrgDetails(this.routeDetails.event.organisationId, true)
+        .toPromise()
+        .then((data: any) => {
+          this.getOrganisationUsers();
+          this.registries = data;
+          if (this.registries != undefined) {
+            this.additionalIdentifiers = this.registries?.additionalIdentifiers;
+          }
+        })
+        .catch((err) => {
+          this.additionalIdentifiers = undefined
+          this.getOrganisationUsers();
+          console.log('err', err);
+        });
     });
-    setTimeout(() => {
-    this.getOrganisationUsers();
-    }, 10);
+      
   }
 
   public openEmailWindow(data: any): void {
@@ -99,6 +117,7 @@ export class ViewPendingVerificationComponent implements OnInit {
       true
     ).subscribe({
       next: (response: any) => {
+        console.log("response",response)
         if (response != null) {
           this.organisationAdministrator.userListResponse = response;
           this.organisationAdministrator.userListResponse.userList.forEach(
@@ -112,7 +131,13 @@ export class ViewPendingVerificationComponent implements OnInit {
         }
         this.getEventLogDetails();
       },
-      error: (error: any) => {},
+      error: (error: any) => {
+        this.getEventLogDetails();
+        if(error.status === 404){
+          this.organisationAdministrator.userListResponse.userList = []
+        }
+        console.log("error",error)
+      },
     });
   }
 
@@ -126,113 +151,123 @@ export class ViewPendingVerificationComponent implements OnInit {
     this.getEventLogDetails();
   }
 
-  public getEventLogDetails():void{
-    this.wrapperBuyerAndBothService.getOrgEventLogs(
-      this.routeDetails.organisationId,
-      this.eventLog.currentPage,
-      this.eventLog.pageSize
-    ).subscribe({
-      next: (response: any) => {
-        if (response != null) {
-          this.eventLog.organisationAuditEventListResponse = response;
-          this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
-            (f: any) => {
-              f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') +' ' + (f.actionedBy ?? '');
-              if(f.owner.trim() == ''){
-                f.defaultOwnerChanges = true
-                if(f.event?.toUpperCase() == "INACTIVEORGANISATIONREMOVED"){
-                  f.owner = "Automatic organisation removal";
-                }
-                else if(f.actioned?.toUpperCase() == "AUTOVALIDATION"){
-                  f.owner = "Autovalidation";
-                }
-                else if(f.actioned?.toUpperCase() == "JOB"){
-                  f.owner = "Job";
-                }
-              } else {
-                f.defaultOwnerChanges = false;
-              }
-
-              if(f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||
-                 f.event?.toUpperCase() == "ADMINROLEASSIGNED" || f.event?.toUpperCase() == "ADMINROLEUNASSIGNED")
-              {
-                this.translate.get(f.event).subscribe(val => f.event = val);
-                if(f.event.includes('[RoleName]'))
-                {
-                  var role = f.role;
-                  switch (f.roleKey){
-                    case 'CAT_USER': {
-                      role = 'Contract Award Service (CAS) - add service';
-                      break;
-                    }
-                    case 'ACCESS_CAAAC_CLIENT': {
-                      role ='Contract Award Service (CAS) - add to dashboard';
-                      break;
-                    }
-                    case 'JAEGGER_SUPPLIER': {
-                      role = 'eSourcing Service as a supplier';
-                      break;
-                    }
-                    case 'JAEGGER_BUYER': {
-                      role = 'eSourcing Service as a buyer';
-                      break;
-                    }
-                    case 'JAGGAER_USER': {
-                      role = 'eSourcing Service - add service';
-                      break;
-                    }
-                    case 'ACCESS_JAGGAER': {
-                      role = 'eSourcing Service - add to dashboard';
-                      break;
-                    }
+  public getEventLogDetails(): void {
+    this.wrapperBuyerAndBothService
+      .getOrgEventLogs(
+        this.routeDetails.organisationId,
+        this.eventLog.currentPage,
+        this.eventLog.pageSize
+      )
+      .subscribe({
+        next: (response: any) => {
+          if (response != null) {
+            this.eventLog.organisationAuditEventListResponse = response;
+            this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
+              (f: any) => {
+                f.owner =
+                  (f.firstName ?? '') +
+                  ' ' +
+                  (f.lastName ?? '') +
+                  ' ' +
+                  (f.actionedBy ?? '');
+                if (f.owner.trim() == '') {
+                  f.defaultOwnerChanges = true;
+                  if (f.event?.toUpperCase() == 'INACTIVEORGANISATIONREMOVED') {
+                    f.owner = 'Automatic organisation removal';
+                  } else if (f.actioned?.toUpperCase() == 'AUTOVALIDATION') {
+                    f.owner = 'Autovalidation';
+                  } else if (f.actioned?.toUpperCase() == 'JOB') {
+                    f.owner = 'Job';
                   }
-                  f.event = f.event.replace('[RoleName]', role);
+                } else {
+                  f.defaultOwnerChanges = false;
+                }
+
+                if (
+                  f.event?.toUpperCase() == 'ORGROLEASSIGNED' ||
+                  f.event?.toUpperCase() == 'ORGROLEUNASSIGNED' ||
+                  f.event?.toUpperCase() == 'ADMINROLEASSIGNED' ||
+                  f.event?.toUpperCase() == 'ADMINROLEUNASSIGNED'
+                ) {
+                  this.translate
+                    .get(f.event)
+                    .subscribe((val) => (f.event = val));
+                  if (f.event.includes('[RoleName]')) {
+                    var role = f.role;
+                    switch (f.roleKey) {
+                      case 'CAT_USER': {
+                        role = 'Contract Award Service (CAS) - add service';
+                        break;
+                      }
+                      case 'ACCESS_CAAAC_CLIENT': {
+                        role =
+                          'Contract Award Service (CAS) - add to dashboard';
+                        break;
+                      }
+                      case 'JAEGGER_SUPPLIER': {
+                        role = 'eSourcing Service as a supplier';
+                        break;
+                      }
+                      case 'JAEGGER_BUYER': {
+                        role = 'eSourcing Service as a buyer';
+                        break;
+                      }
+                      case 'JAGGAER_USER': {
+                        role = 'eSourcing Service - add service';
+                        break;
+                      }
+                      case 'ACCESS_JAGGAER': {
+                        role = 'eSourcing Service - add to dashboard';
+                        break;
+                      }
+                    }
+                    f.event = f.event.replace('[RoleName]', role);
+                  }
+                } else {
+                  this.translate
+                    .get(f.event)
+                    .subscribe((val) => (f.event = val));
                 }
               }
-              else{
-                this.translate.get(f.event).subscribe(val => f.event = val);
-              }
-            });
-          this.eventLog.pageCount =
-            this.eventLog.organisationAuditEventListResponse.pageCount;
-        }
-      },
-      error: (error: any) => {},
-    });
+            );
+            this.eventLog.pageCount =
+              this.eventLog.organisationAuditEventListResponse.pageCount;
+          }
+        },
+        error: (error: any) => {},
+      });
   }
 
   goBack() {
     window.history.back();
   }
 
-  public acceptRightToBuy(){
+  public acceptRightToBuy() {
     let data = {
       organisationId: this.routeDetails.organisationId,
-      organisationName: this.routeDetails.organisationName
-    }
+      organisationName: this.routeDetails.organisationName,
+    };
     this.router.navigateByUrl(
       'confirm-accept?data=' + btoa(JSON.stringify(data))
     );
   }
-  public declineRightToBuy(){
+  public declineRightToBuy() {
     let data = {
       organisationId: this.routeDetails.organisationId,
-      organisationName: this.routeDetails.organisationName
-    }
+      organisationName: this.routeDetails.organisationName,
+    };
     this.router.navigateByUrl(
       'confirm-decline?data=' + btoa(JSON.stringify(data))
     );
   }
 
   public getSchemaName(schema: string): string {
-    let selecedScheme = this.schemeData.find(s => s.scheme === schema);
-    if(selecedScheme?.schemeName) {
+    let selecedScheme = this.schemeData.find((s) => s.scheme === schema);
+    if (selecedScheme?.schemeName) {
       return selecedScheme?.schemeName;
-    }
-    else if (schema === 'GB-CCS') {
+    } else if (schema === 'GB-CCS') {
       return 'Internal Identifier';
-    }
-    else {
+    } else {
       return '';
     }
   }
