@@ -69,7 +69,7 @@ export class UpdateOrgTypeComponent implements OnInit {
             this.adminSelectionMode = data.supplierBuyerType.toString();
             if(data.isAutovalidationPending === true){
                 this.autoValidationPending = true
-            } else{
+            } else {
               this.autoValidationPending = null
             }
             this.getOrgRoles();
