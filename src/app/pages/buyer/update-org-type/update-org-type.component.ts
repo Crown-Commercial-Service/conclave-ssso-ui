@@ -41,7 +41,7 @@ export class UpdateOrgTypeComponent implements OnInit {
   rolesToAddAutoValidation: Role[] | any;
   rolesToDelete: Role[];
   adminSelectionMode : string = "";
-  public autoValidationPending = null;
+  public autoValidationPending:any = null;
   public routeData:any= {}
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,private WrapperOrganisationService:WrapperOrganisationService,
     private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
@@ -67,6 +67,11 @@ export class UpdateOrgTypeComponent implements OnInit {
             this.organisation = data;
             this.autoValidationPending = data.isAutovalidationPending
             this.adminSelectionMode = data.supplierBuyerType.toString();
+            if(data.isAutovalidationPending === true){
+                this.autoValidationPending = true
+            } else{
+              this.autoValidationPending = null
+            }
             this.getOrgRoles();
           }
         });
