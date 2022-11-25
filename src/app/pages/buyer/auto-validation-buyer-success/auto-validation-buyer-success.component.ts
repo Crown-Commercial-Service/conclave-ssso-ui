@@ -40,7 +40,6 @@ export class AutoValidationBuyerSuccessComponent implements OnDestroy {
           next: data => {
             this.org = data;
             this.changes = JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
-            console.log("this.changes",this.changes)
             if(!this.changes){
               this.router.navigateByUrl('home');
               return
