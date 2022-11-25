@@ -213,6 +213,15 @@ export class UpdateOrgTypeComponent implements OnInit {
     if((this.adminSelectionMode == '1' || this.adminSelectionMode == '2' ) && this.organisation.supplierBuyerType == '0'){
       this.WrapperOrganisationService.getAutoValidationStatus(this.organisation.ciiOrganisationId).toPromise().then((responce:any) => {
          selection.autoValidate = responce.autoValidationSuccess
+         let preTickRemoved:any=[]
+         if(!responce.autoValidationSuccess){
+          this.rolesToAdd.forEach((f:any)=>{
+            if(!f.autoValidate){
+              preTickRemoved.push(f)
+            }
+          })
+          selection.toAdd = preTickRemoved
+         }
          localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
          let data = {
           ciiOrganisationId:this.organisation.ciiOrganisationId,
