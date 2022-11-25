@@ -89,15 +89,16 @@ export class ViewVerifiedOrgComponent implements OnInit {
         .getOrgDetails(this.routeDetails.event.organisationId, true)
         .toPromise()
         .then((data: any) => {
+          this.getOrganisationUsers();
           this.registries = data;
+          console.log("this.registries",this.registries)
           if (this.registries != undefined) {
             this.additionalIdentifiers = this.registries?.additionalIdentifiers;
           }
-          setTimeout(() => {
-          this.getOrganisationUsers();
-          }, 10);
         })
         .catch((err) => {
+          this.additionalIdentifiers = undefined
+          this.getOrganisationUsers();
           console.log('err', err);
         });
     });
@@ -127,9 +128,15 @@ export class ViewVerifiedOrgComponent implements OnInit {
           this.organisationAdministrator.pageCount =
             this.organisationAdministrator.userListResponse.pageCount;
         }
-        this.getEventLogDetails();
+       this.getEventLogDetails();
       },
-      error: (error: any) => {},
+      error: (error: any) => {
+        this.getEventLogDetails();
+        if(error.status === 404){
+          this.organisationAdministrator.userListResponse.userList = []
+        }
+        console.log("error",error)
+      },
     });
   }
 
