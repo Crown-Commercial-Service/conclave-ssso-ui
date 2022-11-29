@@ -333,7 +333,7 @@
   "OrganisationTypeBuyerToSupplier": "Organisation type changed from buyer to supplier",
   "OrganisationTypeBuyerToBoth": "Organisation type changed from buyer to both",
   "OrganisationTypeBothToSupplier": "Organisation type changed from both to supplier",
-  "OrganisationTypeBothToBuyer": "Organisation type changed from buyer to buyer",
+  "OrganisationTypeBothToBuyer": "Organisation type changed from both to buyer",
   "OrganisationTypeSupplierToBoth": "Organisation type changed from supplier to both",
   "OrganisationTypeSupplierToBuyer": "Organisation type changed from supplier to buyer",
   "NotRecognizedAsVerifiedBuyer": "Organisation not recognized as verified buyer in autovalidation process",
