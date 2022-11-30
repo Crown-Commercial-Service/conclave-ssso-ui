@@ -17,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ViewPendingVerificationComponent implements OnInit {
   private organisationId: string = '';
-  pageName = 'View request';
+  pageName = 'Contactadmin';
   public routeDetails: any;
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
@@ -52,7 +52,7 @@ export class ViewPendingVerificationComponent implements OnInit {
       organisationAuditEventList: [],
     },
   };
-
+  public isDeletedOrg:boolean = false
   constructor(
     private route: ActivatedRoute,
     private wrapperBuyerAndBothService: WrapperBuyerBothService,
@@ -86,7 +86,7 @@ export class ViewPendingVerificationComponent implements OnInit {
         .getSchemes()
         .toPromise()) as any[];
         await this.ciiService
-        .getOrgDetails(this.routeDetails.event.organisationId, true)
+        .getOrgDetails(this.routeDetails.organisationId, true)
         .toPromise()
         .then((data: any) => {
           this.getOrganisationUsers();
@@ -97,6 +97,7 @@ export class ViewPendingVerificationComponent implements OnInit {
         })
         .catch((err) => {
           this.additionalIdentifiers = undefined
+          this.isDeletedOrg = true;
           this.getOrganisationUsers();
           console.log('err', err);
         });
@@ -117,7 +118,6 @@ export class ViewPendingVerificationComponent implements OnInit {
       true
     ).subscribe({
       next: (response: any) => {
-        console.log("response",response)
         if (response != null) {
           this.organisationAdministrator.userListResponse = response;
           this.organisationAdministrator.userListResponse.userList.forEach(
@@ -135,6 +135,7 @@ export class ViewPendingVerificationComponent implements OnInit {
         this.getEventLogDetails();
         if(error.status === 404){
           this.organisationAdministrator.userListResponse.userList = []
+          this.isDeletedOrg = true;
         }
         console.log("error",error)
       },
