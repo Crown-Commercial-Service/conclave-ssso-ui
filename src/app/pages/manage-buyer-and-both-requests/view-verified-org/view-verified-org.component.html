@@ -102,7 +102,7 @@
             <br>
             <div class="govuk-button-group" *ngIf="routeDetails.event.rightToBuy === true">
                 <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
-                    (click)="removeRightToBuy()">Remove right to buy status</button>
+                    (click)="removeRightToBuy()" *ngIf="!isDeletedOrg">Remove right to buy status</button>
                 <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
                     (click)="goBack()">Back</button>
             </div>
