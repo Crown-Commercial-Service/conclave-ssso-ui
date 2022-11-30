@@ -52,7 +52,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
       organisationAuditEventList: [],
     },
   };
-
+  public isDeletedOrg:boolean = false
   constructor(
     private route: ActivatedRoute,
     private wrapperBuyerAndBothService: WrapperBuyerBothService,
@@ -91,13 +91,13 @@ export class ViewVerifiedOrgComponent implements OnInit {
         .then((data: any) => {
           this.getOrganisationUsers();
           this.registries = data;
-          console.log("this.registries",this.registries)
           if (this.registries != undefined) {
             this.additionalIdentifiers = this.registries?.additionalIdentifiers;
           }
         })
         .catch((err) => {
           this.additionalIdentifiers = undefined
+          this.isDeletedOrg = true;
           this.getOrganisationUsers();
           console.log('err', err);
         });
@@ -134,6 +134,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
         this.getEventLogDetails();
         if(error.status === 404){
           this.organisationAdministrator.userListResponse.userList = []
+          this.isDeletedOrg = true;
         }
         console.log("error",error)
       },
