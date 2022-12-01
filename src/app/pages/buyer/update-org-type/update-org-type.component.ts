@@ -215,14 +215,14 @@ export class UpdateOrgTypeComponent implements OnInit {
          selection.autoValidate = responce.autoValidationSuccess
          let preTickRemoved:any=[]
          if(!responce.autoValidationSuccess){
-          if(this.organisation.supplierBuyerType == '0' && this.adminSelectionMode == '1'){
-            this.roles.forEach((role)=>{
-             if(role.roleKey == 'ACCESS_JAGGAER' || role.roleKey == 'JAGGAER_USER'){
-               selection.toDelete.push(role)
-               selection.toAutoValid.push(role)
-             }
-            })
-            }
+          // if(this.organisation.supplierBuyerType == '0' && this.adminSelectionMode == '1'){
+          //   this.roles.forEach((role)=>{
+          //    if(role.roleKey == 'ACCESS_JAGGAER' || role.roleKey == 'JAGGAER_USER'){
+          //      selection.toDelete.push(role)
+          //      selection.toAutoValid.push(role)
+          //    }
+          //   })
+          //   }
 
           this.rolesToAdd.forEach((f:any)=>{
             if(!f.autoValidate){
