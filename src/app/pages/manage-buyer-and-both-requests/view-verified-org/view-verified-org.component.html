@@ -109,7 +109,7 @@
             <div *ngIf="routeDetails.event.rightToBuy != true">
                 <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
                 (click)="goBack()">Back</button>
-                <p class="govuk-body"><a target="_blank" class="govuk-link navigation-text" (click)="nevigateViewEdit()">View / edit organisations’ right to buy status</a></p>
+                <p  *ngIf="!isDeletedOrg" class="govuk-body"><a target="_blank" class="govuk-link navigation-text" (click)="nevigateViewEdit()">View / edit organisations’ right to buy status</a></p>
             </div>
         </div>
     </div>
