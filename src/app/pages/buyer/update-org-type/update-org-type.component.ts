@@ -139,6 +139,21 @@ export class UpdateOrgTypeComponent implements OnInit {
         })
       }
    })
+
+   if(this.organisation.supplierBuyerType == '0' && type == '1'){
+    let ACCESS_JAGGAER = this.rolesToAddAutoValidation.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
+    let JAGGAER_USER   = this.rolesToAddAutoValidation.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
+     if(ACCESS_JAGGAER === undefined){
+      let accessJagger:any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
+      this.rolesToAddAutoValidation?.push(accessJagger)
+      accessJagger.autoValidate = true
+     }
+     if(JAGGAER_USER === undefined){
+      let jaggerUser:any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
+      this.rolesToAddAutoValidation?.push(jaggerUser)
+      jaggerUser.autoValidate = true
+      }
+    }
   }
 
 /**
@@ -215,14 +230,18 @@ export class UpdateOrgTypeComponent implements OnInit {
          selection.autoValidate = responce.autoValidationSuccess
          let preTickRemoved:any=[]
          if(!responce.autoValidationSuccess){
-          // if(this.organisation.supplierBuyerType == '0' && this.adminSelectionMode == '1'){
-          //   this.roles.forEach((role)=>{
-          //    if(role.roleKey == 'ACCESS_JAGGAER' || role.roleKey == 'JAGGAER_USER'){
-          //      selection.toDelete.push(role)
-          //      selection.toAutoValid.push(role)
-          //    }
-          //   })
-          //   }
+          if(this.organisation.supplierBuyerType == '0' && this.adminSelectionMode == '1'){
+            let ACCESS_JAGGAER = selection.toDelete.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
+            let JAGGAER_USER   = selection.toDelete.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
+             if(ACCESS_JAGGAER === undefined){
+              let accessJagger:any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
+              selection.toDelete.push(accessJagger)
+             }
+             if(JAGGAER_USER === undefined){
+              let jaggerUser:any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
+              selection.toDelete.push(jaggerUser)
+              }
+            }
 
           this.rolesToAdd.forEach((f:any)=>{
             if(!f.autoValidate){
