@@ -25,12 +25,12 @@
     <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" *ngIf="autoValidationPending">
       <div class="govuk-notification-banner__header">
         <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-          Important
+          Organisation Under Review
         </h2>
       </div>
       <div class="govuk-notification-banner__content">
         <p class="govuk-notification-banner__heading">
-          This organisation is currently awaiting verification of its buyer status. You won't be able to make any changes to the roles assigned to this organisation until the verification process is complete.
+          This organisation is currently awaiting verification of its buyer status. You won't be able to manage this organisation's eligibility until the verification process is complete.
         </p>
       </div>
     </div>
@@ -76,7 +76,7 @@
         <ng-container *ngFor="let role of roles">
           <div
             class="govuk-checkboxes__item"
-            *ngIf="role.subscriptionTypeEligibility === 0 &&  role.orgTypeEligibility !== 0 && tradeEligibilityStatus(role)">
+            *ngIf="role.subscriptionTypeEligibility === 0 &&  role.orgTypeEligibility !== 0 && tradeEligibilityStatus(role) && role.isDeleted !== true">
             <input
               type="checkbox"
               [value]="role.roleId"
@@ -129,7 +129,7 @@
             *ngIf="
               role.subscriptionTypeEligibility === 1 &&
               role.orgTypeEligibility !== 0 &&
-              tradeEligibilityStatus(role) 
+              tradeEligibilityStatus(role) && role.isDeleted !== true
             "
           >
             <input
