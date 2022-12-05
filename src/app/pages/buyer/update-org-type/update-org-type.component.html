@@ -129,7 +129,7 @@
             *ngIf="
               role.subscriptionTypeEligibility === 1 &&
               role.orgTypeEligibility !== 0 &&
-              tradeEligibilityStatus(role) 
+              tradeEligibilityStatus(role) && role.isDeleted !== true
             "
           >
             <input
