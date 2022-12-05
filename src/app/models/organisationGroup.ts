@@ -38,6 +38,7 @@ export interface Role {
     tradeEligibility?: number;
     enabled?: boolean;
     serviceName?:string | null;
+    isDeleted?:boolean;
 }
 
 export interface CheckBoxRoleListGridSource extends Role{

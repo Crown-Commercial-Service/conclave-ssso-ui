@@ -40,12 +40,12 @@ export class UpdateOrgTypeComponent implements OnInit {
   rolesToAdd: Role[];
   rolesToAddAutoValidation: Role[] | any;
   rolesToDelete: Role[];
-  adminSelectionMode : string = "";
-  public autoValidationPending:any = null;
-  public routeData:any= {}
-  constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,private WrapperOrganisationService:WrapperOrganisationService,
+  adminSelectionMode: string = "";
+  public autoValidationPending: any = null;
+  public routeData: any = {}
+  constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService, private WrapperOrganisationService: WrapperOrganisationService,
     private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
-    protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService, 
+    protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     this.orgRoles = [];
     this.eRoles = [];
@@ -67,9 +67,9 @@ export class UpdateOrgTypeComponent implements OnInit {
             this.organisation = data;
             this.autoValidationPending = data.isAutovalidationPending
             this.adminSelectionMode = data.supplierBuyerType.toString();
-            if(data.isAutovalidationPending === true){
-                this.autoValidationPending = true
-            } else{
+            if (data.isAutovalidationPending === true) {
+              this.autoValidationPending = true
+            } else {
               this.autoValidationPending = null
             }
             this.getOrgRoles();
@@ -79,117 +79,175 @@ export class UpdateOrgTypeComponent implements OnInit {
     });
   }
 
-/**
- * select radio button
- * @param type supplier, buyer, both
- * supplier = 0
- * buyer    = 1
- * both     =  2
- */
-  public onSelect(type: string | number,accessFrom:string) {
-  const buyerRemoveList=['EL_JNR_SUPPLIER','EL_SNR_SUPPLIER','JAEGGER_SUPPLIER']
-  const supplierRemoveList=['JAEGGER_BUYER','ACCESS_CAAAC_CLIENT','CAT_USER','ACCESS_FP_CLIENT','FP_USER']
-  this.rolesToAdd = [];
-  this.rolesToDelete = [];
-  this.rolesToAddAutoValidation = []
-  this.roles = JSON.parse((localStorage.getItem('defaultRole')) || '')
-  //buyer roles hidden 
-   if(type == 1){
-      buyerRemoveList.map((removeRoleKey:any)=>{
-      this.roles.map((buyerRoles,index)=>{
-       if(buyerRoles.roleKey == removeRoleKey){
-        if(accessFrom === "html" && buyerRoles.enabled){
-          this.rolesToDelete.push(buyerRoles);
-        }
-        this.roles.splice(index,1)
-       }
-      })
-    })
-    }
-    // supplier roles hidden
-    else if(type == 0){
-      supplierRemoveList.map((removeRoleKey:any)=>{
-        this.roles.map((buyerRoles,index)=>{
-         if(buyerRoles.roleKey == removeRoleKey){
-          if(accessFrom === "html" && buyerRoles.enabled){
-            this.rolesToDelete.push(buyerRoles);
+  /**
+   * select radio button
+   * @param type supplier, buyer, both
+   * supplier = 0
+   * buyer    = 1
+   * both     =  2
+   */
+  public onSelect(type: string | number, accessFrom: string) {
+    const buyerRemoveList = ['EL_JNR_SUPPLIER', 'EL_SNR_SUPPLIER', 'JAEGGER_SUPPLIER']
+    const supplierRemoveList = ['JAEGGER_BUYER', 'ACCESS_CAAAC_CLIENT', 'CAT_USER', 'ACCESS_FP_CLIENT', 'FP_USER']
+    this.rolesToAddAutoValidation = []
+    this.roles.forEach(object => {
+      delete object.isDeleted
+    });
+
+    //buyer roles hidden 
+    if (type == 1) {
+      buyerRemoveList.map((removeRoleKey: any) => {
+        this.roles.map((buyerRoles: any, index) => {
+          if (buyerRoles.roleKey == removeRoleKey) {
+            if (accessFrom === "html" && buyerRoles.enabled) {
+              let alreadyExist: any = this.rolesToDelete.find((element: { roleKey: any; }) => element.roleKey == buyerRoles.roleKey)
+              if (alreadyExist === undefined) {
+                this.rolesToDelete.push(buyerRoles);
+              }
+            }
+            buyerRoles.isDeleted = true
           }
-          this.roles.splice(index,1)
-         }
+        })
+      })
+
+      //buyer roles removing if those roles available in roles Add array
+      buyerRemoveList.map((removeRoleKey: any) => {
+        this.rolesToAdd.map((buyerRoles: any, index) => {
+          if (buyerRoles.roleKey == removeRoleKey) {
+            if (accessFrom === "html") {
+              this.rolesToAdd.splice(index, 1)
+            }
+          }
+        })
+      })
+
+      //buyer roles removing if those roles available in roles Delete array
+      buyerRemoveList.map((removeRoleKey: any) => {
+        this.rolesToDelete.map((buyerRoles: any, index) => {
+          if (buyerRoles.roleKey == removeRoleKey) {
+            if (accessFrom === "html") {
+              this.rolesToDelete.splice(index, 1);
+            }
+          }
         })
       })
     }
-    
-    if(accessFrom === "html" && type != this.adminSelectionMode){
+
+    // supplier roles hidden
+    else if (type == 0) {
+      supplierRemoveList.map((removeRoleKey: any) => {
+        this.roles.map((buyerRoles, index) => {
+          if (buyerRoles.roleKey == removeRoleKey) {
+            if (accessFrom === "html" && buyerRoles.enabled) {
+              let alreadyExist: any = this.rolesToDelete.find((element: { roleKey: any; }) => element.roleKey == buyerRoles.roleKey)
+              if (alreadyExist === undefined) {
+                this.rolesToDelete.push(buyerRoles);
+              }
+            }
+            buyerRoles.isDeleted = true
+          }
+        })
+      })
+
+      //supllier roles removing if those roles available in roles Add array
+      supplierRemoveList.map((removeRoleKey: any) => {
+        this.rolesToAdd.map((buyerRoles, index) => {
+          if (buyerRoles.roleKey == removeRoleKey) {
+            if (accessFrom === "html") {
+              this.rolesToAdd.splice(index, 1)
+            }
+          }
+        })
+      })
+
+      //supllier roles removing if those roles available in roles Delete
+      supplierRemoveList.map((removeRoleKey: any) => {
+        this.rolesToDelete.map((buyerRoles, index) => {
+          if (buyerRoles.roleKey == removeRoleKey) {
+            if (accessFrom === "html") {
+              this.rolesToDelete.splice(index, 1);
+            }
+          }
+        })
+      })
+    }
+
+
+
+
+    if (accessFrom === "html" && type != this.adminSelectionMode) {
       this.preTickRoles(type)
     }
   }
 
-
-  public preTickRoles(type:any):void{
-  this.roles.forEach((f:any)=>{
-      if(f.autoValidationRoleTypeEligibility.length != 0){
-        f.autoValidationRoleTypeEligibility.forEach((x:any)=>{
-         if(x == type && f.enabled == false){
-           f.enabled = true
-           f.autoValidate = true
-          this.rolesToAdd.push(f); 
-          this.rolesToAddAutoValidation?.push(f)
-         }
+  /**
+   * pre-ticking default roles based on API responce 
+   * @param type organisation type getting from HTML
+   */
+  public preTickRoles(type: any): void {
+    this.roles.forEach((f: any) => {
+      if (f.autoValidationRoleTypeEligibility.length != 0) {
+        f.autoValidationRoleTypeEligibility.forEach((x: any) => {
+          if (x == type && f.enabled == false) {
+            f.enabled = true
+            f.autoValidate = true
+            this.rolesToAdd.push(f);
+            this.rolesToAddAutoValidation?.push(f)
+          }
         })
       }
-   })
+    })
 
-   if(this.organisation.supplierBuyerType == '0' && type == '1'){
-    let ACCESS_JAGGAER = this.rolesToAddAutoValidation.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
-    let JAGGAER_USER   = this.rolesToAddAutoValidation.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
-     if(ACCESS_JAGGAER === undefined){
-      let accessJagger:any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
-      this.rolesToAddAutoValidation?.push(accessJagger)
-      accessJagger.autoValidate = true
-     }
-     if(JAGGAER_USER === undefined){
-      let jaggerUser:any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
-      this.rolesToAddAutoValidation?.push(jaggerUser)
-      jaggerUser.autoValidate = true
+    if (this.organisation.supplierBuyerType == '0' && type == '1') {
+      let ACCESS_JAGGAER = this.rolesToAddAutoValidation.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
+      let JAGGAER_USER = this.rolesToAddAutoValidation.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
+      if (ACCESS_JAGGAER === undefined) {
+        let accessJagger: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
+        this.rolesToAddAutoValidation?.push(accessJagger)
+        accessJagger.autoValidate = true
+      }
+      if (JAGGAER_USER === undefined) {
+        let jaggerUser: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
+        this.rolesToAddAutoValidation?.push(jaggerUser)
+        jaggerUser.autoValidate = true
       }
     }
   }
 
-/**
- *  trade elegibity checking for all listed roles
- * @param role getting from html when *ngFor happen
- * @returns return boolean value based on condtion
- */
-  public tradeEligibilityStatus(role:any){
-    if(this.adminSelectionMode == '0'){
-      if(role.tradeEligibility == '0' || role.tradeEligibility == '2'){
+  /**
+   *  trade elegibity checking for all listed roles
+   * @param role getting from html when *ngFor happen
+   * @returns return boolean value based on condtion
+   */
+  public tradeEligibilityStatus(role: any) {
+    if (this.adminSelectionMode == '0') {
+      if (role.tradeEligibility == '0' || role.tradeEligibility == '2') {
         return true
       }
-    } else if (this.adminSelectionMode == '1'){
-      if(role.tradeEligibility == '1' || role.tradeEligibility == '2'){
+    } else if (this.adminSelectionMode == '1') {
+      if (role.tradeEligibility == '1' || role.tradeEligibility == '2') {
         return true
       }
     }
-      else if (this.adminSelectionMode == '2'){
-        if(role.tradeEligibility == '0' || role.tradeEligibility == '1' || role.tradeEligibility == '2'){
-          return true
-        }
+    else if (this.adminSelectionMode == '2') {
+      if (role.tradeEligibility == '0' || role.tradeEligibility == '1' || role.tradeEligibility == '2') {
+        return true
+      }
     }
     return false
   }
 
 
-/**
- * Check box evenets 
- * @param event oberverving HTML DOM event 
- * @param defaultValue Init Value
- * @param role object of role
- */
+  /**
+   * Check box evenets 
+   * @param event oberverving HTML DOM event 
+   * @param defaultValue Init Value
+   * @param role object of role
+   */
   public onChange(event: any, defaultValue: any, role: any) {
-    if(role.autoValidate === true && !event.target.checked){
+    if (role.autoValidate === true && !event.target.checked) {
       const index = this.rolesToAddAutoValidation?.indexOf(role);
-      this.rolesToAddAutoValidation?.splice(index,1)
+      this.rolesToAddAutoValidation?.splice(index, 1)
       this.rolesToAdd.splice(index, 1);
     }
     else if (defaultValue === true && !event.target.checked) {
@@ -220,59 +278,59 @@ export class UpdateOrgTypeComponent implements OnInit {
       org: this.organisation,
       toDelete: this.rolesToDelete,
       toAdd: this.rolesToAdd,
-      toAutoValid : this.rolesToAddAutoValidation,
-      orgType:this.adminSelectionMode,
+      toAutoValid: this.rolesToAddAutoValidation,
+      orgType: this.adminSelectionMode,
       hasChanges: (this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0 && this.organisation.supplierBuyerType == this.adminSelectionMode) ? false : true,
-      autoValidate:true
+      autoValidate: true
     };
-    if((this.adminSelectionMode == '1' || this.adminSelectionMode == '2' ) && this.organisation.supplierBuyerType == '0'){
-      this.WrapperOrganisationService.getAutoValidationStatus(this.organisation.ciiOrganisationId).toPromise().then((responce:any) => {
-         selection.autoValidate = responce.autoValidationSuccess
-         let preTickRemoved:any=[]
-         if(!responce.autoValidationSuccess){
-          if(this.organisation.supplierBuyerType == '0' && this.adminSelectionMode == '1'){
+    if ((this.adminSelectionMode == '1' || this.adminSelectionMode == '2') && this.organisation.supplierBuyerType == '0') {
+      this.WrapperOrganisationService.getAutoValidationStatus(this.organisation.ciiOrganisationId).toPromise().then((responce: any) => {
+        selection.autoValidate = responce.autoValidationSuccess
+        let preTickRemoved: any = []
+        if (!responce.autoValidationSuccess) {
+          if (this.organisation.supplierBuyerType == '0' && this.adminSelectionMode == '1') {
             let ACCESS_JAGGAER = selection.toDelete.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
-            let JAGGAER_USER   = selection.toDelete.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
-             if(ACCESS_JAGGAER === undefined){
-              let accessJagger:any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
+            let JAGGAER_USER = selection.toDelete.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
+            if (ACCESS_JAGGAER === undefined) {
+              let accessJagger: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
               selection.toDelete.push(accessJagger)
-             }
-             if(JAGGAER_USER === undefined){
-              let jaggerUser:any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
-              selection.toDelete.push(jaggerUser)
-              }
             }
+            if (JAGGAER_USER === undefined) {
+              let jaggerUser: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
+              selection.toDelete.push(jaggerUser)
+            }
+          }
 
-          this.rolesToAdd.forEach((f:any)=>{
-            if(!f.autoValidate){
+          this.rolesToAdd.forEach((f: any) => {
+            if (!f.autoValidate) {
               preTickRemoved.push(f)
             }
           })
           selection.toAdd = preTickRemoved
-         }
-         localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
-         let data = {
-          ciiOrganisationId:this.organisation.ciiOrganisationId,
-          companyHouseId:this.routeData.companyHouseId,
-          }
-         this.router.navigateByUrl(`update-org-type/confirm-changes?data=`+ btoa(JSON.stringify(data)))
-        }).catch(error => {
-          console.log(error);
-         });
-     } else {
-       let data = {
-        ciiOrganisationId:this.organisation.ciiOrganisationId,
-        companyHouseId:this.routeData.companyHouseId,
         }
-         localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
-        this.router.navigateByUrl(`update-org-type/confirm-changes?data=`+ btoa(JSON.stringify(data)))
-     }
+        localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
+        let data = {
+          ciiOrganisationId: this.organisation.ciiOrganisationId,
+          companyHouseId: this.routeData.companyHouseId,
+        }
+        this.router.navigateByUrl(`update-org-type/confirm-changes?data=` + btoa(JSON.stringify(data)))
+      }).catch(error => {
+        console.log(error);
+      });
+    } else {
+      let data = {
+        ciiOrganisationId: this.organisation.ciiOrganisationId,
+        companyHouseId: this.routeData.companyHouseId,
+      }
+      localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
+      this.router.navigateByUrl(`update-org-type/confirm-changes?data=` + btoa(JSON.stringify(data)))
+    }
   }
 
 
-/**
- * cancel button call , removing all the local storage details
- */
+  /**
+   * cancel button call , removing all the local storage details
+   */
   public onCancelClick() {
     localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
     this.router.navigateByUrl('buyer/search');
@@ -282,7 +340,7 @@ export class UpdateOrgTypeComponent implements OnInit {
   /**
    * getting all roles and find elegible role call.
    */
-  public getOrgRoles(){
+  public getOrgRoles() {
     this.orgRoles$ = this.wrapperConfigService.getRoles().pipe(share());
     this.orgRoles$.subscribe({
       next: (orgRoles: Role[]) => {
@@ -294,9 +352,8 @@ export class UpdateOrgTypeComponent implements OnInit {
               r.enabled = eRoles.some(x => x.roleName == r.roleName && x.serviceName == r.serviceName);
             });
             this.eRoles = eRoles;
-            localStorage.setItem('defaultRole',JSON.stringify(this.roles))
             setTimeout(() => {
-            this.onSelect(this.adminSelectionMode,'none')
+              this.onSelect(this.adminSelectionMode, 'none')
             }, 100);
           },
           error: (err: any) => {
