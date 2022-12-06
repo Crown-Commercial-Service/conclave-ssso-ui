@@ -90,33 +90,17 @@ export class UpdateOrgTypeComponent implements OnInit {
     const buyerRemoveList = ['EL_JNR_SUPPLIER', 'EL_SNR_SUPPLIER', 'JAEGGER_SUPPLIER']
     const supplierRemoveList = ['JAEGGER_BUYER', 'ACCESS_CAAAC_CLIENT', 'CAT_USER', 'ACCESS_FP_CLIENT', 'FP_USER']
     this.rolesToAddAutoValidation = []
-    this.roles.forEach(object => {
-      delete object.isDeleted
-    });
-
-    //buyer roles hidden 
+    this.roles.forEach((role)=>{
+      delete role.isDeleted
+    })
     if (type == 1) {
-      buyerRemoveList.map((removeRoleKey: any) => {
-        this.roles.map((buyerRoles: any, index) => {
-          if (buyerRoles.roleKey == removeRoleKey) {
-            if (accessFrom === "html" && buyerRoles.enabled) {
-              let alreadyExist: any = this.rolesToDelete.find((element: { roleKey: any; }) => element.roleKey == buyerRoles.roleKey)
-              if (alreadyExist === undefined) {
-                this.rolesToDelete.push(buyerRoles);
-              }
-            }
-            buyerRoles.isDeleted = true
-          }
-        })
-      })
-
       //buyer roles removing if those roles available in roles Add array
       buyerRemoveList.map((removeRoleKey: any) => {
         this.rolesToAdd.map((buyerRoles: any, index) => {
           if (buyerRoles.roleKey == removeRoleKey) {
             if (accessFrom === "html") {
               this.rolesToAdd.splice(index, 1)
-            }
+             }
           }
         })
       })
@@ -131,27 +115,38 @@ export class UpdateOrgTypeComponent implements OnInit {
           }
         })
       })
-    }
-
-    // supplier roles hidden
-    else if (type == 0) {
+ 
       supplierRemoveList.map((removeRoleKey: any) => {
-        this.roles.map((buyerRoles, index) => {
+        this.rolesToDelete.map((buyerRoles:any, index) => {
           if (buyerRoles.roleKey == removeRoleKey) {
-            if (accessFrom === "html" && buyerRoles.enabled) {
+            if (accessFrom === "html") {
+              this.rolesToDelete.splice(index, 1);
+            }
+          }
+        })
+      })
+
+     //buyer roles hidden 
+      buyerRemoveList.map((removeRoleKey: any) => {
+        this.roles.map((buyerRoles: any, index) => {
+          if (buyerRoles.roleKey == removeRoleKey) {
+            if (accessFrom === "html" && buyerRoles.enabled && this.organisation.supplierBuyerType != 1) {
               let alreadyExist: any = this.rolesToDelete.find((element: { roleKey: any; }) => element.roleKey == buyerRoles.roleKey)
-              if (alreadyExist === undefined) {
+              if (alreadyExist == undefined) {
                 this.rolesToDelete.push(buyerRoles);
+ 
               }
             }
             buyerRoles.isDeleted = true
           }
         })
       })
+    }
 
+    else if (type == 0) {
       //supllier roles removing if those roles available in roles Add array
       supplierRemoveList.map((removeRoleKey: any) => {
-        this.rolesToAdd.map((buyerRoles, index) => {
+        this.rolesToAdd.map((buyerRoles:any, index) => {
           if (buyerRoles.roleKey == removeRoleKey) {
             if (accessFrom === "html") {
               this.rolesToAdd.splice(index, 1)
@@ -162,7 +157,7 @@ export class UpdateOrgTypeComponent implements OnInit {
 
       //supllier roles removing if those roles available in roles Delete
       supplierRemoveList.map((removeRoleKey: any) => {
-        this.rolesToDelete.map((buyerRoles, index) => {
+        this.rolesToDelete.map((buyerRoles:any, index) => {
           if (buyerRoles.roleKey == removeRoleKey) {
             if (accessFrom === "html") {
               this.rolesToDelete.splice(index, 1);
@@ -170,11 +165,32 @@ export class UpdateOrgTypeComponent implements OnInit {
           }
         })
       })
+
+      buyerRemoveList.map((removeRoleKey: any) => {
+        this.rolesToDelete.map((buyerRoles:any, index) => {
+          if (buyerRoles.roleKey == removeRoleKey) {
+            if (accessFrom === "html") {
+              this.rolesToDelete.splice(index, 1);
+            }
+          }
+        })
+      })
+
+       // supplier roles hidden
+      supplierRemoveList.map((removeRoleKey: any) => {
+        this.roles.map((buyerRoles:any, index) => {
+          if (buyerRoles.roleKey == removeRoleKey) {
+            if (accessFrom === "html" && buyerRoles.enabled && this.organisation.supplierBuyerType != 0) {
+              let alreadyExist: any = this.rolesToDelete.find((element: { roleKey: any; }) => element.roleKey == buyerRoles.roleKey)
+              if (alreadyExist === undefined) {
+                this.rolesToDelete.push(buyerRoles);
+              }
+            }
+            buyerRoles.isDeleted = true
+          }
+        })
+      })
     }
-
-
-
-
     if (accessFrom === "html" && type != this.adminSelectionMode) {
       this.preTickRoles(type)
     }
@@ -189,9 +205,12 @@ export class UpdateOrgTypeComponent implements OnInit {
       if (f.autoValidationRoleTypeEligibility.length != 0) {
         f.autoValidationRoleTypeEligibility.forEach((x: any) => {
           if (x == type && f.enabled == false) {
+            let alreadyExist: any = this.rolesToAdd.find((element: { roleKey: any; }) => element.roleKey == f.roleKey)
             f.enabled = true
             f.autoValidate = true
-            this.rolesToAdd.push(f);
+            if (alreadyExist === undefined) {
+              this.rolesToAdd.push(f);
+            }
             this.rolesToAddAutoValidation?.push(f)
           }
         })
@@ -283,6 +302,7 @@ export class UpdateOrgTypeComponent implements OnInit {
       hasChanges: (this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0 && this.organisation.supplierBuyerType == this.adminSelectionMode) ? false : true,
       autoValidate: true
     };
+    console.log("selection",selection)
     if ((this.adminSelectionMode == '1' || this.adminSelectionMode == '2') && this.organisation.supplierBuyerType == '0') {
       this.WrapperOrganisationService.getAutoValidationStatus(this.organisation.ciiOrganisationId).toPromise().then((responce: any) => {
         selection.autoValidate = responce.autoValidationSuccess
