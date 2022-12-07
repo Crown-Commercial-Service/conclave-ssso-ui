@@ -1,215 +1,215 @@
 <!-- <div class="content flex" [@slide]="(sideNavVisible$ | async) ? 'close' : 'open'"> -->
-<div class="user-profile-container">
-    <div class="govuk-breadcrumbs">
-        <ol class="govuk-breadcrumbs__list">
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_MY_ACCOUNT' | translate }}</span>
-            </li>
-        </ol>
-    </div>
-    <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_MY_ACCOUNT' | translate }}</h1>
-    <div class="govuk-error-summary form-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
-        id="error-summary" data-module="govuk-error-summary" *ngIf="submitted && ((formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched) ||
-        (formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched))">
-        <h2 class="govuk-error-summary__title" id="error-summary-title">
-            {{ 'ERROR_SUMMARY' | translate }}
-        </h2>
-        <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list">
-                <li *ngIf="submitted && formGroup.controls.firstName.errors?.required  && formGroup.controls.firstName.touched">
-                    <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
-                        'ERROR_FIRST_NAME' | translate }} </a>
+    <div class="user-profile-container">
+        <div class="govuk-breadcrumbs">
+            <ol class="govuk-breadcrumbs__list">
+                <li class="govuk-breadcrumbs__list-item">
+                    <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate }}</a>
                 </li>
-                <li *ngIf="submitted && formGroup.controls.lastName.errors?.required  && formGroup.controls.lastName.touched">
-                    <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
-                        'ERROR_LAST_NAME' | translate }}</a>
+                <li class="govuk-breadcrumbs__list-item">
+                    <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_MY_ACCOUNT' | translate }}</span>
                 </li>
-                <li *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
-                    <a href="javascript:;" onClick="return false;" (click)="customFocum()"> {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
-                </li>
-            </ul>
+            </ol>
+        </div>
+        <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_MY_ACCOUNT' | translate }}</h1>
+        <div class="govuk-error-summary form-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+            id="error-summary" data-module="govuk-error-summary" *ngIf="submitted && ((formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched) ||
+            (formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched))">
+            <h2 class="govuk-error-summary__title" id="error-summary-title">
+                {{ 'ERROR_SUMMARY' | translate }}
+            </h2>
+            <div class="govuk-error-summary__body">
+                <ul class="govuk-list govuk-error-summary__list">
+                    <li *ngIf="submitted && formGroup.controls.firstName.errors?.required  && formGroup.controls.firstName.touched">
+                        <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
+                            'ERROR_FIRST_NAME' | translate }} </a>
+                    </li>
+                    <li *ngIf="submitted && formGroup.controls.lastName.errors?.required  && formGroup.controls.lastName.touched">
+                        <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
+                            'ERROR_LAST_NAME' | translate }}</a>
+                    </li>
+                    <li *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
+                        <a href="javascript:;" onClick="return false;" (click)="customFocum()"> {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form">
+            <form class="ui form profile mb-two" [formGroup]="formGroup" (submit)="onSubmit(formGroup)">
+                <div class="ui segment">
+    
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-full">
+                            <div class="content flex">
+                                <div class="content-left">
+                                    <div class="govuk-form-group" id="first-name-form-group"
+                                        [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
+                                        <label class="govuk-label" for="first-name"> {{ 'FIRSTNAME' | translate }} </label>
+                                        <span id="first-name-error" class="govuk-error-message"
+                                            *ngIf="submitted && formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.touched">
+                                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                                            'ERROR_FIRST_NAME' | translate }}
+                                        </span>
+                                        <span id="firstname-error" class="govuk-error-message"
+                                            *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
+                                            <span class="govuk-visually-hidden">Error:</span>{{
+                                            'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+                                        </span>
+                                        <input #input formControlName="firstName" class="govuk-input" id="first-name"
+                                            name="first-name" type="text"
+                                            [class.govuk-input--error]="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
+                                    </div>
+                                    <div class="govuk-form-group" id="last-name-form-group"
+                                        [class.govuk-form-group--error]="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
+                                        <label class="govuk-label" for="last-name"> {{ 'LASTNAME' | translate }} </label>
+                                        <span id="last-name-error" class="govuk-error-message"
+                                            *ngIf="submitted && formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.touched">
+                                            <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                                            'ERROR_LAST_NAME'
+                                            | translate }}
+                                        </span>
+                                        <span id="lastname-error" class="govuk-error-message"
+                                            *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
+                                            <span class="govuk-visually-hidden">Error:</span>{{
+                                            'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+                                        </span>
+                                        <input #input formControlName="lastName" class="govuk-input" id="last-name"
+                                            name="last-name" type="text"
+                                            [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
+                                    </div>
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
+                                        <div id="email-hint" class="govuk-hint">
+                                            {{ 'USER_EMAIL_HINT' | translate }}
+                                        </div>
+                                        <input [readonly]="true" [class.disabled]="true" class="govuk-input" id="email"
+                                            name="email" type="email" size="20" value="" autocomplete="email"
+                                            spellcheck="false" [value]="userName">
+                                    </div>
+                                    <div class="govuk-form-group" id="user-mfa-form-group">
+                                        <fieldset class="govuk-fieldset">
+                                            <legend class="govuk-heading-s">
+                                                Security Level
+                                            </legend>
+                                            <app-details [detailsData]="detailsData[0]"></app-details>
+                                            <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
+                                                <input [attr.disabled]=true class="govuk-checkboxes__input" id="mfaEnabled"
+                                                    formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
+                                                <label class="govuk-label govuk-checkboxes__label" for="mfaEnabled">
+                                                    Additional security using digital device
+                                                </label><br>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <button type="button" class="govuk-button"
+                                     data-module="govuk-button" [disabled]="!formGroup.controls.mfaEnabled.value" (click)="ResetAdditionalSecurity()">Reset my additional security</button>
+    
+                                    <div>
+                                        <p class="govuk-body govuk-!-font-size-19">
+                                            {{"SIGN_IN_PROVIDER"| translate}} : {{identityProviderDisplayName}}</p>
+                                    </div>
+                                    <br>
+                                    <button *ngIf="canChangePassword" type="button" (click)="onChangePasswordClick()"
+                                        class="govuk-button govuk-button--secondary change-password-button"
+                                        data-module="govuk-button">
+                                        {{ 'CHANGE_PASSWORD_BTN' | translate }}
+                                    </button>
+                                </div>
+    
+                                <div class="content-right">
+                                    <div class="card card-help">
+                                        <h3 class="card-title">Have an issue?</h3>
+                                        <a class="navigation-text" routerLink="/contact-admin">Contact my admin</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="userGroups.length == 0">
+                        <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
+                        <app-details [detailsData]="detailsData[1]"></app-details>
+                        <p>{{'NONE'| translate}}
+                        <p>
+                    </div>
+    
+                    <div *ngIf="userGroups.length > 0">
+                        <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
+                        <app-details [detailsData]="detailsData[1]"></app-details>
+                        <p>
+                    </div>
+    
+                    <div *ngIf="userGroups.length > 0" class="user-group-table">
+                        <app-govuk-table [headerTextKeys]="userGroupTableHeaders" [data]="userGroups"
+                            [dataKeys]="userGroupColumnsToDisplay" [isHyperLinkVisible]="hasGroupViewPermission"
+                            [hyperLinkText]="'VIEW_DETAILS'" (hyperLinkClickEvent)="onGroupViewClick($event)"
+                            [useClientPagination]="true"></app-govuk-table>
+                    </div>
+    
+                    <div *ngIf="roleDataList.length == 0">
+                        <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
+                        <app-details [detailsData]="detailsData[2]"></app-details>
+                        <p>{{'NONE'| translate}}
+                        <p>
+                    </div>
+                    <div *ngIf="roleDataList.length > 0">
+                        <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
+                        <app-details [detailsData]="detailsData[2]"></app-details>
+                    </div>
+                    <div *ngIf="roleDataList.length > 0 && isAdminUser==false" class="user-group-table">
+                        <app-govuk-table [headerTextKeys]="userRoleTableHeaders" [data]="roleDataList"
+                            [dataKeys]="userRoleColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
+                    </div>
+                    <div *ngIf="roleDataList.length > 0 && isAdminUser==true" class="govuk-checkboxes">
+                        <fieldset class="govuk-fieldset">
+                            <div class="govuk-checkboxes__item" *ngFor="let orgRole of roleDataList; let i=index">
+                                <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                    [attr.disabled]="orgRole.roleKey === 'ORG_DEFAULT_USER' || orgRole.roleKey === 'ORG_ADMINISTRATOR' ? true : null"
+                                    [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc">
+                                <label *ngIf="orgRole.serviceName == null" class="govuk-label govuk-checkboxes__label"
+                                    for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                    {{orgRole.accessRoleName}}
+                                </label>
+                                <label *ngIf="orgRole.serviceName != null" class="govuk-label govuk-checkboxes__label"
+                                    for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                    {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <h2 class="govuk-heading-s contact-detail"> {{ 'CONTACT_DETAILS' | translate }}</h2>
+                    <app-details [detailsData]="detailsData[3]"></app-details>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-full">
+                            <div>
+                                <app-govuk-table [headerTextKeys]="contactTableHeaders" [data]="userContacts"
+                                    [dataKeys]="contactColumnsToDisplay" [isHyperLinkVisible]="true"
+                                    [hyperLinkText]="'EDIT'" (hyperLinkClickEvent)="onContactEditRow($event)"
+                                    [useClientPagination]="true">
+                                </app-govuk-table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group contact-button-group">
+                        <button type="button" (click)="onContactAddClick()" class="govuk-button govuk-button--secondary"
+                            data-module="govuk-button">
+                            {{ 'ADD_ANOTHER_CONTACT_BTN' | translate }}
+                        </button>
+                        <!-- <button type="button" (click)="onContactAssignRemoveClick()"
+                            class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                            {{ 'ADD_REMOVE_ORG_CONTACT_BTN' | translate }}
+                        </button> -->
+                    </div>
+    
+                    <div class="govuk-button-group save-cancel-button-group">
+                        <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
+                            {{ 'SAVE_BTN' | translate }}
+                        </button>
+                        <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                            data-module="govuk-button">
+                            {{ 'CANCEL_BTN' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="form">
-        <form class="ui form profile mb-two" [formGroup]="formGroup" (submit)="onSubmit(formGroup)">
-            <div class="ui segment">
-
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                        <div class="content flex">
-                            <div class="content-left">
-                                <div class="govuk-form-group" id="first-name-form-group"
-                                    [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
-                                    <label class="govuk-label" for="first-name"> {{ 'FIRSTNAME' | translate }} </label>
-                                    <span id="first-name-error" class="govuk-error-message"
-                                        *ngIf="submitted && formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.touched">
-                                        <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-                                        'ERROR_FIRST_NAME' | translate }}
-                                    </span>
-                                    <span id="firstname-error" class="govuk-error-message"
-                                        *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
-                                        <span class="govuk-visually-hidden">Error:</span>{{
-                                        'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
-                                    </span>
-                                    <input #input formControlName="firstName" class="govuk-input" id="first-name"
-                                        name="first-name" type="text"
-                                        [class.govuk-input--error]="submitted && formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched">
-                                </div>
-                                <div class="govuk-form-group" id="last-name-form-group"
-                                    [class.govuk-form-group--error]="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
-                                    <label class="govuk-label" for="last-name"> {{ 'LASTNAME' | translate }} </label>
-                                    <span id="last-name-error" class="govuk-error-message"
-                                        *ngIf="submitted && formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.touched">
-                                        <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-                                        'ERROR_LAST_NAME'
-                                        | translate }}
-                                    </span>
-                                    <span id="lastname-error" class="govuk-error-message"
-                                        *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
-                                        <span class="govuk-visually-hidden">Error:</span>{{
-                                        'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
-                                    </span>
-                                    <input #input formControlName="lastName" class="govuk-input" id="last-name"
-                                        name="last-name" type="text"
-                                        [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched">
-                                </div>
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
-                                    <div id="email-hint" class="govuk-hint">
-                                        {{ 'USER_EMAIL_HINT' | translate }}
-                                    </div>
-                                    <input [readonly]="true" [class.disabled]="true" class="govuk-input" id="email"
-                                        name="email" type="email" size="20" value="" autocomplete="email"
-                                        spellcheck="false" [value]="userName">
-                                </div>
-                                <div class="govuk-form-group" id="user-mfa-form-group">
-                                    <fieldset class="govuk-fieldset">
-                                        <legend class="govuk-heading-s">
-                                            Security Level
-                                        </legend>
-                                        <app-details [detailsData]="detailsData[0]"></app-details>
-                                        <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
-                                            <input [attr.disabled]=true class="govuk-checkboxes__input" id="mfaEnabled"
-                                                formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
-                                            <label class="govuk-label govuk-checkboxes__label" for="mfaEnabled">
-                                                Additional security using digital device
-                                            </label><br>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                                <button type="button" class="govuk-button"
-                                 data-module="govuk-button" [disabled]="!formGroup.controls.mfaEnabled.value" (click)="ResetAdditionalSecurity()">Reset my additional security</button>
-
-                                <!-- <div>
-                                    <p class="govuk-body govuk-!-font-size-19">
-                                        {{"SIGN_IN_PROVIDER"| translate}} : {{identityProviderDisplayName}}</p>
-                                </div> -->
-                                <br>
-                                <button *ngIf="canChangePassword" type="button" (click)="onChangePasswordClick()"
-                                    class="govuk-button govuk-button--secondary change-password-button"
-                                    data-module="govuk-button">
-                                    {{ 'CHANGE_PASSWORD_BTN' | translate }}
-                                </button>
-                            </div>
-
-                            <div class="content-right">
-                                <div class="card card-help">
-                                    <h3 class="card-title">Have an issue?</h3>
-                                    <a class="navigation-text" routerLink="/contact-admin">Contact my admin</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="userGroups.length == 0">
-                    <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
-                    <app-details [detailsData]="detailsData[1]"></app-details>
-                    <p>{{'NONE'| translate}}
-                    <p>
-                </div>
-
-                <div *ngIf="userGroups.length > 0">
-                    <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
-                    <app-details [detailsData]="detailsData[1]"></app-details>
-                    <p>
-                </div>
-
-                <div *ngIf="userGroups.length > 0" class="user-group-table">
-                    <app-govuk-table [headerTextKeys]="userGroupTableHeaders" [data]="userGroups"
-                        [dataKeys]="userGroupColumnsToDisplay" [isHyperLinkVisible]="hasGroupViewPermission"
-                        [hyperLinkText]="'VIEW_DETAILS'" (hyperLinkClickEvent)="onGroupViewClick($event)"
-                        [useClientPagination]="true"></app-govuk-table>
-                </div>
-
-                <div *ngIf="roleDataList.length == 0">
-                    <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
-                    <app-details [detailsData]="detailsData[2]"></app-details>
-                    <p>{{'NONE'| translate}}
-                    <p>
-                </div>
-                <div *ngIf="roleDataList.length > 0">
-                    <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
-                    <app-details [detailsData]="detailsData[2]"></app-details>
-                </div>
-                <div *ngIf="roleDataList.length > 0 && isAdminUser==false" class="user-group-table">
-                    <app-govuk-table [headerTextKeys]="userRoleTableHeaders" [data]="roleDataList"
-                        [dataKeys]="userRoleColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
-                </div>
-                <div *ngIf="roleDataList.length > 0 && isAdminUser==true" class="govuk-checkboxes">
-                    <fieldset class="govuk-fieldset">
-                        <div class="govuk-checkboxes__item" *ngFor="let orgRole of roleDataList; let i=index">
-                            <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                [attr.disabled]="orgRole.roleKey === 'ORG_DEFAULT_USER' || orgRole.roleKey === 'ORG_ADMINISTRATOR' ? true : null"
-                                [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc">
-                            <label *ngIf="orgRole.serviceName == null" class="govuk-label govuk-checkboxes__label"
-                                for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                {{orgRole.accessRoleName}}
-                            </label>
-                            <label *ngIf="orgRole.serviceName != null" class="govuk-label govuk-checkboxes__label"
-                                for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
-                            </label>
-                        </div>
-                    </fieldset>
-                </div>
-                <h2 class="govuk-heading-s contact-detail"> {{ 'CONTACT_DETAILS' | translate }}</h2>
-                <app-details [detailsData]="detailsData[3]"></app-details>
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
-                        <div>
-                            <app-govuk-table [headerTextKeys]="contactTableHeaders" [data]="userContacts"
-                                [dataKeys]="contactColumnsToDisplay" [isHyperLinkVisible]="true"
-                                [hyperLinkText]="'EDIT'" (hyperLinkClickEvent)="onContactEditRow($event)"
-                                [useClientPagination]="true">
-                            </app-govuk-table>
-                        </div>
-                    </div>
-                </div>
-                <div class="govuk-button-group contact-button-group">
-                    <button type="button" (click)="onContactAddClick()" class="govuk-button govuk-button--secondary"
-                        data-module="govuk-button">
-                        {{ 'ADD_ANOTHER_CONTACT_BTN' | translate }}
-                    </button>
-                    <!-- <button type="button" (click)="onContactAssignRemoveClick()"
-                        class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                        {{ 'ADD_REMOVE_ORG_CONTACT_BTN' | translate }}
-                    </button> -->
-                </div>
-
-                <div class="govuk-button-group save-cancel-button-group">
-                    <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
-                        {{ 'SAVE_BTN' | translate }}
-                    </button>
-                    <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
-                        data-module="govuk-button">
-                        {{ 'CANCEL_BTN' | translate }}
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- </div> -->
+    <!-- </div> -->
