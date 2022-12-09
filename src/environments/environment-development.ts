@@ -67,6 +67,6 @@ export const environment = {
      hideIDP:false,
      hideDelegation:false,
      hideBulkupload:false,
-     hideAutoValidation:true,
+     hideAutoValidation:false,
     },
 };
