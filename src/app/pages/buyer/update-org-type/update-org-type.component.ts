@@ -106,7 +106,6 @@ export class UpdateOrgTypeComponent implements OnInit {
         this.checkRoleMatrixInAddRoles(0)
         this.checkRoleMatrixInDeleteRoles(0)
         this.checkAddRoleForSupplierAndBuyer(0)
-        this.checkRoleMatrixInDeleteRoles(0)
       }
     }
     else if (type == 2 && accessFrom === "html") {
