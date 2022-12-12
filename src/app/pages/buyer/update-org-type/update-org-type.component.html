@@ -76,7 +76,7 @@
         <ng-container *ngFor="let role of roles">
           <div
             class="govuk-checkboxes__item"
-            *ngIf="role.subscriptionTypeEligibility === 0 &&  role.orgTypeEligibility !== 0 && tradeEligibilityStatus(role) && role.isDeleted !== true">
+            *ngIf="role.subscriptionTypeEligibility === 0 &&  role.orgTypeEligibility !== 0 && tradeEligibilityStatus(role) && role.isDeleted === false">
             <input
               type="checkbox"
               [value]="role.roleId"
@@ -129,7 +129,7 @@
             *ngIf="
               role.subscriptionTypeEligibility === 1 &&
               role.orgTypeEligibility !== 0 &&
-              tradeEligibilityStatus(role) && role.isDeleted !== true
+              tradeEligibilityStatus(role) && role.isDeleted === false 
             "
           >
             <input
