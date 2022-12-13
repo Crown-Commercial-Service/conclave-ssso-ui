@@ -2,8 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@an
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { BaseComponent } from 'src/app/components/base/base.component';
 import { slideAnimation } from 'src/app/animations/slide.animation';
 import { UIState } from 'src/app/store/ui.states';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
@@ -106,6 +104,7 @@ export class UpdateOrgTypeComponent implements OnInit {
         this.checkRoleMatrixInAddRoles(0)
         this.checkRoleMatrixInDeleteRoles(0)
         this.checkAddRoleForSupplierAndBuyer(0)
+        this.checkRoleEligibilt(0)
       }
     }
     else if (type == 2 && accessFrom === "html") {
@@ -229,7 +228,18 @@ export class UpdateOrgTypeComponent implements OnInit {
     this.rolesToAdd = dublicateRoleAddArray
   }
 
-
+  public checkRoleEligibilt(orgType: any): void {
+  this.roles.forEach((enableRole)=>{
+    if(enableRole.enabled){
+      if(!this.orgRoleEligibilty(orgType, enableRole)){
+        let apperaredInDelete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == enableRole.roleKey)
+        if (apperaredInDelete === undefined) {
+          this.rolesToDelete.push(enableRole);
+        }
+      }
+    }
+  })
+  }
 
 
   public orgRoleEligibilty(orgType: any, role: any) {
