@@ -104,7 +104,7 @@ export class UpdateOrgTypeComponent implements OnInit {
         this.checkRoleMatrixInAddRoles(0)
         this.checkRoleMatrixInDeleteRoles(0)
         this.checkAddRoleForSupplierAndBuyer(0)
-        this.checkRoleEligibilt(0)
+        this.checkRoleEligibility(0)
       }
     }
     else if (type == 2 && accessFrom === "html") {
@@ -228,13 +228,13 @@ export class UpdateOrgTypeComponent implements OnInit {
     this.rolesToAdd = dublicateRoleAddArray
   }
 
-  public checkRoleEligibilt(orgType: any): void {
-  this.roles.forEach((enableRole)=>{
-    if(enableRole.enabled){
-      if(!this.orgRoleEligibilty(orgType, enableRole)){
-        let apperaredInDelete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == enableRole.roleKey)
+  public checkRoleEligibility(orgType: any): void {
+  this.roles.forEach((role:Role)=>{
+    if(role.enabled){
+      if(!this.orgRoleEligibilty(orgType, role)){
+        let apperaredInDelete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == role.roleKey)
         if (apperaredInDelete === undefined) {
-          this.rolesToDelete.push(enableRole);
+          this.rolesToDelete.push(role);
         }
       }
     }
