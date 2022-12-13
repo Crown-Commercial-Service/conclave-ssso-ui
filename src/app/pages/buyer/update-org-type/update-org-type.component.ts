@@ -201,12 +201,10 @@ export class UpdateOrgTypeComponent implements OnInit {
       if (ACCESS_JAGGAER === undefined && ACCESS_JAGGAER_Delete === undefined) {
         let accessJagger: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
         this.rolesToAddAutoValidation?.push(accessJagger)
-        accessJagger.autoValidate = true
       }
       if (JAGGAER_USER === undefined && JAGGAER_USER_Delete === undefined) {
         let jaggerUser: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
         this.rolesToAddAutoValidation?.push(jaggerUser)
-        jaggerUser.autoValidate = true
       }
     }
   }
@@ -229,18 +227,27 @@ export class UpdateOrgTypeComponent implements OnInit {
   }
 
   public checkRoleEligibility(orgType: any): void {
-  this.roles.forEach((role:Role)=>{
-    if(role.enabled){
-      if(!this.orgRoleEligibilty(orgType, role)){
-        let apperaredInDelete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == role.roleKey)
-        if (apperaredInDelete === undefined) {
-          this.rolesToDelete.push(role);
+    this.roles.forEach((role: Role) => {
+      if (role.enabled) {
+        if (!this.orgRoleEligibilty(orgType, role) && this.supllierRoleCheck(role)) {
+          let apperaredInDelete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == role.roleKey)
+          if (apperaredInDelete === undefined) {
+            this.rolesToDelete.push(role);
+          }
         }
       }
-    }
-  })
+    })
   }
 
+
+  private supllierRoleCheck(role: Role) {
+    let supplierRoleCheck: any = this.supplierRemoveList.find((element) => element == role.roleKey)
+    if (supplierRoleCheck === undefined) {
+      return true
+    } else {
+      return false
+    }
+  }
 
   public orgRoleEligibilty(orgType: any, role: any) {
     if (orgType == '0') {
