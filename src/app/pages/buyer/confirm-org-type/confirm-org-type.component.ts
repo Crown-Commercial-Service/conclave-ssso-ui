@@ -53,8 +53,10 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
       orgType:parseInt(this.changes.orgType),
       rolesToDelete: this.changes.toDelete,
       rolesToAdd: this.changes.toAdd,
+      rolesToAutoValid: this.changes.toAutoValid,
       companyHouseId:this.routeData.companyHouseId
     };
+
     this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'switch').toPromise().then(() => {
       this.router.navigateByUrl(`update-org-type/buyer-success/${this.org.ciiOrganisationId}`);
     }).catch(error => {

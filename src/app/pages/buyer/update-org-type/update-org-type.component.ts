@@ -2,8 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@an
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { BaseComponent } from 'src/app/components/base/base.component';
 import { slideAnimation } from 'src/app/animations/slide.animation';
 import { UIState } from 'src/app/store/ui.states';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
@@ -55,7 +53,10 @@ export class UpdateOrgTypeComponent implements OnInit {
     });
     this.rolesToAdd = [];
     this.rolesToDelete = [];
+    this.rolesToAddAutoValidation = []
   }
+  public buyerRemoveList = ['EL_JNR_SUPPLIER', 'EL_SNR_SUPPLIER', 'JAEGGER_SUPPLIER']
+  public supplierRemoveList = ['JAEGGER_BUYER', 'ACCESS_CAAAC_CLIENT', 'CAT_USER', 'ACCESS_FP_CLIENT', 'FP_USER']
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -87,132 +88,226 @@ export class UpdateOrgTypeComponent implements OnInit {
    * both     =  2
    */
   public onSelect(type: string | number, accessFrom: string) {
-    const buyerRemoveList = ['EL_JNR_SUPPLIER', 'EL_SNR_SUPPLIER', 'JAEGGER_SUPPLIER']
-    const supplierRemoveList = ['JAEGGER_BUYER', 'ACCESS_CAAAC_CLIENT', 'CAT_USER', 'ACCESS_FP_CLIENT', 'FP_USER']
-    this.rolesToAddAutoValidation = []
-    this.roles.forEach(object => {
-      delete object.isDeleted
-    });
-
-    //buyer roles hidden 
+    this.roles.map((role: any) => {
+      role.isDeleted = false
+    })
     if (type == 1) {
-      buyerRemoveList.map((removeRoleKey: any) => {
-        this.roles.map((buyerRoles: any, index) => {
-          if (buyerRoles.roleKey == removeRoleKey) {
-            if (accessFrom === "html" && buyerRoles.enabled) {
-              let alreadyExist: any = this.rolesToDelete.find((element: { roleKey: any; }) => element.roleKey == buyerRoles.roleKey)
-              if (alreadyExist === undefined) {
-                this.rolesToDelete.push(buyerRoles);
-              }
-            }
-            buyerRoles.isDeleted = true
-          }
-        })
-      })
-
-      //buyer roles removing if those roles available in roles Add array
-      buyerRemoveList.map((removeRoleKey: any) => {
-        this.rolesToAdd.map((buyerRoles: any, index) => {
-          if (buyerRoles.roleKey == removeRoleKey) {
-            if (accessFrom === "html") {
-              this.rolesToAdd.splice(index, 1)
-            }
-          }
-        })
-      })
-
-      //buyer roles removing if those roles available in roles Delete array
-      buyerRemoveList.map((removeRoleKey: any) => {
-        this.rolesToDelete.map((buyerRoles: any, index) => {
-          if (buyerRoles.roleKey == removeRoleKey) {
-            if (accessFrom === "html") {
-              this.rolesToDelete.splice(index, 1);
-            }
-          }
-        })
-      })
+      this.hideBuyerRole()
+      if (accessFrom === "html") {
+        this.checkRoleMatrixInAddRoles(1)
+        this.checkRoleMatrixInDeleteRoles(1)
+      }
     }
-
-    // supplier roles hidden
     else if (type == 0) {
-      supplierRemoveList.map((removeRoleKey: any) => {
-        this.roles.map((buyerRoles, index) => {
-          if (buyerRoles.roleKey == removeRoleKey) {
-            if (accessFrom === "html" && buyerRoles.enabled) {
-              let alreadyExist: any = this.rolesToDelete.find((element: { roleKey: any; }) => element.roleKey == buyerRoles.roleKey)
-              if (alreadyExist === undefined) {
-                this.rolesToDelete.push(buyerRoles);
-              }
-            }
-            buyerRoles.isDeleted = true
-          }
-        })
-      })
-
-      //supllier roles removing if those roles available in roles Add array
-      supplierRemoveList.map((removeRoleKey: any) => {
-        this.rolesToAdd.map((buyerRoles, index) => {
-          if (buyerRoles.roleKey == removeRoleKey) {
-            if (accessFrom === "html") {
-              this.rolesToAdd.splice(index, 1)
-            }
-          }
-        })
-      })
-
-      //supllier roles removing if those roles available in roles Delete
-      supplierRemoveList.map((removeRoleKey: any) => {
-        this.rolesToDelete.map((buyerRoles, index) => {
-          if (buyerRoles.roleKey == removeRoleKey) {
-            if (accessFrom === "html") {
-              this.rolesToDelete.splice(index, 1);
-            }
-          }
-        })
-      })
+      this.hideSupplierRole()
+      if (accessFrom === "html") {
+        this.checkRoleMatrixInAddRoles(0)
+        this.checkRoleMatrixInDeleteRoles(0)
+        this.checkAddRoleForSupplierAndBuyer(0)
+        this.checkRoleEligibility(0)
+      }
     }
-
-
-
+    else if (type == 2 && accessFrom === "html") {
+      this.checkRoleMatrixInDeleteRoles(2)
+    }
 
     if (accessFrom === "html" && type != this.adminSelectionMode) {
       this.preTickRoles(type)
     }
   }
 
+
   /**
-   * pre-ticking default roles based on API responce 
-   * @param type organisation type getting from HTML
+   * hide role which not part of supplier
+   * @param orgType 
+   * @param accessFrom 
+   */
+  private hideSupplierRole(): void {
+    this.supplierRemoveList.map((removeRoleKey: any) => {
+      this.roles.map((role: any, index) => {
+        if (role.roleKey == removeRoleKey) {
+          if (role.enabled && !role.autoValidate) {
+            role.softDelete = true
+            let apperaredInDelete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == role.roleKey)
+            if (apperaredInDelete === undefined) {
+              this.rolesToDelete.push(role);
+            }
+          }
+          role.isDeleted = true
+        }
+      })
+    })
+  }
+
+  /**
+   * hide role which not part of buyer
+   * @param orgType 
+   * @param accessFrom 
+   */
+  private hideBuyerRole() {
+    this.buyerRemoveList.map((removeRoleKey: any) => {
+      this.roles.map((buyerRoles: any, index) => {
+        if (buyerRoles.roleKey == removeRoleKey) {
+          buyerRoles.softDelete = true
+          if (buyerRoles.enabled && !buyerRoles.autoValidate) {
+            let apperaredInDelete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == buyerRoles.roleKey)
+            if (apperaredInDelete === undefined) {
+              this.rolesToDelete.push(buyerRoles);
+            }
+          }
+          buyerRoles.isDeleted = true
+        }
+      })
+    })
+
+    this.buyerRemoveList.map((removeRoleKey: any) => {
+      this.rolesToAdd.map((buyerRoles: any, index) => {
+        if (buyerRoles.roleKey == removeRoleKey) {
+          this.rolesToAdd.splice(index, 1);
+        }
+      })
+    })
+  }
+
+
+  /**
+   * pre tick role based on api Eligibilty responce
+   * @param type 
    */
   public preTickRoles(type: any): void {
     this.roles.forEach((f: any) => {
       if (f.autoValidationRoleTypeEligibility.length != 0) {
         f.autoValidationRoleTypeEligibility.forEach((x: any) => {
           if (x == type && f.enabled == false) {
-            f.enabled = true
-            f.autoValidate = true
-            this.rolesToAdd.push(f);
-            this.rolesToAddAutoValidation?.push(f)
+            f.enabled = true; f.autoValidate = true
+            let alreadyExist: any = this.rolesToAdd.find((existRole: { roleKey: any; }) => existRole.roleKey == f.roleKey)
+            if (alreadyExist === undefined) {
+              this.rolesToAdd.push(f);
+            }
+            let apperaredInDelete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == f.roleKey)
+            if (apperaredInDelete === undefined) {
+              this.rolesToAddAutoValidation?.push(f)
+            }
           }
         })
       }
     })
-
     if (this.organisation.supplierBuyerType == '0' && type == '1') {
       let ACCESS_JAGGAER = this.rolesToAddAutoValidation.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
       let JAGGAER_USER = this.rolesToAddAutoValidation.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
-      if (ACCESS_JAGGAER === undefined) {
+      let ACCESS_JAGGAER_Delete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == 'ACCESS_JAGGAER')
+      let JAGGAER_USER_Delete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == 'JAGGAER_USER')
+
+      if (ACCESS_JAGGAER === undefined && ACCESS_JAGGAER_Delete === undefined) {
         let accessJagger: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
         this.rolesToAddAutoValidation?.push(accessJagger)
         accessJagger.autoValidate = true
       }
-      if (JAGGAER_USER === undefined) {
+      if (JAGGAER_USER === undefined && JAGGAER_USER_Delete === undefined) {
         let jaggerUser: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
         this.rolesToAddAutoValidation?.push(jaggerUser)
         jaggerUser.autoValidate = true
       }
     }
   }
+
+
+  /**
+   * checking role when switching 
+   * @param orgType 
+   */
+  public checkRoleMatrixInAddRoles(orgType: any): void {
+    const dublicateRoleAddArray: Role[] = []
+    this.rolesToAdd.forEach((addedRole: Role, index) => {
+      if (this.orgRoleEligibilty(orgType, addedRole)) {
+        dublicateRoleAddArray.push(addedRole)
+      } else {
+        this.rolesToAdd.splice(index, 1)
+      }
+    })
+    this.rolesToAdd = dublicateRoleAddArray
+  }
+
+  public checkRoleEligibility(orgType: any): void {
+  this.roles.forEach((role:Role)=>{
+    if(role.enabled){
+      if(!this.orgRoleEligibilty(orgType, role)){
+        let apperaredInDelete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == role.roleKey)
+        if (apperaredInDelete === undefined) {
+          this.rolesToDelete.push(role);
+        }
+      }
+    }
+  })
+  }
+
+
+  public orgRoleEligibilty(orgType: any, role: any) {
+    if (orgType == '0') {
+      if (role.tradeEligibility == '0' || role.tradeEligibility == '2') {
+        return true
+      }
+    } else if (orgType == '1') {
+      if (role.tradeEligibility == '1' || role.tradeEligibility == '2') {
+        return true
+      }
+    }
+    else if (orgType == '2') {
+      if (role.tradeEligibility == '0' || role.tradeEligibility == '1' || role.tradeEligibility == '2') {
+        return true
+      }
+    }
+    return false
+  }
+
+
+  public checkRoleMatrixInDeleteRoles(orgType: any): void {
+    if (orgType === 2) {
+      this.supplierRemoveList.forEach((dItems) => {
+        this.rolesToDelete.map((aRole: any, index) => {
+          if (aRole.roleKey === dItems && aRole.softDelete === true) {
+            this.rolesToDelete.splice(index, 1)
+          }
+        })
+      })
+      this.buyerRemoveList.forEach((dItems) => {
+        this.rolesToDelete.map((aRole: any, index) => {
+          if (aRole.roleKey === dItems && aRole.softDelete === true) {
+            this.rolesToDelete.splice(index, 1)
+          }
+        })
+      })
+    }
+    else if (orgType === 0) {
+      this.buyerRemoveList.forEach((dItems) => {
+        this.rolesToDelete.map((aRole: any, index) => {
+          if (aRole.roleKey === dItems && aRole.softDelete === true) {
+            this.rolesToDelete.splice(index, 1)
+          }
+        })
+      })
+    } else if (orgType === 1) {
+      this.supplierRemoveList.forEach((dItems) => {
+        this.rolesToDelete.map((aRole: any, index) => {
+          if (aRole.roleKey === dItems && aRole.softDelete === true) {
+            this.rolesToDelete.splice(index, 1)
+          }
+        })
+      })
+    }
+  }
+
+  public checkAddRoleForSupplierAndBuyer(selectedOrg: any) {
+    this.supplierRemoveList.forEach((rItems) => {
+      this.rolesToAdd.map((aRole, index) => {
+        if (aRole.roleKey === rItems) {
+          this.rolesToAdd.splice(index, 1)
+        }
+      })
+    })
+  }
+
+
 
   /**
    *  trade elegibity checking for all listed roles
@@ -352,6 +447,7 @@ export class UpdateOrgTypeComponent implements OnInit {
               r.enabled = eRoles.some(x => x.roleName == r.roleName && x.serviceName == r.serviceName);
             });
             this.eRoles = eRoles;
+            localStorage.setItem('defaultRole', JSON.stringify(this.roles))
             setTimeout(() => {
               this.onSelect(this.adminSelectionMode, 'none')
             }, 100);
