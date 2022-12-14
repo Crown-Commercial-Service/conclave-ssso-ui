@@ -41,10 +41,21 @@ export class WrapperOrganisationService {
     );
   }
 
-  updateOrgRoles(ciiOrgId: string, json: string | null): Observable<any> {
+  updateOrgRoles(ciiOrgId: string, json: string | null,type:string): Observable<any> {
     const body = JSON.parse(json + '');
-    return this.http.put<any>(`${this.url}/${ciiOrgId}/roles`, body).pipe(
+    return this.http.put<any>(`${this.url}/${ciiOrgId}/${type}`, body).pipe(
       map((data: any) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  getAutoValidationStatus(organisationId: string) {
+    const url = `${this.url}/${organisationId}/autovalidate`;
+    return this.http.get<OrganisationDto>(url).pipe(
+      map((data: OrganisationDto) => {
         return data;
       }), catchError(error => {
         return throwError(error);
