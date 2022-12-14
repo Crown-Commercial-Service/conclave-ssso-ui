@@ -155,9 +155,82 @@
                     <p>{{'NONE'| translate}}
                     <p>
                 </div>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
                 <div *ngIf="roleDataList.length > 0">
                     <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
                     <app-details [detailsData]="detailsData[2]"></app-details>
+                    <div class="roles_table" *ngIf="isAdminUser === true">
+                        <span class="table_caption">To help you choose the correct roles use the table below:</span>
+                        <table style="width:100%">
+                            <tr>
+                                <th>For whom</th>
+                                <th>Task</th>
+                                <th>Roles to tick</th>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" class="column_one_space">
+                                    Organisational Administrators of Public Procurement Gateway (PPG)
+                                </td>
+                                <td class="litrel_space">Add an additional PPG administrator</td>
+                                <td class="roles_padding">
+                                    <ul class="listing">
+                                        <li>Organisation Administrator - Dashboard Service</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="litrel_space" class="column_one_space">Add user to PPG</td>
+                                <td class="roles_padding">
+                                    <ul class="listing">
+                                        <li>Organisation User - Dashboard Service</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" class="column_one_space">
+                                    Buyers
+                                </td>
+                                <td class="litrel_space">Enable Contract Award Service</td>
+                                <td class="roles_padding">
+                                    <ul  class="listing">
+                                        <li>eSourcing Service as a buyer</li>
+                                        <li>Contract Award Service (CAS) - add service</li>
+                                        <li>Contract Award Service (CAS) - add to dashboard</li>
+                                        <li>eSourcing Service - add service</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="litrel_space">Enable eSourcing</td>
+                                <td class="roles_padding">
+                                    <ul class="listing">
+                                        <li>eSourcing Service as a buyer
+                                        </li>
+                                        <li>eSourcing Service - add service
+                                        </li>
+                                        <li>eSourcing Service - add to dashboard
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="column_one_space">Suppliers</td>
+                                <td class="litrel_space">Enable eSourcing</td>
+                                <td class="roles_padding">
+                                    <ul class="listing">
+                                        <li>eSourcing Service as a supplier</li>
+                                        <li>eSourcing Service - add service</li>
+                                        <li>eSourcing Service - add to dashboard</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                        </table>
+                        <br>
+                    </div>
+                </div>
+                </div>
                 </div>
                 <div *ngIf="roleDataList.length > 0 && isAdminUser==false" class="user-group-table">
                     <app-govuk-table [headerTextKeys]="userRoleTableHeaders" [data]="roleDataList"
