@@ -1,0 +1,107 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                            {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-buyer-both">
+                            Return to Manage Buyer status requests</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">View request</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl page-title header-bread-align">View organisations’ Buyer status request</h1>
+            <div>
+                <p  class="govuk-body-l">
+                    View the details of the organisation that is pending the manual verification process for buyer status. If you want to accept this organisation as a verified buyer, please use ‘Accept buyer status’ button on the bottom of this page.
+                </p>
+            </div>
+            <div class="span-group govuk-!-margin-top-4">
+                <h2 class="govuk-heading-m">Organisation details</h2>
+                <p class="govuk-body">
+                    Organisation name&nbsp;:<strong class="govuk-!-margin-left-2">{{routeDetails.organisationName}}</strong>
+                </p>
+                <p class="govuk-body">
+                    Organisation type&nbsp;&nbsp;&nbsp;:<strong class="govuk-!-margin-left-2">{{routeDetails.organisationTypeName}}</strong>
+                </p>
+                <p class="govuk-body">
+                    Date of registration:<strong class="govuk-!-margin-left-2 govuk-!-display-inline-block govuk-valign-top">{{routeDetails.dateOfRegistration | date: 'dd/MM/yyyy'}} <br>{{routeDetails.dateOfRegistration | date: 'HH:mm'}}</strong>
+                </p>
+        </div>
+        <div class="span-group govuk-!-margin-top-4">
+            <h2 class="govuk-heading-m">Organisation Administrator(s)</h2>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="user-table">
+                        <app-govuk-table [headerTextKeys]="organisationAdministrator.usersTableHeaders" [data]="organisationAdministrator.userListResponse.userList"
+                            [dataKeys]="organisationAdministrator.usersColumnsToDisplay" [isHyperLinkVisible]="true"
+                            (hyperLinkClickEvent)="openEmailWindow($event)" [useServerPagination]="true"
+                            [serverPageCount]="organisationAdministrator.pageCount" [serverPageCurrentPage]="organisationAdministrator.currentPage"
+                            (changeCurrentPageEvent)="setPageOrganisationAdministrator($event)" [pageName]="pageName"></app-govuk-table>
+                    </div>
+                </div>
+            </div>
+         </div>
+         <div class="span-group govuk-!-margin-top-4">
+            <h2 class="govuk-heading-m">Organisation registries</h2>
+            <div class="govuk-grid-row" *ngIf="additionalIdentifiers != undefined">
+                <div class="govuk-grid-column-full">
+                    <div class="user-table">
+                        <table class="govuk-table">
+                            <thead class="govuk-table__head">
+                              <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">Registry</th>
+                                <th scope="col" class="govuk-table__header">ID</th>
+                                <th scope="col" class="govuk-table__header remove_element">.</th>
+                              </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                              <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header">{{ getSchemaName(registries.identifier?.scheme||'') }}</th>
+                                <td class="govuk-table__cell">{{ registries.identifier?.id}}</td>
+                                <td class="govuk-table__cell">Primary</td>
+                              </tr>
+                              <tr class="govuk-table__row" *ngFor="let row of additionalIdentifiers">
+                                <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
+                                <td class="govuk-table__cell">{{ row.id }}</td>
+                                <td class="govuk-table__cell"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+            <p class="govuk-body govuk-!-font-weight-bold" *ngIf="additionalIdentifiers == undefined">
+                There are no matching results.
+              </p>
+         </div>
+         <div class="span-group govuk-!-margin-top-4">
+            <h2 class="govuk-heading-m">Event log</h2>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="user-table">
+                        <app-govuk-table [headerTextKeys]="eventLog.usersTableHeaders" [data]="eventLog.organisationAuditEventListResponse.organisationAuditEventList"
+                            [dataKeys]="eventLog.usersColumnsToDisplay" [isHyperLinkVisible]="false" [useServerPagination]="true"
+                            [serverPageCount]="eventLog.pageCount" [serverPageCurrentPage]="eventLog.currentPage"
+                            (changeCurrentPageEvent)="setPageOrganisationEventLogs($event)"></app-govuk-table>
+                    </div>
+                </div>
+            </div>
+         </div>
+         <br>
+         <div class="govuk-button-group"  *ngIf="!isDeletedOrg">
+            <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button"
+              (click)="acceptRightToBuy()">Accept right to buy status</button>
+            <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
+            (click)="declineRightToBuy()">Decline right to buy status</button>
+          </div>
+          <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+          (click)="goBack()">Cancel</button>
+    </div>
+</div>

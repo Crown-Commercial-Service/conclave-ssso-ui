@@ -31,6 +31,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent extends BaseComponent implements OnInit {
+  isDelegation:boolean=!environment.appSetting.hideDelegation
   public orgDetails: any = ''
   systemModules: SystemModule[] = [];
   ccsModules: SystemModule[] = [];
@@ -165,7 +166,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
       }
     }
 
-    if (e.permissionName === 'DELEGATED_ACCESS') {
+    if (e.permissionName === 'DELEGATED_ACCESS' && this.isDelegation) {
         this.systemModules.push({
           name: 'Delegated access',
           description: 'Manage delegated access to your approved services',
@@ -190,6 +191,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
           route: '/buyer/search',
         });
       }
+      this.otherModules.push({
+        name: 'Manage Buyer status requests',
+        description: 'Verify and approve or decline Buyer status requests',
+        route: '/manage-buyer-both',
+      });
     }
     if (e.permissionName === 'ORG_USER_SUPPORT') {
       if (
@@ -204,7 +210,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
         });
       }
     }
-
   }
 
   getModuleElementId(moduleName: string) {
@@ -214,7 +219,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   public getDelegatedOrganisation(): void {
     this.delegatedApiService.getDeligatedOrg().subscribe({
       next: (data: any) => {
-        if(data.detail.delegatedOrgs.length > 0){
+        if(data.detail.delegatedOrgs.length > 0 && this.isDelegation){
           this.systemModules.push({
             name: 'Manage my delegated access',
             description: 'Switch between your primary and delegating Organisation',
