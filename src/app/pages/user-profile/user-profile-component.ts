@@ -70,7 +70,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   assignedRoleDataList: any[] = [];
   routeStateData: any = {};
   hasGroupViewPermission: boolean = false;
-
+  isOrgAdmin: boolean = false;
+  
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -106,6 +107,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     sessionStorage.removeItem(SessionStorageKey.UserContactUsername);
     await this.auditLogService
       .createLog({
