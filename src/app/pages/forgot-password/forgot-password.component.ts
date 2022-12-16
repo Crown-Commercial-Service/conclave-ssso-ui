@@ -92,4 +92,9 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
     public onCancelClick() {
         this.router.navigateByUrl('login');
     }
+
+    
+  goBack() {
+    window.history.back();
+  }
 }
