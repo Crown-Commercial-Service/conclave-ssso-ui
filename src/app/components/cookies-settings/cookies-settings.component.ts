@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CookiesService } from 'src/app/shared/cookies.service';
 import { environment } from 'src/environments/environment';
 
@@ -31,7 +32,9 @@ export class CookiesSettingsComponent implements OnInit {
   }
   private ppg_cookies_preferences_set: string = this.CookiesService.getCookie('ppg_cookies_preferences_set');
   private ppg_cookies_policy: string = this.CookiesService.getCookie('ppg_cookies_policy');
-  constructor(private CookiesService: CookiesService) { }
+private userName = localStorage.getItem('user_name') || '';
+ 
+  constructor(private CookiesService: CookiesService,private router: Router) { }
 
   ngOnInit(): void {
     this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
@@ -67,5 +70,13 @@ export class CookiesSettingsComponent implements OnInit {
   private scrollView(): void {
     const element = document.getElementById("govuk-notification-banner-title");
     element?.scrollIntoView();
+  }
+
+  public navigateCookieHome():void{
+    if(this.userName){
+      this.router.navigateByUrl(`home`);
+    }else{
+      window.location.href='https://www.crowncommercial.gov.uk';  
+    }
   }
 }
