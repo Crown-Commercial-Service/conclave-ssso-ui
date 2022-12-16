@@ -362,5 +362,7 @@
   "USER_AL_EXIT":"User already exists",
   "LINK_EXPIRED":"Link expired",
   "LINK_USED":"Link already used",
-  "REMOVE_REG":"Remove registry"
+  "REMOVE_REG":"Remove registry",
+  "TERMS_OF_USE":"Terms of Use",
+  "CONFIRM_EMAIL":"Confirm email address"
 }

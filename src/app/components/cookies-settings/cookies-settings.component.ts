@@ -32,15 +32,18 @@ export class CookiesSettingsComponent implements OnInit {
   }
   private ppg_cookies_preferences_set: string = this.CookiesService.getCookie('ppg_cookies_preferences_set');
   private ppg_cookies_policy: string = this.CookiesService.getCookie('ppg_cookies_policy');
-private userName = localStorage.getItem('user_name') || '';
- 
-  constructor(private CookiesService: CookiesService,private router: Router) { }
+  public userName =  '';
+  public isOrgAdmin: boolean = false;
+  constructor(private CookiesService: CookiesService,private router: Router) {
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
+    this.userName = localStorage.getItem('user_name') || '';
+   }
 
   ngOnInit(): void {
     this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
     if (this.ppg_cookies_preferences_set == "true") {
       this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
-    } 
+    }
   }
 
   public OnSubmit() {
@@ -72,11 +75,4 @@ private userName = localStorage.getItem('user_name') || '';
     element?.scrollIntoView();
   }
 
-  public navigateCookieHome():void{
-    if(this.userName){
-      this.router.navigateByUrl(`home`);
-    }else{
-      window.location.href='https://www.crowncommercial.gov.uk';  
-    }
-  }
 }
