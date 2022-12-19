@@ -1,6 +1,6 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { BaseComponent } from 'src/app/components/base/base.component';
@@ -17,13 +17,15 @@ export class NominateSuccessComponent extends BaseComponent implements OnDestroy
 {
   private subscription: Subscription | undefined;
   public emailAddress: any;
-
+  public pageAccessMode:any;
   constructor(
     private route: ActivatedRoute,
     private dataService: SharedDataService,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper
+    protected scrollHelper: ScrollHelper,
+    private ActivatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.dataService.NominiData.subscribe((data) => {
@@ -34,9 +36,22 @@ export class NominateSuccessComponent extends BaseComponent implements OnDestroy
         this.emailAddress = sessionStorage.getItem('emailAddress');
       }
     });
+    this.ActivatedRoute.queryParams.subscribe((para: any) => {
+      this.pageAccessMode = JSON.parse(atob(para.data));
+    });
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    localStorage.removeItem('schemeDetails')
+  }
+
+  public goConfirmOrgPage():void{
+    const schemeDetails = JSON.parse(localStorage.getItem('schemeDetails') || '');
+    this.router.navigateByUrl(
+      `manage-org/register/search/${schemeDetails.scheme}?id=${encodeURIComponent(
+        schemeDetails.schemeID
+      )}`
+    );
   }
 }

@@ -103,6 +103,10 @@ export class ManageOrgRegStep2Component
   }
 
   public onSubmit() {
+    let schemeDetails = {
+      scheme:this.scheme,
+      schemeID:this.txtValue,
+    }
     this.submitted = true;
     this.validationObj.isDunlength = false;
     if (this.validationObj.activeElement == 'US-DUN') {
@@ -116,6 +120,7 @@ export class ManageOrgRegStep2Component
           this.validationObj.stringIdentifier = true;
         } else {
           this.validationObj.stringIdentifier = false;
+          localStorage.setItem('schemeDetails', (JSON.stringify(schemeDetails)));
           this.router.navigateByUrl(
             `manage-org/register/search/${this.scheme}?id=${encodeURIComponent(
               this.validationObj.DunData
@@ -127,6 +132,7 @@ export class ManageOrgRegStep2Component
       }
     } else {
       if (this.txtValue && this.txtValue.length > 0) {
+        localStorage.setItem('schemeDetails', (JSON.stringify(schemeDetails)));
         this.router.navigateByUrl(
           `manage-org/register/search/${this.scheme}?id=${encodeURIComponent(
             this.txtValue
