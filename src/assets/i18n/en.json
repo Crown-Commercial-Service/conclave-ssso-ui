@@ -364,5 +364,7 @@
   "LINK_USED":"Link already used",
   "REMOVE_REG":"Remove registry",
   "TERMS_OF_USE":"Terms of Use",
-  "CONFIRM_EMAIL":"Confirm email address"
+  "CONFIRM_EMAIL":"Confirm email address",
+  "NOTIFICATION_SENT":"Notification sent",
+  "DUP_ORG":"Duplicate organisations"
 }

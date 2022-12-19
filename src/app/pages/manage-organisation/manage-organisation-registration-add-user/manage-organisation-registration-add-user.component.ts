@@ -130,4 +130,8 @@ private PatternService:PatternService,
     window.history.back();
   }
 
+  public onClickNominate(){
+    this.router.navigateByUrl(`/nominate?data=` + btoa(JSON.stringify(0)));
+  }
+
 }

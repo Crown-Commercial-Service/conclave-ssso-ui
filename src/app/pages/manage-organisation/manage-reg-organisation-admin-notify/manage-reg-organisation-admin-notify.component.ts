@@ -23,4 +23,7 @@ export class ManageOrgRegNotifyAdminComponent implements OnInit {
         this.orgName = sessionStorage.getItem('RegExistsingOrgName') || '';
     }
 
+    public back():void{
+        window.history.back()
+    }
 }
