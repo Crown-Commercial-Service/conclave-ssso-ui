@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { OrganisationService } from "src/app/services/postgres/organisation.service";
 
 @Component({
@@ -11,8 +11,13 @@ import { OrganisationService } from "src/app/services/postgres/organisation.serv
 export class ManageOrgRegSearchStatusExistsComponent implements OnInit{
 
     orgreginfo: any;
+    public pageAccessMode:any;
 
-    constructor(private organisationService: OrganisationService, private router: Router) {
+    
+    constructor(private organisationService: OrganisationService, private router: Router,private ActivatedRoute: ActivatedRoute) {
+        this.ActivatedRoute.queryParams.subscribe((para: any) => {
+            this.pageAccessMode = JSON.parse(atob(para.data));
+          });
     }
 
     ngOnInit(){

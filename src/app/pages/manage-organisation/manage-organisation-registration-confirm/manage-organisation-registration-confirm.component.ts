@@ -1,5 +1,5 @@
 import { ViewportScroller } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { timeout } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { UIState } from 'src/app/store/ui.states';
   templateUrl: './manage-organisation-registration-confirm.component.html',
   styleUrls: ['./manage-organisation-registration-confirm.component.scss']
 })
-export class ManageOrgRegConfirmComponent extends BaseComponent implements OnInit {
+export class ManageOrgRegConfirmComponent extends BaseComponent implements OnInit, OnDestroy {
 
   public emailAddress: string = '';
   public resendActivationEmailMode: boolean = false;
@@ -38,6 +38,11 @@ export class ManageOrgRegConfirmComponent extends BaseComponent implements OnIni
       }
     });
   }
+
+  ngOnDestroy(): void {
+    localStorage.removeItem('schemeDetails')
+  }
+
 
   resendActivationLink() {
     this.router.navigateByUrl('manage-org/register/confirm?rs');
