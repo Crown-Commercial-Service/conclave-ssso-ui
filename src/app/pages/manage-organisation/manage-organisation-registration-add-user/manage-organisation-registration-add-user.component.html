@@ -4,33 +4,50 @@
     <div class="content flex">
       <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-              <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate }}</a>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' |
+              translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG'
+              | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate
+              }}</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">
             <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/type">{{ 'ORG_TYPE' | translate }}</a>
-         </li>
-         <li class="govuk-breadcrumbs__list-item">
-          <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/search">{{ 'ORG_DETAILS' | translate }}</a>
-         </li>
-         <li class="govuk-breadcrumbs__list-item">
-          <a class="govuk-breadcrumbs__link"  href="javascript:;" (click)="goBack()">{{ 'CONFIRM_ORG_DETAILS' | translate }}</a>
-         </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <span class="govuk-breadcrumbs__link"> {{ 'CREATE_ADMIN_ACC' | translate }}</span>
-            </li>
+          </li>
+          <li class="govuk-breadcrumbs__list-item" *ngIf="buyerFlow == 3">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/buyer-type">{{ 'BUYER_TYPE_BC' |
+              translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/search">{{ 'ORG_DETAILS' | translate
+              }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" href="javascript:;" (click)="goConfirmOrgPage()">{{ 'CONFIRM_ORG_DETAILS'
+              | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode == 0">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/error/wrong-details">{{
+              'WRONG_ORG_DETAILS' | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode == 2">
+            <a class="govuk-breadcrumbs__link" href="javascript:;" (click)="goBack()">{{ 'ADD_REG' | translate }}</a>
+          </li>
+
+          <li class="govuk-breadcrumbs__list-item">
+            <span class="govuk-breadcrumbs__link"> {{ 'CREATE_ADMIN_ACC' | translate }}</span>
+          </li>
         </ol>
       </div>
       <h1 class="govuk-heading-xl page-title">Create your administrator account</h1>
@@ -62,12 +79,12 @@
                       <li>Enter your email address</li>
                     </a>
                     <a onClick="return false;" (click)="setFocus(2)" href="javascript:;"
-                    *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                      *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
                       <li>Enter an email address in the correct format, like name@example.com</li>
                     </a>
-                    <a *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)" href="javascript:;" onClick="return false;"
-                    (click)="customFocum()">
-                    <li>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</li>
+                    <a *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)"
+                      href="javascript:;" onClick="return false;" (click)="customFocum()">
+                      <li>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</li>
                     </a>
                   </ul>
                 </div>
@@ -93,11 +110,11 @@
                 <span class="govuk-visually-hidden">Error:</span>Enter your first name
               </span>
               <span id="firstname-error" class="govuk-error-message"
-              *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
-              <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
-            </span>
-              <input #input class="govuk-input" id="firstName" formControlName="firstName" maxlength="100" name="firstName"
-                size="20" type="text" value="" autocomplete="given-name"
+                *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
+                <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+              </span>
+              <input #input class="govuk-input" id="firstName" formControlName="firstName" maxlength="100"
+                name="firstName" size="20" type="text" value="" autocomplete="given-name"
                 [class.govuk-input--error]="submitted && formGroup.controls.firstName.invalid">
             </div>
             <div class="govuk-form-group"
@@ -108,9 +125,9 @@
                 <span class="govuk-visually-hidden">Error:</span>Enter your last name
               </span>
               <span id="lastname-error" class="govuk-error-message"
-              *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
-              <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
-            </span>
+                *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
+                <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+              </span>
               <input #input class="govuk-input" id="lastName" formControlName="lastName" maxlength="100" name="lastName"
                 size="20" type="text" value="" autocomplete="family-name"
                 [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid">
@@ -118,15 +135,17 @@
             <div class="govuk-form-group"
               [class.govuk-form-group--error]="submitted && formGroup.controls.email.invalid">
               <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
-              <span id="email-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls.email.errors?.required">
+              <span id="email-error" class="govuk-error-message"
+                *ngIf="submitted && formGroup.controls.email.errors?.required">
                 <span class="govuk-visually-hidden">Error:</span>Enter your email
               </span>
               <span id="email-error" class="govuk-error-message"
-              *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
-                  <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like name@example.com
+                *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like
+                name@example.com
               </span>
-              <input #input class="govuk-input" id="email" formControlName="email" name="email" size="20"
-                type="text" value="" autocomplete="email" type="email" value="" autocomplete="email" spellcheck="false"
+              <input #input class="govuk-input" id="email" formControlName="email" name="email" size="20" type="text"
+                value="" autocomplete="email" type="email" value="" autocomplete="email" spellcheck="false"
                 (input)="validateEmailLength($event)"
                 [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
             </div>

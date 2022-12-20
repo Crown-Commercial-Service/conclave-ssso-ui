@@ -20,14 +20,24 @@
       <li class="govuk-breadcrumbs__list-item">
         <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/type">{{ 'ORG_TYPE' | translate }}</a>
      </li>
+     <li class="govuk-breadcrumbs__list-item" *ngIf="buyerFlow == 3">
+      <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/buyer-type">{{ 'BUYER_TYPE_BC' |
+        translate }}</a>
+    </li>
      <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/search">{{ 'ORG_DETAILS' | translate }}</a>
      </li>
      <li class="govuk-breadcrumbs__list-item">
-      <a class="govuk-breadcrumbs__link"  href="javascript:;" routerLink="/manage-org/register/search">{{ 'CONFIRM_ORG_DETAILS' | translate }}</a>
+      <a class="govuk-breadcrumbs__link"  href="javascript:;" (click)="goConfirmOrgPage()">{{ 'CONFIRM_ORG_DETAILS' | translate }}</a>
+     </li>
+     <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode == 0">
+      <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/error/wrong-details">{{ 'WRONG_ORG_DETAILS' | translate }}</a>
+     </li>
+     <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode == 2">
+      <a class="govuk-breadcrumbs__link" href="javascript:;" (click)="goToRegSchema()">{{ 'ADD_REG' | translate }}</a>
      </li>
      <li class="govuk-breadcrumbs__list-item">
-      <a class="govuk-breadcrumbs__link"  href="javascript:;" routerLink="/manage-org/register/user">{{ 'CREATE_ADMIN_ACC' | translate }}</a>
+      <a class="govuk-breadcrumbs__link"   routerLink="/manage-org/register/user">{{ 'CREATE_ADMIN_ACC' | translate }}</a>
      </li>
         <li class="govuk-breadcrumbs__list-item">
             <span class="govuk-breadcrumbs__link"> {{ 'CONFIRM_EMAIL' | translate }}</span>

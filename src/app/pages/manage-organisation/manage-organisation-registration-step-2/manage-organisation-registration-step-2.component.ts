@@ -7,7 +7,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 
@@ -51,6 +51,7 @@ export class ManageOrgRegStep2Component
     isDunlength: false,
     DunData:'',
   };
+  public pageAccessMode:any;
   submitted: boolean = false;
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
@@ -62,10 +63,20 @@ export class ManageOrgRegStep2Component
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private ActivatedRoute: ActivatedRoute
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.txtValue = '';
+    this.ActivatedRoute.queryParams.subscribe((para: any) => {
+      if(para.data != undefined){
+        this.pageAccessMode = JSON.parse(atob(para.data));
+        localStorage.setItem('organisation_type',this.pageAccessMode)
+      } else {
+        this.pageAccessMode = null
+        localStorage.setItem('organisation_type','null')
+      }
+    });
   }
 
   ngOnInit() {

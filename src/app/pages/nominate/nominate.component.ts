@@ -85,6 +85,7 @@ export class NominateComponent extends BaseComponent {
     }
   }
   public onSubmit(form: FormGroup) {
+    this.router.navigateByUrl(`nominate/success?data=` + btoa(JSON.stringify(this.pageAccessMode)));
     this.submitted = true;
     if (this.PatternService.emailValidator(form.get('email')?.value)) {
       this.formGroup.controls['email'].setErrors({ incorrect: true });
