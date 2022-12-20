@@ -17,15 +17,25 @@ import { UIState } from 'src/app/store/ui.states';
   templateUrl: './manage-organisation-registration-confirm.component.html',
   styleUrls: ['./manage-organisation-registration-confirm.component.scss']
 })
-export class ManageOrgRegConfirmComponent extends BaseComponent implements OnInit, OnDestroy {
-
+export class ManageOrgRegConfirmComponent extends BaseComponent implements OnInit {
+  public pageAccessMode:any;
   public emailAddress: string = '';
   public resendActivationEmailMode: boolean = false;
+  public buyerFlow:any
   constructor(private userService: UserService, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private router: Router) {
+    private router: Router,private ActivatedRoute: ActivatedRoute) {
     super(uiStore, viewportScroller, scrollHelper);
+    this.ActivatedRoute.queryParams.subscribe((para: any) => {
+      if(para.data != undefined){
+        this.pageAccessMode = JSON.parse(atob(para.data));
+      } else {
+        this.pageAccessMode = null
+      }
+    });
+    this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
+
   }
 
   ngOnInit() {
@@ -39,12 +49,28 @@ export class ManageOrgRegConfirmComponent extends BaseComponent implements OnIni
     });
   }
 
-  ngOnDestroy(): void {
-    localStorage.removeItem('schemeDetails')
+
+  resendActivationLink() { 
+    this.router.navigateByUrl('manage-org/register/confirm?rs');
   }
 
+  public goConfirmOrgPage():void{
+    const schemeDetails = JSON.parse(localStorage.getItem('schemeDetails') || '');
+    this.router.navigateByUrl(
+      `manage-org/register/search/${schemeDetails.scheme}?id=${encodeURIComponent(
+        schemeDetails.schemeID
+      )}`
+    );
+  }
 
-  resendActivationLink() {
-    this.router.navigateByUrl('manage-org/register/confirm?rs');
+  public goToRegSchema():void{
+    const schemeDetails = JSON.parse(localStorage.getItem('cii_scheme') || '');
+    this.router.navigateByUrl(
+      'manage-org/register/search/' +
+        schemeDetails.scheme +
+        '/' +
+        schemeDetails.id +
+        '/additional-identifiers'
+    );
   }
 }

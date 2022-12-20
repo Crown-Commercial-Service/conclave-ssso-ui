@@ -43,8 +43,12 @@ export class NominateSuccessComponent extends BaseComponent implements OnDestroy
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
-    localStorage.removeItem('schemeDetails')
   }
+
+  public goToNominate(){
+    this.router.navigateByUrl(`/nominate?data=` + btoa(JSON.stringify(this.pageAccessMode)));
+  }
+  
 
   public goConfirmOrgPage():void{
     const schemeDetails = JSON.parse(localStorage.getItem('schemeDetails') || '');
