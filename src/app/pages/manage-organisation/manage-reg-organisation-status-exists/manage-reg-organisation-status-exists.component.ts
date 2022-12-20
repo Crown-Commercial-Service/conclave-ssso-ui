@@ -12,12 +12,19 @@ export class ManageOrgRegSearchStatusExistsComponent implements OnInit{
 
     orgreginfo: any;
     public pageAccessMode:any;
+    public buyerFlow:any
 
     
     constructor(private organisationService: OrganisationService, private router: Router,private ActivatedRoute: ActivatedRoute) {
         this.ActivatedRoute.queryParams.subscribe((para: any) => {
-            this.pageAccessMode = JSON.parse(atob(para.data));
+            if(para.data != undefined){
+                this.pageAccessMode = JSON.parse(atob(para.data));
+              } else {
+                this.pageAccessMode = null
+              }
           });
+    this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
+
     }
 
     ngOnInit(){
@@ -25,9 +32,8 @@ export class ManageOrgRegSearchStatusExistsComponent implements OnInit{
     }
 
     public onContinueSingleOrgRegistered() {
-        
         this.organisationService.requestOrgAdminToJoinOrg(this.orgreginfo.ciiOrgId, this.orgreginfo.adminUserFirstName, this.orgreginfo.adminUserLastName, this.orgreginfo.adminEmail).toPromise().then(() => {
-            this.router.navigateByUrl(`manage-org/register/notify-join-org`);
+          this.router.navigateByUrl(`/manage-org/register/notify-join-org?data=` + btoa(JSON.stringify(this.pageAccessMode)));
         });
     }
 
