@@ -55,6 +55,7 @@ export class ManageUserAddSingleUserDetailComponent
   hasGroupViewPermission: boolean = false;
   mfaAdminValidationError: boolean = false;
   public idpStatus = environment.appSetting.hideIDP
+  public approveRequiredRole:Role[];
   public detailsData: any = [
     'Add additional security steps to make an account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
     'Groups allow you to manage large numbers of users all at once. Roles can be applied to groups to organise user’s more efficiently and allow bulk access to relevant services where it is required.',
@@ -126,6 +127,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.orgRoles = [];
     this.identityProviders = [];
     this.allIdps = [];
+    this.approveRequiredRole = []
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userProfileRequestInfo = {
       organisationId: this.organisationId,
@@ -218,6 +220,7 @@ export class ManageUserAddSingleUserDetailComponent
       await this.getOrgGroups();
       await this.getOrgRoles();
       await this.getIdentityProviders();
+      await this.getApprovalRequriedRoles()
       this.onFormValueChange();
     }
     this.MFA_Enabled = this.formGroup.controls.mfaEnabled.value;
@@ -310,6 +313,13 @@ export class ManageUserAddSingleUserDetailComponent
         this.isAutoDisableMFA = true;
       }
     });
+  }
+
+  async  getApprovalRequriedRoles(){
+    this.approveRequiredRole = await this.organisationGroupService
+      .getOrganisationApprovalRequiredRoles(this.organisationId)
+      .toPromise();
+      console.log("this.approveRequiredRole",this.approveRequiredRole)
   }
 
   // ngAfterViewChecked() {

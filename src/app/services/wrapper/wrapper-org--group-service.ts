@@ -16,6 +16,30 @@ export class WrapperOrganisationGroupService {
   public url: string = `${environment.uri.api.isApiGateWayEnabled ?
     environment.uri.api.wrapper.apiGatewayEnabled.organisation : environment.uri.api.wrapper.apiGatewayDisabled.organisation}`;
 
+  private tempData = [
+    {
+      "roleId": 726,
+      "roleKey": "ACCESS_FP_CLIENT",
+      "roleName": "Access Fleet Portal",
+      "serviceName": "Dashboard Service",
+      "orgTypeEligibility": 2,
+      "subscriptionTypeEligibility": 0,
+      "tradeEligibility": 1,
+      "autoValidationRoleTypeEligibility": null
+    },
+    {
+      "roleId": 725,
+      "roleKey": "FP_USER",
+      "roleName": "Fleet Portal User",
+      "serviceName": "Fleet Portal",
+      "orgTypeEligibility": 2,
+      "subscriptionTypeEligibility": 0,
+      "tradeEligibility": 1,
+      "autoValidationRoleTypeEligibility": null,
+      "approvalRequired": true
+   },
+]
+
   constructor(private http: HttpClient) {
   }
 
@@ -111,6 +135,17 @@ export class WrapperOrganisationGroupService {
           }
         })
         return data
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  getOrganisationApprovalRequiredRoles(organisationId: string): Observable<any> {
+    const url = `${this.url}/${organisationId}/roles`;
+    return this.http.get<Role[]>(url).pipe(
+      map((data: Role[]) => {
+        return this.tempData
       }), catchError(error => {
         return throwError(error);
       })
