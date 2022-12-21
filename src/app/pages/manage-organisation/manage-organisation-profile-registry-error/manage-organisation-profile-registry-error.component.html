@@ -9,19 +9,19 @@
             <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">Manage your organisation</a>
         </li>
         <li class="govuk-breadcrumbs__list-item" *ngIf="reason === 'wrong'">
-          <a class="govuk-breadcrumbs__link">Wrong Details</a>
+          <span class="govuk-breadcrumbs__link">Wrong Details</span>
         </li>
         <li class="govuk-breadcrumbs__list-item" *ngIf="reason === 'generic'">
-          <a class="govuk-breadcrumbs__link">Unexpected error</a>
+          <span class="govuk-breadcrumbs__link">Unexpected error</span>
         </li>
         <li class="govuk-breadcrumbs__list-item" *ngIf="reason === 'notfound'">
-          <a class="govuk-breadcrumbs__link">Invalid registry</a>
+          <span class="govuk-breadcrumbs__link">Invalid registry</span>
         </li>
         <li class="govuk-breadcrumbs__list-item" *ngIf="reason === 'existsInConclave'">
-          <a class="govuk-breadcrumbs__link">Registry already used</a>
+          <span class="govuk-breadcrumbs__link">Registry already used</span>
         </li>
         <li class="govuk-breadcrumbs__list-item" *ngIf="reason === 'exists'">
-          <a class="govuk-breadcrumbs__link">Registry already used</a>
+          <span class="govuk-breadcrumbs__link">Registry already used</span>
         </li>
     </ol>
   </div>
