@@ -27,7 +27,8 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     operation: OperationEnum;
     operationEnum = OperationEnum;
     userName: string = '';
-
+    isOrgAdmin: boolean = false;
+    
     constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -36,6 +37,7 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
         let area: string = "";
         switch (this.operation) {
             case this.operationEnum.MyAccountUpdate:

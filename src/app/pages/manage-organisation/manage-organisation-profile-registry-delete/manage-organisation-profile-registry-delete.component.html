@@ -1,6 +1,18 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="content flex">
-  <a href="javascript:;" (click)="goBack()" class="govuk-back-link">Back</a>
+    <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <a class="govuk-breadcrumbs__link" routerLink="/home">Administrator dashboard</a>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">Manage your organisation</a>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <span class="govuk-breadcrumbs__link">{{'REMOVE_REG' | translate }}</span>
+      </li>
+    </ol>
+  </div>
   <h1 class="govuk-heading-xl page-title">Confirm you want to remove the below from your registries?</h1>
   <p *ngIf="item$ | async as i">
     <strong style="font-weight: 500;">{{ i?.identifier?.scheme }}</strong>
