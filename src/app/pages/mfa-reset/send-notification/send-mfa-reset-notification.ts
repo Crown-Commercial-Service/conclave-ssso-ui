@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { SessionStorageKey } from 'src/app/constants/constant';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { SessionStorageKey } from 'src/app/constants/constant';
 export class SendMFAResetNotificationComponent extends BaseComponent implements OnInit {
   sendError: boolean = false;
   userName: string = '';
-
+  protected mailDecryptKey = environment.mailDecryptKey
   constructor(private route: ActivatedRoute, private router: Router, protected uiStore: Store<UIState>,
     private mfaService: MFAService, private authService: AuthService,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -32,7 +33,7 @@ export class SendMFAResetNotificationComponent extends BaseComponent implements 
   ngOnInit() {
     this.route.queryParams.subscribe(para => {
       if (para.u && para.u !== '') {
-        var decryptedValue = CryptoJS.AES.decrypt(decodeURIComponent(para.u), 'conclavesimpleemailencrypt');
+        var decryptedValue = CryptoJS.AES.decrypt(decodeURIComponent(para.u), this.mailDecryptKey);
         var originalUsername = decryptedValue.toString(CryptoJS.enc.Utf8);
         this.userName = originalUsername;
         sessionStorage.setItem(SessionStorageKey.MFAResetUserName, originalUsername);
