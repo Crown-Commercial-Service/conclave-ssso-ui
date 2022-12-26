@@ -43,19 +43,19 @@ export class CookiesService {
         const d = new Date();
         d.setTime(d.getTime() + (exmin * 60000));
         let expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=localhost;path=/;SameSite=Lax";
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk;path=/;SameSite=Lax";
     }
 
     public setSessionCookie(cname: string, cvalue: string, exmin: number) {
         const d = new Date();
         d.setTime(d.getTime() + (exmin * 60000));
         let expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=localhost;";
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk;";
         // const d = new Date();
         // const yesterday = new Date(d)
         // d.setDate(yesterday.getDate() - 1)
         // let expires = "expires=" + d.toUTCString();
-        // document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=localhost;path=/;SameSite=Lax";
+        // document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk;path=/;SameSite=Lax";
     }
     /**
      * Delete additional cookies core functionality
@@ -64,11 +64,11 @@ export class CookiesService {
      */
     public deleteCookie(cname: string, cvalue: string) {
         let expires = "expires=Thu, 01 Jan 1970 00:00:00 UTC";
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=localhost;path=/;SameSite=Lax";
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk;path=/;SameSite=Lax";
     }
     public deleteSessionCookie(cname: string, cvalue: string) {
         let expires = "expires=Thu, 01 Jan 1970 00:00:00 UTC";
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=localhost";
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk";
     }
 
     /**
@@ -97,7 +97,7 @@ export class CookiesService {
 
     public deleteNoneCookies(cname: string, cvalue: string) {
         let expires = "expires=Thu, 01 Jan 1970 00:00:00 UTC";
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=localhost;path=/;SameSite=None";
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.crowncommercial.gov.uk;path=/;SameSite=None";
 
     }
 }
