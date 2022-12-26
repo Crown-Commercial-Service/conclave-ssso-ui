@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CookiesService } from 'src/app/shared/cookies.service';
 import { environment } from 'src/environments/environment';
 
@@ -7,19 +7,31 @@ import { environment } from 'src/environments/environment';
   templateUrl: './cookies-banner.component.html',
   styleUrls: ['./cookies-banner.component.scss'],
 })
-export class CookiesBannerComponent implements OnInit {
+export class CookiesBannerComponent implements OnInit , AfterViewInit {
   private  cookieExpirationTimeInMinutes = environment.cookieExpirationTimeInMinutes
   public cookiesData:any = {
     coockiebanner: true,
     acceptAnalyticsCookies: false,
     rejectAnalyticsCookies: false,
   };
-
+  initDeleteCookieeArray=['_gid','_ga','_gat_UA','_ga_624NHLKTKL','_cls_v','_cls_s']
   constructor(private CookiesService:CookiesService) {}
+
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+    this.initializerCookies()
+    }, 500);
+  }
   
   
   ngOnInit(): void {
-    this.initializerCookies()
+    this.initDeleteCookieeArray.forEach((f)=>{
+      this.CookiesService.setSessionCookie(f,'removed',this.cookieExpirationTimeInMinutes)
+    })
+    this.initDeleteCookieeArray.forEach((f)=>{
+      this.CookiesService.deleteSessionCookie(f,'removed')
+    })
   }
 
   /**
