@@ -34,6 +34,8 @@ export class CookiesSettingsComponent implements OnInit {
   private ppg_cookies_policy: string = this.CookiesService.getCookie('ppg_cookies_policy');
   public userName =  '';
   public isOrgAdmin: boolean = false;
+
+
   constructor(private CookiesService: CookiesService,private router: Router) {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.userName = localStorage.getItem('user_name') || '';
@@ -60,10 +62,10 @@ export class CookiesSettingsComponent implements OnInit {
   public checkCompination(cookiesValue:any):void{
    if(cookiesValue.additional === false){
     this.CookiesService.deleteAdditionalCookies()
-   }
+   } 
    if(cookiesValue.glassbox === false){
     this.CookiesService.deleteGlassBoxCookies()
-   }
+   } 
   }
 
   public onback(): void {
