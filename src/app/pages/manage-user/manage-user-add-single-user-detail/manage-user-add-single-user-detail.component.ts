@@ -28,6 +28,7 @@ import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { environment } from 'src/environments/environment';
+import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 
 @Component({
   selector: 'app-manage-user-add-single-user-detail',
@@ -56,6 +57,9 @@ export class ManageUserAddSingleUserDetailComponent
   mfaAdminValidationError: boolean = false;
   public idpStatus = environment.appSetting.hideIDP
   public approveRequiredRole:Role[];
+  public organisationDetails:any = {}
+  public pendingRoleDetails:any;
+  public selectedApproveRequiredRole:any=[]
   public detailsData: any = [
     'Add additional security steps to make an account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
     'Groups allow you to manage large numbers of users all at once. Roles can be applied to groups to organise user’s more efficiently and allow bulk access to relevant services where it is required.',
@@ -64,6 +68,7 @@ export class ManageUserAddSingleUserDetailComponent
   userTitleArray = ['Mr', 'Mrs', 'Miss', 'Ms', 'Doctor', 'Unspecified'];
   public emailHaserror: boolean = false;
   public MFA_Enabled: any = false;
+  ciiOrganisationId: string;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -79,7 +84,8 @@ export class ManageUserAddSingleUserDetailComponent
     protected scrollHelper: ScrollHelper,
     private wrapperUserService: WrapperUserService,
     private authService: AuthService,
-    private locationStrategy: LocationStrategy
+    private locationStrategy: LocationStrategy,
+    private organisationService: WrapperOrganisationService
   ) {
     super(
       viewportScroller,
@@ -113,6 +119,8 @@ export class ManageUserAddSingleUserDetailComponent
     );
     let queryParams = this.activatedRoute.snapshot.queryParams;
     this.state = this.router.getCurrentNavigation()?.extras.state;
+    this.ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
+    localStorage.removeItem('user_approved_role');
     // this.locationStrategy.onPopState(() => {
     //   this.onCancelClick();
     // });
@@ -194,6 +202,7 @@ export class ManageUserAddSingleUserDetailComponent
       this.formGroup.controls['mfaEnabled'].setValue(
         this.userProfileResponseInfo.mfaEnabled
       );
+      await this.getPendingApprovalUserRole();
       await this.getOrgGroups();
       await this.getOrgRoles();
       await this.getIdentityProviders();
@@ -220,9 +229,10 @@ export class ManageUserAddSingleUserDetailComponent
       await this.getOrgGroups();
       await this.getOrgRoles();
       await this.getIdentityProviders();
-      await this.getApprovalRequriedRoles()
       this.onFormValueChange();
     }
+    await this.getApprovalRequriedRoles()
+    await this.getOrgDetails()
     this.MFA_Enabled = this.formGroup.controls.mfaEnabled.value;
   }
 
@@ -303,7 +313,6 @@ export class ManageUserAddSingleUserDetailComponent
         'orgRoleControl_' + role.roleId,
         this.formBuilder.control(userRole ? true : '')
       );
-
       //Edit mode Determin Login user whether Admin/Normal user.
       if (
         role.roleKey == 'ORG_ADMINISTRATOR' &&
@@ -312,6 +321,10 @@ export class ManageUserAddSingleUserDetailComponent
       ) {
         this.isAutoDisableMFA = true;
       }
+      let filterRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
+      if(filterRole != undefined){
+        role.pendingStatus = true
+      }
     });
   }
 
@@ -319,8 +332,21 @@ export class ManageUserAddSingleUserDetailComponent
     this.approveRequiredRole = await this.organisationGroupService
       .getOrganisationApprovalRequiredRoles(this.organisationId)
       .toPromise();
-      console.log("this.approveRequiredRole",this.approveRequiredRole)
+    console.log("this.approveRequiredRole",this.approveRequiredRole)
   }
+
+  async getOrgDetails(){
+    this.organisationDetails = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
+    });
+    console.log("this.organisationDetails",this.organisationDetails)
+  }
+  
+  async getPendingApprovalUserRole(){
+    this.pendingRoleDetails = await this.wrapperUserService.getPendingApprovalUserRole(this.userProfileResponseInfo.userName).toPromise().catch(e => {
+    });
+    console.log("this.pendingRoleDetails",this.pendingRoleDetails)
+  }
+
 
   // ngAfterViewChecked() {
   //     if (!this.errorLinkClicked) {
@@ -367,7 +393,7 @@ export class ManageUserAddSingleUserDetailComponent
         this.getSelectedGroupIds(form);
       this.userProfileRequestInfo.detail.roleIds =
         this.getSelectedRoleIds(form);
-
+      this.checkApproveRolesSelected()
       if (this.isEdit) {
         this.updateUser(form);
       } else {
@@ -377,6 +403,8 @@ export class ManageUserAddSingleUserDetailComponent
       this.scrollView();
     }
   }
+
+
 
   private scrollView(): void {
     setTimeout(() => {
@@ -407,12 +435,40 @@ export class ManageUserAddSingleUserDetailComponent
 
   getSelectedRoleIds(form: FormGroup) {
     let selectedRoleIds: number[] = [];
+    this.selectedApproveRequiredRole = []
     this.orgRoles.map((role) => {
       if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
-        selectedRoleIds.push(role.roleId);
+      let filterRole = this.approveRequiredRole.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
+        if(filterRole === undefined){
+          selectedRoleIds.push(role.roleId);
+        } else {
+          this.selectedApproveRequiredRole.push(role.roleId)
+        }
       }
     });
     return selectedRoleIds;
+  }
+
+  /**
+   * checking approve required roles are availble
+   */
+  private checkApproveRolesSelected(){
+    const superAdminDomain = this.organisationDetails.detail.domainName
+    const userDomain= this.formGroup.get('userName')?.value.split("@")[1]
+    if(superAdminDomain != userDomain){
+      let matchRoles:any=[]
+      let filterRole:any;
+      const selectedRole:any =  this.userProfileRequestInfo.detail.roleIds
+        selectedRole.forEach((selectedRole:number)=>{
+          filterRole = this.orgRoles.find((element: { roleId: any; }) => element.roleId == selectedRole)
+          this.approveRequiredRole.forEach((approveRequiredRole)=>{
+            if(filterRole.roleKey === approveRequiredRole.roleKey){
+              matchRoles.push(approveRequiredRole)
+            }
+          })
+        })
+        localStorage.setItem('user_approved_role',JSON.stringify(matchRoles));
+    }
   }
 
   updateUser(form: FormGroup) {
@@ -518,7 +574,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.router.navigateByUrl('manage-users/confirm-user-delete');
   }
 
-  public customFocum(): void {
+  public customFocus(): void {
     if (
       this.formGroup.controls['firstName'].invalid &&
       this.formGroup.controls['lastName'].invalid

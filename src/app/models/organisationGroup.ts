@@ -30,6 +30,7 @@ export interface OrganisationGroupUserPatchInfo {
 }
 
 export interface Role {
+    pendingStatus?: boolean;
     roleId: number;
     roleKey:string;
     roleName: string;

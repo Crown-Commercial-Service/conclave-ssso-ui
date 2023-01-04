@@ -25,6 +25,19 @@ export class WrapperUserService {
   private options = {
     headers: new HttpHeaders(),
   };
+  private tempData:any = [
+    {
+      "roleId": 725,
+      "roleKey": "FP_USER",
+      "roleName": "Fleet Portal User",
+      "serviceName": "Fleet Portal",
+      "orgTypeEligibility": 2,
+      "subscriptionTypeEligibility": 0,
+      "tradeEligibility": 1,
+      "autoValidationRoleTypeEligibility": null,
+      "approvalRequired": true
+   },
+]
 
   constructor(private http: HttpClient) {}
 
@@ -59,6 +72,30 @@ export class WrapperUserService {
     return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
       map((data: UserProfileResponseInfo) => {
         return data;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+
+  getPendingApprovalUserRole(userName: string): Observable<UserProfileResponseInfo> {
+    const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}`;
+    return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+      map((data: any) => {
+        return this.tempData;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+
+  userTokenVerify(encryptedToken: string): Observable<UserProfileResponseInfo> {
+    const url = `${this.url}/approve/verify?token=${encodeURIComponent(encryptedToken)}`;
+    return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+      map((data: any) => {
+        return data
       }),
       catchError((error) => {
         return throwError(error);

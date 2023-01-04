@@ -15,30 +15,9 @@ import { UserListResponse } from 'src/app/models/user';
 export class WrapperOrganisationGroupService {
   public url: string = `${environment.uri.api.isApiGateWayEnabled ?
     environment.uri.api.wrapper.apiGatewayEnabled.organisation : environment.uri.api.wrapper.apiGatewayDisabled.organisation}`;
-
-  private tempData = [
-    {
-      "roleId": 726,
-      "roleKey": "ACCESS_FP_CLIENT",
-      "roleName": "Access Fleet Portal",
-      "serviceName": "Dashboard Service",
-      "orgTypeEligibility": 2,
-      "subscriptionTypeEligibility": 0,
-      "tradeEligibility": 1,
-      "autoValidationRoleTypeEligibility": null
-    },
-    {
-      "roleId": 725,
-      "roleKey": "FP_USER",
-      "roleName": "Fleet Portal User",
-      "serviceName": "Fleet Portal",
-      "orgTypeEligibility": 2,
-      "subscriptionTypeEligibility": 0,
-      "tradeEligibility": 1,
-      "autoValidationRoleTypeEligibility": null,
-      "approvalRequired": true
-   },
-]
+ 
+  public configURl:string = `${environment.uri.api.isApiGateWayEnabled ?
+    environment.uri.api.wrapper.apiGatewayEnabled.configuration : environment.uri.api.wrapper.apiGatewayDisabled.configuration}`;
 
   constructor(private http: HttpClient) {
   }
@@ -142,10 +121,10 @@ export class WrapperOrganisationGroupService {
   }
 
   getOrganisationApprovalRequiredRoles(organisationId: string): Observable<any> {
-    const url = `${this.url}/${organisationId}/roles`;
+    const url = `${this.configURl}/approve/roles`;
     return this.http.get<Role[]>(url).pipe(
       map((data: Role[]) => {
-        return this.tempData
+        return data
       }), catchError(error => {
         return throwError(error);
       })

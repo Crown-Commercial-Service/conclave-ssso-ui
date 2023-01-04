@@ -1,0 +1,34 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' |
+                            translate}}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-users">{{ 'MANAGE_YOUR_USER_ACCOUNTS'
+                            |translate}}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link"> {{ 'DELETE_USER' | translate }}</span>
+                    </li>
+                </ol>
+            </div>
+            <h1 class="govuk-heading-xl"> Fleet Portal roles additional verification </h1>
+            <div class="govuk-button-group continue-cancel-button-group">
+                <button type="submit"  class="govuk-button govuk-button--primarry"
+                    data-module="govuk-button">
+                    Accept
+                </button>
+                <button type="button"  class="govuk-button govuk-button--warning"
+                    data-module="govuk-button">
+                    Deny
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

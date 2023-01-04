@@ -188,6 +188,8 @@ import { ConfirmOrgTypeComponent } from './pages/buyer/confirm-org-type/confirm-
 import { AutoValidationBuyerSuccessComponent } from './pages/buyer/auto-validation-buyer-success/auto-validation-buyer-success.component';
 import { BuyerBothErrorComponent } from './pages/manage-buyer-and-both-requests/buyer-both-error/buyer-both-error.component';
 import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
+import { ManageUserRoleComponent } from './pages/manage-role/manage-user-role/manage-user-role.component';
+import { RoleRequestSuccessComponent } from './pages/manage-role/role-request-success/role-request-success.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -341,7 +343,9 @@ export function createTranslateLoader(http: HttpClient) {
     ConfirmOrgTypeComponent,
     AutoValidationBuyerSuccessComponent,
     BuyerBothErrorComponent,
-    AccessibilityStatementComponent
+    AccessibilityStatementComponent,
+    ManageUserRoleComponent,
+    RoleRequestSuccessComponent
   ],
   imports: [
     // BrowserModule,
