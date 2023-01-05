@@ -4,18 +4,12 @@
       <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
           <li class="govuk-breadcrumbs__list-item">
-            <a *ngIf="this.isOrgAdmin" class="govuk-breadcrumbs__link" routerLink="/home">
-              {{ 'ADMINISTRATOR_DASHBOARD' | translate }}
-            </a>
-            <a *ngIf="!this.isOrgAdmin && userName != ''" class="govuk-breadcrumbs__link" routerLink="/home">
-              {{"PUBLIC_PROCUREMENT_GATEWAY_DASHBOARD" | translate}}
-            </a>
-            <a *ngIf="userName == ''" class="govuk-breadcrumbs__link" routerLink="/home">
-              {{"REGITERATION_HOME" | translate}}
-            </a>
+            <a class="govuk-breadcrumbs__link" (click)="backToHome()">
+              Home</a
+            >
           </li>
           <li class="govuk-breadcrumbs__list-item">
-            <span class="govuk-breadcrumbs__link">{{"TERMS_OF_USE" | translate}}</span>
+            <span class="govuk-breadcrumbs__link">Terms of Use</span>
           </li>
         </ol>
       </div>
@@ -40,68 +34,148 @@
     <div class="browse-list">
       <ul class="no-bullets">
         <li>
-          <a class="navigation-text" href="#" onclick="return false;"
-            (click)="scrollContent('Definitions')">Definitions</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('Definitions')"
+            >Definitions</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;" (click)="scrollContent('UsingPPG')">Using the
-            Public Procurement Gateway (PPG)</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('UsingPPG')"
+            >Using the Public Procurement Gateway (PPG)</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;" (click)="scrollContent('Amending')">Amending the
-            Terms of Use</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('Amending')"
+            >Amending the Terms of Use</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;"
-            (click)="scrollContent('PPGUserAdministrator')">PPG User Administrator</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('PPGUserAdministrator')"
+            >PPG User Administrator</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;"
-            (click)="scrollContent('UsersaccessingthePPG')">Users accessing the PPG</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('UsersaccessingthePPG')"
+            >Users accessing the PPG</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;"
-            (click)="scrollContent('Obligations')">Organisation and User/s Obligations, Warranties and Liabilities</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('Obligations')"
+            >Organisation and User/s Obligations, Warranties and Liabilities</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;"
-            (click)="scrollContent('ExternallinkingtoPPG')">External linking to PPG</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('ExternallinkingtoPPG')"
+            >External linking to PPG</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;"
-            (click)="scrollContent('ExternalLinkingfromPPG')">External Linking from PPG</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('ExternalLinkingfromPPG')"
+            >External Linking from PPG</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;" (click)="scrollContent('UsingPPGContent')">Using
-            PPG Content</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('UsingPPGContent')"
+            >Using PPG Content</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;"
-            (click)="scrollContent('Limitsonliability')">Limits on liability</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('Limitsonliability')"
+            >Limits on liability</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;"
-            (click)="scrollContent('Requeststoremovecontent')">Requests to remove content</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('Requeststoremovecontent')"
+            >Requests to remove content</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;" (click)="scrollContent('CookiePolicy')">Cookie
-            Policy</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('CookiePolicy')"
+            >Cookie Policy</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;"
-            (click)="scrollContent('IntellectualPropertyRights')">Intellectual Property Rights</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('IntellectualPropertyRights')"
+            >Intellectual Property Rights</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;" (click)="scrollContent('DataProtection')">Data
-            Protection</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('DataProtection')"
+            >Data Protection</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;"
-            (click)="scrollContent('RightsofThirdParties')">Rights of Third Parties</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('RightsofThirdParties')"
+            >Rights of Third Parties</a
+          >
         </li>
         <li>
-          <a class="navigation-text" href="#" onclick="return false;" (click)="scrollContent('LawandJurisdiction')">Law
-            and Jurisdiction</a>
+          <a
+            class="navigation-text"
+            href="#"
+            onclick="return false;"
+            (click)="scrollContent('LawandJurisdiction')"
+            >Law and Jurisdiction</a
+          >
         </li>
       </ul>
     </div>
@@ -204,8 +278,12 @@
         <p class="govuk-body govuk-!-font-size-19">
           <strong> “Privacy Policy”</strong> means CCS’s Privacy Notice which is
           available here:
-          <a target="_blank" class="navigation-text"
-            href="https://www.gov.uk/government/publications/crown-commercial-service-privacy-notice/crown-commercial-service-privacy-notice">https://www.gov.uk/government/publications/crown-commercial-service-privacy-notice/crown-commercial-service-privacy-notice</a>
+          <a
+            target="_blank"
+            class="navigation-text"
+            href="https://www.gov.uk/government/publications/crown-commercial-service-privacy-notice/crown-commercial-service-privacy-notice"
+            >https://www.gov.uk/government/publications/crown-commercial-service-privacy-notice/crown-commercial-service-privacy-notice</a
+          >
         </p>
         <p class="govuk-body govuk-!-font-size-19">
           <strong>“Public Procurement Gateway”</strong> and
@@ -343,13 +421,6 @@
         by any third party, they shall contact their Administrator who shall
         take immediate action to rectify the situation.
       </p>
-      <p class="govuk-body govuk-!-font-size-19">
-        In the event that employees of an Organisation not already registered as Users contact CCS to request the
-        details of the Organisation’s Administrator(s), CCS will disclose the name and email address of the
-        Organisation’s Administrator(s). This is to enable registration queries to be addressed by the Organisation’s
-        Administrator. By registering as the Administrator for an Organisation, a User acknowledges that its name and
-        email address may be shared with other individuals within the same Organisation.
-      </p>
     </div>
     <div id="UsersaccessingthePPG" class="UsersaccessingthePPG">
       <p class="govuk-body govuk-!-font-size-19">
@@ -372,8 +443,10 @@
     </div>
     <div id="Obligations" class="Obligations">
       <p class="govuk-body govuk-!-font-size-19">
-        <strong>Organisation and User/s Obligations, Warranties and
-          Liabilities</strong>
+        <strong
+          >Organisation and User/s Obligations, Warranties and
+          Liabilities</strong
+        >
       </p>
       <p class="govuk-body govuk-!-font-size-19">
         The Organisation and its User/s shall use PPG for lawful and proper
@@ -476,7 +549,8 @@
       <p class="govuk-body govuk-!-font-size-19">
         CCS welcomes and encourages other websites to link to the PPG.
         Administrators must contact CCS for permission at
-        <a class="navigation-text" href="mailto:info@crowncommercial.gov.uk">info@crowncommercial.gov.uk
+        <a class="navigation-text" href="mailto:info@crowncommercial.gov.uk"
+          >info@crowncommercial.gov.uk
         </a>
         to request that the Organisation’s website is associated with or
         endorsed by CCS or another government department or agency.
@@ -532,37 +606,52 @@
       <p class="govuk-body govuk-!-font-size-19">
         <strong>Using PPG Content</strong>
       </p>
-      <li>
-        Most content on the PPG is subject to
-        <a target="_blank" class="navigation-text"
-          href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">Crown
-          copyright protection</a> and is published under the<a target="_blank" class="navigation-text"
-          href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/1/open-government-licence.htm">
-          Open Government Licence</a> (OGL).
-      </li>
+        <li>
+          Most content on the PPG is subject to
+          <a
+            target="_blank"
+            class="navigation-text"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            >Crown copyright protection</a
+          > and is published under the<a
+            target="_blank"
+            class="navigation-text"
+            href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/1/open-government-licence.htm"
+          >
+            Open Government Licence</a
+          > (OGL).
+        </li>
 
-      <li>
-        Some content is exempt from the OGL - check the
-        <a target="_blank" class="navigation-text"
-          href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/1/open-government-licence.htm">
-          list of exemptions</a>.
-      </li>
-      <li>
-        Departmental logos and crests are also exempt from the OGL, except
-        when they form an integral part of a document or dataset
-      </li>
-      <li>
-        If any content is not subject to Crown copyright protection or
-        published under the OGL, if applicable CCS will credit the author or
-        copyright holder.
-      </li>
-      <li>
-        Organisations can reproduce content published on the PPG under the OGL
-        as long as it follows the licence’s conditions. Further guidance on
-        this can be found at<a target="_blank" class="navigation-text"
-          href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">
-          Open Government Licence (nationalarchives.gov.uk)</a>
-      </li>
+        <li>
+          Some content is exempt from the OGL - check the
+          <a
+            target="_blank"
+            class="navigation-text"
+            href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/1/open-government-licence.htm"
+          >
+            list of exemptions</a
+          >.
+        </li>
+        <li>
+          Departmental logos and crests are also exempt from the OGL, except
+          when they form an integral part of a document or dataset
+        </li>
+        <li>
+          If any content is not subject to Crown copyright protection or
+          published under the OGL, if applicable CCS will credit the author or
+          copyright holder.
+        </li>
+        <li>
+          Organisations can reproduce content published on the PPG under the OGL
+          as long as it follows the licence’s conditions. Further guidance on
+          this can be found at<a
+            target="_blank"
+            class="navigation-text"
+            href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+          >
+            Open Government Licence (nationalarchives.gov.uk)</a
+          >
+        </li>
     </div>
     <br>
     <div id="Limitsonliability" class="Limitsonliability">
@@ -646,8 +735,12 @@
       </p>
       <p class="govuk-body govuk-!-font-size-19">
         The
-        <a target="_blank" class="navigation-text" href="https://identify.crowncommercial.gov.uk/cookies">PPG has a
-          Cookie Policy</a> which can be accessed from the PPG home page. The Organisation and its
+        <a
+          target="_blank"
+          class="navigation-text"
+          href="https://identify.crowncommercial.gov.uk/cookies"
+          >PPG has a Cookie Policy</a
+        > which can be accessed from the PPG home page. The Organisation and its
         User/s will have the option for PPG to collect information and confirm
         that any data provided is accurate in accordance with the Cookie Policy.
       </p>
@@ -674,28 +767,26 @@
       <p class="govuk-body govuk-!-font-size-19">
         <strong>Data Protection</strong>
       </p>
-      <p class="govuk-body govuk-!-font-size-19">The Organisation and its User/s shall comply with UK GDPR and all
-        relevant regulations together with any codes of conduct and guidance
-        issued by the Information Commissioner from time to time and they shall
-        not do or cause or permit to be done anything which may cause or
-        otherwise result in a breach by CCS.</p>
-      <p class="govuk-body govuk-!-font-size-19">CCS will collect, hold and process Personal Data obtained from and
-        about
-        User/s. CCS will only store Personal Data to the extent necessary for
-        the purposes for which the Personal Data is being processed.</p>
-      <p class="govuk-body govuk-!-font-size-19">It is the Organisation and its User/s’ responsibility to ensure they
-        comply with all relevant law including UK GDPR in relation to their data
-        processing activities.</p>
-      <p class="govuk-body govuk-!-font-size-19">The Organisation shall indemnify CCS against any and all losses
-        incurred
-        if the Organisation or its User/s breaches any UK GDPR.</p>
-      <p class="govuk-body govuk-!-font-size-19">The Organisation (and if applicable its User/s) shall procure the
-        agreement of each relevant data subject to such data being collected,
-        held and used in accordance with these Terms of Use, any relevant
-        Privacy Policies, the Data Protection Legislation and relevant Cookie
-        Policies.</p>
-      <p class="govuk-body govuk-!-font-size-19">CCS’ data retention policy for the PPG is to retain the information
-        uploaded into the PPG for a maximum of seven years.</p>
+        <p class="govuk-body govuk-!-font-size-19">The Organisation and its User/s shall comply with UK GDPR and all
+          relevant regulations together with any codes of conduct and guidance
+          issued by the Information Commissioner from time to time and they shall
+          not do or cause or permit to be done anything which may cause or
+          otherwise result in a breach by CCS.</p>
+        <p class="govuk-body govuk-!-font-size-19">CCS will collect, hold and process Personal Data obtained from and about
+          User/s. CCS will only store Personal Data to the extent necessary for
+          the purposes for which the Personal Data is being processed.</p>
+        <p class="govuk-body govuk-!-font-size-19">It is the Organisation and its User/s’ responsibility to ensure they
+          comply with all relevant law including UK GDPR in relation to their data
+          processing activities.</p>
+        <p class="govuk-body govuk-!-font-size-19">The Organisation shall indemnify CCS against any and all losses incurred
+          if the Organisation or its User/s breaches any UK GDPR.</p>
+        <p class="govuk-body govuk-!-font-size-19">The Organisation (and if applicable its User/s) shall procure the
+          agreement of each relevant data subject to such data being collected,
+          held and used in accordance with these Terms of Use, any relevant
+          Privacy Policies, the Data Protection Legislation and relevant Cookie
+          Policies.</p>
+          <p class="govuk-body govuk-!-font-size-19">CCS’ data retention policy for the PPG is to retain the information
+            uploaded into the PPG for a maximum of seven years.</p>
     </div>
     <div id="RightsofThirdParties" class="RightsofThirdParties">
       <p class="govuk-body govuk-!-font-size-19">

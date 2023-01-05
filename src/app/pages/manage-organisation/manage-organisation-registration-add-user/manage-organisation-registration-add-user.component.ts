@@ -23,14 +23,12 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   submitted: boolean = false;
   userTitleEnum = UserTitleEnum;
   ciiOrganisationInfo: CiiOrganisationDto;
-  public pageAccessMode:any;
-  public buyerFlow:any;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,
 private PatternService:PatternService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private ActivatedRoute: ActivatedRoute) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
 
     this.formGroup = this.formBuilder.group({
@@ -39,15 +37,6 @@ private PatternService:PatternService,
       email: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
     });
     this.ciiOrganisationInfo = {}
-    this.ActivatedRoute.queryParams.subscribe((para: any) => {
-      if(para.data != undefined){
-        this.pageAccessMode = JSON.parse(atob(para.data));
-      } else {
-        this.pageAccessMode = null
-      }
-    });
-    this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
-
   }
 
   ngOnInit() {
@@ -89,7 +78,7 @@ private PatternService:PatternService,
         .subscribe({
           next: () => {
             localStorage.setItem('brickendon_org_reg_email_address', organisationRegisterDto.adminUserName);
-            this.router.navigateByUrl(`/manage-org/register/confirm?data=` + btoa(JSON.stringify(this.pageAccessMode)));
+            this.router.navigateByUrl(`manage-org/register/confirm`);
           },
           error: (err: any) => {
             if (err.status == 404) {
@@ -137,21 +126,8 @@ private PatternService:PatternService,
     return form.valid;
   }
 
-  public goConfirmOrgPage():void{
-    const schemeDetails = JSON.parse(localStorage.getItem('schemeDetails') || '');
-    this.router.navigateByUrl(
-      `manage-org/register/search/${schemeDetails.scheme}?id=${encodeURIComponent(
-        schemeDetails.schemeID
-      )}`
-    );
-  }
-
-  public onClickNominate(){
-    this.router.navigateByUrl(`/nominate?data=` + btoa(JSON.stringify(0)));
-  }
-
-  public goBack(){
-    window.history.back()
+  goBack() {
+    window.history.back();
   }
 
 }

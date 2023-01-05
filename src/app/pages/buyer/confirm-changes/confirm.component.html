@@ -58,9 +58,56 @@
         <div class="govuk-checkboxes">
           <ng-container *ngFor="let role of changes?.toAdd">
             <div class="govuk-__item">
-              <label class="govuk-label">{{ role.roleName }}
+              <label class="govuk-label">{{
+              role.roleKey === "JAEGGER_SUPPLIER"
+              ? "eSourcing Service as a supplier"
+              : role.roleKey === "ACCESS_JAGGAER"
+              ? "eSourcing Service - dashboard"
+              : role.roleKey === "CAT_USER"
+              ? "Contract Award Service (CAS) - service"
+              : role.roleKey === "ACCESS_CAAAC_CLIENT"
+              ? "Contract Award Service (CAS) - dashboard"
+              : role.roleKey === "JAEGGER_BUYER"
+              ? "eSourcing Service as a buyer"
+              : role.roleKey === "JAGGAER_USER"
+              ? "eSourcing Service - service"
+              : role.roleName
+              }}
+              <span
+              *ngIf="
+                role.roleKey != 'JAEGGER_SUPPLIER' &&
+                role.roleKey != 'ACCESS_JAGGAER' &&
+                role.roleKey != 'CAT_USER' &&
+                role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                role.roleKey != 'JAEGGER_BUYER' &&
+                role.roleKey != 'JAGGAER_USER'
+              "
+              >- {{ role.serviceName }}</span
+            ></label>
+            </div>
+          </ng-container>
+        </div>
+        <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you are removing from this organisation</legend>
+        <div class="govuk-checkboxes">
+          <ng-container *ngFor="let role of changes?.toDelete">
+            <div class="govuk-__item">
+              <label class="govuk-label">{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                ? "eSourcing Service as a supplier"
+                : role.roleKey === "ACCESS_JAGGAER"
+                ? "eSourcing Service - dashboard"
+                : role.roleKey === "CAT_USER"
+                ? "Contract Award Service (CAS) - service"
+                : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                ? "Contract Award Service (CAS) - dashboard"
+                : role.roleKey === "JAEGGER_BUYER"
+                ? "eSourcing Service as a buyer"
+                : role.roleKey === "JAGGAER_USER"
+                ? "eSourcing Service - service"
+                : role.roleName
+                }}
                 <span
-                *ngIf=" role.serviceName &&
+                *ngIf="
                   role.roleKey != 'JAEGGER_SUPPLIER' &&
                   role.roleKey != 'ACCESS_JAGGAER' &&
                   role.roleKey != 'CAT_USER' &&
@@ -70,25 +117,6 @@
                 "
                 >- {{ role.serviceName }}</span
               ></label>
-            </div>
-          </ng-container>
-        </div>
-        <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Service roles you are removing from this organisation</legend>
-        <div class="govuk-checkboxes">
-          <ng-container *ngFor="let role of changes?.toDelete">
-            <div class="govuk-__item">
-              <label class="govuk-label">{{role.roleName}}
-                <span
-                  *ngIf=" role.serviceName &&
-                    role.roleKey != 'JAEGGER_SUPPLIER' &&
-                    role.roleKey != 'ACCESS_JAGGAER' &&
-                    role.roleKey != 'CAT_USER' &&
-                    role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
-                    role.roleKey != 'JAEGGER_BUYER' &&
-                    role.roleKey != 'JAGGAER_USER'
-                  "
-                  >- {{ role.serviceName }}</span
-                ></label>
             </div>
           </ng-container>
         </div>

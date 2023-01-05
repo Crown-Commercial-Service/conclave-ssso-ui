@@ -89,18 +89,33 @@
             <label
               class="govuk-label govuk-checkboxes__label"
               for="orgRoleControl_{{ role.roleId }}"
-              >{{ role.roleName }}
+              >{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                  ? "eSourcing Service as a supplier"
+                  : role.roleKey === "ACCESS_JAGGAER"
+                  ? "eSourcing Service - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "CAT_USER"
+                  ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
+                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                  ? "Contract Award Service (CAS) - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "JAEGGER_BUYER"
+                  ? "eSourcing Service as a buyer"
+                  : role.roleKey === "JAGGAER_USER"
+                  ? "eSourcing Service - click here to add service (Mandatory)"
+                  : role.roleName
+              }}
               <span
-                  *ngIf=" role.serviceName &&
-                    role.roleKey != 'JAEGGER_SUPPLIER' &&
-                    role.roleKey != 'ACCESS_JAGGAER' &&
-                    role.roleKey != 'CAT_USER' &&
-                    role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
-                    role.roleKey != 'JAEGGER_BUYER' &&
-                    role.roleKey != 'JAGGAER_USER'
-                  "
-                  >- {{ role.serviceName }}</span
-                ></label>
+                *ngIf="
+                  role.roleKey != 'JAEGGER_SUPPLIER' &&
+                  role.roleKey != 'ACCESS_JAGGAER' &&
+                  role.roleKey != 'CAT_USER' &&
+                  role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                  role.roleKey != 'JAEGGER_BUYER' &&
+                  role.roleKey != 'JAGGAER_USER'
+                "
+                >- {{ role.serviceName }}</span
+              ></label
+            >
           </div>
         </ng-container>
       </div>
@@ -128,19 +143,34 @@
             />
             <label
               class="govuk-label govuk-checkboxes__label"
-              for="orgRoleControl_{{ role.roleId }}">
-                      {{role.roleName}}
-                      <span
-                      *ngIf=" role.serviceName &&
-                        role.roleKey != 'JAEGGER_SUPPLIER' &&
-                        role.roleKey != 'ACCESS_JAGGAER' &&
-                        role.roleKey != 'CAT_USER' &&
-                        role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
-                        role.roleKey != 'JAEGGER_BUYER' &&
-                        role.roleKey != 'JAGGAER_USER'
-                      "
-                      >- {{ role.serviceName }}</span
-                    ></label>
+              for="orgRoleControl_{{ role.roleId }}"
+              >{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                  ? "eSourcing Service as a supplier"
+                  : role.roleKey === "ACCESS_JAGGAER"
+                  ? "eSourcing Service - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "CAT_USER"
+                  ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
+                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                  ? "Contract Award Service (CAS) - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "JAEGGER_BUYER"
+                  ? "eSourcing Service as a buyer"
+                  : role.roleKey === "JAGGAER_USER"
+                  ? "eSourcing Service - click here to add service (Mandatory)"
+                  : role.roleName
+              }}
+              <span
+              *ngIf="
+                role.roleKey != 'JAEGGER_SUPPLIER' &&
+                role.roleKey != 'ACCESS_JAGGAER' &&
+                role.roleKey != 'CAT_USER' &&
+                role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                role.roleKey != 'JAEGGER_BUYER' &&
+                role.roleKey != 'JAGGAER_USER'
+              "
+              >- {{ role.serviceName }}</span
+            >
+            </label>
           </div>
         </ng-container>
       </div>

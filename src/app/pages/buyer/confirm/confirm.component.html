@@ -89,9 +89,24 @@
             />
             <label
               class="govuk-label govuk-checkboxes__label"
-              for="orgRoleControl_{{ role.roleId }}">{{ role.roleName }}
+              for="orgRoleControl_{{ role.roleId }}"
+              >{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                  ? "eSourcing Service as a supplier"
+                  : role.roleKey === "ACCESS_JAGGAER"
+                  ? "eSourcing Service - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "CAT_USER"
+                  ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
+                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                  ? "Contract Award Service (CAS) - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "JAEGGER_BUYER"
+                  ? "eSourcing Service as a buyer"
+                  : role.roleKey === "JAGGAER_USER"
+                  ? "eSourcing Service - click here to add service (Mandatory)"
+                  : role.roleName
+              }}
               <span
-                *ngIf=" role.serviceName &&
+                *ngIf="
                   role.roleKey != 'JAEGGER_SUPPLIER' &&
                   role.roleKey != 'ACCESS_JAGGAER' &&
                   role.roleKey != 'CAT_USER' &&
@@ -128,9 +143,24 @@
             />
             <label
               class="govuk-label govuk-checkboxes__label"
-              for="orgRoleControl_{{ role.roleId }}">{{ role.roleName }}
+              for="orgRoleControl_{{ role.roleId }}"
+              >{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                  ? "eSourcing Service as a supplier"
+                  : role.roleKey === "ACCESS_JAGGAER"
+                  ? "eSourcing Service - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "CAT_USER"
+                  ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
+                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                  ? "Contract Award Service (CAS) - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "JAEGGER_BUYER"
+                  ? "eSourcing Service as a buyer"
+                  : role.roleKey === "JAGGAER_USER"
+                  ? "eSourcing Service - click here to add service (Mandatory)"
+                  : role.roleName
+              }}
               <span
-              *ngIf=" role.serviceName &&
+              *ngIf="
                 role.roleKey != 'JAEGGER_SUPPLIER' &&
                 role.roleKey != 'ACCESS_JAGGAER' &&
                 role.roleKey != 'CAT_USER' &&
@@ -184,9 +214,23 @@
               class="govuk-label govuk-checkboxes__label"
               *ngIf="role.serviceName != null"
               for="orgRoleControl_{{ role.roleId }}"
-              >{{ role.roleName }}
+              >{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                  ? "eSourcing Service as a supplier"
+                  : role.roleKey === "ACCESS_JAGGAER"
+                  ? "eSourcing Service - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "CAT_USER"
+                  ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
+                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                  ? "Contract Award Service (CAS) - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "JAEGGER_BUYER"
+                  ? "eSourcing Service as a buyer"
+                  : role.roleKey === "JAGGAER_USER"
+                  ? "eSourcing Service - click here to add service (Mandatory)"
+                  : role.roleName
+              }}
               <span
-                *ngIf=" role.serviceName &&
+                *ngIf="
                   role.roleKey != 'JAEGGER_SUPPLIER' &&
                   role.roleKey != 'ACCESS_JAGGAER' &&
                   role.roleKey != 'CAT_USER' &&
@@ -231,9 +275,23 @@
               class="govuk-label govuk-checkboxes__label"
               *ngIf="role.serviceName != null"
               for="orgRoleControl_{{ role.roleId }}"
-              >{{ role.roleName}}
+              >{{
+                role.roleKey === "JAEGGER_SUPPLIER"
+                  ? "eSourcing Service as a supplier"
+                  : role.roleKey === "ACCESS_JAGGAER"
+                  ? "eSourcing Service - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "CAT_USER"
+                  ? "Contract Award Service (CAS) - click here to add service (Mandatory)"
+                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
+                  ? "Contract Award Service (CAS) - click here to add to dashboard (Mandatory)"
+                  : role.roleKey === "JAEGGER_BUYER"
+                  ? "eSourcing Service as a buyer"
+                  : role.roleKey === "JAGGAER_USER"
+                  ? "eSourcing Service - click here to add service (Mandatory)"
+                  : role.roleName
+              }}
               <span
-              *ngIf=" role.serviceName &&
+              *ngIf="
                 role.roleKey != 'JAEGGER_SUPPLIER' &&
                 role.roleKey != 'ACCESS_JAGGAER' &&
                 role.roleKey != 'CAT_USER' &&
