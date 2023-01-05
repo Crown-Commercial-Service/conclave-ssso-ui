@@ -79,6 +79,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    console.log("errorCode",this.errorCode)
     this.RollbarErrorService.RollbarDebug('Error Page:'.concat(this.errorCode));
   }
 

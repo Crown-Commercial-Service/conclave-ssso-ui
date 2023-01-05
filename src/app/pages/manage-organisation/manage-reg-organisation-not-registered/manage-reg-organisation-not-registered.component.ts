@@ -36,7 +36,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
                 break
             }
             case "nominateadmin":{
-                this.router.navigateByUrl(`nominate`);
+                this.router.navigateByUrl(`/nominate?data=` + btoa(JSON.stringify(1)));
                 break
             }
             case "unkownadmin":{

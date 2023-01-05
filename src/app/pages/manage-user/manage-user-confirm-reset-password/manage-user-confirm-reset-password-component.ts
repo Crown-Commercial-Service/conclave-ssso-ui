@@ -46,9 +46,6 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
     }
 
     onCancelClick(){
-        let data = {
-            'isEdit':true
-        };
-        this.router.navigateByUrl('manage-users/add-user/details?data=' + JSON.stringify(data));
+        window.history.back();
     }
 }

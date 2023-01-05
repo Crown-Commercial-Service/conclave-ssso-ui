@@ -8,18 +8,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./terms-conditions.component.scss'],
 })
 export class TermsConditionsComponent implements OnInit {
-  private userName = localStorage.getItem('user_name') || '';
-  constructor(private router: Router, private scroller: ViewportScroller) {}
+  public userName = ''
+  public isOrgAdmin: boolean = false;
+
+  constructor(private router: Router, private scroller: ViewportScroller) {
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
+    this.userName = localStorage.getItem('user_name') || '';
+  }
 
   ngOnInit(): void {}
 
-  public backToHome(): void {
-    if (this.userName) {
-      this.router.navigateByUrl(`home`);
-    } else {
-      window.location.href = 'https://www.crowncommercial.gov.uk';
-    }
-  }
 
   public scrollContent(id: string): void {
     document.getElementById(id)?.scrollIntoView({
