@@ -72,7 +72,6 @@ export class ManageOrgRegStep3Component
   protected _onDestroy = new Subject<void>();
    private orgDetails:any;
    public isInvalid:boolean=false
-   public pageAccessMode:any;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   @ViewChild('singleSelect', { static: true }) singleSelect!: MatSelect;
   @ViewChild('singleSelect')
@@ -91,7 +90,6 @@ export class ManageOrgRegStep3Component
     super(uiStore, viewportScroller, scrollHelper);
     let queryParams = this.route.snapshot.queryParams;
     this.id = queryParams?.id || '';
-    this.pageAccessMode = localStorage.getItem('organisation_type') ?? '';
   }
 
   async ngOnInit() {
@@ -233,13 +231,8 @@ export class ManageOrgRegStep3Component
               '/additional-identifiers'
           );
         } else {
-         let cii_scheme = {
-            scheme:this.routeParams.scheme,
-            id:this.id
-          }
           this.orgDetails.address.countryCode=this.countryCode
           localStorage.setItem('cii_organisation', JSON.stringify(this.orgDetails));
-          localStorage.setItem('cii_scheme', JSON.stringify(cii_scheme));
           this.router.navigateByUrl(this.orgGroup);
         }
       } else {

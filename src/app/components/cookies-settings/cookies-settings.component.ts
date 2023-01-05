@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { CookiesService } from 'src/app/shared/cookies.service';
 import { environment } from 'src/environments/environment';
 
@@ -32,18 +31,13 @@ export class CookiesSettingsComponent implements OnInit {
   }
   private ppg_cookies_preferences_set: string = this.CookiesService.getCookie('ppg_cookies_preferences_set');
   private ppg_cookies_policy: string = this.CookiesService.getCookie('ppg_cookies_policy');
-  public userName =  '';
-  public isOrgAdmin: boolean = false;
-  constructor(private CookiesService: CookiesService,private router: Router) {
-    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
-    this.userName = localStorage.getItem('user_name') || '';
-   }
+  constructor(private CookiesService: CookiesService) { }
 
   ngOnInit(): void {
     this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
     if (this.ppg_cookies_preferences_set == "true") {
       this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
-    }
+    } 
   }
 
   public OnSubmit() {
@@ -74,5 +68,4 @@ export class CookiesSettingsComponent implements OnInit {
     const element = document.getElementById("govuk-notification-banner-title");
     element?.scrollIntoView();
   }
-
 }

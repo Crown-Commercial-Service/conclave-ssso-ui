@@ -36,12 +36,4 @@ export class ManageOrgRegErrorUsernameExistsComponent extends BaseComponent impl
     window.history.back();
   }
 
-  public goConfirmOrgPage():void{
-    const schemeDetails = JSON.parse(localStorage.getItem('schemeDetails') || '');
-    this.router.navigateByUrl(
-      `manage-org/register/search/${schemeDetails.scheme}?id=${encodeURIComponent(
-        schemeDetails.schemeID
-      )}`
-    );
-  }
 }
