@@ -1,7 +1,22 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div class="content flex">
-            <a href="javascript:;" (click)="goBack()" class="govuk-back-link">Back</a>
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link"> {{ 'REG_ORG' | translate }}</span>
+                    </li>
+                </ol>
+            </div>
             <div>
                 <h1 class="govuk-heading-xl page-title">
                     Register your organisation</h1>
@@ -19,6 +34,7 @@
                     <li>Able to edit your organisation's details</li>
                     <li>The sole admin user, although you can add more</li>
                 </ul>
+                <p>As an organisation administrator, your name and email address may be provided by CCS to employees of your organisation so that they can contact you about any registration queries.</p>
                 <p>
                     Registering takes around 10 minutes.
                 </p>
