@@ -50,7 +50,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     environment.uri.web.dashboard + '/assets/rpIFrame.html'
   );
   ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
-  isOrgAdmin: boolean = false;
+
   constructor(
     protected uiStore: Store<UIState>,
     private sanitizer: DomSanitizer,
@@ -68,8 +68,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.authService.getPermissions('HOME').toPromise().then((response) => {
       this.servicePermissions = response;
-      this.isOrgAdmin = this.servicePermissions.some(x => x.roleKey === "ORG_ADMINISTRATOR"); 
-      localStorage.setItem('isOrgAdmin', JSON.stringify(this.isOrgAdmin));
         this.authService.getCcsServices().toPromise().then((data: any) => {
             this.ccsServices = data;
             response.forEach((e: any, i: any) => {

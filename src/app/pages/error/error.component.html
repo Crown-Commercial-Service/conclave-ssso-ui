@@ -1,19 +1,6 @@
 <!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <div class="govuk-breadcrumbs">
-      <ol class="govuk-breadcrumbs__list">
-          <li class="govuk-breadcrumbs__list-item">
-              <a class="govuk-breadcrumbs__link" routerLink="/home">Home</a>
-          </li>
-          <li class="govuk-breadcrumbs__list-item" *ngIf="errorCode == 'Access expired.'">
-              <span class="govuk-breadcrumbs__link"> {{ 'LINK_EXPIRED' | translate }}</span>
-          </li>
-          <li class="govuk-breadcrumbs__list-item" *ngIf="errorCode == 'This URL can be used only once'">
-            <span class="govuk-breadcrumbs__link"> {{ 'LINK_USED' | translate }}</span>
-        </li>
-      </ol>
-  </div>
     <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
       data-module="govuk-error-summary">
       <h2 class="govuk-error-summary__title" id="error-summary-title">

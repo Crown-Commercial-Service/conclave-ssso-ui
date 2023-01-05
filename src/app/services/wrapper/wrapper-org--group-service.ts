@@ -81,27 +81,45 @@ export class WrapperOrganisationGroupService {
         data.forEach((f) => {
           switch (f.roleKey) {
             case 'CAT_USER': {
-              f.serviceName = null;
+              if (f.roleName === 'CAS User') {
+                f.roleName = 'Contract Award Service (CAS)';
+                f.serviceName = 'add service';
+              }
               break;
             }
             case 'ACCESS_CAAAC_CLIENT': {
-              f.serviceName = null;
+              if (f.roleName === 'Access Contract Award Service') {
+                f.roleName = 'Contract Award Service (CAS)';
+                f.serviceName = 'add to dashboard';
+              }
               break;
             }
             case 'JAEGGER_SUPPLIER': {
-              f.serviceName = null;
+              if (f.roleName === 'Jaggaer Supplier') {
+                f.roleName = 'eSourcing Service as a supplier';
+                f.serviceName = null;
+              }
               break;
             }
             case 'JAEGGER_BUYER': {
-              f.serviceName = null;
+              if (f.roleName === 'Jaggaer Buyer') {
+                f.roleName = 'eSourcing Service as a buyer';
+                f.serviceName = null;
+              }
               break;
             }
             case 'JAGGAER_USER': {
-              f.serviceName = null;
+              if (f.roleName === 'Jaggaer User') {
+                f.roleName = 'eSourcing Service';
+                f.serviceName = 'add service';
+              }
               break;
             }
             case 'ACCESS_JAGGAER': {
-              f.serviceName = null;
+              if (f.roleName === 'Access Jaggaer') {
+                f.roleName = 'eSourcing Service';
+                f.serviceName = 'add to dashboard';
+              }
               break;
             }
             default: {
