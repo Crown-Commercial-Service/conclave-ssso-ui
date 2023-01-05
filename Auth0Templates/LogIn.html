@@ -8,13 +8,6 @@
     <link rel="stylesheet" href="https://crown-commercial-service.github.io/conclave-ssso-ui/toolkit.styles.min.css">
     <title>Sign In - CCS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"> -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- GA4 script -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-624NHLKTKL"></script>
     <script>
@@ -39,6 +32,13 @@
         })(window, document, 'script', 'dataLayer', 'GTM-TZCX5VP');
     </script>
     <!-- End Google Tag Manager -->
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"> -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <style>
     html,
@@ -421,7 +421,7 @@
     padding: 20px 17px 14px;
     font-weight: bold;
   }
-.govuk-notification-banner {
+  .govuk-notification-banner {
   font-family: "GDS Transport", arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -658,23 +658,22 @@
             </p>
         </div>
     </div>
-    <div class="govuk-main-wrapper login-container">
-      
-  <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-  <div class="govuk-notification-banner__header">
-    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-      Terms of use
-    </h2>
-  </div>
-  <div class="govuk-notification-banner__content">
-    <p class="govuk-notification-banner__heading">
-      The terms of use for the Public Procurement Gateway have changed.
-      <a class="govuk-notification-banner__link" href="https://dev.identify.crowncommercial.gov.uk/terms-of-use">Read the updated terms of use</a>.
-    </p>
-  </div>
-</div>
-        <h1 class="govuk-heading-xl">Sign in to the Public Procurement Gateway</h1>
 
+    <div class="govuk-main-wrapper login-container">
+        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__header">
+              <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                Terms of use
+              </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+              <p class="govuk-notification-banner__heading">
+                The terms of use for the Public Procurement Gateway have changed.
+                <a class="govuk-notification-banner__link" href="https://dev.identify.crowncommercial.gov.uk/terms-of-use">Read the updated terms of use</a>.
+              </p>
+            </div>
+          </div>
+        <h1 class="govuk-heading-xl">Sign in to the Public Procurement Gateway</h1>
         <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
             id="error-summary" data-module="govuk-error-summary" style="display: none">
             <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -741,7 +740,7 @@
                                     password</a>
                                 <br />
                             </div>
-                        <div class="govuk-grid-row fed-log" style="display: none;">
+                            <div class="govuk-grid-row fed-log" style="display: none;">
                         <label class="govuk-label fed-log-lable">Or, if configured sign in with:</label>
                         <div class="govuk-grid-column-two-thirds">
                             <div class="govuk-grid-row">
@@ -970,6 +969,7 @@
                 redirectUri: config.callbackURL,
                 responseType: 'code'
             }, config.internalOptions);
+
             var webAuth = new auth0.WebAuth(params);
             var databaseConnection = 'Username-Password-Authentication';
             var captcha = webAuth.renderCaptcha(document.querySelector('.captcha-container'));
@@ -1147,7 +1147,4 @@
     </script>
 </body>
 
-</html> 
-
- 
-
+</html>
