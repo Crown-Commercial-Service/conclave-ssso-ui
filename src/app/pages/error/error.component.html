@@ -4,8 +4,11 @@
     <div class="govuk-breadcrumbs">
       <ol class="govuk-breadcrumbs__list">
           <li class="govuk-breadcrumbs__list-item">
-              <a class="govuk-breadcrumbs__link" routerLink="/home">Home</a>
+              <a class="govuk-breadcrumbs__link" href="javascript:;" (click)="nevigateToHome()">Home</a>
           </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <span class="govuk-breadcrumbs__link"> {{ 'ERROR' | translate }}</span>
+         </li>
           <li class="govuk-breadcrumbs__list-item" *ngIf="errorCode == 'Access expired.'">
               <span class="govuk-breadcrumbs__link"> {{ 'LINK_EXPIRED' | translate }}</span>
           </li>
