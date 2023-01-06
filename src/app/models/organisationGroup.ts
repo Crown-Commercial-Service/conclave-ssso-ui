@@ -58,4 +58,5 @@ export interface GroupRole{
 export interface GroupUser{
     userId: string;
     name: string;
+    isAdmin: boolean;
 }
