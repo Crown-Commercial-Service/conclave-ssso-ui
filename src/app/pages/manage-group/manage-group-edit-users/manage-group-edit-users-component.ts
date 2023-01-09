@@ -118,6 +118,7 @@ export class ManageGroupEditUsersComponent
                 name: orgUser.name,
                 userName: orgUser.userName,
                 isChecked: isChecked,
+                isAdmin: orgUser.isAdmin
               };
               this.userGridSource.push(userGridSourceObject);
             });
@@ -162,6 +163,7 @@ export class ManageGroupEditUsersComponent
         let userInfo: UserListInfo = {
           name: dataRow.name,
           userName: dataRow.userName,
+          isAdmin: dataRow.isAdmin
         };
         this.addingUsers.push(userInfo);
       }
@@ -176,6 +178,7 @@ export class ManageGroupEditUsersComponent
         let userInfo: UserListInfo = {
           name: dataRow.name,
           userName: dataRow.userName,
+          isAdmin: dataRow.isAdmin
         };
         this.removingUsers.push(userInfo);
       }

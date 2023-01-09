@@ -66,6 +66,7 @@ export interface UserProfileResponseInfo extends UserDetail {
 export interface UserListInfo {
     name: string;
     userName: string;
+    isAdmin: boolean;
 }
 
 export interface AdminUserListInfo extends UserListInfo {
@@ -90,6 +91,7 @@ export interface UserEditResponseInfo {
 
 export interface CheckBoxUserListGridSource extends UserListInfo {
     isChecked?: boolean;
+    isAdmin: boolean;
 }
 
 export interface OrganisationUserDto {
