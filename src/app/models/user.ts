@@ -104,3 +104,12 @@ export interface OrganisationUserDto {
 export interface OrgUserListResponse extends PaginationInfo {
     orgUserList: OrganisationUserDto[];
 }
+
+export interface PendingApproveRole {
+    userName: string;
+    detail : PendingApproveRoleDetail
+}
+
+export interface PendingApproveRoleDetail {
+    roleIds : []
+}

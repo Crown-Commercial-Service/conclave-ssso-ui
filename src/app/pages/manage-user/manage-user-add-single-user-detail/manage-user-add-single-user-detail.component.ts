@@ -56,10 +56,11 @@ export class ManageUserAddSingleUserDetailComponent
   hasGroupViewPermission: boolean = false;
   mfaAdminValidationError: boolean = false;
   public idpStatus = environment.appSetting.hideIDP
-  public approveRequiredRole:Role[];
-  public organisationDetails:any = {}
-  public pendingRoleDetails:any;
-  public selectedApproveRequiredRole:any=[]
+  public approveRequiredRole: Role[];
+  public organisationDetails: any = {}
+  public pendingRoleDetails: any;
+  public selectedApproveRequiredRole: any = []
+  public pendingRoledeleteDetails: any = []
   public detailsData: any = [
     'Add additional security steps to make an account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
     'Groups allow you to manage large numbers of users all at once. Roles can be applied to groups to organise user’s more efficiently and allow bulk access to relevant services where it is required.',
@@ -202,7 +203,6 @@ export class ManageUserAddSingleUserDetailComponent
       this.formGroup.controls['mfaEnabled'].setValue(
         this.userProfileResponseInfo.mfaEnabled
       );
-      await this.getPendingApprovalUserRole();
       await this.getOrgGroups();
       await this.getOrgRoles();
       await this.getIdentityProviders();
@@ -231,6 +231,7 @@ export class ManageUserAddSingleUserDetailComponent
       await this.getIdentityProviders();
       this.onFormValueChange();
     }
+    await this.getPendingApprovalUserRole();
     await this.getApprovalRequriedRoles()
     await this.getOrgDetails()
     this.MFA_Enabled = this.formGroup.controls.mfaEnabled.value;
@@ -309,9 +310,12 @@ export class ManageUserAddSingleUserDetailComponent
         this.userProfileResponseInfo.detail.rolePermissionInfo.some(
           (rp) => rp.roleId == role.roleId
         );
+       let PendinguserRole = this.pendingRoleDetails.some(
+        (pendingRole: any) => pendingRole.roleKey == role.roleKey
+      );
       this.formGroup.addControl(
         'orgRoleControl_' + role.roleId,
-        this.formBuilder.control(userRole ? true : '')
+        this.formBuilder.control(userRole ? true : PendinguserRole ? true : '')
       );
       //Edit mode Determin Login user whether Admin/Normal user.
       if (
@@ -322,29 +326,26 @@ export class ManageUserAddSingleUserDetailComponent
         this.isAutoDisableMFA = true;
       }
       let filterRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
-      if(filterRole != undefined){
+      if (filterRole != undefined) {
         role.pendingStatus = true
       }
     });
   }
 
-  async  getApprovalRequriedRoles(){
+  async getApprovalRequriedRoles() {
     this.approveRequiredRole = await this.organisationGroupService
       .getOrganisationApprovalRequiredRoles(this.organisationId)
       .toPromise();
-    console.log("this.approveRequiredRole",this.approveRequiredRole)
   }
 
-  async getOrgDetails(){
+  async getOrgDetails() {
     this.organisationDetails = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
     });
-    console.log("this.organisationDetails",this.organisationDetails)
   }
-  
-  async getPendingApprovalUserRole(){
+
+  async getPendingApprovalUserRole() {
     this.pendingRoleDetails = await this.wrapperUserService.getPendingApprovalUserRole(this.userProfileResponseInfo.userName).toPromise().catch(e => {
     });
-    console.log("this.pendingRoleDetails",this.pendingRoleDetails)
   }
 
 
@@ -395,9 +396,9 @@ export class ManageUserAddSingleUserDetailComponent
         this.getSelectedRoleIds(form);
       this.checkApproveRolesSelected()
       if (this.isEdit) {
-        this.updateUser(form);
+        this.submitPendingApproveRole("update", form)
       } else {
-        this.createUser(form);
+        this.submitPendingApproveRole("create", form)
       }
     } else {
       this.scrollView();
@@ -433,13 +434,15 @@ export class ManageUserAddSingleUserDetailComponent
     return selectedGroupIds;
   }
 
+
+
   getSelectedRoleIds(form: FormGroup) {
     let selectedRoleIds: number[] = [];
     this.selectedApproveRequiredRole = []
     this.orgRoles.map((role) => {
       if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
-      let filterRole = this.approveRequiredRole.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
-        if(filterRole === undefined){
+        let filterRole = this.approveRequiredRole.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
+        if (filterRole === undefined) {
           selectedRoleIds.push(role.roleId);
         } else {
           this.selectedApproveRequiredRole.push(role.roleId)
@@ -449,25 +452,65 @@ export class ManageUserAddSingleUserDetailComponent
     return selectedRoleIds;
   }
 
+
+  private submitPendingApproveRole(actionMode: string, form: FormGroup): void {
+    debugger
+    let selectedRolesDetails = {
+      userName: this.userProfileRequestInfo.userName,
+      detail: {
+        roleIds: this.selectedApproveRequiredRole
+      }
+    }
+    if (this.selectedApproveRequiredRole.length != 0) {
+      this.wrapperUserService.createPendingApproveRole(selectedRolesDetails).subscribe({
+        next: (roleInfo: UserEditResponseInfo) => {
+          if (this.pendingRoledeleteDetails.length != 0) {
+            this.deleteApprovePendingRole(actionMode, form)
+          } else {
+            this.saveChanges(actionMode, form)
+          }
+        },
+        error: (err: any) => {
+          console.log(err)
+        },
+      });
+    } else {
+      if (this.pendingRoledeleteDetails.length != 0) {
+        this.deleteApprovePendingRole(actionMode, form)
+      } else {
+        this.saveChanges(actionMode, form)
+      }
+    }
+
+  }
+
+  saveChanges(actionMode: string, form: FormGroup) {
+    if (actionMode === "update") {
+      this.updateUser(form);
+    } else if (actionMode === "create") {
+      this.createUser(form);
+    }
+  }
+
   /**
    * checking approve required roles are availble
    */
-  private checkApproveRolesSelected(){
+  private checkApproveRolesSelected() {
     const superAdminDomain = this.organisationDetails.detail.domainName
-    const userDomain= this.formGroup.get('userName')?.value.split("@")[1]
-    if(superAdminDomain != userDomain){
-      let matchRoles:any=[]
-      let filterRole:any;
-      const selectedRole:any =  this.userProfileRequestInfo.detail.roleIds
-        selectedRole.forEach((selectedRole:number)=>{
-          filterRole = this.orgRoles.find((element: { roleId: any; }) => element.roleId == selectedRole)
-          this.approveRequiredRole.forEach((approveRequiredRole)=>{
-            if(filterRole.roleKey === approveRequiredRole.roleKey){
-              matchRoles.push(approveRequiredRole)
-            }
-          })
+    const userDomain = this.formGroup.get('userName')?.value.split("@")[1]
+    if (superAdminDomain != userDomain) {
+      let matchRoles: any = []
+      let filterRole: any;
+      const selectedRole: any = this.userProfileRequestInfo.detail.roleIds
+      selectedRole.forEach((selectedRole: number) => {
+        filterRole = this.orgRoles.find((element: { roleId: any; }) => element.roleId == selectedRole)
+        this.approveRequiredRole.forEach((approveRequiredRole) => {
+          if (filterRole.roleKey === approveRequiredRole.roleKey) {
+            matchRoles.push(approveRequiredRole)
+          }
         })
-        localStorage.setItem('user_approved_role',JSON.stringify(matchRoles));
+      })
+      localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
     }
   }
 
@@ -535,6 +578,18 @@ export class ManageUserAddSingleUserDetailComponent
             this.scrollView();
           }
         }
+      },
+    });
+  }
+
+  private deleteApprovePendingRole(actionMode: string, form: FormGroup): void {
+    const deleteRoleIds = this.pendingRoledeleteDetails.join();
+    this.wrapperUserService.deleteApprovePendingRole(this.userProfileRequestInfo.userName, deleteRoleIds).subscribe({
+      next: (userDeleteResponseInfo: UserEditResponseInfo) => {
+        this.saveChanges(actionMode, form)
+      },
+      error: (err: any) => {
+        console.log("err", err)
       },
     });
   }
@@ -674,12 +729,24 @@ export class ManageUserAddSingleUserDetailComponent
 
   onUserRoleChecked(obj: any, isChecked: boolean) {
     var roleKey = obj.roleKey;
-    if (isChecked == true && roleKey == 'ORG_ADMINISTRATOR') {
-      this.formGroup.controls['mfaEnabled'].setValue(true);
-      this.isAutoDisableMFA = true;
-    } else if (isChecked == false && roleKey == 'ORG_ADMINISTRATOR') {
-      this.formGroup.controls['mfaEnabled'].setValue(false);
-      this.isAutoDisableMFA = false;
+    if (isChecked == true) {
+      if (roleKey == 'ORG_ADMINISTRATOR') {
+        this.formGroup.controls['mfaEnabled'].setValue(true);
+        this.isAutoDisableMFA = true;
+      }
+    }
+    else if (isChecked == false) {
+      if (roleKey == 'ORG_ADMINISTRATOR') {
+        this.formGroup.controls['mfaEnabled'].setValue(false);
+        this.isAutoDisableMFA = false;
+      }
+      if (obj.pendingStatus === true) {
+        let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+        if (filterRole === undefined) {
+          this.pendingRoledeleteDetails.push(obj.roleId)
+          console.log("this.pendingRoledeleteDetails", this.pendingRoledeleteDetails)
+        }
+      }
     }
   }
 

@@ -5,6 +5,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { Observable } from 'rxjs';
 
 import {
+  PendingApproveRole,
   User,
   UserEditResponseInfo,
   UserProfileRequestInfo,
@@ -25,24 +26,26 @@ export class WrapperUserService {
   private options = {
     headers: new HttpHeaders(),
   };
-  private tempData:any = [
-    {
-      "roleId": 725,
-      "roleKey": "FP_USER",
-      "roleName": "Fleet Portal User",
-      "serviceName": "Fleet Portal",
-      "orgTypeEligibility": 2,
-      "subscriptionTypeEligibility": 0,
-      "tradeEligibility": 1,
-      "autoValidationRoleTypeEligibility": null,
-      "approvalRequired": true
-   },
-]
+
 
   constructor(private http: HttpClient) {}
 
   createUser(userRequest: UserProfileRequestInfo): Observable<any> {
     const url = `${this.url}`;
+    return this.http
+      .post<UserEditResponseInfo>(url, userRequest, this.options)
+      .pipe(
+        map((data: UserEditResponseInfo) => {
+          return data;
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
+ 
+  createPendingApproveRole(userRequest: PendingApproveRole): Observable<any> {
+    const url = `${this.url}/approve/roles`;
     return this.http
       .post<UserEditResponseInfo>(url, userRequest, this.options)
       .pipe(
@@ -83,7 +86,7 @@ export class WrapperUserService {
     const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}`;
     return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
       map((data: any) => {
-        return this.tempData;
+        return data;
       }),
       catchError((error) => {
         return throwError(error);
@@ -118,6 +121,17 @@ export class WrapperUserService {
           return throwError(error);
         })
       );
+  }
+
+  deleteApprovePendingRole(userName: string, roleIds: number): Observable<any> {
+    const url = `${this.url}/approve/roles?user-id=${userName}&roles=${roleIds}`;
+    return this.http.delete(url).pipe(
+      map(() => {
+        return true;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
   }
 
   resetUserPassword(userName: string, component: string): Observable<any> {
