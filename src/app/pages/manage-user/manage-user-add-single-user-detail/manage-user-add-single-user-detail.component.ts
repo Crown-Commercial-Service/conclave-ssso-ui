@@ -203,6 +203,9 @@ export class ManageUserAddSingleUserDetailComponent
       this.formGroup.controls['mfaEnabled'].setValue(
         this.userProfileResponseInfo.mfaEnabled
       );
+      await this.getApprovalRequriedRoles()
+      await this.getPendingApprovalUserRole();
+      await this.getOrgDetails()
       await this.getOrgGroups();
       await this.getOrgRoles();
       await this.getIdentityProviders();
@@ -226,14 +229,13 @@ export class ManageUserAddSingleUserDetailComponent
           this.userProfileResponseInfo.mfaEnabled
         );
       }
+      await this.getApprovalRequriedRoles()
+      await this.getOrgDetails()
       await this.getOrgGroups();
       await this.getOrgRoles();
       await this.getIdentityProviders();
       this.onFormValueChange();
     }
-    await this.getPendingApprovalUserRole();
-    await this.getApprovalRequriedRoles()
-    await this.getOrgDetails()
     this.MFA_Enabled = this.formGroup.controls.mfaEnabled.value;
   }
 
@@ -310,13 +312,24 @@ export class ManageUserAddSingleUserDetailComponent
         this.userProfileResponseInfo.detail.rolePermissionInfo.some(
           (rp) => rp.roleId == role.roleId
         );
-       let PendinguserRole = this.pendingRoleDetails.some(
-        (pendingRole: any) => pendingRole.roleKey == role.roleKey
-      );
-      this.formGroup.addControl(
-        'orgRoleControl_' + role.roleId,
-        this.formBuilder.control(userRole ? true : PendinguserRole ? true : '')
-      );
+        if(!this.isEdit){
+          this.formGroup.addControl(
+            'orgRoleControl_' + role.roleId,
+            this.formBuilder.control(userRole ? true : '')
+          );
+        } else {
+          let PendinguserRole = this.pendingRoleDetails.some(
+            (pendingRole: any) => pendingRole.roleKey == role.roleKey
+          );
+          this.formGroup.addControl(
+            'orgRoleControl_' + role.roleId,
+            this.formBuilder.control(userRole ? true : PendinguserRole ? true : '')
+          );
+          let filterRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
+          if (filterRole != undefined) {
+            role.pendingStatus = true
+          }
+        }
       //Edit mode Determin Login user whether Admin/Normal user.
       if (
         role.roleKey == 'ORG_ADMINISTRATOR' &&
@@ -325,10 +338,7 @@ export class ManageUserAddSingleUserDetailComponent
       ) {
         this.isAutoDisableMFA = true;
       }
-      let filterRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
-      if (filterRole != undefined) {
-        role.pendingStatus = true
-      }
+
     });
   }
 
@@ -336,16 +346,19 @@ export class ManageUserAddSingleUserDetailComponent
     this.approveRequiredRole = await this.organisationGroupService
       .getOrganisationApprovalRequiredRoles(this.organisationId)
       .toPromise();
+    console.log("this.approveRequiredRole", this.approveRequiredRole)
   }
 
   async getOrgDetails() {
     this.organisationDetails = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
     });
+    console.log("this.organisationDetails", this.organisationDetails)
   }
 
   async getPendingApprovalUserRole() {
     this.pendingRoleDetails = await this.wrapperUserService.getPendingApprovalUserRole(this.userProfileResponseInfo.userName).toPromise().catch(e => {
     });
+    console.log("this.pendingRoleDetails",this.pendingRoleDetails)
   }
 
 
@@ -396,9 +409,9 @@ export class ManageUserAddSingleUserDetailComponent
         this.getSelectedRoleIds(form);
       this.checkApproveRolesSelected()
       if (this.isEdit) {
-        this.submitPendingApproveRole("update", form)
+        this.saveChanges("update", form)
       } else {
-        this.submitPendingApproveRole("create", form)
+        this.saveChanges("create", form)
       }
     } else {
       this.scrollView();
@@ -453,8 +466,7 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
 
-  private submitPendingApproveRole(actionMode: string, form: FormGroup): void {
-    debugger
+  private submitPendingApproveRole(): void {
     let selectedRolesDetails = {
       userName: this.userProfileRequestInfo.userName,
       detail: {
@@ -465,10 +477,8 @@ export class ManageUserAddSingleUserDetailComponent
       this.wrapperUserService.createPendingApproveRole(selectedRolesDetails).subscribe({
         next: (roleInfo: UserEditResponseInfo) => {
           if (this.pendingRoledeleteDetails.length != 0) {
-            this.deleteApprovePendingRole(actionMode, form)
-          } else {
-            this.saveChanges(actionMode, form)
-          }
+            this.deleteApprovePendingRole()
+          } 
         },
         error: (err: any) => {
           console.log(err)
@@ -476,10 +486,8 @@ export class ManageUserAddSingleUserDetailComponent
       });
     } else {
       if (this.pendingRoledeleteDetails.length != 0) {
-        this.deleteApprovePendingRole(actionMode, form)
-      } else {
-        this.saveChanges(actionMode, form)
-      }
+        this.deleteApprovePendingRole()
+      } 
     }
 
   }
@@ -501,14 +509,17 @@ export class ManageUserAddSingleUserDetailComponent
     if (superAdminDomain != userDomain) {
       let matchRoles: any = []
       let filterRole: any;
-      const selectedRole: any = this.userProfileRequestInfo.detail.roleIds
-      selectedRole.forEach((selectedRole: number) => {
-        filterRole = this.orgRoles.find((element: { roleId: any; }) => element.roleId == selectedRole)
-        this.approveRequiredRole.forEach((approveRequiredRole) => {
-          if (filterRole.roleKey === approveRequiredRole.roleKey) {
-            matchRoles.push(approveRequiredRole)
+      const selectedRole: any = this.selectedApproveRequiredRole
+      this.orgRoles.forEach((allRole:Role)=>{
+        this.approveRequiredRole.forEach((aRole:Role)=>{
+          if(allRole.roleKey === aRole.roleKey){
+            selectedRole.forEach((sRole: number)=>{
+              if(allRole.roleId === sRole){
+                matchRoles.push(aRole)
+              }
+            })
           }
-        })
+        }) 
       })
       localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
     }
@@ -522,6 +533,7 @@ export class ManageUserAddSingleUserDetailComponent
       )
       .subscribe({
         next: (userEditResponseInfo: UserEditResponseInfo) => {
+          this.submitPendingApproveRole()
           if (
             userEditResponseInfo.userId == this.userProfileRequestInfo.userName
           ) {
@@ -553,6 +565,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.wrapperUserService.createUser(this.userProfileRequestInfo).subscribe({
       next: (userEditResponseInfo: UserEditResponseInfo) => {
         this.submitted = false;
+        this.submitPendingApproveRole()
         sessionStorage.setItem(
           SessionStorageKey.OperationSuccessUserName,
           this.editingUserName
@@ -582,11 +595,10 @@ export class ManageUserAddSingleUserDetailComponent
     });
   }
 
-  private deleteApprovePendingRole(actionMode: string, form: FormGroup): void {
+  private deleteApprovePendingRole(): void {
     const deleteRoleIds = this.pendingRoledeleteDetails.join();
     this.wrapperUserService.deleteApprovePendingRole(this.userProfileRequestInfo.userName, deleteRoleIds).subscribe({
       next: (userDeleteResponseInfo: UserEditResponseInfo) => {
-        this.saveChanges(actionMode, form)
       },
       error: (err: any) => {
         console.log("err", err)
