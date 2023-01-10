@@ -190,6 +190,7 @@ import { BuyerBothErrorComponent } from './pages/manage-buyer-and-both-requests/
 import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
 import { ManageUserRoleComponent } from './pages/manage-role/manage-user-role/manage-user-role.component';
 import { RoleRequestSuccessComponent } from './pages/manage-role/role-request-success/role-request-success.component';
+import { RoleRequestFailedComponent } from './pages/manage-role/role-request-failed/role-request-failed.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -345,7 +346,8 @@ export function createTranslateLoader(http: HttpClient) {
     BuyerBothErrorComponent,
     AccessibilityStatementComponent,
     ManageUserRoleComponent,
-    RoleRequestSuccessComponent
+    RoleRequestSuccessComponent,
+    RoleRequestFailedComponent
   ],
   imports: [
     // BrowserModule,

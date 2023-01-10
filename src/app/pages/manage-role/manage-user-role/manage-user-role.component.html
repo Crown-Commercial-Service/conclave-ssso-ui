@@ -8,26 +8,31 @@
                             translate}}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/manage-users">{{ 'MANAGE_YOUR_USER_ACCOUNTS'
-                            |translate}}</a>
-                    </li>
-                    <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link"> {{ 'DELETE_USER' | translate }}</span>
+                        <span class="govuk-breadcrumbs__link">Fleet Portal access verification</span>
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl"> Fleet Portal roles additional verification </h1>
-            <div class="govuk-button-group continue-cancel-button-group">
-                <button type="submit"  class="govuk-button govuk-button--primarry"
-                    data-module="govuk-button">
-                    Accept
-                </button>
-                <button type="button"  class="govuk-button govuk-button--warning"
-                    data-module="govuk-button">
-                    Deny
-                </button>
+            <h1 class="govuk-heading-xl">Fleet Portal access verification</h1>
+            <div class="link_valid" *ngIf="userDetails.status === 0">
+                <p  class="govuk-body-l">Please click on the button below to accept or deny the access to Fleet Portal for user {{userDetails.userName}}</p>
+                <div class="govuk-button-group continue-cancel-button-group">
+                    <button type="submit"  class="govuk-button govuk-button--primarry"
+                        data-module="govuk-button" (click)="acceptRejectRequest(1)">
+                        Accept
+                    </button>
+                    <button type="button"  class="govuk-button govuk-button--warning"
+                        data-module="govuk-button" (click)="acceptRejectRequest(2)">
+                        Deny
+                    </button>
+                </div>
             </div>
-
+            <div class="link_valid" *ngIf="userDetails.status === 1 || userDetails.status === 2">
+                <p  class="govuk-body-l">The access request for Fleet Portal for user {{userDetails.userName}} has expired or it was already actioned.</p>
+            </div>
+            <div class="link_valid" *ngIf="userDetails.status === 3">
+                <p  class="govuk-body-l">User {{userDetails.userName}} no longer requires access to Fleet Portal and the access has been removed by the organisation admin.</p>
+            </div>
+            <a  href="javascript:;" class="navigation-text" routerLink="/home">Return to dashboard</a>
         </div>
 
     </div>

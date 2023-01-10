@@ -5,6 +5,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { Observable } from 'rxjs';
 
 import {
+  acceptRejectRequestDetail,
   PendingApproveRole,
   User,
   UserEditResponseInfo,
@@ -132,6 +133,20 @@ export class WrapperUserService {
         return throwError(error);
       })
     );
+  }
+
+  acceptRejectRequest(userRequest: acceptRejectRequestDetail): Observable<any> {
+    const url = `${this.url}/approve/roles`;
+    return this.http
+      .put<UserEditResponseInfo>(url, userRequest, this.options)
+      .pipe(
+        map((data: UserEditResponseInfo) => {
+          return data;
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
   }
 
   resetUserPassword(userName: string, component: string): Observable<any> {

@@ -352,13 +352,11 @@ export class ManageUserAddSingleUserDetailComponent
   async getOrgDetails() {
     this.organisationDetails = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
     });
-    console.log("this.organisationDetails", this.organisationDetails)
   }
 
   async getPendingApprovalUserRole() {
     this.pendingRoleDetails = await this.wrapperUserService.getPendingApprovalUserRole(this.userProfileResponseInfo.userName).toPromise().catch(e => {
     });
-    console.log("this.pendingRoleDetails",this.pendingRoleDetails)
   }
 
 

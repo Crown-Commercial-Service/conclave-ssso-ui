@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { LocationStrategy, ViewportScroller } from '@angular/common';
 import { UIState } from 'src/app/store/ui.states';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserGroup, UserProfileRequestInfo } from 'src/app/models/user';
+import { UserEditResponseInfo, UserGroup, UserProfileRequestInfo } from 'src/app/models/user';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { WrapperUserContactService } from 'src/app/services/wrapper/wrapper-user-contact.service';
 import {
@@ -24,6 +24,7 @@ import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { isBoolean } from 'lodash';
 import { environment } from 'src/environments/environment';
+import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 
 @Component({
   selector: 'app-user-profile',
@@ -61,6 +62,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public detailsData: any = [];
   public isAdminUser: boolean = false;
   userGroups: UserGroup[] = [];
+  public approveRequiredRole: Role[];
+  public pendingRoleDetails: any;
+  public selectedApproveRequiredRole: any = []
+  public pendingRoledeleteDetails: any = []
+  public organisationDetails: any = {}
   userContacts: ContactGridInfo[] = [];
   userName: string;
   organisationId: string;
@@ -88,7 +94,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     private orgGroupService: WrapperOrganisationGroupService,
     private contactHelper: ContactHelper,
     private authService: AuthService,
-    private auditLogService: AuditLoggerService
+    private auditLogService: AuditLoggerService,
+    private organisationService: WrapperOrganisationService
   ) {
     super(
       viewportScroller,
@@ -101,6 +108,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.userName = localStorage.getItem('user_name') || '';
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.routeStateData = this.router.getCurrentNavigation()?.extras.state;
+    this.approveRequiredRole = []
     this.locationStrategy.onPopState(() => {
       this.onCancelClick();
     });
@@ -148,14 +156,16 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         });
       }
     }
-
+    await this.getApprovalRequriedRoles()
+    await this.getPendingApprovalUserRole();
+    await this.getOrgDetails()
     await this.orgGroupService
       .getOrganisationRoles(this.organisationId)
       .toPromise()
       .then((orgRoles: Role[]) => {
         user.detail.rolePermissionInfo &&
           user.detail.rolePermissionInfo.map((roleInfo) => {
-            var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
+            var orgRole:any = orgRoles.find((r) => r.roleId == roleInfo.roleId);
             if (orgRole) {
               //Determin Login user whether Admin/Normal user.
               if (
@@ -164,11 +174,17 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               ) {
                 this.isAdminUser = true;
               }
-
+              let PendinguserRole = this.pendingRoleDetails.some(
+                (pendingRole: any) => pendingRole.roleKey == orgRole.roleKey
+              );
               this.formGroup.addControl(
                 'orgRoleControl_' + orgRole.roleId,
-                this.formBuilder.control(this.assignedRoleDataList ? true : '')
+                this.formBuilder.control(this.assignedRoleDataList ? true : PendinguserRole ? true : '')
               );
+              let filterRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == orgRole.roleKey)
+              if (filterRole != undefined) {
+                orgRole.pendingStatus = true
+              }
             }
           });
 
@@ -274,6 +290,24 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   scrollToAnchor(elementId: string): void {
     this.viewportScroller.scrollToAnchor(elementId);
+  }
+
+  async getApprovalRequriedRoles() {
+    this.approveRequiredRole = await this.orgGroupService
+      .getOrganisationApprovalRequiredRoles(this.organisationId)
+      .toPromise();
+     console.log("this.approveRequiredRole",this.approveRequiredRole)
+  }
+
+  async getOrgDetails() {
+    this.organisationDetails = await this.organisationService.getOrganisation(this.organisationId).toPromise().catch(e => {
+    });
+  }
+
+  async getPendingApprovalUserRole() {
+    this.pendingRoleDetails = await this.userService.getPendingApprovalUserRole(this.userName).toPromise().catch(e => {
+    });
+    console.log("this.pendingRoleDetails",this.pendingRoleDetails)
   }
 
   setFocus(inputIndex: number) {
@@ -396,11 +430,80 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     let selectedRoleIds: number[] = [];
     this.roleDataList.map((role) => {
       if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
-        selectedRoleIds.push(role.roleId);
+        let filterRole = this.approveRequiredRole.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
+        if (filterRole === undefined) {
+          selectedRoleIds.push(role.roleId);
+        } else {
+          this.selectedApproveRequiredRole.push(role.roleId)
+        }
       }
     });
     return selectedRoleIds;
   }
+
+/**
+   * checking approve required roles are availble
+   */
+private checkApproveRolesSelected() {
+  const superAdminDomain = this.organisationDetails.detail.domainName
+  const userDomain = this.formGroup.get('userName')?.value.split("@")[1]
+  if (superAdminDomain != userDomain) {
+    let matchRoles: any = []
+    let filterRole: any;
+    const selectedRole: any = this.selectedApproveRequiredRole
+    this.roleDataList.forEach((allRole:Role)=>{
+      this.approveRequiredRole.forEach((aRole:Role)=>{
+        if(allRole.roleKey === aRole.roleKey){
+          selectedRole.forEach((sRole: number)=>{
+            if(allRole.roleId === sRole){
+              matchRoles.push(aRole)
+            }
+          })
+        }
+      }) 
+    })
+    localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
+  }
+}
+
+
+  private submitPendingApproveRole(): void {
+    let selectedRolesDetails = {
+      userName: this.userName,
+      detail: {
+        roleIds: this.selectedApproveRequiredRole
+      }
+    }
+    if (this.selectedApproveRequiredRole.length != 0) {
+      this.userService.createPendingApproveRole(selectedRolesDetails).subscribe({
+        next: (roleInfo: UserEditResponseInfo) => {
+          if (this.pendingRoledeleteDetails.length != 0) {
+            this.deleteApprovePendingRole()
+          } 
+        },
+        error: (err: any) => {
+          console.log(err)
+        },
+      });
+    } else {
+      if (this.pendingRoledeleteDetails.length != 0) {
+        this.deleteApprovePendingRole()
+      } 
+    }
+
+  }
+
+  private deleteApprovePendingRole(): void {
+    const deleteRoleIds = this.pendingRoledeleteDetails.join();
+    this.userService.deleteApprovePendingRole(this.userName, deleteRoleIds).subscribe({
+      next: (userDeleteResponseInfo: UserEditResponseInfo) => {
+      },
+      error: (err: any) => {
+        console.log("err", err)
+      },
+    });
+  }
+ 
 
   public customFocum(): void {
     if (

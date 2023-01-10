@@ -113,3 +113,8 @@ export interface PendingApproveRole {
 export interface PendingApproveRoleDetail {
     roleIds : []
 }
+
+export interface acceptRejectRequestDetail {
+    pendingRoleIds : []
+    status: number
+}
