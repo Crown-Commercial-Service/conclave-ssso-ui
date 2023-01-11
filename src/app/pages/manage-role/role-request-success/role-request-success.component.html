@@ -1,0 +1,27 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="user-profile-container">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' |
+                            translate}}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" (click)="goBack()">Fleet Portal access verification</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link"> {{ 'SUCCESS' | translate }}</span>
+                    </li>
+                </ol>
+            </div>
+            <div class="fleet_accept">
+                <h1 class="govuk-heading-xl">Fleet Portal access verification</h1>
+                <p *ngIf="userInfo.responce === 1"  class="govuk-body-l">You have successfully accepted Fleet Portal role for user {{userInfo.userName}}</p>
+                <p *ngIf="userInfo.responce === 2" class="govuk-body-l">You have denied access to Fleet Portal for user {{userInfo.userName}}</p>
+                <a  href="javascript:;" class="navigation-text" routerLink="/home">Return to dashboard</a>
+            </div>
+        </div>
+
+    </div>
+</div>
