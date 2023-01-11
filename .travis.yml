@@ -27,4 +27,5 @@ before_deploy:
   - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
   - echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
   - sudo apt-get -qq update
-  - sudo apt-get -f install cf7-cli
+  - sudo apt --fix-broken install
+  - sudo apt-get install cf7-cli
