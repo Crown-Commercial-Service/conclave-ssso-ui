@@ -10,6 +10,7 @@ import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.servic
 })
 export class ManageUserRoleComponent implements OnInit {
 public userDetails:any
+public errorResponce:any;
   constructor(private wrapperUserService: WrapperUserService,private router: Router,private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -21,6 +22,8 @@ public userDetails:any
   private verifytoken(encryptedtoken:string):void {
     this.wrapperUserService.userTokenVerify(encryptedtoken).subscribe((data)=>{
       this.userDetails = data
+    },(err)=>{
+      this.errorResponce = true
     })
   }
 

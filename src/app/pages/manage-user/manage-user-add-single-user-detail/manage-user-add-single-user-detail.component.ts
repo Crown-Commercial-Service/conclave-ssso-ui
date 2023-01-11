@@ -71,6 +71,7 @@ export class ManageUserAddSingleUserDetailComponent
   public MFA_Enabled: any = false;
   ciiOrganisationId: string;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
+  isInvalidDomain: boolean = false
 
   constructor(
     private organisationGroupService: WrapperOrganisationGroupService,
@@ -346,7 +347,6 @@ export class ManageUserAddSingleUserDetailComponent
     this.approveRequiredRole = await this.organisationGroupService
       .getOrganisationApprovalRequiredRoles(this.organisationId)
       .toPromise();
-    console.log("this.approveRequiredRole", this.approveRequiredRole)
   }
 
   async getOrgDetails() {
@@ -450,13 +450,19 @@ export class ManageUserAddSingleUserDetailComponent
   getSelectedRoleIds(form: FormGroup) {
     let selectedRoleIds: number[] = [];
     this.selectedApproveRequiredRole = []
+    const superAdminDomain = this.organisationDetails.detail.domainName
+    const userDomain = this.formGroup.get('userName')?.value.split("@")[1]
     this.orgRoles.map((role) => {
       if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
-        let filterRole = this.approveRequiredRole.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
-        if (filterRole === undefined) {
-          selectedRoleIds.push(role.roleId);
+        if(superAdminDomain != userDomain){
+          let filterRole = this.approveRequiredRole.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
+          if (filterRole === undefined) {
+            selectedRoleIds.push(role.roleId)
+          } else {
+            this.selectedApproveRequiredRole.push(role.roleId)
+          }
         } else {
-          this.selectedApproveRequiredRole.push(role.roleId)
+          selectedRoleIds.push(role.roleId)
         }
       }
     });
@@ -471,7 +477,7 @@ export class ManageUserAddSingleUserDetailComponent
         roleIds: this.selectedApproveRequiredRole
       }
     }
-    if (this.selectedApproveRequiredRole.length != 0) {
+    if (this.selectedApproveRequiredRole.length != 0 && this.isInvalidDomain) {
       this.wrapperUserService.createPendingApproveRole(selectedRolesDetails).subscribe({
         next: (roleInfo: UserEditResponseInfo) => {
           if (this.pendingRoledeleteDetails.length != 0) {
@@ -505,6 +511,7 @@ export class ManageUserAddSingleUserDetailComponent
     const superAdminDomain = this.organisationDetails.detail.domainName
     const userDomain = this.formGroup.get('userName')?.value.split("@")[1]
     if (superAdminDomain != userDomain) {
+      this.isInvalidDomain = true
       let matchRoles: any = []
       let filterRole: any;
       const selectedRole: any = this.selectedApproveRequiredRole
