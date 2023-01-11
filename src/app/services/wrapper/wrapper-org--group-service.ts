@@ -15,6 +15,9 @@ import { UserListResponse } from 'src/app/models/user';
 export class WrapperOrganisationGroupService {
   public url: string = `${environment.uri.api.isApiGateWayEnabled ?
     environment.uri.api.wrapper.apiGatewayEnabled.organisation : environment.uri.api.wrapper.apiGatewayDisabled.organisation}`;
+ 
+  public configURl:string = `${environment.uri.api.isApiGateWayEnabled ?
+    environment.uri.api.wrapper.apiGatewayEnabled.configuration : environment.uri.api.wrapper.apiGatewayDisabled.configuration}`;
 
   constructor(private http: HttpClient) {
   }
@@ -110,6 +113,17 @@ export class WrapperOrganisationGroupService {
             }
           }
         })
+        return data
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  getOrganisationApprovalRequiredRoles(organisationId: string): Observable<any> {
+    const url = `${this.configURl}/approve/roles`;
+    return this.http.get<Role[]>(url).pipe(
+      map((data: Role[]) => {
         return data
       }), catchError(error => {
         return throwError(error);
