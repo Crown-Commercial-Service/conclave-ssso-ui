@@ -28,7 +28,7 @@
                     Organisation name&nbsp;:<strong class="govuk-!-margin-left-2">{{routeDetails.event.organisationName}}</strong>
                 </p>
                 <p class="govuk-body">
-                    Organisation type&nbsp;&nbsp;&nbsp;:<strong class="govuk-!-margin-left-2">{{routeDetails.event.organisationTypeName}}</strong>
+                    Organisation type&nbsp;&nbsp;&nbsp;:<strong class="govuk-!-margin-left-2">{{routeDetails.event.organisationType == 0 ? 'Supplier' : (routeDetails.event.organisationType == 1 ? 'Buyer' : 'Both')}}</strong>
                 </p>
                 <p class="govuk-body">
                     Date of registration:<strong class="govuk-!-margin-left-2 govuk-!-display-inline-block govuk-valign-top">{{routeDetails.event.dateOfRegistration | date: 'dd/MM/yyyy'}} <br>{{routeDetails.event.dateOfRegistration | date: 'HH:mm'}}</strong>

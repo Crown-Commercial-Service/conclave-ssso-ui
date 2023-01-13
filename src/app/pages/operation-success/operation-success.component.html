@@ -39,7 +39,7 @@
                 <p class="govuk-body-l">{{ 'MY_ACCOUNT_UPDATE_SUCCESS' | translate }}</p>
                 <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null'">
                     <fieldset class="govuk-fieldset">
-                      <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following roles will be assigned after manual validation has been completed:
+                      <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following role will be assigned after manual validation has been completed:
                       </legend>
                       <div class="govuk-checkboxes">
                         <ng-container *ngFor="let role of approveRequiredRole">
@@ -89,7 +89,7 @@
                     'INSTRUCTIONS_WILL_BE_EMAILED_TO_SETUP_ACCOUNT_PASSWORD' | translate }}</p>
                     <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null'">
                         <fieldset class="govuk-fieldset">
-                          <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following roles will be assigned after manual validation has been completed:
+                          <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following role will be assigned after manual validation has been completed:
                           </legend>
                           <div class="govuk-checkboxes">
                             <ng-container *ngFor="let role of approveRequiredRole">
@@ -124,7 +124,7 @@
                 <p class="govuk-body-l">{{ 'USER_UPDATE_SUCCESS' | translate }}</p>
                     <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null'">
                         <fieldset class="govuk-fieldset">
-                          <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following roles will be assigned after manual validation has been completed:
+                          <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following role will be assigned after manual validation has been completed:
                           </legend>
                           <div class="govuk-checkboxes">
                             <ng-container *ngFor="let role of approveRequiredRole">
