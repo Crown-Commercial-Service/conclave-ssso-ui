@@ -243,7 +243,6 @@ export class ManageUserAddSingleUserDetailComponent
   async getIdentityProviders() {
     let masterIdps = await this.configWrapperService.getIdentityProviders().toPromise().catch();
     this.identityProviders = await this.organisationGroupService.getOrganisationIdentityProviders(this.organisationId).toPromise();
-    console.log(this.userProfileResponseInfo.detail.identityProviders);
     for (const idp of masterIdps) {
       if (idp.connectionName === 'none') continue;
 
@@ -459,7 +458,14 @@ export class ManageUserAddSingleUserDetailComponent
           if (filterRole === undefined) {
             selectedRoleIds.push(role.roleId)
           } else {
-            this.selectedApproveRequiredRole.push(role.roleId)
+            let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
+            if(this.pendingRoleDetails.length != 0){
+              if(filterAlreadyExistRole.roleKey != role.roleKey){
+                this.selectedApproveRequiredRole.push(role.roleId)
+              }
+            } else {
+              this.selectedApproveRequiredRole.push(role.roleId)
+            }
           }
         } else {
           selectedRoleIds.push(role.roleId)
@@ -513,7 +519,6 @@ export class ManageUserAddSingleUserDetailComponent
     if (superAdminDomain != userDomain) {
       this.isInvalidDomain = true
       let matchRoles: any = []
-      let filterRole: any;
       const selectedRole: any = this.selectedApproveRequiredRole
       this.orgRoles.forEach((allRole:Role)=>{
         this.approveRequiredRole.forEach((aRole:Role)=>{
@@ -751,6 +756,16 @@ export class ManageUserAddSingleUserDetailComponent
         this.formGroup.controls['mfaEnabled'].setValue(true);
         this.isAutoDisableMFA = true;
       }
+      if (obj.pendingStatus === true) {
+        let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+        if (filterRole != undefined) {
+          this.pendingRoledeleteDetails.forEach((pRole:any,index:any)=>{
+            if(pRole === obj.roleId){
+              this.pendingRoledeleteDetails.splice(index,1)
+            }
+          })
+         }
+      }
     }
     else if (isChecked == false) {
       if (roleKey == 'ORG_ADMINISTRATOR') {
@@ -761,8 +776,7 @@ export class ManageUserAddSingleUserDetailComponent
         let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
         if (filterRole === undefined) {
           this.pendingRoledeleteDetails.push(obj.roleId)
-          console.log("this.pendingRoledeleteDetails", this.pendingRoledeleteDetails)
-        }
+         }
       }
     }
   }

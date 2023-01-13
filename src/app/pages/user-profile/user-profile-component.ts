@@ -308,7 +308,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.approveRequiredRole = await this.orgGroupService
       .getOrganisationApprovalRequiredRoles(this.organisationId)
       .toPromise();
-    console.log("this.approveRequiredRole", this.approveRequiredRole)
   }
 
   async getOrgDetails() {
@@ -428,6 +427,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   getSelectedRoleIds(form: FormGroup) {
     let selectedRoleIds: number[] = [];
+    this.selectedApproveRequiredRole = []
     const superAdminDomain = this.organisationDetails.detail.domainName
     const userDomain = this.userName?.split("@")[1]
     this.roleDataList.map((role) => {
@@ -437,7 +437,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           if (filterRole === undefined) {
             selectedRoleIds.push(role.roleId)
           } else {
-            this.selectedApproveRequiredRole.push(role.roleId)
+            let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
+            if (this.pendingRoleDetails.length != 0) {
+              if (filterAlreadyExistRole.roleKey != role.roleKey) {
+                this.selectedApproveRequiredRole.push(role.roleId)
+              }
+            } else {
+              this.selectedApproveRequiredRole.push(role.roleId)
+            }
           }
         } else {
           selectedRoleIds.push(role.roleId)
@@ -456,7 +463,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     if (superAdminDomain != userDomain) {
       this.isInvalidDomain = true
       let matchRoles: any = []
-      let filterRole: any;
       const selectedRole: any = this.selectedApproveRequiredRole
       this.roleDataList.forEach((allRole: Role) => {
         this.approveRequiredRole.forEach((aRole: Role) => {
@@ -470,8 +476,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         })
       })
       localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
+
     }
-    this.submitPendingApproveRole()
+    this.submitPendingApproveRole();
   }
 
 
@@ -519,6 +526,18 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     );
   }
   onUserRoleChecked(obj: any, isChecked: boolean) {
+    if (isChecked == true) {
+      if (obj.pendingStatus === true) {
+        let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+        if (filterRole != undefined) {
+          this.pendingRoledeleteDetails.forEach((pRole: any, index: any) => {
+            if (pRole === obj.roleId) {
+              this.pendingRoledeleteDetails.splice(index, 1)
+            }
+          })
+        }
+      }
+    }
     if (isChecked == false) {
       if (obj.pendingStatus === true) {
         let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
