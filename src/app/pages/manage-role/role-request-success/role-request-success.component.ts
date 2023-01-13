@@ -9,12 +9,15 @@ import { ActivatedRoute } from '@angular/router';
 export class RoleRequestSuccessComponent implements OnInit {
 
   public userInfo:any;
+  public isOrgAdmin: boolean = false;
+
   constructor(private ActivatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data));
     });
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
   }
 
   public goBack():void{
