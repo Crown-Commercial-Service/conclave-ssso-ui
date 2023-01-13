@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ManualValidationStatus } from 'src/app/constants/enum';
+import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 
 @Component({
   selector: 'app-view-verified-org',
@@ -52,7 +53,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
       organisationAuditEventList: [],
     },
   };
-  public isDeletedOrg:boolean = false
+  public isDeletedOrg: boolean = false
   constructor(
     private route: ActivatedRoute,
     private wrapperBuyerAndBothService: WrapperBuyerBothService,
@@ -82,26 +83,35 @@ export class ViewVerifiedOrgComponent implements OnInit {
   async ngOnInit() {
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
-      this.schemeData = (await this.ciiService
-        .getSchemes()
-        .toPromise()) as any[];
-      await this.ciiService
-        .getOrgDetails(this.routeDetails.event.organisationId, true)
-        .toPromise()
-        .then((data: any) => {
-          this.getOrganisationUsers();
-          this.registries = data;
-          if (this.registries != undefined) {
-            this.additionalIdentifiers = this.registries?.additionalIdentifiers;
-          }
-        })
-        .catch((err) => {
-          this.additionalIdentifiers = undefined
-          this.isDeletedOrg = true;
-          this.getOrganisationUsers();
-          console.log('err', err);
-        });
+      this.getPendingVerificationOrg()
+      console.log("event", this.routeDetails)
     });
+  }
+
+  public async getSchemeData() {
+    this.schemeData = (await this.ciiService
+      .getSchemes()
+      .toPromise()) as any[];
+      this.getVerifiedOrg()
+  }
+
+  public async getOrgDetails() {
+    await this.ciiService
+      .getOrgDetails(this.routeDetails.event.organisationId, true)
+      .toPromise()
+      .then((data: any) => {
+        this.getOrganisationUsers();
+        this.registries = data;
+        if (this.registries != undefined) {
+          this.additionalIdentifiers = this.registries?.additionalIdentifiers;
+        }
+      })
+      .catch((err) => {
+        this.additionalIdentifiers = undefined
+        this.isDeletedOrg = true;
+        this.getOrganisationUsers();
+        console.log('err', err);
+      });
   }
 
   public openEmailWindow(data: any): void {
@@ -128,15 +138,15 @@ export class ViewVerifiedOrgComponent implements OnInit {
           this.organisationAdministrator.pageCount =
             this.organisationAdministrator.userListResponse.pageCount;
         }
-       this.getEventLogDetails();
+        this.getEventLogDetails();
       },
       error: (error: any) => {
         this.getEventLogDetails();
-        if(error.status === 404){
+        if (error.status === 404) {
           this.organisationAdministrator.userListResponse.userList = []
           this.isDeletedOrg = true;
         }
-        console.log("error",error)
+        console.log("error", error)
       },
     });
   }
@@ -150,8 +160,8 @@ export class ViewVerifiedOrgComponent implements OnInit {
     this.eventLog.currentPage = pageNumber;
     this.getEventLogDetails();
   }
-  
-  public getEventLogDetails():void{
+
+  public getEventLogDetails(): void {
     this.wrapperBuyerAndBothService.getOrgEventLogs(
       this.routeDetails.event.organisationId,
       this.eventLog.currentPage,
@@ -162,33 +172,31 @@ export class ViewVerifiedOrgComponent implements OnInit {
           this.eventLog.organisationAuditEventListResponse = response;
           this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
             (f: any) => {
-              f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') +' ' + (f.actionedBy ?? '');
-              if(f.owner.trim() == ''){
+              f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') + ' ' + (f.actionedBy ?? '');
+              if (f.owner.trim() == '') {
                 f.defaultOwnerChanges = true
-                if(f.event?.toUpperCase() == "INACTIVEORGANISATIONREMOVED"){
+                if (f.event?.toUpperCase() == "INACTIVEORGANISATIONREMOVED") {
                   f.owner = "Automatic organisation removal";
                 }
-                else if(f.actioned?.toUpperCase() == "AUTOVALIDATION"){
+                else if (f.actioned?.toUpperCase() == "AUTOVALIDATION") {
                   f.owner = "Autovalidation";
                 }
-                else if(f.actioned?.toUpperCase() == "JOB"){
+                else if (f.actioned?.toUpperCase() == "JOB") {
                   f.owner = "Job";
                 }
               } else {
-                 f.defaultOwnerChanges = false;
-                }
-              
-              if(f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||
-                 f.event?.toUpperCase() == "ADMINROLEASSIGNED" || f.event?.toUpperCase() == "ADMINROLEUNASSIGNED")
-              {
+                f.defaultOwnerChanges = false;
+              }
+
+              if (f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||
+                f.event?.toUpperCase() == "ADMINROLEASSIGNED" || f.event?.toUpperCase() == "ADMINROLEUNASSIGNED") {
                 this.translate.get(f.event).subscribe(val => f.event = val);
-                if(f.event.includes('[RoleName]'))
-                {
+                if (f.event.includes('[RoleName]')) {
                   var role = f.role;
                   f.event = f.event.replace('[RoleName]', role);
                 }
               }
-              else{
+              else {
                 this.translate.get(f.event).subscribe(val => f.event = val);
               }
             });
@@ -196,15 +204,15 @@ export class ViewVerifiedOrgComponent implements OnInit {
             this.eventLog.organisationAuditEventListResponse.pageCount;
         }
       },
-      error: (error: any) => {},
+      error: (error: any) => { },
     });
   }
 
   public removeRightToBuy(): void {
     let data = {
       id: this.routeDetails.event.organisationId,
-      status :ManualValidationStatus.decline,
-      orgName : this.routeDetails.event.organisationName
+      status: ManualValidationStatus.decline,
+      orgName: this.routeDetails.event.organisationName
     };
     this.router.navigateByUrl(
       'remove-right-to-buy?data=' + btoa(JSON.stringify(data))
@@ -212,8 +220,12 @@ export class ViewVerifiedOrgComponent implements OnInit {
   }
 
   goBack() {
-    sessionStorage.setItem('activetab', 'verifiedOrg');
-    window.history.back();
+    if (this.routeDetails.lastRoute === "pending-verification") {
+      this.router.navigateByUrl('manage-buyer-both');
+    } else {
+      sessionStorage.setItem('activetab', 'verifiedOrg');
+      window.history.back();
+    }
   }
 
   public getSchemaName(schema: string): string {
@@ -234,9 +246,66 @@ export class ViewVerifiedOrgComponent implements OnInit {
     };
     window.open(
       environment.uri.web.dashboard +
-        '/update-org-type/confirm?data=' +
-        btoa(JSON.stringify(data)),
+      '/update-org-type/confirm?data=' +
+      btoa(JSON.stringify(data)),
       '_blank'
     );
+  }
+
+  getPendingVerificationOrg() {
+    this.wrapperBuyerAndBothService.getpendingVerificationOrg(
+      this.organisationId,
+      '',
+      1,
+      10
+    ).subscribe({
+      next: async (orgListResponse: OrganisationAuditListResponse) => {
+        this.getSchemeData()
+        if (orgListResponse != null) {
+          if (orgListResponse.organisationAuditList.length != 0) {
+            let orgDetails = orgListResponse.organisationAuditList.find((element) => element.organisationId === this.routeDetails.event.organisationId)
+            if (orgDetails != undefined) {
+              this.router.navigateByUrl(
+                'pending-verification?data=' + btoa(JSON.stringify(orgDetails))
+              );
+            } 
+            
+          }
+        }
+      },
+      error: (error: any) => {
+        this.router.navigateByUrl('delegated-error');
+      },
+    });
+  }
+
+  getVerifiedOrg() {
+    this.wrapperBuyerAndBothService.getVerifiedOrg(
+      this.organisationId,
+      '',
+      1,
+      10
+    ).subscribe({
+      next: (orgListResponse: OrganisationAuditListResponse) => {
+        if (orgListResponse != null) {
+        let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId == this.routeDetails.event.organisationId )
+         if(orgDetails != undefined){
+          let data = {
+            header: 'View request',
+            Description: '',
+            Breadcrumb: 'View request',
+            status: '003',
+            event: orgDetails,
+            lastRoute:"pending-verification"
+          };
+          this.routeDetails = data
+         }
+         this.getOrgDetails()
+        }
+      },
+      error: (error: any) => {
+        this.router.navigateByUrl('delegated-error');
+      },
+    });
   }
 }

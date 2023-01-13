@@ -148,6 +148,7 @@ export class BuyerBothRequestsComponent implements OnInit {
     ).subscribe({
       next: (orgListResponse: OrganisationAuditListResponse) => {
         if (orgListResponse != null) {
+          console.log("reqorgListResponse",orgListResponse)
           this.verifiedBuyerAndBoth.organisationAuditList = orgListResponse;
           this.verifiedBuyerAndBoth.pageCount = orgListResponse.pageCount;
           this.assignOrgTypeName(orgListResponse);
