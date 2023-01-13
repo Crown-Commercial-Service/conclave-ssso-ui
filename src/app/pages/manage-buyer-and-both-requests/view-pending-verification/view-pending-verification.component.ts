@@ -9,6 +9,7 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { environment } from 'src/environments/environment';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { TranslateService } from '@ngx-translate/core';
+import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 
 @Component({
   selector: 'app-view-pending-verification',
@@ -82,25 +83,8 @@ export class ViewPendingVerificationComponent implements OnInit {
   async ngOnInit() {
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
-      this.schemeData = (await this.ciiService
-        .getSchemes()
-        .toPromise()) as any[];
-        await this.ciiService
-        .getOrgDetails(this.routeDetails.organisationId, true)
-        .toPromise()
-        .then((data: any) => {
-          this.getOrganisationUsers();
-          this.registries = data;
-          if (this.registries != undefined) {
-            this.additionalIdentifiers = this.registries?.additionalIdentifiers;
-          }
-        })
-        .catch((err) => {
-          this.additionalIdentifiers = undefined
-          this.isDeletedOrg = true;
-          this.getOrganisationUsers();
-          console.log('err', err);
-        });
+      await this.getPendingVerificationOrg()
+   
     });
       
   }
@@ -244,5 +228,88 @@ export class ViewPendingVerificationComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  getPendingVerificationOrg() {
+    this.wrapperBuyerAndBothService.getpendingVerificationOrg(
+      this.organisationId,
+      '',
+      1,
+      10
+    ).subscribe({
+      next: async (orgListResponse: OrganisationAuditListResponse) => {
+        if (orgListResponse != null) {
+          if(orgListResponse.organisationAuditList.length != 0){
+            let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId === this.routeDetails.organisationId )
+            if(orgDetails === undefined){
+              this.getVerifiedOrg()
+            } else {
+              this.routeDetails = orgDetails
+              this.getSchemesDetails()
+            }
+          } else {
+            this.getVerifiedOrg()
+          }
+        }
+      },
+      error: (error: any) => {
+        this.router.navigateByUrl('delegated-error');
+      },
+    });
+  }
+
+  getVerifiedOrg() {
+    this.wrapperBuyerAndBothService.getVerifiedOrg(
+      this.organisationId,
+      '',
+      1,
+      10
+    ).subscribe({
+      next: (orgListResponse: OrganisationAuditListResponse) => {
+        if (orgListResponse != null) {
+        let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId == this.routeDetails.organisationId )
+        let data = {
+          header: 'View request',
+          Description: '',
+          Breadcrumb: 'View request',
+          status: '003',
+          event: orgDetails,
+          lastRoute:"pending-verification"
+        };
+        this.router.navigateByUrl(
+          'verified-organisations?data=' + btoa(JSON.stringify(data))
+        );
+        }
+      },
+      error: (error: any) => {
+        this.router.navigateByUrl('delegated-error');
+      },
+    });
+  }
+
+  private async getSchemesDetails(){
+    this.schemeData = (await this.ciiService
+      .getSchemes()
+      .toPromise()) as any[];
+      this.getOrgDetails()
+  }
+
+  private async getOrgDetails(){
+    await this.ciiService
+    .getOrgDetails(this.routeDetails.organisationId, true)
+    .toPromise()
+    .then((data: any) => {
+      this.getOrganisationUsers();
+      this.registries = data;
+      if (this.registries != undefined) {
+        this.additionalIdentifiers = this.registries?.additionalIdentifiers;
+      }
+    })
+    .catch((err) => {
+      this.additionalIdentifiers = undefined
+      this.isDeletedOrg = true;
+      this.getOrganisationUsers();
+      console.log('err', err);
+    });
   }
 }
