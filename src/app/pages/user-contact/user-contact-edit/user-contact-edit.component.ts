@@ -265,6 +265,7 @@ export class UserContactEditComponent
 
   public onSubmit(form: FormGroup) {
     this.submitted = true;
+    this.whiteSpaceValidator
     if (this.PatternService.emailValidator(form.get('email')?.value)) {
       this.formGroup.controls['email'].setErrors({ incorrect: true });
     }
@@ -400,6 +401,15 @@ export class UserContactEditComponent
     return true;
   }
 
+  public get whiteSpaceValidator(){
+    const isWhitespace = (this.formGroup.get('name')?.value && this.formGroup.get('name')?.value && this.formGroup.get('name')?.value.toString() || '').trim().length === 0;
+    if(this.submitted && isWhitespace){
+      this.formGroup.controls['name'].setErrors({ required: true });
+      return true
+    } 
+    return false
+  }
+  
   // public get checkboxValidator() {
   //   let returnValue=false
   //   this.toggleInput.forEach((f: any) => {

@@ -63,7 +63,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public isAdminUser: boolean = false;
   userGroups: UserGroup[] = [];
   public approveRequiredRole: Role[];
-  public pendingRoleDetails: any;
+  public pendingRoleDetails: any =[]
   public selectedApproveRequiredRole: any = []
   public pendingRoledeleteDetails: any = []
   public organisationDetails: any = {}
@@ -180,7 +180,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                   this.formBuilder.control(this.assignedRoleDataList ? true : '')
                 );
               } else  {
-               
                 let PendinguserRole = this.pendingRoleDetails.some(
                   (pendingRole: any) => pendingRole.roleKey == r.roleKey
                 );
@@ -188,6 +187,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                   'orgRoleControl_' + r.roleId,
                   this.formBuilder.control(userRole ? true : PendinguserRole ? true : '')
                 );
+                if(userRole){
+                  r.enabled = true
+                }
               }
             });
 
@@ -418,6 +420,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       isEdit: false,
       groupId: event.groupId,
       url: this.router.url,
+      accessFrom:"users",
+      isUserAccess:false
     };
     this.router.navigateByUrl(
       'manage-groups/view?data=' + JSON.stringify(data),
@@ -443,7 +447,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 this.selectedApproveRequiredRole.push(role.roleId)
               }
             } else {
-              this.selectedApproveRequiredRole.push(role.roleId)
+              if(!role.enabled){
+                this.selectedApproveRequiredRole.push(role.roleId)
+              } else {
+                selectedRoleIds.push(role.roleId)
+              }
             }
           }
         } else {
