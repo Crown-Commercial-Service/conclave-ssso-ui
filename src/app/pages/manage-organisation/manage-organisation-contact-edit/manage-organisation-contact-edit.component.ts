@@ -12,6 +12,7 @@ import {
   ValidationErrors,
   ValidatorFn,
   AbstractControl,
+  FormControl,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -344,6 +345,7 @@ export class ManageOrganisationContactEditComponent
 
   public onSubmit(form: FormGroup) {
     this.submitted = true;
+    this.whiteSpaceValidator
     if (this.PatternService.emailValidator(form.get('email')?.value)) {
       this.formGroup.controls['email'].setErrors({ incorrect: true });
     }
@@ -580,6 +582,7 @@ export class ManageOrganisationContactEditComponent
     this.contact_error = true;
     return true;
   }
+
   private getSiteDetails(): void {
     this.orgSiteService
       .getOrganisationSite(this.organisationId, this.siteId)
@@ -591,5 +594,14 @@ export class ManageOrganisationContactEditComponent
           console.log(error);
         },
       });
+  }
+
+  public get whiteSpaceValidator(){
+    const isWhitespace = (this.formGroup.get('name')?.value && this.formGroup.get('name')?.value && this.formGroup.get('name')?.value.toString() || '').trim().length === 0;
+    if(this.submitted && isWhitespace){
+      this.formGroup.controls['name'].setErrors({ required: true });
+      return true
+    } 
+    return false
   }
 }

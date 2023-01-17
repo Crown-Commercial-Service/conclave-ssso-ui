@@ -58,7 +58,7 @@ export class ManageUserAddSingleUserDetailComponent
   public idpStatus = environment.appSetting.hideIDP
   public approveRequiredRole: Role[];
   public organisationDetails: any = {}
-  public pendingRoleDetails: any;
+  public pendingRoleDetails:  any = []
   public selectedApproveRequiredRole: any = []
   public pendingRoledeleteDetails: any = []
   public detailsData: any = [
@@ -325,6 +325,9 @@ export class ManageUserAddSingleUserDetailComponent
             'orgRoleControl_' + role.roleId,
             this.formBuilder.control(userRole ? true : PendinguserRole ? true : '')
           );
+          if(userRole == true){
+            role.enabled = true
+          }
           let filterRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
           if (filterRole != undefined) {
             role.pendingStatus = true
@@ -458,13 +461,17 @@ export class ManageUserAddSingleUserDetailComponent
           if (filterRole === undefined) {
             selectedRoleIds.push(role.roleId)
           } else {
-            let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
             if(this.pendingRoleDetails.length != 0){
+            let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
               if(filterAlreadyExistRole.roleKey != role.roleKey){
                 this.selectedApproveRequiredRole.push(role.roleId)
               }
             } else {
-              this.selectedApproveRequiredRole.push(role.roleId)
+              if(!role.enabled){
+                this.selectedApproveRequiredRole.push(role.roleId)
+              } else {
+                selectedRoleIds.push(role.roleId)
+              }
             }
           }
         } else {
@@ -742,6 +749,9 @@ export class ManageUserAddSingleUserDetailComponent
     let data = {
       isEdit: false,
       groupId: groupId,
+      accessFrom:"users",
+      userEditStatus:this.isEdit,
+      isUserAccess:true
     };
     this.router.navigateByUrl(
       'manage-groups/view?data=' + JSON.stringify(data),
