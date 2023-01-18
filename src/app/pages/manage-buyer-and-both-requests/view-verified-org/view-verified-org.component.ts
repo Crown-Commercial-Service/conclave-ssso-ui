@@ -84,7 +84,6 @@ export class ViewVerifiedOrgComponent implements OnInit {
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
       this.getPendingVerificationOrg()
-      console.log("event", this.routeDetails)
     });
   }
 
@@ -263,8 +262,9 @@ export class ViewVerifiedOrgComponent implements OnInit {
         this.getSchemeData()
         if (orgListResponse != null) {
           if (orgListResponse.organisationAuditList.length != 0) {
-            let orgDetails = orgListResponse.organisationAuditList.find((element) => element.organisationId === this.routeDetails.event.organisationId)
+            let orgDetails:any = orgListResponse.organisationAuditList.find((element) => element.organisationId === this.routeDetails.event.organisationId)
             if (orgDetails != undefined) {
+              orgDetails.lastRoute ="view-verified"
               this.router.navigateByUrl(
                 'pending-verification?data=' + btoa(JSON.stringify(orgDetails))
               );
