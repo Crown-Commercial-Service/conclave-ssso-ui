@@ -1,19 +1,28 @@
-<div
-  class="govuk-error-summary contact-form-error"
-  aria-labelledby="error-summary-title"
-  role="alert"
-  tabindex="-1"
-  id="error-summary"
-  data-module="govuk-error-summary"
->
-  <h2 class="govuk-error-summary__title" id="error-summary-title">
-    {{ "ERROR_SUMMARY" | translate }}
-  </h2>
-  <div class="govuk-error-summary__body">
-    <ul class="govuk-list govuk-error-summary__list">
-      <li>
-        <a href="javascript:;" onClick="return false;">An unexpected error has occurred. Please try again in a few minutes</a>
-      </li>
-    </ul>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+      <div class="user-profile-container">
+          <div class="govuk-breadcrumbs">
+              <ol class="govuk-breadcrumbs__list">
+                  <li class="govuk-breadcrumbs__list-item">
+                      <a *ngIf="isOrgAdmin" class="govuk-breadcrumbs__link" routerLink="/home">
+                          {{ 'ADMINISTRATOR_DASHBOARD' | translate }}
+                      </a>
+                      <a *ngIf="!isOrgAdmin" class="govuk-breadcrumbs__link" routerLink="/home">
+                          {{"PUBLIC_PROCUREMENT_GATEWAY_DASHBOARD" | translate}}
+                      </a>
+                  </li>
+                  <li class="govuk-breadcrumbs__list-item">
+                      <a class="govuk-breadcrumbs__link" (click)="goBack()">Fleet Portal access verification</a>
+                  </li>
+              </ol>
+          </div>
+          <div class="fleet_accept">
+              <h1 class="govuk-heading-xl">Fleet Portal access verification</h1>
+              <p *ngIf="errorCode === 404" class="govuk-body-l">User {{userInfo.userName}} no longer requires access to Fleet Portal and the access
+                has been removed by the organisation admin.</p>
+              <p *ngIf="errorCode !== 404" class="govuk-body-l">An unexpected error has occurred. Please try again in a few minutes</p>
+              <a  href="javascript:;" class="navigation-text" routerLink="/home">Return to dashboard</a>
+          </div>
+      </div>
   </div>
 </div>
