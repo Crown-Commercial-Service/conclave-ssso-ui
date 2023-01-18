@@ -237,7 +237,7 @@ export class ViewPendingVerificationComponent implements OnInit {
   getPendingVerificationOrg() {
     this.wrapperBuyerAndBothService.getpendingVerificationOrg(
       this.organisationId,
-      '',
+      this.routeDetails.organisationName,
       1,
       10
     ).subscribe({
@@ -265,7 +265,7 @@ export class ViewPendingVerificationComponent implements OnInit {
   getVerifiedOrg() {
     this.wrapperBuyerAndBothService.getVerifiedOrg(
       this.organisationId,
-      '',
+      this.routeDetails.organisationName,
       1,
       10
     ).subscribe({
