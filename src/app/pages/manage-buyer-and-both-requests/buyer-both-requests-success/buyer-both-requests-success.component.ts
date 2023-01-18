@@ -12,7 +12,6 @@ export class BuyerBothRequestsSuccessComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private titleService: Title) {
     this.route.queryParams.subscribe((para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
-      console.log("this.routeDetails",this.routeDetails)
       switch (this.routeDetails.status) {
         case "accept": {
           this.titleService.setTitle(

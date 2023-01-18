@@ -18,6 +18,7 @@ import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 })
 export class ViewPendingVerificationComponent implements OnInit {
   private organisationId: string = '';
+  private lastRoute:string=''
   pageName = 'Contactadmin';
   public routeDetails: any;
   public registries: CiiOrgIdentifiersDto;
@@ -83,10 +84,9 @@ export class ViewPendingVerificationComponent implements OnInit {
   async ngOnInit() {
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
+      this.lastRoute = this.routeDetails.lastRoute
       await this.getPendingVerificationOrg()
-   
     });
-      
   }
 
   public openEmailWindow(data: any): void {
@@ -197,7 +197,11 @@ export class ViewPendingVerificationComponent implements OnInit {
   }
 
   goBack() {
-    window.history.back();
+    if (this.lastRoute == "view-verified") {
+      this.router.navigateByUrl('manage-buyer-both');
+    } else {
+      window.history.back();
+    }
   }
 
   public acceptRightToBuy() {
