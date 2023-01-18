@@ -7,7 +7,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 
@@ -51,7 +51,6 @@ export class ManageOrgRegStep2Component
     isDunlength: false,
     DunData:'',
   };
-  public pageAccessMode:any;
   submitted: boolean = false;
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
@@ -63,20 +62,10 @@ export class ManageOrgRegStep2Component
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private formBuilder: FormBuilder,
-    private ActivatedRoute: ActivatedRoute
+    private formBuilder: FormBuilder
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.txtValue = '';
-    this.ActivatedRoute.queryParams.subscribe((para: any) => {
-      if(para.data != undefined){
-        this.pageAccessMode = JSON.parse(atob(para.data));
-        localStorage.setItem('organisation_type',this.pageAccessMode)
-      } else {
-        this.pageAccessMode = null
-        localStorage.setItem('organisation_type','null')
-      }
-    });
   }
 
   ngOnInit() {
@@ -114,10 +103,6 @@ export class ManageOrgRegStep2Component
   }
 
   public onSubmit() {
-    let schemeDetails = {
-      scheme:this.scheme,
-      schemeID:this.txtValue,
-    }
     this.submitted = true;
     this.validationObj.isDunlength = false;
     if (this.validationObj.activeElement == 'US-DUN') {
@@ -131,7 +116,6 @@ export class ManageOrgRegStep2Component
           this.validationObj.stringIdentifier = true;
         } else {
           this.validationObj.stringIdentifier = false;
-          localStorage.setItem('schemeDetails', (JSON.stringify(schemeDetails)));
           this.router.navigateByUrl(
             `manage-org/register/search/${this.scheme}?id=${encodeURIComponent(
               this.validationObj.DunData
@@ -143,7 +127,6 @@ export class ManageOrgRegStep2Component
       }
     } else {
       if (this.txtValue && this.txtValue.length > 0) {
-        localStorage.setItem('schemeDetails', (JSON.stringify(schemeDetails)));
         this.router.navigateByUrl(
           `manage-org/register/search/${this.scheme}?id=${encodeURIComponent(
             this.txtValue

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { slideAnimation } from 'src/app/animations/slide.animation';
@@ -36,7 +36,6 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 export class NominateComponent extends BaseComponent {
   formGroup: FormGroup;
   submitted: boolean = false;
-  public pageAccessMode:any;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -47,8 +46,7 @@ export class NominateComponent extends BaseComponent {
     private router: Router,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper,
-    private ActivatedRoute: ActivatedRoute
+    protected scrollHelper: ScrollHelper
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.formGroup = this.formBuilder.group({
@@ -74,9 +72,6 @@ export class NominateComponent extends BaseComponent {
         ]),
       ],
     });
-    this.ActivatedRoute.queryParams.subscribe((para: any) => {
-      this.pageAccessMode = JSON.parse(atob(para.data));
-    });
   }
 
   validateEmailLength(data: any) {
@@ -85,7 +80,6 @@ export class NominateComponent extends BaseComponent {
     }
   }
   public onSubmit(form: FormGroup) {
-    this.router.navigateByUrl(`nominate/success?data=` + btoa(JSON.stringify(this.pageAccessMode)));
     this.submitted = true;
     if (this.PatternService.emailValidator(form.get('email')?.value)) {
       this.formGroup.controls['email'].setErrors({ incorrect: true });
@@ -98,7 +92,7 @@ export class NominateComponent extends BaseComponent {
         .then(() => {
           this.submitted = false;
           this.dataService.NominiData.next(uname);
-          this.router.navigateByUrl(`nominate/success?data=` + btoa(JSON.stringify(this.pageAccessMode)));
+          this.router.navigateByUrl(`nominate/success`);
         });
     }
   }
@@ -135,14 +129,5 @@ export class NominateComponent extends BaseComponent {
 
   goBack() {
     window.history.back();
-  }
-
-  public goConfirmOrgPage():void{
-    const schemeDetails = JSON.parse(localStorage.getItem('schemeDetails') || '');
-    this.router.navigateByUrl(
-      `manage-org/register/search/${schemeDetails.scheme}?id=${encodeURIComponent(
-        schemeDetails.schemeID
-      )}`
-    );
   }
 }
