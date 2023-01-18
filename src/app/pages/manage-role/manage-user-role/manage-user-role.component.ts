@@ -41,7 +41,8 @@ public isOrgAdmin: boolean = false;
         this.router.navigateByUrl('manage-users/role/success?data=' + btoa(JSON.stringify(this.userDetails)));
       },
       error: (error: any) => { 
-        this.router.navigateByUrl('manage-users/role/failed');
+        this.userDetails.responce = error
+        this.router.navigateByUrl('manage-users/role/failed?data=' + btoa(JSON.stringify(this.userDetails)));
       },
     });
   }
