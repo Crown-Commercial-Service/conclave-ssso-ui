@@ -486,18 +486,18 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
 
     }
-    this.submitPendingApproveRole();
+    this.submitPendingApproveRole(superAdminDomain === userDomain);
   }
 
 
-  private submitPendingApproveRole(): void {
+  private submitPendingApproveRole(isValidDomain:boolean): void {
     let selectedRolesDetails = {
       userName: this.userName,
       detail: {
         roleIds: this.selectedApproveRequiredRole
       }
     }
-    if (this.selectedApproveRequiredRole.length != 0) {
+    if (this.selectedApproveRequiredRole.length != 0 && !isValidDomain) {
       this.userService.createPendingApproveRole(selectedRolesDetails).subscribe({
         next: (roleInfo: UserEditResponseInfo) => {
           if (this.pendingRoledeleteDetails.length != 0) {
