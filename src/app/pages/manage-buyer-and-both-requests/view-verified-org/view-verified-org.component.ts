@@ -286,8 +286,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
     ).subscribe({
       next: async (orgListResponse: OrganisationAuditListResponse) => {
         this.getSchemeData()
-        if (orgListResponse != null) {
-          if (orgListResponse.organisationAuditList.length != 0) {
+        if (orgListResponse != null && orgListResponse.organisationAuditList.length != 0) {
             let orgDetails:any = orgListResponse.organisationAuditList.find((element) => element.organisationId === this.routeDetails.event.organisationId)
             if (orgDetails != undefined) {
               orgDetails.lastRoute ="view-verified"
@@ -296,7 +295,6 @@ export class ViewVerifiedOrgComponent implements OnInit {
               );
             } 
             
-          }
         }
       },
       error: (error: any) => {
