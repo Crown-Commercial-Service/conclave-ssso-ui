@@ -601,7 +601,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
 
-  public customFocum(): void {
+  public focusUserProfileInput(): void {
     if (
       this.formGroup.controls['firstName'].invalid &&
       this.formGroup.controls['lastName'].invalid
