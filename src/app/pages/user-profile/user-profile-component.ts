@@ -79,7 +79,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   routeStateData: any = {};
   hasGroupViewPermission: boolean = false;
   isOrgAdmin: boolean = false;
-
+  private selectedRoleIds:number[] = [];
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -447,7 +447,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   getSelectedRoleIds(form: FormGroup) {
-    let selectedRoleIds: number[] = [];
+    this.selectedRoleIds = [];
     this.selectedApproveRequiredRole = []
     const superAdminDomain = this.organisationDetails.detail.domainName.toLowerCase()
     const userDomain = this.userName?.split("@")[1].toLowerCase()
@@ -456,26 +456,34 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         if (superAdminDomain != userDomain) {
           let filterRole = this.approveRequiredRole.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
           if (filterRole === undefined) {
-            selectedRoleIds.push(role.roleId)
+            this.selectedRoleIds.push(role.roleId)
           } else {
-            let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
-            if (this.pendingRoleDetails.length == 0) {
-              if(role.enabled === true){
-                selectedRoleIds.push(role.roleId)
-              } else {
-                this.selectedApproveRequiredRole.push(role.roleId)
-              }
-            } else if(filterAlreadyExistRole.roleKey != role.roleKey) {
-              this.selectedApproveRequiredRole.push(role.roleId)
-            }
+            this.checkPendingRoleDetails(role)
           }
         } else {
-          selectedRoleIds.push(role.roleId)
+          this.selectedRoleIds.push(role.roleId)
         }
       }
     });
-    return selectedRoleIds;
+    return this.selectedRoleIds;
   }
+
+   private checkPendingRoleDetails(role:any){
+    let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
+    if (this.pendingRoleDetails.length == 0) {
+      this.updateSelectedRoleIds(role)
+    } else if(filterAlreadyExistRole.roleKey != role.roleKey) {
+      this.selectedApproveRequiredRole.push(role.roleId)
+    }
+   }
+
+   private updateSelectedRoleIds(role:any){
+    if(role.enabled === true){
+      this.selectedRoleIds.push(role.roleId)
+    } else {
+      this.selectedApproveRequiredRole.push(role.roleId)
+    }
+   }
 
   /**
      * checking approve required roles are availble
