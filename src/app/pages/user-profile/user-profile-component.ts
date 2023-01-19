@@ -559,9 +559,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
   onUserRoleChecked(obj: any, isChecked: boolean) {
     if (isChecked == true) {
-      if (obj.pendingStatus === true) {
-        let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
-        if (filterRole != undefined) {
+      if (obj.pendingStatus) {
+        let pendingRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+        if (pendingRole != undefined) {
           this.pendingRoledeleteDetails.forEach((pRole: any, index: any) => {
             if (pRole === obj.roleId) {
               this.pendingRoledeleteDetails.splice(index, 1)
