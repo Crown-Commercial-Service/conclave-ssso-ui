@@ -780,33 +780,25 @@ export class ManageUserAddSingleUserDetailComponent
   onUserRoleChecked(obj: any, isChecked: boolean) {
     var roleKey = obj.roleKey;
     if (isChecked == true) {
-      this.setMfaStatus(roleKey)
+      this.setMfaStatus(roleKey,true)
       if (obj.pendingStatus === true) {
-        this.setCheckedApprovedRequiredRole(obj)
+        this.removePendingRole(obj)
       }
     }
     else if (isChecked == false) {
-      if (roleKey == 'ORG_ADMINISTRATOR') {
-        this.formGroup.controls['mfaEnabled'].setValue(false);
-        this.isAutoDisableMFA = false;
-      }
-      if (obj.pendingStatus === true) {
-        let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
-        if (filterRole === undefined) {
-          this.pendingRoledeleteDetails.push(obj.roleId)
-        }
-      }
+     this.setMfaStatus(roleKey,false)
+     this.addPendingRole(obj)
     }
   }
 
-  private setMfaStatus(roleKey: any) {
+  private setMfaStatus(roleKey: any,status:boolean) {
     if (roleKey == 'ORG_ADMINISTRATOR') {
-      this.formGroup.controls['mfaEnabled'].setValue(true);
-      this.isAutoDisableMFA = true;
+      this.formGroup.controls['mfaEnabled'].setValue(status);
+      this.isAutoDisableMFA = status;
     }
   }
 
-  private setCheckedApprovedRequiredRole(obj: any) {
+  private removePendingRole(obj: any) {
     let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
     if (filterRole != undefined) {
       this.pendingRoledeleteDetails.forEach((pRole: any, index: any) => {
@@ -814,6 +806,15 @@ export class ManageUserAddSingleUserDetailComponent
           this.pendingRoledeleteDetails.splice(index, 1)
         }
       })
+    }
+  }
+
+  private addPendingRole(obj:any){
+    if (obj.pendingStatus === true) {
+      let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+      if (filterRole === undefined) {
+        this.pendingRoledeleteDetails.push(obj.roleId)
+      }
     }
   }
 
