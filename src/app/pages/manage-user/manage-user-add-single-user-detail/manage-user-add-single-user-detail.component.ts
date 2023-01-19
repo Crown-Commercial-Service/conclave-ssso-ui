@@ -452,8 +452,8 @@ export class ManageUserAddSingleUserDetailComponent
   getSelectedRoleIds(form: FormGroup) {
     let selectedRoleIds: number[] = [];
     this.selectedApproveRequiredRole = []
-    const superAdminDomain = this.organisationDetails.detail.domainName
-    const userDomain = this.formGroup.get('userName')?.value.split("@")[1]
+    const superAdminDomain = this.organisationDetails.detail.domainName.toLowerCase()
+    const userDomain = this.formGroup.get('userName')?.value.split("@")[1].toLowerCase()
     this.orgRoles.map((role) => {
       if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
         if(superAdminDomain != userDomain){
@@ -521,8 +521,8 @@ export class ManageUserAddSingleUserDetailComponent
    * checking approve required roles are availble
    */
   private checkApproveRolesSelected() {
-    const superAdminDomain = this.organisationDetails.detail.domainName
-    const userDomain = this.formGroup.get('userName')?.value.split("@")[1]
+    const superAdminDomain = this.organisationDetails.detail.domainName.toLowerCase()
+    const userDomain = this.formGroup.get('userName')?.value.split("@")[1].toLowerCase()
     if (superAdminDomain != userDomain) {
       this.isInvalidDomain = true
       let matchRoles: any = []

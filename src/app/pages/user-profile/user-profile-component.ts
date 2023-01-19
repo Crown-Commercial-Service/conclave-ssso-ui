@@ -432,8 +432,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   getSelectedRoleIds(form: FormGroup) {
     let selectedRoleIds: number[] = [];
     this.selectedApproveRequiredRole = []
-    const superAdminDomain = this.organisationDetails.detail.domainName
-    const userDomain = this.userName?.split("@")[1]
+    const superAdminDomain = this.organisationDetails.detail.domainName.toLowerCase()
+    const userDomain = this.userName?.split("@")[1].toLowerCase()
     this.roleDataList.map((role) => {
       if (form.get('orgRoleControl_' + role.roleId)?.value === true) {
         if (superAdminDomain != userDomain) {
@@ -466,8 +466,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
      * checking approve required roles are availble
      */
   private checkApproveRolesSelected() {
-    const superAdminDomain = this.organisationDetails.detail.domainName
-    const userDomain = this.userName?.split("@")[1]
+    const superAdminDomain = this.organisationDetails.detail.domainName.toLowerCase()
+    const userDomain = this.userName?.split("@")[1].toLowerCase()
     if (superAdminDomain != userDomain) {
       this.isInvalidDomain = true
       let matchRoles: any = []
@@ -486,18 +486,18 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
 
     }
-    this.submitPendingApproveRole();
+    this.submitPendingApproveRole(superAdminDomain === userDomain);
   }
 
 
-  private submitPendingApproveRole(): void {
+  private submitPendingApproveRole(isValidDomain:boolean): void {
     let selectedRolesDetails = {
       userName: this.userName,
       detail: {
         roleIds: this.selectedApproveRequiredRole
       }
     }
-    if (this.selectedApproveRequiredRole.length != 0) {
+    if (this.selectedApproveRequiredRole.length != 0 && !isValidDomain) {
       this.userService.createPendingApproveRole(selectedRolesDetails).subscribe({
         next: (roleInfo: UserEditResponseInfo) => {
           if (this.pendingRoledeleteDetails.length != 0) {
