@@ -138,7 +138,7 @@ export class WrapperOrganisationGroupService {
     );
   }
 
-  getOrganisationApprovalRequiredRoles(organisationId: string): Observable<any> {
+  getOrganisationApprovalRequiredRoles(): Observable<any> {
     const url = `${this.configURl}/approve/roles`;
     return this.http.get<Role[]>(url).pipe(
       map((data: Role[]) => {

@@ -325,7 +325,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   async getApprovalRequriedRoles() {
     this.approveRequiredRole = await this.orgGroupService
-      .getOrganisationApprovalRequiredRoles(this.organisationId)
+      .getOrganisationApprovalRequiredRoles()
       .toPromise();
   }
 
@@ -459,16 +459,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             selectedRoleIds.push(role.roleId)
           } else {
             let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
-            if (this.pendingRoleDetails.length != 0) {
-              if (filterAlreadyExistRole.roleKey != role.roleKey) {
-                this.selectedApproveRequiredRole.push(role.roleId)
-              }
-            } else {
+            if (this.pendingRoleDetails.length == 0) {
               if(!role.enabled){
                 this.selectedApproveRequiredRole.push(role.roleId)
               } else {
                 selectedRoleIds.push(role.roleId)
               }
+            } else if(filterAlreadyExistRole.roleKey != role.roleKey) {
+              this.selectedApproveRequiredRole.push(role.roleId)
             }
           }
         } else {
@@ -517,24 +515,33 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     if (this.selectedApproveRequiredRole.length != 0 && !isValidDomain) {
       this.userService.createPendingApproveRole(selectedRolesDetails).subscribe({
         next: (roleInfo: UserEditResponseInfo) => {
-          if (this.pendingRoledeleteDetails.length != 0) {
-            this.deleteApprovePendingRole()
-          } else {
-            this.updateUser()
-          }
+        this.checkDeleteStatusForPendingRole()
         },
         error: (err: any) => {
           console.log(err)
         },
       });
     } else {
+       this.checkDeleteStatus()
+    }
+  }
+
+  private checkDeleteStatusForPendingRole(){
+      if (this.pendingRoledeleteDetails.length === 0) {
+        this.updateUser()
+      } else {
+        this.deleteApprovePendingRole()
+      }
+    }
+
+  private checkDeleteStatus(){
       if (this.pendingRoledeleteDetails.length != 0) {
         this.deleteApprovePendingRole()
       } else {
         this.updateUser()
       }
     }
-  }
+
 
   private updateUser(): void {
     this.userService.updateUser(this.userName, this.userRequest).subscribe(
@@ -564,9 +571,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
     }
     if (isChecked == false) {
-      if (obj.pendingStatus === true) {
-        let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
-        if (filterRole === undefined) {
+      if (obj.pendingStatus) {
+        let pendingRoledObj = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+        if (pendingRoledObj === undefined) {
           this.pendingRoledeleteDetails.push(obj.roleId)
         }
       }

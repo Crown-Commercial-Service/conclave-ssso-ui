@@ -347,7 +347,7 @@ export class ManageUserAddSingleUserDetailComponent
 
   async getApprovalRequriedRoles() {
     this.approveRequiredRole = await this.organisationGroupService
-      .getOrganisationApprovalRequiredRoles(this.organisationId)
+      .getOrganisationApprovalRequiredRoles()
       .toPromise();
   }
 
