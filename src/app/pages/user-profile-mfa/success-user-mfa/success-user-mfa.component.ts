@@ -9,12 +9,10 @@ import { ActivatedRoute } from '@angular/router';
 export class SuccessUserMfaComponent implements OnInit {
   public decodedData: any = {};
   public sendError: boolean=false
-  isOrgAdmin: boolean = false;
 
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.route.queryParams.subscribe((para:any)=>{
       if(para.data){
         let RouteData = JSON.parse(atob(para.data));
