@@ -560,14 +560,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   onUserRoleChecked(obj: any, isChecked: boolean) {
     if (isChecked == true) {
       if (obj.pendingStatus) {
-        let pendingRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
-        if (pendingRole != undefined) {
-          this.pendingRoledeleteDetails.forEach((pRole: any, index: any) => {
-            if (pRole === obj.roleId) {
-              this.pendingRoledeleteDetails.splice(index, 1)
-            }
-          })
-        }
+        this.removePendingRole(obj)
       }
     }
     if (isChecked == false) {
@@ -579,6 +572,17 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
     }
   }
+  
+  private removePendingRole(obj:any){
+    let pendingRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+        if (pendingRole != undefined) {
+          this.pendingRoledeleteDetails.forEach((pRole: any, index: any) => {
+            if (pRole === obj.roleId) {
+              this.pendingRoledeleteDetails.splice(index, 1)
+            }
+          })
+        }
+ }
 
   private deleteApprovePendingRole(): void {
     const deleteRoleIds = this.pendingRoledeleteDetails.join();
