@@ -460,10 +460,10 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           } else {
             let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
             if (this.pendingRoleDetails.length == 0) {
-              if(!role.enabled){
-                this.selectedApproveRequiredRole.push(role.roleId)
-              } else {
+              if(role.enabled === true){
                 selectedRoleIds.push(role.roleId)
+              } else {
+                this.selectedApproveRequiredRole.push(role.roleId)
               }
             } else if(filterAlreadyExistRole.roleKey != role.roleKey) {
               this.selectedApproveRequiredRole.push(role.roleId)
