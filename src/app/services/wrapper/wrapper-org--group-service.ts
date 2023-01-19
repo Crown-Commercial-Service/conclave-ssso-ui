@@ -140,11 +140,9 @@ export class WrapperOrganisationGroupService {
 
   getOrganisationApprovalRequiredRoles(): Observable<any> {
     const url = `${this.configURl}/approve/roles`;
-    return this.http.get<Role[]>(url).pipe(
-      map((data: Role[]) => {
-        return data
-      }), catchError(error => {
-        return throwError(error);
+    return this.http.get<Role[]>(url).pipe(map((data: Role[]) => {return data } ),
+       catchError(err => {
+        return throwError(err);
       })
     );
   }
