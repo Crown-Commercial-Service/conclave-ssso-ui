@@ -767,14 +767,7 @@ export class ManageUserAddSingleUserDetailComponent
         this.isAutoDisableMFA = true;
       }
       if (obj.pendingStatus === true) {
-        let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
-        if (filterRole != undefined) {
-          this.pendingRoledeleteDetails.forEach((pRole:any,index:any)=>{
-            if(pRole === obj.roleId){
-              this.pendingRoledeleteDetails.splice(index,1)
-            }
-          })
-         }
+        this.setCheckedApprovedRequiredRole(obj)
       }
     }
     else if (isChecked == false) {
@@ -790,6 +783,17 @@ export class ManageUserAddSingleUserDetailComponent
       }
     }
   }
+  
+    private setCheckedApprovedRequiredRole(obj:any){
+      let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+      if (filterRole != undefined) {
+        this.pendingRoledeleteDetails.forEach((pRole:any,index:any)=>{
+          if(pRole === obj.roleId){
+            this.pendingRoledeleteDetails.splice(index,1)
+          }
+        })
+      }
+    } 
 
   public ResetAdditionalSecurity(): void {
     if (this.MFA_Enabled) {
