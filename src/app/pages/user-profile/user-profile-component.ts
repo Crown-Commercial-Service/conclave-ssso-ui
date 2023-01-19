@@ -558,18 +558,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     );
   }
   onUserRoleChecked(obj: any, isChecked: boolean) {
-    if (isChecked == true) {
-      if (obj.pendingStatus) {
+    if (isChecked == true && obj.pendingStatus) {
         this.removePendingRole(obj)
-      }
     }
-    if (isChecked == false) {
-      if (obj.pendingStatus) {
+    if (isChecked == false && obj.pendingStatus) {
         let pendingRoledObj = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
         if (pendingRoledObj === undefined) {
           this.pendingRoledeleteDetails.push(obj.roleId)
         }
-      }
     }
   }
   
