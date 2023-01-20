@@ -192,6 +192,32 @@ export class ViewVerifiedOrgComponent implements OnInit {
                 this.translate.get(f.event).subscribe(val => f.event = val);
                 if (f.event.includes('[RoleName]')) {
                   var role = f.role;
+                  switch (f.roleKey){
+                    case 'CAT_USER': {
+                      role = 'Contract Award Service (CAS) - add service';
+                      break;
+                    }
+                    case 'ACCESS_CAAAC_CLIENT': {
+                      role ='Contract Award Service (CAS) - add to dashboard';
+                      break;
+                    }
+                    case 'JAEGGER_SUPPLIER': {
+                      role = 'eSourcing Service as a supplier';
+                      break;
+                    }
+                    case 'JAEGGER_BUYER': {
+                      role = 'eSourcing Service as a buyer';
+                      break;
+                    }
+                    case 'JAGGAER_USER': {
+                      role = 'eSourcing Service - add service';
+                      break;
+                    }
+                    case 'ACCESS_JAGGAER': {
+                      role = 'eSourcing Service - add to dashboard';
+                      break;
+                    }
+                  }
                   f.event = f.event.replace('[RoleName]', role);
                 }
               }
@@ -260,17 +286,8 @@ export class ViewVerifiedOrgComponent implements OnInit {
     ).subscribe({
       next: async (orgListResponse: OrganisationAuditListResponse) => {
         this.getSchemeData()
-        if (orgListResponse != null) {
-          if (orgListResponse.organisationAuditList.length != 0) {
-            let orgDetails:any = orgListResponse.organisationAuditList.find((element) => element.organisationId === this.routeDetails.event.organisationId)
-            if (orgDetails != undefined) {
-              orgDetails.lastRoute ="view-verified"
-              this.router.navigateByUrl(
-                'pending-verification?data=' + btoa(JSON.stringify(orgDetails))
-              );
-            } 
-            
-          }
+        if (orgListResponse != null && orgListResponse.organisationAuditList.length != 0) {
+          this.verficatingOrgnisation(orgListResponse)
         }
       },
       error: (error: any) => {
@@ -278,6 +295,17 @@ export class ViewVerifiedOrgComponent implements OnInit {
       },
     });
   }
+
+  private verficatingOrgnisation(orgListResponse: OrganisationAuditListResponse){
+      let orgDetails:any = orgListResponse.organisationAuditList.find((element) => element.organisationId === this.routeDetails.event.organisationId)
+      if (orgDetails != undefined) {
+        orgDetails.lastRoute ="view-verified"
+        this.router.navigateByUrl(
+          'pending-verification?data=' + btoa(JSON.stringify(orgDetails))
+        );
+      } 
+  }
+  
 
   getVerifiedOrg() {
     this.wrapperBuyerAndBothService.getVerifiedOrg(

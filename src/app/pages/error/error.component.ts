@@ -81,7 +81,6 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     this.userName = localStorage.getItem('user_name') || '';
   }
   ngOnInit(): void {
-    console.log("errorCode",this.errorCode)
     this.RollbarErrorService.RollbarDebug('Error Page:'.concat(this.errorCode));
   }
 
