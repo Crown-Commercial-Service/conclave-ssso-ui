@@ -79,7 +79,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   routeStateData: any = {};
   hasGroupViewPermission: boolean = false;
   isOrgAdmin: boolean = false;
-
+  private selectedRoleIds:number[] = [];
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -325,7 +325,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   async getApprovalRequriedRoles() {
     this.approveRequiredRole = await this.orgGroupService
-      .getOrganisationApprovalRequiredRoles(this.organisationId)
+      .getOrganisationApprovalRequiredRoles()
       .toPromise();
   }
 
@@ -447,7 +447,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   getSelectedRoleIds(form: FormGroup) {
-    let selectedRoleIds: number[] = [];
+    this.selectedRoleIds = [];
     this.selectedApproveRequiredRole = []
     const superAdminDomain = this.organisationDetails.detail.domainName.toLowerCase()
     const userDomain = this.userName?.split("@")[1].toLowerCase()
@@ -456,28 +456,34 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         if (superAdminDomain != userDomain) {
           let filterRole = this.approveRequiredRole.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
           if (filterRole === undefined) {
-            selectedRoleIds.push(role.roleId)
+            this.selectedRoleIds.push(role.roleId)
           } else {
-            let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
-            if (this.pendingRoleDetails.length != 0) {
-              if (filterAlreadyExistRole.roleKey != role.roleKey) {
-                this.selectedApproveRequiredRole.push(role.roleId)
-              }
-            } else {
-              if(!role.enabled){
-                this.selectedApproveRequiredRole.push(role.roleId)
-              } else {
-                selectedRoleIds.push(role.roleId)
-              }
-            }
+            this.checkPendingRoleDetails(role)
           }
         } else {
-          selectedRoleIds.push(role.roleId)
+          this.selectedRoleIds.push(role.roleId)
         }
       }
     });
-    return selectedRoleIds;
+    return this.selectedRoleIds;
   }
+
+   private checkPendingRoleDetails(role:any){
+    let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
+    if (this.pendingRoleDetails.length == 0) {
+      this.updateSelectedRoleIds(role)
+    } else if(filterAlreadyExistRole.roleKey != role.roleKey) {
+      this.selectedApproveRequiredRole.push(role.roleId)
+    }
+   }
+
+   private updateSelectedRoleIds(role:any){
+    if(role.enabled === true){
+      this.selectedRoleIds.push(role.roleId)
+    } else {
+      this.selectedApproveRequiredRole.push(role.roleId)
+    }
+   }
 
   /**
      * checking approve required roles are availble
@@ -517,24 +523,33 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     if (this.selectedApproveRequiredRole.length != 0 && !isValidDomain) {
       this.userService.createPendingApproveRole(selectedRolesDetails).subscribe({
         next: (roleInfo: UserEditResponseInfo) => {
-          if (this.pendingRoledeleteDetails.length != 0) {
-            this.deleteApprovePendingRole()
-          } else {
-            this.updateUser()
-          }
+        this.checkDeleteStatusForPendingRole()
         },
         error: (err: any) => {
           console.log(err)
         },
       });
     } else {
+       this.checkDeleteStatus()
+    }
+  }
+
+  private checkDeleteStatusForPendingRole(){
+      if (this.pendingRoledeleteDetails.length === 0) {
+        this.updateUser()
+      } else {
+        this.deleteApprovePendingRole()
+      }
+    }
+
+  private checkDeleteStatus(){
       if (this.pendingRoledeleteDetails.length != 0) {
         this.deleteApprovePendingRole()
       } else {
         this.updateUser()
       }
     }
-  }
+
 
   private updateUser(): void {
     this.userService.updateUser(this.userName, this.userRequest).subscribe(
@@ -551,27 +566,27 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     );
   }
   onUserRoleChecked(obj: any, isChecked: boolean) {
-    if (isChecked == true) {
-      if (obj.pendingStatus === true) {
-        let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
-        if (filterRole != undefined) {
+    if (isChecked == true && obj.pendingStatus) {
+        this.removePendingRole(obj)
+    }
+    if (isChecked == false && obj.pendingStatus) {
+        let pendingRoledObj = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+        if (pendingRoledObj === undefined) {
+          this.pendingRoledeleteDetails.push(obj.roleId)
+        }
+    }
+  }
+  
+  private removePendingRole(obj:any){
+    let pendingRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+        if (pendingRole != undefined) {
           this.pendingRoledeleteDetails.forEach((pRole: any, index: any) => {
             if (pRole === obj.roleId) {
               this.pendingRoledeleteDetails.splice(index, 1)
             }
           })
         }
-      }
-    }
-    if (isChecked == false) {
-      if (obj.pendingStatus === true) {
-        let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
-        if (filterRole === undefined) {
-          this.pendingRoledeleteDetails.push(obj.roleId)
-        }
-      }
-    }
-  }
+ }
 
   private deleteApprovePendingRole(): void {
     const deleteRoleIds = this.pendingRoledeleteDetails.join();
@@ -586,7 +601,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
 
-  public customFocum(): void {
+  public focusUserProfileInput(): void {
     if (
       this.formGroup.controls['firstName'].invalid &&
       this.formGroup.controls['lastName'].invalid
