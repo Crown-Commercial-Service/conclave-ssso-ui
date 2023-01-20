@@ -39,7 +39,7 @@ export const environment = {
         key: 'ROLLBAR',
         enable : true,
         security_log:false,
-        environment: 'test-ccs-sso'
+        environment: 'testing'
   },
   cookies_policy: {
     essentialcookies: {
@@ -62,7 +62,7 @@ export const environment = {
     },
   },
   appSetting: {
-   hideIDP:true,
+   hideIDP:false,
    hideDelegation:false,
    hideBulkupload:false,
    hideAutoValidation:false,
