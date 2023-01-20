@@ -59,32 +59,18 @@
           <div class="govuk-checkboxes">
             <ng-container *ngFor="let role of changes?.toAdd">
               <div class="govuk-__item">
-                <label class="govuk-label">{{
-                role.roleKey === "JAEGGER_SUPPLIER"
-                ? "eSourcing Service as a supplier"
-                : role.roleKey === "ACCESS_JAGGAER"
-                ? "eSourcing Service - dashboard"
-                : role.roleKey === "CAT_USER"
-                ? "Contract Award Service (CAS) - service"
-                : role.roleKey === "ACCESS_CAAAC_CLIENT"
-                ? "Contract Award Service (CAS) - dashboard"
-                : role.roleKey === "JAEGGER_BUYER"
-                ? "eSourcing Service as a buyer"
-                : role.roleKey === "JAGGAER_USER"
-                ? "eSourcing Service - service"
-                : role.roleName
-                }}
-                <span
-                *ngIf="
-                  role.roleKey != 'JAEGGER_SUPPLIER' &&
-                  role.roleKey != 'ACCESS_JAGGAER' &&
-                  role.roleKey != 'CAT_USER' &&
-                  role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
-                  role.roleKey != 'JAEGGER_BUYER' &&
-                  role.roleKey != 'JAGGAER_USER'
-                "
-                >- {{ role.serviceName }}</span
-              ></label>
+                <label class="govuk-label">{{role.roleName}}
+                  <span
+                  *ngIf=" role.serviceName &&
+                    role.roleKey != 'JAEGGER_SUPPLIER' &&
+                    role.roleKey != 'ACCESS_JAGGAER' &&
+                    role.roleKey != 'CAT_USER' &&
+                    role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                    role.roleKey != 'JAEGGER_BUYER' &&
+                    role.roleKey != 'JAGGAER_USER'
+                  "
+                  >- {{ role.serviceName }}</span
+                ></label>
               </div>
             </ng-container>
           </div>
@@ -93,23 +79,9 @@
           <div class="govuk-checkboxes">
             <ng-container *ngFor="let role of changes?.toDelete">
               <div class="govuk-__item">
-                <label class="govuk-label">{{
-                  role.roleKey === "JAEGGER_SUPPLIER"
-                  ? "eSourcing Service as a supplier"
-                  : role.roleKey === "ACCESS_JAGGAER"
-                  ? "eSourcing Service - dashboard"
-                  : role.roleKey === "CAT_USER"
-                  ? "Contract Award Service (CAS) - service"
-                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
-                  ? "Contract Award Service (CAS) - dashboard"
-                  : role.roleKey === "JAEGGER_BUYER"
-                  ? "eSourcing Service as a buyer"
-                  : role.roleKey === "JAGGAER_USER"
-                  ? "eSourcing Service - service"
-                  : role.roleName
-                  }}
+                <label class="govuk-label">{{ role.roleName }}
                   <span
-                  *ngIf="
+                  *ngIf=" role.serviceName &&
                     role.roleKey != 'JAEGGER_SUPPLIER' &&
                     role.roleKey != 'ACCESS_JAGGAER' &&
                     role.roleKey != 'CAT_USER' &&
@@ -138,32 +110,18 @@
           <div class="govuk-checkboxes">
             <ng-container *ngFor="let role of changes?.toAutoValid">
               <div class="govuk-__item">
-                <label class="govuk-label">{{
-                role.roleKey === "JAEGGER_SUPPLIER"
-                ? "eSourcing Service as a supplier"
-                : role.roleKey === "ACCESS_JAGGAER"
-                ? "eSourcing Service - dashboard"
-                : role.roleKey === "CAT_USER"
-                ? "Contract Award Service (CAS) - service"
-                : role.roleKey === "ACCESS_CAAAC_CLIENT"
-                ? "Contract Award Service (CAS) - dashboard"
-                : role.roleKey === "JAEGGER_BUYER"
-                ? "eSourcing Service as a buyer"
-                : role.roleKey === "JAGGAER_USER"
-                ? "eSourcing Service - service"
-                : role.roleName
-                }}
-                <span
-                *ngIf="
-                  role.roleKey != 'JAEGGER_SUPPLIER' &&
-                  role.roleKey != 'ACCESS_JAGGAER' &&
-                  role.roleKey != 'CAT_USER' &&
-                  role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
-                  role.roleKey != 'JAEGGER_BUYER' &&
-                  role.roleKey != 'JAGGAER_USER'
-                "
-                >- {{ role.serviceName }}</span
-              ></label>
+                <label class="govuk-label">{{ role.roleName }}
+                  <span
+                  *ngIf=" role.serviceName &&
+                    role.roleKey != 'JAEGGER_SUPPLIER' &&
+                    role.roleKey != 'ACCESS_JAGGAER' &&
+                    role.roleKey != 'CAT_USER' &&
+                    role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                    role.roleKey != 'JAEGGER_BUYER' &&
+                    role.roleKey != 'JAGGAER_USER'
+                  "
+                  >- {{ role.serviceName }}</span
+                ></label>
               </div>
             </ng-container>
           </div>
@@ -172,32 +130,18 @@
           <div class="govuk-checkboxes">
             <ng-container *ngFor="let role of changes?.toAdd">
               <div class="govuk-__item">
-                <label class="govuk-label">{{
-                role.roleKey === "JAEGGER_SUPPLIER"
-                ? "eSourcing Service as a supplier"
-                : role.roleKey === "ACCESS_JAGGAER"
-                ? "eSourcing Service - dashboard"
-                : role.roleKey === "CAT_USER"
-                ? "Contract Award Service (CAS) - service"
-                : role.roleKey === "ACCESS_CAAAC_CLIENT"
-                ? "Contract Award Service (CAS) - dashboard"
-                : role.roleKey === "JAEGGER_BUYER"
-                ? "eSourcing Service as a buyer"
-                : role.roleKey === "JAGGAER_USER"
-                ? "eSourcing Service - service"
-                : role.roleName
-                }}
-                <span
-                *ngIf="
-                  role.roleKey != 'JAEGGER_SUPPLIER' &&
-                  role.roleKey != 'ACCESS_JAGGAER' &&
-                  role.roleKey != 'CAT_USER' &&
-                  role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
-                  role.roleKey != 'JAEGGER_BUYER' &&
-                  role.roleKey != 'JAGGAER_USER'
-                "
-                >- {{ role.serviceName }}</span
-              ></label>
+                <label class="govuk-label">{{ role.roleName }}
+                  <span
+                  *ngIf=" role.serviceName &&
+                    role.roleKey != 'JAEGGER_SUPPLIER' &&
+                    role.roleKey != 'ACCESS_JAGGAER' &&
+                    role.roleKey != 'CAT_USER' &&
+                    role.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                    role.roleKey != 'JAEGGER_BUYER' &&
+                    role.roleKey != 'JAGGAER_USER'
+                  "
+                  >- {{ role.serviceName }}</span
+                ></label>
               </div>
             </ng-container>
           </div>
@@ -206,23 +150,9 @@
           <div class="govuk-checkboxes">
             <ng-container *ngFor="let role of changes?.toDelete">
               <div class="govuk-__item">
-                <label class="govuk-label">{{
-                  role.roleKey === "JAEGGER_SUPPLIER"
-                  ? "eSourcing Service as a supplier"
-                  : role.roleKey === "ACCESS_JAGGAER"
-                  ? "eSourcing Service - dashboard"
-                  : role.roleKey === "CAT_USER"
-                  ? "Contract Award Service (CAS) - service"
-                  : role.roleKey === "ACCESS_CAAAC_CLIENT"
-                  ? "Contract Award Service (CAS) - dashboard"
-                  : role.roleKey === "JAEGGER_BUYER"
-                  ? "eSourcing Service as a buyer"
-                  : role.roleKey === "JAGGAER_USER"
-                  ? "eSourcing Service - service"
-                  : role.roleName
-                  }}
+                <label class="govuk-label">{{ role.roleName }}
                   <span
-                  *ngIf="
+                  *ngIf=" role.serviceName &&
                     role.roleKey != 'JAEGGER_SUPPLIER' &&
                     role.roleKey != 'ACCESS_JAGGAER' &&
                     role.roleKey != 'CAT_USER' &&
