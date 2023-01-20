@@ -260,17 +260,8 @@ export class ViewVerifiedOrgComponent implements OnInit {
     ).subscribe({
       next: async (orgListResponse: OrganisationAuditListResponse) => {
         this.getSchemeData()
-        if (orgListResponse != null) {
-          if (orgListResponse.organisationAuditList.length != 0) {
-            let orgDetails:any = orgListResponse.organisationAuditList.find((element) => element.organisationId === this.routeDetails.event.organisationId)
-            if (orgDetails != undefined) {
-              orgDetails.lastRoute ="view-verified"
-              this.router.navigateByUrl(
-                'pending-verification?data=' + btoa(JSON.stringify(orgDetails))
-              );
-            } 
-            
-          }
+        if (orgListResponse != null && orgListResponse.organisationAuditList.length != 0) {
+          this.verficatingOrgnisation(orgListResponse)
         }
       },
       error: (error: any) => {
@@ -278,6 +269,17 @@ export class ViewVerifiedOrgComponent implements OnInit {
       },
     });
   }
+
+  private verficatingOrgnisation(orgListResponse: OrganisationAuditListResponse){
+      let orgDetails:any = orgListResponse.organisationAuditList.find((element) => element.organisationId === this.routeDetails.event.organisationId)
+      if (orgDetails != undefined) {
+        orgDetails.lastRoute ="view-verified"
+        this.router.navigateByUrl(
+          'pending-verification?data=' + btoa(JSON.stringify(orgDetails))
+        );
+      } 
+  }
+  
 
   getVerifiedOrg() {
     this.wrapperBuyerAndBothService.getVerifiedOrg(

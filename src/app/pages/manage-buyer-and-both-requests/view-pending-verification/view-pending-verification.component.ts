@@ -242,24 +242,26 @@ export class ViewPendingVerificationComponent implements OnInit {
       10
     ).subscribe({
       next: async (orgListResponse: OrganisationAuditListResponse) => {
-        if (orgListResponse != null) {
-          if(orgListResponse.organisationAuditList.length != 0){
-            let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId === this.routeDetails.organisationId )
-            if(orgDetails === undefined){
-              this.getVerifiedOrg()
-            } else {
-              this.routeDetails = orgDetails
-              this.getSchemesDetails()
-            }
+        if (orgListResponse != null && orgListResponse.organisationAuditList.length != 0) {
+          this.checkPendingOrganisation(orgListResponse)
           } else {
             this.getVerifiedOrg()
-          }
         }
       },
       error: (error: any) => {
         this.router.navigateByUrl('delegated-error');
       },
     });
+  }
+
+  private checkPendingOrganisation(orgListResponse: OrganisationAuditListResponse){
+    let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId === this.routeDetails.organisationId )
+    if(orgDetails === undefined){
+      this.getVerifiedOrg()
+    } else {
+      this.routeDetails = orgDetails
+      this.getSchemesDetails()
+    }
   }
 
   getVerifiedOrg() {

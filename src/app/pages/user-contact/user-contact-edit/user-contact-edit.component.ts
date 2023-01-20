@@ -270,7 +270,7 @@ export class UserContactEditComponent
       this.formGroup.controls['email'].setErrors({ incorrect: true });
     }
     if (this.formValid(form)) {
-      if (!this.validator) {
+      if (!this.validators) {
         this.contactData.contactPointName = form.get('name')?.value;
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
@@ -386,7 +386,7 @@ export class UserContactEditComponent
     });
   }
 
-  public get validator() {
+  public get validators() {
     if (
       this.formGroup.get('email')?.value ||
       this.formGroup.get('phone')?.value ||
