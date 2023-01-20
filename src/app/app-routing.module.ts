@@ -137,6 +137,9 @@ import { RemoveRightToBuyComponent } from './pages/manage-buyer-and-both-request
 import { SuccessRightToBuyComponent } from './pages/manage-buyer-and-both-requests/success-right-to-buy/success-right-to-buy.component';
 import { BuyerBothRequestsSuccessComponent } from './pages/manage-buyer-and-both-requests/buyer-both-requests-success/buyer-both-requests-success.component';
 import { BuyerBothErrorComponent } from './pages/manage-buyer-and-both-requests/buyer-both-error/buyer-both-error.component';
+import { ManageUserRoleComponent } from './pages/manage-role/manage-user-role/manage-user-role.component';
+import { RoleRequestSuccessComponent } from './pages/manage-role/role-request-success/role-request-success.component';
+import { RoleRequestFailedComponent } from './pages/manage-role/role-request-failed/role-request-failed.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -646,6 +649,27 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageUserDeleteConfirmComponent,
+  },
+  {
+    path: 'manage-users/role',
+    data: { title: 'Fleet Portal access verification'},
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    component: ManageUserRoleComponent,
+  },
+  {
+    path: 'manage-users/role/success',
+    data: { title: 'Fleet Portal access verification'},
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    component: RoleRequestSuccessComponent,
+  },
+  {
+    path: 'manage-users/role/failed',
+    data: { title: 'Fleet Portal access verification'},
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    component: RoleRequestFailedComponent,
   },
   {
     path: 'manage-org/profile/site/edit',

@@ -34,7 +34,7 @@ export class ManageGroupEditNameComponent
   isEdit: boolean = false;
   editingGroupId: number = 0;
   groupName: string = '';
-  private specialChars = /^[ @().,;:“'/#&+-]*$/;
+  private specialChars = /^[ @().,;:'/#&+-]*$/;
 
              
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
@@ -53,7 +53,7 @@ export class ManageGroupEditNameComponent
     super(
       viewportScroller,
       formBuilder.group({
-        groupName: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:“'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
+        groupName: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
       })
     );
     let queryParams = this.activatedRoute.snapshot.queryParams;

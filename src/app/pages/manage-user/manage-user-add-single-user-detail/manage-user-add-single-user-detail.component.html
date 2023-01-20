@@ -44,7 +44,7 @@
                     </li>
                     <li
                         *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
-                        <a href="javascript:;" onClick="return false;" (click)="customFocum()">
+                        <a href="javascript:;" onClick="return false;" (click)="customFocus()">
                             {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
                     </li>
                     <li *ngIf="submitted && formGroup.controls.userName.hasError('required')">
@@ -278,6 +278,9 @@
                                         for="{{'orgRoleControl_' + orgRole.roleId}}">
                                         {{orgRole.roleName}} - {{orgRole.serviceName}}
                                     </label>
+                                    <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.pendingStatus">
+                                        Pending Approval
+                                      </strong>
                                 </div>
                             </div>
 

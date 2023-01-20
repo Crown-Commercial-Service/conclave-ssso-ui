@@ -30,6 +30,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
   formGroup: FormGroup;
   submitted: boolean = false;
   usedPasswordThreshold: number = environment.usedPasswordThreshold;
+  public isOrgAdmin: boolean = false;
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -45,6 +46,8 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
+
   }
 
   ngAfterViewChecked() {

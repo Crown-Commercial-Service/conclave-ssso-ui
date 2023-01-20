@@ -87,6 +87,7 @@ export class UserContactEditComponent
     { data: 'Fax', status: false, isChecked: false, formControlName: 'fax' },
     { data: 'Web', status: false, isChecked: false, formControlName: 'webUrl' },
   ];
+  isOrgAdmin: boolean = false;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -154,6 +155,7 @@ export class UserContactEditComponent
   }
 
   ngOnInit() {
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} - User Contact - CCS`
     );
@@ -263,11 +265,12 @@ export class UserContactEditComponent
 
   public onSubmit(form: FormGroup) {
     this.submitted = true;
+    this.whiteSpaceValidator
     if (this.PatternService.emailValidator(form.get('email')?.value)) {
       this.formGroup.controls['email'].setErrors({ incorrect: true });
     }
     if (this.formValid(form)) {
-      if (!this.validator) {
+      if (!this.validators) {
         this.contactData.contactPointName = form.get('name')?.value;
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
@@ -383,7 +386,7 @@ export class UserContactEditComponent
     });
   }
 
-  public get validator() {
+  public get validators() {
     if (
       this.formGroup.get('email')?.value ||
       this.formGroup.get('phone')?.value ||
@@ -398,6 +401,15 @@ export class UserContactEditComponent
     return true;
   }
 
+  public get whiteSpaceValidator(){
+    const isWhitespace = (this.formGroup.get('name')?.value && this.formGroup.get('name')?.value && this.formGroup.get('name')?.value.toString() || '').trim().length === 0;
+    if(this.submitted && isWhitespace){
+      this.formGroup.controls['name'].setErrors({ required: true });
+      return true
+    } 
+    return false
+  }
+  
   // public get checkboxValidator() {
   //   let returnValue=false
   //   this.toggleInput.forEach((f: any) => {

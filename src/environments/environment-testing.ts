@@ -34,12 +34,13 @@ export const environment = {
   bulkUploadMaxFileSizeInBytes:1048576,
   bulkUploadTemplateFileUrl: 'BUCKET_URL', // Put the publicly accessible url of the template file
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
-  listPageSize: 10,  
+  listPageSize: 10,
+  mailDecryptKey:'conclavesimpleemailencrypt',
   rollbar: {
         key: 'ROLLBAR',
-        enable : true,
+        enable : false,
         security_log:false,
-        environment: 'test-ccs-sso'
+        environment: 'testing'
   },
   cookies_policy: {
     essentialcookies: {
@@ -62,7 +63,7 @@ export const environment = {
     },
   },
   appSetting: {
-   hideIDP:true,
+   hideIDP:false,
    hideDelegation:false,
    hideBulkupload:false,
    hideAutoValidation:false,
