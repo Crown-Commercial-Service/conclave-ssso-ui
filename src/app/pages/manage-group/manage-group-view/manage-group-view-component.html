@@ -2,7 +2,7 @@
     <div class="govuk-grid-column-two-thirds">
         <div class="user-profile-container">
             <div class="govuk-breadcrumbs">
-                <ol class="govuk-breadcrumbs__list">
+                <ol class="govuk-breadcrumbs__list" *ngIf="routeData.accessFrom != 'users'">
                     <li class="govuk-breadcrumbs__list-item">
                         <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
                             }}</a>
@@ -16,6 +16,38 @@
                         <span *ngIf="isEdit!=true" class="govuk-breadcrumbs__link">{{ 'VIEW_GROUP' | translate}}</span>
                     </li>
                 </ol>
+                <ol class="govuk-breadcrumbs__list" *ngIf="(routeData.accessFrom === 'users' && routeData.isUserAccess)">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                            }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-users">{{ 'MANAGE_YOUR_USER_ACCOUNTS' |
+                            translate
+                            }}</a>
+                    </li>
+                    <li  class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" (click)="history.back()" *ngIf="routeData.userEditStatus === false"> {{ 'CREATE_NEW_USER_ACCOUNT' | translate }}</a>
+                        <a class="govuk-breadcrumbs__link" (click)="history.back()" *ngIf="routeData.userEditStatus === true"> {{ 'EDIT_YOUR_USER_ACCOUNTS' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span  class="govuk-breadcrumbs__link">{{ 'VIEW_GROUP' | translate}}</span>
+                    </li>
+                </ol>
+                <ol class="govuk-breadcrumbs__list" *ngIf="(routeData.accessFrom === 'users' && !routeData.isUserAccess)">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                            }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" (click)="history.back()">{{ 'MANAGE_MY_ACCOUNT' |
+                            translate
+                            }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span  class="govuk-breadcrumbs__link">{{ 'VIEW_GROUP' | translate}}</span>
+                    </li>
+                </ol>
             </div>
         </div>
     </div>
@@ -23,7 +55,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <a href="javascript:;" *ngIf="isEdit!=true" (click)="onGoBackClick()" class="govuk-back-link back-button">{{ 'BACK' | translate }}</a>
+        <!-- <a href="javascript:;" *ngIf="isEdit!=true" (click)="onGoBackClick()" class="govuk-back-link back-button">{{ 'BACK' | translate }}</a> -->
         <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">
             Group : {{group.groupName}} </h1>
         <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">

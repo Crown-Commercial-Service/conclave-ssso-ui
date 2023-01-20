@@ -33,7 +33,7 @@
                         'ERROR_LAST_NAME' | translate }}</a>
                 </li>
                 <li *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
-                    <a href="javascript:;" onClick="return false;" (click)="customFocum()"> {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
+                    <a href="javascript:;" onClick="return false;" (click)="focusUserProfileInput()"> {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
                 </li>
             </ul>
         </div>
@@ -241,15 +241,18 @@
                         <div class="govuk-checkboxes__item" *ngFor="let orgRole of roleDataList; let i=index">
                             <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
                                 [attr.disabled]="orgRole.roleKey === 'ORG_DEFAULT_USER' || orgRole.roleKey === 'ORG_ADMINISTRATOR' ? true : null"
-                                [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc">
+                                [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc" (ngModelChange)="onUserRoleChecked(orgRole, $event)">
                             <label *ngIf="orgRole.serviceName == null" class="govuk-label govuk-checkboxes__label"
                                 for="{{'orgRoleControl_' + orgRole.roleId}}">
                                 {{orgRole.accessRoleName}}
                             </label>
                             <label *ngIf="orgRole.serviceName != null" class="govuk-label govuk-checkboxes__label"
                                 for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
+                                {{orgRole.accessRoleName}} - {{orgRole.serviceName}} 
                             </label>
+                            <strong class="govuk-tag govuk-tag--grey" *ngIf="checkIsPendingRole(orgRole)">
+                                Pending Approval
+                              </strong>
                         </div>
                     </fieldset>
                 </div>
