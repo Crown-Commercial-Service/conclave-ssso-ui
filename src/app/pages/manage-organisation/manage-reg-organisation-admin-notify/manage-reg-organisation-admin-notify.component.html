@@ -1,6 +1,54 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div class="content flex">
+            <div class="govuk-breadcrumbs">
+                <ol class="govuk-breadcrumbs__list" *ngIf="pageAccessMode != 0">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                      <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate }}</a>
+                  </li>
+                  <li class="govuk-breadcrumbs__list-item">
+                    <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/type">{{ 'ORG_TYPE' | translate }}</a>
+                 </li>
+                 <li class="govuk-breadcrumbs__list-item">
+                  <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/search">{{ 'ORG_DETAILS' | translate }}</a>
+                 </li>
+                 <li class="govuk-breadcrumbs__list-item">
+                    <a class="govuk-breadcrumbs__link" href="javascript:;"  (click)="back()">{{ 'ORG_ALREADY_REG' | translate }}</a>
+                </li>
+                <li class="govuk-breadcrumbs__list-item">
+                    <span class="govuk-breadcrumbs__link"> {{ 'NOTIFICATION_SENT' | translate }}</span>
+                </li>
+                </ol>
+                <ol class="govuk-breadcrumbs__list" *ngIf="pageAccessMode == 0">
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" href="javascript:;"  (click)="back()">{{ 'ORG_ALREADY_REG' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link"> {{ 'NOTIFICATION_SENT' | translate }}</span>
+                    </li>
+                </ol>
+            </div>
             <h1 class="govuk-heading-xl page-title" class="text-align">An email has been sent to {{orgName}} to notify them of your request
                 for access</h1>
             <p>Once access has been granted you will be able to continue creating your account</p>

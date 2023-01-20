@@ -179,33 +179,6 @@ export class ViewPendingVerificationComponent implements OnInit {
                     .subscribe((val) => (f.event = val));
                   if (f.event.includes('[RoleName]')) {
                     var role = f.role;
-                    switch (f.roleKey) {
-                      case 'CAT_USER': {
-                        role = 'Contract Award Service (CAS) - add service';
-                        break;
-                      }
-                      case 'ACCESS_CAAAC_CLIENT': {
-                        role =
-                          'Contract Award Service (CAS) - add to dashboard';
-                        break;
-                      }
-                      case 'JAEGGER_SUPPLIER': {
-                        role = 'eSourcing Service as a supplier';
-                        break;
-                      }
-                      case 'JAEGGER_BUYER': {
-                        role = 'eSourcing Service as a buyer';
-                        break;
-                      }
-                      case 'JAGGAER_USER': {
-                        role = 'eSourcing Service - add service';
-                        break;
-                      }
-                      case 'ACCESS_JAGGAER': {
-                        role = 'eSourcing Service - add to dashboard';
-                        break;
-                      }
-                    }
                     f.event = f.event.replace('[RoleName]', role);
                   }
                 } else {
@@ -269,26 +242,24 @@ export class ViewPendingVerificationComponent implements OnInit {
       10
     ).subscribe({
       next: async (orgListResponse: OrganisationAuditListResponse) => {
-        if (orgListResponse != null && orgListResponse.organisationAuditList.length != 0) {
-          this.checkPendingOrganisation(orgListResponse)
+        if (orgListResponse != null) {
+          if(orgListResponse.organisationAuditList.length != 0){
+            let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId === this.routeDetails.organisationId )
+            if(orgDetails === undefined){
+              this.getVerifiedOrg()
+            } else {
+              this.routeDetails = orgDetails
+              this.getSchemesDetails()
+            }
           } else {
             this.getVerifiedOrg()
+          }
         }
       },
       error: (error: any) => {
         this.router.navigateByUrl('delegated-error');
       },
     });
-  }
-
-  private checkPendingOrganisation(orgListResponse: OrganisationAuditListResponse){
-    let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId === this.routeDetails.organisationId )
-    if(orgDetails === undefined){
-      this.getVerifiedOrg()
-    } else {
-      this.routeDetails = orgDetails
-      this.getSchemesDetails()
-    }
   }
 
   getVerifiedOrg() {

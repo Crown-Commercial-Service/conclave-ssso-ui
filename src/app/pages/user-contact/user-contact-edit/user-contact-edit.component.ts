@@ -87,6 +87,7 @@ export class UserContactEditComponent
     { data: 'Fax', status: false, isChecked: false, formControlName: 'fax' },
     { data: 'Web', status: false, isChecked: false, formControlName: 'webUrl' },
   ];
+  isOrgAdmin: boolean = false;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -154,6 +155,7 @@ export class UserContactEditComponent
   }
 
   ngOnInit() {
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} - User Contact - CCS`
     );
@@ -268,7 +270,7 @@ export class UserContactEditComponent
       this.formGroup.controls['email'].setErrors({ incorrect: true });
     }
     if (this.formValid(form)) {
-      if (!this.validators) {
+      if (!this.validator) {
         this.contactData.contactPointName = form.get('name')?.value;
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
@@ -384,7 +386,7 @@ export class UserContactEditComponent
     });
   }
 
-  public get validators() {
+  public get validator() {
     if (
       this.formGroup.get('email')?.value ||
       this.formGroup.get('phone')?.value ||
