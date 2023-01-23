@@ -75,7 +75,6 @@ export class DelegatedOrganisationComponent implements OnInit {
     this.roleInfo = orgDetails.delegatedOrgId;
   }
   onSubmit() {
-    console.log("this.roleInfo",this.roleInfo)
     this.DelegateService.setDelegatedOrg(this.roleInfo);
   }
   public Cancel() {
