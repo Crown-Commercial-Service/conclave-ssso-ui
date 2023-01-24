@@ -9,8 +9,8 @@ cache:
   - "./node_modules"
 install:
 - npm install
-before_script:
-- npm install -g @angular/cli
+#before_script:
+#- npm install -g @angular/cli
 script: npm run build
 after_script: ls
 deploy:
