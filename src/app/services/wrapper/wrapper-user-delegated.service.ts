@@ -101,7 +101,7 @@ getEdituserDetails(userId: string, delegatedOrgId: string): Observable<any> {
 }
 
 getuserDetail(userId: string,delegatedOrgId: string): Observable<any> {
-  const url = `${this.Usersurl}?user-id=${userId}&is-delegated=${true}&is-delegated-search=${true}&delegated-organisation-id=${delegatedOrgId}`;
+  const url = `${this.Usersurl}?user-id=${encodeURIComponent(userId)}&is-delegated=${true}&is-delegated-search=${true}&delegated-organisation-id=${delegatedOrgId}`;
   return this.http.get<delegateduser>(url).pipe(
     map((data: delegateduser) => {
       return data;
