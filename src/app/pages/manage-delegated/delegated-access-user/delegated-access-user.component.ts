@@ -52,6 +52,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     });
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userDetails = JSON.parse(atob(para.data));
+      this.userDetails.userName = decodeURIComponent(this.userDetails.userName);
       this.pageAccessMode = this.userDetails.pageaccessmode
       if (this.userSelectedFormData) {
         this.userSelectedData(this.userDetails.userName, this.organisationId)
