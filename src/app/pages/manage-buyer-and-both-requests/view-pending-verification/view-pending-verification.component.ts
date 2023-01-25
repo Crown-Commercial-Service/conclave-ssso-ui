@@ -178,7 +178,6 @@ export class ViewPendingVerificationComponent implements OnInit {
                   this.translate.get(f.event).subscribe((val) => (f.event = val));
                   if (f.event.includes('[RoleName]')) 
                   {
-                    var role = f.role;
                       if(f.roleKey != 'JAEGGER_SUPPLIER' &&
                         f.roleKey != 'ACCESS_JAGGAER' &&
                         f.roleKey != 'CAT_USER' &&
