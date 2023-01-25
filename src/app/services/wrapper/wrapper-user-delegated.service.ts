@@ -25,7 +25,7 @@ constructor(private http: HttpClient) {
 
 
 getDeligatedOrg(): Observable<any> {
-  const url = `${this.Usersurl}?user-id=${localStorage.getItem('user_name')}&is-delegated=${true}`;
+  const url = `${this.Usersurl}?user-id=${encodeURIComponent(localStorage.getItem('user_name') || '')}&is-delegated=${true}`;
   return this.http.get<delegateduser>(url).pipe(
     map((data: delegateduser) => {
       return data;
@@ -125,7 +125,7 @@ deleteDelegatedUser(userId: string, organizationId: string): Observable<any> {
 
   
   resentActivationLink(userId: string, organizationId: string){
-    const url = `${this.Usersurl}/delegate-user-resend-activation?user-id=${userId}&delegated-organisation-id=${organizationId}`;
+    const url = `${this.Usersurl}/delegate-user-resend-activation?user-id=${encodeURIComponent(userId)}&delegated-organisation-id=${organizationId}`;
     return this.http.put(url,this.options).pipe(
       map(() => {
         return true;
