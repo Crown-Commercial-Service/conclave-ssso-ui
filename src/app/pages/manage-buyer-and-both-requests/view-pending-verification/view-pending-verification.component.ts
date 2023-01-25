@@ -173,18 +173,28 @@ export class ViewPendingVerificationComponent implements OnInit {
                   f.event?.toUpperCase() == 'ORGROLEUNASSIGNED' ||
                   f.event?.toUpperCase() == 'ADMINROLEASSIGNED' ||
                   f.event?.toUpperCase() == 'ADMINROLEUNASSIGNED'
-                ) {
-                  this.translate
-                    .get(f.event)
-                    .subscribe((val) => (f.event = val));
-                  if (f.event.includes('[RoleName]')) {
-                    var role = f.role;
-                    f.event = f.event.replace('[RoleName]', role);
+                ) 
+                {
+                  this.translate.get(f.event).subscribe((val) => (f.event = val));
+                  if (f.event.includes('[RoleName]')) 
+                  {
+                      if(f.roleKey != 'JAEGGER_SUPPLIER' &&
+                        f.roleKey != 'ACCESS_JAGGAER' &&
+                        f.roleKey != 'CAT_USER' &&
+                        f.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                        f.roleKey != 'JAEGGER_BUYER' &&
+                        f.roleKey != 'JAGGAER_USER')
+                      {
+                        f.event = f.event.replace('[RoleName]', f.role + ' - ' + f.serviceName);
+                      }
+                      else
+                      {
+                        f.event = f.event.replace('[RoleName]', f.role);
+                      }
                   }
-                } else {
-                  this.translate
-                    .get(f.event)
-                    .subscribe((val) => (f.event = val));
+                } 
+                else {
+                  this.translate.get(f.event).subscribe((val) => (f.event = val));
                 }
               }
             );

@@ -199,13 +199,11 @@ export class ViewVerifiedOrgComponent implements OnInit {
                     f.roleKey != 'JAEGGER_BUYER' &&
                     f.roleKey != 'JAGGAER_USER')
                   {
-                    var role = f.role;
-                    f.event = f.event.replace('[RoleName]', role + ' - ' + f.serviceName);
+                    f.event = f.event.replace('[RoleName]', f.role + ' - ' + f.serviceName);
                   }
                   else
-                  {
-                    var role = f.role;
-                    f.event = f.event.replace('[RoleName]', role);
+                  {                    
+                    f.event = f.event.replace('[RoleName]', f.role);
                   }
                 }
               }
