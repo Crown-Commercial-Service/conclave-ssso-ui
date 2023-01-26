@@ -44,6 +44,8 @@ export interface Role {
 
 export interface CheckBoxRoleListGridSource extends Role{
     isChecked?: boolean
+    isDisable?: any
+
 }
 
 export interface OrganisationGroupResponseInfo extends Group {
