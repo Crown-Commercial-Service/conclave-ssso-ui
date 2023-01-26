@@ -77,7 +77,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
       next: (data: any) => {
         let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; })=> element.delegatedOrgId == this.switchedOrgId)
         if(orgDetails === undefined){
-          this.DelegateService.setDelegatedOrg(0);
+          this.DelegateService.setDelegatedOrg(0,'home');
           this.initializer()
         } else {
           this.initializer()
@@ -247,8 +247,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
   public getDelegatedOrganisation(): void {
     this.delegatedApiService.getDeligatedOrg().subscribe({
       next: (data: any) => {
-        let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; })=> element.delegatedOrgId == this.switchedOrgId)
-         console.log("orgDetails",orgDetails) 
         if(data.detail.delegatedOrgs.length > 0 && this.isDelegation){
           this.systemModules.push({
             name: 'Manage my delegated access',
