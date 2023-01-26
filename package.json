@@ -51,6 +51,7 @@
     "zone.js": "^0.11.4"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^0.1100.7",
     "@angular/cli": "^11.2.14",
     "@angular/compiler-cli": "^11.2.14",
     "@ngrx/effects": "^10.1.2",
@@ -61,7 +62,7 @@
     "@types/jasmine": "^3.9.1",
     "@types/jquery": "^3.5.14",
     "@types/node": "^16.9.6",
-    "codelyzer": "^0.0.28",
+    "codelyzer": "^6.0.2",
     "ts-node": "^10.2.1",
     "tslint": "^6.1.0"
   },
