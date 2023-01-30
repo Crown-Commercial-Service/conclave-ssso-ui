@@ -17,6 +17,7 @@ import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org
 import { environment } from "src/environments/environment";
 import { AuditLoggerService } from "src/app/services/postgres/logger.service";
 import { SessionStorageKey } from "src/app/constants/constant";
+import { SharedDataService } from "src/app/shared/shared-data.service";
 
 @Component({
     selector: 'app-manage-user-profiles',
@@ -42,7 +43,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     public isBulkUpload=environment.appSetting.hideBulkupload
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
         protected uiStore: Store<UIState>, private router: Router, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
-        private auditLogService: AuditLoggerService) {
+        private auditLogService: AuditLoggerService,private sharedDataService:SharedDataService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.userList = {
@@ -103,11 +104,11 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
 
     onEditRow(dataRow: UserListInfo) {
         console.log(dataRow);
-        let data = {
-            'isEdit': true,
-            'rowData':dataRow.userName
+         let  data = {
+                'rowData':dataRow.userName
         };
+        this.sharedDataService.storeUserDetails(JSON.stringify(data))
         sessionStorage.setItem(SessionStorageKey.ManageUserUserName, dataRow.userName);
-        this.router.navigateByUrl('manage-users/add-user/details?data=' + btoa(JSON.stringify(data)));
+        this.router.navigateByUrl('manage-users/add-user/details?data=' + btoa(JSON.stringify({'isEdit': true})));
     }
 }
