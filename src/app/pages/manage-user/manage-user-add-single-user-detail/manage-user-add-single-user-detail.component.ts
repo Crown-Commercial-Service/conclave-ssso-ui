@@ -470,8 +470,10 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   private invalidDomainConfig(role: any) {
-    let filterRole = this.approveRequiredRole.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
-    if (filterRole === undefined) {
+    let filterRole = this.approveRequiredRole.find((element: { roleKey: any; }) => element.roleKey == role.roleKey);
+    let roleAlredyApprovedAndAssigned = this.userProfileResponseInfo?.detail?.rolePermissionInfo?.find(x => x.roleKey == role.roleKey);
+
+    if (filterRole === undefined || (filterRole && roleAlredyApprovedAndAssigned)) {
       this.selectedRoleIds.push(role.roleId)
     } else {
       this.pendingRolecheck(role)
@@ -487,8 +489,9 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   private whenPendingRoleHavingLength(role: any) {
-    let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
-    if (filterAlreadyExistRole.roleKey != role.roleKey) {
+    let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey);
+
+    if (!filterAlreadyExistRole) {
       this.selectedApproveRequiredRole.push(role.roleId)
     }
   }
