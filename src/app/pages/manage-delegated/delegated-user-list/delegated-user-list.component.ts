@@ -79,9 +79,11 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
   public onLinkClick(data: any): void {
     if (data.event.target.innerText === "Remove") {
       data.pageaccessmode = 'remove'
+      data.userName = escape(encodeURIComponent(data.userName));
       this.router.navigateByUrl('delegated-remove-confirm?data=' + btoa(JSON.stringify(data)));
     } else {
       data.pageaccessmode = 'edit'
+      data.userName = escape(encodeURIComponent(data.userName));
       this.router.navigateByUrl('delegate-access-user?data=' + btoa(JSON.stringify(data)));
     }
   }
@@ -94,6 +96,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
       status: '003',
       event: event
     }
+    data.event.userName = escape(encodeURIComponent(data.event.userName));
     this.router.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
   }
 
