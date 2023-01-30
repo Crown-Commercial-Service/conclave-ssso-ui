@@ -90,7 +90,7 @@ updateDelegatedUser(userRequest: delegateduser): Observable<any> {
 }
 
 getEdituserDetails(userId: string, delegatedOrgId: string): Observable<any> {
-  const url = `${this.Usersurl}?user-id=${userId}&is-delegated=${true}&delegated-organisation-id=${delegatedOrgId}`;
+  const url = `${this.Usersurl}?user-id=${encodeURIComponent(userId)}&is-delegated=${true}&delegated-organisation-id=${delegatedOrgId}`;
   return this.http.get<delegateduser>(url).pipe(
     map((data: delegateduser) => {
       return data;
@@ -113,7 +113,7 @@ getuserDetail(userId: string,delegatedOrgId: string): Observable<any> {
 
 
 deleteDelegatedUser(userId: string, organizationId: string): Observable<any> {
-  const url = `${this.Usersurl}/delegate-user?user-id=${userId}&delegated-organisation-id=${organizationId}`;
+  const url = `${this.Usersurl}/delegate-user?user-id=${encodeURIComponent(userId)}&delegated-organisation-id=${organizationId}`;
   return this.http.delete(url,this.options).pipe(
     map(() => {
       return true;
