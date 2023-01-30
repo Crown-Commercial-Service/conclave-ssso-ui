@@ -256,7 +256,6 @@ export class AuthService {
     localStorage.removeItem('delegatedOrg');
     localStorage.removeItem('routeRecords');
     localStorage.removeItem('user_approved_role');
-    localStorage.removeItem('userEditDetails');
   }
 
   public logOutAndRedirect() {
