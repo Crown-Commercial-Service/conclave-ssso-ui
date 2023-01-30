@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
@@ -30,8 +29,6 @@ import { PatternService } from 'src/app/shared/pattern.service';
 import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
-import { SharedDataService } from 'src/app/shared/shared-data.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-manage-user-add-single-user-detail',
@@ -40,7 +37,7 @@ import { Subscription } from 'rxjs';
 })
 export class ManageUserAddSingleUserDetailComponent
   extends FormBaseComponent
-  implements OnInit,OnDestroy {
+  implements OnInit {
   organisationId: string;
   userProfileRequestInfo: UserProfileRequestInfo;
   userProfileResponseInfo: UserProfileResponseInfo;
@@ -76,7 +73,7 @@ export class ManageUserAddSingleUserDetailComponent
   private selectedRoleIds: number[] = []
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   isInvalidDomain: boolean = false
-  subscription: Subscription = new Subscription;
+
   constructor(
     private organisationGroupService: WrapperOrganisationGroupService,
     private configWrapperService: WrapperConfigurationService,
@@ -91,8 +88,7 @@ export class ManageUserAddSingleUserDetailComponent
     private wrapperUserService: WrapperUserService,
     private authService: AuthService,
     private locationStrategy: LocationStrategy,
-    private organisationService: WrapperOrganisationService,
-    private sharedDataService:SharedDataService
+    private organisationService: WrapperOrganisationService
   ) {
     super(
       viewportScroller,
@@ -128,13 +124,15 @@ export class ManageUserAddSingleUserDetailComponent
     this.state = this.router.getCurrentNavigation()?.extras.state;
     this.ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
     localStorage.removeItem('user_approved_role');
+    // this.locationStrategy.onPopState(() => {
+    //   this.onCancelClick();
+    // });
     if (queryParams.data) {
-      this.subscription = this.sharedDataService.userEditDetails.subscribe((data)=>{
-        this.routeData = JSON.parse(atob(queryParams.data));
-        this.isEdit = this.routeData['isEdit'];
-        this.editingUserName = sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
-        this.editingUserName = data.rowData;
-      })
+      this.routeData = JSON.parse(atob(queryParams.data));
+      this.isEdit = this.routeData['isEdit'];
+      this.editingUserName =
+        sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
+      this.editingUserName = this.routeData.rowData;
     }
     this.orgGroups = [];
     this.orgRoles = [];
@@ -834,9 +832,5 @@ export class ManageUserAddSingleUserDetailComponent
         'confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data))
       );
     }
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe()
   }
 }
