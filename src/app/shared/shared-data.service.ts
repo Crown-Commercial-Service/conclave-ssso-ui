@@ -11,7 +11,7 @@ export class SharedDataService {
 
   public ManageGroup: BehaviorSubject<any> = new BehaviorSubject(this.GName);
 
-  public userEditDetails: BehaviorSubject<any> = new BehaviorSubject(JSON.parse(localStorage.getItem('userEditDetails') || ''));
+  public userEditDetails: BehaviorSubject<any> = new BehaviorSubject(this.userName);
 
   public manageGroupStorage(Gname: string): void {
     sessionStorage.setItem('Gname', Gname);
@@ -21,7 +21,15 @@ export class SharedDataService {
   public get GName() {
     return sessionStorage.getItem('Gname');
   }
-
+  
+   public get userName(){
+    if(localStorage.getItem('userEditDetails') != null){
+      return JSON.parse(localStorage.getItem('userEditDetails') || '')
+    } else {
+      return null
+    }
+   }
+  
    public storeUserDetails(userEditDetails:any){
     localStorage.setItem('userEditDetails', userEditDetails);
     this.userEditDetails.next(JSON.parse(localStorage.getItem('userEditDetails') || ''))
