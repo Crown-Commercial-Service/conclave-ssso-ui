@@ -192,12 +192,9 @@ export class ViewVerifiedOrgComponent implements OnInit {
                 this.translate.get(f.event).subscribe(val => f.event = val);
                 if (f.event.includes('[RoleName]')) 
                 {
-                  if(f.roleKey != 'JAEGGER_SUPPLIER' &&
-                    f.roleKey != 'ACCESS_JAGGAER' &&
-                    f.roleKey != 'CAT_USER' &&
-                    f.roleKey != 'ACCESS_CAAAC_CLIENT' &&
-                    f.roleKey != 'JAEGGER_BUYER' &&
-                    f.roleKey != 'JAGGAER_USER')
+                  let roleKey:any=['JAEGGER_SUPPLIER','ACCESS_JAGGAER','CAT_USER','ACCESS_CAAAC_CLIENT','JAEGGER_BUYER','JAGGAER_USER']
+                  let filterRole = roleKey.find((element: any) => element == f.roleKey);
+                  if(filterRole === undefined)
                   {
                     f.event = f.event.replace('[RoleName]', f.role + ' - ' + f.serviceName);
                   }
