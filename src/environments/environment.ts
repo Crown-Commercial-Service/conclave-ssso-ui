@@ -33,6 +33,7 @@ export const environment = {
   bulkUploadMaxFileSizeInBytes:1048576,//default value
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
+  mailDecryptKey:'',
   rollbar: {
     key: '',
     enable: false,
@@ -66,4 +67,3 @@ export const environment = {
    hideAutoValidation:false,
   },
 };
-

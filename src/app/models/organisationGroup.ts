@@ -30,6 +30,7 @@ export interface OrganisationGroupUserPatchInfo {
 }
 
 export interface Role {
+    pendingStatus?: boolean;
     roleId: number;
     roleKey:string;
     roleName: string;
@@ -58,4 +59,5 @@ export interface GroupRole{
 export interface GroupUser{
     userId: string;
     name: string;
+    isAdmin: boolean;
 }
