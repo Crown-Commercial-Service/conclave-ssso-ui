@@ -24,6 +24,7 @@ import { CcsServiceInfo } from 'src/app/models/configurations';
 import { ServicePermission } from 'src/app/models/servicePermission';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { ManageDelegateService } from '../manage-delegated/service/manage-delegate.service';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +32,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent extends BaseComponent implements OnInit {
+  switchedOrgId=''
   isDelegation:boolean=!environment.appSetting.hideDelegation
   public orgDetails: any = ''
   systemModules: SystemModule[] = [];
@@ -60,12 +62,35 @@ export class HomeComponent extends BaseComponent implements OnInit {
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
     private delegatedApiService: WrapperUserDelegatedService,
+    private DelegateService: ManageDelegateService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
-
+    this.switchedOrgId = localStorage.getItem('permission_organisation_id') || "" 
   }
 
   ngOnInit() {
+  this.checkValidOrganisation()
+  }
+ 
+  public checkValidOrganisation(){
+    this.delegatedApiService.getDeligatedOrg().subscribe({
+      next: (data: any) => {
+        let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; })=> element.delegatedOrgId == this.switchedOrgId)
+        if(orgDetails === undefined){
+          this.DelegateService.setDelegatedOrg(0,'home');
+          this.initializer()
+        } else {
+          this.initializer()
+        }
+      },
+      error: (error: any) => {
+        console.log("error",error)
+      },
+    });
+  }
+
+
+  public initializer(){
     this.authService.getPermissions('HOME').toPromise().then((response) => {
       this.servicePermissions = response;
       this.isOrgAdmin = this.servicePermissions.some(x => x.roleKey === "ORG_ADMINISTRATOR"); 
@@ -83,6 +108,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
           });
       });
   }
+ 
 
   getCcsService(code: string) {
     return this.ccsServices.find((c) => c.code == code);

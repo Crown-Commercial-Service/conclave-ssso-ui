@@ -3,15 +3,15 @@
     <div class="content flex">
       <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <span class="govuk-breadcrumbs__link"> {{ 'CREATE_ACC' | translate }}</span>
-            </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <span class="govuk-breadcrumbs__link"> {{ 'CREATE_ACC' | translate }}</span>
+          </li>
         </ol>
+      </div>
     </div>
-    </div> 
   </div>
 </div>
 <div class="govuk-grid-row">
@@ -33,8 +33,10 @@
             <li>Office of The Scottish Charity Regulator (OSCR) number</li>
             <li>The Charity Commission for Northern Ireland number</li>
             <li>National Health Service Organisations Registry number</li>
+            <li>Department for Education Unique Reference Number (URN)</li>
           </ul>
-          <p>As an organisation administrator, your name and email address may be provided by CCS to employees of your organisation so that they can contact you about any registration queries.</p>
+          <p>As an organisation administrator, your name and email address may be provided by CCS to employees of your
+            organisation so that they can contact you about any registration queries.</p>
           <p>Registering takes around 10 minutes.</p>
           <!-- <div class="govuk-inset-text">
             This service is also available <a class="navigation-text" href="javascript:;">in Welsh (Cymraeg)</a>.
@@ -44,7 +46,7 @@
             <p>We will request some basic information from you to establish if your organisation has previously been
               registered.</p>
           </div>
-    
+
           <button id="startNowButton" type="button"
             class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button govuk-button--start"
             data-module="govuk-button" (click)="onClick()">
@@ -60,7 +62,8 @@
         <div class="card card-help">
           <h2 class="card-title">Guides</h2>
           <a href="https://www.crowncommercial.gov.uk/public-procurement-gateway-guides" class="navigation-text"
-            rel="noreferrer noopener" target="_blank">Learn about the Public Procurement Gateway, and how to set up an account.</a>
+            rel="noreferrer noopener" target="_blank">Learn about the Public Procurement Gateway, and how to set up an
+            account.</a>
         </div>
       </div>
     </div>

@@ -17,16 +17,24 @@ export class DelegatedOrganisationComponent implements OnInit {
   private roleData:any;
   private roleInfo: any;
   private isDeleagation:boolean=environment.appSetting.hideDelegation
+
   constructor(
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private delegatedService: WrapperUserDelegatedService,
-    private DelegateService: ManageDelegateService
+    private DelegateService: ManageDelegateService,
   ) {
     if(this.isDeleagation === true){
       this.route.navigateByUrl('/home');
       return
      }
+     this.activatedRoute.queryParams.subscribe((para: any) => {
+     if(para.data === "reload"){
+      this.roleInfo=0
+      this.primaryRoleSelected = 'primaryselected';
+      this.roleData=0
+     }
+    });
   }
 
   ngOnInit(): void {
@@ -56,6 +64,10 @@ export class DelegatedOrganisationComponent implements OnInit {
   private getDelegatedOrganisation(): void {
     this.delegatedService.getDeligatedOrg().subscribe({
       next: (data: any) => {
+        let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; })=> element.delegatedOrgId == localStorage.getItem('permission_organisation_id') || "" )
+        if(orgDetails === undefined && this.roleData != 0){
+          this.DelegateService.setDelegatedOrg(0,'delegated-organisation?data=reload');
+        } 
         this.userDetails = data;
         this.organisationList = data.detail.delegatedOrgs;
       },
@@ -75,7 +87,7 @@ export class DelegatedOrganisationComponent implements OnInit {
     this.roleInfo = orgDetails.delegatedOrgId;
   }
   onSubmit() {
-    this.DelegateService.setDelegatedOrg(this.roleInfo);
+    this.DelegateService.setDelegatedOrg(this.roleInfo,'home');
   }
   public Cancel() {
     window.history.back();

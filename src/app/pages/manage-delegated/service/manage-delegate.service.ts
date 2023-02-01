@@ -53,12 +53,12 @@ export class ManageDelegateService {
 
   }
 
-  public setDelegatedOrg(org: any): void {
+  public setDelegatedOrg(org: any,page:string): void {
     localStorage.setItem('delegatedOrg', org);
     this.delegatedOrg.next(org)
     // Redirect to home page once refresh token call completed 
     localStorage.setItem('show_loading_indicator', 'true');
-    this.AuthService.renewAccessToken('/home')
+    this.AuthService.renewAccessToken(page)
     this.setPermissionOrgDetails()
   }
 

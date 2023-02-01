@@ -125,7 +125,7 @@ export class WrapperUserService {
   }
 
   deleteApprovePendingRole(userName: string, roleIds: number): Observable<any> {
-    const url = `${this.url}/approve/roles?user-id=${userName}&roles=${roleIds}`;
+    const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}&roles=${roleIds}`;
     return this.http.delete(url).pipe(
       map(() => {
         return true;
