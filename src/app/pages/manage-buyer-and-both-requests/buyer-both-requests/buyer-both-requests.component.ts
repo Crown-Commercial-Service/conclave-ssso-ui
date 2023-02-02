@@ -30,7 +30,7 @@ export class BuyerBothRequestsComponent implements OnInit {
     ],
     organisationAuditList: '',
     pageName: 'Contactadmin',
-    hyperTextrray: ['Decline', 'Accept', 'View'],
+    hyperTextrray: ['View'],
   };
 
   public verifiedBuyerAndBoth: any = {
