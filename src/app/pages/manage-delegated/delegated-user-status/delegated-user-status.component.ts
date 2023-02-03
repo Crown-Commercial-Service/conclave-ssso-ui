@@ -119,7 +119,7 @@ export class DelegatedUserStatusComponent implements OnInit {
   }
 
   public BackToDelegated():void {
-    this.router.navigateByUrl('find-delegated-user');
+    window.history.back();
   }
   public BackToDashboard():void {
     this.router.navigateByUrl('home');
