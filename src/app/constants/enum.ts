@@ -56,3 +56,9 @@ export enum BulkUploadStatus {
     migrating,
     migrationCompleted
 }
+
+export enum ManualValidationStatus {
+    approve,
+    decline,
+    remove
+}

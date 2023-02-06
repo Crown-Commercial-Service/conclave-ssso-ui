@@ -9,6 +9,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-buyer-details',
@@ -59,7 +60,17 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   }
 
   public onContinueClick() {
-    this.router.navigateByUrl(`buyer/confirm/${this.selectedOrgId}`);
+    if(environment.appSetting.hideAutoValidation){
+     this.router.navigateByUrl(`buyer/confirm/${this.selectedOrgId}`);
+    }
+    else {
+      let data = {
+        companyHouseId:this.registries.identifier?.id,
+        Id:this.selectedOrgId
+      }
+      this.router.navigateByUrl('update-org-type/confirm?data=' + btoa(JSON.stringify(data)));
+
+    }
   }
 
   public onCancelClick() {
