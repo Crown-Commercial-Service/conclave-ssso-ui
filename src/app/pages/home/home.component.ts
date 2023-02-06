@@ -191,6 +191,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
           route: '/buyer/search',
         });
       }
+      this.otherModules.push({
+        name: 'Manage Buyer status requests',
+        description: 'Verify and approve or decline Buyer status requests',
+        route: '/manage-buyer-both',
+      });
     }
     if (e.permissionName === 'ORG_USER_SUPPORT') {
       if (
@@ -205,7 +210,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
         });
       }
     }
-
   }
 
   getModuleElementId(moduleName: string) {
