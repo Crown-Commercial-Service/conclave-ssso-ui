@@ -37,11 +37,12 @@ export const environment = {
     bulkUploadTemplateFileUrl: 'BUCKET_URL', // Put the publicly accessible url of the template file
     usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
     listPageSize: 10,
+    mailDecryptKey:'conclavesimpleemailencrypt',
     rollbar: {
         key: 'ROLLBAR',
         enable: true,
         security_log: false,
-        environment: 'development'
+        environment: 'dev-ccs-sso'
     },
     cookies_policy: {
         essentialcookies: {
@@ -64,7 +65,7 @@ export const environment = {
         },
     },
     appSetting: {
-     hideIDP:false,
+     hideIDP:true,
      hideDelegation:false,
      hideBulkupload:false,
      hideAutoValidation:false,

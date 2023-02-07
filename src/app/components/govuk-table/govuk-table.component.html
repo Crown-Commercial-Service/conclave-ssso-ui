@@ -38,7 +38,11 @@
             </span>
 
           <span *ngIf="!findDateKey(dataKey) && dataKey != 'owner'">
-            {{dataRow[dataKey]}} 
+            {{dataRow[dataKey]}}
+            <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'userName' && dataRow['isAdmin']) ||
+            (dataKey === 'userId' && dataRow['isAdmin'])">
+              Admin
+            </strong>
           </span>
           <br>
         </td>

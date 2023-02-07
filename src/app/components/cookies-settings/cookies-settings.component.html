@@ -1,19 +1,39 @@
 <div class="govuk-notification-banner govuk-notification-banner--success" *ngIf="cookiesUpdated">
     <div class="govuk-notification-banner__header">
-      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-        Success
-      </h2>
+        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+            Success
+        </h2>
     </div>
     <div class="govuk-notification-banner__content">
-      <p class="govuk-notification-banner__heading">
-        You’ve set your cookie preferences. <a class="govuk-notification-banner__link" (click)="onback()">Go back to the page you were looking at</a>.
-      </p>
+        <p class="govuk-notification-banner__heading">
+            You’ve set your cookie preferences. <a class="govuk-notification-banner__link" (click)="onback()">Go back to
+                the page you were looking at</a>.
+        </p>
     </div>
-  </div>
+</div>
 <div class="govuk-width-container">
     <main class="govuk-main-wrapper govuk-!-padding-top-0 govuk-!-padding-bottom-12" id="main-content" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
+                <div class="govuk-breadcrumbs">
+                    <ol class="govuk-breadcrumbs__list">
+                        <li class="govuk-breadcrumbs__list-item">
+                            <a *ngIf="this.isOrgAdmin && userName != ''" class="govuk-breadcrumbs__link" routerLink="/home">
+                                {{ 'ADMINISTRATOR_DASHBOARD' | translate }}
+                            </a>
+                            <a *ngIf="!this.isOrgAdmin && userName != ''" class="govuk-breadcrumbs__link"
+                                routerLink="/home">
+                                {{"PUBLIC_PROCUREMENT_GATEWAY_DASHBOARD" | translate}}
+                            </a>
+                            <a *ngIf="userName == ''" class="govuk-breadcrumbs__link" routerLink="/home">
+                                {{"REGITERATION_HOME" | translate}}
+                            </a>
+                        </li>
+                        <li class="govuk-breadcrumbs__list-item">
+                            <span class="govuk-breadcrumbs__link">Cookies</span>
+                        </li>
+                    </ol>
+                </div>
                 <div class="cookie-settings__confirmation banner banner-with-tick" data-cookie-confirmation="true"
                     role="group" tabindex="-1">
                 </div>
@@ -21,11 +41,13 @@
                 <p class="govuk-body">
                     Cookies are small files saved on your phone, tablet or computer when you visit a website.
                 </p>
-                <p class="govuk-body">We use cookies to make the Public Procurement Gateway work and collect information about how you use our service.</p>
+                <p class="govuk-body">We use cookies to make the Public Procurement Gateway work and collect information
+                    about how you use our service.</p>
 
                 <h2 class="heading-medium" id="essential-cookies">Essential cookies</h2>
                 <p class="govuk-body">
-                    Essential cookies keep your information secure while you use the Public Procurement Gateway. We do not need to ask permission to use them.
+                    Essential cookies keep your information secure while you use the Public Procurement Gateway. We do
+                    not need to ask permission to use them.
                 </p>
                 <div>
                     <table class="govuk-table">
@@ -101,23 +123,27 @@
                             </tr>
                             <tr class="govuk-table__row">
                                 <td class="govuk-table__cell">did_compat</td>
-                                <td class="govuk-table__cell">Fallback cookie for anomaly detection on browsers that don’t support the sameSite=None attribute.</td>
+                                <td class="govuk-table__cell">Fallback cookie for anomaly detection on browsers that
+                                    don’t support the sameSite=None attribute.</td>
                                 <td class="govuk-table__cell">{{did_compat}} hr</td>
                             </tr>
                             <tr class="govuk-table__row">
                                 <td class="govuk-table__cell">_cf_bm </td>
-                                <td class="govuk-table__cell">This cookie is used by our authentication service Auth0 to distinguish between humans and bots. In this way, valid reports on the use of the website can be created.</td>
+                                <td class="govuk-table__cell">This cookie is used by our authentication service Auth0 to
+                                    distinguish between humans and bots. In this way, valid reports on the use of the
+                                    website can be created.</td>
                                 <td class="govuk-table__cell">{{_cf_bm}} min</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="analytics">
-                <h2 class="heading-medium" id="analytics-cookies">Analytics cookies (optional)</h2>
+                    <h2 class="heading-medium" id="analytics-cookies">Analytics cookies (optional)</h2>
                     <div class="googleanalytics">
                         <h3 class="govuk-heading-s">Google Analytics</h3>
                         <p class="govuk-body">
-                            With your permission, we use Google Analytics to collect data about how you use the Public Procurement Gateway. This information helps us to improve our service.
+                            With your permission, we use Google Analytics to collect data about how you use the Public
+                            Procurement Gateway. This information helps us to improve our service.
                         </p>
                         <p class="govuk-body">
                             Google is not allowed to use or share our analytics data with anyone.
@@ -127,7 +153,8 @@
                         </p>
                         <ul class="govuk-list govuk-list--bullet">
                             <li>how you got to the Public Procurement Gateway</li>
-                            <li>the pages you visit on the Public Procurement Gateway and how long you spend on them</li>
+                            <li>the pages you visit on the Public Procurement Gateway and how long you spend on them
+                            </li>
                             <li>any errors you see while using the Public Procurement Gateway</li>
                         </ul>
                         <div>
@@ -142,17 +169,20 @@
                                 <tbody class="govuk-table__body">
                                     <tr class="govuk-table__row">
                                         <td class="govuk-table__cell">_ga</td>
-                                        <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
+                                        <td class="govuk-table__cell">This helps us count how many people visit CCS by
+                                            tracking if you’ve visited before.</td>
                                         <td class="govuk-table__cell">2 yrs</td>
                                     </tr>
                                     <tr class="govuk-table__row">
                                         <td class="govuk-table__cell">_gid</td>
-                                        <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
+                                        <td class="govuk-table__cell">This helps us count how many people visit CCS by
+                                            tracking if you’ve visited before.</td>
                                         <td class="govuk-table__cell">24 hrs</td>
                                     </tr>
                                     <tr class="govuk-table__row">
                                         <td class="govuk-table__cell">_gat_UA-47046847-22</td>
-                                        <td class="govuk-table__cell">This helps us count how many people visit CCS by tracking if you’ve visited before.</td>
+                                        <td class="govuk-table__cell">This helps us count how many people visit CCS by
+                                            tracking if you’ve visited before.</td>
                                         <td class="govuk-table__cell">1 min</td>
                                     </tr>
                                 </tbody>
@@ -170,7 +200,8 @@
                                                 <input class="govuk-radios__input" id="cookies-analytics-yes"
                                                     name="cookies-analytics" type="radio" [value]="true"
                                                     [(ngModel)]="cookiesValue.additional">
-                                                <label class="govuk-label govuk-radios__label" for="cookies-analytics-yes">
+                                                <label class="govuk-label govuk-radios__label"
+                                                    for="cookies-analytics-yes">
                                                     Yes
                                                 </label>
                                             </div>
@@ -178,7 +209,8 @@
                                                 <input class="govuk-radios__input" id="cookies-analytics-no"
                                                     name="cookies-analytics" type="radio" [value]="false"
                                                     [(ngModel)]="cookiesValue.additional">
-                                                <label class="govuk-label govuk-radios__label" for="cookies-analytics-no">
+                                                <label class="govuk-label govuk-radios__label"
+                                                    for="cookies-analytics-no">
                                                     No
                                                 </label>
                                             </div>
@@ -192,7 +224,9 @@
                     <div class="glass-box">
                         <h3 class="govuk-heading-s">Glass box</h3>
                         <p class="govuk-body">
-                            We use Glassbox software to collect information about how you use the Public Procurement Gateway. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.
+                            We use Glassbox software to collect information about how you use the Public Procurement
+                            Gateway. We do this to help make sure the site is meeting the needs of its users and to help
+                            us make improvements.
                         </p>
                         <p class="govuk-body">
                             Glassbox stores information about:
@@ -204,7 +238,8 @@
                             <li>Scrolls</li>
                         </ul>
                         <p class="govuk-body">
-                            We don’t collect or store your personal information (e.g. your name or address) so this information can’t be used to identify who you are.
+                            We don’t collect or store your personal information (e.g. your name or address) so this
+                            information can’t be used to identify who you are.
                         </p>
                         <p class="govuk-body">
                             We don’t allow Glassbox to use or share our analytics data.
@@ -221,7 +256,8 @@
                                 <tbody class="govuk-table__body">
                                     <tr class="govuk-table__row">
                                         <td class="govuk-table__cell">_cls_s</td>
-                                        <td class="govuk-table__cell cookiestable-padding">The session identifying cookie. It also indicates if the visitor is new or existing.
+                                        <td class="govuk-table__cell cookiestable-padding">The session identifying
+                                            cookie. It also indicates if the visitor is new or existing.
                                             <ul class="cookiestable-padding">
                                                 <li>
                                                     0: New
@@ -235,7 +271,8 @@
                                     </tr>
                                     <tr class="govuk-table__row">
                                         <td class="govuk-table__cell">_cls_v</td>
-                                        <td class="govuk-table__cell cookiestable-padding">The visitor identifying cookie.</td>
+                                        <td class="govuk-table__cell cookiestable-padding">The visitor identifying
+                                            cookie.</td>
                                         <td class="govuk-table__cell">2 yrs</td>
                                     </tr>
                                 </tbody>
@@ -253,7 +290,8 @@
                                                 <input class="govuk-radios__input" id="cookies-glassbox-yes"
                                                     name="cookies-glassbox" type="radio" [value]="true"
                                                     [(ngModel)]="cookiesValue.glassbox">
-                                                <label class="govuk-label govuk-radios__label" for="cookies-glassbox-yes">
+                                                <label class="govuk-label govuk-radios__label"
+                                                    for="cookies-glassbox-yes">
                                                     Yes
                                                 </label>
                                             </div>
@@ -261,14 +299,16 @@
                                                 <input class="govuk-radios__input" id="cookies-glassbox-no"
                                                     name="cookies-glassbox" type="radio" [value]="false"
                                                     [(ngModel)]="cookiesValue.glassbox">
-                                                <label class="govuk-label govuk-radios__label" for="cookies-glassbox-no">
+                                                <label class="govuk-label govuk-radios__label"
+                                                    for="cookies-glassbox-no">
                                                     No
                                                 </label>
                                             </div>
                                         </div>
                                     </fieldset>
                                 </div>
-                                <button class="govuk-button" type="submit" (click)="OnSubmit()">Save cookie settings</button>
+                                <button class="govuk-button" type="submit" (click)="OnSubmit()">Save cookie
+                                    settings</button>
                             </form>
                         </div>
                     </div>

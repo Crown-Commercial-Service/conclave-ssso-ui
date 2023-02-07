@@ -49,6 +49,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
   expiredLinkErrorCodeValue: string = 'Access expired.';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
+  userName: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -77,8 +78,10 @@ export class ErrorComponent extends BaseComponent implements OnInit {
         });
       }
     });
+    this.userName = localStorage.getItem('user_name') || '';
   }
   ngOnInit(): void {
+    console.log("errorCode",this.errorCode)
     this.RollbarErrorService.RollbarDebug('Error Page:'.concat(this.errorCode));
   }
 
@@ -89,6 +92,14 @@ export class ErrorComponent extends BaseComponent implements OnInit {
       errorMessage.style.display = 'block';
     }
   }
+   
+  public nevigateToHome():void{
+    if (this.userName) {
+      this.goToDashboard()
+    } else {
+      this.signoutUser()
+    }
+  } 
 
   signoutUser() {
     // request for full session clean
