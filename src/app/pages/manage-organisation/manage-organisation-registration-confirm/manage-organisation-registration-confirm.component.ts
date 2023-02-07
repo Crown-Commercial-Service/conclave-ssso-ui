@@ -1,5 +1,5 @@
 import { ViewportScroller } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { timeout } from 'rxjs/operators';
@@ -18,14 +18,24 @@ import { UIState } from 'src/app/store/ui.states';
   styleUrls: ['./manage-organisation-registration-confirm.component.scss']
 })
 export class ManageOrgRegConfirmComponent extends BaseComponent implements OnInit {
-
+  public pageAccessMode:any;
   public emailAddress: string = '';
   public resendActivationEmailMode: boolean = false;
+  public buyerFlow:any
   constructor(private userService: UserService, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private router: Router) {
+    private router: Router,private ActivatedRoute: ActivatedRoute) {
     super(uiStore, viewportScroller, scrollHelper);
+    this.ActivatedRoute.queryParams.subscribe((para: any) => {
+      if(para.data != undefined){
+        this.pageAccessMode = JSON.parse(atob(para.data));
+      } else {
+        this.pageAccessMode = null
+      }
+    });
+    this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
+
   }
 
   ngOnInit() {
@@ -39,7 +49,28 @@ export class ManageOrgRegConfirmComponent extends BaseComponent implements OnIni
     });
   }
 
-  resendActivationLink() {
+
+  resendActivationLink() { 
     this.router.navigateByUrl('manage-org/register/confirm?rs');
+  }
+
+  public goConfirmOrgPage():void{
+    const schemeDetails = JSON.parse(localStorage.getItem('schemeDetails') || '');
+    this.router.navigateByUrl(
+      `manage-org/register/search/${schemeDetails.scheme}?id=${encodeURIComponent(
+        schemeDetails.schemeID
+      )}`
+    );
+  }
+
+  public goToRegSchema():void{
+    const schemeDetails = JSON.parse(localStorage.getItem('cii_scheme') || '');
+    this.router.navigateByUrl(
+      'manage-org/register/search/' +
+        schemeDetails.scheme +
+        '/' +
+        schemeDetails.id +
+        '/additional-identifiers'
+    );
   }
 }

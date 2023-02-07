@@ -37,6 +37,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     'The roles selected here will set what services are available to the users in this group.',
     'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
   ];
+  public history = window.history
   constructor(
     protected uiStore: Store<UIState>,
     private router: Router,
@@ -69,6 +70,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
 
     if (queryParams.data) {
       this.routeData = JSON.parse(queryParams.data);
+      console.log("this.routeData",this.routeData)
       this.isEdit = this.routeData['isEdit'];
       console.log("this.isEdit",this.isEdit)
       this.editingGroupId = this.routeData['groupId'];

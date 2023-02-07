@@ -70,6 +70,8 @@ export const environment = {
 
   listPageSize: 10,
 
+  mailDecryptKey:'conclavesimpleemailencrypt',
+
   rollbar: {
 
     key: 'ROLLBAR',

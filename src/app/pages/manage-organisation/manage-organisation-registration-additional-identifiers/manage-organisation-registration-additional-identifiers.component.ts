@@ -32,9 +32,12 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
   public additionalIdentifiers: any[] = new Array();
   public routeParams!: any;
   public organisation!:any;
+  public buyerFlow:any
 
   constructor(private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
+    this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
+
   }
 
   ngOnInit() {
@@ -58,7 +61,7 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
     const org = JSON.parse(localStorage.getItem('cii_organisation')+'');
     org.additionalIdentifiers = this.selectedIdentifiers;
     localStorage.setItem('cii_organisation', JSON.stringify(org));
-    this.router.navigateByUrl('manage-org/register/user');
+    this.router.navigateByUrl(`manage-org/register/user?data=` + btoa(JSON.stringify(2)));
   }
 
   public onChange(event: any, additionalIdentifier: any) {

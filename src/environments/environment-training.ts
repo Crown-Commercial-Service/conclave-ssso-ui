@@ -69,6 +69,8 @@ export const environment = {
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed, 
 
   listPageSize: 10,
+  
+  mailDecryptKey:'conclavesimpleemailencrypt',
 
   rollbar: {
 
@@ -76,7 +78,7 @@ export const environment = {
 
     enable: false,
 
-    security_log:true
+    security_log:false
 
   },
   cookies_policy: {

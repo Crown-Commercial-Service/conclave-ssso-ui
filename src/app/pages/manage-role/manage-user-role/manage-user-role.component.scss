@@ -1,0 +1,34 @@
+h1 {
+  margin-top: 30px;
+}
+
+.govuk-body,
+.govuk-body-m {
+  margin-bottom: 46px;
+}
+.navigation-text {
+  margin-bottom: 100px;
+  font-size: 19px;
+}
+
+a {
+  text-decoration: underline;
+}
+
+.navigation-text:hover {
+  color: #003078;
+  text-decoration-color: rgb(0, 48, 120);
+  text-decoration-line: underline;
+  text-decoration-skip-ink: none;
+  text-decoration-style: solid;
+  text-decoration-thickness: 3px;
+}
+.navigation-text:focus {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  text-decoration-color: #0b0c0c !important;
+  text-decoration-line: underline;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: 3px;
+  text-decoration-style: solid;
+}

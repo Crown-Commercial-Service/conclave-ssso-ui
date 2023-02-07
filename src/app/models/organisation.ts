@@ -75,6 +75,7 @@ export interface OrganisationSearchDto{
 
 export interface OrganisationAuditList
 {
+    organisationId: any;
     organisationName: string;
     organisationType: number;
     organisationTypeName: string;
