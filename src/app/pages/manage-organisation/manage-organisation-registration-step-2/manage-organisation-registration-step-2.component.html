@@ -92,7 +92,7 @@
                   <div *ngIf="item.schemeName === 'Department for Education'; else otherSchema">
                     <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
                       <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
-                      Please enter a registry number
+                       Please enter a registry number
                     </span>
                     Enter your {{ item.schemeName }} Unique Reference Number (URN)
                   </div>
@@ -142,7 +142,7 @@
                   <P class="govuk-body govuk-!-font-weight-regular custom_span"
                     *ngIf="item.schemeName === 'Department for Education'">
                     <span> Go to the</span>
-                    <a href="https://www.get-information-schools.service.gov.uk/Search?SelectedTab=Establishments" class="govuk-link"
+                    <a href="https://www.get-information-schools.service.gov.uk" class="govuk-link"
                       rel="noreferrer noopener" target="_blank"> Department for Education </a>
                     <span>website to search for your organisation details</span>
                   </P>
