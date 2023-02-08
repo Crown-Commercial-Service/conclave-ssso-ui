@@ -102,8 +102,7 @@
                   <div *ngIf="item.schemeName === 'Department for Education'; else otherSchema">
 
                     <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
-                      <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> 'Please enter Unique
-                      Reference Number (URN)'
+                      <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>Please enter a registry number
                     </span>
                     Enter your {{ item.schemeName }} Unique Reference Number (URN)
                   </div>
