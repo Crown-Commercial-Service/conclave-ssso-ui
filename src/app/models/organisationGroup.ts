@@ -30,6 +30,7 @@ export interface OrganisationGroupUserPatchInfo {
 }
 
 export interface Role {
+    pendingStatus?: boolean;
     roleId: number;
     roleKey:string;
     roleName: string;
@@ -38,6 +39,7 @@ export interface Role {
     tradeEligibility?: number;
     enabled?: boolean;
     serviceName?:string | null;
+    isDeleted?:boolean;
 }
 
 export interface CheckBoxRoleListGridSource extends Role{
@@ -57,4 +59,5 @@ export interface GroupRole{
 export interface GroupUser{
     userId: string;
     name: string;
+    isAdmin: boolean;
 }

@@ -2,7 +2,16 @@
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
       <li class="govuk-breadcrumbs__list-item">
-        <a class="navigation-text" class="govuk-breadcrumbs__link" (click)="navigateToHome()">Home</a>
+        <a *ngIf="this.isOrgAdmin && userName != ''" class="govuk-breadcrumbs__link" routerLink="/home">
+            {{ 'ADMINISTRATOR_DASHBOARD' | translate }}
+        </a>
+        <a *ngIf="!this.isOrgAdmin && userName != ''" class="govuk-breadcrumbs__link"
+            routerLink="/home">
+            {{"PUBLIC_PROCUREMENT_GATEWAY_DASHBOARD" | translate}}
+        </a>
+        <a *ngIf="userName == ''" class="govuk-breadcrumbs__link" routerLink="/home">
+            {{"REGITERATION_HOME" | translate}}
+        </a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
         <span class="govuk-breadcrumbs__link">Accessibility statement</span>

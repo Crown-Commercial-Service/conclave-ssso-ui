@@ -60,8 +60,9 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                     localStorage.setItem('session_state', tokenInfo.session_state);
                     this.authService.publishAuthStatus(true);
                     this.authService.createSession(tokenInfo.refresh_token).toPromise().then(() => {
-                        this.authService.registerTokenRenewal();
-                        this.router.navigateByUrl('home');                        
+                    const  previousGlobalRoute =  localStorage.getItem('routeRecords') ||'home'
+                    this.authService.registerTokenRenewal();
+                    this.router.navigateByUrl(previousGlobalRoute);                        
                     });
                 }, (err) => {
                     if (err.status == 404) {

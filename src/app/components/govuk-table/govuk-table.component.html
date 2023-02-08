@@ -5,8 +5,8 @@
         <th *ngFor="let header of headerTextKeys" scope="col" class="govuk-table__header">
           {{ header | translate }}
         </th>
-        <th class="govuk-table__header" *ngIf="hyperArrayVisible == true"></th>
-        <th class="govuk-table__header" *ngIf="!isHyperLinkVisible"></th>
+        <th class="govuk-table__header govuk-link-adjust" *ngIf="hyperArrayVisible == true">.</th>
+        <th class="govuk-table__header govuk-link-adjust" *ngIf="!isHyperLinkVisible">.</th>
         <td *ngIf="isCheckBoxVisible || isHyperLinkVisible || isRadioVisible" scope="col" class="govuk-table__header">
         </td>
       </tr>
@@ -20,7 +20,31 @@
               ? 'navigation-text'
               : ''
           ]">
-          {{ dataKey == 'endDate' ?  (dataRow[dataKey] | date: 'dd/MM/yyyy') : dataRow[dataKey] }}
+       
+          <!-- {{ findDateKey(dataKey) ?  (dataRow[dataKey] | date: 'dd/MM/yyyy') : dataRow[dataKey] }} -->
+          <span *ngIf="findDateKey(dataKey)">
+               {{dataRow[dataKey] | date: 'dd/MM/yyyy'}} <br>
+            <span *ngIf="findDateKey(dataKey)">{{ dataRow[dataKey] | date: 'HH:mm'}}</span>
+          </span>
+          <span *ngIf="dataKey == 'owner'">
+            <span *ngIf="dataRow['defaultOwnerChanges'] == false">
+              {{  dataRow['firstName']}} {{ dataRow['lastName'] }}
+              <br>
+              <span>{{dataRow['actionedBy']}}</span>
+            </span>
+            <span *ngIf="dataRow['defaultOwnerChanges'] == true">
+              {{ dataRow[dataKey] }} 
+            </span>
+            </span>
+
+          <span *ngIf="!findDateKey(dataKey) && dataKey != 'owner'">
+            {{dataRow[dataKey]}}
+            <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'userName' && dataRow['isAdmin']) ||
+            (dataKey === 'userId' && dataRow['isAdmin'])">
+              Admin
+            </strong>
+          </span>
+          <br>
         </td>
         <td class="govuk-table__cell" *ngIf="isHyperLinkVisible == true">
           <a class="navigation-text" href="javascript:;">
@@ -29,7 +53,7 @@
         <td *ngIf="hyperArrayVisible == true" class="govuk-table__cell">
           <div class="govuk-table_action-links">
             <span *ngFor="let hypertex of hyperLinkArray">
-              <a class="navigation-text" href="javascript:;" [ngClass]="{'navigation-text-red' : hypertex == 'Remove'}">
+              <a class="navigation-text" href="javascript:;" [ngClass]="{'navigation-text-red': hypertex == 'Remove' || hypertex == 'Decline' }">
                 {{ hypertex }}</a>
               </span>
           </div>          

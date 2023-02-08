@@ -125,6 +125,21 @@ import { DelegatedUserActivationComponent } from './pages/manage-delegated/landi
 import { DelegatedOrganisationComponent } from './pages/manage-delegated/user/delegated-organisation/delegated-organisation.component';
 import { TermsConditionsComponent } from './components/terms-conditions/terms-conditions.component';
 import { ForgotPasswordErrorComponent } from './pages/forgot-password-error/forgot-password-error.component';
+import { ViewPendingVerificationComponent } from './pages/manage-buyer-and-both-requests/view-pending-verification/view-pending-verification.component';
+import { ViewVerifiedOrgComponent } from './pages/manage-buyer-and-both-requests/view-verified-org/view-verified-org.component';
+import { UpdateOrgTypeComponent } from './pages/buyer/update-org-type/update-org-type.component';
+import { AutoValidationBuyerSuccessComponent } from './pages/buyer/auto-validation-buyer-success/auto-validation-buyer-success.component';
+import { ConfirmOrgTypeComponent } from './pages/buyer/confirm-org-type/confirm-org-type.component';
+import { ConfirmDeclineComponent } from './pages/manage-buyer-and-both-requests/confirm-decline/confirm-decline.component';
+import { BuyerBothRequestsComponent } from './pages/manage-buyer-and-both-requests/buyer-both-requests/buyer-both-requests.component';
+import { ConfirmAcceptComponent } from './pages/manage-buyer-and-both-requests/confirm-accept/confirm-accept.component';
+import { RemoveRightToBuyComponent } from './pages/manage-buyer-and-both-requests/remove-right-to-buy/remove-right-to-buy.component';
+import { SuccessRightToBuyComponent } from './pages/manage-buyer-and-both-requests/success-right-to-buy/success-right-to-buy.component';
+import { BuyerBothRequestsSuccessComponent } from './pages/manage-buyer-and-both-requests/buyer-both-requests-success/buyer-both-requests-success.component';
+import { BuyerBothErrorComponent } from './pages/manage-buyer-and-both-requests/buyer-both-error/buyer-both-error.component';
+import { ManageUserRoleComponent } from './pages/manage-role/manage-user-role/manage-user-role.component';
+import { RoleRequestSuccessComponent } from './pages/manage-role/role-request-success/role-request-success.component';
+import { RoleRequestFailedComponent } from './pages/manage-role/role-request-failed/role-request-failed.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -586,34 +601,34 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     component: ManageUserProfilesComponent,
   },
-  // {
-  //   path: 'manage-users/add-user-selection',
-  //   data: { title: 'Select - Manage Users', roles: ['MANAGE_USERS'] },
-  //   pathMatch: 'full',
-  //   canActivate: [AuthGuard, RoleGuard],
-  //   component: ManageUserAddSelectionComponent,
-  // },
-  // {
-  //   path: 'manage-users/bulk-users',
-  //   data: { title: 'Bulk Upload - Manage Users', roles: ['MANAGE_USERS'] },
-  //   pathMatch: 'full',
-  //   canActivate: [AuthGuard, RoleGuard],
-  //   component: ManageUserBulkUploadComponent,
-  // },
-  // {
-  //   path: 'manage-users/bulk-users/status/:id',
-  //   data: { title: 'Bulk Upload - Manage Users', roles: ['MANAGE_USERS'] },
-  //   pathMatch: 'full',
-  //   canActivate: [AuthGuard, RoleGuard],
-  //   component: ManageUserBulkUploadStatusComponent,
-  // },
-  // {
-  //   path: 'manage-users/bulk-users/migration-status/:id',
-  //   data: { title: 'Bulk Upload - Manage Users', roles: ['MANAGE_USERS'] },
-  //   pathMatch: 'full',
-  //   canActivate: [AuthGuard, RoleGuard],
-  //   component: ManageUserBulkUploadMigrationStatusComponent,
-  // },
+  {
+    path: 'manage-users/add-user-selection',
+    data: { title: 'Select - Manage Users', roles: ['MANAGE_USERS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ManageUserAddSelectionComponent,
+  },
+  {
+    path: 'manage-users/bulk-users',
+    data: { title: 'Bulk Upload - Manage Users', roles: ['MANAGE_USERS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ManageUserBulkUploadComponent,
+  },
+  {
+    path: 'manage-users/bulk-users/status/:id',
+    data: { title: 'Bulk Upload - Manage Users', roles: ['MANAGE_USERS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ManageUserBulkUploadStatusComponent,
+  },
+  {
+    path: 'manage-users/bulk-users/migration-status/:id',
+    data: { title: 'Bulk Upload - Manage Users', roles: ['MANAGE_USERS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ManageUserBulkUploadMigrationStatusComponent,
+  },
   {
     path: 'manage-users/add-user/details',
     data: { title: 'Add/Edit - Manage Users', roles: ['MANAGE_USERS'] },
@@ -634,6 +649,27 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageUserDeleteConfirmComponent,
+  },
+  {
+    path: 'manage-users/role',
+    data: { title: 'Fleet Portal access verification'},
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    component: ManageUserRoleComponent,
+  },
+  {
+    path: 'manage-users/role/success',
+    data: { title: 'Fleet Portal access verification'},
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    component: RoleRequestSuccessComponent,
+  },
+  {
+    path: 'manage-users/role/failed',
+    data: { title: 'Fleet Portal access verification'},
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    component: RoleRequestFailedComponent,
   },
   {
     path: 'manage-org/profile/site/edit',
@@ -693,6 +729,20 @@ const routes: Routes = [
     component: BuyerConfirmComponent,
   },
   {
+    path: 'update-org-type/confirm',
+    data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: UpdateOrgTypeComponent,
+  },
+  {
+    path: 'update-org-type/buyer-success/:id',
+    data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: AutoValidationBuyerSuccessComponent,
+  },
+  {
     path: 'buyer/confirm-changes/:id',
     data: {
       title: 'Confirm Changes - Manage Buyers',
@@ -701,6 +751,16 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: BuyerConfirmChangesComponent,
+  },
+  {
+    path: 'update-org-type/confirm-changes',
+    data: {
+      title: 'Confirm Changes - Manage Buyers',
+      roles: ['MANAGE_SUBSCRIPTIONS'],
+    },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ConfirmOrgTypeComponent,
   },
   {
     path: 'buyer/error',
@@ -1008,6 +1068,71 @@ const routes: Routes = [
     data: { title: 'Delegate-error' },
     pathMatch: 'full',
     component: DelegatedErrorComponent,
+  },
+  {
+    path: 'manage-buyer-both',
+    data: { title: 'Manage Buyer status Requests',roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: BuyerBothRequestsComponent,
+  },
+  {
+    path: 'confirm-decline',
+    data: { title: 'Decline right to buy status',
+    roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ConfirmDeclineComponent,
+    
+  },
+  {
+    path: 'confirm-accept',
+    data: { title: 'Approve right to buy status',roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ConfirmAcceptComponent,
+  },
+  {
+    path: 'pending-verification',
+    data: { title: 'Manage Buyer status requests - View request',roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ViewPendingVerificationComponent,
+  },
+  {
+    path: 'verified-organisations',
+    data: { title: 'Manage Buyer status requests - View Buyer status for the organisation' ,roles: ['MANAGE_SUBSCRIPTIONS']},
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ViewVerifiedOrgComponent,
+  },
+  {
+    path: 'remove-right-to-buy',
+    data: { title: 'Remove right to buy status',roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: RemoveRightToBuyComponent,
+  },
+  {
+    path: 'remove-right-to-buy-success',
+    data: { title: 'Remove right to buy status – success',roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: SuccessRightToBuyComponent,
+  },
+  {
+    path: 'buyer-and-both-success',
+    pathMatch: 'full',
+    data: { roles: ['MANAGE_SUBSCRIPTIONS'] },
+    canActivate: [AuthGuard, RoleGuard],
+    component: BuyerBothRequestsSuccessComponent,
+  },
+  {
+    path: 'buyer-and-both-fail',
+    pathMatch: 'full',
+    data: { roles: ['MANAGE_SUBSCRIPTIONS'] },
+    canActivate: [AuthGuard, RoleGuard],
+    component: BuyerBothErrorComponent,
   },
   {
     path: 'terms-of-use',

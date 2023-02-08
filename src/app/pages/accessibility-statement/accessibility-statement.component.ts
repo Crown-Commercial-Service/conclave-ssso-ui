@@ -14,9 +14,13 @@ public representingTag={
   KeyboardLevelA:'<a>',
   PageTitledLevelA:'<html>'
 }
-private userName = localStorage.getItem('user_name') || '';
+public userName =  '';
+public isOrgAdmin: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) { 
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
+    this.userName = localStorage.getItem('user_name') || '';
+  }
 
   ngOnInit(): void {
   }
@@ -25,11 +29,4 @@ private userName = localStorage.getItem('user_name') || '';
     window.print()
   }
 
-  public navigateToHome():void{
-    if(this.userName){
-      this.router.navigateByUrl(`home`);
-    }else{
-      window.location.href='https://www.crowncommercial.gov.uk';  
-    }
-  }
 }
