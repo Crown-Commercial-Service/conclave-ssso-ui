@@ -313,8 +313,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async getOrgDetails() {
+    if(this.isOrgAdmin){
     this.organisationDetails = await this.organisationService.getOrganisation(this.organisationId).toPromise().catch(e => {
-    });
+    });}
   }
 
   async getPendingApprovalUserRole() {
@@ -499,6 +500,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   private submitPendingApproveRole(isValidDomain:boolean): void {
     let selectedRolesDetails = {
       userName: this.userName,
+      organisationId: this.organisationDetails.detail.organisationId,
       detail: {
         roleIds: this.selectedApproveRequiredRole
       }

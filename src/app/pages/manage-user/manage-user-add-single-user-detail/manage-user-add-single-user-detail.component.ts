@@ -507,6 +507,7 @@ export class ManageUserAddSingleUserDetailComponent
   private submitPendingApproveRole(): void {
     let selectedRolesDetails = {
       userName: this.userProfileRequestInfo.userName,
+      organisationId: this.userProfileRequestInfo.organisationId,
       detail: {
         roleIds: this.selectedApproveRequiredRole
       }
