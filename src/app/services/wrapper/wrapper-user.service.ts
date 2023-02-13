@@ -45,18 +45,20 @@ export class WrapperUserService {
       );
   }
  
+  // Commented below code to remove usage of api. This will be handled with user update api.
   createPendingApproveRole(userRequest: PendingApproveRole): Observable<any> {
-    const url = `${this.url}/approve/roles`;
-    return this.http
-      .post<UserEditResponseInfo>(url, userRequest, this.options)
-      .pipe(
-        map((data: UserEditResponseInfo) => {
-          return data;
-        }),
-        catchError((error) => {
-          return throwError(error);
-        })
-      );
+    // const url = `${this.url}/approve/roles`;
+    // return this.http
+    //   .post<UserEditResponseInfo>(url, userRequest, this.options)
+    //   .pipe(
+    //     map((data: UserEditResponseInfo) => {
+    //       return data;
+    //     }),
+    //     catchError((error) => {
+    //       return throwError(error);
+    //     })
+    //   );
+    return Observable.of(true);
   }
 
   deleteUser(userName: string): Observable<any> {
@@ -124,15 +126,17 @@ export class WrapperUserService {
       );
   }
 
+  // Commented below code to remove usage of api. This will be handled with user update api.
   deleteApprovePendingRole(userName: string, roleIds: number): Observable<any> {
-    const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}&roles=${roleIds}`;
-    return this.http.delete(url).pipe(
-      map(() => {
-        return true;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    // const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}&roles=${roleIds}`;
+    // return this.http.delete(url).pipe(
+    //   map(() => {
+    //     return true;
+    //   }), catchError(error => {
+    //     return throwError(error);
+    //   })
+    // );
+    return Observable.of(true);
   }
 
   acceptRejectRequest(userRequest: acceptRejectRequestDetail): Observable<any> {
