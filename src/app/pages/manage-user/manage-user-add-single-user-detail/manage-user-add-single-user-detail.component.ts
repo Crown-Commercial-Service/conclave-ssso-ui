@@ -495,6 +495,10 @@ export class ManageUserAddSingleUserDetailComponent
 
     if (!filterAlreadyExistRole) {
       this.selectedApproveRequiredRole.push(role.roleId)
+    }else
+    {
+      // Remove below line to seperate normal and approval required role. It is added as we will not be using seperate api. Only user update api will be used
+      this.selectedRoleIds.push(role.roleId);
     }
   }
 
