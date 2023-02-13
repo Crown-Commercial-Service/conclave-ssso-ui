@@ -443,14 +443,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             this.selectedRoleIds.push(role.roleId)
           } else {
              this.checkPendingRoleDetails(role)
-             // Remove below line to seperate normal and approval required role. It is added as we will not be using seperate api. Only user update api will be used.
-            this.selectedRoleIds.push(role.roleId)
           }
         } else {
           this.selectedRoleIds.push(role.roleId)
         }
       }
     });
+    // Remove below line to seperate normal and approval required role. It is added as we will not be using seperate api. Only user update api will be used.
+    this.selectedRoleIds.push(...this.selectedApproveRequiredRole);
     return this.selectedRoleIds;
   }
 
