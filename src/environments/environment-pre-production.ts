@@ -84,7 +84,7 @@ export const environment = {
 
       security_log:false,
     
-    environment: 'pre-production'
+    environment: 'preprod-ccs-sso'
 
   },
   
