@@ -321,7 +321,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   async getPendingApprovalUserRole() {
     this.pendingRoleDetails = await this.userService.getPendingApprovalUserRole(this.userName).toPromise().catch(e => {
     });
-    console.log("this.pendingRoleDetails", this.pendingRoleDetails)
   }
 
   setFocus(inputIndex: number) {
@@ -460,6 +459,10 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.updateSelectedRoleIds(role)
     } else if(filterAlreadyExistRole?.roleKey != role.roleKey) {
       this.selectedApproveRequiredRole.push(role.roleId)
+    }
+    // Remove below line to seperate normal and approval required role. It is added as we will not be using seperate api. Only user update api will be used
+    else if(filterAlreadyExistRole?.roleKey == role.roleKey){
+      this.selectedRoleIds.push(role.roleId)
     }
    }
 
