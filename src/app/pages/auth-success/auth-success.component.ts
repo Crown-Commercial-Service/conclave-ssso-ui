@@ -91,8 +91,8 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                 }
             }
         });
-        this.route.fragment.subscribe((fragment: string) => {
-            console.log("My hash fragment is here => ", fragment)
-        })
+        // this.route.fragment.subscribe((fragment: string) => {
+        //     console.log("My hash fragment is here => ", fragment)
+        // })
     }
 }
