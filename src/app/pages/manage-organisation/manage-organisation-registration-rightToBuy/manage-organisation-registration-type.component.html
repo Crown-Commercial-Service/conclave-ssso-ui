@@ -25,7 +25,7 @@
   <h1 class="govuk-heading-xl page-title">Are you a supplier, buyer or both?</h1>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
-      <form class="govuk-!-width-three-quarters">
+      <form class="govuk-!-width-four-quarters">
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend">
@@ -38,7 +38,7 @@
                 <input class="govuk-radios__input" id="supplierRadioButton" name="radioSelectionGroup" type="radio"
                   value="supplier" [(ngModel)]="defaultChoice">
                 <label class="govuk-label govuk-radios__label" for="supplierRadioButton">
-                  Supplier
+                  <strong>Supplier</strong>
                 </label>
                 <div id="supplier-item-hint" class="govuk-hint govuk-radios__hint">
                   Your organisation is a supplier if you supply goods to CCS buyers
@@ -48,7 +48,7 @@
                 <input class="govuk-radios__input" id="buyerRadioButton" name="radioSelectionGroup" type="radio"
                   value="buyer" [(ngModel)]="defaultChoice">
                 <label class="govuk-label govuk-radios__label" for="buyerRadioButton">
-                  Buyer
+                  <strong>Buyer</strong>
                 </label>
                 <div id="buyer-item-hint" class="govuk-hint govuk-radios__hint">
                   Your organisation is a buyer if you buy goods using CCS
@@ -58,7 +58,7 @@
                 <input class="govuk-radios__input" id="bothRadioButton" name="radioSelectionGroup" type="radio"
                   value="both" [(ngModel)]="defaultChoice">
                 <label class="govuk-label govuk-radios__label" for="bothRadioButton">
-                  Both
+                  <strong>Both</strong> 
                 </label>
                 <div id="buyerSupplier-item-hint" class="govuk-hint govuk-radios__hint">
                   Your organisation is both if you buy and sell goods using CCS
@@ -66,6 +66,21 @@
               </div>
             </div>
           </fieldset>
+        </div>
+        <div style="background-color: #f8f8f8;" class="govuk-details__text detail-text govuk-!-margin-bottom-5" *ngIf="defaultChoice=='both'">
+          <legend class="govuk-fieldset__legend">          
+              <strong> Be clear on how we define both</strong>         
+          </legend>
+          <p class="govuk-!-margin-0">        
+              An example of both may be:
+          </p>          
+            <ul><li class="govuk-!-margin-left-5  govuk-!-margin-bottom-4">You buy goods and services from CCS, and you also supply goods and services to other CCS buyers.</li></ul>            
+          <p class="govuk-!-margin-0">        
+            You are <strong>not</strong> both if:
+          </p>          
+            <ul><li class="govuk-!-margin-left-5"><p class="govuk-!-margin-bottom-0">You supply to a CCS buyer, but you buy from thrid parties to meet the agreement. In other words,</p>
+            <p class="govuk-!-margin-top-0"> periphery arrangements with third parties or subcontractors for example, are <strong>not</strong> relevant to this definition.</p>
+            </li></ul>        
         </div>
         <div class="govuk-form-group">
           <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
