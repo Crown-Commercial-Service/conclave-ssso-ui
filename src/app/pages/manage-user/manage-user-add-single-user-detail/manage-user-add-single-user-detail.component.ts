@@ -466,6 +466,8 @@ export class ManageUserAddSingleUserDetailComponent
         }
       }
     });
+    // Remove below line to seperate normal and approval required role. It is added as we will not be using seperate api. Only user update api will be used
+    this.selectedRoleIds.push(...this.selectedApproveRequiredRole);
     return this.selectedRoleIds;
   }
 
@@ -493,6 +495,10 @@ export class ManageUserAddSingleUserDetailComponent
 
     if (!filterAlreadyExistRole) {
       this.selectedApproveRequiredRole.push(role.roleId)
+    }else
+    {
+      // Remove below line to seperate normal and approval required role. It is added as we will not be using seperate api. Only user update api will be used
+      this.selectedRoleIds.push(role.roleId);
     }
   }
 
@@ -815,13 +821,14 @@ export class ManageUserAddSingleUserDetailComponent
     }
   }
 
+  // Removed below logic to avoid approval required seperate delete api call. Delete pending role will be handled in normal role put call.
   private addPendingRole(obj:any){
-    if (obj.pendingStatus === true) {
-      let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
-      if (filterRole === undefined) {
-        this.pendingRoledeleteDetails.push(obj.roleId)
-      }
-    }
+    // if (obj.pendingStatus === true) {
+    //   let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+    //   if (filterRole === undefined) {
+    //     this.pendingRoledeleteDetails.push(obj.roleId)
+    //   }
+    // }
   }
 
   public ResetAdditionalSecurity(): void {

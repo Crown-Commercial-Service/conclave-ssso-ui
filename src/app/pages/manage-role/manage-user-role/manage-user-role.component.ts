@@ -11,12 +11,14 @@ export class ManageUserRoleComponent implements OnInit {
 public userDetails:any
 public errorResponce:boolean = false;
 public isOrgAdmin: boolean = false;
+private tokenPara : any=[];
   constructor(private wrapperUserService: WrapperUserService,private router: Router,private route: ActivatedRoute) { 
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((para: any) => {
+      this.tokenPara = para.token;
       this.verifytoken(para.token)
     });
   }
@@ -30,6 +32,11 @@ public isOrgAdmin: boolean = false;
   }
 
   public acceptRejectRequest(responce:number):void{
+    this.userDetails=null;
+    this.wrapperUserService.userTokenVerify(this.tokenPara).subscribe((data)=>{
+    this.userDetails = data;  
+    if(this.userDetails.status !== 1 && this.userDetails.status !== 2 && this.userDetails.status !== 4)
+    {
     let userRequest:any = {
       pendingRoleIds:[],
       status:responce
@@ -45,5 +52,9 @@ public isOrgAdmin: boolean = false;
         this.router.navigateByUrl('manage-users/role/failed?data=' + btoa(JSON.stringify(this.userDetails)));
       },
     });
+    }
+  },(err)=>{
+    this.errorResponce = true
+  })
   }
 }
