@@ -52,6 +52,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     });
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userDetails = JSON.parse(atob(para.data));
+      this.userDetails.userName = decodeURIComponent(unescape(this.userDetails.userName));
       this.pageAccessMode = this.userDetails.pageaccessmode
       if (this.userSelectedFormData) {
         this.userSelectedData(this.userDetails.userName, this.organisationId)
@@ -243,7 +244,8 @@ export class DelegatedAccessUserComponent implements OnInit {
   */
   public RemoveAccess(): void {
     this.userDetails.pageaccessmode = 'remove'
-    sessionStorage.removeItem('deleagted_user_details')
+    sessionStorage.removeItem('deleagted_user_details');
+    this.userDetails.userName = escape(encodeURIComponent(this.userDetails.userName));
     this.route.navigateByUrl(
       'delegated-remove-confirm?data=' + btoa(JSON.stringify(this.userDetails))
     );
@@ -254,7 +256,8 @@ export class DelegatedAccessUserComponent implements OnInit {
    */
   public Resentactivation(): void {
     this.userDetails.pageaccessmode = 'resent'
-    sessionStorage.removeItem('deleagted_user_details')
+    sessionStorage.removeItem('deleagted_user_details');
+    this.userDetails.userName = escape(encodeURIComponent(this.userDetails.userName));
     this.route.navigateByUrl(
       'delegated-remove-confirm?data=' + btoa(JSON.stringify(this.userDetails))
     );
@@ -289,7 +292,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   * @param form forms group value getting from html
   */
   public createuserdetails(form: FormGroup) {
-    if (this.formValid(form) && (!this.StartDateValidation && !this.EndDateValidation && !this.PastDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
+    if (this.formValid(form) && this.checkGetValidator(form)) {
       const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
       const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
       let data = {
@@ -303,9 +306,11 @@ export class DelegatedAccessUserComponent implements OnInit {
         roleDetails: this.getSelectedRoleDetails(form),
         userDetails: this.userDetails,
       };
-      this.userDetails.pageaccessmode = this.pageAccessMode
+      this.userDetails.pageaccessmode = this.pageAccessMode;
+      data.userName = escape(encodeURIComponent(data.userName));
+      data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
       let stringifyData = JSON.stringify(data)
-      sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData))
+      sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData));
       this.route.navigateByUrl(
         'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
       );
@@ -313,7 +318,11 @@ export class DelegatedAccessUserComponent implements OnInit {
       this.scrollHelper.scrollToFirst('error-summary');
     }
   }
-
+  
+  private checkGetValidator(form: FormGroup) {
+  return (!this.StartDateValidation && !this.EndDateValidation && !this.PastDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)
+  } 
+  
   /**
  *edit user functionlity 
  * @param form forms group value getting from html
@@ -333,9 +342,11 @@ export class DelegatedAccessUserComponent implements OnInit {
         roleDetails: this.getSelectedRoleDetails(form),
         userDetails: this.userDetails,
       };
-      this.userDetails.pageaccessmode = this.pageAccessMode
+      this.userDetails.pageaccessmode = this.pageAccessMode;
+      data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
+      data.userName = escape(encodeURIComponent(data.userName));
       let stringifyData = JSON.stringify(data)
-      sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData))
+      sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData));
       this.route.navigateByUrl(
         'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
       );

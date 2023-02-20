@@ -37,6 +37,7 @@ export class DelegatedUserStatusComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((para: any) => {
       let RouteData = JSON.parse(atob(para.data));
+      RouteData.event.userName = decodeURIComponent(unescape(RouteData.event.userName));
       switch (RouteData.status) {
         case '001': {
           this.UserStatus = RouteData;
