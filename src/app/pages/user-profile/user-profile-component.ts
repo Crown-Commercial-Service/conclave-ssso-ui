@@ -22,7 +22,6 @@ import { AuditLoggerService } from 'src/app/services/postgres/logger.service';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
-import { isBoolean } from 'lodash';
 import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 
@@ -32,11 +31,14 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
   styleUrls: ['./user-profile-component.scss'],
 })
 export class UserProfileComponent extends FormBaseComponent implements OnInit {
+  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   submitted!: boolean;
   formGroup!: FormGroup;
   userGroupTableHeaders = ['GROUPS'];
   userGroupColumnsToDisplay = ['group'];
+  userServiceTableHeaders = ['NAME'];
   userRoleTableHeaders = ['ROLES', 'SERVICE'];
+  userServiceColumnsToDisplay = ['accessRoleName',]
   userRoleColumnsToDisplay = [
     'accessRoleName',
     'serviceName',
@@ -80,6 +82,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   hasGroupViewPermission: boolean = false;
   isOrgAdmin: boolean = false;
   private selectedRoleIds:number[] = [];
+  public groupHint:string=''
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -195,12 +198,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
         //bind Roles based on User Type
         if (this.isAdminUser == true) {
-          orgRoles.forEach((element) => {
+          orgRoles.forEach((element:any) => {
             this.roleDataList.push({
               roleId: element.roleId,
               roleKey: element.roleKey,
               accessRoleName: element.roleName,
               serviceName: element.serviceName,
+              RoleGroupDescription:element.RoleGroupDescription
             });
             this.formGroup.addControl(
               'orgRoleControl_' + element.roleId,
@@ -217,10 +221,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 });
               }
             });
+            this.groupHint = "Select the services that you need access to."
         } else {
           user.detail.rolePermissionInfo &&
             user.detail.rolePermissionInfo.map((roleInfo) => {
-              var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
+              var orgRole:any = orgRoles.find((r) => r.roleId == roleInfo.roleId);
               if (orgRole) {
                 switch (orgRole.roleKey) {
                   case 'CAT_USER': {
@@ -255,9 +260,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 this.roleDataList.push({
                   accessRoleName: orgRole.roleName,
                   serviceName: orgRole.serviceName,
+                  RoleGroupDescription:orgRole.RoleGroupDescription,
+                  serviceView:!this.showRoleView
                 });
               }
             });
+            this.groupHint = "These are the services that you have access to."
         }
       });
 

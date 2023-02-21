@@ -41,23 +41,23 @@ import { Subscription } from 'rxjs';
 export class ManageUserAddSingleUserDetailComponent
   extends FormBaseComponent
   implements OnInit,OnDestroy {
-  organisationId: string;
-  userProfileRequestInfo: UserProfileRequestInfo;
-  userProfileResponseInfo: UserProfileResponseInfo;
-  submitted!: boolean;
-  orgGroups: Group[];
-  orgRoles: Role[];
-  identityProviders: IdentityProvider[];
-  allIdps: IdentityProvider[];
-  isEdit: boolean = false;
-  isAutoDisableMFA: boolean = false;
-  editingUserName: string = '';
-  userTitleEnum = UserTitleEnum;
-  errorLinkClicked: boolean = false;
-  routeData: any = {};
-  state: any;
-  hasGroupViewPermission: boolean = false;
-  mfaAdminValidationError: boolean = false;
+  public organisationId: string;
+  public userProfileRequestInfo: UserProfileRequestInfo;
+  public userProfileResponseInfo: UserProfileResponseInfo;
+  public submitted!: boolean;
+  public orgGroups: Group[];
+  public orgRoles: any[];
+  public identityProviders: IdentityProvider[];
+  public allIdps: IdentityProvider[];
+  public isEdit: boolean = false;
+  public isAutoDisableMFA: boolean = false;
+  public editingUserName: string = '';
+  public userTitleEnum = UserTitleEnum;
+  public errorLinkClicked: boolean = false;
+  public routeData: any = {};
+  public state: any;
+  public hasGroupViewPermission: boolean = false;
+  public mfaAdminValidationError: boolean = false;
   public idpStatus = environment.appSetting.hideIDP
   public approveRequiredRole: Role[];
   public organisationDetails: any = {}
@@ -69,14 +69,15 @@ export class ManageUserAddSingleUserDetailComponent
     'Groups allow you to manage large numbers of users all at once. Roles can be applied to groups to organise user’s more efficiently and allow bulk access to relevant services where it is required.',
     'The roles selected here will set what services are available to your users.',
   ];
-  userTitleArray = ['Mr', 'Mrs', 'Miss', 'Ms', 'Doctor', 'Unspecified'];
+  public userTitleArray = ['Mr', 'Mrs', 'Miss', 'Ms', 'Doctor', 'Unspecified'];
   public emailHaserror: boolean = false;
   public MFA_Enabled: any = false;
-  ciiOrganisationId: string;
+  public ciiOrganisationId: string;
   private selectedRoleIds: number[] = []
+  public isInvalidDomain: boolean = false
+  public subscription: Subscription = new Subscription;
+  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
-  isInvalidDomain: boolean = false
-  subscription: Subscription = new Subscription;
   constructor(
     private organisationGroupService: WrapperOrganisationGroupService,
     private configWrapperService: WrapperConfigurationService,

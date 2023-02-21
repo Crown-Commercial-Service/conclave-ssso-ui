@@ -189,78 +189,80 @@
                         </fieldset>
                     </div>
 
-                    <div class="govuk-form-group" id="user-role-form-group">
+                    <div class="govuk-form-group" id="user-role-form-group" *ngIf="showRoleView">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">
                                 {{ 'ROLES'| translate }}
                             </legend>
                             <app-details [detailsData]="detailsData[2]"></app-details>
-                            <span class="table_caption">To help you choose the correct roles use the table below:</span>
-                            <table style="width:100%">
-                                <tr>
-                                    <th>For whom</th>
-                                    <th>Task</th>
-                                    <th>Roles to tick</th>
-                                </tr>
-                                <tr>
-                                    <td rowspan="2" class="column_one_space">
-                                        Organisational Administrators of Public Procurement Gateway (PPG)
-                                    </td>
-                                    <td class="litrel_space">Add an additional PPG administrator</td>
-                                    <td class="roles_padding">
-                                        <ul class="listing">
-                                            <li>Organisation Administrator - Dashboard Service</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="litrel_space" class="column_one_space">Add user to PPG</td>
-                                    <td class="roles_padding">
-                                        <ul class="listing">
-                                            <li>Organisation User - Dashboard Service</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td rowspan="2" class="column_one_space">
-                                        Buyers
-                                    </td>
-                                    <td class="litrel_space">Enable Contract Award Service</td>
-                                    <td class="roles_padding">
-                                        <ul class="listing">
-                                            <li>eSourcing Service as a buyer</li>
-                                            <li>Contract Award Service (CAS) - add service</li>
-                                            <li>Contract Award Service (CAS) - add to dashboard</li>
-                                            <li>eSourcing Service - add service</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="litrel_space">Enable eSourcing</td>
-                                    <td class="roles_padding">
-                                        <ul class="listing">
-                                            <li>eSourcing Service as a buyer
-                                            </li>
-                                            <li>eSourcing Service - add service
-                                            </li>
-                                            <li>eSourcing Service - add to dashboard
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="column_one_space">Suppliers</td>
-                                    <td class="litrel_space">Enable eSourcing</td>
-                                    <td class="roles_padding">
-                                        <ul class="listing">
-                                            <li>eSourcing Service as a supplier</li>
-                                            <li>eSourcing Service - add service</li>
-                                            <li>eSourcing Service - add to dashboard</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                            </table>
+                            <div>
+                                <span class="table_caption">To help you choose the correct roles use the table below:</span>
+                                <table style="width:100%">
+                                    <tr>
+                                        <th>For whom</th>
+                                        <th>Task</th>
+                                        <th>Roles to tick</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" class="column_one_space">
+                                            Organisational Administrators of Public Procurement Gateway (PPG)
+                                        </td>
+                                        <td class="litrel_space">Add an additional PPG administrator</td>
+                                        <td class="roles_padding">
+                                            <ul class="listing">
+                                                <li>Organisation Administrator - Dashboard Service</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="litrel_space" class="column_one_space">Add user to PPG</td>
+                                        <td class="roles_padding">
+                                            <ul class="listing">
+                                                <li>Organisation User - Dashboard Service</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" class="column_one_space">
+                                            Buyers
+                                        </td>
+                                        <td class="litrel_space">Enable Contract Award Service</td>
+                                        <td class="roles_padding">
+                                            <ul class="listing">
+                                                <li>eSourcing Service as a buyer</li>
+                                                <li>Contract Award Service (CAS) - add service</li>
+                                                <li>Contract Award Service (CAS) - add to dashboard</li>
+                                                <li>eSourcing Service - add service</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="litrel_space">Enable eSourcing</td>
+                                        <td class="roles_padding">
+                                            <ul class="listing">
+                                                <li>eSourcing Service as a buyer
+                                                </li>
+                                                <li>eSourcing Service - add service
+                                                </li>
+                                                <li>eSourcing Service - add to dashboard
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="column_one_space">Suppliers</td>
+                                        <td class="litrel_space">Enable eSourcing</td>
+                                        <td class="roles_padding">
+                                            <ul class="listing">
+                                                <li>eSourcing Service as a supplier</li>
+                                                <li>eSourcing Service - add service</li>
+                                                <li>eSourcing Service - add to dashboard</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                </table>
+                            </div>
                             <br>
                             <div class="govuk-checkboxes">
                                 <div class="govuk-checkboxes__item" *ngFor="let orgRole of orgRoles; let i=index">
@@ -287,6 +289,31 @@
                         </fieldset>
                     </div>
 
+                    <div class="govuk-form-group" id="user-role-form-group" *ngIf="!showRoleView">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-heading-s">
+                                {{ 'SERVICES'| translate }}
+                            </legend>
+                            <p class="govuk-hints">{{ 'ACCESS_TO_USER'| translate }}</p>
+                            <div class="govuk-checkboxes">
+                                <div class="govuk-checkboxes__item" *ngFor="let orgRole of orgRoles; let i=index">
+                                    <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                        [attr.disabled]="isEdit && orgRole.roleKey === 'ORG_DEFAULT_USER' ? true : null"
+                                        [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                        (ngModelChange)="onUserRoleChecked(orgRole, $event)" value="hmrc">
+                                    <label
+                                        class="govuk-label govuk-checkboxes__label role_lable"
+                                        for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                        {{orgRole.roleName}}
+                                    </label>
+                                    <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.pendingStatus">
+                                        Pending Approval
+                                      </strong>
+                                      <p class="govuk-body description_para">{{orgRole.RoleGroupDescription}} </p>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
                     <div class="govuk-form-group" id="signin-provider-form-group"
                         [class.govuk-form-group--error]="submitted && formGroup.hasError('identityProviderRequired')">
                         <fieldset class="govuk-fieldset">

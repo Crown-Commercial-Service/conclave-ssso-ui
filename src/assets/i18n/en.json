@@ -75,6 +75,7 @@
   "SING_IN_AGAIN": "Sign in again to your account",
   "ROLES": "Roles",
   "SERVICE": "Service",
+  "SERVICES": "Services",
   "GROUPS": "Groups",
   "NAME": "Name",
   "FAX": "Fax",
@@ -366,5 +367,6 @@
   "TERMS_OF_USE":"Terms of Use",
   "CONFIRM_EMAIL":"Confirm email address",
   "NOTIFICATION_SENT":"Notification sent",
-  "DUP_ORG":"Duplicate organisations"
+  "DUP_ORG":"Duplicate organisations",
+  "ACCESS_TO_USER":"Select the services that this user needs access to."
 }

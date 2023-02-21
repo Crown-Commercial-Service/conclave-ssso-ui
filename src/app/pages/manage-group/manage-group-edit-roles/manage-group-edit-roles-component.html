@@ -12,13 +12,13 @@
                             }}</a>
                     </li>
                     <li *ngIf="isEdit== true" class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'EDIT_GROUP' | translate }}</a>
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ serviceRoleGroup.EDIT_GROUP }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
                         <span *ngIf="isEdit== true" class="govuk-breadcrumbs__link">
-                            {{'ADD_REMOVE_ROLES'| translate }}</span>
+                            {{serviceRoleGroup.ADD_REMOVE_ROLES }}</span>
                         <span *ngIf="isEdit!= true" class="govuk-breadcrumbs__link">
-                            {{ 'ADD_ROLES' | translate }}</span>
+                            {{ serviceRoleGroup.ADD_ROLES }}</span>
                     </li>
                 </ol>
             </div>
@@ -29,11 +29,11 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 *ngIf="isEdit== true" class="govuk-heading-xl page-title">
-            {{ 'ADD_REMOVE_ROLES' | translate }} : {{groupName}}</h1>
-        <h1 *ngIf="isEdit!= true" class="govuk-heading-xl page-title">{{ 'ADD_ROLES' | translate }}</h1>
+            {{ serviceRoleGroup.ADD_REMOVE_ROLES}} : {{groupName}}</h1>
+        <h1 *ngIf="isEdit!= true" class="govuk-heading-xl page-title">{{ serviceRoleGroup.ADD_ROLES }}</h1>
         <h2 class="govuk-heading-m">
-            {{ 'SELECT_ROLES_WANT_TO_ADD' | translate }}</h2>
-        <div>
+            {{ serviceRoleGroup.SELECT_ROLES_WANT_TO_ADD | translate }}</h2>
+        <div *ngIf="showRoleView">
             <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchText ===''">
                 <label class="govuk-label" for="search"> {{ 'SEARCH_FOR_ROLE' | translate }} </label>
                 <span id="first-name-error" class="govuk-error-message"
@@ -49,13 +49,26 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <div class="user-table">
+        <!-- <div class="user-table">
             <app-govuk-table [headerTextKeys]="rolesTableHeaders" [data]="roleGridSource"
                 [dataKeys]="rolesColumnsToDisplay" [isCheckBoxVisible]="true"
                 (checkBoxClickEvent)="onCheckBoxClickRow($event)" [isHyperLinkVisible]="false"
                 [useClientPagination]="true"></app-govuk-table>
-        </div>
+        </div> -->
     </div>
+    <form [formGroup]="formGroup">
+            <fieldset class="govuk-fieldset">
+                <div class="govuk-checkboxes__item" *ngFor="let orgRole of roleGridSource; let i=index">
+                    <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
+                        [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc" (ngModelChange)="onCheckBoxClickRow( $event)">
+                    <label class="govuk-label govuk-checkboxes__label"
+                        for="{{'orgRoleControl_' + orgRole.roleId}}">
+                        {{orgRole.accessRoleName}}
+                    </label>
+                      <p class="govuk-body description_para">{{orgRole.RoleGroupDescription}} </p>
+                </div>
+            </fieldset>
+    </form>
 </div>
 
 <div class="govuk-grid-row">
@@ -66,7 +79,7 @@
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button" *ngIf="!isEdit">
-                Create group with no roles
+                {{ serviceRoleGroup.CREATE_BTN }}
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button" *ngIf="isEdit">
