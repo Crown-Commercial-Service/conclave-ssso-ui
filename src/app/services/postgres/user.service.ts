@@ -17,7 +17,7 @@ export class UserService {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     }
 
-    let body = `email=${email}`;
+    let body = `email=${encodeURIComponent(email)}`;
 
     return this.http.post(`${this.url}/activation-emails?is-expired=${isExpired}`, body, options).pipe(
       map(data => {

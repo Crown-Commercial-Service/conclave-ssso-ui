@@ -91,11 +91,22 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
                     roleId: orgRole.roleId,
                     roleKey:orgRole.roleKey,
                     roleName: orgRole.roleName,
-                    isChecked: isChecked
+                    isChecked: isChecked,
+                    isDisable:this.disableRoleCheck(orgRole.roleKey)
                 };
                 this.roleGridSource.push(roleGridSourceObject);
             }
         });
+    }
+
+
+    private disableRoleCheck(dKey:string){
+     const dRoleKey=["FP_USER","ACCESS_FP_CLIENT"]
+     if(dKey == 'FP_USER' || dKey == "ACCESS_FP_CLIENT"){
+     return true
+     } else {
+     return null
+     }
     }
 
     getOrganisationRoles() {

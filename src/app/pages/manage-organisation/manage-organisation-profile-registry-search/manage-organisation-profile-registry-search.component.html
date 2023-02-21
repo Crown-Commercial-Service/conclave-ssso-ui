@@ -99,11 +99,21 @@
               <div *ngIf="(schemeSubjectObs | async) === item.scheme" id="{{ item.scheme + '-Div' }}" class="box-input">
                 <label *ngIf="validationObj.activeElement != 'US-DUN'" for="{{ item.scheme + '-TextBox' }}"
                   class="govuk-hint govuk-radios__hint">
-                  <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
-                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-                    'Please enter a registry number' | translate }}
-                  </span>
-                  Enter your {{ item.schemeName }} Number
+                  <div *ngIf="item.schemeName === 'Department for Education'; else otherSchema">
+
+                    <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
+                      <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> 'Please enter Unique
+                      Reference Number (URN)'
+                    </span>
+                    Enter your {{ item.schemeName }} Unique Reference Number (URN)
+                  </div>
+                  <ng-template #otherSchema>
+                    <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
+                      <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                      'Please enter a registry number' | translate }}
+                    </span>
+                    Enter your {{ item.schemeName }} Number
+                  </ng-template>
                   <P class="govuk-body govuk-!-font-weight-regular custom_span"
                     *ngIf="item.schemeName === 'Companies House'">
                     <span> Go to the</span>
@@ -137,6 +147,13 @@
                     <span> Go to the</span>
                     <a href="https://odsportal.digital.nhs.uk/Organisation/Search" class="govuk-link"
                       rel="noreferrer noopener" target="_blank"> National Health Service Organisations Registry </a>
+                    <span>website to search for your organisation details</span>
+                  </P>
+                  <P class="govuk-body govuk-!-font-weight-regular custom_span"
+                    *ngIf="item.schemeName === 'Department for Education'">
+                    <span> Go to the</span>
+                    <a href="https://www.get-information-schools.service.gov.uk" class="govuk-link"
+                      rel="noreferrer noopener" target="_blank"> Department for Education </a>
                     <span>website to search for your organisation details</span>
                   </P>
                 </label>
