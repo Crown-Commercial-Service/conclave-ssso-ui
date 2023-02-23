@@ -11,7 +11,8 @@ import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrappe
 import { CheckBoxRoleListGridSource, Role } from "src/app/models/organisationGroup";
 import { Title } from "@angular/platform-browser";
 import { environment } from "src/environments/environment";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { SharedDataService } from "src/app/shared/shared-data.service";
 
 @Component({
     selector: 'app-manage-group-edit-roles',
@@ -42,9 +43,9 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     public searchSumbited: boolean = false;
     public serviceRoleGroup:any={}
     public showRoleView:boolean = environment.appSetting.hideSimplifyRole
-    formGroup!: FormGroup;
+    public formGroup: FormGroup | any;
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,private formBuilder: FormBuilder) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,private formBuilder:FormBuilder,private sharedDataService:SharedDataService) {
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -62,6 +63,9 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     }
 
     ngOnInit() {
+        this.formGroup = new FormGroup({
+            role: new FormControl()
+        });
         if(this.showRoleView){
          this.titleService.setTitle(`${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - CCS`);
         } else {
@@ -90,25 +94,32 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
 
     setSearchResult() {
         this.roleGridSource = [];
-        this.orgRoleList.forEach((element:any) => {
-            this.roleGridSource.push({
-              roleId: element.roleId,
-              roleKey: element.roleKey,
-              accessRoleName: element.roleName,
-              serviceName: element.serviceName,
-              RoleGroupDescription:element.RoleGroupDescription
-            });
-            // this.formGroup.addControl(
-            //   'orgRoleControl_' + element.roleId,
-            //   this.formBuilder.control(true)
-            // );
-          });
-          console.log("roleGridSource",this.roleGridSource)
+        this.orgRoleList.map((orgRole: Role) => {
+            if (this.searchText == '' || orgRole.roleName.toLowerCase().includes(this.searchText.toLowerCase())) {
+                let isChecked = (this.roleIds.findIndex(rId => rId == orgRole.roleId) != -1 ||
+                    this.addingRoles.findIndex(role => role.roleId == orgRole.roleId) != -1) &&
+                    this.removingRoles.findIndex(role => role.roleId == orgRole.roleId) == -1;
+
+                let roleGridSourceObject: CheckBoxRoleListGridSource = {
+                    roleId: orgRole.roleId,
+                    roleKey: orgRole.roleKey,
+                    roleName: orgRole.roleName,
+                    isChecked: isChecked,
+                    roleGroupDescription:"Description Development under process"
+                };
+                console.log("isChecked",isChecked)
+                this.formGroup.addControl(
+                    'orgRoleControl_' + orgRole.roleId,
+                    this.formBuilder.control(isChecked ? true : false )
+                  );
+                this.roleGridSource.push(roleGridSourceObject);
+            }
+        });
+        console.log("roleGridSource",this.roleGridSource)
     }
 
 
-    private disableRoleCheck(dKey: string) {
-        const dRoleKey = ["FP_USER", "ACCESS_FP_CLIENT"]
+    public  disableRoleCheck(dKey: string) {
         if (dKey == 'FP_USER' || dKey == "ACCESS_FP_CLIENT") {
             return true
         } else {
@@ -117,7 +128,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     }
 
     getOrganisationRoles() {
-        this.orgGroupService.getGroupOrganisationRoles(this.organisationId).subscribe({
+        this.orgGroupService.getOrganisationRoles(this.organisationId).subscribe({
             next: (roleListResponse: Role[]) => {
                 if (roleListResponse != null) {
                     this.orgRoleList = roleListResponse;
@@ -129,17 +140,19 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
         });
     }
 
-    onCheckBoxClickRow(dataRow: CheckBoxRoleListGridSource) {
-        if (dataRow.isChecked) {
+    onCheckBoxClickRow(dataRow: CheckBoxRoleListGridSource,event:any) {
+        if (event) {
             let inRemovedListIndex = this.removingRoles.findIndex(rr => rr.roleId == dataRow.roleId);
             if (inRemovedListIndex != -1) { // If in removed list removing from there
                 this.removingRoles.splice(inRemovedListIndex, 1);
             }
             else {
-                let roleInfo: Role = {
+                let roleInfo: any = {
                     roleId: dataRow.roleId,
                     roleKey: dataRow.roleKey,
-                    roleName: dataRow.roleName
+                    roleName: dataRow.roleName,
+                    roleGroupDescription: dataRow.roleGroupDescription,
+                    serviceView:!this.showRoleView
                 };
                 this.addingRoles.push(roleInfo);
             }
@@ -170,7 +183,8 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
             'userCount': this.userCount,
             'groupName': this.groupName
         };
-        this.router.navigateByUrl('manage-groups/edit-roles-confirm?data=' + JSON.stringify(data));
+        this.sharedDataService.storeRoleForGroup(JSON.stringify(data))
+        this.router.navigateByUrl('manage-groups/edit-roles-confirm?data=' + JSON.stringify({'isEdit': this.isEdit}));
     }
 
     onCancelClick() {

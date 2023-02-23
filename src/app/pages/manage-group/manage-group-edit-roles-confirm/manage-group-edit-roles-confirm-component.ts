@@ -13,6 +13,8 @@ import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org
 import { UserListInfo } from "src/app/models/user";
 import { OperationEnum } from "src/app/constants/enum";
 import { Title } from "@angular/platform-browser";
+import { environment } from "src/environments/environment";
+import { SharedDataService } from "src/app/shared/shared-data.service";
 
 @Component({
     selector: 'app-manage-group-edit-roles-confirm',
@@ -37,27 +39,32 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
     userCount: number = 0;
     rolesTableHeaders = ['NAME'];
     rolesColumnsToDisplay = ['roleName'];
-
+    public showRoleView:boolean = environment.appSetting.hideSimplifyRole
+    public serviceRoleGroup:any={}
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
-        private wrapperOrganisationService: WrapperOrganisationService) {
+        private wrapperOrganisationService: WrapperOrganisationService,private sharedDataService:SharedDataService) {
         super(uiStore,viewportScroller,scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
             this.routeData = JSON.parse(queryParams.data);
             this.isEdit = this.routeData['isEdit'];
-            this.editingGroupId = this.routeData['groupId'];
-            this.roleIds = this.routeData['roleIds'];
-            this.addingRoles = this.routeData['addingRoles'];
-            this.removingRoles = this.routeData['removingRoles'] || [];
-            this.userCount = this.routeData['userCount'] || 0;
-            this.groupName = sessionStorage.getItem('Gname') || '';
+            this.sharedDataService.selectedRoleforGroup.subscribe((data)=>{
+                console.log("data",data)
+                this.editingGroupId = data['groupId'];
+                this.roleIds = data['roleIds'];
+                this.addingRoles = data['addingRoles'];
+                this.removingRoles = data['removingRoles'] || [];
+                this.userCount = data['userCount'] || 0;
+            })
         }
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
+        this.groupName = sessionStorage.getItem('Gname') || '';
     }
 
     ngOnInit() {
         this.titleService.setTitle(`Confirm - ${"Group - Roles"}`);
+        this.initialteServiceRoleGroups()
     }
 
     onConfirmClick() {
@@ -99,4 +106,26 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
     onCancelClick() {
         this.router.navigateByUrl("manage-groups/edit-roles?data=" + JSON.stringify(this.routeData));
     }
+
+    private initialteServiceRoleGroups(){
+        if(this.showRoleView){
+            this.serviceRoleGroup = {
+                CONFIRM_ROLE:'Confirm roles for group',
+                CONFIRM_FOLL_ROLE: "Confirm you want to add the following roles to group ",
+                ROLES_ADDED_TO_GROUP: "Roles added to group",
+                ROLES_REMOVED_FROM_GROUP:"Roles removed from group",
+                CREATE_GROUP_WITHOUT_ROLE:"Create group without roles",
+                SELECT_SERVICE:"Select different roles"
+                }
+           } else {
+            this.serviceRoleGroup = {
+                CONFIRM_ROLE:'Confirm services for group',
+                CONFIRM_FOLL_ROLE: "Confirm you want to add the following services to group",
+                ROLES_ADDED_TO_GROUP: "Services added to group",
+                ROLES_REMOVED_FROM_GROUP:"Services removed from group",
+                CREATE_GROUP_WITHOUT_ROLE:"Create group without Services",
+                SELECT_SERVICE:"Select different Services"
+                }
+           }
+        } 
 }

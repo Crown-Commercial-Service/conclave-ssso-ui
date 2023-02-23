@@ -302,14 +302,14 @@
                                         [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
                                         (ngModelChange)="onUserRoleChecked(orgRole, $event)" value="hmrc">
                                     <label
-                                        class="govuk-label govuk-checkboxes__label role_lable"
+                                        class="govuk-label govuk-checkboxes__label role_lable govuk-!-padding-top-0"
                                         for="{{'orgRoleControl_' + orgRole.roleId}}">
                                         {{orgRole.roleName}}
                                     </label>
                                     <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.pendingStatus">
                                         Pending Approval
                                       </strong>
-                                      <p class="govuk-body description_para">{{orgRole.RoleGroupDescription}} </p>
+                                      <p class="govuk-body description_para govuk-!-padding-top-0">{{orgRole.RoleGroupDescription}} </p>
                                 </div>
                             </div>
                         </fieldset>

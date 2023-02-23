@@ -40,6 +40,7 @@ export interface Role {
     enabled?: boolean;
     serviceName?:string | null;
     isDeleted?:boolean;
+    roleGroupDescription?:string;
 }
 
 export interface CheckBoxRoleListGridSource extends Role{

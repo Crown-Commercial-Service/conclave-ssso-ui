@@ -260,7 +260,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 this.roleDataList.push({
                   accessRoleName: orgRole.roleName,
                   serviceName: orgRole.serviceName,
-                  RoleGroupDescription:orgRole.RoleGroupDescription,
+                  roleGroupDescription:orgRole.RoleGroupDescription,
                   serviceView:!this.showRoleView
                 });
               }
