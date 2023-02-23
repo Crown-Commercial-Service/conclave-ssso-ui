@@ -256,14 +256,25 @@ a {
 .govuk-button[disabled]:hover {
 	background-color: #015e66 !important;
 }
-
 .navigation-text:focus {
-	color: #0b0c0c !important;
-	background-color: #ffdd00 !important;
-
-}
-
-.navigation-text:hover {}
+        color: #0b0c0c !important;
+        background-color: #ffdd00 !important;
+        text-decoration-color: #0b0c0c !important;
+        text-decoration-line: underline;
+        text-decoration-skip-ink: none;
+        text-decoration-thickness: 3px;
+        text-decoration-style: solid;
+        outline: none !important;
+		}
+	
+.navigation-text:hover {
+        color: #003078;
+        text-decoration-color: rgb(0, 48, 120);
+        text-decoration-line: underline;
+        text-decoration-skip-ink: none;
+        text-decoration-style: solid;
+        text-decoration-thickness: 3px;
+    }
 
 .govuk-button--secondary:focus {
 	background-color: #ffdd00 !important;
@@ -755,6 +766,13 @@ li {
   margin-bottom: 0px;
   color:#007E8A;
 }
+.govuk-phase-banner { 
+    border-bottom: 0px !important;
+}
+.navigation-text{
+	font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
+	color: #005ea5 !important;font-size: 1.1875rem; !important;
+}
 
  </style>
 </head>
@@ -873,6 +891,12 @@ li {
 						 </li>
 					   </ol>
 					</div>
+    <div class="govuk-grid-row">
+         <div class="govuk-grid-column-two-thirds">
+               <h1 class="govuk-heading-xl" style="margin-top: 20px;margin-bottom: 0px;">Sign in using additional
+                        security</h1><br><br>
+      </div>
+    </div>
 		<div class="govuk-phase-banner">
             <p class="govuk-phase-banner__content">
 				<div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
@@ -891,40 +915,40 @@ li {
 	   </div>
 			<div class="govuk-grid-row">
 			<div class="govuk-grid-column-two-thirds">
-				<h5 class="govuk-heading-l mfa-head-l">Returning User Instructions</h5><br>                        
-						<h2 class="govuk-heading-m">I'm set up to use the authenticator app</h2>
-							<p class="govuk-body-s">Find and open the authenticator app on your device. Enter 6 digit password in the box to the right of the screen.</p>				
+				<h2 class="govuk-heading-l mfa-head-l">Returning User Instructions</h2><br>                        
+						<h3 class="govuk-heading-m">I'm set up to use the authenticator app</h3>
+							<p class="govuk-body-s">Find and open the authenticator app on your device. Enter the six digit password in the box to the right of this screen.</p>				
 								<details class="govuk-details" data-module="govuk-details">
 									<summary class="govuk-details__summary">
-										<span class="govuk-details__summary-text">
+										<span class="govuk-details__summary-text govuk-link">
 											I no longer have access to the app
 										</span>
 									</summary>
 									<div class="govuk-details__text">
-									You may have deleted it or changed your phone for instance. You will not able to access your account without it. You will need to
-										<a class="govuk-link" href="https://www.crowncommercial.gov.uk/contact" target="_blank">contact us </a>  so we can help set you back up.  
+									You may have deleted it or changed your phone for instance. You will not be able to access your account without it. You will need to
+										<a class="govuk-link navigation-text" href="https://www.crowncommercial.gov.uk/contact" target="_blank">contact us</a> so we can help set you back up.
 									</div>
 								</details>
-						<h2 class="govuk-heading-m">I'm set up to use the SMS service</h2>
-							<p class="govuk-body-s">You are sent a text message when you log in.You will need to enter the code in the box.</p>					
+						<h3 class="govuk-heading-m">I'm set up to use the SMS service</h3>
+							<p class="govuk-body-s">You are sent a text message when you log in. You will need to enter the code in the box.</p>					
 								<details class="govuk-details" data-module="govuk-details">
 									<summary class="govuk-details__summary">
-										<span class="govuk-details__summary-text">
+										<span class="govuk-details__summary-text govuk-link">
 											The SMS service is not working for me
 										</span>
 									</summary>
 									<div class="govuk-details__text">
-										You need to <a class="govuk-link" href="https://www.crowncommercial.gov.uk/contact" target="_blank">contact us </a>  so we can set you back.  
-									</div>
+											 You need to <a class="govuk-link navigation-text"  href="https://www.crowncommercial.gov.uk/contact" target="_blank">contact us</a> so we can set you back up.  
+									</div>		
 								</details>	 
 						<br>				
-			<h5 class="govuk-heading-l mfa-head-l">New User Instructions</h5>
+			<h2 class="govuk-heading-l mfa-head-l">New User Instructions</h2>
 				<br>
-					 <p class="govuk-body-s">As an adminstrator, you need an authenticator app on your phone or tablet.</p>					
-					 <p class="govuk-body-s class="govuk-!-margin-left-5">The app generates passcode that you will need to log in each time you sign in. This is a very secure way to log in and is important to protect your organisation.</p>
+					 <p class="govuk-body-s">As an administrator, you need an authenticator app on your phone or tablet.</p>					
+					 <p class="govuk-body-s class="govuk-!-margin-left-5">The app generates a passcode that you will need to log in each time you sign in. This is a very secure way to log in and is important to protect your organisation.</p>
 						<ul class="govuk-list govuk-list-custom">
 							<li data-title="1">
-								<p class="govuk-body-s">Go to your device’s app store and search for an authenticator app such as one of the following free to download apps:</p>
+								<p class="govuk-body-s">Go to your device’s app store and search for one of the following free apps:</p>
 									<ul class="govuk-list govuk-list--bullet">
 										<li>Microsoft Authenticator</li>
 										<li>Google Authenticator</li>
@@ -944,7 +968,7 @@ li {
                      </ul>
 					<details class="govuk-details" data-module="govuk-details">
 						<summary class="govuk-details__summary">
-							<span class="govuk-details__summary-text">
+							<span class="govuk-details__summary-text govuk-link">
 								I cannot download the app
 							</span>
 						</summary>
