@@ -41,11 +41,11 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     public roleGridSource: any[] = [];
     public orgRoleList: Role[] = [];
     public searchSumbited: boolean = false;
-    public serviceRoleGroup:any={}
-    public showRoleView:boolean = environment.appSetting.hideSimplifyRole
+    public serviceRoleGroup: any = {}
+    public showRoleView: boolean = environment.appSetting.hideSimplifyRole
     public formGroup: FormGroup | any;
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,private formBuilder:FormBuilder,private sharedDataService:SharedDataService) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, private sharedDataService: SharedDataService) {
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -66,10 +66,10 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
         this.formGroup = new FormGroup({
             role: new FormControl()
         });
-        if(this.showRoleView){
-         this.titleService.setTitle(`${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - CCS`);
+        if (this.showRoleView) {
+            this.titleService.setTitle(`${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - CCS`);
         } else {
-         this.titleService.setTitle(`${this.isEdit ? "Add/Remove Services" : "Add services"}  - Manage Groups - CCS`);
+            this.titleService.setTitle(`${this.isEdit ? "Add/Remove Services" : "Add services"}  - Manage Groups - CCS`);
         }
         this.getOrganisationRoles();
         this.initialteServiceRoleGroup()
@@ -105,21 +105,21 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
                     roleKey: orgRole.roleKey,
                     roleName: orgRole.roleName,
                     isChecked: isChecked,
-                    roleGroupDescription:"Description Development under process"
+                    description: "Description Development under process"
                 };
-                console.log("isChecked",isChecked)
+                console.log("isChecked", isChecked)
                 this.formGroup.addControl(
                     'orgRoleControl_' + orgRole.roleId,
-                    this.formBuilder.control(isChecked ? true : false )
-                  );
+                    this.formBuilder.control(isChecked ? true : false)
+                );
                 this.roleGridSource.push(roleGridSourceObject);
             }
         });
-        console.log("roleGridSource",this.roleGridSource)
+        console.log("roleGridSource", this.roleGridSource)
     }
 
 
-    public  disableRoleCheck(dKey: string) {
+    public disableRoleCheck(dKey: string) {
         if (dKey == 'FP_USER' || dKey == "ACCESS_FP_CLIENT") {
             return true
         } else {
@@ -140,7 +140,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
         });
     }
 
-    onCheckBoxClickRow(dataRow: CheckBoxRoleListGridSource,event:any) {
+    onCheckBoxClickRow(dataRow: CheckBoxRoleListGridSource, event: any) {
         if (event) {
             let inRemovedListIndex = this.removingRoles.findIndex(rr => rr.roleId == dataRow.roleId);
             if (inRemovedListIndex != -1) { // If in removed list removing from there
@@ -151,8 +151,8 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
                     roleId: dataRow.roleId,
                     roleKey: dataRow.roleKey,
                     roleName: dataRow.roleName,
-                    roleGroupDescription: dataRow.roleGroupDescription,
-                    serviceView:!this.showRoleView
+                    roleGroupDescription: dataRow.description,
+                    serviceView: !this.showRoleView
                 };
                 this.addingRoles.push(roleInfo);
             }
@@ -184,7 +184,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
             'groupName': this.groupName
         };
         this.sharedDataService.storeRoleForGroup(JSON.stringify(data))
-        this.router.navigateByUrl('manage-groups/edit-roles-confirm?data=' + JSON.stringify({'isEdit': this.isEdit}));
+        this.router.navigateByUrl('manage-groups/edit-roles-confirm?data=' + JSON.stringify({ 'isEdit': this.isEdit }));
     }
 
     onCancelClick() {
@@ -195,23 +195,23 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
         this.router.navigateByUrl('manage-groups/view?data=' + JSON.stringify(data));
     }
 
-    private initialteServiceRoleGroup(){
-    if(this.showRoleView){
-        this.serviceRoleGroup = {
-            ADD_REMOVE_ROLES:'Add or remove roles',
-            ADD_ROLES: "Add roles",
-            SELECT_ROLES_WANT_TO_ADD: "Select the roles you want to add. The roles applied to the group will set what services are available to the group members",
-            SEARCH_FOR_ROLE: "Search for a role",
-            ERROR_PREFIX:"Enter a role name",
-            CREATE_BTN:"Create group with no roles"
+    private initialteServiceRoleGroup() {
+        if (this.showRoleView) {
+            this.serviceRoleGroup = {
+                ADD_REMOVE_ROLES: 'Add or remove roles',
+                ADD_ROLES: "Add roles",
+                SELECT_ROLES_WANT_TO_ADD: "Select the roles you want to add. The roles applied to the group will set what services are available to the group members",
+                SEARCH_FOR_ROLE: "Search for a role",
+                ERROR_PREFIX: "Enter a role name",
+                CREATE_BTN: "Create group with no roles"
             }
-       } else {
-        this.serviceRoleGroup = {
-            ADD_REMOVE_ROLES:'Add or remove roles',
-            ADD_ROLES: "Add services",
-            SELECT_ROLES_WANT_TO_ADD: "Select the services that this group needs access to.",
-            CREATE_BTN:"Create group with no services"
+        } else {
+            this.serviceRoleGroup = {
+                ADD_REMOVE_ROLES: 'Add or remove roles',
+                ADD_ROLES: "Add services",
+                SELECT_ROLES_WANT_TO_ADD: "Select the services that this group needs access to.",
+                CREATE_BTN: "Create group with no services"
             }
-       }
-    } 
+        }
+    }
 }

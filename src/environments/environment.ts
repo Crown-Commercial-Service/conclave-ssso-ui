@@ -27,43 +27,44 @@ export const environment = {
     ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
   },
   googleTagMangerId: 'GTM-1',
-  cookieExpirationTimeInMinutes:10,// 525600 => 365 Days
+  cookieExpirationTimeInMinutes: 10,// 525600 => 365 Days
   bulkUploadPollingFrequencyInSeconds: 60,
   bulkUploadTemplateFileUrl: '',
-  bulkUploadMaxFileSizeInBytes:1048576,//default value
+  bulkUploadMaxFileSizeInBytes: 1048576,//default value
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
-  mailDecryptKey:'',
+  mailDecryptKey: '',
   rollbar: {
     key: '',
     enable: false,
-    security_log:false,
-    environment:'dev-ccs-sso'
-  } ,
+    security_log: false,
+    environment: 'dev-ccs-sso'
+  },
   cookies_policy: {
     essentialcookies: {
       notify_admin_session: 20,
       cookie_policy: 1,
-      ccs_sso_visitedsites :30,
-      opbs :30,
-      ccs_sso:30,
-      conclave:30,
-      XSRF_TOKEN:30,
-      XSRF_TOKEN_SVR:30,
-      AspNetCore_Antiforgery_GWNWkbbyKbw:30
+      ccs_sso_visitedsites: 30,
+      opbs: 30,
+      ccs_sso: 30,
+      conclave: 30,
+      XSRF_TOKEN: 30,
+      XSRF_TOKEN_SVR: 30,
+      AspNetCore_Antiforgery_GWNWkbbyKbw: 30
     },
     Auth0cookies: {
-      auth0_compat : 3,
-      did_compat  : 6,
-      did  : 6,
-      auth0   : 3,
-      __cf_bm : 30 
+      auth0_compat: 3,
+      did_compat: 6,
+      did: 6,
+      auth0: 3,
+      __cf_bm: 30
     },
   },
   appSetting: {
-   hideIDP:false,
-   hideDelegation:false,
-   hideBulkupload:false,
-   hideAutoValidation:false,
+    hideIDP: false,
+    hideDelegation: false,
+    hideBulkupload: false,
+    hideAutoValidation: false,
+    hideSimplifyRole: false
   },
 };

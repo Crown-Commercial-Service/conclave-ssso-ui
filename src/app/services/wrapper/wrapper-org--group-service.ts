@@ -5,9 +5,10 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { GroupList, OrganisationGroupNameInfo, OrganisationGroupRequestInfo, OrganisationGroupResponseInfo, Role } from 'src/app/models/organisationGroup';
+import { GroupList, OrganisationGroupNameInfo, OrganisationGroupRequestInfo, OrganisationGroupResponseInfo, Role, ServiceRoleGroup } from 'src/app/models/organisationGroup';
 import { IdentityProvider, IdentityProviderSummary } from 'src/app/models/identityProvider';
 import { UserListResponse } from 'src/app/models/user';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,309 +16,309 @@ import { UserListResponse } from 'src/app/models/user';
 export class WrapperOrganisationGroupService {
   public url: string = `${environment.uri.api.isApiGateWayEnabled ?
     environment.uri.api.wrapper.apiGatewayEnabled.organisation : environment.uri.api.wrapper.apiGatewayDisabled.organisation}`;
- 
-  public configURl:string = `${environment.uri.api.isApiGateWayEnabled ?
+
+  public configURl: string = `${environment.uri.api.isApiGateWayEnabled ?
     environment.uri.api.wrapper.apiGatewayEnabled.configuration : environment.uri.api.wrapper.apiGatewayDisabled.configuration}`;
-  public roleJson = 
+  public roleJson =
     [
       {
-          "Id": 59,
-          "RoleGroupNameKey": "MANAGE_SUBSCRIPTIONS",
-          "RoleGroupName": "Manage Subscription",
-          "RoleGroupNameKeyDescription": "Dashboard Service",
-          "orgTypeEligibility": 0,
-          "subscriptionTypeEligibility": 0,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null,
+        "Id": 59,
+        "RoleGroupNameKey": "MANAGE_SUBSCRIPTIONS",
+        "RoleGroupName": "Manage Subscription",
+        "RoleGroupNameKeyDescription": "Dashboard Service",
+        "orgTypeEligibility": 0,
+        "subscriptionTypeEligibility": 0,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null,
       },
       {
-          "Id": 60,
-          "RoleGroupNameKey": "ORG_USER_SUPPORT",
-          "RoleGroupName": "Organisation Users Support ",
-          "RoleGroupNameKeyDescription": "Dashboard Service",
-          "orgTypeEligibility": 0,
-          "subscriptionTypeEligibility": 0,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 60,
+        "RoleGroupNameKey": "ORG_USER_SUPPORT",
+        "RoleGroupName": "Organisation Users Support ",
+        "RoleGroupNameKeyDescription": "Dashboard Service",
+        "orgTypeEligibility": 0,
+        "subscriptionTypeEligibility": 0,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 49,
-          "RoleGroupNameKey": "ORG_ADMINISTRATOR",
-          "RoleGroupName": "Organisation Administrator",
-          "RoleGroupNameKeyDescription": "Dashboard Service",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 0,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 49,
+        "RoleGroupNameKey": "ORG_ADMINISTRATOR",
+        "RoleGroupName": "Organisation Administrator",
+        "RoleGroupNameKeyDescription": "Dashboard Service",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 0,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 50,
-          "RoleGroupNameKey": "ORG_DEFAULT_USER",
-          "RoleGroupName": "Organisation User",
-          "RoleGroupNameKeyDescription": "Dashboard Service",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 0,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 50,
+        "RoleGroupNameKey": "ORG_DEFAULT_USER",
+        "RoleGroupName": "Organisation User",
+        "RoleGroupNameKeyDescription": "Dashboard Service",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 0,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 295,
-          "RoleGroupNameKey": "ACCESS_TEST_SAML_CLIENT",
-          "RoleGroupName": "Access Test SAML Client",
-          "RoleGroupNameKeyDescription": "Dashboard Service",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 295,
+        "RoleGroupNameKey": "ACCESS_TEST_SAML_CLIENT",
+        "RoleGroupName": "Access Test SAML Client",
+        "RoleGroupNameKeyDescription": "Dashboard Service",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 724,
-          "RoleGroupNameKey": "CAT_USER",
-          "RoleGroupName": "Contract Award Service (CAS) - add service",
-          "RoleGroupNameKeyDescription": "Contract Award Service",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 0,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 724,
+        "RoleGroupNameKey": "CAT_USER",
+        "RoleGroupName": "Contract Award Service (CAS) - add service",
+        "RoleGroupNameKeyDescription": "Contract Award Service",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 0,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 723,
-          "RoleGroupNameKey": "ACCESS_CAAAC_CLIENT",
-          "RoleGroupName": "Contract Award Service (CAS) - add to dashboard",
-          "RoleGroupNameKeyDescription": "Dashboard Service",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 0,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 723,
+        "RoleGroupNameKey": "ACCESS_CAAAC_CLIENT",
+        "RoleGroupName": "Contract Award Service (CAS) - add to dashboard",
+        "RoleGroupNameKeyDescription": "Dashboard Service",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 0,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 294,
-          "RoleGroupNameKey": "DIGITS_DEPARTMENT_ADMIN",
-          "RoleGroupName": "Department Admin",
-          "RoleGroupNameKeyDescription": "DigiTS",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 294,
+        "RoleGroupNameKey": "DIGITS_DEPARTMENT_ADMIN",
+        "RoleGroupName": "Department Admin",
+        "RoleGroupNameKeyDescription": "DigiTS",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 293,
-          "RoleGroupNameKey": "DIGITS_CONTRACT_OWNER",
-          "RoleGroupName": "Contract Owner",
-          "RoleGroupNameKeyDescription": "DigiTS",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 293,
+        "RoleGroupNameKey": "DIGITS_CONTRACT_OWNER",
+        "RoleGroupName": "Contract Owner",
+        "RoleGroupNameKeyDescription": "DigiTS",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 290,
-          "RoleGroupNameKey": "SERVICE_ADMIN",
-          "RoleGroupName": "Service Admin",
-          "RoleGroupNameKeyDescription": "DigiTS",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 290,
+        "RoleGroupNameKey": "SERVICE_ADMIN",
+        "RoleGroupName": "Service Admin",
+        "RoleGroupNameKeyDescription": "DigiTS",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 289,
-          "RoleGroupNameKey": "PROVIDER_APP",
-          "RoleGroupName": "API Access Role",
-          "RoleGroupNameKeyDescription": "DigiTS",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 289,
+        "RoleGroupNameKey": "PROVIDER_APP",
+        "RoleGroupName": "API Access Role",
+        "RoleGroupNameKeyDescription": "DigiTS",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 302,
-          "RoleGroupNameKey": "ACCESS_DIGITS_CLIENT",
-          "RoleGroupName": "Access DigiTS",
-          "RoleGroupNameKeyDescription": "Dashboard Service",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 302,
+        "RoleGroupNameKey": "ACCESS_DIGITS_CLIENT",
+        "RoleGroupName": "Access DigiTS",
+        "RoleGroupNameKeyDescription": "Dashboard Service",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 288,
-          "RoleGroupNameKey": "DMP_SUPPLIER",
-          "RoleGroupName": "DMP Supplier",
-          "RoleGroupNameKeyDescription": "Digital Market Place",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 288,
+        "RoleGroupNameKey": "DMP_SUPPLIER",
+        "RoleGroupName": "DMP Supplier",
+        "RoleGroupNameKeyDescription": "Digital Market Place",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 286,
-          "RoleGroupNameKey": "ACCESS_DMP",
-          "RoleGroupName": "Access DMP",
-          "RoleGroupNameKeyDescription": "Dashboard Service",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 286,
+        "RoleGroupNameKey": "ACCESS_DMP",
+        "RoleGroupName": "Access DMP",
+        "RoleGroupNameKeyDescription": "Dashboard Service",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 285,
-          "RoleGroupNameKey": "EL_SNR_BUYER",
-          "RoleGroupName": "Snr Buyer",
-          "RoleGroupNameKeyDescription": "Buyer/Supplier Information",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 285,
+        "RoleGroupNameKey": "EL_SNR_BUYER",
+        "RoleGroupName": "Snr Buyer",
+        "RoleGroupNameKeyDescription": "Buyer/Supplier Information",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 284,
-          "RoleGroupNameKey": "EL_JNR_BUYER",
-          "RoleGroupName": "Jnr Buyer",
-          "RoleGroupNameKeyDescription": "Buyer/Supplier Information",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 284,
+        "RoleGroupNameKey": "EL_JNR_BUYER",
+        "RoleGroupName": "Jnr Buyer",
+        "RoleGroupNameKeyDescription": "Buyer/Supplier Information",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 725,
-          "RoleGroupNameKey": "FP_USER",
-          "RoleGroupName": "Fleet Portal User",
-          "RoleGroupNameKeyDescription": "Fleet Portal",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 0,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 725,
+        "RoleGroupNameKey": "FP_USER",
+        "RoleGroupName": "Fleet Portal User",
+        "RoleGroupNameKeyDescription": "Fleet Portal",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 0,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 726,
-          "RoleGroupNameKey": "ACCESS_FP_CLIENT",
-          "RoleGroupName": "Access Fleet Portal",
-          "RoleGroupNameKeyDescription": "Dashboard Service",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 0,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 726,
+        "RoleGroupNameKey": "ACCESS_FP_CLIENT",
+        "RoleGroupName": "Access Fleet Portal",
+        "RoleGroupNameKeyDescription": "Dashboard Service",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 0,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 277,
-          "RoleGroupNameKey": "JAGGAER_TMP",
-          "RoleGroupName": "Jaggaer_Temp",
-          "RoleGroupNameKeyDescription": "Jaggaer",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 277,
+        "RoleGroupNameKey": "JAGGAER_TMP",
+        "RoleGroupName": "Jaggaer_Temp",
+        "RoleGroupNameKeyDescription": "Jaggaer",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 361,
-          "RoleGroupNameKey": "ACCESS_JAGGAER",
-          "RoleGroupName": "eSourcing Service - add to dashboard",
-          "RoleGroupNameKeyDescription": "Dashboard Service",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 0,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 361,
+        "RoleGroupNameKey": "ACCESS_JAGGAER",
+        "RoleGroupName": "eSourcing Service - add to dashboard",
+        "RoleGroupNameKeyDescription": "Dashboard Service",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 0,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 283,
-          "RoleGroupNameKey": "RMI_USER",
-          "RoleGroupName": "RMI User",
-          "RoleGroupNameKeyDescription": "RMI",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 283,
+        "RoleGroupNameKey": "RMI_USER",
+        "RoleGroupName": "RMI User",
+        "RoleGroupNameKeyDescription": "RMI",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 282,
-          "RoleGroupNameKey": "ACCESS_RMI_CLIENT",
-          "RoleGroupName": "Access RMI",
-          "RoleGroupNameKeyDescription": "Dashboard Service",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 282,
+        "RoleGroupNameKey": "ACCESS_RMI_CLIENT",
+        "RoleGroupName": "Access RMI",
+        "RoleGroupNameKeyDescription": "Dashboard Service",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 278,
-          "RoleGroupNameKey": "CAT_USER_LOGIN_DIRECTOR",
-          "RoleGroupName": "CAS User",
-          "RoleGroupNameKeyDescription": "Login Director",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 278,
+        "RoleGroupNameKey": "CAT_USER_LOGIN_DIRECTOR",
+        "RoleGroupName": "CAS User",
+        "RoleGroupNameKeyDescription": "Login Director",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 722,
-          "RoleGroupNameKey": "JAEGGER_BUYER",
-          "RoleGroupName": "eSourcing Service as a buyer",
-          "RoleGroupNameKeyDescription": "Login Director",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 0,
-          "tradeEligibility": 1,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 722,
+        "RoleGroupNameKey": "JAEGGER_BUYER",
+        "RoleGroupName": "eSourcing Service as a buyer",
+        "RoleGroupNameKeyDescription": "Login Director",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 0,
+        "tradeEligibility": 1,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 287,
-          "RoleGroupNameKey": "TEST_SSO_CLIENT_USER",
-          "RoleGroupName": "Test SSO Client User",
-          "RoleGroupNameKeyDescription": null,
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 287,
+        "RoleGroupNameKey": "TEST_SSO_CLIENT_USER",
+        "RoleGroupName": "Test SSO Client User",
+        "RoleGroupNameKeyDescription": null,
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 274,
-          "RoleGroupNameKey": "ACCESS_TEST_SSO_CLIENT",
-          "RoleGroupName": "Access Test Client",
-          "RoleGroupNameKeyDescription": null,
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 1,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 274,
+        "RoleGroupNameKey": "ACCESS_TEST_SSO_CLIENT",
+        "RoleGroupName": "Access Test Client",
+        "RoleGroupNameKeyDescription": null,
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 1,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       },
       {
-          "Id": 390,
-          "RoleGroupNameKey": "JAGGAER_USER",
-          "RoleGroupName": "eSourcing Service - add service",
-          "RoleGroupNameKeyDescription": "eSourcing",
-          "orgTypeEligibility": 2,
-          "subscriptionTypeEligibility": 0,
-          "tradeEligibility": 2,
-          "RoleGroupDescription":"Description Development under process",
-          "autoValidationRoleTypeEligibility": null
+        "Id": 390,
+        "RoleGroupNameKey": "JAGGAER_USER",
+        "RoleGroupName": "eSourcing Service - add service",
+        "RoleGroupNameKeyDescription": "eSourcing",
+        "orgTypeEligibility": 2,
+        "subscriptionTypeEligibility": 0,
+        "tradeEligibility": 2,
+        "RoleGroupDescription": "Description Development under process",
+        "autoValidationRoleTypeEligibility": null
       }
-  ]
+    ]
   constructor(private http: HttpClient) {
   }
 
@@ -377,76 +378,87 @@ export class WrapperOrganisationGroupService {
   }
 
   getOrganisationRoles(organisationId: string): Observable<any> {
-    if(environment.appSetting.hideSimplifyRole){
-      const url = `${this.url}/${organisationId}/roles`;
-      return this.http.get<Role[]>(url).pipe(
-        map((data: Role[]) => {
-          data.forEach((f) => {
-            switch (f.roleKey) {
-              case 'CAT_USER': {
-                f.serviceName = null;
-                break;
-              }
-              case 'ACCESS_CAAAC_CLIENT': {
-                f.serviceName = null;
-                break;
-              }
-              case 'JAEGGER_SUPPLIER': {
-                f.serviceName = null;
-                break;
-              }
-              case 'JAEGGER_BUYER': {
-                f.serviceName = null;
-                break;
-              }
-              case 'JAGGAER_USER': {
-                f.serviceName = null;
-                break;
-              }
-              case 'ACCESS_JAGGAER': {
-                f.serviceName = null;
-                break;
-              }
-              default: {
-                //statements;
-                break;
-              }
-            }
-          })
-          return data
-        }), catchError(error => {
-          return throwError(error);
-        })
-      );
-    } else {
-      const structureData:any = []
-      const url = `${this.url}/${organisationId}/roles`;
-      return this.http.get<Role[]>(url).pipe(
-        map((data: Role[]) => {
-          this.roleJson.forEach((f:any) => {
-            let structureObj = {
-              roleId: f.Id,
-              roleKey:f.RoleGroupNameKey,
-              roleName: f.RoleGroupName + f.RoleGroupNameKeyDescription,
-              orgTypeEligibility: f.orgTypeEligibility,
-              subscriptionTypeEligibility: f.subscriptionTypeEligibility,
-              tradeEligibility: f.tradeEligibility,
-              RoleGroupDescription : "Description Development under process"
-            }
-            structureData.push(structureObj)
-          })
-          return structureData
-        }), catchError(error => {
-          return throwError(error);
-        })
-      );
+    if (environment.appSetting.hideSimplifyRole) {
+      return this.getOrganisationRolesWithoutGroup(organisationId);
     }
+    else {
+      return this.getOrganisationRolesWithGroup(organisationId);
+    }
+  }
+
+  getOrganisationRolesWithGroup(organisationId: string): Observable<any> {
+    const structureData: any = []
+    const url = `${this.url}/${organisationId}/servicerolegroups`;
+    // return this.http.get<ServiceRoleGroup[]>('./../../../assets/temp_data/org_roles.json').pipe(
+    return this.http.get<ServiceRoleGroup[]>(url).pipe(
+      map((data: ServiceRoleGroup[]) => {
+        data.forEach((f: ServiceRoleGroup) => {
+          let structureObj = {
+            roleId: f.id,
+            roleKey: f.key,
+            roleName: f.name,
+            orgTypeEligibility: f.orgTypeEligibility,
+            subscriptionTypeEligibility: f.subscriptionTypeEligibility,
+            tradeEligibility: f.tradeEligibility,
+            description: "Description Development under process"
+          }
+          structureData.push(structureObj)
+        })
+        return structureData
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  getOrganisationRolesWithoutGroup(organisationId: string): Observable<any> {
+    const url = `${this.url}/${organisationId}/roles`;
+    return this.http.get<Role[]>(url).pipe(
+      map((data: Role[]) => {
+        data.forEach((f) => {
+          switch (f.roleKey) {
+            case 'CAT_USER': {
+              f.serviceName = null;
+              break;
+            }
+            case 'ACCESS_CAAAC_CLIENT': {
+              f.serviceName = null;
+              break;
+            }
+            case 'JAEGGER_SUPPLIER': {
+              f.serviceName = null;
+              break;
+            }
+            case 'JAEGGER_BUYER': {
+              f.serviceName = null;
+              break;
+            }
+            case 'JAGGAER_USER': {
+              f.serviceName = null;
+              break;
+            }
+            case 'ACCESS_JAGGAER': {
+              f.serviceName = null;
+              break;
+            }
+            default: {
+              //statements;
+              break;
+            }
+          }
+        })
+        return data
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+
   }
 
   getOrganisationApprovalRequiredRoles(): Observable<any> {
     const url = `${this.configURl}/approve/roles`;
-    return this.http.get<Role[]>(url).pipe(map((data: Role[]) => {return data } ),
-       catchError(err => {
+    return this.http.get<Role[]>(url).pipe(map((data: Role[]) => { return data }),
+      catchError(err => {
         return throwError(err);
       })
     );
@@ -491,7 +503,7 @@ export class WrapperOrganisationGroupService {
   getUsersAdmin(organisationId: string, currentPage: number, pageSize: number, includeUnverifiedAdmin: boolean = false): Observable<any> {
     pageSize = pageSize <= 0 ? 10 : pageSize;
     let url = `${this.url}/${organisationId}/users?currentPage=${currentPage}&pageSize=${pageSize}&isAdmin=true&include-self=true`;
-    if(includeUnverifiedAdmin){
+    if (includeUnverifiedAdmin) {
       url += "&include-unverified-admin=true";
     }
     return this.http.get<UserListResponse>(url).pipe(
@@ -503,5 +515,5 @@ export class WrapperOrganisationGroupService {
     );
   }
 
-  
+
 }

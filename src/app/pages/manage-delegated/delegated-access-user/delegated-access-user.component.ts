@@ -3,10 +3,11 @@ import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Role } from 'src/app/models/organisationGroup';
+import { Role, ServiceRoleGroup } from 'src/app/models/organisationGroup';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { environment } from 'src/environments/environment';
 import { ManageDelegateService } from '../service/manage-delegate.service';
 
 @Component({
@@ -26,6 +27,8 @@ export class DelegatedAccessUserComponent implements OnInit {
   private organisationId: string;
   private RoleInfo: any = []
   private userSelectedFormData: any;
+  public hideSimplifyRole = environment.appSetting.hideSimplifyRole;
+
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private route: Router,
@@ -60,11 +63,11 @@ export class DelegatedAccessUserComponent implements OnInit {
       else if (this.pageAccessMode === 'edit') {
         this.getUserDetails(this.userDetails.userName, this.organisationId, this.userDetails.startDate, this.userDetails.endDate, this.userDetails.delegationAccepted)
         this.titleService.setTitle(
-          `${ 'Edit current delegated access'}   - CCS`
+          `${'Edit current delegated access'}   - CCS`
         );
       } else {
         this.titleService.setTitle(
-          `${ 'Delegate access to a user'}   - CCS`
+          `${'Delegate access to a user'}   - CCS`
         );
         this.getOrgRoles()
         setTimeout(() => {
@@ -105,7 +108,7 @@ export class DelegatedAccessUserComponent implements OnInit {
           this.getOrgRoles()
           this.RoleInfo = this.userSelectedFormData
           this.userDetails = response
-          this.delegationAccepted = response.detail.delegatedOrgs[0] ?  response.detail.delegatedOrgs[0].delegationAccepted : false
+          this.delegationAccepted = response.detail.delegatedOrgs[0] ? response.detail.delegatedOrgs[0].delegationAccepted : false
           const startDate = this.userSelectedFormData.detail.startDate.split('-')
           const endDate = this.userSelectedFormData.detail.endDate.split('-')
           this.formGroup.patchValue({
@@ -122,17 +125,17 @@ export class DelegatedAccessUserComponent implements OnInit {
         },
       });
     }, 0);
-     this.formDisable()
+    this.formDisable()
   }
 
-/**
- * getting already delegated user details functionlity.
- * @param userId getting from router params
- * @param delegatedOrgId getting from router params
- * @param startDateFromListPage getting from router params
- * @param endDateFromListPage getting from router params
- * @param delegationAcceptedFromListPage getting from router params
- */
+  /**
+   * getting already delegated user details functionlity.
+   * @param userId getting from router params
+   * @param delegatedOrgId getting from router params
+   * @param startDateFromListPage getting from router params
+   * @param endDateFromListPage getting from router params
+   * @param delegationAcceptedFromListPage getting from router params
+   */
   public getUserDetails(userId: string, delegatedOrgId: string, startDateFromListPage: any, endDateFromListPage: any, delegationAcceptedFromListPage: any) {
     setTimeout(() => {
       this.DelegatedService.getEdituserDetails(userId, delegatedOrgId).subscribe({
@@ -140,7 +143,7 @@ export class DelegatedAccessUserComponent implements OnInit {
           this.getOrgRoles()
           this.RoleInfo = response
           this.userDetails = response
-          this.delegationAccepted = response.detail.delegatedOrgs[0] ?  response.detail.delegatedOrgs[0].delegationAccepted : delegationAcceptedFromListPage
+          this.delegationAccepted = response.detail.delegatedOrgs[0] ? response.detail.delegatedOrgs[0].delegationAccepted : delegationAcceptedFromListPage
           const startDate = startDateFromListPage.split('-')
           const endDate = endDateFromListPage.split('-')
           this.formGroup.patchValue({
@@ -166,12 +169,26 @@ export class DelegatedAccessUserComponent implements OnInit {
   public getOrgRoles(): void {
     this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise().then((orgRoles: Role[]) => {
       orgRoles.forEach((element) => {
-        if (element.roleKey != "ORG_ADMINISTRATOR" && element.roleKey != "ORG_DEFAULT_USER" && element.roleKey != "ORG_USER_SUPPORT" && element.roleKey != "MANAGE_SUBSCRIPTIONS") {
+
+        let orgAdmin = "ORG_ADMINISTRATOR"
+        let defaultUser = "ORG_DEFAULT_USER"
+        let userSupport = "ORG_USER_SUPPORT"
+        let manageSubscription = "MANAGE_SUBSCRIPTIONS"
+
+        if (!environment.appSetting.hideSimplifyRole) {
+          orgAdmin = "ORG_ADMINISTRATOR_GROUP"
+          defaultUser = "ORG_DEFAULT_USER_GROUP"
+          userSupport = "ORG_USER_SUPPORT_GROUP"
+          manageSubscription = "MANAGE_SUBSCRIPTIONS_GROUP"
+        }
+
+        if (element.roleKey != orgAdmin && element.roleKey != defaultUser && element.roleKey != userSupport && element.roleKey != manageSubscription) {
           this.roleDataList.push({
             roleId: element.roleId,
             roleKey: element.roleKey,
             accessRoleName: element.roleName,
             serviceName: element.serviceName,
+            description: element.description
           });
           if (this.userSelectedFormData) {
             this.formGroup.addControl(
@@ -209,11 +226,11 @@ export class DelegatedAccessUserComponent implements OnInit {
     }
   }
 
-/**
- * after click the cancel button from confirmation page, function will excute
- * @param roleId 
- * @returns 
- */
+  /**
+   * after click the cancel button from confirmation page, function will excute
+   * @param roleId 
+   * @returns 
+   */
   public patchRoleMatches(roleId: any) {
     const result = this.RoleInfo.roleDetails.find((rols: any) => rols.roleId === roleId);
     if (result) {
@@ -224,11 +241,11 @@ export class DelegatedAccessUserComponent implements OnInit {
     }
   }
 
- /**
-  * core function for, patch the selected value
-  * @param form 
-  * @returns 
-  */
+  /**
+   * core function for, patch the selected value
+   * @param form 
+   * @returns 
+   */
   public getSelectedRoleDetails(form: FormGroup) {
     let selectedRoleIds: number[] = [];
     this.roleDataList.map((role) => {
@@ -239,9 +256,9 @@ export class DelegatedAccessUserComponent implements OnInit {
     return selectedRoleIds;
   }
 
- /**
-  * remove functionlity sharing data and nevigate to confimation page
-  */
+  /**
+   * remove functionlity sharing data and nevigate to confimation page
+   */
   public RemoveAccess(): void {
     this.userDetails.pageaccessmode = 'remove'
     sessionStorage.removeItem('deleagted_user_details');
@@ -318,11 +335,11 @@ export class DelegatedAccessUserComponent implements OnInit {
       this.scrollHelper.scrollToFirst('error-summary');
     }
   }
-  
+
   private checkGetValidator(form: FormGroup) {
-  return (!this.StartDateValidation && !this.EndDateValidation && !this.PastDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)
-  } 
-  
+    return (!this.StartDateValidation && !this.EndDateValidation && !this.PastDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)
+  }
+
   /**
  *edit user functionlity 
  * @param form forms group value getting from html
@@ -399,13 +416,13 @@ export class DelegatedAccessUserComponent implements OnInit {
    * @returns boolean
    */
   public get PastDateValidation() {
-    if(this.pageAccessMode == 'add'){
+    if (this.pageAccessMode == 'add') {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const StartDate = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
       const date = new Date(StartDate);
       return date < today;
-    }else {
+    } else {
       return false
     }
   }
@@ -416,21 +433,21 @@ export class DelegatedAccessUserComponent implements OnInit {
    * @returns boolean
    */
   public get EndDateDaysValidation() {
-    if(!this.EndDateValidation){
-    const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
-    const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
-    let EndDate = new Date(EndtDateForm);
-    let StartDate = new Date(StartDateForm);
-    const oneDay = 86400000;
-    const diffInTime = EndDate.getTime() - StartDate.getTime();
-    const diffInDays = Math.round(diffInTime / oneDay);
-    if (diffInDays > 365 || diffInDays < 28) {
-      return true
+    if (!this.EndDateValidation) {
+      const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
+      const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
+      let EndDate = new Date(EndtDateForm);
+      let StartDate = new Date(StartDateForm);
+      const oneDay = 86400000;
+      const diffInTime = EndDate.getTime() - StartDate.getTime();
+      const diffInDays = Math.round(diffInTime / oneDay);
+      if (diffInDays > 365 || diffInDays < 28) {
+        return true
+      }
+      return false
+    } else {
+      return false
     }
-    return false
-  } else{
-    return false
-   }
   }
 
   /**
@@ -441,22 +458,22 @@ export class DelegatedAccessUserComponent implements OnInit {
     this.ManageDelegateService.SetInputFocus(inputIndex)
   }
 
- /**
-  * date input focus functionlity
-  * @param data input date for find index opf string
-  * @param box box count
-  * @param form form value
-  */
+  /**
+   * date input focus functionlity
+   * @param data input date for find index opf string
+   * @param box box count
+   * @param form form value
+   */
   public ValueChanged(data: string, box: string, form: string): void {
     this.ManageDelegateService.ValueChanged(data, box, form);
   }
 
- /**
-  * date input focus functionlity
-  * @param data input date for find index opf string
-  * @param box box count
-  * @param form form value
-  */
+  /**
+   * date input focus functionlity
+   * @param data input date for find index opf string
+   * @param box box count
+   * @param form form value
+   */
   public tiggerBackspace(data: string, box: string, form: string): void {
     this.ManageDelegateService.tiggerBackspace(data, box, form);
   }
@@ -479,17 +496,17 @@ export class DelegatedAccessUserComponent implements OnInit {
   /**
     * forms disable function used in edit scenerio
     */
-  private formDisable(){
-    if(this.pageAccessMode === 'edit'){
+  private formDisable() {
+    if (this.pageAccessMode === 'edit') {
       this.formGroup.controls['startday'].disable()
       this.formGroup.controls['startmonth'].disable()
       this.formGroup.controls['startyear'].disable()
     }
   }
- 
-   /**
-    * nevigate to last active page and clearing all the session values
-    */
+
+  /**
+   * nevigate to last active page and clearing all the session values
+   */
   public Cancel() {
     sessionStorage.removeItem('deleagted_user_details')
     window.history.back();
@@ -499,7 +516,7 @@ export class DelegatedAccessUserComponent implements OnInit {
    * breadcrums nevigaion functionlity
    * @param path getting from html
    */
-  public nevigate(path:string){
+  public nevigate(path: string) {
     this.route.navigateByUrl(path)
     sessionStorage.removeItem('deleagted_user_details')
   }

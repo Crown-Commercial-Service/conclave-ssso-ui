@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-delegated-user-confirm',
@@ -11,8 +12,10 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 export class DelegatedUserConfirmComponent implements OnInit {
   public userInfo: any = {}
   public UserSelectedinfo: any;
-  public pageAccessMode=''
-  constructor(private route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService,private titleService: Title,) { }
+  public pageAccessMode = ''
+  public hideSimplifyRole = environment.appSetting.hideSimplifyRole;
+
+  constructor(private route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, private titleService: Title,) { }
 
   ngOnInit(): void {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
@@ -24,14 +27,14 @@ export class DelegatedUserConfirmComponent implements OnInit {
     });
     if (this.pageAccessMode === "edit") {
       this.titleService.setTitle(
-        `${ 'Confirm Delegation'}  - CCS`
+        `${'Confirm Delegation'}  - CCS`
       );
     } else {
       this.titleService.setTitle(
-        `${ 'Confirm Delegation'}  - CCS`
+        `${'Confirm Delegation'}  - CCS`
       );
     }
-  
+
   }
 
 
@@ -47,6 +50,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
   public createDelegateUser(): void {
     delete this.UserSelectedinfo.userDetails
     delete this.UserSelectedinfo.roleDetails
+    this.exchangeGroupAndRole();
     sessionStorage.removeItem('deleagted_user_details')
     const startDate = this.UserSelectedinfo.detail.startDate.split('-')
     const endDate = this.UserSelectedinfo.detail.endDate.split('-')
@@ -62,18 +66,18 @@ export class DelegatedUserConfirmComponent implements OnInit {
     if (endDate[2].length <= 1) {
       endDate[2] = 0 + endDate[2]
     }
-    this.UserSelectedinfo.detail.startDate=startDate[0] + '-'+startDate[1] + '-'+startDate[2]
-    this.UserSelectedinfo.detail.endDate=endDate[0]+ '-'+ endDate[1] + '-'+ endDate[2]
+    this.UserSelectedinfo.detail.startDate = startDate[0] + '-' + startDate[1] + '-' + startDate[2]
+    this.UserSelectedinfo.detail.endDate = endDate[0] + '-' + endDate[1] + '-' + endDate[2]
     this.DelegatedService.createDelegatedUser(this.UserSelectedinfo).subscribe({
       next: (roleListResponse: any) => {
-        let data ={
-          status:'create',
-          userName:this.UserSelectedinfo.userName
+        let data = {
+          status: 'create',
+          userName: this.UserSelectedinfo.userName
         }
         data.userName = escape(encodeURIComponent(data.userName));
-        this.route.navigateByUrl('delegated-success?data=' +btoa(JSON.stringify(data)))
+        this.route.navigateByUrl('delegated-success?data=' + btoa(JSON.stringify(data)))
       },
-      error: (error: any) => { 
+      error: (error: any) => {
         this.route.navigateByUrl('delegated-error')
       },
     });
@@ -82,6 +86,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
   public updateDelegatedUser(): void {
     delete this.UserSelectedinfo.userDetails
     delete this.UserSelectedinfo.roleDetails
+    this.exchangeGroupAndRole();
     sessionStorage.removeItem('deleagted_user_details')
     const startDate = this.UserSelectedinfo.detail.startDate.split('-')
     const endDate = this.UserSelectedinfo.detail.endDate.split('-')
@@ -97,8 +102,8 @@ export class DelegatedUserConfirmComponent implements OnInit {
     if (endDate[2].length <= 1) {
       endDate[2] = 0 + endDate[2]
     }
-    this.UserSelectedinfo.detail.startDate=startDate[0] + '-'+ startDate[1] + '-'+ startDate[2]
-    this.UserSelectedinfo.detail.endDate=endDate[0] + '-'+ endDate[1] + '-'+ endDate[2]
+    this.UserSelectedinfo.detail.startDate = startDate[0] + '-' + startDate[1] + '-' + startDate[2]
+    this.UserSelectedinfo.detail.endDate = endDate[0] + '-' + endDate[1] + '-' + endDate[2]
     this.DelegatedService.updateDelegatedUser(this.UserSelectedinfo).subscribe({
       next: (roleListResponse: any) => {
         let data = {
@@ -114,11 +119,18 @@ export class DelegatedUserConfirmComponent implements OnInit {
     });
   }
 
-  public onClickNevigation(path:string):void{
+  private exchangeGroupAndRole() {
+    if (!environment.appSetting.hideSimplifyRole) {
+      this.UserSelectedinfo.detail.serviceRoleGroupIds = this.UserSelectedinfo.detail.roleIds;
+      delete this.UserSelectedinfo.detail.roleIds;
+    }
+  }
+
+  public onClickNevigation(path: string): void {
     this.route.navigateByUrl(path)
     sessionStorage.removeItem('deleagted_user_details')
   }
-  
+
   public Cancel() {
     window.history.back();
   }

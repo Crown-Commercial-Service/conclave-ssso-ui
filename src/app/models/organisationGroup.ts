@@ -1,6 +1,6 @@
 export interface Group {
     groupId: number;
-    mfaEnabled:boolean;
+    mfaEnabled: boolean;
     groupName: string;
     createdDate?: string;
 }
@@ -29,21 +29,30 @@ export interface OrganisationGroupUserPatchInfo {
     removedUserIds: string[]
 }
 
-export interface Role {
-    pendingStatus?: boolean;
-    roleId: number;
-    roleKey:string;
-    roleName: string;
+export interface RoleDetail {
     orgTypeEligibility?: number;
+    description?: string;
     subscriptionTypeEligibility?: number;
     tradeEligibility?: number;
     enabled?: boolean;
-    serviceName?:string | null;
-    isDeleted?:boolean;
-    roleGroupDescription?:string;
+    serviceName?: string | null;
+    isDeleted?: boolean;
 }
 
-export interface CheckBoxRoleListGridSource extends Role{
+export interface Role extends RoleDetail {
+    pendingStatus?: boolean;
+    roleId: number;
+    roleKey: string;
+    roleName: string;
+}
+
+export interface ServiceRoleGroup extends RoleDetail {
+    id: number;
+    key: string;
+    name: string;
+}
+
+export interface CheckBoxRoleListGridSource extends Role {
     isChecked?: boolean
     isDisable?: any
 
@@ -54,12 +63,12 @@ export interface OrganisationGroupResponseInfo extends Group {
     users: GroupUser[]
 }
 
-export interface GroupRole{
+export interface GroupRole {
     id: number;
     name: string;
 }
 
-export interface GroupUser{
+export interface GroupUser {
     userId: string;
     name: string;
     isAdmin: boolean;
