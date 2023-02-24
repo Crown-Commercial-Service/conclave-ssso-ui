@@ -296,9 +296,9 @@
                             </legend>
                             <p class="govuk-hints">{{ 'ACCESS_TO_USER'| translate }}</p>
                             <div class="govuk-checkboxes">
-                                <div class="govuk-checkboxes__item" *ngFor="let orgRole of orgRoles; let i=index">
+                                <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgRole of orgRoles; let i=index">
                                     <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                        [attr.disabled]="isEdit && orgRole.roleKey === 'ORG_DEFAULT_USER' ? true : null"
+                                        [attr.disabled]="isEdit && getDisbleRoleForService(orgRole.roleKey) ? true : null"
                                         [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
                                         (ngModelChange)="onUserRoleChecked(orgRole, $event)" value="hmrc">
                                     <label
@@ -309,7 +309,7 @@
                                     <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.pendingStatus">
                                         Pending Approval
                                       </strong>
-                                      <p class="govuk-body description_para govuk-!-padding-top-0">{{orgRole.RoleGroupDescription}} </p>
+                                      <p class="govuk-body description_para govuk-!-padding-top-0">{{orgRole.description}} </p>
                                 </div>
                             </div>
                         </fieldset>

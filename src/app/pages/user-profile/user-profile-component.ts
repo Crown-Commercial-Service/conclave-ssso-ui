@@ -83,6 +83,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   isOrgAdmin: boolean = false;
   private selectedRoleIds:number[] = [];
   public groupHint:string=''
+  private adminRoleKey:string= '';
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -117,6 +118,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.locationStrategy.onPopState(() => {
       this.onCancelClick();
     });
+    this.defineRoleKey()
   }
 
   async ngOnInit() {
@@ -130,6 +132,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       })
       .toPromise();
     let user = await this.userService.getUser(this.userName).toPromise();
+     console.log("user",user)
     if (user != null) {
       this.canChangePassword = user.detail.canChangePassword;
       if (!environment.appSetting.hideIDP) {
@@ -162,7 +165,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
     }
     await this.getApprovalRequriedRoles()
-    await this.getPendingApprovalUserRole();
+    // await this.getPendingApprovalUserRole();
     await this.getOrgDetails()
     await this.orgGroupService
       .getOrganisationRoles(this.organisationId)
@@ -175,7 +178,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 (rp) => rp.roleId == r.roleId
               );
               if(userRole){
-                if ( r.roleKey == 'ORG_ADMINISTRATOR' && this.isAdminUser == false) {
+                if ( r.roleKey == this.adminRoleKey && this.isAdminUser == false) {
                   this.isAdminUser = true;
                 }
                 this.formGroup.addControl(
@@ -204,7 +207,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               roleKey: element.roleKey,
               accessRoleName: element.roleName,
               serviceName: element.serviceName,
-              RoleGroupDescription:element.RoleGroupDescription
+              description:element.description
             });
             this.formGroup.addControl(
               'orgRoleControl_' + element.roleId,
@@ -620,6 +623,30 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         IsUser: false,
       }
       this.router.navigateByUrl('confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data)))
+    }
+  }
+
+  private defineRoleKey(){
+  if(this.showRoleView){
+    this.adminRoleKey = 'ORG_ADMINISTRATOR'
+   } else {
+    this.adminRoleKey = 'ORG_ADMINISTRATOR_GROUP'
+   }
+  } 
+
+  public getDisbleRole(orgRole:any){
+    if(this.showRoleView){
+     if(orgRole === 'ORG_DEFAULT_USER' || orgRole === 'ORG_ADMINISTRATOR'){
+        return true
+     } else {
+        return null
+     }
+    } else {
+      if(orgRole === 'ORG_DEFAULT_USER_GROUP' || orgRole === 'ORG_ADMINISTRATOR_GROUP'){
+        return true
+       } else {
+       return null
+       }
     }
   }
 }

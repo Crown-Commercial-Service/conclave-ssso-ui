@@ -27,6 +27,7 @@ export interface UserDetail {
 }
 
 export interface UserRequestDetail {
+    serviceRoleGroupIds?: number[] | undefined;
     id: number,
     groupIds?: number[];
     roleIds?: number[];
@@ -40,6 +41,16 @@ export interface UserResponseDetail {
     rolePermissionInfo?: RolePermissionInfo[];
     identityProviders?: UserIdentityProviderInfo[]
 }
+
+
+export interface UserSericeResponseDetail {
+    id: number,
+    userGroups?: UserGroup[];
+    canChangePassword: boolean;
+    rolePermissionInfo?: ServicePermissionInfo[];
+    identityProviders?: UserIdentityProviderInfo[]
+}
+
 
 export interface UserIdentityProviderInfo {
     identityProviderId?: number;
@@ -55,12 +66,24 @@ export interface RolePermissionInfo {
     serviceClientName: string;
 }
 
+export interface ServicePermissionInfo {
+    name: string;
+    key: string;
+    id: number,
+    serviceClientId ?: string;
+    serviceClientName ?: string;
+}
+
 export interface UserProfileRequestInfo extends UserDetail {
     detail: UserRequestDetail
 }
 
 export interface UserProfileResponseInfo extends UserDetail {
     detail: UserResponseDetail
+}
+
+export interface UserProfileServiceResponseInfo extends UserDetail {
+    detail: UserSericeResponseDetail
 }
 
 export interface UserListInfo {

@@ -310,6 +310,8 @@ export class ManageUserAddSingleUserDetailComponent
     this.orgRoles = await this.organisationGroupService
       .getOrganisationRoles(this.organisationId)
       .toPromise();
+
+    console.log("this.orgRoles",this.orgRoles)  
     this.orgRoles.map((role) => {
       let userRole =
         this.userProfileResponseInfo.detail.rolePermissionInfo &&
@@ -850,5 +852,21 @@ export class ManageUserAddSingleUserDetailComponent
 
   ngOnDestroy() {
     this.subscription.unsubscribe()
+  }
+
+  public getDisbleRoleForService(orgRoleKey:any){
+    if(this.showRoleView){
+     if(orgRoleKey === 'ORG_DEFAULT_USER'){
+        return true
+     } else {
+        return null
+     }
+    } else {
+      if(orgRoleKey === 'ORG_DEFAULT_USER_GROUP'){
+        return true
+       } else {
+       return null
+       }
+    }
   }
 }
