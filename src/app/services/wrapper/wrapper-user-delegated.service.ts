@@ -40,23 +40,62 @@ export class WrapperUserDelegatedService {
 
 
   GetCurrentUsers(organisationId: string, searchString: string, currentPage: number, pageSize: number, includeSelf: boolean = false): Observable<any> {
+    let simplifyRoleUrl = '';
+    if (!environment.appSetting.hideSimplifyRole) {
+      simplifyRoleUrl = "/v1";
+    }
     pageSize = pageSize <= 0 ? 10 : pageSize;
-    const url = `${this.Orgurl}/${organisationId}/users?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&include-self=${includeSelf}&delegated-only=${true}&delegated-expired-only=${false}`;
+    const queryString = `?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&include-self=${includeSelf}&delegated-only=${true}&delegated-expired-only=${false}`;
+    const url = `${this.Orgurl}/${organisationId}/users${simplifyRoleUrl}${queryString}`
+
     return this.http.get<UserListResponse>(url).pipe(
       map((data: UserListResponse) => {
-        return data;
+        return this.mapGroupToRolesUserList(data);
       }), catchError(error => {
         return throwError(error);
       })
     );
   }
 
+  private mapGroupToRolesUserList(data: UserListResponse) {
+    let responsePayload: any = data;
+
+    if (!environment.appSetting.hideSimplifyRole) {
+      let userList = data.userList;
+
+      userList.forEach((user: any) => {
+        let structureData: rolePermissionInfo[] = [];
+        var serviceRoleGroupInfo = user.serviceRoleGroupInfo;
+
+        serviceRoleGroupInfo?.forEach((f: any) => {
+          let mapToRoleObject: rolePermissionInfo = {
+            roleId: f.id,
+            roleKey: f.key,
+            roleName: f.name,
+          };
+          structureData.push(mapToRoleObject);
+        });
+
+        user.rolePermissionInfo = structureData;
+
+      });
+    }
+
+    return responsePayload;
+  }
+
   GetExpiredUsers(organisationId: string, searchString: string, currentPage: number, pageSize: number, includeSelf: boolean = false): Observable<any> {
+    let simplifyRoleUrl = '';
+    if (!environment.appSetting.hideSimplifyRole) {
+      simplifyRoleUrl = "/v1";
+    }
+
     pageSize = pageSize <= 0 ? 10 : pageSize;
-    const url = `${this.Orgurl}/${organisationId}/users?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&include-self=${includeSelf}&delegated-only=${true}&delegated-expired-only=${true}`;
+    const queryString = `?currentPage=${currentPage}&pageSize=${pageSize}&search-string=${encodeURIComponent(searchString)}&include-self=${includeSelf}&delegated-only=${true}&delegated-expired-only=${true}`
+    const url = `${this.Orgurl}/${organisationId}/users${simplifyRoleUrl}${queryString}`;
     return this.http.get<UserListResponse>(url).pipe(
       map((data: UserListResponse) => {
-        return data;
+        return this.mapGroupToRolesUserList(data);
       }), catchError(error => {
         return throwError(error);
       })
