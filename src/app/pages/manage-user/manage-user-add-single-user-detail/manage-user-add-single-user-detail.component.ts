@@ -40,7 +40,7 @@ import { Subscription } from 'rxjs';
 })
 export class ManageUserAddSingleUserDetailComponent
   extends FormBaseComponent
-  implements OnInit,OnDestroy {
+  implements OnInit, OnDestroy {
   public organisationId: string;
   public userProfileRequestInfo: UserProfileRequestInfo;
   public userProfileResponseInfo: UserProfileResponseInfo;
@@ -76,7 +76,7 @@ export class ManageUserAddSingleUserDetailComponent
   private selectedRoleIds: number[] = []
   public isInvalidDomain: boolean = false
   public subscription: Subscription = new Subscription;
-  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
+  public showRoleView: boolean = environment.appSetting.hideSimplifyRole
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private organisationGroupService: WrapperOrganisationGroupService,
@@ -93,7 +93,7 @@ export class ManageUserAddSingleUserDetailComponent
     private authService: AuthService,
     private locationStrategy: LocationStrategy,
     private organisationService: WrapperOrganisationService,
-    private sharedDataService:SharedDataService
+    private sharedDataService: SharedDataService
   ) {
     super(
       viewportScroller,
@@ -130,7 +130,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
     localStorage.removeItem('user_approved_role');
     if (queryParams.data) {
-      this.subscription = this.sharedDataService.userEditDetails.subscribe((data)=>{
+      this.subscription = this.sharedDataService.userEditDetails.subscribe((data) => {
         this.routeData = JSON.parse(atob(queryParams.data));
         this.isEdit = this.routeData['isEdit'];
         this.editingUserName = sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
@@ -310,6 +310,8 @@ export class ManageUserAddSingleUserDetailComponent
     this.orgRoles = await this.organisationGroupService
       .getOrganisationRoles(this.organisationId)
       .toPromise();
+
+    console.log("this.orgRoles", this.orgRoles)
     this.orgRoles.map((role) => {
       let userRole =
         this.userProfileResponseInfo.detail.rolePermissionInfo &&
@@ -496,8 +498,7 @@ export class ManageUserAddSingleUserDetailComponent
 
     if (!filterAlreadyExistRole) {
       this.selectedApproveRequiredRole.push(role.roleId)
-    }else
-    {
+    } else {
       // Remove below line to seperate normal and approval required role. It is added as we will not be using seperate api. Only user update api will be used
       this.selectedRoleIds.push(role.roleId);
     }
@@ -793,18 +794,18 @@ export class ManageUserAddSingleUserDetailComponent
   onUserRoleChecked(obj: any, isChecked: boolean) {
     var roleKey = obj.roleKey;
     if (isChecked == true) {
-      this.setMfaStatus(roleKey,true)
+      this.setMfaStatus(roleKey, true)
       if (obj.pendingStatus === true) {
         this.removePendingRole(obj)
       }
     }
     else if (isChecked == false) {
-     this.setMfaStatus(roleKey,false)
-     this.addPendingRole(obj)
+      this.setMfaStatus(roleKey, false)
+      this.addPendingRole(obj)
     }
   }
 
-  private setMfaStatus(roleKey: any,status:boolean) {
+  private setMfaStatus(roleKey: any, status: boolean) {
     if (roleKey == 'ORG_ADMINISTRATOR') {
       this.formGroup.controls['mfaEnabled'].setValue(status);
       this.isAutoDisableMFA = status;
@@ -823,7 +824,7 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   // Removed below logic to avoid approval required seperate delete api call. Delete pending role will be handled in normal role put call.
-  private addPendingRole(obj:any){
+  private addPendingRole(obj: any) {
     // if (obj.pendingStatus === true) {
     //   let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
     //   if (filterRole === undefined) {
@@ -850,5 +851,28 @@ export class ManageUserAddSingleUserDetailComponent
 
   ngOnDestroy() {
     this.subscription.unsubscribe()
+  }
+
+  public getDisbleRoleForService(orgRoleKey: any) {
+
+    if (orgRoleKey === 'ORG_DEFAULT_USER') {
+      return true
+    } else {
+      return null
+    }
+
+    // if(this.showRoleView){
+    //  if(orgRoleKey === 'ORG_DEFAULT_USER'){
+    //     return true
+    //  } else {
+    //     return null
+    //  }
+    // } else {
+    //   if(orgRoleKey === 'ORG_DEFAULT_USER_GROUP'){
+    //     return true
+    //    } else {
+    //    return null
+    //    }
+    // }
   }
 }
