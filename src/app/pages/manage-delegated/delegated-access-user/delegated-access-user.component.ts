@@ -175,13 +175,6 @@ export class DelegatedAccessUserComponent implements OnInit {
         let userSupport = "ORG_USER_SUPPORT"
         let manageSubscription = "MANAGE_SUBSCRIPTIONS"
 
-        if (!environment.appSetting.hideSimplifyRole) {
-          orgAdmin = "ORG_ADMINISTRATOR_GROUP"
-          defaultUser = "ORG_DEFAULT_USER_GROUP"
-          userSupport = "ORG_USER_SUPPORT_GROUP"
-          manageSubscription = "MANAGE_SUBSCRIPTIONS_GROUP"
-        }
-
         if (element.roleKey != orgAdmin && element.roleKey != defaultUser && element.roleKey != userSupport && element.roleKey != manageSubscription) {
           this.roleDataList.push({
             roleId: element.roleId,
