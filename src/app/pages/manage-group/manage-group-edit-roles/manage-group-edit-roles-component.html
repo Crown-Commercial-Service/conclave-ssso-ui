@@ -12,13 +12,14 @@
                             }}</a>
                     </li>
                     <li *ngIf="isEdit== true" class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ serviceRoleGroup.EDIT_GROUP }}</a>
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'EDIT_GROUP' | translate }}</a>
                     </li>
-                    <li class="govuk-breadcrumbs__list-item">
-                        <span *ngIf="isEdit== true" class="govuk-breadcrumbs__link">
+                    <li class="govuk-breadcrumbs__list-item" >
+                        <span class="govuk-breadcrumbs__link" *ngIf="isEdit== true">
                             {{serviceRoleGroup.ADD_REMOVE_ROLES }}</span>
-                        <span *ngIf="isEdit!= true" class="govuk-breadcrumbs__link">
-                            {{ serviceRoleGroup.ADD_ROLES }}</span>
+
+                            <span class="govuk-breadcrumbs__link" *ngIf="isEdit!= true">
+                                {{ serviceRoleGroup.ADD_ROLES }}</span>
                     </li>
                 </ol>
             </div>
@@ -69,7 +70,7 @@
                         for="{{'orgRoleControl_' + orgRole.roleId}}">
                         {{orgRole.roleName}} - {{orgRole.serviceName}} 
                     </label>
-                      <p *ngIf="!showRoleView" class="govuk-body description_para">{{orgRole.roleGroupDescription}} </p>
+                      <p *ngIf="!showRoleView" class="govuk-body description_para">{{orgRole.description}} </p>
                 </div>
             </fieldset>
     </form>

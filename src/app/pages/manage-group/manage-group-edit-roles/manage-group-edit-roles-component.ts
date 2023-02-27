@@ -69,7 +69,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
         if(this.showRoleView){
          this.titleService.setTitle(`${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - CCS`);
         } else {
-         this.titleService.setTitle(`${this.isEdit ? "Add/Remove Services" : "Add services"}  - Manage Groups - CCS`);
+         this.titleService.setTitle(`${this.isEdit ? "Add or remove services" : "Add services"}  - Manage Groups - CCS`);
         }
         this.getOrganisationRoles();
         this.initialteServiceRoleGroup()
@@ -105,9 +105,8 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
                     roleKey: orgRole.roleKey,
                     roleName: orgRole.roleName,
                     isChecked: isChecked,
-                    roleGroupDescription:"Description Development under process"
+                    description:orgRole.description
                 };
-                console.log("isChecked",isChecked)
                 this.formGroup.addControl(
                     'orgRoleControl_' + orgRole.roleId,
                     this.formBuilder.control(isChecked ? true : false )
@@ -151,7 +150,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
                     roleId: dataRow.roleId,
                     roleKey: dataRow.roleKey,
                     roleName: dataRow.roleName,
-                    roleGroupDescription: dataRow.roleGroupDescription,
+                    description: dataRow.description,
                     serviceView:!this.showRoleView
                 };
                 this.addingRoles.push(roleInfo);
@@ -163,10 +162,12 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
                 this.addingRoles.splice(inAddedListIndex, 1);
             }
             else {
-                let roleInfo: Role = {
+                let roleInfo: any = {
                     roleId: dataRow.roleId,
                     roleKey: dataRow.roleKey,
-                    roleName: dataRow.roleName
+                    roleName: dataRow.roleName,
+                    description: dataRow.description,
+                    serviceView:!this.showRoleView
                 };
                 this.removingRoles.push(roleInfo);
             }
@@ -207,7 +208,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
             }
        } else {
         this.serviceRoleGroup = {
-            ADD_REMOVE_ROLES:'Add or remove roles',
+            ADD_REMOVE_ROLES:'Add or remove services',
             ADD_ROLES: "Add services",
             SELECT_ROLES_WANT_TO_ADD: "Select the services that this group needs access to.",
             CREATE_BTN:"Create group with no services"

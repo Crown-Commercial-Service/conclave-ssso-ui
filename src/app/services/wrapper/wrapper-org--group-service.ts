@@ -44,25 +44,54 @@ export class WrapperOrganisationGroupService {
   }
 
   getOrganisationGroup(organisationId: string, groupId: number): Observable<any> {
-    const url = `${this.url}/${organisationId}/groups/${groupId}`;
-    return this.http.get<OrganisationGroupResponseInfo>(url).pipe(
-      map((data: OrganisationGroupResponseInfo) => {
-        return data;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    if(!environment.appSetting.hideSimplifyRole){
+      const url = `${this.url}/${organisationId}/groups/${groupId}/servicerolegroups`;
+      return this.http.get<OrganisationGroupResponseInfo>(url).pipe(
+        map((data: OrganisationGroupResponseInfo) => {
+          data.roles = data.serviceRoleGroups
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/${organisationId}/groups/${groupId}`;
+      return this.http.get<OrganisationGroupResponseInfo>(url).pipe(
+        map((data: OrganisationGroupResponseInfo) => {
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
   patchUpdateOrganisationGroup(organisationId: string, groupId: number, orgGroupPatchInfo: OrganisationGroupRequestInfo): Observable<any> {
-    const url = `${this.url}/${organisationId}/groups/${groupId}`;
-    return this.http.patch(url, orgGroupPatchInfo).pipe(
-      map(() => {
-        return true;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    if(!environment.appSetting.hideSimplifyRole){
+      let serviceRoleGroupInfos = {
+          addedServiceRoleGroupIds: orgGroupPatchInfo.roleInfo?.addedRoleIds, 
+          removedServiceRoleGroupIds: orgGroupPatchInfo.roleInfo?.removedRoleIds
+       }
+      orgGroupPatchInfo.serviceRoleGroupInfo = serviceRoleGroupInfos
+      delete orgGroupPatchInfo.roleInfo
+      const url = `${this.url}/${organisationId}/groups/${groupId}/servicerolegroups`;
+      return this.http.patch(url, orgGroupPatchInfo).pipe(
+        map(() => {
+          return true;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/${organisationId}/groups/${groupId}`;
+      return this.http.patch(url, orgGroupPatchInfo).pipe(
+        map(() => {
+          return true;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
   deleteOrganisationGroup(organisationId: string, groupId: number): Observable<any> {

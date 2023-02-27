@@ -38,7 +38,7 @@
             <div *ngIf="dataRow['serviceView'] == true;else other_content" class="role_group_content">
               <span [ngClass]="[ dataRow['serviceView'] == true ? 'role_lable' : '']">{{ dataRow[dataKey] }}</span>
               <br>
-              <span>{{dataRow['roleGroupDescription']}}</span>
+              <span>{{dataRow['description']}}</span>
             </div>
             <ng-template #other_content>{{dataRow[dataKey]}}</ng-template>
             <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'userName' && dataRow['isAdmin']) ||

@@ -19,6 +19,7 @@ import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 })
 export class ViewVerifiedOrgComponent implements OnInit {
   private organisationId: string = '';
+  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   pageName = 'Contactadmin';
   public routeDetails: any;
   public registries: CiiOrgIdentifiersDto;
@@ -186,22 +187,26 @@ export class ViewVerifiedOrgComponent implements OnInit {
               } else {
                 f.defaultOwnerChanges = false;
               }
-
+               
               if (f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||
                 f.event?.toUpperCase() == "ADMINROLEASSIGNED" || f.event?.toUpperCase() == "ADMINROLEUNASSIGNED") {
                 this.translate.get(f.event).subscribe(val => f.event = val);
-                if (f.event.includes('[RoleName]')) 
-                {
-                  let roleKey:any=['JAEGGER_SUPPLIER','ACCESS_JAGGAER','CAT_USER','ACCESS_CAAAC_CLIENT','JAEGGER_BUYER','JAGGAER_USER']
-                  let filterRole = roleKey.find((element: any) => element == f.roleKey);
-                  if(filterRole === undefined)
+                if(this.showRoleView){
+                  if (f.event.includes('[RoleName]')) 
                   {
-                    f.event = f.event.replace('[RoleName]', f.role + ' - ' + f.serviceName);
+                    let roleKey:any=['JAEGGER_SUPPLIER','ACCESS_JAGGAER','CAT_USER','ACCESS_CAAAC_CLIENT','JAEGGER_BUYER','JAGGAER_USER']
+                    let filterRole = roleKey.find((element: any) => element == f.roleKey);
+                    if(filterRole === undefined)
+                    {
+                      f.event = f.event.replace('[RoleName]', f.role + ' - ' + f.serviceName);
+                    }
+                    else
+                    {                    
+                      f.event = f.event.replace('[RoleName ]', f.role);
+                    }
                   }
-                  else
-                  {                    
-                    f.event = f.event.replace('[RoleName]', f.role);
-                  }
+                }  else {
+                  f.event = f.event.replace('[RoleName] role', f.name);
                 }
               }
               else {

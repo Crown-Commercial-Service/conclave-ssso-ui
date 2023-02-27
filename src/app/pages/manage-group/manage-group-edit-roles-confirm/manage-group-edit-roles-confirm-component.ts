@@ -50,7 +50,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
             this.routeData = JSON.parse(queryParams.data);
             this.isEdit = this.routeData['isEdit'];
             this.sharedDataService.selectedRoleforGroup.subscribe((data)=>{
-                console.log("data",data)
+                this.routeData = data
                 this.editingGroupId = data['groupId'];
                 this.roleIds = data['roleIds'];
                 this.addingRoles = data['addingRoles'];
@@ -63,7 +63,11 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
     }
 
     ngOnInit() {
-        this.titleService.setTitle(`Confirm - ${"Group - Roles"}`);
+        if(this.showRoleView){
+            this.titleService.setTitle(`Confirm - ${"Group - Roles"}`);
+        } else {
+            this.titleService.setTitle(`Confirm services – Manage Groups - CCS`);
+        }
         this.initialteServiceRoleGroups()
     }
 
