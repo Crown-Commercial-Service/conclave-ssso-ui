@@ -178,7 +178,7 @@ export class ViewPendingVerificationComponent implements OnInit {
                 {
                   this.translate.get(f.event).subscribe((val) => (f.event = val));
                   
-                  if(this.showRoleView){
+                  if(true){
                     if (f.event.includes('[RoleName]'))  {
                       let roleKey:any=['JAEGGER_SUPPLIER','ACCESS_JAGGAER','CAT_USER','ACCESS_CAAAC_CLIENT','JAEGGER_BUYER','JAGGAER_USER']
                       let filterRole = roleKey.find((element: any) => element == f.roleKey);

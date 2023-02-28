@@ -44,7 +44,7 @@ export class WrapperBuyerBothService {
 
   getOrgEventLogs(organisationId: string, currentPage: number, pageSize: number): Observable<any> {
     pageSize = pageSize <= 0 ? 10 : pageSize;
-    if(!environment.appSetting.hideSimplifyRole){
+    if(false){
       const url = `${this.org}/${organisationId}/servicerolegroups/auditevents?currentPage=${currentPage}&pageSize=${pageSize}`;
       return this.http.get<OrganisationAuditEventListResponse>(url).pipe(
         map((data: OrganisationAuditEventListResponse) => {
