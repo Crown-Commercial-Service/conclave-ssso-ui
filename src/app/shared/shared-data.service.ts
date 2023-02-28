@@ -13,6 +13,9 @@ export class SharedDataService {
 
   public userEditDetails: BehaviorSubject<any> = new BehaviorSubject(this.userName);
 
+
+  public selectedRoleforGroup: BehaviorSubject<any> = new BehaviorSubject(this.roleForGroup);
+
   public manageGroupStorage(Gname: string): void {
     sessionStorage.setItem('Gname', Gname);
     this.ManageGroup.next(Gname)
@@ -29,10 +32,23 @@ export class SharedDataService {
       return null
     }
    }
+
+   public get roleForGroup(){
+    if(localStorage.getItem('roleForGroup') != null){
+      return JSON.parse(localStorage.getItem('roleForGroup') || '')
+    } else {
+      return null
+    }
+   }
   
    public storeUserDetails(userEditDetails:any){
     localStorage.setItem('userEditDetails', userEditDetails);
     this.userEditDetails.next(JSON.parse(localStorage.getItem('userEditDetails') || ''))
+   }
+
+   public storeRoleForGroup(roleForGroup:any){
+    localStorage.setItem('roleForGroup', roleForGroup);
+    this.selectedRoleforGroup.next(JSON.parse(localStorage.getItem('roleForGroup') || ''))
    }
 
   constructor() {}

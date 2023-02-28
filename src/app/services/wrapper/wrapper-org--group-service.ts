@@ -18,7 +18,6 @@ export class WrapperOrganisationGroupService {
  
   public configURl:string = `${environment.uri.api.isApiGateWayEnabled ?
     environment.uri.api.wrapper.apiGatewayEnabled.configuration : environment.uri.api.wrapper.apiGatewayDisabled.configuration}`;
-
   constructor(private http: HttpClient) {
   }
 
@@ -45,25 +44,54 @@ export class WrapperOrganisationGroupService {
   }
 
   getOrganisationGroup(organisationId: string, groupId: number): Observable<any> {
-    const url = `${this.url}/${organisationId}/groups/${groupId}`;
-    return this.http.get<OrganisationGroupResponseInfo>(url).pipe(
-      map((data: OrganisationGroupResponseInfo) => {
-        return data;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    if(!environment.appSetting.hideSimplifyRole){
+      const url = `${this.url}/${organisationId}/groups/${groupId}/servicerolegroups`;
+      return this.http.get<OrganisationGroupResponseInfo>(url).pipe(
+        map((data: OrganisationGroupResponseInfo) => {
+          data.roles = data.serviceRoleGroups
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/${organisationId}/groups/${groupId}`;
+      return this.http.get<OrganisationGroupResponseInfo>(url).pipe(
+        map((data: OrganisationGroupResponseInfo) => {
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
   patchUpdateOrganisationGroup(organisationId: string, groupId: number, orgGroupPatchInfo: OrganisationGroupRequestInfo): Observable<any> {
-    const url = `${this.url}/${organisationId}/groups/${groupId}`;
-    return this.http.patch(url, orgGroupPatchInfo).pipe(
-      map(() => {
-        return true;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    if(!environment.appSetting.hideSimplifyRole){
+      let serviceRoleGroupInfos = {
+          addedServiceRoleGroupIds: orgGroupPatchInfo.roleInfo?.addedRoleIds, 
+          removedServiceRoleGroupIds: orgGroupPatchInfo.roleInfo?.removedRoleIds
+       }
+      orgGroupPatchInfo.serviceRoleGroupInfo = serviceRoleGroupInfos
+      delete orgGroupPatchInfo.roleInfo
+      const url = `${this.url}/${organisationId}/groups/${groupId}/servicerolegroups`;
+      return this.http.patch(url, orgGroupPatchInfo).pipe(
+        map(() => {
+          return true;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/${organisationId}/groups/${groupId}`;
+      return this.http.patch(url, orgGroupPatchInfo).pipe(
+        map(() => {
+          return true;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
   deleteOrganisationGroup(organisationId: string, groupId: number): Observable<any> {
@@ -78,46 +106,70 @@ export class WrapperOrganisationGroupService {
   }
 
   getOrganisationRoles(organisationId: string): Observable<any> {
-    const url = `${this.url}/${organisationId}/roles`;
-    return this.http.get<Role[]>(url).pipe(
-      map((data: Role[]) => {
-        data.forEach((f) => {
-          switch (f.roleKey) {
-            case 'CAT_USER': {
-              f.serviceName = null;
-              break;
+    if(environment.appSetting.hideSimplifyRole){
+      const url = `${this.url}/${organisationId}/roles`;
+      return this.http.get<Role[]>(url).pipe(
+        map((data: Role[]) => {
+          data.forEach((f) => {
+            switch (f.roleKey) {
+              case 'CAT_USER': {
+                f.serviceName = null;
+                break;
+              }
+              case 'ACCESS_CAAAC_CLIENT': {
+                f.serviceName = null;
+                break;
+              }
+              case 'JAEGGER_SUPPLIER': {
+                f.serviceName = null;
+                break;
+              }
+              case 'JAEGGER_BUYER': {
+                f.serviceName = null;
+                break;
+              }
+              case 'JAGGAER_USER': {
+                f.serviceName = null;
+                break;
+              }
+              case 'ACCESS_JAGGAER': {
+                f.serviceName = null;
+                break;
+              }
+              default: {
+                //statements;
+                break;
+              }
             }
-            case 'ACCESS_CAAAC_CLIENT': {
-              f.serviceName = null;
-              break;
-            }
-            case 'JAEGGER_SUPPLIER': {
-              f.serviceName = null;
-              break;
-            }
-            case 'JAEGGER_BUYER': {
-              f.serviceName = null;
-              break;
-            }
-            case 'JAGGAER_USER': {
-              f.serviceName = null;
-              break;
-            }
-            case 'ACCESS_JAGGAER': {
-              f.serviceName = null;
-              break;
-            }
-            default: {
-              //statements;
-              break;
-            }
-          }
+          })
+          return data
+        }), catchError(error => {
+          return throwError(error);
         })
-        return data
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+      );
+    } else {
+      const structureData:any = []
+      const url = `${this.url}/${organisationId}/servicerolegroups`;
+      return this.http.get<Role[]>(url).pipe(
+        map((data: Role[]) => {
+          data.forEach((f:any) => {
+            let structureObj = {
+              roleId: f.id,
+              roleKey:f.key,
+              roleName: f.name,
+              orgTypeEligibility: f.orgTypeEligibility,
+              subscriptionTypeEligibility: f.subscriptionTypeEligibility,
+              tradeEligibility: f.tradeEligibility,
+              description : f.description
+            }
+            structureData.push(structureObj)
+          })
+          return structureData
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
   getOrganisationApprovalRequiredRoles(): Observable<any> {
@@ -130,14 +182,40 @@ export class WrapperOrganisationGroupService {
   }
 
   getGroupOrganisationRoles(organisationId: string): Observable<any> {
-    const url = `${this.url}/${organisationId}/roles`;
-    return this.http.get<Role[]>(url).pipe(
-      map((data: Role[]) => {
-        return data;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    if(false){
+      const structureData:any = []
+      const url = `${this.url}/${organisationId}/servicerolegroups`;
+      return this.http.get<Role[]>(url).pipe(
+        map((data: any[]) => {
+          data.forEach((f)=>{
+            let structureObj = {
+              roleId: f.id,
+              roleKey:f.key,
+              roleName: f.name,
+              orgTypeEligibility: f.orgTypeEligibility,
+              subscriptionTypeEligibility: f.subscriptionTypeEligibility,
+              tradeEligibility: f.tradeEligibility,
+              description : f.description,
+              autoValidationRoleTypeEligibility:f.autoValidationRoleTypeEligibility
+            }
+            structureData.push(structureObj)
+          })
+          return structureData;
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/${organisationId}/roles`;
+      return this.http.get<Role[]>(url).pipe(
+        map((data: Role[]) => {
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
 

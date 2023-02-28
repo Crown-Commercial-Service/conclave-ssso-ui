@@ -21,8 +21,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { AuditLoggerService } from 'src/app/services/postgres/logger.service';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
-import { PatternService } from 'src/app/shared/pattern.service';
-import { isBoolean } from 'lodash';
 import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 
@@ -32,11 +30,14 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
   styleUrls: ['./user-profile-component.scss'],
 })
 export class UserProfileComponent extends FormBaseComponent implements OnInit {
+  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   submitted!: boolean;
   formGroup!: FormGroup;
   userGroupTableHeaders = ['GROUPS'];
   userGroupColumnsToDisplay = ['group'];
+  userServiceTableHeaders = ['NAME'];
   userRoleTableHeaders = ['ROLES', 'SERVICE'];
+  userServiceColumnsToDisplay = ['accessRoleName',]
   userRoleColumnsToDisplay = [
     'accessRoleName',
     'serviceName',
@@ -80,6 +81,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   hasGroupViewPermission: boolean = false;
   isOrgAdmin: boolean = false;
   private selectedRoleIds:number[] = [];
+  public groupHint:string=''
+  private adminRoleKey:string= 'ORG_ADMINISTRATOR';
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -89,8 +92,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     protected uiStore: Store<UIState>,
     private formBuilder: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private PatternService: PatternService,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
     private orgGroupService: WrapperOrganisationGroupService,
@@ -159,7 +160,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
     }
     await this.getApprovalRequriedRoles()
-    await this.getPendingApprovalUserRole();
+    // await this.getPendingApprovalUserRole();
     await this.getOrgDetails()
     await this.orgGroupService
       .getOrganisationRoles(this.organisationId)
@@ -172,7 +173,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 (rp) => rp.roleId == r.roleId
               );
               if(userRole){
-                if ( r.roleKey == 'ORG_ADMINISTRATOR' && this.isAdminUser == false) {
+                if ( r.roleKey == this.adminRoleKey && this.isAdminUser == false) {
                   this.isAdminUser = true;
                 }
                 this.formGroup.addControl(
@@ -195,12 +196,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
         //bind Roles based on User Type
         if (this.isAdminUser == true) {
-          orgRoles.forEach((element) => {
+          orgRoles.forEach((element:any) => {
             this.roleDataList.push({
               roleId: element.roleId,
               roleKey: element.roleKey,
               accessRoleName: element.roleName,
               serviceName: element.serviceName,
+              description:element.description
             });
             this.formGroup.addControl(
               'orgRoleControl_' + element.roleId,
@@ -217,10 +219,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 });
               }
             });
+            this.groupHint = "Select the services that you need access to."
         } else {
           user.detail.rolePermissionInfo &&
             user.detail.rolePermissionInfo.map((roleInfo) => {
-              var orgRole = orgRoles.find((r) => r.roleId == roleInfo.roleId);
+              var orgRole:any = orgRoles.find((r) => r.roleId == roleInfo.roleId);
               if (orgRole) {
                 switch (orgRole.roleKey) {
                   case 'CAT_USER': {
@@ -255,9 +258,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 this.roleDataList.push({
                   accessRoleName: orgRole.roleName,
                   serviceName: orgRole.serviceName,
+                  description:orgRole.description,
+                  serviceView:!this.showRoleView
                 });
               }
             });
+            this.groupHint = "These are the services that you have access to."
         }
       });
 
@@ -613,5 +619,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
       this.router.navigateByUrl('confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data)))
     }
+  }
+
+  public getDisbleRole(orgRole:any){
+     if(orgRole === 'ORG_DEFAULT_USER' || orgRole === 'ORG_ADMINISTRATOR'){
+        return true
+     } else {
+        return null
+     }
   }
 }
