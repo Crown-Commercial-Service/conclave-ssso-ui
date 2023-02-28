@@ -140,6 +140,8 @@ import { BuyerBothErrorComponent } from './pages/manage-buyer-and-both-requests/
 import { ManageUserRoleComponent } from './pages/manage-role/manage-user-role/manage-user-role.component';
 import { RoleRequestSuccessComponent } from './pages/manage-role/role-request-success/role-request-success.component';
 import { RoleRequestFailedComponent } from './pages/manage-role/role-request-failed/role-request-failed.component';
+import { UpdateOrgServiceComponent } from './pages/buyer/update-org-service/update-org-service.component';
+import { ConfirmOrgServiceComponent } from './pages/buyer/confirm-org-service/confirm-org-service.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -736,6 +738,13 @@ const routes: Routes = [
     component: UpdateOrgTypeComponent,
   },
   {
+    path: 'update-org-services/confirm',
+    data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: UpdateOrgServiceComponent,
+  },
+  {
     path: 'update-org-type/buyer-success/:id',
     data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
     pathMatch: 'full',
@@ -761,6 +770,16 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ConfirmOrgTypeComponent,
+  },
+  {
+    path: 'update-org-services/confirm-changes',
+    data: {
+      title: 'Confirm Changes - Manage Buyers',
+      roles: ['MANAGE_SUBSCRIPTIONS'],
+    },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: ConfirmOrgServiceComponent,
   },
   {
     path: 'buyer/error',

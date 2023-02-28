@@ -11,11 +11,12 @@ import { share } from 'rxjs/operators';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-confirm-org-type',
-  templateUrl: './confirm-org-type.component.html',
-  styleUrls: ['./confirm-org-type.component.scss'],
+  selector: 'app-confirm-org-service',
+  templateUrl: './confirm-org-service.component.html',
+  styleUrls: ['./confirm-org-service.component.scss'],
   animations: [
     slideAnimation({
       close: { 'transform': 'translateX(12.5rem)' },
@@ -25,11 +26,16 @@ import { ViewportScroller } from '@angular/common';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfirmOrgTypeComponent  extends BaseComponent {
+export class ConfirmOrgServiceComponent  extends BaseComponent {
   public org: any;
   public org$!: Observable<any>;
   public changes: any;
   private routeData:any = {}
+  public toAdd:any = []
+  public toAutoValid:any = []
+  public toDelete:any = []
+  userServiceTableHeaders = ['NAME'];
+  userServiceColumnsToDisplay = ['accessRoleName',]
   constructor(private cf: ChangeDetectorRef, private organisationService: OrganisationService, 
     private wrapperOrgService: WrapperOrganisationService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -42,23 +48,58 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
           next: data => {
             this.org = data;
             this.changes = JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
-            console.log("this.changes",this.changes)
+            this.tableInitialor()
           }
         });
       }
     });
   }
 
+ private tableInitialor(){
+  debugger
+  if(this.changes.toAdd.length > 0){
+    this.changes.toAdd.forEach((addRole:any)=>{
+      this.toAdd.push({
+        accessRoleName: addRole.roleName,
+        serviceName: addRole.serviceName,
+        description:addRole.description,
+        serviceView:true
+      });
+    })
+  }
+  if(this.changes.toAutoValid.length > 0){
+    this.changes.toAutoValid.forEach((autoValid:any)=>{
+      this.toAutoValid.push({
+        accessRoleName: autoValid.roleName,
+        serviceName: autoValid.serviceName,
+        description:autoValid.description,
+        serviceView:true
+      });
+    })
+  }
+  if(this.changes.toDelete.length > 0){
+    this.changes.toDelete.forEach((deleteRole:any)=>{
+      this.toDelete.push({
+        accessRoleName: deleteRole.roleName,
+        serviceName: deleteRole.serviceName,
+        description:deleteRole.description,
+        serviceView:true
+      });
+    })
+  }
+ }
+  
+
   public onSubmitClick() {
     const model = {
       orgType:parseInt(this.changes.orgType),
-      rolesToDelete: this.changes.toDelete,
-      rolesToAdd: this.changes.toAdd,
-      rolesToAutoValid: this.changes.toAutoValid,
+      serviceRoleGroupToDelete: this.changes.toDelete,
+      serviceRoleGroupToAdd: this.changes.toAdd,
+      serviceRoleGroupToAutoValid: this.changes.toAutoValid,
       companyHouseId:this.routeData.companyHouseId
     };
 
-    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'switch').toPromise().then(() => {
+    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'servicerolegroups/switch').toPromise().then(() => {
       this.router.navigateByUrl(`update-org-type/buyer-success/${this.org.ciiOrganisationId}`);
     }).catch(error => {
       console.log(error);
@@ -76,6 +117,10 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
       companyHouseId:this.routeData.companyHouseId,
       Id:this.org.ciiOrganisationId
     }
-    this.router.navigateByUrl('update-org-type/confirm?data=' + btoa(JSON.stringify(data)));
+    if(environment.appSetting.hideSimplifyRole){
+      this.router.navigateByUrl('update-org-type/confirm?data=' + btoa(JSON.stringify(data)));
+    } else {
+      this.router.navigateByUrl('update-org-services/confirm?data=' + btoa(JSON.stringify(data)));
+    }
   }
 }

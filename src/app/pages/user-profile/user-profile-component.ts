@@ -21,7 +21,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { AuditLoggerService } from 'src/app/services/postgres/logger.service';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
-import { PatternService } from 'src/app/shared/pattern.service';
 import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 

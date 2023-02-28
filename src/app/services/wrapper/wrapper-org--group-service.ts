@@ -182,14 +182,40 @@ export class WrapperOrganisationGroupService {
   }
 
   getGroupOrganisationRoles(organisationId: string): Observable<any> {
-    const url = `${this.url}/${organisationId}/roles`;
-    return this.http.get<Role[]>(url).pipe(
-      map((data: Role[]) => {
-        return data;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    if(false){
+      const structureData:any = []
+      const url = `${this.url}/${organisationId}/servicerolegroups`;
+      return this.http.get<Role[]>(url).pipe(
+        map((data: any[]) => {
+          data.forEach((f)=>{
+            let structureObj = {
+              roleId: f.id,
+              roleKey:f.key,
+              roleName: f.name,
+              orgTypeEligibility: f.orgTypeEligibility,
+              subscriptionTypeEligibility: f.subscriptionTypeEligibility,
+              tradeEligibility: f.tradeEligibility,
+              description : f.description,
+              autoValidationRoleTypeEligibility:f.autoValidationRoleTypeEligibility
+            }
+            structureData.push(structureObj)
+          })
+          return structureData;
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/${organisationId}/roles`;
+      return this.http.get<Role[]>(url).pipe(
+        map((data: Role[]) => {
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
 
