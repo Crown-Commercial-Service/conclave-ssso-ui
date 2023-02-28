@@ -65,7 +65,7 @@ export class WrapperUserDelegatedService {
 
       userList.forEach((user: any) => {
         let structureData: rolePermissionInfo[] = [];
-        var serviceRoleGroupInfo = user.serviceRoleGroupInfo;
+        var serviceRoleGroupInfo = user.servicePermissionInfo;
 
         serviceRoleGroupInfo?.forEach((f: any) => {
           let mapToRoleObject: rolePermissionInfo = {
