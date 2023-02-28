@@ -187,18 +187,12 @@ export class UpdateOrgServiceComponent implements OnInit {
       }
     })
     if (this.organisation.supplierBuyerType == '0' && type == '1') {
-      let ACCESS_JAGGAER = this.rolesToAddAutoValidation.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
-      let JAGGAER_USER = this.rolesToAddAutoValidation.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
-      let ACCESS_JAGGAER_Delete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == 'ACCESS_JAGGAER')
-      let JAGGAER_USER_Delete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == 'JAGGAER_USER')
+      let ACCESS_JAGGAER = this.rolesToAddAutoValidation.find((element: { roleKey: any; }) => element.roleKey == 'JAEGGER_BUYER')
+      let ACCESS_JAGGAER_Delete: any = this.rolesToDelete.find((existRole: { roleKey: any; }) => existRole.roleKey == 'JAEGGER_BUYER')
 
       if (ACCESS_JAGGAER === undefined && ACCESS_JAGGAER_Delete === undefined) {
-        let accessJagger: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
+        let accessJagger: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAEGGER_BUYER')
         this.rolesToAddAutoValidation?.push(accessJagger)
-      }
-      if (JAGGAER_USER === undefined && JAGGAER_USER_Delete === undefined) {
-        let jaggerUser: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
-        this.rolesToAddAutoValidation?.push(jaggerUser)
       }
     }
   }
@@ -385,18 +379,12 @@ export class UpdateOrgServiceComponent implements OnInit {
         let preTickRemoved: any = []
         if (!responce.autoValidationSuccess) {
           if (this.organisation.supplierBuyerType == '0' && this.adminSelectionMode == '1') {
-            let ACCESS_JAGGAER = selection.toDelete.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
-            let JAGGAER_USER = selection.toDelete.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
+            let ACCESS_JAGGAER = selection.toDelete.find((element: { roleKey: any; }) => element.roleKey == 'JAEGGER_BUYER')
             if (ACCESS_JAGGAER === undefined) {
-              let accessJagger: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'ACCESS_JAGGAER')
+              let accessJagger: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAEGGER_BUYER')
               selection.toDelete.push(accessJagger)
             }
-            if (JAGGAER_USER === undefined) {
-              let jaggerUser: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAGGAER_USER')
-              selection.toDelete.push(jaggerUser)
-            }
           }
-
           this.rolesToAdd.forEach((f: any) => {
             if (!f.autoValidate) {
               preTickRemoved.push(f)
@@ -445,7 +433,7 @@ export class UpdateOrgServiceComponent implements OnInit {
         this.orgEligableRoles$.subscribe({
           next: (eRoles: Role[]) => {
             this.roles.forEach((r) => {
-              r.enabled = eRoles.some(x => x.roleName == r.roleName && x.serviceName == r.serviceName);
+              r.enabled = eRoles.some(x => x.roleName == r.roleName);
             });
             this.eRoles = eRoles;
             localStorage.setItem('defaultRole', JSON.stringify(this.roles))

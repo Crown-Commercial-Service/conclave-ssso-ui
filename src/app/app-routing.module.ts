@@ -142,6 +142,7 @@ import { RoleRequestSuccessComponent } from './pages/manage-role/role-request-su
 import { RoleRequestFailedComponent } from './pages/manage-role/role-request-failed/role-request-failed.component';
 import { UpdateOrgServiceComponent } from './pages/buyer/update-org-service/update-org-service.component';
 import { ConfirmOrgServiceComponent } from './pages/buyer/confirm-org-service/confirm-org-service.component';
+import { SuccessOrgServiceComponent } from './pages/buyer/success-org-service/success-org-service.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -752,6 +753,13 @@ const routes: Routes = [
     component: AutoValidationBuyerSuccessComponent,
   },
   {
+    path: 'org-service/success/:id',
+    data: { title: 'Success - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: SuccessOrgServiceComponent,
+  },
+  {
     path: 'buyer/confirm-changes/:id',
     data: {
       title: 'Confirm Changes - Manage Buyers',
@@ -774,7 +782,7 @@ const routes: Routes = [
   {
     path: 'update-org-services/confirm-changes',
     data: {
-      title: 'Confirm Changes - Manage Buyers',
+      title: 'Confirm organisation changes - Manage Buyers',
       roles: ['MANAGE_SUBSCRIPTIONS'],
     },
     pathMatch: 'full',

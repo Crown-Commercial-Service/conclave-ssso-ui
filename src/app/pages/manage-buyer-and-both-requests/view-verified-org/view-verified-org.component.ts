@@ -191,7 +191,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
               if (f.event?.toUpperCase() == "ORGROLEASSIGNED" || f.event?.toUpperCase() == "ORGROLEUNASSIGNED" ||
                 f.event?.toUpperCase() == "ADMINROLEASSIGNED" || f.event?.toUpperCase() == "ADMINROLEUNASSIGNED") {
                 this.translate.get(f.event).subscribe(val => f.event = val);
-                if(true){
+                if(this.showRoleView){
                   if (f.event.includes('[RoleName]')) 
                   {
                     let roleKey:any=['JAEGGER_SUPPLIER','ACCESS_JAGGAER','CAT_USER','ACCESS_CAAAC_CLIENT','JAEGGER_BUYER','JAGGAER_USER']

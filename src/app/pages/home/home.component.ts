@@ -213,11 +213,19 @@ export class HomeComponent extends BaseComponent implements OnInit {
           (x) => x.name === 'Manage service eligibility'
         ) === -1
       ) {
-        this.otherModules.push({
-          name: 'Manage service eligibility',
-          description: 'Manage services and roles for organisations',
-          route: '/buyer/search',
-        });
+        if(environment.appSetting.hideSimplifyRole){
+          this.otherModules.push({
+            name: 'Manage service eligibility',
+            description: 'Manage services and roles for organisations',
+            route: '/buyer/search',
+          });
+        } else {
+          this.otherModules.push({
+            name: 'Manage service eligibility',
+            description: 'Manage organisations’ type and services',
+            route: '/buyer/search',
+          });
+        }
       }
       this.otherModules.push({
         name: 'Manage Buyer status requests',
