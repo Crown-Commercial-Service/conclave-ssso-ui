@@ -48,15 +48,14 @@ export class ConfirmOrgServiceComponent  extends BaseComponent {
           next: data => {
             this.org = data;
             this.changes = JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
-            this.tableInitialor()
+            this.updateTableData()
           }
         });
       }
     });
   }
 
- private tableInitialor(){
-  debugger
+ private updateTableData(){
   if(this.changes.toAdd.length > 0){
     this.changes.toAdd.forEach((addRole:any)=>{
       this.toAdd.push({
@@ -93,18 +92,26 @@ export class ConfirmOrgServiceComponent  extends BaseComponent {
   public onSubmitClick() {
     const model = {
       orgType:parseInt(this.changes.orgType),
-      serviceRoleGroupToDelete: this.changes.toDelete,
-      serviceRoleGroupToAdd: this.changes.toAdd,
-      serviceRoleGroupToAutoValid: this.changes.toAutoValid,
+      serviceRoleGroupsToDelete: this.filterRoleId(this.changes.toDelete),
+      serviceRoleGroupsToAdd: this.filterRoleId(this.changes.toAdd),
+      serviceRoleGroupsToAutoValid: this.filterRoleId(this.changes.toAutoValid),
       companyHouseId:this.routeData.companyHouseId
     };
-
     this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'servicerolegroups/switch').toPromise().then(() => {
-      this.router.navigateByUrl(`update-org-type/buyer-success/${this.org.ciiOrganisationId}`);
+      this.router.navigateByUrl(`org-service/success/${this.org.ciiOrganisationId}`);
     }).catch(error => {
       console.log(error);
       this.router.navigateByUrl(`buyer/error`);
     });
+  }
+
+
+  private filterRoleId(roleArray:any){
+    let roleIdArray:any=[]
+    roleArray.forEach((f:any)=>{
+      roleIdArray.push(f.roleId)
+    })
+    return roleIdArray
   }
 
   public onCancelClick() {

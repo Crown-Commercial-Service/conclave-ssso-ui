@@ -182,7 +182,7 @@ export class WrapperOrganisationGroupService {
   }
 
   getGroupOrganisationRoles(organisationId: string): Observable<any> {
-    if(false){
+    if(!environment.appSetting.hideSimplifyRole){
       const structureData:any = []
       const url = `${this.url}/${organisationId}/servicerolegroups`;
       return this.http.get<Role[]>(url).pipe(
@@ -210,6 +210,7 @@ export class WrapperOrganisationGroupService {
       const url = `${this.url}/${organisationId}/roles`;
       return this.http.get<Role[]>(url).pipe(
         map((data: Role[]) => {
+          console.log("data",data)
           return data;
         }), catchError(error => {
           return throwError(error);

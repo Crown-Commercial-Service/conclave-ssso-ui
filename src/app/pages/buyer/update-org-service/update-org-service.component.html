@@ -74,7 +74,7 @@
       </legend>
       <div class="govuk-checkboxes" *ngIf="orgEligableRoles$ | async as o">
         <ng-container *ngFor="let role of roles">
-          <div class="govuk-checkboxes__item govuk-item-custom" >
+          <div class="govuk-checkboxes__item govuk-item-custom" *ngIf="role.isDeleted === false && tradeEligibilityStatus(role)">
             <input
               type="checkbox"
               [value]="role.roleId"
