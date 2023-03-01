@@ -313,14 +313,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async getOrgDetails() {
+    if(this.isOrgAdmin){
     this.organisationDetails = await this.organisationService.getOrganisation(this.organisationId).toPromise().catch(e => {
-    });
+    });}
   }
 
   async getPendingApprovalUserRole() {
     this.pendingRoleDetails = await this.userService.getPendingApprovalUserRole(this.userName).toPromise().catch(e => {
     });
-    console.log("this.pendingRoleDetails", this.pendingRoleDetails)
   }
 
   setFocus(inputIndex: number) {
@@ -441,22 +441,28 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           if (filterRole === undefined) {
             this.selectedRoleIds.push(role.roleId)
           } else {
-            this.checkPendingRoleDetails(role)
+             this.checkPendingRoleDetails(role)
           }
         } else {
           this.selectedRoleIds.push(role.roleId)
         }
       }
     });
+    // Remove below line to seperate normal and approval required role. It is added as we will not be using seperate api. Only user update api will be used.
+    this.selectedRoleIds.push(...this.selectedApproveRequiredRole);
     return this.selectedRoleIds;
   }
 
-   private checkPendingRoleDetails(role:any){
+  private checkPendingRoleDetails(role:any){
     let filterAlreadyExistRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
     if (this.pendingRoleDetails.length == 0) {
       this.updateSelectedRoleIds(role)
-    } else if(filterAlreadyExistRole.roleKey != role.roleKey) {
+    } else if(filterAlreadyExistRole?.roleKey != role.roleKey) {
       this.selectedApproveRequiredRole.push(role.roleId)
+    }
+    // Remove below line to seperate normal and approval required role. It is added as we will not be using seperate api. Only user update api will be used
+    else if(filterAlreadyExistRole?.roleKey == role.roleKey){
+      this.selectedRoleIds.push(role.roleId)
     }
    }
 
@@ -499,6 +505,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   private submitPendingApproveRole(isValidDomain:boolean): void {
     let selectedRolesDetails = {
       userName: this.userName,
+      organisationId: this.organisationDetails.detail.organisationId,
       detail: {
         roleIds: this.selectedApproveRequiredRole
       }
@@ -548,16 +555,18 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
     );
   }
+
+  // Removed below logic to avoid approval required seperate delete api call. Delete pending role will be handled in normal role put call.
   onUserRoleChecked(obj: any, isChecked: boolean) {
-    if (isChecked == true && obj.pendingStatus) {
-        this.removePendingRole(obj)
-    }
-    if (isChecked == false && obj.pendingStatus) {
-        let pendingRoledObj = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
-        if (pendingRoledObj === undefined) {
-          this.pendingRoledeleteDetails.push(obj.roleId)
-        }
-    }
+    // if (isChecked == true && obj.pendingStatus) {
+    //     this.removePendingRole(obj)
+    // }
+    // if (isChecked == false && obj.pendingStatus) {
+    //     let pendingRoledObj = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
+    //     if (pendingRoledObj === undefined) {
+    //       this.pendingRoledeleteDetails.push(obj.roleId)
+    //     }
+    // }
   }
   
   private removePendingRole(obj:any){
