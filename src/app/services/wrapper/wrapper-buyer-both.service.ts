@@ -44,14 +44,28 @@ export class WrapperBuyerBothService {
 
   getOrgEventLogs(organisationId: string, currentPage: number, pageSize: number): Observable<any> {
     pageSize = pageSize <= 0 ? 10 : pageSize;
-    const url = `${this.org}/${organisationId}/auditevents?currentPage=${currentPage}&pageSize=${pageSize}`;
-    return this.http.get<OrganisationAuditEventListResponse>(url).pipe(
-      map((data: OrganisationAuditEventListResponse) => {
-        return  data
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    if(!environment.appSetting.hideSimplifyRole){
+      const url = `${this.org}/${organisationId}/servicerolegroups/auditevents?currentPage=${currentPage}&pageSize=${pageSize}`;
+      return this.http.get<OrganisationAuditEventListResponse>(url).pipe(
+        map((data: OrganisationAuditEventListResponse) => {
+          console.log("data.organisationAuditEventList",data)
+          data.organisationAuditEventList = data.orgAuditEventServiceRoleGroupList
+          return  data
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.org}/${organisationId}/auditevents?currentPage=${currentPage}&pageSize=${pageSize}`;
+      return this.http.get<OrganisationAuditEventListResponse>(url).pipe(
+        map((data: OrganisationAuditEventListResponse) => {
+          console.log("data",data)
+          return  data
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
   manualValidation(ciiOrgId: string, status:number): Observable<any> {

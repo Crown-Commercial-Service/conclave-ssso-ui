@@ -76,8 +76,14 @@
 <div class="top-margin">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-s">{{ 'ROLES_FOR_GROUP' | translate }}</h2>
-            <app-details [detailsData]="detailsData[0]"></app-details>
+            <div *ngIf="showRoleView">
+                <h2 class="govuk-heading-s">{{ 'ROLES_FOR_GROUP' | translate }}</h2>
+                <app-details [detailsData]="detailsData[0]"></app-details>
+            </div>
+            <div *ngIf="!showRoleView">
+                <h2 class="govuk-heading-s">{{ 'SERVICE_FOR_GROUP' | translate }}</h2>
+                <p class="govuk-hints">This group has access to the services below. To manage these, select 'Manage group services'.</p>
+            </div>
             <div *ngIf="group.roles.length == 0">
                 <p>{{'NONE'| translate}}
                 <p>
@@ -96,10 +102,14 @@
     <div class="govuk-grid-row" *ngIf="isEdit==true">
         <div class="govuk-grid-column-two-thirds">
             <div class="govuk-button-group">
-                <button type="button" (click)="onRoleEditClick()" class="govuk-button govuk-button--secondary"
+                <button *ngIf="showRoleView" type="button" (click)="onRoleEditClick()" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button">
                     {{ 'MANAGE_GROUP_ROLE_BTN' | translate }}
                 </button>
+                <button *ngIf="!showRoleView" type="button" (click)="onRoleEditClick()" class="govuk-button govuk-button--secondary"
+                data-module="govuk-button">
+                 {{ 'MANAGE_GROUP_SERVICE_BTN' | translate }}
+            </button>
             </div>
         </div>
     </div>

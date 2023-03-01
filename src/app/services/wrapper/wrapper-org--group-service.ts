@@ -5,10 +5,9 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { GroupList, OrganisationGroupNameInfo, OrganisationGroupRequestInfo, OrganisationGroupResponseInfo, Role, ServiceRoleGroup } from 'src/app/models/organisationGroup';
+import { GroupList, OrganisationGroupNameInfo, OrganisationGroupRequestInfo, OrganisationGroupResponseInfo, Role } from 'src/app/models/organisationGroup';
 import { IdentityProvider, IdentityProviderSummary } from 'src/app/models/identityProvider';
 import { UserListResponse } from 'src/app/models/user';
-
 
 @Injectable({
   providedIn: 'root'
@@ -45,25 +44,54 @@ export class WrapperOrganisationGroupService {
   }
 
   getOrganisationGroup(organisationId: string, groupId: number): Observable<any> {
-    const url = `${this.url}/${organisationId}/groups/${groupId}`;
-    return this.http.get<OrganisationGroupResponseInfo>(url).pipe(
-      map((data: OrganisationGroupResponseInfo) => {
-        return data;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    if (!environment.appSetting.hideSimplifyRole) {
+      const url = `${this.url}/${organisationId}/groups/${groupId}/servicerolegroups`;
+      return this.http.get<OrganisationGroupResponseInfo>(url).pipe(
+        map((data: OrganisationGroupResponseInfo) => {
+          data.roles = data.serviceRoleGroups
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/${organisationId}/groups/${groupId}`;
+      return this.http.get<OrganisationGroupResponseInfo>(url).pipe(
+        map((data: OrganisationGroupResponseInfo) => {
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
   patchUpdateOrganisationGroup(organisationId: string, groupId: number, orgGroupPatchInfo: OrganisationGroupRequestInfo): Observable<any> {
-    const url = `${this.url}/${organisationId}/groups/${groupId}`;
-    return this.http.patch(url, orgGroupPatchInfo).pipe(
-      map(() => {
-        return true;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    if (!environment.appSetting.hideSimplifyRole) {
+      let serviceRoleGroupInfos = {
+        addedServiceRoleGroupIds: orgGroupPatchInfo.roleInfo?.addedRoleIds,
+        removedServiceRoleGroupIds: orgGroupPatchInfo.roleInfo?.removedRoleIds
+      }
+      orgGroupPatchInfo.serviceRoleGroupInfo = serviceRoleGroupInfos
+      delete orgGroupPatchInfo.roleInfo
+      const url = `${this.url}/${organisationId}/groups/${groupId}/servicerolegroups`;
+      return this.http.patch(url, orgGroupPatchInfo).pipe(
+        map(() => {
+          return true;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/${organisationId}/groups/${groupId}`;
+      return this.http.patch(url, orgGroupPatchInfo).pipe(
+        map(() => {
+          return true;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
   deleteOrganisationGroup(organisationId: string, groupId: number): Observable<any> {
@@ -79,80 +107,69 @@ export class WrapperOrganisationGroupService {
 
   getOrganisationRoles(organisationId: string): Observable<any> {
     if (environment.appSetting.hideSimplifyRole) {
-      return this.getOrganisationRolesWithoutGroup(organisationId);
-    }
-    else {
-      return this.getOrganisationRolesWithGroup(organisationId);
-    }
-  }
-
-  getOrganisationRolesWithGroup(organisationId: string): Observable<any> {
-    const structureData: any = []
-    const url = `${this.url}/${organisationId}/servicerolegroups`;
-    // return this.http.get<ServiceRoleGroup[]>('./../../../assets/temp_data/org_roles.json').pipe(
-    return this.http.get<ServiceRoleGroup[]>(url).pipe(
-      map((data: ServiceRoleGroup[]) => {
-        data.forEach((f: ServiceRoleGroup) => {
-          let structureObj = {
-            roleId: f.id,
-            roleKey: f.key,
-            roleName: f.name,
-            orgTypeEligibility: f.orgTypeEligibility,
-            subscriptionTypeEligibility: f.subscriptionTypeEligibility,
-            tradeEligibility: f.tradeEligibility,
-            description: "Description Development under process"
-          }
-          structureData.push(structureObj)
+      const url = `${this.url}/${organisationId}/roles`;
+      return this.http.get<Role[]>(url).pipe(
+        map((data: Role[]) => {
+          data.forEach((f) => {
+            switch (f.roleKey) {
+              case 'CAT_USER': {
+                f.serviceName = null;
+                break;
+              }
+              case 'ACCESS_CAAAC_CLIENT': {
+                f.serviceName = null;
+                break;
+              }
+              case 'JAEGGER_SUPPLIER': {
+                f.serviceName = null;
+                break;
+              }
+              case 'JAEGGER_BUYER': {
+                f.serviceName = null;
+                break;
+              }
+              case 'JAGGAER_USER': {
+                f.serviceName = null;
+                break;
+              }
+              case 'ACCESS_JAGGAER': {
+                f.serviceName = null;
+                break;
+              }
+              default: {
+                //statements;
+                break;
+              }
+            }
+          })
+          return data
+        }), catchError(error => {
+          return throwError(error);
         })
-        return structureData
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
-  }
-
-  getOrganisationRolesWithoutGroup(organisationId: string): Observable<any> {
-    const url = `${this.url}/${organisationId}/roles`;
-    return this.http.get<Role[]>(url).pipe(
-      map((data: Role[]) => {
-        data.forEach((f) => {
-          switch (f.roleKey) {
-            case 'CAT_USER': {
-              f.serviceName = null;
-              break;
+      );
+    } else {
+      const structureData: any = []
+      const url = `${this.url}/${organisationId}/servicerolegroups`;
+      return this.http.get<Role[]>(url).pipe(
+        map((data: Role[]) => {
+          data.forEach((f: any) => {
+            let structureObj = {
+              roleId: f.id,
+              roleKey: f.key,
+              roleName: f.name,
+              orgTypeEligibility: f.orgTypeEligibility,
+              subscriptionTypeEligibility: f.subscriptionTypeEligibility,
+              tradeEligibility: f.tradeEligibility,
+              description: f.description
             }
-            case 'ACCESS_CAAAC_CLIENT': {
-              f.serviceName = null;
-              break;
-            }
-            case 'JAEGGER_SUPPLIER': {
-              f.serviceName = null;
-              break;
-            }
-            case 'JAEGGER_BUYER': {
-              f.serviceName = null;
-              break;
-            }
-            case 'JAGGAER_USER': {
-              f.serviceName = null;
-              break;
-            }
-            case 'ACCESS_JAGGAER': {
-              f.serviceName = null;
-              break;
-            }
-            default: {
-              //statements;
-              break;
-            }
-          }
+            structureData.push(structureObj)
+          })
+          return structureData
+        }), catchError(error => {
+          return throwError(error);
         })
-        return data
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
-
+      );
+    }
   }
 
   getOrganisationApprovalRequiredRoles(): Observable<any> {
@@ -165,14 +182,41 @@ export class WrapperOrganisationGroupService {
   }
 
   getGroupOrganisationRoles(organisationId: string): Observable<any> {
-    const url = `${this.url}/${organisationId}/roles`;
-    return this.http.get<Role[]>(url).pipe(
-      map((data: Role[]) => {
-        return data;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    if (!environment.appSetting.hideSimplifyRole) {
+      const structureData: any = []
+      const url = `${this.url}/${organisationId}/servicerolegroups`;
+      return this.http.get<Role[]>(url).pipe(
+        map((data: any[]) => {
+          data.forEach((f) => {
+            let structureObj = {
+              roleId: f.id,
+              roleKey: f.key,
+              roleName: f.name,
+              orgTypeEligibility: f.orgTypeEligibility,
+              subscriptionTypeEligibility: f.subscriptionTypeEligibility,
+              tradeEligibility: f.tradeEligibility,
+              description: f.description,
+              autoValidationRoleTypeEligibility: f.autoValidationRoleTypeEligibility
+            }
+            structureData.push(structureObj)
+          })
+          return structureData;
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/${organisationId}/roles`;
+      return this.http.get<Role[]>(url).pipe(
+        map((data: Role[]) => {
+          console.log("data", data)
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
 

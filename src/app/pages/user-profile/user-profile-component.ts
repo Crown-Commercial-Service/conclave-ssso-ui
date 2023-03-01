@@ -21,7 +21,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { AuditLoggerService } from 'src/app/services/postgres/logger.service';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SessionStorageKey } from 'src/app/constants/constant';
-import { PatternService } from 'src/app/shared/pattern.service';
 import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 
@@ -83,7 +82,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   isOrgAdmin: boolean = false;
   private selectedRoleIds:number[] = [];
   public groupHint:string=''
-  private adminRoleKey:string= '';
+  private adminRoleKey:string= 'ORG_ADMINISTRATOR';
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -93,8 +92,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     protected uiStore: Store<UIState>,
     private formBuilder: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private PatternService: PatternService,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
     private orgGroupService: WrapperOrganisationGroupService,
@@ -118,7 +115,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.locationStrategy.onPopState(() => {
       this.onCancelClick();
     });
-    this.defineRoleKey()
   }
 
   async ngOnInit() {
@@ -132,7 +128,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       })
       .toPromise();
     let user = await this.userService.getUser(this.userName).toPromise();
-     console.log("user",user)
     if (user != null) {
       this.canChangePassword = user.detail.canChangePassword;
       if (!environment.appSetting.hideIDP) {
@@ -263,7 +258,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 this.roleDataList.push({
                   accessRoleName: orgRole.roleName,
                   serviceName: orgRole.serviceName,
-                  roleGroupDescription:orgRole.RoleGroupDescription,
+                  description:orgRole.description,
                   serviceView:!this.showRoleView
                 });
               }
@@ -626,27 +621,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
   }
 
-  private defineRoleKey(){
-  if(this.showRoleView){
-    this.adminRoleKey = 'ORG_ADMINISTRATOR'
-   } else {
-    this.adminRoleKey = 'ORG_ADMINISTRATOR_GROUP'
-   }
-  } 
-
   public getDisbleRole(orgRole:any){
-    if(this.showRoleView){
      if(orgRole === 'ORG_DEFAULT_USER' || orgRole === 'ORG_ADMINISTRATOR'){
         return true
      } else {
         return null
      }
-    } else {
-      if(orgRole === 'ORG_DEFAULT_USER_GROUP' || orgRole === 'ORG_ADMINISTRATOR_GROUP'){
-        return true
-       } else {
-       return null
-       }
-    }
   }
 }

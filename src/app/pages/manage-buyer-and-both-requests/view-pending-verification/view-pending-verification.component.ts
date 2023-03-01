@@ -24,7 +24,7 @@ export class ViewPendingVerificationComponent implements OnInit {
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   schemeData: any[] = [];
-
+  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   public organisationAdministrator = {
     usersTableHeaders: ['Name', 'Email address', 'Role'],
     usersColumnsToDisplay: ['name', 'email', 'role'],
@@ -145,6 +145,7 @@ export class ViewPendingVerificationComponent implements OnInit {
       )
       .subscribe({
         next: (response: any) => {
+          console.log("response",response)
           if (response != null) {
             this.eventLog.organisationAuditEventListResponse = response;
             this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
@@ -176,18 +177,22 @@ export class ViewPendingVerificationComponent implements OnInit {
                 ) 
                 {
                   this.translate.get(f.event).subscribe((val) => (f.event = val));
-                  if (f.event.includes('[RoleName]')) 
-                  {
-                    let roleKey:any=['JAEGGER_SUPPLIER','ACCESS_JAGGAER','CAT_USER','ACCESS_CAAAC_CLIENT','JAEGGER_BUYER','JAGGAER_USER']
-                    let filterRole = roleKey.find((element: any) => element == f.roleKey);
-                      if(filterRole === undefined)
-                      {
-                        f.event = f.event.replace('[RoleName]', f.role + ' - ' + f.serviceName);
-                      }
-                      else
-                      {
-                        f.event = f.event.replace('[RoleName]', f.role);
-                      }
+                  
+                  if(this.showRoleView){
+                    if (f.event.includes('[RoleName]'))  {
+                      let roleKey:any=['JAEGGER_SUPPLIER','ACCESS_JAGGAER','CAT_USER','ACCESS_CAAAC_CLIENT','JAEGGER_BUYER','JAGGAER_USER']
+                      let filterRole = roleKey.find((element: any) => element == f.roleKey);
+                        if(filterRole === undefined)
+                        {
+                          f.event = f.event.replace('[RoleName]', f.role + ' - ' + f.serviceName);
+                        }
+                        else
+                        {
+                          f.event = f.event.replace('[RoleName]', f.role);
+                        }
+                    }
+                  } else {
+                    f.event = f.event.replace('[RoleName]', f.name);
                   }
                 } 
                 else {

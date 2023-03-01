@@ -854,25 +854,11 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   public getDisbleRoleForService(orgRoleKey: any) {
-
     if (orgRoleKey === 'ORG_DEFAULT_USER') {
       return true
     } else {
       return null
     }
 
-    // if(this.showRoleView){
-    //  if(orgRoleKey === 'ORG_DEFAULT_USER'){
-    //     return true
-    //  } else {
-    //     return null
-    //  }
-    // } else {
-    //   if(orgRoleKey === 'ORG_DEFAULT_USER_GROUP'){
-    //     return true
-    //    } else {
-    //    return null
-    //    }
-    // }
   }
 }
