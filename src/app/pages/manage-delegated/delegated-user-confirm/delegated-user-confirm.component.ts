@@ -14,6 +14,8 @@ export class DelegatedUserConfirmComponent implements OnInit {
   public UserSelectedinfo: any;
   public pageAccessMode = ''
   public hideSimplifyRole = environment.appSetting.hideSimplifyRole;
+  rolesTableHeaders = ['NAME'];
+  rolesColumnsToDisplay = ['accessRoleName'];
 
   constructor(private route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, private titleService: Title,) { }
 
@@ -118,6 +120,21 @@ export class DelegatedUserConfirmComponent implements OnInit {
       },
     });
   }
+
+  public getSelectedRole(): any[] {
+    let data: any = []
+    this.UserSelectedinfo?.roleDetails.forEach((f: any) => {
+      let obj =
+      {
+        accessRoleName: f.accessRoleName,
+        description: f.description,
+        serviceView: true
+      }
+      data.push(obj)
+    })
+    return data
+  }
+
 
   private exchangeGroupAndRole() {
     if (!environment.appSetting.hideSimplifyRole) {

@@ -42,9 +42,9 @@ a {
     position: relative;
     left: 16px;
   }
-  .govuk-item-custom .govuk-checkboxes__input + .govuk-checkboxes__label::before {
+  .govuk-checkboxes__input + .govuk-checkboxes__label::before {
     top: 4px;
   }
-  .govuk-item-custom .govuk-checkboxes__input + .govuk-checkboxes__label::after {
+  .govuk-checkboxes__input + .govuk-checkboxes__label::after {
     top: 18px;
   }
