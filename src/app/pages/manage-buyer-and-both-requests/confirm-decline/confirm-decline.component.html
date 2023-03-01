@@ -17,21 +17,22 @@
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align">Confirm you want to decline right to buy status for organisation {{routeDetails.organisationName}}</h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align">Please confirm that you want to decline right to
+                buy status for the following organisation {{routeDetails.organisationName}}</h1>
             <div>
-                <p  class="govuk-body-l">
-                    The organisation’s administrator(s) will be notified that the right to buy status was declined.
+                <p class="govuk-body-l">
+                    The organisation’s administrator(s) will be notified that the right to buy status has been declined.
                 </p>
-            <div class="govuk-button-group save-cancel-button-group">
-                <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button"
-                    (click)="confirmAndDecline()">
-                    Decline
-                </button>
-                <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                    (click)="Back()">
-                    Cancel
-                </button>
+                <div class="govuk-button-group save-cancel-button-group">
+                    <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button"
+                        (click)="confirmAndDecline()">
+                        Decline
+                    </button>
+                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                        (click)="Back()">
+                        Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
