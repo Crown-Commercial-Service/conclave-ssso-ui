@@ -16,7 +16,7 @@
                             {{'EDIT_GROUP' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" >
-                        <span class="govuk-breadcrumbs__link">Confirm roles for group {{ groupName }}</span>
+                        <span class="govuk-breadcrumbs__link">{{ serviceRoleGroup.CONFIRM_ROLE }} {{ groupName }}</span>
                     </li>
                 </ol>
             </div>
@@ -26,15 +26,15 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">Confirm you want to add the following roles to group  {{groupName}}</h1>
-        <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">Confirm you want to add the following roles to group  {{groupName}}</h1>
+        <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">{{ serviceRoleGroup.CONFIRM_FOLL_ROLE }}  {{groupName}}</h1>
+        <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">{{ serviceRoleGroup.CONFIRM_FOLL_ROLE }}  {{groupName}}</h1>
     </div>
 </div>
 
 <div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-s">{{ 'ROLES_ADDED_TO_GROUP' | translate }}</h2>
+            <h2 class="govuk-heading-s">{{ serviceRoleGroup.ROLES_ADDED_TO_GROUP }}</h2>
             <div *ngIf="addingRoles.length == 0">
                 <p>{{'NONE'| translate}}
                 <p>
@@ -55,7 +55,7 @@
 <div *ngIf="isEdit==true">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-s">{{ 'ROLES_REMOVED_FROM_GROUP' | translate }}</h2>
+            <h2 class="govuk-heading-s">{{ serviceRoleGroup.ROLES_REMOVED_FROM_GROUP}}</h2>
             <div *ngIf="removingRoles.length == 0">
                 <p>{{'NONE'| translate}}
                 <p>
@@ -82,11 +82,11 @@
                 {{ 'CONFIRM_BTN' | translate }}
             </button>
             <button *ngIf="addingRoles.length == 0 && !isEdit" type="submit" (click)="onConfirmClick()" class="govuk-button" data-module="govuk-button">
-                Create group without roles
+                {{serviceRoleGroup.CREATE_GROUP_WITHOUT_ROLE}}
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button">
-                Select different roles
+                {{serviceRoleGroup.SELECT_SERVICE}}
             </button>
         </div>
     </div>

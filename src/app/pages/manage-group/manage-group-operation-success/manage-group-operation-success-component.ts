@@ -10,6 +10,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-group-operation-success',
@@ -33,7 +34,7 @@ export class ManageGroupOperationSuccessComponent
   groupId: string = '';
   userCount: number = 0;
   roleCount: number = 0;
-
+  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -76,7 +77,11 @@ export class ManageGroupOperationSuccessComponent
         area = 'Add/Remove Users';
         break;
       case this.operationEnum.GroupRoleUpdate:
-        area = 'Add/Remove Roles';
+        if(this.showRoleView){
+          area = 'Add/Remove Roles';
+        } else {
+          area = 'Add or remove services';
+        }
         break;
       case this.operationEnum.GroupDelete:
         area = 'Delete';
