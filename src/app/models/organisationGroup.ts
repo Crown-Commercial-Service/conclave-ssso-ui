@@ -1,6 +1,6 @@
 export interface Group {
     groupId: number;
-    mfaEnabled:boolean;
+    mfaEnabled: boolean;
     groupName: string;
     createdDate?: string;
 }
@@ -24,8 +24,8 @@ export interface OrganisationGroupRequestInfo extends OrganisationGroupNameInfo 
 export interface OrganisationGroupRolePatchInfo {
     addedRoleIds?: number[],
     removedRoleIds?: number[]
-    addedServiceRoleGroupIds ?:number[],
-    removedServiceRoleGroupIds ?:number[]
+    addedServiceRoleGroupIds?: number[],
+    removedServiceRoleGroupIds?: number[]
 }
 
 export interface OrganisationGroupServicePatchInfo {
@@ -38,21 +38,31 @@ export interface OrganisationGroupUserPatchInfo {
     removedUserIds: string[]
 }
 
-export interface Role {
-    description ?: string | undefined;
-    pendingStatus?: boolean;
-    roleId: number;
-    roleKey:string;
-    roleName: string;
+export interface RoleDetail {
     orgTypeEligibility?: number;
+    description?: string | undefined;
     subscriptionTypeEligibility?: number;
     tradeEligibility?: number;
     enabled?: boolean;
-    serviceName?:string | null;
-    isDeleted?:boolean;
+    serviceName?: string | null;
+    isDeleted?: boolean;
 }
 
-export interface CheckBoxRoleListGridSource extends Role{
+export interface Role extends RoleDetail {
+    pendingStatus?: boolean;
+    roleId: number;
+    roleKey: string;
+    roleName: string;
+}
+
+export interface ServiceRoleGroup extends RoleDetail {
+    id: number;
+    key: string;
+    name: string;
+}
+
+
+export interface CheckBoxRoleListGridSource extends Role {
     isChecked?: boolean
     isDisable?: any
 
@@ -61,15 +71,15 @@ export interface CheckBoxRoleListGridSource extends Role{
 export interface OrganisationGroupResponseInfo extends Group {
     roles: GroupRole[],
     users: GroupUser[]
-    serviceRoleGroups:GroupRole[],
+    serviceRoleGroups: GroupRole[],
 }
 
-export interface GroupRole{
+export interface GroupRole {
     id: number;
     name: string;
 }
 
-export interface GroupUser{
+export interface GroupUser {
     userId: string;
     name: string;
     isAdmin: boolean;
