@@ -310,8 +310,6 @@ export class ManageUserAddSingleUserDetailComponent
     this.orgRoles = await this.organisationGroupService
       .getOrganisationRoles(this.organisationId)
       .toPromise();
-
-    console.log("this.orgRoles",this.orgRoles)  
     this.orgRoles.map((role) => {
       let userRole =
         this.userProfileResponseInfo.detail.rolePermissionInfo &&

@@ -73,7 +73,7 @@
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button" *ngIf="!isEdit">
-                Create group with no users and roles
+                Create group with no users and {{showRoleView === true ? 'roles': (showRoleView == false ? 'services' : '')}}
             </button>
         </div>
     </div>

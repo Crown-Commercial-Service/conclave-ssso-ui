@@ -41,10 +41,10 @@
                     <fieldset class="govuk-fieldset">
                       <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following role will be assigned after manual validation has been completed:
                       </legend>
-                      <div class="govuk-checkboxes">
+                      <div class="govuk-checkboxes" *ngIf="showRoleView">
                         <ng-container *ngFor="let role of approveRequiredRole">
                           <div class="govuk-__item">
-                            <label class="govuk-label">{{role.roleName}}
+                            <label class="govuk-label">{{role.accessRoleName}}
                               <span
                               *ngIf=" role.serviceName &&
                                 role.roleKey != 'JAEGGER_SUPPLIER' &&
@@ -60,6 +60,10 @@
                         </ng-container>
                       </div>
                     </fieldset>
+                    <div class="service_view" *ngIf="!showRoleView">
+                      <app-govuk-table [headerTextKeys]="userServiceTableHeaders" [data]="approveRequiredRole"
+                      [dataKeys]="userServiceColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
+                  </div>
                   </div>
                 <a href="javascript:;" class="navigation-text" (click)="onNavigateToProfileClick()">
                     {{ 'RETURN_TO_MANAGE_MY_ACCOUNT' | translate }}</a>
@@ -91,10 +95,10 @@
                         <fieldset class="govuk-fieldset">
                           <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following role will be assigned after manual validation has been completed:
                           </legend>
-                          <div class="govuk-checkboxes">
+                          <div class="govuk-checkboxes" *ngIf="showRoleView">
                             <ng-container *ngFor="let role of approveRequiredRole">
                               <div class="govuk-__item">
-                                <label class="govuk-label">{{role.roleName}}
+                                <label class="govuk-label">{{role.accessRoleName}}
                                   <span
                                   *ngIf=" role.serviceName &&
                                     role.roleKey != 'JAEGGER_SUPPLIER' &&
@@ -110,6 +114,10 @@
                             </ng-container>
                           </div>
                         </fieldset>
+                        <div class="service_view" *ngIf="!showRoleView">
+                          <app-govuk-table [headerTextKeys]="userServiceTableHeaders" [data]="approveRequiredRole"
+                          [dataKeys]="userServiceColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
+                      </div>
                       </div>
                 <a href="javascript:;" class="navigation-text" (click)="onNavigateToManageUserClick()">
                     {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
@@ -126,10 +134,10 @@
                         <fieldset class="govuk-fieldset">
                           <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following role will be assigned after manual validation has been completed:
                           </legend>
-                          <div class="govuk-checkboxes">
+                          <div class="govuk-checkboxes" *ngIf="showRoleView">
                             <ng-container *ngFor="let role of approveRequiredRole">
                               <div class="govuk-__item">
-                                <label class="govuk-label">{{role.roleName}}
+                                <label class="govuk-label">{{role.accessRoleName}}
                                   <span
                                   *ngIf=" role.serviceName &&
                                     role.roleKey != 'JAEGGER_SUPPLIER' &&
@@ -145,6 +153,10 @@
                             </ng-container>
                           </div>
                         </fieldset>
+                        <div class="service_view" *ngIf="!showRoleView">
+                          <app-govuk-table [headerTextKeys]="userServiceTableHeaders" [data]="approveRequiredRole"
+                          [dataKeys]="userServiceColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
+                      </div>
                       </div>
                 <a href="javascript:;" class="navigation-text" (click)="onNavigateToManageUserClick()">
                     {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>

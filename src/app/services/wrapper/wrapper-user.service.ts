@@ -96,7 +96,6 @@ export class WrapperUserService {
       const url = `${this.url}/v1?user-id=${encodeURIComponent(userName)}`;
       return this.http.get<UserProfileServiceResponseInfo>(url, this.options).pipe(
         map((data: any) => {
-          console.log("data",data.detail.serviceRoleGroupInfo)
           data.detail.serviceRoleGroupInfo.forEach((roles:any)=>{
             let structureObj = {
               roleId: roles.id,
@@ -126,27 +125,60 @@ export class WrapperUserService {
   }
 
   getPendingApprovalUserRole(userName: string): Observable<UserProfileResponseInfo> {
-    const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}`;
-    return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
-      map((data: any) => {
-        return data;
-      }),
-      catchError((error) => {
-        return throwError(error);
-      })
-    );
+    if(!environment.appSetting.hideSimplifyRole){
+      let roleInfo: any=[]
+      const url = `${this.url}/approve/servicerolegroups?user-id=${encodeURIComponent(userName)}`;
+      return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+        map((data: any) => {
+          data.forEach((role:any)=>{
+            let structureObj = {
+              roleId: role.id,
+              roleKey:role.key,
+              roleName: role.name,
+            }
+            roleInfo.push(structureObj)
+          })
+          return roleInfo;
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}`;
+      return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+        map((data: any) => {
+          return data;
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
   userTokenVerify(encryptedToken: string): Observable<UserProfileResponseInfo> {
-    const url = `${this.url}/approve/verify?token=${encodeURIComponent(encryptedToken)}`;
-    return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
-      map((data: any) => {
-        return data
-      }),
-      catchError((error) => {
-        return throwError(error);
-      })
-    );
+    if(!environment.appSetting.hideSimplifyRole){
+      const url = `${this.url}/approve/servicerolegroup/verify?token=${encodeURIComponent(encryptedToken)}`;
+      return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+        map((data: any) => {
+          return data
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/approve/verify?token=${encodeURIComponent(encryptedToken)}`;
+      return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+        map((data: any) => {
+          return data
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
   updateUser(
