@@ -16,8 +16,10 @@
                     </li>
                 </ol>
             </div>
-            <h1 *ngIf="pageAccessMode == 'add'" class="govuk-heading-xl page-title header-bread-align">Confirm you want to delegate access to the user</h1>
-            <h1 *ngIf="pageAccessMode == 'edit'" class="govuk-heading-xl page-title header-bread-align">Confirm you want to update access for the delegated user</h1>
+            <h1 *ngIf="pageAccessMode == 'add'" class="govuk-heading-xl page-title header-bread-align">Confirm you want
+                to delegate access to the user</h1>
+            <h1 *ngIf="pageAccessMode == 'edit'" class="govuk-heading-xl page-title header-bread-align">Confirm you want
+                to update access for the delegated user</h1>
             <div class="manage-groups-bg">
                 <p class="govuk-body-l" *ngIf="pageAccessMode == 'add'">
                     You are giving permission for a delegated access to your Organisation to a user:
@@ -59,7 +61,7 @@
                         <p class="govuk-body">
                             <strong class="">The user will be given a below permissions.</strong>
                         </p>
-                        <ul class="govuk-list">
+                        <ul *ngIf="hideSimplifyRole" class="govuk-list">
                             <li *ngFor="let details of UserSelectedinfo.roleDetails">
                                 {{ details.accessRoleName }}
                                 <span *ngIf=" details.serviceName &&
@@ -72,6 +74,16 @@
                                 ">- {{ details.serviceName }}</span>
                             </li>
                         </ul>
+                    </div>
+
+                    <div *ngIf="!hideSimplifyRole" class="govuk-grid-row">
+                        <div class="govuk-grid-column-full">
+                            <div class="user-table">
+                                <app-govuk-table [headerTextKeys]="rolesTableHeaders" [data]="getSelectedRole()"
+                                    [dataKeys]="rolesColumnsToDisplay" [useClientPagination]="true">
+                                </app-govuk-table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
