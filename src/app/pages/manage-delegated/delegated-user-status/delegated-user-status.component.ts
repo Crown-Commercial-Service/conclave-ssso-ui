@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Role } from 'src/app/models/organisationGroup';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-delegated-user-status',
@@ -16,12 +17,14 @@ export class DelegatedUserStatusComponent implements OnInit {
   private organisationId: string;
   public roleDataList: any[] = [];
   public assignedRoleDataList: any[] = [];
-  public UserStatus:any = {
+  public UserStatus: any = {
     header: '',
     Description: '',
     Breadcrumb: '',
     status: '',
   };
+
+  hideSimplifyRole: boolean = environment.appSetting.hideSimplifyRole;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,28 +33,28 @@ export class DelegatedUserStatusComponent implements OnInit {
     private formbuilder: FormBuilder,
     private DelegatedService: WrapperUserDelegatedService,
     private titleService: Title,
-    ) {
+  ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
-    }
- 
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe((para: any) => {
-      let RouteData:any = JSON.parse(atob(para.data));
-      if(RouteData.event){
+      let RouteData: any = JSON.parse(atob(para.data));
+      if (RouteData.event) {
         RouteData.event.userName = decodeURIComponent(unescape(RouteData.event.userName));
       }
       switch (RouteData.status) {
         case '001': {
           this.UserStatus = RouteData;
           this.titleService.setTitle(
-            `${ 'User from your Organisation'}   - CCS`
+            `${'User from your Organisation'}   - CCS`
           );
           break;
         }
         case '002': {
           this.UserStatus = RouteData;
           this.titleService.setTitle(
-            `${ 'User not found'}  - CCS`
+            `${'User not found'}  - CCS`
           );
           break;
         }
@@ -60,15 +63,15 @@ export class DelegatedUserStatusComponent implements OnInit {
           this.UserStatus.Description =
             'View details of expired delegated access for the user. If you want to reinstate delegated access to this user, please use “Delegate to an external user” button on the previous page.';
           this.formGroup = this.formbuilder.group({
-            startday: [{value: '', disabled: true}, [Validators.required]],
-            startmonth: [{value: '', disabled: true}, [Validators.required]],
-            startyear: [{value: '', disabled: true}, [Validators.required]],
-            endday: [{value: '', disabled: true}, [Validators.required]],
-            endmonth: [{value: '', disabled: true}, [Validators.required]],
-            endyear: [{value: '', disabled: true}, [Validators.required]],
+            startday: [{ value: '', disabled: true }, [Validators.required]],
+            startmonth: [{ value: '', disabled: true }, [Validators.required]],
+            startyear: [{ value: '', disabled: true }, [Validators.required]],
+            endday: [{ value: '', disabled: true }, [Validators.required]],
+            endmonth: [{ value: '', disabled: true }, [Validators.required]],
+            endyear: [{ value: '', disabled: true }, [Validators.required]],
           });
           this.titleService.setTitle(
-            `${ 'View expired delegated access' }  - CCS`
+            `${'View expired delegated access'}  - CCS`
           );
           this.getUserDetails(RouteData)
           //statements;
@@ -84,29 +87,30 @@ export class DelegatedUserStatusComponent implements OnInit {
 
 
   public getUserDetails(response: any) {
-    const startDate=response.event.startDate.split('-')
-    const endDate=response.event.endDate.split('-')
+    const startDate = response.event.startDate.split('-')
+    const endDate = response.event.endDate.split('-')
     this.formGroup.patchValue({
       startday: startDate[2].slice(0, 2),
       startmonth: startDate[1],
       startyear: startDate[0],
-      endday:  endDate[2].slice(0, 2),
-      endmonth:endDate[1],
-      endyear:endDate[0]
+      endday: endDate[2].slice(0, 2),
+      endmonth: endDate[1],
+      endyear: endDate[0]
     });
     this.getOrgRoles(response)
   }
-  public getOrgRoles(roleResponse:any): void {
-    this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise() .then((response: Role[])=>{
-      let orgRoles=response
-      orgRoles.forEach((f)=>{
-        roleResponse.event.rolePermissionInfo.forEach((element:any) => {
-          if(element.roleId === f.roleId){
+  public getOrgRoles(roleResponse: any): void {
+    this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise().then((response: Role[]) => {
+      let orgRoles = response
+      orgRoles.forEach((f) => {
+        roleResponse.event.rolePermissionInfo.forEach((element: any) => {
+          if (element.roleId === f.roleId) {
             this.roleDataList.push({
               roleId: f.roleId,
               roleKey: f.roleKey,
               accessRoleName: f.roleName,
               serviceName: f.serviceName,
+              description: f.description
             });
             this.formGroup.addControl(
               'orgRoleControl_' + element.roleId,
@@ -118,18 +122,18 @@ export class DelegatedUserStatusComponent implements OnInit {
     })
   }
 
-  public BackToDelegated():void {
+  public BackToDelegated(): void {
     window.history.back();
   }
-  public BackToDashboard():void {
+  public BackToDashboard(): void {
     this.router.navigateByUrl('home');
   }
-  public Back():void{
-    sessionStorage.setItem('activetab','expiredusers')
+  public Back(): void {
+    sessionStorage.setItem('activetab', 'expiredusers')
     window.history.back();
   }
-  public goToDelegatedAccessPage(){
-    sessionStorage.setItem('activetab','expiredusers')
+  public goToDelegatedAccessPage() {
+    sessionStorage.setItem('activetab', 'expiredusers')
     this.router.navigateByUrl('delegated-access');
   }
 }
