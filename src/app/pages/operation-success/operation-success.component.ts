@@ -43,7 +43,7 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
 
 
     public getSelectedRole(role:any):void{
-      if(this.approveRequiredRole > 0){
+      if(this.approveRequiredRole != null){
         let data:any=[]  
         role.forEach((f:any)=>{
           let obj = {
