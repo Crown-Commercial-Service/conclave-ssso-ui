@@ -160,7 +160,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
     }
     await this.getApprovalRequriedRoles()
-    // await this.getPendingApprovalUserRole();
+    await this.getPendingApprovalUserRole();
     await this.getOrgDetails()
     await this.orgGroupService
       .getOrganisationRoles(this.organisationId)

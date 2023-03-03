@@ -39,12 +39,12 @@
                 <p class="govuk-body-l">{{ 'MY_ACCOUNT_UPDATE_SUCCESS' | translate }}</p>
                 <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null'">
                     <fieldset class="govuk-fieldset">
-                      <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following role will be assigned after manual validation has been completed:
+                      <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following {{showRoleView === true ? 'role': (showRoleView == false ? 'service' : '')}} will be assigned after manual validation has been completed:
                       </legend>
-                      <div class="govuk-checkboxes">
+                      <div class="govuk-checkboxes" *ngIf="showRoleView">
                         <ng-container *ngFor="let role of approveRequiredRole">
                           <div class="govuk-__item">
-                            <label class="govuk-label">{{role.roleName}}
+                            <label class="govuk-label">{{role.accessRoleName}}
                               <span
                               *ngIf=" role.serviceName &&
                                 role.roleKey != 'JAEGGER_SUPPLIER' &&
@@ -60,6 +60,13 @@
                         </ng-container>
                       </div>
                     </fieldset>
+                    <div class="service_view" *ngIf="!showRoleView">
+                      <ng-container *ngFor="let role of approveRequiredRole">
+                        <div class="govuk-__item">
+                          <label class="govuk-label">{{role.accessRoleName}}</label>
+                        </div>
+                      </ng-container>
+                  </div>
                   </div>
                 <a href="javascript:;" class="navigation-text" (click)="onNavigateToProfileClick()">
                     {{ 'RETURN_TO_MANAGE_MY_ACCOUNT' | translate }}</a>
@@ -89,12 +96,12 @@
                     'INSTRUCTIONS_WILL_BE_EMAILED_TO_SETUP_ACCOUNT_PASSWORD' | translate }}</p>
                     <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null'">
                         <fieldset class="govuk-fieldset">
-                          <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following role will be assigned after manual validation has been completed:
+                          <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following {{showRoleView === true ? 'role': (showRoleView == false ? 'service' : '')}} will be assigned after manual validation has been completed:
                           </legend>
-                          <div class="govuk-checkboxes">
+                          <div class="govuk-checkboxes" *ngIf="showRoleView">
                             <ng-container *ngFor="let role of approveRequiredRole">
                               <div class="govuk-__item">
-                                <label class="govuk-label">{{role.roleName}}
+                                <label class="govuk-label">{{role.accessRoleName}}
                                   <span
                                   *ngIf=" role.serviceName &&
                                     role.roleKey != 'JAEGGER_SUPPLIER' &&
@@ -110,6 +117,11 @@
                             </ng-container>
                           </div>
                         </fieldset>
+                        <ng-container *ngFor="let role of approveRequiredRole">
+                          <div class="govuk-__item">
+                            <label class="govuk-label">{{role.accessRoleName}}</label>
+                          </div>
+                        </ng-container>
                       </div>
                 <a href="javascript:;" class="navigation-text" (click)="onNavigateToManageUserClick()">
                     {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
@@ -124,12 +136,12 @@
                 <p class="govuk-body-l">{{ 'USER_UPDATE_SUCCESS' | translate }}</p>
                     <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null'">
                         <fieldset class="govuk-fieldset">
-                          <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following role will be assigned after manual validation has been completed:
+                          <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following {{showRoleView === true ? 'role': (showRoleView == false ? 'service' : '')}} will be assigned after manual validation has been completed:
                           </legend>
-                          <div class="govuk-checkboxes">
+                          <div class="govuk-checkboxes" *ngIf="showRoleView">
                             <ng-container *ngFor="let role of approveRequiredRole">
                               <div class="govuk-__item">
-                                <label class="govuk-label">{{role.roleName}}
+                                <label class="govuk-label">{{role.accessRoleName}}
                                   <span
                                   *ngIf=" role.serviceName &&
                                     role.roleKey != 'JAEGGER_SUPPLIER' &&
@@ -145,6 +157,11 @@
                             </ng-container>
                           </div>
                         </fieldset>
+                        <ng-container *ngFor="let role of approveRequiredRole">
+                          <div class="govuk-__item">
+                            <label class="govuk-label">{{role.accessRoleName}}</label>
+                          </div>
+                        </ng-container>
                       </div>
                 <a href="javascript:;" class="navigation-text" (click)="onNavigateToManageUserClick()">
                     {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
