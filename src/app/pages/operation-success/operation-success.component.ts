@@ -43,17 +43,19 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
 
 
     public getSelectedRole(role:any):void{
-      let data:any=[]  
-      role.forEach((f:any)=>{
-        let obj = {
-        accessRoleName: f.roleName,
-        serviceName: f.serviceName,
-        description:f.description,
-        serviceView:!this.showRoleView
-        }
-        data.push(obj)
-      })
-      return data
+      if(this.approveRequiredRole > 0){
+        let data:any=[]  
+        role.forEach((f:any)=>{
+          let obj = {
+          accessRoleName: f.roleName,
+          serviceName: f.serviceName,
+          description:f.description,
+          serviceView:!this.showRoleView
+          }
+          data.push(obj)
+        })
+        return data
+      }  
     } 
 
 
