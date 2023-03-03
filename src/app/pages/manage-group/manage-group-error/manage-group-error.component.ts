@@ -26,6 +26,7 @@ export class ManageGroupErrorComponent extends BaseComponent {
 
     editingGroupId: number = 0;
     routeData: any = {};
+    public showRoleView:boolean = environment.appSetting.hideSimplifyRole
 
     constructor(private activatedRoute: ActivatedRoute,private router: Router, protected uiStore: Store<UIState>,private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);

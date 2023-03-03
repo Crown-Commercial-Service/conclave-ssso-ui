@@ -5,6 +5,6 @@
     There is a problem
   </h2>
   <div class="govuk-error-summary__body">
-    <a href="javascript:;" (click)="navigateBackToGroups()"> This group is configured with multifactor(additional security) enabled roles. However, there are users who are not configured for additional security. Please review users and roles in the group</a>
+    <a href="javascript:;" (click)="navigateBackToGroups()"> This group is configured with multifactor(additional security) enabled {{showRoleView === true ? 'roles': (showRoleView == false ? 'services' : '')}}. However, there are users who are not configured for additional security. Please review users and {{showRoleView === true ? 'roles': (showRoleView == false ? 'services' : '')}} in the group</a>
   </div>
 </div>
