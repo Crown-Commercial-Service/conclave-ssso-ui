@@ -103,10 +103,10 @@
                                 <button type="button" class="govuk-button"
                                  data-module="govuk-button" [disabled]="!formGroup.controls.mfaEnabled.value" (click)="ResetAdditionalSecurity()">Reset my additional security</button>
 
-                                <!-- <div>
+                                <div>
                                     <p class="govuk-body govuk-!-font-size-19">
                                         {{"SIGN_IN_PROVIDER"| translate}} : {{identityProviderDisplayName}}</p>
-                                </div> -->
+                                </div>
                                 <br>
                                 <button *ngIf="canChangePassword" type="button" (click)="onChangePasswordClick()"
                                     class="govuk-button govuk-button--secondary change-password-button"
