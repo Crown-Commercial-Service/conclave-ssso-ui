@@ -378,13 +378,6 @@ export class UpdateOrgServiceComponent implements OnInit {
         selection.autoValidate = responce.autoValidationSuccess
         let preTickRemoved: any = []
         if (!responce.autoValidationSuccess) {
-          if (this.organisation.supplierBuyerType == '0' && this.adminSelectionMode == '1') {
-            let ACCESS_JAGGAER = selection.toDelete.find((element: { roleKey: any; }) => element.roleKey == 'JAEGGER_BUYER')
-            if (ACCESS_JAGGAER === undefined) {
-              let accessJagger: any = this.roles.find((element: { roleKey: any; }) => element.roleKey == 'JAEGGER_BUYER')
-              selection.toDelete.push(accessJagger)
-            }
-          }
           this.rolesToAdd.forEach((f: any) => {
             if (!f.autoValidate) {
               preTickRemoved.push(f)

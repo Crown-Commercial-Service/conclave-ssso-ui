@@ -302,7 +302,7 @@
                                         [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
                                         (ngModelChange)="onUserRoleChecked(orgRole, $event)" value="hmrc">
                                     <label
-                                        class="govuk-label govuk-checkboxes__label role_lable govuk-!-padding-top-0"
+                                        class="govuk-label govuk-checkboxes__label role_lable" [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
                                         for="{{'orgRoleControl_' + orgRole.roleId}}">
                                         {{orgRole.roleName}}
                                     </label>

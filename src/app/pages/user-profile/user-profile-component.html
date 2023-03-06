@@ -262,11 +262,11 @@
                             <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
                                 [attr.disabled]="getDisbleRole(orgRole.roleKey) ? true : null"
                                 [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc" (ngModelChange)="onUserRoleChecked(orgRole, $event)">
-                            <label *ngIf="orgRole.serviceName == null" class="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
-                                for="{{'orgRoleControl_' + orgRole.roleId}}" [ngClass]="{'role_lable': showRoleView === false}">
+                            <label *ngIf="orgRole.serviceName == null" class="govuk-label govuk-checkboxes__label"
+                                for="{{'orgRoleControl_' + orgRole.roleId}}" [ngClass]="{'role_lable': showRoleView === false,'govuk-!-padding-top-0': orgRole.description != ''}">
                                 {{orgRole.accessRoleName}}
                             </label>
-                            <label *ngIf="orgRole.serviceName != null && showRoleView" class="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
+                            <label *ngIf="orgRole.serviceName != null && showRoleView" class="govuk-label govuk-checkboxes__label"
                                 for="{{'orgRoleControl_' + orgRole.roleId}}">
                                 {{orgRole.accessRoleName}} - {{orgRole.serviceName}} 
                             </label>
