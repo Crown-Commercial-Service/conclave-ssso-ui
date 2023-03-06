@@ -172,7 +172,7 @@ export class UpdateOrgServiceComponent implements OnInit {
     this.roles.forEach((f: any) => {
       if (f.autoValidationRoleTypeEligibility.length != 0) {
         f.autoValidationRoleTypeEligibility.forEach((x: any) => {
-          if (x == type && f.enabled == false) {
+          if (x == type && (f.enabled == false || this.jaggerRoleChecks(f,type))) {
             f.enabled = true; f.autoValidate = true
             let alreadyExist: any = this.rolesToAdd.find((existRole: { roleKey: any; }) => existRole.roleKey == f.roleKey)
             if (alreadyExist === undefined) {
@@ -197,6 +197,14 @@ export class UpdateOrgServiceComponent implements OnInit {
     }
   }
 
+
+   private jaggerRoleChecks(f:any,type:any){
+    if(f.roleKey == 'JAEGGER_SUPPLIER' && type == 2 && this.organisation.supplierBuyerType == 1){ 
+     return true 
+    } else {
+      return false
+    }
+   }
 
   /**
    * checking role when switching 
