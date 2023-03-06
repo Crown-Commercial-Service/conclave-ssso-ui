@@ -922,6 +922,7 @@
                 deleteCookie("_gid", 'removed');
                 deleteCookie("_ga", 'removed');
                 deleteCookie("_gat_UA-47046847-22", 'removed');
+                deleteCookie("_gat_gtag_UA_47046847_23", 'removed');
                 deleteCookie("_cls_s", 'removed');
                 deleteCookie("_cls_v", 'removed');
             }
@@ -1117,6 +1118,7 @@
                 acceptCookieDiv.style.display = 'block';
                 setCookie("ppg_cookies_preferences_set", true, cookieExpirationTimeInMinutes);
                 setCookie("ppg_cookies_policy", '{"essential":true,"additional":true,"glassbox":true}', cookieExpirationTimeInMinutes);
+                deleteCookie("_gat_UA", 'removed');
             }
 
             function rejectAdditionalCookies(e) {
