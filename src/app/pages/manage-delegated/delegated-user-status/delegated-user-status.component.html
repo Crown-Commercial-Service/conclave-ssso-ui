@@ -165,7 +165,8 @@
                                     <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
                                         [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
                                         value="hmrc" [attr.disabled]="true">
-                                    <label class="govuk-label govuk-checkboxes__label govuk-!-padding-top-0 role_lable"
+                                    <label class="govuk-label govuk-checkboxes__label role_lable"
+                                       [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}" 
                                         for="{{'orgRoleControl_' + orgRole.roleId}}">
                                         {{orgRole.accessRoleName}}
                                     </label>

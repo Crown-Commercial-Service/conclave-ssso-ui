@@ -321,18 +321,14 @@
                                                 [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
                                                 value="hmrc">
 
-                                            <label class="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
+                                            <label class="govuk-label govuk-checkboxes__label"
                                                 for="{{'orgRoleControl_' + orgRole.roleId}}"
-                                                [ngClass]="{'role_lable': hideSimplifyRole === false}">
+                                                [ngClass]="{'role_lable': hideSimplifyRole === false,'govuk-!-padding-top-0': orgRole.description != ''}">
                                                 {{orgRole.accessRoleName}}
                                             </label>
                                             <p class="govuk-body description_para">{{orgRole.description}}</p>
-
                                         </div>
-
                                     </div>
-
-
                                 </fieldset>
                             </div>
                             <!-- user permission -->

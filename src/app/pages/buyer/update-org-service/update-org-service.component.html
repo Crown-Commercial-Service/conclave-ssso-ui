@@ -85,8 +85,8 @@
               [attr.disabled]="autoValidationPending"
             />
             <label
-              class="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
-              [ngClass]="{'role_lable': showRoleView === false}"
+              class="govuk-label govuk-checkboxes__label"
+              [ngClass]="{'role_lable': showRoleView === false,'govuk-!-padding-top-0': role.description != ''}"
               for="orgRoleControl_{{ role.roleId }}"
               >{{ role.roleName }}
               </label>

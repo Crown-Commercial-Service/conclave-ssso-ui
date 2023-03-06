@@ -192,7 +192,7 @@ export class ViewPendingVerificationComponent implements OnInit {
                         }
                     }
                   } else {
-                    f.event = f.event.replace('[RoleName]', f.name);
+                    f.event = f.event.replace('[RoleName] role', f.name);
                   }
                 } 
                 else {

@@ -126,7 +126,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   loadServices() {
-    let permissions = this.servicePermissions.filter((sp) =>
+    if(environment.appSetting.hideSimplifyRole){
+      let permissions = this.servicePermissions.filter((sp) =>
       sp.permissionName.startsWith('ACCESS_')
     );
     this.ccsServices.forEach((service: CcsServiceInfo) => {
@@ -141,6 +142,17 @@ export class HomeComponent extends BaseComponent implements OnInit {
         });
       }
     });
+    } else {
+      this.ccsServices.forEach((service: CcsServiceInfo) => {
+        if (service?.name && service?.description && service?.url) {
+          this.ccsModules.push({
+            name: service?.name,
+            description: service?.description,
+            href: service?.url,
+          });
+        }
+      });
+    }
   }
 
   loadActivities(e: any) {
