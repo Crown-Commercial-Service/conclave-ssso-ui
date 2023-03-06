@@ -280,14 +280,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     if (this.isAdminUser == true) {
       this.detailsData = [
         'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
-        'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required roles.',
+        'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required services.',
         'The roles selected here will set what services are available to you.',
         'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
       ];
     } else {
       this.detailsData = [
         'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
-        'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required roles.',
+        'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required services.',
         'The roles selected here will set what services are available to you. Contact your admin if something is wrong.',
         'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
       ];

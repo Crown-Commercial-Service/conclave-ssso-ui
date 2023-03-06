@@ -50,12 +50,6 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <!-- <div class="user-table">
-            <app-govuk-table [headerTextKeys]="rolesTableHeaders" [data]="roleGridSource"
-                [dataKeys]="rolesColumnsToDisplay" [isCheckBoxVisible]="true"
-                (checkBoxClickEvent)="onCheckBoxClickRow($event)" [isHyperLinkVisible]="false"
-                [useClientPagination]="true"></app-govuk-table>
-        </div> -->
         <form [formGroup]="formGroup">
             <fieldset class="govuk-fieldset">
                 <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgRole of roleGridSource; let i=index">
@@ -63,10 +57,10 @@
                         [attr.disabled]="disableRoleCheck(orgRole.roleKey)"
                         [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc" (ngModelChange)="onCheckBoxClickRow(orgRole,$event)">
                     <label *ngIf="orgRole.serviceName == null" class="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
-                        for="{{'orgRoleControl_' + orgRole.roleId}}" [ngClass]="{'role_lable': showRoleView === false}">
+                        for="{{'orgRoleControl_' + orgRole.roleId}}" [ngClass]="{'role_lable': showRoleView === false,'govuk-!-padding-top-0': orgRole.description != ''}">
                         {{orgRole.roleName}}
                     </label>
-                    <label *ngIf="orgRole.serviceName != null && showRoleView" class="govuk-label govuk-checkboxes__label govuk-!-padding-top-0 "
+                    <label *ngIf="orgRole.serviceName != null && showRoleView" class="govuk-label govuk-checkboxes__label"
                         for="{{'orgRoleControl_' + orgRole.roleId}}">
                         {{orgRole.roleName}} - {{orgRole.serviceName}} 
                     </label>
