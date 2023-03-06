@@ -7,16 +7,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./accessibility-statement.component.scss']
 })
 export class AccessibilityStatementComponent implements OnInit {
-
-public representingTag={ 
+  public representingTag={ 
   LevelA:'<span _ngcontent-ary-c81="" style="font-weight: 600; font-size: 24px;">',
   LevelAA:'<h1>',
   KeyboardLevelA:'<a>',
   PageTitledLevelA:'<html>'
 }
-private userName = localStorage.getItem('user_name') || '';
-
-  constructor(private router: Router) { }
+ public userName =  '';
+ public isOrgAdmin: boolean = false;
+  constructor(private router: Router) { 
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
+    this.userName = localStorage.getItem('user_name') || '';
+  }
 
   ngOnInit(): void {
   }
