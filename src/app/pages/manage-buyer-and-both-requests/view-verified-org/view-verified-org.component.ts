@@ -185,6 +185,32 @@ export class ViewVerifiedOrgComponent implements OnInit {
                 if(f.event.includes('[RoleName]'))
                 {
                   var role = f.role;
+                  switch (f.roleKey){
+                    case 'CAT_USER': {
+                      role = 'Contract Award Service (CAS) - add service';
+                      break;
+                    }
+                    case 'ACCESS_CAAAC_CLIENT': {
+                      role ='Contract Award Service (CAS) - add to dashboard';
+                      break;
+                    }
+                    case 'JAEGGER_SUPPLIER': {
+                      role = 'eSourcing Service as a supplier';
+                      break;
+                    }
+                    case 'JAEGGER_BUYER': {
+                      role = 'eSourcing Service as a buyer';
+                      break;
+                    }
+                    case 'JAGGAER_USER': {
+                      role = 'eSourcing Service - add service';
+                      break;
+                    }
+                    case 'ACCESS_JAGGAER': {
+                      role = 'eSourcing Service - add to dashboard';
+                      break;
+                    }
+                  }
                   f.event = f.event.replace('[RoleName]', role);
                 }
               }

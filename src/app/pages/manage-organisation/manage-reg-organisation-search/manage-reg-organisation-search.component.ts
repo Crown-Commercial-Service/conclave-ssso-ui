@@ -153,7 +153,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 //Single Org exists
                 organisationRegisterDto.ciiOrgId = data[0].ciiOrganisationId;
                 sessionStorage.setItem('orgreginfo', JSON.stringify(organisationRegisterDto));
-                this.router.navigateByUrl(`manage-org/register/initial-search-status/exists?data=` + btoa(JSON.stringify(0)));
+                this.router.navigateByUrl(`manage-org/register/initial-search-status/exists`);
             }
             else {
                 //Multiple Orgs exists

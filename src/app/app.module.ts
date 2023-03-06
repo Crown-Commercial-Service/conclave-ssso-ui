@@ -187,7 +187,6 @@ import { UpdateOrgTypeComponent } from './pages/buyer/update-org-type/update-org
 import { ConfirmOrgTypeComponent } from './pages/buyer/confirm-org-type/confirm-org-type.component';
 import { AutoValidationBuyerSuccessComponent } from './pages/buyer/auto-validation-buyer-success/auto-validation-buyer-success.component';
 import { BuyerBothErrorComponent } from './pages/manage-buyer-and-both-requests/buyer-both-error/buyer-both-error.component';
-import { AccessibilityStatementComponent } from './pages/accessibility-statement/accessibility-statement.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -340,8 +339,7 @@ export function createTranslateLoader(http: HttpClient) {
     UpdateOrgTypeComponent,
     ConfirmOrgTypeComponent,
     AutoValidationBuyerSuccessComponent,
-    BuyerBothErrorComponent,
-    AccessibilityStatementComponent
+    BuyerBothErrorComponent
   ],
   imports: [
     // BrowserModule,

@@ -25,11 +25,9 @@ import { UIState } from 'src/app/store/ui.states';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ManageOrgRegErrorNotFoundComponent extends BaseComponent implements OnInit {
-  public buyerFlow:any
 
   constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
-   this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
   }
 
   ngOnInit() { }

@@ -26,7 +26,6 @@ import { SessionStorageKey } from "src/app/constants/constant";
 export class UserContactDeleteConfirmComponent extends BaseComponent implements OnInit {
     userName: string = '';
     contactId: number = 0;
-    isOrgAdmin: boolean = false;
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
         private contactService: WrapperUserContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
@@ -40,7 +39,6 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
     }
 
     ngOnInit() {
-        this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     }
 
     onDeleteConfirmClick() {
