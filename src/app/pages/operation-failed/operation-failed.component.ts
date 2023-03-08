@@ -26,6 +26,7 @@ export class OperationFailedComponent extends BaseComponent implements OnInit {
     operationEnum = OperationEnum;
     userName: string;
     messageKey: string;
+    public isOrgAdmin: boolean = false;
 
     constructor(private router: Router,
         private route: ActivatedRoute, protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -37,6 +38,7 @@ export class OperationFailedComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     }
 
     public onNavigateToSignInClick(){
@@ -45,5 +47,9 @@ export class OperationFailedComponent extends BaseComponent implements OnInit {
 
     onNavigateToManageUserClick(){
         this.router.navigateByUrl("manage-users");
+    }
+
+    goBack():void{
+        window.history.back()
     }
 }

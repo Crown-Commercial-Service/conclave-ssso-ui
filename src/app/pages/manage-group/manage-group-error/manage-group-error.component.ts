@@ -27,6 +27,7 @@ export class ManageGroupErrorComponent extends BaseComponent {
     editingGroupId: number = 0;
     routeData: any = {};
     public showRoleView:boolean = environment.appSetting.hideSimplifyRole
+    groupName: string;
 
     constructor(private activatedRoute: ActivatedRoute,private router: Router, protected uiStore: Store<UIState>,private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
@@ -35,6 +36,7 @@ export class ManageGroupErrorComponent extends BaseComponent {
             this.routeData = JSON.parse(queryParams.data);
             this.editingGroupId = this.routeData['groupId'];
         }
+        this.groupName = sessionStorage.getItem('Gname') || '';
     }
 
     navigateBackToGroups() {
@@ -43,5 +45,9 @@ export class ManageGroupErrorComponent extends BaseComponent {
             'groupId': this.editingGroupId
         };
         this.router.navigateByUrl('manage-groups/view?data=' + JSON.stringify(data));
+    }
+    
+    onBack(){
+        window.history.back()
     }
 }
