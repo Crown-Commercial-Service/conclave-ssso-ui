@@ -109,4 +109,8 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     onNavigateToManageUserClick() {
         this.router.navigateByUrl("manage-users");
     }
+
+    goBack():void{
+        window.history.back()
+    }
 }

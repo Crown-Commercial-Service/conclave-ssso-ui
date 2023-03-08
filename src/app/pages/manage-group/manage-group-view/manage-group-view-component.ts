@@ -117,6 +117,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       isEdit: this.isEdit,
       groupId: this.editingGroupId,
       roleIds: roleIds,
+      groupName:this.group.groupName
     };
     this.router.navigateByUrl(
       'manage-groups/edit-roles?data=' + JSON.stringify(data)
