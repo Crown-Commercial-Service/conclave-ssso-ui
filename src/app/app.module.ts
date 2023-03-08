@@ -194,6 +194,7 @@ import { RoleRequestFailedComponent } from './pages/manage-role/role-request-fai
 import { UpdateOrgServiceComponent } from './pages/buyer/update-org-service/update-org-service.component';
 import { ConfirmOrgServiceComponent } from './pages/buyer/confirm-org-service/confirm-org-service.component';
 import { SuccessOrgServiceComponent } from './pages/buyer/success-org-service/success-org-service.component';
+import { ManageGroupErrorComponent } from './pages/manage-group/manage-group-error/manage-group-error.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -353,7 +354,8 @@ export function createTranslateLoader(http: HttpClient) {
     RoleRequestFailedComponent,
     UpdateOrgServiceComponent,
     ConfirmOrgServiceComponent,
-    SuccessOrgServiceComponent
+    SuccessOrgServiceComponent,
+    ManageGroupErrorComponent
   ],
   imports: [
     // BrowserModule,
