@@ -2,30 +2,33 @@
 <div class="content flex">
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
-        <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
-        </li>
-        <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
-        </li>
-        <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' | translate }}</a>
-        </li>
-        <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG' | translate }}</a>
-        </li>
-        <li class="govuk-breadcrumbs__list-item">
-          <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate }}</a>
+      <li class="govuk-breadcrumbs__list-item">
+        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' |
+          translate }}</a>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG' |
+          translate }}</a>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate }}</a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
         <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/type">{{ 'ORG_TYPE' | translate }}</a>
-     </li>
-     <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode == 3">
-      <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/buyer-type">{{ 'BUYER_TYPE_BC' | translate }}</a>
-     </li>
-        <li class="govuk-breadcrumbs__list-item">
-            <span class="govuk-breadcrumbs__link"> {{ 'ORG_DETAILS' | translate }}</span>
-        </li>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode == 3">
+        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/buyer-type">{{ 'BUYER_TYPE_BC' | translate
+          }}</a>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <span class="govuk-breadcrumbs__link"> {{ 'ORG_DETAILS' | translate }}</span>
+      </li>
     </ol>
   </div>
   <h1 class="govuk-heading-xl page-title">Enter your organisation's details</h1>
@@ -86,11 +89,21 @@
               <div *ngIf="(schemeSubjectObs | async) === item.scheme" id="{{ item.scheme + '-Div' }}" class="box-input">
                 <label *ngIf="validationObj.activeElement != 'US-DUN'" for="{{ item.scheme + '-TextBox' }}"
                   class="govuk-hint govuk-radios__hint">
-                  <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
-                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-                    'Please enter a registry number' | translate }}
-                  </span>
-                  Enter your {{ item.schemeName }} Number
+                  <div *ngIf="item.schemeName === 'Department for Education'; else otherSchema">
+                    <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
+                      <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                       Please enter a registry number
+                    </span>
+                    Enter your {{ item.schemeName }} Unique Reference Number (URN)
+                  </div>
+                  <ng-template #otherSchema>
+                    <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
+                      <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                      'Please enter a registry number' | translate }}
+                    </span>
+                    Enter your {{ item.schemeName }} Number
+                  </ng-template>
+
                   <P class="govuk-body govuk-!-font-weight-regular custom_span"
                     *ngIf="item.schemeName === 'Companies House'">
                     <span> Go to the</span>
@@ -124,6 +137,13 @@
                     <span> Go to the</span>
                     <a href="https://odsportal.digital.nhs.uk/Organisation/Search" class="govuk-link"
                       rel="noreferrer noopener" target="_blank"> National Health Service Organisations Registry </a>
+                    <span>website to search for your organisation details</span>
+                  </P>
+                  <P class="govuk-body govuk-!-font-weight-regular custom_span"
+                    *ngIf="item.schemeName === 'Department for Education'">
+                    <span> Go to the</span>
+                    <a href="https://www.get-information-schools.service.gov.uk" class="govuk-link"
+                      rel="noreferrer noopener" target="_blank"> Department for Education </a>
                     <span>website to search for your organisation details</span>
                   </P>
                 </label>

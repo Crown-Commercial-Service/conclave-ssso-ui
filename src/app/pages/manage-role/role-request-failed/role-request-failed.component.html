@@ -1,0 +1,30 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+      <div class="user-profile-container">
+          <div class="govuk-breadcrumbs">
+              <ol class="govuk-breadcrumbs__list">
+                  <li class="govuk-breadcrumbs__list-item">
+                      <a *ngIf="isOrgAdmin" class="govuk-breadcrumbs__link" routerLink="/home">
+                          {{ 'ADMINISTRATOR_DASHBOARD' | translate }}
+                      </a>
+                      <a *ngIf="!isOrgAdmin" class="govuk-breadcrumbs__link" routerLink="/home">
+                          {{"PUBLIC_PROCUREMENT_GATEWAY_DASHBOARD" | translate}}
+                      </a>
+                  </li>
+                  <li class="govuk-breadcrumbs__list-item">
+                    <span class="govuk-breadcrumbs__link">Fleet Portal access verification</span>
+                  </li>
+              </ol>
+          </div>
+          <div class="fleet_accept">
+              <h1 class="govuk-heading-xl">Fleet Portal access verification</h1>
+              <p *ngIf="errorCode === 400" class="govuk-body-l"> The access request for Fleet Portal for user
+                 {{userInfo.userName}} has expired or it was already actioned.</p>   
+              <p *ngIf="errorCode === 404" class="govuk-body-l">User {{userInfo.userName}} no longer requires access to Fleet Portal and the access
+                    has been removed by the organisation admin.</p>           
+              <p *ngIf="errorCode !== 404 && errorCode !== 400" class="govuk-body-l">An unexpected error has occurred. Please try again in a few minutes</p>
+              <a  href="javascript:;" class="navigation-text" routerLink="/home">Return to dashboard</a>
+          </div>
+      </div>
+  </div>
+</div>

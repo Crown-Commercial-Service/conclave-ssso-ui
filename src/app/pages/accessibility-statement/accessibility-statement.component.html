@@ -2,7 +2,7 @@
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
       <li class="govuk-breadcrumbs__list-item">
-        <a *ngIf="this.isOrgAdmin" class="govuk-breadcrumbs__link" routerLink="/home">
+        <a *ngIf="this.isOrgAdmin && userName != ''" class="govuk-breadcrumbs__link" routerLink="/home">
             {{ 'ADMINISTRATOR_DASHBOARD' | translate }}
         </a>
         <a *ngIf="!this.isOrgAdmin && userName != ''" class="govuk-breadcrumbs__link"

@@ -5,6 +5,8 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { Observable } from 'rxjs';
 
 import {
+  acceptRejectRequestDetail,
+  PendingApproveRole,
   User,
   UserEditResponseInfo,
   UserProfileRequestInfo,
@@ -26,6 +28,7 @@ export class WrapperUserService {
     headers: new HttpHeaders(),
   };
 
+
   constructor(private http: HttpClient) {}
 
   createUser(userRequest: UserProfileRequestInfo): Observable<any> {
@@ -40,6 +43,22 @@ export class WrapperUserService {
           return throwError(error);
         })
       );
+  }
+ 
+  // Commented below code to remove usage of api. This will be handled with user update api.
+  createPendingApproveRole(userRequest: PendingApproveRole): Observable<any> {
+    // const url = `${this.url}/approve/roles`;
+    // return this.http
+    //   .post<UserEditResponseInfo>(url, userRequest, this.options)
+    //   .pipe(
+    //     map((data: UserEditResponseInfo) => {
+    //       return data;
+    //     }),
+    //     catchError((error) => {
+    //       return throwError(error);
+    //     })
+    //   );
+    return Observable.of(true);
   }
 
   deleteUser(userName: string): Observable<any> {
@@ -66,11 +85,62 @@ export class WrapperUserService {
     );
   }
 
+  getPendingApprovalUserRole(userName: string): Observable<UserProfileResponseInfo> {
+    const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}`;
+    return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+
+  userTokenVerify(encryptedToken: string): Observable<UserProfileResponseInfo> {
+    const url = `${this.url}/approve/verify?token=${encodeURIComponent(encryptedToken)}`;
+    return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+      map((data: any) => {
+        return data
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+
   updateUser(
     userName: string,
     userRequest: UserProfileRequestInfo
   ): Observable<any> {
     const url = `${this.url}?user-id=${encodeURIComponent(userName)}`;
+    return this.http
+      .put<UserEditResponseInfo>(url, userRequest, this.options)
+      .pipe(
+        map((data: UserEditResponseInfo) => {
+          return data;
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
+
+  // Commented below code to remove usage of api. This will be handled with user update api.
+  deleteApprovePendingRole(userName: string, roleIds: number): Observable<any> {
+    // const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}&roles=${roleIds}`;
+    // return this.http.delete(url).pipe(
+    //   map(() => {
+    //     return true;
+    //   }), catchError(error => {
+    //     return throwError(error);
+    //   })
+    // );
+    return Observable.of(true);
+  }
+
+  acceptRejectRequest(userRequest: acceptRejectRequestDetail): Observable<any> {
+    const url = `${this.url}/approve/roles`;
     return this.http
       .put<UserEditResponseInfo>(url, userRequest, this.options)
       .pipe(

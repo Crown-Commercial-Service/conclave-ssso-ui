@@ -254,6 +254,9 @@ export class AuthService {
     localStorage.removeItem('at_exp');
     localStorage.removeItem('permission_organisation_id');
     localStorage.removeItem('delegatedOrg');
+    localStorage.removeItem('routeRecords');
+    localStorage.removeItem('user_approved_role');
+    localStorage.removeItem('userEditDetails');
   }
 
   public logOutAndRedirect() {

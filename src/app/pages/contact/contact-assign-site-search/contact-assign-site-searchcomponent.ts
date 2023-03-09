@@ -96,4 +96,8 @@ export class ContactAssignSiteSearchComponent extends BaseComponent implements O
         };
         this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
     }
+
+    public onBack(){
+      window.history.back();
+    }
 }

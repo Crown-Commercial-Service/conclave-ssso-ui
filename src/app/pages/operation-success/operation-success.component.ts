@@ -28,12 +28,14 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     operationEnum = OperationEnum;
     userName: string = '';
     isOrgAdmin: boolean = false;
-    
+    public approveRequiredRole:any=[]
     constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
         this.userName = sessionStorage.getItem(SessionStorageKey.OperationSuccessUserName) ?? '';
+        this.approveRequiredRole = JSON.parse(localStorage.getItem('user_approved_role') || 'null' );
+        console.log("this.approveRequiredRole",this.approveRequiredRole)
     }
 
     ngOnInit() {

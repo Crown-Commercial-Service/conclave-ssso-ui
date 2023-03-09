@@ -9,6 +9,7 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { environment } from 'src/environments/environment';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { TranslateService } from '@ngx-translate/core';
+import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 
 @Component({
   selector: 'app-view-pending-verification',
@@ -17,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ViewPendingVerificationComponent implements OnInit {
   private organisationId: string = '';
+  private lastRoute:string=''
   pageName = 'Contactadmin';
   public routeDetails: any;
   public registries: CiiOrgIdentifiersDto;
@@ -82,27 +84,9 @@ export class ViewPendingVerificationComponent implements OnInit {
   async ngOnInit() {
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
-      this.schemeData = (await this.ciiService
-        .getSchemes()
-        .toPromise()) as any[];
-        await this.ciiService
-        .getOrgDetails(this.routeDetails.organisationId, true)
-        .toPromise()
-        .then((data: any) => {
-          this.getOrganisationUsers();
-          this.registries = data;
-          if (this.registries != undefined) {
-            this.additionalIdentifiers = this.registries?.additionalIdentifiers;
-          }
-        })
-        .catch((err) => {
-          this.additionalIdentifiers = undefined
-          this.isDeletedOrg = true;
-          this.getOrganisationUsers();
-          console.log('err', err);
-        });
+      this.lastRoute = this.routeDetails.lastRoute
+      await this.getPendingVerificationOrg()
     });
-      
   }
 
   public openEmailWindow(data: any): void {
@@ -189,18 +173,25 @@ export class ViewPendingVerificationComponent implements OnInit {
                   f.event?.toUpperCase() == 'ORGROLEUNASSIGNED' ||
                   f.event?.toUpperCase() == 'ADMINROLEASSIGNED' ||
                   f.event?.toUpperCase() == 'ADMINROLEUNASSIGNED'
-                ) {
-                  this.translate
-                    .get(f.event)
-                    .subscribe((val) => (f.event = val));
-                  if (f.event.includes('[RoleName]')) {
-                    var role = f.role;
-                    f.event = f.event.replace('[RoleName]', role);
+                ) 
+                {
+                  this.translate.get(f.event).subscribe((val) => (f.event = val));
+                  if (f.event.includes('[RoleName]')) 
+                  {
+                    let roleKey:any=['JAEGGER_SUPPLIER','ACCESS_JAGGAER','CAT_USER','ACCESS_CAAAC_CLIENT','JAEGGER_BUYER','JAGGAER_USER']
+                    let filterRole = roleKey.find((element: any) => element == f.roleKey);
+                      if(filterRole === undefined)
+                      {
+                        f.event = f.event.replace('[RoleName]', f.role + ' - ' + f.serviceName);
+                      }
+                      else
+                      {
+                        f.event = f.event.replace('[RoleName]', f.role);
+                      }
                   }
-                } else {
-                  this.translate
-                    .get(f.event)
-                    .subscribe((val) => (f.event = val));
+                } 
+                else {
+                  this.translate.get(f.event).subscribe((val) => (f.event = val));
                 }
               }
             );
@@ -213,7 +204,11 @@ export class ViewPendingVerificationComponent implements OnInit {
   }
 
   goBack() {
-    window.history.back();
+    if (this.lastRoute == "view-verified") {
+      this.router.navigateByUrl('manage-buyer-both');
+    } else {
+      window.history.back();
+    }
   }
 
   public acceptRightToBuy() {
@@ -244,5 +239,90 @@ export class ViewPendingVerificationComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  getPendingVerificationOrg() {
+    this.wrapperBuyerAndBothService.getpendingVerificationOrg(
+      this.organisationId,
+      this.routeDetails.organisationName,
+      1,
+      10
+    ).subscribe({
+      next: async (orgListResponse: OrganisationAuditListResponse) => {
+        if (orgListResponse != null && orgListResponse.organisationAuditList.length != 0) {
+          this.checkPendingOrganisation(orgListResponse)
+          } else {
+            this.getVerifiedOrg()
+        }
+      },
+      error: (error: any) => {
+        this.router.navigateByUrl('delegated-error');
+      },
+    });
+  }
+
+  private checkPendingOrganisation(orgListResponse: OrganisationAuditListResponse){
+    let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId === this.routeDetails.organisationId )
+    if(orgDetails === undefined){
+      this.getVerifiedOrg()
+    } else {
+      this.routeDetails = orgDetails
+      this.getSchemesDetails()
+    }
+  }
+
+  getVerifiedOrg() {
+    this.wrapperBuyerAndBothService.getVerifiedOrg(
+      this.organisationId,
+      this.routeDetails.organisationName,
+      1,
+      10
+    ).subscribe({
+      next: (orgListResponse: OrganisationAuditListResponse) => {
+        if (orgListResponse != null) {
+        let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId == this.routeDetails.organisationId )
+        let data = {
+          header: 'View request',
+          Description: '',
+          Breadcrumb: 'View request',
+          status: '003',
+          event: orgDetails,
+          lastRoute:"pending-verification"
+        };
+        this.router.navigateByUrl(
+          'verified-organisations?data=' + btoa(JSON.stringify(data))
+        );
+        }
+      },
+      error: (error: any) => {
+        this.router.navigateByUrl('delegated-error');
+      },
+    });
+  }
+
+  private async getSchemesDetails(){
+    this.schemeData = (await this.ciiService
+      .getSchemes()
+      .toPromise()) as any[];
+      this.getOrgDetails()
+  }
+
+  private async getOrgDetails(){
+    await this.ciiService
+    .getOrgDetails(this.routeDetails.organisationId, true)
+    .toPromise()
+    .then((data: any) => {
+      this.getOrganisationUsers();
+      this.registries = data;
+      if (this.registries != undefined) {
+        this.additionalIdentifiers = this.registries?.additionalIdentifiers;
+      }
+    })
+    .catch((err) => {
+      this.additionalIdentifiers = undefined
+      this.isDeletedOrg = true;
+      this.getOrganisationUsers();
+      console.log('err', err);
+    });
   }
 }

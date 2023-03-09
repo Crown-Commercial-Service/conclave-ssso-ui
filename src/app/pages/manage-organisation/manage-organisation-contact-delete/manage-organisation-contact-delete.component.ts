@@ -79,4 +79,8 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
         };
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
     }
+
+    public onBack():void{
+        window.history.back()
+    }
 }

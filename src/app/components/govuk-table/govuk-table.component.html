@@ -12,14 +12,14 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      <tr (click)="onRowClick(dataRow, index,$event)" class="govuk-table__row" [class.clickable]="
+      <tr (click)="onRowClick(dataRow, index,$event)" class="govuk-table__row"  [class.clickable]="
           isCheckBoxVisible || isHyperLinkVisible || isRadioVisible || hyperArrayVisible
         " *ngFor="let dataRow of tableVisibleData; let index = index">
         <td class="govuk-table__cell" *ngFor="let dataKey of dataKeys" [ngClass]="[
             pageName === 'Contactadmin' && dataKey ==='email'
               ? 'navigation-text'
               : ''
-          ]">
+          ]" [ngClass]="{'isDisabled': dataRow['isDisable']  == true}">
        
           <!-- {{ findDateKey(dataKey) ?  (dataRow[dataKey] | date: 'dd/MM/yyyy') : dataRow[dataKey] }} -->
           <span *ngIf="findDateKey(dataKey)">
@@ -38,7 +38,11 @@
             </span>
 
           <span *ngIf="!findDateKey(dataKey) && dataKey != 'owner'">
-            {{dataRow[dataKey]}} 
+            {{dataRow[dataKey]}}
+            <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'userName' && dataRow['isAdmin']) ||
+            (dataKey === 'userId' && dataRow['isAdmin'])">
+              Admin
+            </strong>
           </span>
           <br>
         </td>
@@ -55,13 +59,13 @@
           </div>          
         </td>
 
-        <td class="govuk-table__cell" *ngIf="isCheckBoxVisible == true">
+        <td class="govuk-table__cell" *ngIf="isCheckBoxVisible == true" [ngClass]="{'isDisabled': dataRow['isDisable']  == true}">
           <div class="govuk-checkboxes" data-module="govuk-checkboxes">
             <div class="govuk-checkboxes__item">
-              <input class="govuk-checkboxes__input" id="{{ 'table-chk-id-' + index }}" type="checkbox"
+              <input class="govuk-checkboxes__input" id="{{ 'table-chk-id-' + index }}"  type="checkbox"
                 [checked]="dataRow['isChecked'] == true" />
               <label class="govuk-label govuk-checkboxes__label" title="select one option"
-                for="{{ 'table-chk-id-' + index }}">
+                for="{{ 'table-chk-id-' + index }}"> 
                 <span style="display: none; visibility: hidden">Select the option</span>
               </label>
             </div>
