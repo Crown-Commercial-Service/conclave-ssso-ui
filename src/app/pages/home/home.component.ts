@@ -150,14 +150,23 @@ export class HomeComponent extends BaseComponent implements OnInit {
       let permisson = permissions.find(
         (p) => p.permissionName ==  service.code 
       );
-      if (permisson) {
+      if (permisson && this.checkService(service)) {
         this.ccsModules.push({
-          name: service.name,
-          description: service.description,
-          href: service.url,
+          name: service?.name,
+          description: service?.description,
+          href: service?.url,
         });
       }
     });
+    }
+  }
+
+  checkService(service:any){
+    let dublicateService: any = this.ccsModules.find((element) => element.href === service.url)
+    if(dublicateService){
+      return false
+    } else {
+      return true
     }
   }
 
