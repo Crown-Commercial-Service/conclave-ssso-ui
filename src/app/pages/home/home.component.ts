@@ -143,15 +143,21 @@ export class HomeComponent extends BaseComponent implements OnInit {
       }
     });
     } else {
-      this.ccsServices.forEach((service: CcsServiceInfo) => {
-        if (service?.name && service?.description && service?.url) {
-          this.ccsModules.push({
-            name: service?.name,
-            description: service?.description,
-            href: service?.url,
-          });
-        }
-      });
+      let permissions = this.servicePermissions.filter((sp) =>
+      sp.permissionName.endsWith('_DS')
+    );
+    this.ccsServices.forEach((service: CcsServiceInfo) => {
+      let permisson = permissions.find(
+        (p) => p.permissionName ==  service.code 
+      );
+      if (permisson) {
+        this.ccsModules.push({
+          name: service.name,
+          description: service.description,
+          href: service.url,
+        });
+      }
+    });
     }
   }
 
