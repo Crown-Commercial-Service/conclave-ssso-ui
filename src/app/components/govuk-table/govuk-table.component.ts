@@ -39,7 +39,6 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   pageSize: number = environment.listPageSize;
   tableVisibleData!: any[];
   selectedRadioId: string = 'table-radio-id-non';
-
   constructor(
     // private translateService: TranslateService,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
