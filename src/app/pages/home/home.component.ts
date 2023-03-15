@@ -126,7 +126,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   loadServices() {
-    let permissions = this.servicePermissions.filter((sp) =>
+    if(environment.appSetting.hideSimplifyRole){
+      let permissions = this.servicePermissions.filter((sp) =>
       sp.permissionName.startsWith('ACCESS_')
     );
     this.ccsServices.forEach((service: CcsServiceInfo) => {
@@ -141,6 +142,32 @@ export class HomeComponent extends BaseComponent implements OnInit {
         });
       }
     });
+    } else {
+      let permissions = this.servicePermissions.filter((sp) =>
+      sp.permissionName.endsWith('_DS')
+    );
+    this.ccsServices.forEach((service: CcsServiceInfo) => {
+      let permisson = permissions.find(
+        (p) => p.permissionName ==  service.code 
+      );
+      if (permisson && this.checkService(service)) {
+        this.ccsModules.push({
+          name: service?.name,
+          description: service?.description,
+          href: service?.url,
+        });
+      }
+    });
+    }
+  }
+
+  checkService(service:any){
+    let dublicateService: any = this.ccsModules.find((element) => element.href === service.url)
+    if(dublicateService){
+      return false
+    } else {
+      return true
+    }
   }
 
   loadActivities(e: any) {
@@ -213,11 +240,19 @@ export class HomeComponent extends BaseComponent implements OnInit {
           (x) => x.name === 'Manage service eligibility'
         ) === -1
       ) {
-        this.otherModules.push({
-          name: 'Manage service eligibility',
-          description: 'Manage services and roles for organisations',
-          route: '/buyer/search',
-        });
+        if(environment.appSetting.hideSimplifyRole){
+          this.otherModules.push({
+            name: 'Manage service eligibility',
+            description: 'Manage services and roles for organisations',
+            route: '/buyer/search',
+          });
+        } else {
+          this.otherModules.push({
+            name: 'Manage service eligibility',
+            description: 'Manage organisations’ type and services',
+            route: '/buyer/search',
+          });
+        }
       }
       this.otherModules.push({
         name: 'Manage Buyer status requests',

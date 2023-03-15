@@ -48,14 +48,39 @@ export class WrapperConfigurationService {
   }
 
   getRoles(): Observable<any> {
-    const url = `${this.url}/roles`;
-    return this.http.get<any[]>(url, this.options).pipe(
-      map((data: any[]) => {
-        return data;
-      }), catchError(error => {
-        return throwError(error);
-      })
-    );
+    if(!environment.appSetting.hideSimplifyRole){
+      const structureData:any = []
+      const url = `${this.url}/servicerolegroups`;
+      return this.http.get<any[]>(url, this.options).pipe(
+        map((data: any[]) => {
+          data.forEach((f)=>{
+            let structureObj = {
+              roleId: f.id,
+              roleKey:f.key,
+              roleName: f.name,
+              orgTypeEligibility: f.orgTypeEligibility,
+              subscriptionTypeEligibility: f.subscriptionTypeEligibility,
+              tradeEligibility: f.tradeEligibility,
+              description : f.description,
+              autoValidationRoleTypeEligibility:f.autoValidationRoleTypeEligibility
+            }
+            structureData.push(structureObj)
+          })
+          return structureData;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/roles`;
+      return this.http.get<any[]>(url, this.options).pipe(
+        map((data: any[]) => {
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+    }
   }
 
   getCountryDetails(): Observable<ContryDetails[]> {

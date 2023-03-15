@@ -34,3 +34,17 @@ a {
   .disable {
     background: #dfe0e2;
   }
+
+  .role_lable {
+    font-weight: bold;
+  }
+  .description_para {
+    position: relative;
+    left: 16px;
+  }
+  .govuk-checkboxes__input + .govuk-checkboxes__label::before {
+    top: 4px;
+  }
+  .govuk-checkboxes__input + .govuk-checkboxes__label::after {
+    top: 18px;
+  }
