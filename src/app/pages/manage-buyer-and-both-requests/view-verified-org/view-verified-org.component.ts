@@ -259,7 +259,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
     };
     window.open(
       environment.uri.web.dashboard +
-      '/update-org-type/confirm?data=' +
+      '/update-org-services/confirm?data=' +
       btoa(JSON.stringify(data)),
       '_blank'
     );
