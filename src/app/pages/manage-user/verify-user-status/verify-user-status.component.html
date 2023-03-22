@@ -1,0 +1,56 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="user-profile-container">
+        <div class="govuk-breadcrumbs">
+          <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+              <a class="govuk-breadcrumbs__link" routerLink="/home">
+                {{ 'ADMINISTRATOR_DASHBOARD' | translate }}
+            </a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item" *ngIf="userStatus === 0">
+              <span class="govuk-breadcrumbs__link">Account already created</span>
+            </li>
+            <li class="govuk-breadcrumbs__list-item"  *ngIf="userStatus === 1">
+              <span class="govuk-breadcrumbs__link">User not created</span>
+            </li>
+            <li class="govuk-breadcrumbs__list-item"  *ngIf="userStatus === 3">
+              <span class="govuk-breadcrumbs__link">Error</span>
+            </li>
+          </ol>
+        </div>
+        <div *ngIf="userStatus === 3" class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title"
+          role="alert" tabindex="-1" id="error-summary" data-module="govuk-error-summary">
+          <h2 class="govuk-error-summary__title" id="error-summary-title">
+            {{ "ERROR_SUMMARY" | translate }}
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <li>
+                <a href="javascript:;" onClick="return false;">Invalid Link</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div *ngIf="userStatus === 0">
+          <h1 class="govuk-heading-xl">Account already created</h1>
+          <div class="link_valid">
+            <p class="govuk-body-l">An account has already been set up for {{userInfo.email}}</p>
+          </div>
+        </div>
+        <div *ngIf="userStatus === 1">
+          <h1 class="govuk-heading-xl">User not created</h1>
+          <div class="link_valid">
+            <p class="govuk-body-l">You don't have permission to action this request.</p>
+          </div>
+        </div>
+        <div *ngIf="userStatus === 2">
+          <h1 class="govuk-heading-xl">User not created</h1>
+          <div class="link_valid">
+            <p class="govuk-body-l">The user creation request has expired. You can set this user up by ((link)) adding a new user ((link)). </p>
+          </div>
+        </div>
+        <a *ngIf="userStatus != 3"  href="javascript:;" class="navigation-text" routerLink="/home">Return to dashboard</a>
+      </div>
+    </div>
+  </div>
