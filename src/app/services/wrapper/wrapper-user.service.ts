@@ -181,6 +181,19 @@ export class WrapperUserService {
     }
   }
 
+  addUserTokenVerification(encryptedToken: string): Observable<UserProfileResponseInfo> {
+      const url = `${this.url}/join-request-validation?details=${encodeURIComponent(encryptedToken)}`;
+      return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+        map((data: any) => {
+          return data
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
+
+
   updateUser(
     userName: string,
     userRequest: UserProfileRequestInfo
