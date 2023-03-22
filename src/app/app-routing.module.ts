@@ -143,6 +143,8 @@ import { RoleRequestFailedComponent } from './pages/manage-role/role-request-fai
 import { UpdateOrgServiceComponent } from './pages/buyer/update-org-service/update-org-service.component';
 import { ConfirmOrgServiceComponent } from './pages/buyer/confirm-org-service/confirm-org-service.component';
 import { SuccessOrgServiceComponent } from './pages/buyer/success-org-service/success-org-service.component';
+import { VerifyUserComponent } from './pages/manage-user/verify-user/verify-user.component';
+import { VerifyUserStatusComponent } from './pages/manage-user/verify-user-status/verify-user-status.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -638,6 +640,20 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: ManageUserAddSingleUserDetailComponent,
+  },
+  {
+    path: 'manage-users/verify-user',
+    data: { title: 'Manage Users', roles: ['MANAGE_USERS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: VerifyUserComponent,
+  },
+  {
+    path: 'manage-users/verify-user/status',
+    data: { roles: ['MANAGE_USERS'] },
+    pathMatch: 'full',
+    canActivate: [AuthGuard, RoleGuard],
+    component: VerifyUserStatusComponent,
   },
   {
     path: 'manage-users/confirm-reset-password',
