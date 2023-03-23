@@ -439,7 +439,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     if(this.organisationDetails.detail == undefined){
       return
     }
-    debugger
     this.selectedRoleIds = [];
     this.selectedApproveRequiredRole = []
     const superAdminDomain = this.organisationDetails.detail.domainName.toLowerCase()
