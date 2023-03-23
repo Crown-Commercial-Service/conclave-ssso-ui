@@ -436,6 +436,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   getSelectedRoleIds(form: FormGroup) {
+    if(this.organisationDetails.detail == undefined){
+      return
+    }
     this.selectedRoleIds = [];
     this.selectedApproveRequiredRole = []
     const superAdminDomain = this.organisationDetails.detail.domainName.toLowerCase()
@@ -484,6 +487,10 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
      * checking approve required roles are availble
      */
   private checkApproveRolesSelected() {
+    if(this.organisationDetails.detail == undefined){
+      this.updateUser()
+      return
+    }
     const superAdminDomain = this.organisationDetails.detail.domainName.toLowerCase()
     const userDomain = this.userName?.split("@")[1].toLowerCase()
     if (superAdminDomain != userDomain) {
