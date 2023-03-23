@@ -8,9 +8,12 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./verify-user-status.component.scss']
 })
 export class VerifyUserStatusComponent implements OnInit {
-  userInfo: any;
-  userStatus:number=0
-  constructor(private ActivatedRoute: ActivatedRoute, private titleService: Title) { }
+  public isOrgAdmin: boolean = false;
+  public userInfo: any;
+  public userStatus:number=0
+  constructor(private ActivatedRoute: ActivatedRoute, private titleService: Title) { 
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
+  }
 
   ngOnInit(): void {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
@@ -31,10 +34,17 @@ export class VerifyUserStatusComponent implements OnInit {
           );
           break;
         }
+        case 'ERROR_LINK_EXPIRED': {
+          this.userStatus = 2
+          this.titleService.setTitle(
+            `${ 'User not created' }  - CCS`
+          );
+          break;
+        }
         case 'INVALID_USER_DETAIL': {
           this.userStatus = 3
           this.titleService.setTitle(
-            `${ 'User not created' }  - CCS`
+            `${ 'Error' }  - CCS`
           );
           break;
         }
