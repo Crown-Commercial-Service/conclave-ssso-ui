@@ -643,16 +643,16 @@ const routes: Routes = [
   },
   {
     path: 'manage-users/verify-user',
-    data: { title: 'Manage Users', roles: ['MANAGE_USERS'] },
+    data: { title: 'Manage Users'},
     pathMatch: 'full',
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard],
     component: VerifyUserComponent,
   },
   {
     path: 'manage-users/verify-user/status',
     data: { roles: ['MANAGE_USERS'] },
     pathMatch: 'full',
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard],
     component: VerifyUserStatusComponent,
   },
   {
