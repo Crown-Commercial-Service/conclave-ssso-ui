@@ -247,20 +247,37 @@ export class UpdateOrgServiceComponent implements OnInit {
 
   public orgRoleEligibilty(orgType: any, role: any) {
     if (orgType == '0') {
-      if (role.tradeEligibility == '0' || role.tradeEligibility == '2') {
-        return true
-      }
+      this.supplierEligibilty(role)
     } else if (orgType == '1') {
-      if (role.tradeEligibility == '1' || role.tradeEligibility == '2') {
-        return true
-      }
-    }
-    else if (orgType == '2') {
-      if (role.tradeEligibility == '0' || role.tradeEligibility == '1' || role.tradeEligibility == '2') {
-        return true
-      }
+      this.buyerEligibilty(role)
+    } else if (orgType == '2') {
+      this.bothEligibilty(role)
     }
     return false
+  }
+
+  private supplierEligibilty(role:any){
+    if (role.tradeEligibility == '0' || role.tradeEligibility == '2') {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  private buyerEligibilty(role:any){
+    if (role.tradeEligibility == '1' || role.tradeEligibility == '2') {
+      return true
+    }  else {
+      return false
+    }
+  }
+
+  private bothEligibilty(role:any){
+    if (role.tradeEligibility == '0' || role.tradeEligibility == '1' || role.tradeEligibility == '2') {
+      return true
+    }  else {
+      return false
+    }
   }
 
 
