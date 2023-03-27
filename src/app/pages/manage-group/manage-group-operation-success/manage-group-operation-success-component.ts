@@ -11,6 +11,8 @@ import { ViewportScroller } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { environment } from 'src/environments/environment';
+import { OrganisationGroupResponseInfo } from 'src/app/models/organisationGroup';
+import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 
 @Component({
   selector: 'app-manage-group-operation-success',
@@ -31,10 +33,18 @@ export class ManageGroupOperationSuccessComponent
   operation: OperationEnum;
   operationEnum = OperationEnum;
   isEdit: boolean = false;
-  groupId: string = '';
+  groupId: any = '';
   userCount: number = 0;
   roleCount: number = 0;
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole
+  public accordinData:any = {
+    showAccordin1:false,
+    showAccordin2:false
+  }
+  usersTableHeaders = ['NAME', 'EMAIL'];
+  public group!: OrganisationGroupResponseInfo;
+  usersColumnsToDisplay = ['name', 'userId'];
+  organisationId: string;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -42,7 +52,8 @@ export class ManageGroupOperationSuccessComponent
     private SharedDataService: SharedDataService,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper
+    protected scrollHelper: ScrollHelper,
+    private orgGroupService: WrapperOrganisationGroupService,
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.operation = parseInt(
@@ -56,6 +67,7 @@ export class ManageGroupOperationSuccessComponent
       this.userCount = routeData['userCount'] || 0;
       this.roleCount = routeData['roleCount'] || 0;
     }
+    this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.SharedDataService.ManageGroup.subscribe((data)=>{
          this.GroupName=data
     })
@@ -90,6 +102,7 @@ export class ManageGroupOperationSuccessComponent
         break;
     }
     this.titleService.setTitle(`Success - ${area} - Manage Groups - CCS`);
+    this.getGroupDetails()
   }
 
   onNavigateToGroupClick() {
@@ -107,5 +120,29 @@ export class ManageGroupOperationSuccessComponent
   public onNavigateTomanageGroup(){
     this.router.navigateByUrl('/manage-groups')
 
+  }
+
+  private getGroupDetails():void{
+    this.orgGroupService
+    .getOrganisationGroup(this.organisationId, this.groupId)
+    .subscribe(
+      (group: OrganisationGroupResponseInfo) => {
+        group.roles.forEach((f:any)=>{
+          f.serviceView = !this.showRoleView
+        })
+        this.group = group;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  public toggleAccordion(accordin:string):void{
+    if(accordin === 'accordin1'){
+      this.accordinData.showAccordin1 = !this.accordinData.showAccordin1 
+    } else if(accordin === 'accordin2'){
+      this.accordinData.showAccordin2 = !this.accordinData.showAccordin2
+    }
   }
 }
