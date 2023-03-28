@@ -24,8 +24,7 @@ before_install:
 - cat src/environments/environment.ts
 before_deploy:
   - echo "install cloudfoundry cli"
-  - curl -O https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key
-  - sudo apt-key add cli.cloudfoundry.org.key
+  - wget --no-check-certificate -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add - 
   - echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
   - sudo apt-get -qq update
   - sudo apt --fix-broken install
