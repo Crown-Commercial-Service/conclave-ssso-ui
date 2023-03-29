@@ -1,5 +1,5 @@
 language: node_js
-dist: dist: jammy
+dist: jammy
 node_js:
 - 16.10
 addons:
