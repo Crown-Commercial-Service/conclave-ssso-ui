@@ -11,6 +11,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { SessionStorageKey } from 'src/app/constants/constant';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-operation-success',
@@ -24,7 +25,10 @@ import { SessionStorageKey } from 'src/app/constants/constant';
     ]
 })
 export class OperationSuccessComponent extends BaseComponent implements OnInit {
+    public showRoleView:boolean = environment.appSetting.hideSimplifyRole
     operation: OperationEnum;
+    userServiceTableHeaders = ['NAME'];
+    userServiceColumnsToDisplay = ['accessRoleName',]
     operationEnum = OperationEnum;
     userName: string = '';
     isOrgAdmin: boolean = false;
@@ -34,9 +38,26 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
         super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
         this.userName = sessionStorage.getItem(SessionStorageKey.OperationSuccessUserName) ?? '';
-        this.approveRequiredRole = JSON.parse(localStorage.getItem('user_approved_role') || 'null' );
-        console.log("this.approveRequiredRole",this.approveRequiredRole)
+        this.approveRequiredRole = this.getSelectedRole(JSON.parse(localStorage.getItem('user_approved_role') || 'null' ))
     }
+
+
+    public getSelectedRole(role:any):void{
+      if(role != null) {
+        let data:any=[]  
+        role.forEach((f:any)=>{
+          let obj = {
+          accessRoleName: f.roleName,
+          serviceName: f.serviceName,
+          description:f.description,
+          serviceView:!this.showRoleView
+          }
+          data.push(obj)
+        })
+        return data
+      }  
+    } 
+
 
     ngOnInit() {
         this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
@@ -87,5 +108,9 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
 
     onNavigateToManageUserClick() {
         this.router.navigateByUrl("manage-users");
+    }
+
+    goBack():void{
+        window.history.back()
     }
 }

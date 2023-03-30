@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-role-request-success',
@@ -10,6 +11,7 @@ export class RoleRequestSuccessComponent implements OnInit {
 
   public userInfo:any;
   public isOrgAdmin: boolean = false;
+  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
 
   constructor(private ActivatedRoute: ActivatedRoute) { }
 

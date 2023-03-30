@@ -63,13 +63,19 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
     if(environment.appSetting.hideAutoValidation){
      this.router.navigateByUrl(`buyer/confirm/${this.selectedOrgId}`);
     }
-    else {
+    else if (environment.appSetting.hideSimplifyRole) {
       let data = {
         companyHouseId:this.registries.identifier?.id,
         Id:this.selectedOrgId
       }
       this.router.navigateByUrl('update-org-type/confirm?data=' + btoa(JSON.stringify(data)));
 
+    } else {
+      let data = {
+        companyHouseId:this.registries.identifier?.id,
+        Id:this.selectedOrgId
+      }
+      this.router.navigateByUrl('update-org-services/confirm?data=' + btoa(JSON.stringify(data)));
     }
   }
 
