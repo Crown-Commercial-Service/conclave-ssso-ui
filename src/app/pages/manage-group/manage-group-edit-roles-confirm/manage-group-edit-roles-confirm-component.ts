@@ -34,7 +34,9 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
     groupName: string = '';
     roleIds: number[] = [];
     addingRoles: Role[] = [];
+    addingOrderRoles: Role[] = [];
     removingRoles: Role[] = [];
+    removingOrderdRoles: Role[] = [];
     routeData: any = {};
     userCount: number = 0;
     rolesTableHeaders = ['NAME'];
@@ -68,8 +70,40 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
         } else {
             this.titleService.setTitle(`Confirm services – Manage Groups - CCS`);
         }
+        this.getOrganisationRoles()
         this.initialteServiceRoleGroups()
     }
+
+    getOrganisationRoles() {
+        this.orgGroupService.getOrganisationRoles(this.organisationId).subscribe({
+            next: (roleListResponse: Role[]) => {
+                if (roleListResponse != null) {
+                    roleListResponse.forEach((roles:Role,index:number)=>{
+                        this.chanageIndexValue(roles,index)
+                    })
+                }
+            },
+            error: (error: any) => {
+            }
+        });
+    }
+
+
+    private chanageIndexValue(roles:Role,index:number){
+     if(this.removingRoles.length != 0){
+        let removeRole = this.removingRoles.find((f)=> f.roleKey === roles.roleKey)
+        if(removeRole != undefined){
+         this.removingOrderdRoles.push(removeRole)
+        }
+     }   
+     if(this.addingRoles.length != 0){
+        let addingRole = this.addingRoles.find((f)=> f.roleKey === roles.roleKey)
+        if(addingRole != undefined){
+         this.addingOrderRoles.push(addingRole)
+        }
+     }  
+    }
+
 
     onConfirmClick() {
         let groupPatchRequestInfo: OrganisationGroupRequestInfo = {
