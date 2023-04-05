@@ -1,10 +1,36 @@
-<!--<app-sidenav [collapsed]="sideNavVisible$ | async"></app-sidenav>-->
-<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
-  data-module="govuk-error-summary">
-  <h2 class="govuk-error-summary__title" id="error-summary-title">
-    There is a problem
-  </h2>
-  <div class="govuk-error-summary__body">
-    <a href="javascript:;" (click)="navigateBackToGroups()"> This group is configured with multifactor(additional security) enabled roles. However, there are users who are not configured for additional security. Please review users and roles in the group</a>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="user-profile-container">
+      <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                    }}</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate
+                    }}</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item" >
+                <a href="javascript:;" class="govuk-breadcrumbs__link" class="govuk-breadcrumbs__link" (click)="onBack()">{{showRoleView === true ? 'Confirm roles for group': (showRoleView == false ? 'Confirm services for group' : '')}} {{ groupName }} </a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item" >
+              <span  class="govuk-breadcrumbs__link">Error</span>
+          </li>
+        </ol>
+    </div>
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+        data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <a href="javascript:;" (click)="navigateBackToGroups()"> This group is configured with multifactor(additional
+            security) enabled {{showRoleView === true ? 'roles': (showRoleView == false ? 'services' : '')}}. However,
+            there are users who are not configured for additional security. Please review users and {{showRoleView ===
+            true ? 'roles': (showRoleView == false ? 'services' : '')}} in the group</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

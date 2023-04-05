@@ -45,7 +45,7 @@ export class WorkerService {
         if (typeof Worker !== 'undefined') {
             // Create a new
             if (this.worker == undefined) {
-                this.worker = new Worker('../app.worker', { type: 'module' });
+                this.worker = new Worker(new URL('../app.worker', import.meta.url), { type: 'module' });
             }
             this.worker.postMessage({ command: 'STORE_TOKEN', access_token: tokenInfo.access_token, refresh_token: tokenInfo.refresh_token });
         } else {

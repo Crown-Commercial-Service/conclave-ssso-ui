@@ -19,9 +19,11 @@
                     </li>
                 </ol>
             </div>
-            <h1 *ngIf="pageAccessMode =='add'" class="govuk-heading-xl page-title header-bread-align">Delegate access to a user
+            <h1 *ngIf="pageAccessMode =='add'" class="govuk-heading-xl page-title header-bread-align">Delegate access to
+                a user
                 from outside your Organisation</h1>
-            <h1 *ngIf="pageAccessMode =='edit'" class="govuk-heading-xl page-title header-bread-align">Edit current delegated
+            <h1 *ngIf="pageAccessMode =='edit'" class="govuk-heading-xl page-title header-bread-align">Edit current
+                delegated
                 access</h1>
             <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert"
                 tabindex="-1" id="error-summary" data-module="govuk-error-summary"
@@ -106,7 +108,8 @@
                             </summary>
                             <div class="govuk-details__text">
                                 <p class="govuk-body">
-                                    MFA status:<strong class="govuk-!-margin-left-2">{{userDetails.mfaEnabled == true ? 'Enabled' : 'Disabled'}}</strong>
+                                    MFA status:<strong class="govuk-!-margin-left-2">{{userDetails.mfaEnabled == true ?
+                                        'Enabled' : 'Disabled'}}</strong>
                                 </p>
                             </div>
                         </details>
@@ -148,7 +151,7 @@
                                                     Day
                                                 </label>
                                                 <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                                    id="start-day" name="start-day" type="text" 
+                                                    id="start-day" name="start-day" type="text"
                                                     [class.govuk-input--error]="submitted && pageAccessMode != 'edit' && (formGroup.controls.startday.invalid || StartDateValidation || PastDateValidation)"
                                                     inputmode="numeric" formControlName="startday" maxlength="2"
                                                     [class.disable]="pageAccessMode == 'edit'"
@@ -161,7 +164,7 @@
                                                     Month
                                                 </label>
                                                 <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                                    id="start-month" name="start-month" type="text" 
+                                                    id="start-month" name="start-month" type="text"
                                                     [class.govuk-input--error]="submitted && pageAccessMode != 'edit'  && (formGroup.controls.startmonth.invalid || StartDateValidation || PastDateValidation)"
                                                     (keydown.backspace)="tiggerBackspace(formGroup.controls.startmonth.value,'start-month','startdate')"
                                                     inputmode="numeric" formControlName="startmonth" maxlength="2"
@@ -175,7 +178,7 @@
                                                     Year
                                                 </label>
                                                 <input class="govuk-input govuk-date-input__input govuk-input--width-4"
-                                                    id="start-year" name="start-year" type="text" 
+                                                    id="start-year" name="start-year" type="text"
                                                     [class.govuk-input--error]="submitted && pageAccessMode != 'edit' && (formGroup.controls.startyear.invalid || StartDateValidation || PastDateValidation)"
                                                     inputmode="numeric" formControlName="startyear" maxlength="4"
                                                     [class.disable]="pageAccessMode == 'edit'"
@@ -202,7 +205,8 @@
                                         and less than 28 from the start date.
                                     </div>
                                     <div id="end-hint" class="govuk-hint" *ngIf="pageAccessMode =='edit'">
-                                        You can edit end date for delegated access. Note, it cannot be more than 365 days and less than 28 days from the start date.
+                                        You can edit end date for delegated access. Note, it cannot be more than 365
+                                        days and less than 28 days from the start date.
                                     </div>
                                     <div class="govuk-date-input" id="end">
                                         <span id="name-error" class="govuk-error-message"
@@ -277,39 +281,60 @@
                                         permission must be selected.
                                     </div>
                                     <div id="waste-hint" class="govuk-hint" *ngIf="pageAccessMode =='edit'">
-                                        Edit which applications the delegated user should have access to. At least one permission must be selected.
+                                        Edit which applications the delegated user should have access to. At least one
+                                        permission must be selected.
                                     </div>
                                     <span id="name-error" class="govuk-error-message"
                                         *ngIf="submitted && getSelectedRoleIds(formGroup).length == 0">
                                         <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
                                             }}</span> Select at least one permission for the delegated user
                                     </span>
-                                    <div class="govuk-checkboxes__item"
-                                        *ngFor="let orgRole of roleDataList; let i=index">
-                                        <input class="govuk-checkboxes__input"
-                                            id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                            [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
-                                            value="hmrc">
-                                        <label
-                                            class="govuk-label govuk-checkboxes__label"
-                                            for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                            {{ orgRole.accessRoleName }}
-                                            <span *ngIf=" orgRole.serviceName &&
-                                            orgRole.roleKey != 'JAEGGER_SUPPLIER' &&
-                                            orgRole.roleKey != 'ACCESS_JAGGAER' &&
-                                            orgRole.roleKey != 'CAT_USER' &&
-                                            orgRole.roleKey != 'ACCESS_CAAAC_CLIENT' &&
-                                            orgRole.roleKey != 'JAEGGER_BUYER' &&
-                                            orgRole.roleKey != 'JAGGAER_USER' && orgRole.serviceName != null
-                                            ">- {{ orgRole.serviceName }}</span>
-                </label>
+
+                                    <div *ngIf="hideSimplifyRole">
+
+                                        <div class="govuk-checkboxes__item"
+                                            *ngFor="let orgRole of roleDataList; let i=index">
+                                            <input class="govuk-checkboxes__input"
+                                                id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                                [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                                value="hmrc">
+                                            <label class="govuk-label govuk-checkboxes__label"
+                                                for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                                {{ orgRole.accessRoleName }}
+                                                <span *ngIf=" orgRole.serviceName &&
+                                        orgRole.roleKey != 'JAEGGER_SUPPLIER' &&
+                                        orgRole.roleKey != 'ACCESS_JAGGAER' &&
+                                        orgRole.roleKey != 'CAT_USER' &&
+                                        orgRole.roleKey != 'ACCESS_CAAAC_CLIENT' &&
+                                        orgRole.roleKey != 'JAEGGER_BUYER' &&
+                                        orgRole.roleKey != 'JAGGAER_USER' && orgRole.serviceName != null
+                                        ">- {{ orgRole.serviceName }}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="!hideSimplifyRole">
+                                        <div class="govuk-checkboxes__item"
+                                            *ngFor="let orgRole of roleDataList; let i=index">
+                                            <input class="govuk-checkboxes__input"
+                                                id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                                [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                                value="hmrc">
+
+                                            <label class="govuk-label govuk-checkboxes__label"
+                                                for="{{'orgRoleControl_' + orgRole.roleId}}"
+                                                [ngClass]="{'role_lable': hideSimplifyRole === false,'govuk-!-padding-top-0': orgRole.description != ''}">
+                                                {{orgRole.accessRoleName}}
+                                            </label>
+                                            <p class="govuk-body description_para">{{orgRole.description}}</p>
+                                        </div>
                                     </div>
                                 </fieldset>
                             </div>
                             <!-- user permission -->
                             <br>
-                            <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" href="javascript:;" class="navigation-text"
-                                (click)="Resentactivation()"> Resend activation link </a>
+                            <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" href="javascript:;"
+                                class="navigation-text" (click)="Resentactivation()"> Resend activation link </a>
                             <div class="govuk-button-group save-cancel-button-group govuk-!-margin-top-7">
                                 <button type="submit" class="govuk-button" data-module="govuk-button"
                                     (click)="onSubmit(formGroup)">

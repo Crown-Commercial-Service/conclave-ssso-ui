@@ -158,3 +158,21 @@ table {
     font-size: 16px;
     font-weight: 400;
 }
+
+.description_para {
+  position: relative;
+  left: 16px;
+}
+.role_lable {
+  font-weight: bold;
+}
+.govuk-hints{
+  color: black !important;
+}
+
+.govuk-item-custom .govuk-checkboxes__input + .govuk-checkboxes__label::before {
+  top: 4px;
+}
+.govuk-item-custom .govuk-checkboxes__input + .govuk-checkboxes__label::after {
+  top: 18px;
+}

@@ -103,4 +103,5 @@ export interface OrganisationAuditEventList
 
 export interface OrganisationAuditEventListResponse extends PaginationInfo {
     organisationAuditEventList: OrganisationAuditEventList[];
+    orgAuditEventServiceRoleGroupList :OrganisationAuditEventList[];
 }
