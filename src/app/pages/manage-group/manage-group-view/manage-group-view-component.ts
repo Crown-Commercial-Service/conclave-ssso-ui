@@ -11,6 +11,7 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { OrganisationGroupResponseInfo } from 'src/app/models/organisationGroup';
 import { Title } from '@angular/platform-browser';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-group-view',
@@ -24,6 +25,7 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
   ],
 })
 export class ManageGroupViewComponent extends BaseComponent implements OnInit {
+  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   organisationId: string;
   group: OrganisationGroupResponseInfo;
   isEdit: boolean = false;
@@ -56,6 +58,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       groupName: '',
       roles: [],
       users: [],
+      serviceRoleGroups:[]
     };
     let queryParams = this.activatedRoute.snapshot.queryParams;
     let state = this.router.getCurrentNavigation()?.extras.state;
@@ -70,9 +73,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
 
     if (queryParams.data) {
       this.routeData = JSON.parse(queryParams.data);
-      console.log("this.routeData",this.routeData)
       this.isEdit = this.routeData['isEdit'];
-      console.log("this.isEdit",this.isEdit)
       this.editingGroupId = this.routeData['groupId'];
     }
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
@@ -87,17 +88,18 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       .getOrganisationGroup(this.organisationId, this.editingGroupId)
       .subscribe(
         (group: OrganisationGroupResponseInfo) => {
+          group.roles.forEach((f:any)=>{
+            f.serviceView = !this.showRoleView
+          })
           this.group = group;
         },
         (error) => {
           console.log(error);
-          console.log(error.error);
         }
       );
   }
 
   onNameEditClick() {
-    console.log("this.group.groupName",this.group.groupName)
     let data = {
       isEdit: this.isEdit,
       groupId: this.editingGroupId,
@@ -115,6 +117,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       isEdit: this.isEdit,
       groupId: this.editingGroupId,
       roleIds: roleIds,
+      groupName:this.group.groupName
     };
     this.router.navigateByUrl(
       'manage-groups/edit-roles?data=' + JSON.stringify(data)

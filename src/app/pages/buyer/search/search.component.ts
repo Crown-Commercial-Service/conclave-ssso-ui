@@ -24,7 +24,7 @@ import { ViewportScroller } from '@angular/common';
   encapsulation: ViewEncapsulation.None
 })
 export class BuyerSearchComponent extends BaseComponent implements OnInit {
-
+  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   formGroup: FormGroup;
   currentPage: number = 1;
   pageCount: number = 0;

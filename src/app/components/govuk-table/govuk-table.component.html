@@ -12,33 +12,35 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      <tr (click)="onRowClick(dataRow, index,$event)" class="govuk-table__row"  [class.clickable]="
+      <tr (click)="onRowClick(dataRow, index,$event)" class="govuk-table__row" [class.clickable]="
           isCheckBoxVisible || isHyperLinkVisible || isRadioVisible || hyperArrayVisible
         " *ngFor="let dataRow of tableVisibleData; let index = index">
         <td class="govuk-table__cell" *ngFor="let dataKey of dataKeys" [ngClass]="[
             pageName === 'Contactadmin' && dataKey ==='email'
               ? 'navigation-text'
               : ''
-          ]" [ngClass]="{'isDisabled': dataRow['isDisable']  == true}">
-       
-          <!-- {{ findDateKey(dataKey) ?  (dataRow[dataKey] | date: 'dd/MM/yyyy') : dataRow[dataKey] }} -->
+          ]" [ngClass]="{'isDisabled': dataRow['isDisable']  == true}" [ngClass]="[ dataRow['serviceView'] == true ? 'role_group_table' : '']">
           <span *ngIf="findDateKey(dataKey)">
-               {{dataRow[dataKey] | date: 'dd/MM/yyyy'}} <br>
+            {{dataRow[dataKey] | date: 'dd/MM/yyyy'}} <br>
             <span *ngIf="findDateKey(dataKey)">{{ dataRow[dataKey] | date: 'HH:mm'}}</span>
           </span>
           <span *ngIf="dataKey == 'owner'">
             <span *ngIf="dataRow['defaultOwnerChanges'] == false">
-              {{  dataRow['firstName']}} {{ dataRow['lastName'] }}
+              {{ dataRow['firstName']}} {{ dataRow['lastName'] }}
               <br>
               <span>{{dataRow['actionedBy']}}</span>
             </span>
             <span *ngIf="dataRow['defaultOwnerChanges'] == true">
-              {{ dataRow[dataKey] }} 
+              {{ dataRow[dataKey] }}
             </span>
-            </span>
-
+          </span>
           <span *ngIf="!findDateKey(dataKey) && dataKey != 'owner'">
-            {{dataRow[dataKey]}}
+            <div *ngIf="dataRow['serviceView'] == true;else other_content" class="role_group_content">
+              <span [ngClass]="[ dataRow['serviceView'] == true ? 'role_lable' : '']">{{ dataRow[dataKey] }}</span>
+              <br>
+              <span>{{dataRow['description']}}</span>
+            </div>
+            <ng-template #other_content>{{dataRow[dataKey]}}</ng-template>
             <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'userName' && dataRow['isAdmin']) ||
             (dataKey === 'userId' && dataRow['isAdmin'])">
               Admin
@@ -53,19 +55,21 @@
         <td *ngIf="hyperArrayVisible == true" class="govuk-table__cell">
           <div class="govuk-table_action-links">
             <span *ngFor="let hypertex of hyperLinkArray">
-              <a class="navigation-text" href="javascript:;" [ngClass]="{'navigation-text-red': hypertex == 'Remove' || hypertex == 'Decline' }">
+              <a class="navigation-text" href="javascript:;"
+                [ngClass]="{'navigation-text-red': hypertex == 'Remove' || hypertex == 'Decline' }">
                 {{ hypertex }}</a>
-              </span>
-          </div>          
+            </span>
+          </div>
         </td>
 
-        <td class="govuk-table__cell" *ngIf="isCheckBoxVisible == true" [ngClass]="{'isDisabled': dataRow['isDisable']  == true}">
+        <td class="govuk-table__cell" *ngIf="isCheckBoxVisible == true"
+          [ngClass]="{'isDisabled': dataRow['isDisable']  == true}">
           <div class="govuk-checkboxes" data-module="govuk-checkboxes">
             <div class="govuk-checkboxes__item">
-              <input class="govuk-checkboxes__input" id="{{ 'table-chk-id-' + index }}"  type="checkbox"
+              <input class="govuk-checkboxes__input" id="{{ 'table-chk-id-' + index }}" type="checkbox"
                 [checked]="dataRow['isChecked'] == true" />
               <label class="govuk-label govuk-checkboxes__label" title="select one option"
-                for="{{ 'table-chk-id-' + index }}"> 
+                for="{{ 'table-chk-id-' + index }}">
                 <span style="display: none; visibility: hidden">Select the option</span>
               </label>
             </div>
