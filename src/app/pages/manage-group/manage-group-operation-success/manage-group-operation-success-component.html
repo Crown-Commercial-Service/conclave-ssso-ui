@@ -38,31 +38,32 @@
                 <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupUserUpdate" >{{ 'GROUP_USER_UPDATE_SUCCESS' | translate }}</p>
                 <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupRoleUpdate && showRoleView" >{{ 'GROUP_ROLE_UPDATE_SUCCESS' | translate }}</p>
                 <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupRoleUpdate && !showRoleView" >{{ 'GROUP_SERVICE_UPDATE_SUCCESS' | translate }}</p>
-                <p class="govuk-body-l">Please note that additional verification is needed for some of the users to be given access to Fleet Portal service. You can review the details below.</p>
+                <p class="govuk-body-l" *ngIf="accordionStatus">Please note that additional verification is needed for some of the users to be given access to Fleet Portal service. You can review the details below.</p>
                 <div class="govuk-accordion-custom">
                     <div class="govuk-accordion__section_custom  govuk-!-margin-bottom-7">
-                        <div class="govuk-accordion__section-heading-custom">
-                            <a class="navigation-text" id="accordion-default-heading-1" href="javascript:void(0)" (click)="toggleAccordion('accordin1')"  >
+                        <div class="govuk-accordion__section-heading-custom" *ngIf="accordionStatus">
+                            <a class="navigation-text" id="accordion-default-heading-1" href="javascript:void(0)" (click)="toggleAccordion('accordin1')">
                             List of users who were given access to Fleet Portal 
                             </a>
-                            <a class="accordian-count navigation-text" href="javascript:void(0)"  (click)="toggleAccordion('accordin1')">{{accordinData.showAccordin1 == false ? 'show all' :  'hide all'}} (40)</a>
+                            <a class="accordian-count navigation-text" href="javascript:void(0)"  (click)="toggleAccordion('accordin1')">{{accordinData.showAccordin1 == false ? 'show all' :  'hide all'}} ({{pendingVerificationUser.rowCount}})</a>
                         </div>
                         <div id="accordion-default-content-1" *ngIf="accordinData.showAccordin1" class="govuk-accordion__section-content-custom">
                             <div>
                                 <div class="govuk-grid-row">
                                     <div class="govuk-grid-column-two-thirds">
-                                        <div *ngIf="group.users.length == 0">
+                                        <div *ngIf="pendingVerificationUser.groupUser.length == 0">
                                             <p>{{'NONE'| translate}}
                                             <p>
                                         </div>
                                     </div>
                                 </div>
-                                <div *ngIf="group.users.length != 0" class="govuk-grid-row">
+                                <div *ngIf="pendingVerificationUser.groupUser.length != 0" class="govuk-grid-row">
                                     <div class="govuk-grid-column-full">
                                         <div class="user-table">
-                                            <app-govuk-table [headerTextKeys]="usersTableHeaders" [data]="group.users"
-                                                [dataKeys]="usersColumnsToDisplay" [useClientPagination]="true">
-                                            </app-govuk-table>
+                                            <app-govuk-table [headerTextKeys]="tableSetting.usersTableHeaders" [data]="pendingVerificationUser.groupUser"
+                                            [dataKeys]="tableSetting.usersColumnsToDisplay" [isHyperLinkVisible]="false"
+                                            [useServerPagination]="true" [serverPageCount]="pendingVerificationUser.pageCount"
+                                            [serverPageCurrentPage]="pendingVerificationUser.currentPage" (changeCurrentPageEvent)="setPagePendingUsers($event)"></app-govuk-table>
                                         </div>
                                     </div>
                                 </div>
@@ -70,28 +71,29 @@
                         </div>
                     </div>
                     <div class="govuk-accordion__section_custom  govuk-!-margin-bottom-7">
-                        <div class="govuk-accordion__section-heading-custom">
+                        <div class="govuk-accordion__section-heading-custom" *ngIf="accordionStatus">
                             <a class="navigation-text" id="accordion-default-heading-1" href="javascript:void(0)" (click)="toggleAccordion('accordin2')"  >
                                 List of users who required additional verification for Fleet Portal access
                             </a>
-                            <a class="accordian-count navigation-text" href="javascript:void(0)"  (click)="toggleAccordion('accordin2')">{{accordinData.showAccordin2 == false ? 'show all' :  'hide all'}} (40)</a>
+                            <a class="accordian-count navigation-text" href="javascript:void(0)"  (click)="toggleAccordion('accordin2')">{{accordinData.showAccordin2 == false ? 'show all' :  'hide all'}} ({{verifiedUser.rowCount}})</a>
                         </div>
                         <div id="accordion-default-content-2" *ngIf="accordinData.showAccordin2"  class="govuk-accordion__section-content-custom">
                             <div>
                                 <div class="govuk-grid-row">
                                     <div class="govuk-grid-column-two-thirds">
-                                        <div *ngIf="group.users.length == 0">
+                                        <div *ngIf="verifiedUser.groupUser.length == 0">
                                             <p>{{'NONE'| translate}}
                                             <p>
                                         </div>
                                     </div>
                                 </div>
-                                <div *ngIf="group.users.length != 0" class="govuk-grid-row">
+                                <div *ngIf="verifiedUser.groupUser.length != 0" class="govuk-grid-row">
                                     <div class="govuk-grid-column-full">
                                         <div class="user-table">
-                                            <app-govuk-table [headerTextKeys]="usersTableHeaders" [data]="group.users"
-                                                [dataKeys]="usersColumnsToDisplay" [useClientPagination]="true">
-                                            </app-govuk-table>
+                                            <app-govuk-table [headerTextKeys]="tableSetting.usersTableHeaders" [data]="verifiedUser.groupUser"
+                                            [dataKeys]="tableSetting.usersColumnsToDisplay" [isHyperLinkVisible]="false"
+                                            [useServerPagination]="true" [serverPageCount]="verifiedUser.pageCount"
+                                            [serverPageCurrentPage]="verifiedUser.currentPage" (changeCurrentPageEvent)="setPageApprovedUsers($event)"></app-govuk-table>
                                         </div>
                                     </div>
                                 </div>

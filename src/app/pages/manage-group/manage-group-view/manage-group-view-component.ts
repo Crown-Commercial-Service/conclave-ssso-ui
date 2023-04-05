@@ -31,8 +31,8 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   isEdit: boolean = false;
   editingGroupId: number = 0;
   routeData: any = {};
-  usersTableHeaders = ['NAME', 'EMAIL'];
-  usersColumnsToDisplay = ['name', 'userId'];
+  usersTableHeaders = ['NAME', 'EMAIL',''];
+  usersColumnsToDisplay = ['name', 'userId','isPendingApproval'];
   rolesTableHeaders = ['NAME'];
   roesColumnsToDisplay = ['name'];
   detailsData = [
@@ -92,6 +92,9 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
             f.serviceView = !this.showRoleView
           })
           this.group = group;
+          this.group.users.forEach((f:any) => {
+            f.isPendingApproval = f.isPendingApproval ? 'Pending approval for Fleet Portal' : '';
+          });
         },
         (error) => {
           console.log(error);

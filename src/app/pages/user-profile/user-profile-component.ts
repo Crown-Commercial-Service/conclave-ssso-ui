@@ -509,7 +509,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         })
       })
       localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
-
+      localStorage.setItem('user_access_name',this.userName);
     }
     this.submitPendingApproveRole(superAdminDomain === userDomain);
   }

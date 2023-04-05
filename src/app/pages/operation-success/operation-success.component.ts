@@ -12,6 +12,7 @@ import { ViewportScroller } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
+import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 
 @Component({
     selector: 'app-operation-success',
@@ -31,14 +32,18 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     userServiceColumnsToDisplay = ['accessRoleName',]
     operationEnum = OperationEnum;
     userName: string = '';
+    selectedUserName: string = '';
     isOrgAdmin: boolean = false;
+    public showRole:boolean=false
     public approveRequiredRole:any=[]
+    public pendingRoleDetails: any = []
     constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
-        protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private wrapperUserService: WrapperUserService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
         this.userName = sessionStorage.getItem(SessionStorageKey.OperationSuccessUserName) ?? '';
         this.approveRequiredRole = this.getSelectedRole(JSON.parse(localStorage.getItem('user_approved_role') || 'null' ))
+        this.selectedUserName = localStorage.getItem('user_access_name') || '';
     }
 
 
@@ -96,6 +101,7 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
                 break
         }
         this.titleService.setTitle(`Success - ${area} - CCS`);
+        this.getPendingApprovalUserRole()
     }
 
     onNavigateToProfileClick() {
@@ -109,6 +115,22 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     onNavigateToManageUserClick() {
         this.router.navigateByUrl("manage-users");
     }
+
+    async getPendingApprovalUserRole() {
+        try {
+          this.pendingRoleDetails = await this.wrapperUserService.getPendingApprovalUserRole(this.selectedUserName)
+            .toPromise();
+            this.pendingRoleDetails.forEach((pRole:any)=>{
+                this.approveRequiredRole.forEach((aRole:any)=>{
+                  if(pRole.roleName === aRole.accessRoleName){
+                      this.showRole = true
+                  }
+                })   
+              })
+        } catch (e) {
+          console.error(e);
+        }
+      }
 
     goBack():void{
         window.history.back()

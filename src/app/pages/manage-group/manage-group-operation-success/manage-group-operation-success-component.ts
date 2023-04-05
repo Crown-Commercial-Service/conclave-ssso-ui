@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { slideAnimation } from 'src/app/animations/slide.animation';
-
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { UIState } from 'src/app/store/ui.states';
 import { OperationEnum } from 'src/app/constants/enum';
@@ -11,7 +10,10 @@ import { ViewportScroller } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { environment } from 'src/environments/environment';
-import { OrganisationGroupResponseInfo } from 'src/app/models/organisationGroup';
+import {
+  OrganisationGroupResponseInfo,
+  pendingApprovalResponce,
+} from 'src/app/models/organisationGroup';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 
 @Component({
@@ -27,24 +29,28 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 })
 export class ManageGroupOperationSuccessComponent
   extends BaseComponent
-  implements OnInit
-{
-  public GroupName:string=''  
+  implements OnInit {
+  public GroupName: string = '';
   operation: OperationEnum;
   operationEnum = OperationEnum;
   isEdit: boolean = false;
   groupId: any = '';
   userCount: number = 0;
   roleCount: number = 0;
-  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
-  public accordinData:any = {
-    showAccordin1:false,
-    showAccordin2:false
-  }
-  usersTableHeaders = ['NAME', 'EMAIL'];
+  public showRoleView: boolean = environment.appSetting.hideSimplifyRole;
+  public accordinData: any = {
+    showAccordin1: false,
+    showAccordin2: false,
+  };
   public group!: OrganisationGroupResponseInfo;
-  usersColumnsToDisplay = ['name', 'userId'];
   organisationId: string;
+  pendingVerificationUser: pendingApprovalResponce;
+  verifiedUser: pendingApprovalResponce;
+  public accordionStatus=false
+  tableSetting = {
+    usersTableHeaders: ['NAME', 'EMAIL'],
+    usersColumnsToDisplay: ['name', 'userId'],
+  };
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -53,7 +59,7 @@ export class ManageGroupOperationSuccessComponent
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private orgGroupService: WrapperOrganisationGroupService,
+    private orgGroupService: WrapperOrganisationGroupService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.operation = parseInt(
@@ -68,9 +74,21 @@ export class ManageGroupOperationSuccessComponent
       this.roleCount = routeData['roleCount'] || 0;
     }
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
-    this.SharedDataService.ManageGroup.subscribe((data)=>{
-         this.GroupName=data
-    })
+    this.SharedDataService.ManageGroup.subscribe((data) => {
+      this.GroupName = data;
+    });
+    this.pendingVerificationUser = {
+      currentPage: 1,
+      pageCount: 0,
+      rowCount: 0,
+      groupUser: [],
+    };
+    this.verifiedUser = {
+      currentPage: 1,
+      pageCount: 0,
+      rowCount: 0,
+      groupUser: [],
+    };
   }
 
   ngOnInit() {
@@ -89,7 +107,7 @@ export class ManageGroupOperationSuccessComponent
         area = 'Add/Remove Users';
         break;
       case this.operationEnum.GroupRoleUpdate:
-        if(this.showRoleView){
+        if (this.showRoleView) {
           area = 'Add/Remove Roles';
         } else {
           area = 'Add or remove services';
@@ -102,7 +120,7 @@ export class ManageGroupOperationSuccessComponent
         break;
     }
     this.titleService.setTitle(`Success - ${area} - Manage Groups - CCS`);
-    this.getGroupDetails()
+    this.getListOfUserRequiredAccess();
   }
 
   onNavigateToGroupClick() {
@@ -114,35 +132,77 @@ export class ManageGroupOperationSuccessComponent
       'manage-groups/view?data=' + JSON.stringify(data)
     );
   }
-  public onNavigateTohome(){
-    this.router.navigateByUrl('/home')
-  }
-  public onNavigateTomanageGroup(){
-    this.router.navigateByUrl('/manage-groups')
-
+  public onNavigateTohome() {
+    this.router.navigateByUrl('/home');
   }
 
-  private getGroupDetails():void{
+  public onNavigateTomanageGroup() {
+    this.router.navigateByUrl('/manage-groups');
+  }
+
+  setPagePendingUsers(pageNumber: any) {
+    this.pendingVerificationUser.currentPage = pageNumber;
+    this.getListOfUserRequiredAccess();
+  }
+
+  setPageApprovedUsers(pageNumber: any) {
+    this.verifiedUser.currentPage = pageNumber;
+    this.getListOfUsersGivenAccess();
+  }
+
+  private getListOfUserRequiredAccess(): void {
     this.orgGroupService
-    .getOrganisationGroup(this.organisationId, this.groupId)
-    .subscribe(
-      (group: OrganisationGroupResponseInfo) => {
-        group.roles.forEach((f:any)=>{
-          f.serviceView = !this.showRoleView
-        })
-        this.group = group;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      .getPendingApproveOrganisationGroup(
+        this.organisationId,
+        this.groupId,
+        this.pendingVerificationUser.currentPage,
+        5,
+        true
+      )
+      .subscribe(
+        (groupData: any) => {
+          this.pendingVerificationUser = groupData;
+          this.pendingVerificationUser.pageCount = this.pendingVerificationUser.pageCount;
+          this.getListOfUsersGivenAccess();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
-  public toggleAccordion(accordin:string):void{
-    if(accordin === 'accordin1'){
-      this.accordinData.showAccordin1 = !this.accordinData.showAccordin1 
-    } else if(accordin === 'accordin2'){
-      this.accordinData.showAccordin2 = !this.accordinData.showAccordin2
+  private getListOfUsersGivenAccess(): void {
+    this.orgGroupService
+      .getPendingApproveOrganisationGroup(
+        this.organisationId,
+        this.groupId,
+        this.verifiedUser.currentPage,
+        5,
+        false
+      )
+      .subscribe(
+        (groupData: any) => {
+          this.verifiedUser = groupData;
+          this.verifiedUser.pageCount = this.verifiedUser.pageCount;
+          this.checkAccordionStatus()
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  public checkAccordionStatus(){
+    const isGroupOperation = [this.operationEnum.GroupRoleUpdate, this.operationEnum.GroupAdd].includes(this.operation);
+    const hasUsers =  this.pendingVerificationUser.groupUser.length > 0;
+    this.accordionStatus = isGroupOperation && hasUsers;
+  }
+
+  public toggleAccordion(accordin: string): void {
+    if (accordin === 'accordin1') {
+      this.accordinData.showAccordin1 = !this.accordinData.showAccordin1;
+    } else if (accordin === 'accordin2') {
+      this.accordinData.showAccordin2 = !this.accordinData.showAccordin2;
     }
   }
 }

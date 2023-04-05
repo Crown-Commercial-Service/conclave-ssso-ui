@@ -112,8 +112,6 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
                 removedRoleIds: this.removingRoles.map(rr => rr.roleId)
             }
         };
-        console.log(groupPatchRequestInfo);
-
         this.orgGroupService.patchUpdateOrganisationGroup(this.organisationId, this.editingGroupId, groupPatchRequestInfo)
             .subscribe(
                 (result) => {

@@ -84,3 +84,17 @@ export interface GroupUser {
     name: string;
     isAdmin: boolean;
 }
+
+export interface pendingApprovalResponce {
+    currentPage: number;
+    groupUser: pendingApprovalGroupRole[];
+    pageCount:number;
+    rowCount:number;
+}
+
+export interface pendingApprovalGroupRole {
+    isAdmin: boolean
+    isPendingApproval: boolean
+    name: string
+    userId: string
+}

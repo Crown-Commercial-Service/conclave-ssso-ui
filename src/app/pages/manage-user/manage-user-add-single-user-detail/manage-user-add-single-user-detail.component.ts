@@ -129,6 +129,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.state = this.router.getCurrentNavigation()?.extras.state;
     this.ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
     localStorage.removeItem('user_approved_role');
+    localStorage.removeItem('user_approved_role');
     if (queryParams.data) {
       this.subscription = this.sharedDataService.userEditDetails.subscribe((data)=>{
         this.routeData = JSON.parse(atob(queryParams.data));
@@ -584,6 +585,7 @@ export class ManageUserAddSingleUserDetailComponent
         })
       })
       localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
+      localStorage.setItem('user_access_name',this.userProfileResponseInfo.userName);
     }
   }
 
