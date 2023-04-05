@@ -67,6 +67,20 @@ export class WrapperOrganisationGroupService {
     }
   }
 
+
+  getPendingApproveOrganisationGroup(organisationId: string,groupId:number, currentPage: number, pageSize: number,isPending: boolean ): Observable<any> {
+    pageSize = pageSize <= 0 ? 10 : pageSize;
+    const url = `${this.url}/${organisationId}/groups/${groupId}/groupusers?is-pending-approval=${isPending}&currentPage=${currentPage}&pageSize=${pageSize}`;
+    return this.http.get<OrganisationGroupResponseInfo>(url).pipe(
+      map((data: OrganisationGroupResponseInfo) => {
+        return  data
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+  
+
   patchUpdateOrganisationGroup(organisationId: string, groupId: number, orgGroupPatchInfo: OrganisationGroupRequestInfo): Observable<any> {
     if (!environment.appSetting.hideSimplifyRole) {
       let serviceRoleGroupInfos = {

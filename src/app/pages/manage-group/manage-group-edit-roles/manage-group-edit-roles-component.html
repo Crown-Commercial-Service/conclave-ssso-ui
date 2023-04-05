@@ -54,7 +54,6 @@
             <fieldset class="govuk-fieldset">
                 <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgRole of roleGridSource; let i=index">
                     <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
-                        [attr.disabled]="disableRoleCheck(orgRole.roleKey)"
                         [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc" (ngModelChange)="onCheckBoxClickRow(orgRole,$event)">
                     <label *ngIf="orgRole.serviceName == null" class="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
                         for="{{'orgRoleControl_' + orgRole.roleId}}" [ngClass]="{'role_lable': showRoleView === false,'govuk-!-padding-top-0': orgRole.description != ''}">
