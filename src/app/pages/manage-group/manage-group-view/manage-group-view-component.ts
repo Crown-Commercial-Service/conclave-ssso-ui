@@ -25,14 +25,14 @@ import { environment } from 'src/environments/environment';
   ],
 })
 export class ManageGroupViewComponent extends BaseComponent implements OnInit {
-  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
+  public showRoleView: boolean = environment.appSetting.hideSimplifyRole
   organisationId: string;
   group: OrganisationGroupResponseInfo;
   isEdit: boolean = false;
   editingGroupId: number = 0;
   routeData: any = {};
-  usersTableHeaders = ['NAME', 'EMAIL',''];
-  usersColumnsToDisplay = ['name', 'userId','isPendingApproval'];
+  usersTableHeaders = ['NAME', 'EMAIL', ''];
+  usersColumnsToDisplay = ['name', 'userId', 'userPendingRoleStaus'];
   rolesTableHeaders = ['NAME'];
   roesColumnsToDisplay = ['name'];
   detailsData = [
@@ -49,7 +49,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     private orgGroupService: WrapperOrganisationGroupService,
     private locationStrategy: LocationStrategy,
     private titleService: Title,
-    private SharedDataService:SharedDataService
+    private SharedDataService: SharedDataService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.group = {
@@ -58,7 +58,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       groupName: '',
       roles: [],
       users: [],
-      serviceRoleGroups:[]
+      serviceRoleGroups: []
     };
     let queryParams = this.activatedRoute.snapshot.queryParams;
     let state = this.router.getCurrentNavigation()?.extras.state;
@@ -88,12 +88,12 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       .getOrganisationGroup(this.organisationId, this.editingGroupId)
       .subscribe(
         (group: OrganisationGroupResponseInfo) => {
-          group.roles.forEach((f:any)=>{
+          group.roles.forEach((f: any) => {
             f.serviceView = !this.showRoleView
           })
           this.group = group;
-          this.group.users.forEach((f:any) => {
-            f.isPendingApproval = f.isPendingApproval ? 'Pending approval for Fleet Portal' : '';
+          this.group.users.forEach((f: any) => {
+            f.userPendingRoleStaus = this.getUserPendingRoleStausMessage(f.userPendingRoleStaus);
           });
         },
         (error) => {
@@ -120,7 +120,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       isEdit: this.isEdit,
       groupId: this.editingGroupId,
       roleIds: roleIds,
-      groupName:this.group.groupName
+      groupName: this.group.groupName
     };
     this.router.navigateByUrl(
       'manage-groups/edit-roles?data=' + JSON.stringify(data)
@@ -159,6 +159,16 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     let formData = state.formData;
 
     this.router.navigateByUrl(`${routeUrl}`, { state: formData || {} });
+  }
+
+  getUserPendingRoleStausMessage(userPendingRoleStaus: any) {
+    if (userPendingRoleStaus === 0) {
+      return 'Pending approval for Fleet Portal';
+    }
+    if ([2, 3, 4].includes(userPendingRoleStaus)) {
+      return 'Access denied for Fleet Portal';
+    }
+    return '';
   }
 
   clearSessionStorageGroupUserData() {
