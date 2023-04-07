@@ -45,43 +45,13 @@
                             <a class="navigation-text" id="accordion-default-heading-1" href="javascript:void(0)" (click)="toggleAccordion('accordin1')">
                             List of users who were given access to Fleet Portal 
                             </a>
-                            <a class="accordian-count navigation-text" href="javascript:void(0)"  (click)="toggleAccordion('accordin1')">{{accordinData.showAccordin1 == false ? 'show all' :  'hide all'}} ({{pendingVerificationUser.rowCount}})</a>
+                            <a class="accordian-count navigation-text" href="javascript:void(0)"  (click)="toggleAccordion('accordin1')">{{accordinData.showAccordin1 == false ? 'show all' :  'hide all'}} ({{verifiedUser.rowCount}})</a>
                         </div>
                         <div id="accordion-default-content-1" *ngIf="accordinData.showAccordin1" class="govuk-accordion__section-content-custom">
                             <div>
                                 <div class="govuk-grid-row">
                                     <div class="govuk-grid-column-two-thirds">
                                         <div *ngIf="pendingVerificationUser.groupUser.length == 0">
-                                            <p>{{'NONE'| translate}}
-                                            <p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div *ngIf="pendingVerificationUser.groupUser.length != 0" class="govuk-grid-row">
-                                    <div class="govuk-grid-column-full">
-                                        <div class="user-table">
-                                            <app-govuk-table [headerTextKeys]="tableSetting.usersTableHeaders" [data]="pendingVerificationUser.groupUser"
-                                            [dataKeys]="tableSetting.usersColumnsToDisplay" [isHyperLinkVisible]="false"
-                                            [useServerPagination]="true" [serverPageCount]="pendingVerificationUser.pageCount"
-                                            [serverPageCurrentPage]="pendingVerificationUser.currentPage" (changeCurrentPageEvent)="setPagePendingUsers($event)"></app-govuk-table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="govuk-accordion__section_custom  govuk-!-margin-bottom-7">
-                        <div class="govuk-accordion__section-heading-custom" *ngIf="accordionStatus">
-                            <a class="navigation-text" id="accordion-default-heading-1" href="javascript:void(0)" (click)="toggleAccordion('accordin2')"  >
-                                List of users who required additional verification for Fleet Portal access
-                            </a>
-                            <a class="accordian-count navigation-text" href="javascript:void(0)"  (click)="toggleAccordion('accordin2')">{{accordinData.showAccordin2 == false ? 'show all' :  'hide all'}} ({{verifiedUser.rowCount}})</a>
-                        </div>
-                        <div id="accordion-default-content-2" *ngIf="accordinData.showAccordin2"  class="govuk-accordion__section-content-custom">
-                            <div>
-                                <div class="govuk-grid-row">
-                                    <div class="govuk-grid-column-two-thirds">
-                                        <div *ngIf="verifiedUser.groupUser.length == 0">
                                             <p>{{'NONE'| translate}}
                                             <p>
                                         </div>
@@ -94,6 +64,36 @@
                                             [dataKeys]="tableSetting.usersColumnsToDisplay" [isHyperLinkVisible]="false"
                                             [useServerPagination]="true" [serverPageCount]="verifiedUser.pageCount"
                                             [serverPageCurrentPage]="verifiedUser.currentPage" (changeCurrentPageEvent)="setPageApprovedUsers($event)"></app-govuk-table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="govuk-accordion__section_custom  govuk-!-margin-bottom-7">
+                        <div class="govuk-accordion__section-heading-custom" *ngIf="accordionStatus">
+                            <a class="navigation-text" id="accordion-default-heading-1" href="javascript:void(0)" (click)="toggleAccordion('accordin2')"  >
+                                List of users who required additional verification for Fleet Portal access
+                            </a>
+                            <a class="accordian-count navigation-text" href="javascript:void(0)"  (click)="toggleAccordion('accordin2')">{{accordinData.showAccordin2 == false ? 'show all' :  'hide all'}} ({{pendingVerificationUser.rowCount}})</a>
+                        </div>
+                        <div id="accordion-default-content-2" *ngIf="accordinData.showAccordin2"  class="govuk-accordion__section-content-custom">
+                            <div>
+                                <div class="govuk-grid-row">
+                                    <div class="govuk-grid-column-two-thirds">
+                                        <div *ngIf="verifiedUser.groupUser.length == 0">
+                                            <p>{{'NONE'| translate}}
+                                            <p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="pendingVerificationUser.groupUser.length != 0" class="govuk-grid-row">
+                                    <div class="govuk-grid-column-full">
+                                        <div class="user-table">
+                                            <app-govuk-table [headerTextKeys]="tableSetting.usersTableHeaders" [data]="pendingVerificationUser.groupUser"
+                                            [dataKeys]="tableSetting.usersColumnsToDisplay" [isHyperLinkVisible]="false"
+                                            [useServerPagination]="true" [serverPageCount]="pendingVerificationUser.pageCount"
+                                            [serverPageCurrentPage]="pendingVerificationUser.currentPage" (changeCurrentPageEvent)="setPagePendingUsers($event)"></app-govuk-table>
                                         </div>
                                     </div>
                                 </div>

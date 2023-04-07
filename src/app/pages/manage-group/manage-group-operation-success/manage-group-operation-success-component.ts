@@ -193,7 +193,7 @@ export class ManageGroupOperationSuccessComponent
   }
 
   public checkAccordionStatus(){
-    const isGroupOperation = [this.operationEnum.GroupRoleUpdate, this.operationEnum.GroupAdd].includes(this.operation);
+    const isGroupOperation = [this.operationEnum.GroupRoleUpdate, this.operationEnum.GroupAdd,this.operationEnum.GroupUserUpdate].includes(this.operation);
     const hasUsers =  this.pendingVerificationUser.groupUser.length > 0;
     this.accordionStatus = isGroupOperation && hasUsers;
   }
