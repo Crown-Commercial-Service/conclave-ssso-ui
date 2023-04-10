@@ -117,18 +117,20 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     }
 
     async getPendingApprovalUserRole() {
-        try {
-          this.pendingRoleDetails = await this.wrapperUserService.getPendingApprovalUserRole(this.selectedUserName)
-            .toPromise();
-            this.pendingRoleDetails.forEach((pRole:any)=>{
-                this.approveRequiredRole.forEach((aRole:any)=>{
-                  if(pRole.roleName === aRole.accessRoleName){
-                      this.showRole = true
-                  }
-                })   
-              })
-        } catch (e) {
-          console.error(e);
+        if(this.selectedUserName){
+            try {
+                this.pendingRoleDetails = await this.wrapperUserService.getPendingApprovalUserRole(this.selectedUserName)
+                  .toPromise();
+                  this.pendingRoleDetails.forEach((pRole:any)=>{
+                      this.approveRequiredRole.forEach((aRole:any)=>{
+                        if(pRole.roleName === aRole.accessRoleName){
+                            this.showRole = true
+                        }
+                      })   
+                    })
+              } catch (e) {
+                console.error(e);
+              }
         }
       }
 
