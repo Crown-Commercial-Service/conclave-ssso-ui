@@ -197,6 +197,7 @@ import { SuccessOrgServiceComponent } from './pages/buyer/success-org-service/su
 import { ManageGroupErrorComponent } from './pages/manage-group/manage-group-error/manage-group-error.component';
 import { VerifyUserComponent } from './pages/manage-user/verify-user/verify-user.component';
 import { VerifyUserStatusComponent } from './pages/manage-user/verify-user-status/verify-user-status.component';
+import { DataMigrationUploadComponent } from './pages/data-migration/data-migration-upload/data-migration-upload.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -359,7 +360,8 @@ export function createTranslateLoader(http: HttpClient) {
     SuccessOrgServiceComponent,
     ManageGroupErrorComponent,
     VerifyUserComponent,
-    VerifyUserStatusComponent
+    VerifyUserStatusComponent,
+    DataMigrationUploadComponent
   ],
   imports: [
     // BrowserModule,
