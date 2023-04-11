@@ -198,6 +198,9 @@ import { ManageGroupErrorComponent } from './pages/manage-group/manage-group-err
 import { VerifyUserComponent } from './pages/manage-user/verify-user/verify-user.component';
 import { VerifyUserStatusComponent } from './pages/manage-user/verify-user-status/verify-user-status.component';
 import { DataMigrationUploadComponent } from './pages/data-migration/data-migration-upload/data-migration-upload.component';
+import { DataMigrationSummaryComponent } from './pages/data-migration/data-migration-summary/data-migration-summary.component';
+import { DataMigrationErrorComponent } from './pages/data-migration/data-migration-error/data-migration-error.component';
+import { DataMigrationStatusComponent } from './pages/data-migration/data-migration-status/data-migration-status.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -361,7 +364,10 @@ export function createTranslateLoader(http: HttpClient) {
     ManageGroupErrorComponent,
     VerifyUserComponent,
     VerifyUserStatusComponent,
-    DataMigrationUploadComponent
+    DataMigrationUploadComponent,
+    DataMigrationSummaryComponent,
+    DataMigrationErrorComponent,
+    DataMigrationStatusComponent
   ],
   imports: [
     // BrowserModule,

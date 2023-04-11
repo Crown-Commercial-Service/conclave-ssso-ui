@@ -145,6 +145,7 @@ import { ConfirmOrgServiceComponent } from './pages/buyer/confirm-org-service/co
 import { SuccessOrgServiceComponent } from './pages/buyer/success-org-service/success-org-service.component';
 import { VerifyUserComponent } from './pages/manage-user/verify-user/verify-user.component';
 import { VerifyUserStatusComponent } from './pages/manage-user/verify-user-status/verify-user-status.component';
+import { DataMigrationUploadComponent } from './pages/data-migration/data-migration-upload/data-migration-upload.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1176,6 +1177,12 @@ const routes: Routes = [
     data: { roles: ['MANAGE_SUBSCRIPTIONS'] },
     canActivate: [AuthGuard, RoleGuard],
     component: BuyerBothErrorComponent,
+  },
+  {
+    path: 'data-migration/upload',
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    component: DataMigrationUploadComponent,
   },
   {
     path: 'terms-of-use',

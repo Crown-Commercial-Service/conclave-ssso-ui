@@ -372,5 +372,9 @@
   "CONFIRM_EMAIL":"Confirm email address",
   "NOTIFICATION_SENT":"Notification sent",
   "DUP_ORG":"Duplicate organisations",
-  "ACCESS_TO_USER":"Select the services that this user needs access to."
+  "ACCESS_TO_USER":"Select the services that this user needs access to.",
+  "DATA_MIGRATION":"Data migration",
+  "DATA_MIGRATION_DESC":"Use this page to upload a data migration document. The document must be an CSV",
+  "HISTORY_UPLOAD":"History of uploads"
+  
 }
