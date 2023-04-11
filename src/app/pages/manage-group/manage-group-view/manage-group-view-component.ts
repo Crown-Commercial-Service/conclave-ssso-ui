@@ -32,7 +32,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   editingGroupId: number = 0;
   routeData: any = {};
   usersTableHeaders = ['NAME', 'EMAIL', ''];
-  usersColumnsToDisplay = ['name', 'userId', 'userPendingRoleStaus'];
+  usersColumnsToDisplay = ['name', 'userId', 'userPendingRoleStatus'];
   rolesTableHeaders = ['NAME'];
   roesColumnsToDisplay = ['name'];
   detailsData = [
@@ -93,7 +93,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
           })
           this.group = group;
           this.group.users.forEach((f: any) => {
-            f.userPendingRoleStaus = this.getUserPendingRoleStausMessage(f.userPendingRoleStaus);
+            f.userPendingRoleStatus = this.getUserPendingRoleStatusMessage(f.userPendingRoleStatus);
           });
         },
         (error) => {
@@ -161,11 +161,11 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(`${routeUrl}`, { state: formData || {} });
   }
 
-  getUserPendingRoleStausMessage(userPendingRoleStaus: any) {
-    if (userPendingRoleStaus === 0) {
+  getUserPendingRoleStatusMessage(userPendingRoleStatus: any) {
+    if (userPendingRoleStatus === 0) {
       return 'Pending approval for Fleet Portal';
     }
-    if ([2, 3, 4].includes(userPendingRoleStaus)) {
+    if ([2, 3, 4].includes(userPendingRoleStatus)) {
       return 'Access denied for Fleet Portal';
     }
     return '';
