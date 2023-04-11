@@ -129,7 +129,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.state = this.router.getCurrentNavigation()?.extras.state;
     this.ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
     localStorage.removeItem('user_approved_role');
-    localStorage.removeItem('user_approved_role');
+    localStorage.removeItem('user_access_name');
     if (queryParams.data) {
       this.subscription = this.sharedDataService.userEditDetails.subscribe((data)=>{
         this.routeData = JSON.parse(atob(queryParams.data));
@@ -381,15 +381,6 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
 
-  // ngAfterViewChecked() {
-  //     if (!this.errorLinkClicked) {
-  //         // This additional check has been done to avoid always scrolling to error summary because ngAfterViewChecked is triggered with dynamic form controls
-  //         this.scrollHelper.doScroll();
-  //     } else {
-  //         this.errorLinkClicked = false;
-  //     }
-  // }
-
   scrollToAnchor(elementId: string): void {
     this.errorLinkClicked = true; // Making the errorLinkClicked true to avoid scrolling to the error-summary
     this.viewportScroller.scrollToAnchor(elementId);
@@ -585,7 +576,7 @@ export class ManageUserAddSingleUserDetailComponent
         })
       })
       localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
-      localStorage.setItem('user_access_name',this.userProfileResponseInfo.userName);
+      localStorage.setItem('user_access_name',this.userProfileRequestInfo.userName);
     }
   }
 
