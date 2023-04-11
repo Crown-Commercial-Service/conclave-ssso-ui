@@ -92,7 +92,7 @@ export interface pendingApprovalResponce {
 
 export interface pendingApprovalGroupRole {
   isAdmin: boolean;
-  userPendingRoleStaus: number;
+  userPendingRoleStatus: number;
   name: string;
   userId: string;
 }
