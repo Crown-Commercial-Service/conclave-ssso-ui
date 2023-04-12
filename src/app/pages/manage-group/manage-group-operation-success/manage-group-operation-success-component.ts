@@ -120,8 +120,16 @@ export class ManageGroupOperationSuccessComponent
         break;
     }
     this.titleService.setTitle(`Success - ${area} - Manage Groups - CCS`);
-    this.getListOfUserRequiredAccess();
+    this.getUserList()
   }
+
+  getUserList(){
+    const isGroupOperation = [this.operationEnum.GroupRoleUpdate, this.operationEnum.GroupAdd,this.operationEnum.GroupUserUpdate].includes(this.operation);
+    if(isGroupOperation){
+      this.getListOfUserRequiredAccess();
+    }
+  }
+
 
   onNavigateToGroupClick() {
     let data = {
