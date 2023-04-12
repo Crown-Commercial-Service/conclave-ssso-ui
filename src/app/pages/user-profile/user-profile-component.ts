@@ -33,8 +33,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   submitted!: boolean;
   formGroup!: FormGroup;
-  userGroupTableHeaders = ['GROUPS'];
-  userGroupColumnsToDisplay = ['group'];
+  userGroupTableHeaders = ['GROUPS','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'];
+  userGroupColumnsToDisplay = ['group','','','','','','','','','','','','','','','',''];
   userServiceTableHeaders = ['NAME'];
   userRoleTableHeaders = ['ROLES', 'SERVICE'];
   userServiceColumnsToDisplay = ['accessRoleName',]
