@@ -1,5 +1,25 @@
-<div class="content flex" [@slide]="(sideNavVisible$ | async) ? 'close' : 'open'">
     <div *ngIf="operation === operationEnum.PasswordChanged">
+        <div class="govuk-breadcrumbs">
+            <ol class="govuk-breadcrumbs__list">
+                <li class="govuk-breadcrumbs__list-item">
+                    <a *ngIf="this.isOrgAdmin" class="govuk-breadcrumbs__link" routerLink="/home">
+                        {{ 'ADMINISTRATOR_DASHBOARD' | translate }}
+                    </a>
+                    <a *ngIf="!this.isOrgAdmin" class="govuk-breadcrumbs__link" routerLink="/home">
+                        {{"PUBLIC_PROCUREMENT_GATEWAY_DASHBOARD" | translate}}
+                    </a>
+                </li>
+                <li class="govuk-breadcrumbs__list-item">
+                  <a class="govuk-breadcrumbs__link" routerLink="/profile">{{ 'MANAGE_MY_ACCOUNT' | translate }}</a>
+              </li>
+                <li class="govuk-breadcrumbs__list-item">
+                    <a (click)="goBack()" class="govuk-breadcrumbs__link" href="javascript:;"> {{ 'CHANGE_PASSWORD_BTN' | translate }}</a>
+                </li>
+                <li class="govuk-breadcrumbs__list-item">
+                    <span  class="govuk-breadcrumbs__link">Error</span>
+                </li>
+            </ol>
+        </div>
         <p class="govuk-body-l">{{ 'AUTH_FAILED_FRO_PASSWORD_CHANGE' | translate }}</p>
         <a href="javascript:;" class="navigation-text" (click)="onNavigateToSignInClick()"> {{ 'SING_IN_AGAIN' | translate }} </a>
     </div>
@@ -10,4 +30,3 @@
         }}</a>
     </div>
     <br>
-</div>

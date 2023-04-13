@@ -8,7 +8,8 @@
                             {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="goToDelegatedAccessPage()" routerLink="/delegated-access">
+                        <a class="govuk-breadcrumbs__link" (click)="goToDelegatedAccessPage()"
+                            routerLink="/delegated-access">
                             Delegated access</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="UserStatus.status != '003'">
@@ -22,7 +23,7 @@
             </div>
             <h1 class="govuk-heading-xl page-title header-bread-align">{{UserStatus.header}}</h1>
             <div>
-                <p  class="govuk-body-l">
+                <p class="govuk-body-l">
                     {{UserStatus.Description}}
                 </p>
             </div>
@@ -142,31 +143,44 @@
                             <div id="waste-hint" class="govuk-hint">
                                 You cannot edit permissions for user with expired delegated access
                             </div>
-                            <div class="govuk-checkboxes__item"
-                                *ngFor="let orgRole of roleDataList; let i=index">
-                                <input class="govuk-checkboxes__input" 
-                                    id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                    [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
-                                    value="hmrc" [attr.disabled]="true" >
-                                <label *ngIf="orgRole.serviceName == null"
-                                    class="govuk-label govuk-checkboxes__label"
-                                    for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                    {{orgRole.accessRoleName}}
-                                </label>
-                                <label *ngIf="orgRole.serviceName != null"
-                                    class="govuk-label govuk-checkboxes__label"
-                                    for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                    {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
-                                </label>
+                            <div *ngIf="hideSimplifyRole">
+                                <div class="govuk-checkboxes__item" *ngFor="let orgRole of roleDataList; let i=index">
+                                    <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                        [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                        value="hmrc" [attr.disabled]="true">
+                                    <label *ngIf="orgRole.serviceName == null"
+                                        class="govuk-label govuk-checkboxes__label"
+                                        for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                        {{orgRole.accessRoleName}}
+                                    </label>
+                                    <label *ngIf="orgRole.serviceName != null"
+                                        class="govuk-label govuk-checkboxes__label"
+                                        for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                        {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div *ngIf="!hideSimplifyRole">
+                                <div class="govuk-checkboxes__item" *ngFor="let orgRole of roleDataList; let i=index">
+                                    <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                        [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                        value="hmrc" [attr.disabled]="true">
+                                    <label class="govuk-label govuk-checkboxes__label role_lable"
+                                       [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}" 
+                                        for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                        {{orgRole.accessRoleName}}
+                                    </label>
+                                    <p class="govuk-body description_para">{{orgRole.description}}</p>
+                                </div>
                             </div>
                         </fieldset>
                     </div>
                     <!-- user permission -->
 
-                <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                    (click)="Back()">
-                    Back
-                </button>
+                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                        (click)="Back()">
+                        Back
+                    </button>
                 </form>
             </div>
             <div class="govuk-button-group save-cancel-button-group" *ngIf="UserStatus.status != '003'">
