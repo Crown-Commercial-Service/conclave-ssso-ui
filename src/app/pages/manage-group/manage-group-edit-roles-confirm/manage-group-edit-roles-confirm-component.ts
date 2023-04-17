@@ -89,20 +89,16 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
     }
 
 
-    private chanageIndexValue(roles:Role,index:number){
-     if(this.removingRoles.length != 0){
-        let removeRole = this.removingRoles.find((f)=> f.roleKey === roles.roleKey)
-        if(removeRole != undefined){
-         this.removingOrderdRoles.push(removeRole)
+    private chanageIndexValue(roles: Role, index: number): void {
+        const removeRole = this.removingRoles.find((r) => r.roleKey === roles.roleKey);
+        const addRole = this.addingRoles.find((r) => r.roleKey === roles.roleKey);
+        if (removeRole) {
+          this.removingOrderdRoles.push(removeRole);
         }
-     }   
-     if(this.addingRoles.length != 0){
-        let addingRole = this.addingRoles.find((f)=> f.roleKey === roles.roleKey)
-        if(addingRole != undefined){
-         this.addingOrderRoles.push(addingRole)
+        if (addRole) {
+          this.addingOrderRoles.push(addRole);
         }
-     }  
-    }
+      }
 
 
     onConfirmClick() {

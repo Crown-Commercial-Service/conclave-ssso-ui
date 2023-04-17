@@ -124,7 +124,7 @@ export class ManageGroupOperationSuccessComponent
   }
 
   getUserList(){
-    const isGroupOperation = [this.operationEnum.GroupRoleUpdate, this.operationEnum.GroupAdd,this.operationEnum.GroupUserUpdate].includes(this.operation);
+    const isGroupOperation = this.isGroupOperation()
     if(isGroupOperation){
       this.getListOfUserRequiredAccess();
     }
@@ -201,9 +201,13 @@ export class ManageGroupOperationSuccessComponent
   }
 
   public checkAccordionStatus(){
-    const isGroupOperation = [this.operationEnum.GroupRoleUpdate, this.operationEnum.GroupAdd,this.operationEnum.GroupUserUpdate].includes(this.operation);
+    const isGroupOperation = this.isGroupOperation()
     const hasUsers =  this.pendingVerificationUser.groupUser.length > 0;
     this.accordionStatus = isGroupOperation && hasUsers;
+  }
+
+  private isGroupOperation(){
+    return [this.operationEnum.GroupRoleUpdate, this.operationEnum.GroupAdd,this.operationEnum.GroupUserUpdate].includes(this.operation);
   }
 
   public toggleAccordion(accordin: string): void {
