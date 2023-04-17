@@ -91,21 +91,22 @@ export class DataMigrationUploadComponent implements OnInit {
   }
 
   onContinueClick() {
-      this.submitted = true;
-      this.resetError();
-      if (this.validateFile()) {
-          // this.submitted = false;
-          this.bulkUploadService.uploadFile(this.organisationId, this.file).subscribe({
-              next: (response: BulkUploadResponse) => {
-                  this.router.navigateByUrl(`manage-users/bulk-users/status/${response.id}`);
-              },
-              error: (err) => {
-                  if (err.error == 'INVALID_BULKUPLOAD_FILE_TYPE') {
-                      this.errorInvalidFileFormat = true;
-                  }
-              }
-          });
-      }
+    this.router.navigateByUrl(`data-migration/status`);
+    //   this.submitted = true;
+    //   this.resetError();
+    //   if (this.validateFile()) {
+    //       // this.submitted = false;
+    //       this.bulkUploadService.uploadFile(this.organisationId, this.file).subscribe({
+    //           next: (response: BulkUploadResponse) => {
+    //               this.router.navigateByUrl(`manage-users/bulk-users/status/${response.id}`);
+    //           },
+    //           error: (err) => {
+    //               if (err.error == 'INVALID_BULKUPLOAD_FILE_TYPE') {
+    //                   this.errorInvalidFileFormat = true;
+    //               }
+    //           }
+    //       });
+    //   }
   }
 
   validateFile() {

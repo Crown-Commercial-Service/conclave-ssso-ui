@@ -146,6 +146,8 @@ import { SuccessOrgServiceComponent } from './pages/buyer/success-org-service/su
 import { VerifyUserComponent } from './pages/manage-user/verify-user/verify-user.component';
 import { VerifyUserStatusComponent } from './pages/manage-user/verify-user-status/verify-user-status.component';
 import { DataMigrationUploadComponent } from './pages/data-migration/data-migration-upload/data-migration-upload.component';
+import { DataMigrationStatusComponent } from './pages/data-migration/data-migration-status/data-migration-status.component';
+import { DataMigrationErrorComponent } from './pages/data-migration/data-migration-error/data-migration-error.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1183,6 +1185,18 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard],
     component: DataMigrationUploadComponent,
+  },
+  {
+    path: 'data-migration/status',
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    component: DataMigrationStatusComponent,
+  },
+  {
+    path: 'data-migration/error',
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    component: DataMigrationErrorComponent,
   },
   {
     path: 'terms-of-use',

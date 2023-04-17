@@ -1,1 +1,28 @@
-<p>data-migration-status works!</p>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-breadcrumbs">
+            <ol class="govuk-breadcrumbs__list">
+                <li class="govuk-breadcrumbs__list-item">
+                    <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                        }}</a>
+                </li>
+                <li class="govuk-breadcrumbs__list-item">
+                    <a class="govuk-breadcrumbs__link" routerLink="/data-migration/upload">{{ 'DATA_MIGRATION' | translate
+                        }}</a>
+                </li>
+                <li class="govuk-breadcrumbs__list-item">
+                    <span class="govuk-breadcrumbs__link"> {{ 'FILE_VALIDATION' | translate }}</span>
+                </li>
+            </ol>
+        </div>
+        <h1 class="govuk-heading-xl page-title">{{ 'FILE_VALIDATION_HEADING' | translate }}</h1>
+        <p class="govuk-body-l">{{ 'FILE_VALIDATION_DES' |
+            translate }}</p>
+
+            <a href="javascript:;"  class="navigation-text" >
+                Return to Data Migration</a>
+                <br><br>
+                <a href="javascript:;"  class="navigation-text" >
+                    Return to dashboard</a>      
+    </div>
+</div>

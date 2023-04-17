@@ -13,10 +13,8 @@
         </div>
 
         <h1 class="govuk-heading-xl page-title">{{ 'DATA_MIGRATION' | translate }}</h1>
-
-        <h2 class="govuk-heading-m page-title">{{ 'DATA_MIGRATION_DESC' |
-            translate }}</h2>
-
+            <p class="govuk-body-l">{{ 'DATA_MIGRATION_DESC' |
+                translate }}</p>
         <div class="govuk-error-summary form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
             id="error-summary" data-module="govuk-error-summary"
             *ngIf="(errorRequired || errorInvalidFileFormat || errorServer || fileSizeExceedError) && submitted">

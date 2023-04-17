@@ -375,6 +375,10 @@
   "ACCESS_TO_USER":"Select the services that this user needs access to.",
   "DATA_MIGRATION":"Data migration",
   "DATA_MIGRATION_DESC":"Use this page to upload a data migration document. The document must be an CSV",
-  "HISTORY_UPLOAD":"History of uploads"
-  
+  "HISTORY_UPLOAD":"History of uploads",
+  "FILE_VALIDATION":"File validation",
+  "FILE_VALIDATION_HEADING":"file validation for data migration",
+  "FILE_VALIDATION_DES":"The file that you have uploaded is now being validated. You will be notified via email when validation is completed. You can also check the status onn Data Migration page.",
+  "DATA_MIGRATION_ERROR_SUMMARY":"Errors summary",
+  "DATA_MIGRATION_ERROR_SUMMARY_HEADING":"Data Migration - errors summary"
 }
