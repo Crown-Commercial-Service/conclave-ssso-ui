@@ -33,8 +33,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   submitted!: boolean;
   formGroup!: FormGroup;
-  userGroupTableHeaders = ['GROUPS'];
-  userGroupColumnsToDisplay = ['group'];
+  userGroupTableHeaders = ['GROUPS','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'];
+  userGroupColumnsToDisplay = ['group','','','','','','','','','','','','','','','',''];
   userServiceTableHeaders = ['NAME'];
   userRoleTableHeaders = ['ROLES', 'SERVICE'];
   userServiceColumnsToDisplay = ['accessRoleName',]
@@ -509,7 +509,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         })
       })
       localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
-
+      localStorage.setItem('user_access_name',this.userName);
     }
     this.submitPendingApproveRole(superAdminDomain === userDomain);
   }
