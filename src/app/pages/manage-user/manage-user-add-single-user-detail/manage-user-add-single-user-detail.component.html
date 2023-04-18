@@ -159,7 +159,11 @@
                             </div>
                         </fieldset>
                     </div>
+                    <app-accordion [headerTextKeys]="groupsMember.headerTextKey" [data]="groupsMember.data" [isAdmin]="groupsMember.isAdmin"
+                    (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
 
+                    <app-accordion [headerTextKeys]="noneGroupsMember.headerTextKey" [data]="noneGroupsMember.data" [isAdmin]="noneGroupsMember.isAdmin"
+                    (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
                     <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">

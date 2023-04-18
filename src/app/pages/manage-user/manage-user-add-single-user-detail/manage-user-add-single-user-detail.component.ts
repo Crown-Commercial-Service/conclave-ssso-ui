@@ -64,6 +64,99 @@ export class ManageUserAddSingleUserDetailComponent
   public pendingRoleDetails: any = []
   public selectedApproveRequiredRole: any = []
   public pendingRoledeleteDetails: any = []
+  public groupsMember = {
+    isAdmin:true,
+    headerTextKey: "Groups this user is a member of",
+    data: [
+       {
+      "groupId": 8,
+      "checked":true,
+      "createdDate": "06 Jan 2023",
+      "serviceRoleGroups": [
+          {
+              "id": 14,
+              "name": "Organisation Administrator",
+              "description": "Administrator of as organisation",
+               "isPendingApproval":true
+          },
+          {
+              "id": 15,
+              "name": "Organisation User",
+              "description": "Default user of an organisation"
+          }
+      ],
+      "groupName": "admingroup"
+  },  
+  
+  {
+    "groupId": 17,
+    "createdDate": "05 Apr 2023",
+    "checked":true,
+    "serviceRoleGroups": [
+        {
+            "id": 29,
+            "name": "DigiTS",
+            "description": ""
+        }
+    ],
+    "groupName": "digitgroup"
+},
+{
+    "groupId": 16,
+    "createdDate": "04 Apr 2023",
+    "checked":false,
+    "serviceRoleGroups": [
+        {
+            "id": 11,
+            "name": "Fleet Portal",
+            "description": "A self-service system where customers can obtain live pricing quotes for either purchasing or leasing standard build cars and light commercial vehicles."
+        },
+        {
+            "id": 26,
+            "name": "SSO Client",
+            "description": ""
+        }
+    ],
+    "groupName": "GroupWIthFleetRole"
+}
+   ]
+  }
+  public noneGroupsMember = {
+    isAdmin:true,
+    headerTextKey: "Groups this user is not a member of ",
+    data: [
+       {
+      "groupId": 88,
+      "createdDate": "06 Jan 2023",
+      "serviceRoleGroups": [
+          {
+              "id": 14,
+              "name": "Organisation Administrator",
+              "description": "Administrator of as organisation"
+          },
+          {
+              "id": 15,
+              "name": "Organisation User",
+              "description": "Default user of an organisation"
+          }
+      ],
+      "groupName": "admingroup"
+  },  
+  
+  {
+    "groupId": 173,
+    "createdDate": "05 Apr 2023",
+    "serviceRoleGroups": [
+        {
+            "id": 29,
+            "name": "DigiTS",
+            "description": ""
+        }
+    ],
+    "groupName": "digitgroup"
+},
+   ]
+  }
   public detailsData: any = [
     'Add additional security steps to make an account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
     'Groups allow you to manage large numbers of users all at once. Services can be applied to groups to organise user’s more efficiently and allow bulk access to relevant services where it is required.',
@@ -866,5 +959,20 @@ export class ManageUserAddSingleUserDetailComponent
         return null
      }
 
+  }
+
+
+  public groupsMemberCheckBoxAddRoles(data:Role){
+    console.log("checkBoxAddRoles",data)
+  }
+  public groupsMemberCheckBoxRemoveRoles(data:Role){
+    console.log("checkBoxRemoveRoles",data)
+  }
+
+  public noneGroupsMemberCheckBoxAddRoles(data:Role){
+    console.log("noneGroupsMemberCheckBoxAddRoles",data)
+  }
+  public noneGroupsMemberCheckBoxRemoveRoles(data:Role){
+    console.log("noneGroupsMemberCheckBoxRemoveRoles",data)
   }
 }

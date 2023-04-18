@@ -1,0 +1,66 @@
+<div class="admin_table" *ngIf="isAdmin">
+    <table class="govuk-table" *ngIf="data.length > 0; else noData">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header border-bottom-0">{{headerTextKeys}}</th>
+                <th scope="col" class="govuk-table__header border-bottom-0 govuk-text-align-right">
+                    <p class="govuk-body"><a href="javascript:;" class="govuk-link" (click)="onTopToggle()">{{groupShow ==
+                            true ? 'hide all assigned' : (groupShow == false ? 'show all unassigned' : '')}}
+                            ({{data.length}})</a></p>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="govuk-table__body border-top-1" *ngIf="groupShow">
+            <tr class="govuk-table__row" *ngFor="let groupdata of data ; let i=index">
+                <th scope="row" class="govuk-table__header">
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="{{'orgGroupControl_' + groupdata.groupId}}"
+                                name="{{'orgGroupControl_' + groupdata.groupId}}" type="checkbox" value="true"
+                                [(ngModel)]="groupdata.checked" (click)="onCheckBoxClick(groupdata,groupdata.checked)">
+                            <label
+                                class="govuk-label govuk-checkboxes__label govuk-!-margin-bottom-2 govuk-!-margin-left-4 govuk-link"
+                                for="{{'groupdata' + groupdata.groupId}}">
+                                <a href="javascript:;" class="govuk-link">{{groupdata.groupName}}</a>
+                            </label>
+                            <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-6" id="{{groupdata.groupId}}"
+                                style="display: none;">
+                                <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}} 
+                                    <strong *ngIf="orgRole.isPendingApproval === true"> - Pending approval</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </th>
+                <td class="govuk-table__cell govuk-text-align-right"><a href="javascript:;" class="govuk-link"
+                        (click)="onBottomToggle(groupdata.groupId)">{{getElementStatus(groupdata.groupId)}}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-template #noData>
+        <div>
+            <fieldset class="gov_uk_fieldset">
+                <strong class="custom_strong">{{headerTextKeys}}</strong>
+                <br>
+                <br>
+                <span class="none_span">None</span>
+            </fieldset>
+        </div>
+    </ng-template>
+</div>
+<div class="admin_table" *ngIf="!isAdmin">
+    <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Group name</th>
+            <th scope="col" class="govuk-table__header"></th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <td scope="row" class="govuk-table__header" *ngFor="let groupdata of data ; let i=index">{{groupdata.groupName}}</td>
+            <td scope="col" class="govuk-table__header"><a href="javascript:;" class="govuk-link">Show services</a></td>
+          </tr>
+        </tbody>
+      </table>
+</div>

@@ -1,0 +1,28 @@
+.govuk-list--bullet {
+    padding-left: 35px;
+    list-style-type: disc;
+}
+.border-bottom-0 {
+    border-bottom: 0;
+}
+
+.border-top-1 {
+    border-top: 1px solid #b1b4b6;
+}
+.govuk-table__header.govuk-text-align-right,.govuk-table__cell.govuk-text-align-right {
+    text-align: right;
+}
+.custom_strong {
+    font-weight: 700;
+    font-family: "GDS Transport", arial, sans-serif;
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+}
+.none_span {
+    font-size: 1.1875rem;
+    line-height: 1.3157894737; 
+}
+.gov_uk_fieldset {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
