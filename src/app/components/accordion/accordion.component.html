@@ -49,7 +49,7 @@
     </ng-template>
 </div>
 <div class="admin_table" *ngIf="!isAdmin">
-    <table class="govuk-table">
+      <table class="govuk-table">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">Group name</th>
@@ -57,9 +57,15 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <tr class="govuk-table__row">
-            <td scope="row" class="govuk-table__header" *ngFor="let groupdata of data ; let i=index">{{groupdata.groupName}}</td>
-            <td scope="col" class="govuk-table__header"><a href="javascript:;" class="govuk-link">Show services</a></td>
+          <tr class="govuk-table__row" *ngFor="let groupdata of data ; let i=index">
+            <th scope="row" class="govuk-table__header">{{groupdata.groupName}}
+                <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-4" id="{{groupdata.groupId}}" style="display: none;">
+                  <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}} 
+                    <strong *ngIf="orgRole.isPendingApproval === true"> - Pending approval</strong>
+                  </li>
+                </ul>
+            </th>
+            <td class="govuk-table__cell govuk-text-align-right"><a href="javascript:;" class="govuk-link" (click)="toggleRoleForUser(groupdata.groupId)">{{getElementStatus(groupdata.groupId)}}</a></td>
           </tr>
         </tbody>
       </table>

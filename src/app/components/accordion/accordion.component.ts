@@ -41,4 +41,9 @@ export class AccordionComponent implements OnInit, OnChanges {
     const eventName = checkValue ? 'checkBoxRemoveRoles' : 'checkBoxAddRoles';
     this[eventName].emit(data);
   }
+
+  public toggleRoleForUser(id: string):void{
+    const el: any = document.getElementById(id);
+    el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+  }
 }
