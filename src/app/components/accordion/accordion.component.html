@@ -24,7 +24,7 @@
                             <label
                                 class="govuk-label govuk-checkboxes__label govuk-!-margin-bottom-2 govuk-!-margin-left-4 govuk-link"
                                 for="{{'groupdata' + groupdata.groupId}}">
-                                <a href="javascript:;" class="govuk-link">{{groupdata[headerTextKeys]}}</a>
+                                <a href="javascript:;" class="govuk-link" (click)="goToEditGroup(groupdata.groupId)">{{groupdata[headerTextKeys]}}</a>
                             </label>
                             <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-6" id="{{groupdata.groupId}}"
                                 style="display: none;">

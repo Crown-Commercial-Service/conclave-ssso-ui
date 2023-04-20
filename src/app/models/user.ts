@@ -148,5 +148,6 @@ export interface userGroupTableDetail {
     headerTextKey: string
     headerText:string,
     accessTable:string
+    groupShow:boolean
     data:any[]
 }

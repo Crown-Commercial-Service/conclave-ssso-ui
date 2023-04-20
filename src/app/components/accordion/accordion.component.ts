@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-accordion',
@@ -12,14 +13,14 @@ export class AccordionComponent implements OnInit, OnChanges {
   @Input() headerTextKeys!: string
   @Input() isAdmin!: boolean
   @Input() accessTable!: string
+  @Input() groupShow!: boolean
   @Output() checkBoxRemoveRoles = new EventEmitter<any>();
   @Output() checkBoxAddRoles = new EventEmitter<any>();
 
-  public groupShow: boolean = false;
-  constructor() { }
+  // public groupShow: boolean = false;
+  constructor(private router: Router) { }
 
   ngOnChanges(): void {
-    console.log("data",this.data)
   }
 
   ngOnInit(): void {
@@ -47,5 +48,15 @@ export class AccordionComponent implements OnInit, OnChanges {
   public toggleRoleForUser(id: string):void{
     const el: any = document.getElementById(id);
     el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+  }
+
+  public goToEditGroup(groupId:any){
+      let data = {
+      isEdit: false,
+      groupId: groupId,
+      accessFrom: "users",
+      isUserAccess: true
+    };
+    window.open( 'manage-groups/view?data=' + JSON.stringify(data));
   }
 }
