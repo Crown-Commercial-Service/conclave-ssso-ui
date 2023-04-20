@@ -1,4 +1,5 @@
 export interface Group {
+  checked ?: boolean;
   groupId: number;
   mfaEnabled: boolean;
   groupName: string;

@@ -8,8 +8,10 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 export class AccordionComponent implements OnInit, OnChanges {
 
   @Input() data!: any[];
+  @Input() headerText!: string
   @Input() headerTextKeys!: string
   @Input() isAdmin!: boolean
+  @Input() accessTable!: string
   @Output() checkBoxRemoveRoles = new EventEmitter<any>();
   @Output() checkBoxAddRoles = new EventEmitter<any>();
 
@@ -17,7 +19,7 @@ export class AccordionComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnChanges(): void {
-    console.log("isAdmin",this.isAdmin)
+    console.log("data",this.data)
   }
 
   ngOnInit(): void {

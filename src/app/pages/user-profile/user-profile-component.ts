@@ -60,6 +60,10 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     'fax',
     'webUrl',
   ];
+  public tabConfig = {
+    userservices: true,
+    groupservices: false
+  }
   public detailsData: any = [];
   public isAdminUser: boolean = false;
   userGroups: UserGroup[] = [];
@@ -634,5 +638,15 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
      } else {
         return null
      }
+  }
+
+  public tabChanged(activetab: string): void {
+    if (activetab === 'userservices') {
+      this.tabConfig.userservices = true
+      this.tabConfig.groupservices = false
+    } else {
+      this.tabConfig.groupservices = true
+      this.tabConfig.userservices = false
+    }
   }
 }
