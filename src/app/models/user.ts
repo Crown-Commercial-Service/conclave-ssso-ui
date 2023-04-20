@@ -143,3 +143,10 @@ export interface acceptRejectRequestDetail {
     pendingRoleIds : []
     status: number
 }
+export interface userGroupTableDetail {
+    isAdmin : boolean
+    headerTextKey: string
+    headerText:string,
+    accessTable:string
+    data:any[]
+}

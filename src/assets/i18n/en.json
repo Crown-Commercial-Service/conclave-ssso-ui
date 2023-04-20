@@ -372,5 +372,8 @@
   "CONFIRM_EMAIL":"Confirm email address",
   "NOTIFICATION_SENT":"Notification sent",
   "DUP_ORG":"Duplicate organisations",
-  "ACCESS_TO_USER":"Select the services that this user needs access to."
+  "ACCESS_TO_USER":"Select the services that this user needs access to.",
+  "ACCESS_TO_USER_SERVICE": "Select the services that this user needs access to as an individual, rather than through their membership of a group.",
+  "ACCESS_TO_GROUP_SEVICE": "This user has access to the following services through their membership of one or more groups. You can manage group membership, and access to services, through the dashboard.",
+  "ACCESS_TO_USER_ROLE": "Select the services that this user needs access to. You can also view the services that this user has access to through their membership of any groups."
 }
