@@ -71,13 +71,15 @@ export class ManageUserAddSingleUserDetailComponent
     headerText: "Groups this user is a member of",
     headerTextKey: "groupName",
     accessTable:"groupsMember",
+    groupShow:true,
     data: [],
   }
   public noneGroupsMember:userGroupTableDetail = {
     isAdmin:true,
     headerText: "Groups this user is not a member of",
     headerTextKey: "groupName",
-    accessTable:"noneGroupsMember", 
+    accessTable:"noneGroupsMember",
+    groupShow:false,
     data: []
   }
   public detailsData: any = [
@@ -329,8 +331,15 @@ export class ManageUserAddSingleUserDetailComponent
     for (const group of this.orgGroups) {
       const isGroupOfUser:any = this.userProfileResponseInfo?.detail?.userGroups?.find((ug) => ug.groupId === group.groupId);
       if(isGroupOfUser){
-        console.log("isGroupOfUser",isGroupOfUser)
-        console.log("isGroupOfUser",isGroupOfUser)
+        if(isGroupOfUser.approvalStatus === 0){
+         const pendingApproveRole = group?.serviceRoleGroups?.find((pg:any)=>pg.id === isGroupOfUser.accessServiceRoleGroupId)
+         group.serviceRoleGroups.map((fc:any)=>{
+         if(pendingApproveRole.id === fc.id){
+          fc.isPendingApproval = true
+          fc = pendingApproveRole
+         }
+         })
+        }
         group.checked = true
         this.groupsMember.data.push(group)
         this.selectedGroupCheckboxes.push(group.groupId)

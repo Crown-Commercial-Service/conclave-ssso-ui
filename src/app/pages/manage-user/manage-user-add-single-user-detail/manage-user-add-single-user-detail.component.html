@@ -163,11 +163,14 @@
                         <legend class="govuk-heading-s">
                             {{ 'GROUPS'| translate }} (Optional)
                         </legend>
+                        <app-details [detailsData]="detailsData[1]"></app-details>
                     </fieldset>
-                    <app-accordion [headerTextKeys]="groupsMember.headerTextKey" [headerText]="groupsMember.headerText" [accessTable]="groupsMember.accessTable" [data]="groupsMember.data" [isAdmin]="groupsMember.isAdmin"
+                    <app-accordion [headerTextKeys]="groupsMember.headerTextKey" [headerText]="groupsMember.headerText" [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
+                     [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow"
                     (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)" ></app-accordion>
 
-                    <app-accordion [headerTextKeys]="noneGroupsMember.headerTextKey" [headerText]="noneGroupsMember.headerText"  [accessTable]="noneGroupsMember.accessTable" [data]="noneGroupsMember.data" [isAdmin]="noneGroupsMember.isAdmin"
+                    <app-accordion [headerTextKeys]="noneGroupsMember.headerTextKey" [headerText]="noneGroupsMember.headerText"  [accessTable]="noneGroupsMember.accessTable" [data]="noneGroupsMember.data" 
+                    [isAdmin]="noneGroupsMember.isAdmin" [groupShow]="noneGroupsMember.groupShow"
                     (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
                     <!-- <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">
