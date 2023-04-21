@@ -68,7 +68,7 @@ export class ManageUserAddSingleUserDetailComponent
   public selectedGroupCheckboxes: any[] = [];
   public groupsMember:userGroupTableDetail = {
     isAdmin:true,
-    headerText: "Groups this user is a member of",
+    headerText: "Groups assigned",
     headerTextKey: "groupName",
     accessTable:"groupsMember",
     groupShow:true,
@@ -76,7 +76,7 @@ export class ManageUserAddSingleUserDetailComponent
   }
   public noneGroupsMember:userGroupTableDetail = {
     isAdmin:true,
-    headerText: "Groups this user is not a member of",
+    headerText: "Groups unassigned",
     headerTextKey: "groupName",
     accessTable:"noneGroupsMember",
     groupShow:false,
@@ -331,16 +331,22 @@ export class ManageUserAddSingleUserDetailComponent
     for (const group of this.orgGroups) {
       const isGroupOfUser:any = this.userProfileResponseInfo?.detail?.userGroups?.find((ug) => ug.groupId === group.groupId);
       if(isGroupOfUser){
-        if(isGroupOfUser.approvalStatus === 0){
-         const pendingApproveRole = group?.serviceRoleGroups?.find((pg:any)=>pg.id === isGroupOfUser.accessServiceRoleGroupId)
-         group.serviceRoleGroups.map((fc:any)=>{
-         if(pendingApproveRole.id === fc.id){
-          fc.isPendingApproval = true
-          fc = pendingApproveRole
-         }
-         })
-        }
+        // if(isGroupOfUser.approvalStatus === 0){
+        //  const pendingApproveRole = group?.serviceRoleGroups?.find((pg:any)=>pg.id === isGroupOfUser.accessServiceRoleGroupId)
+        //  group.serviceRoleGroups.map((fc:any)=>{
+        //  if(pendingApproveRole.id === fc.id){
+        //   fc.isPendingApproval = true
+        //   fc = pendingApproveRole
+        //  }
+        //  })
+        // }
+        group.serviceRoleGroups.map((fc:any)=>{
+          var serviceGroupApprovalDetails:any = this.userProfileResponseInfo?.detail?.userGroups?.find((ug: any) => ug.groupId === group.groupId && ug.accessServiceRoleGroupId === fc.id);
+          fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
+        });
+        
         group.checked = true
+        group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
         this.groupsMember.data.push(group)
         this.selectedGroupCheckboxes.push(group.groupId)
       } else {
@@ -921,5 +927,5 @@ export class ManageUserAddSingleUserDetailComponent
       this.tabConfig.userservices = false
     }
   }
-
+  
 }

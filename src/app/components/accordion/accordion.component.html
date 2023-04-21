@@ -30,11 +30,11 @@
                                 style="display: none;">
                                 <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleData">
                                     <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}} 
-                                        <strong *ngIf="orgRole.isPendingApproval === true"> - Pending approval</strong>
+                                        <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
                                     </li>
                                 </span>
                                 <ng-template #noRoleData>
-                                    <li > None </li>
+                                    This user does not have access to any service through their membership of this group
                                 </ng-template>
                             </ul>
                         </div>
@@ -53,6 +53,7 @@
                 <br>
                 <!-- <span class="none_span">None</span> -->
                 <span *ngIf="accessTable === 'groupsMember'" class="none_span">This user is not member of any group.</span>
+                <span *ngIf="accessTable === 'noneGroupsMember'" class="none_span">There are no unassigned groups for this user.</span>
             </fieldset>
         </div>
     </ng-template>
@@ -69,10 +70,10 @@
           <tr class="govuk-table__row" *ngFor="let groupdata of data ; let i=index">
             <th scope="row" class="govuk-table__header">{{groupdata[headerTextKeys]}}
                 <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-4" id="{{groupdata.groupId}}" style="display: none;">
-                  <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}} 
-                    <strong *ngIf="orgRole.isPendingApproval === true"> - Pending approval</strong>
-                  </li>
-                </ul>
+                    <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}} 
+                      <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
+                    </li>
+                  </ul>
             </th>
             <td class="govuk-table__cell govuk-text-align-right"><a href="javascript:;" class="govuk-link" (click)="toggleRoleForUser(groupdata.groupId)">{{getElementStatus(groupdata.groupId)}}</a></td>
           </tr>
