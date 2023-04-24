@@ -229,25 +229,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
           description: 'Manage delegated access to your approved services',
           route: '/delegated-access',
         });
-<<<<<<< HEAD
-        
-    this.systemModules.push({
-      name: 'Data Migration',
-      description: 'Migrate data',
-      route: '/data-migration/upload',
-    });
-    
-    }
-    // if (e.permissionName === 'MANAGE_SIGN_IN_PROVIDERS') {
-    //   if (this.systemModules.findIndex(x => x.name === 'Manage sign in providers') === -1) {
-    //     this.systemModules.push({ name: 'Manage sign in providers', description: 'Add and manage sign in providers', route: '/' });
-    //   }
-    // }
-=======
       }
     }
     
->>>>>>> fe0402ebac72dbc43fc6d87ed7a7cffa9e24c6bd
     if (e.permissionName === 'MANAGE_SUBSCRIPTIONS') {
       if (
         this.otherModules.findIndex(
