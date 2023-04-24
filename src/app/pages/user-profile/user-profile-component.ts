@@ -670,7 +670,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           console.log('orgUserGroupRoles', this.orgUserGroupRoles);
         });
       } else {
-        this.noneGroupsMember.data.push(group)
+        if (this.isAdminUser) {
+          this.noneGroupsMember.data.push(group)
+        }
       }
     }
     this.groupsMember.isAdmin = this.isAdminUser;
@@ -719,39 +721,4 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
   }
 
-  // async getOrgGroups() {
-  //   const orgGrpList = await this.orgGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise<GroupList>();
-  //   this.orgGroups = orgGrpList.groupList;
-  //   for (const group of this.orgGroups) {
-  //     const isGroupOfUser: any = this.userGroups?.find((ug) => ug.groupId === group.groupId);
-  //     if (isGroupOfUser) {
-  //       group.serviceRoleGroups.map((fc: any) => {
-  //         var serviceGroupApprovalDetails: any = this.userGroups?.find((ug: any) => ug.groupId === group.groupId && ug.accessServiceRoleGroupId === fc.id);
-  //         fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
-  //       });
-  //       group.checked = true;
-  //       group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
-  //       // let userGroup = {
-  //       //   approvalStatus: group.approvalStatus,
-  //       //   description: "Users can access services assigned to them by administrators.",
-  //       //   id: 6,
-  //       //   name: "Organisation User",
-  //       //   serviceView: true
-  //       // };
-  //       this.groupsMember.data.push(group);
-  //       console.log('Group', group);
-  //       group.serviceRoleGroups.forEach((element: any) => {
-  //         let groupRoles = this.orgUserGroupRoles.filter(e => { return e.id == element.id });
-  //         if (groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus == 1)) {
-  //           element.serviceView = true;
-  //           this.orgUserGroupRoles.push(element);
-  //         }
-  //         console.log('groupRole', element);
-  //         console.log('orgUserGroupRoles', this.orgUserGroupRoles);
-  //       });
-
-  //     }
-  //   }
-
-  // }
 }

@@ -57,7 +57,6 @@
                 <strong class="custom_strong">{{headerText}}</strong>
                 <br>
                 <br>
-                <!-- <span class="none_span">None</span> -->
                 <span *ngIf="accessTable === 'groupsMember'" class="none_span">
                     {{!noDataGroupsMemberMessage? 'This user is not
                     member of any group.':noDataGroupsMemberMessage}}</span>
@@ -71,7 +70,7 @@
     </ng-template>
 </div>
 <div class="admin_table" *ngIf="!isAdmin">
-    <table class="govuk-table">
+    <table class="govuk-table" *ngIf="data.length > 0; else noDataIsNotAdmin">
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
                 <th scope="col" class="govuk-table__header">Group name</th>
@@ -83,9 +82,15 @@
                 <th scope="row" class="govuk-table__header">{{groupdata[headerTextKeys]}}
                     <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-4" id="{{groupdata.groupId}}"
                         style="display: none;">
-                        <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}}
-                            <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
-                        </li>
+                        <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleDataIsNotAdmin">
+                            <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}}
+                                <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
+                            </li>
+                        </span>
+                        <ng-template #noRoleDataIsNotAdmin>
+                            {{!noRoleMessage? 'This user does not have access to any service through
+                            their membership of this group.':noRoleMessage}}
+                        </ng-template>
                     </ul>
                 </th>
                 <td class="govuk-table__cell govuk-text-align-right"><a href="javascript:;" class="govuk-link"
@@ -93,4 +98,16 @@
             </tr>
         </tbody>
     </table>
+    <ng-template #noDataIsNotAdmin>
+        <div>
+            <fieldset class="gov_uk_fieldset">
+                <strong class="custom_strong">{{headerText}}</strong>
+                <br>
+                <br>
+                <span *ngIf="accessTable === 'groupsMember'" class="none_span">
+                    {{!noDataGroupsMemberMessage? 'This user is not
+                    member of any group.':noDataGroupsMemberMessage}}</span>
+            </fieldset>
+        </div>
+    </ng-template>
 </div>
