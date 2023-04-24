@@ -14,8 +14,15 @@ export class AccordionComponent implements OnInit, OnChanges {
   @Input() isAdmin!: boolean
   @Input() accessTable!: string
   @Input() groupShow!: boolean
+
+  @Input() noRoleMessage!: string
+  @Input() noDataGroupsMemberMessage!: string
+  @Input() noDatanoneGroupsMemberMessage!: string
+
+
   @Output() checkBoxRemoveRoles = new EventEmitter<any>();
   @Output() checkBoxAddRoles = new EventEmitter<any>();
+
 
   // public groupShow: boolean = false;
   constructor(private router: Router) { }
@@ -45,18 +52,18 @@ export class AccordionComponent implements OnInit, OnChanges {
     this[eventName].emit(data);
   }
 
-  public toggleRoleForUser(id: string):void{
+  public toggleRoleForUser(id: string): void {
     const el: any = document.getElementById(id);
     el.style.display = (el.style.display === 'block') ? 'none' : 'block';
   }
 
-  public goToEditGroup(groupId:any){
-      let data = {
+  public goToEditGroup(groupId: any) {
+    let data = {
       isEdit: false,
       groupId: groupId,
       accessFrom: "users",
       isUserAccess: true
     };
-    window.open( 'manage-groups/view?data=' + JSON.stringify(data));
+    window.open('manage-groups/view?data=' + JSON.stringify(data));
   }
 }
