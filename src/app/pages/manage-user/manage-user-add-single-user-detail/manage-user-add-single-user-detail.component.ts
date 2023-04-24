@@ -900,18 +900,23 @@ export class ManageUserAddSingleUserDetailComponent
 
   public groupsMemberCheckBoxAddRoles(data:any){
     this.selectedGroupCheckboxes.push(data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
+      
   }
 
   public groupsMemberCheckBoxRemoveRoles(data:any){
-    this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes,data.groupId)
+    this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes,data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
   }
 
   public noneGroupsMemberCheckBoxAddRoles(data:any){
-      this.selectedGroupCheckboxes.push(data.groupId);
+    this.selectedGroupCheckboxes.push(data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
     } 
   
   public noneGroupsMemberCheckBoxRemoveRoles(data:any){
-    this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes,data.groupId)
+    this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes,data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
   }
 
   private removeObjectById(arr:any, id:any) {
@@ -927,5 +932,19 @@ export class ManageUserAddSingleUserDetailComponent
       this.tabConfig.userservices = false
     }
   }
-  
+
+  public IsChangeInGroupSelection(responseGroups: any): void
+  {
+    var isSelectedAndResponseGroupsSame = !this.selectedGroupCheckboxes.every((groupId: any) => responseGroups.includes(groupId));
+    var isResponseGroupsSame = !responseGroups.every((groupId: any) => this.selectedGroupCheckboxes.includes(groupId));
+    if(isSelectedAndResponseGroupsSame || isResponseGroupsSame)
+    { 
+      this.formChanged = true;
+    }
+    else
+    {
+      this.formChanged = false;
+    }
+  }
+
 }
