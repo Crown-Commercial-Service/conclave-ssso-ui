@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { LocationStrategy, ViewportScroller } from '@angular/common';
 import { UIState } from 'src/app/store/ui.states';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserEditResponseInfo, UserGroup, userGroupTableDetail, UserProfileRequestInfo } from 'src/app/models/user';
+import { UserEditResponseInfo, UserGroup, UserProfileRequestInfo, userGroupTableDetail } from 'src/app/models/user';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { WrapperUserContactService } from 'src/app/services/wrapper/wrapper-user-contact.service';
 import {
@@ -35,7 +35,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   formGroup!: FormGroup;
   userServiceTableHeaders = ['NAME'];
   userRoleTableHeaders = ['ROLES', 'SERVICE'];
+  userServiceGroupTableHeaders = ['NAME'];
   userServiceColumnsToDisplay = ['accessRoleName',]
+  userServiceGroupColumnsToDisplay = [
+    'name'
+  ];
   userRoleColumnsToDisplay = [
     'accessRoleName',
     'serviceName',
@@ -86,6 +90,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   private adminRoleKey: string = 'ORG_ADMINISTRATOR';
   public selectedGroupCheckboxes: any[] = [];
   public orgGroups: Group[] = [];
+  public orgUserGroupRoles: any[] = [];
 
   public groupsMember: userGroupTableDetail = {
     isAdmin: false,
@@ -141,6 +146,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.locationStrategy.onPopState(() => {
       this.onCancelClick();
     });
+    this.orgGroups = [];
   }
 
   async ngOnInit() {
@@ -187,7 +193,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
     await this.getApprovalRequriedRoles()
     await this.getPendingApprovalUserRole();
-    await this.getOrgDetails()
+    await this.getOrgDetails();
+    //await this.getOrgGroups();
     await this.orgGroupService
       .getOrganisationRoles(this.organisationId)
       .toPromise()
@@ -651,6 +658,17 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
         this.groupsMember.data.push(group)
         this.selectedGroupCheckboxes.push(group.groupId)
+
+        console.log('Group', group);
+        group.serviceRoleGroups.forEach((element: any) => {
+          let groupRoles = this.orgUserGroupRoles.filter(e => { return e.id == element.id });
+          if (groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus == 1)) {
+            element.serviceView = true;
+            this.orgUserGroupRoles.push(element);
+          }
+          console.log('groupRole', element);
+          console.log('orgUserGroupRoles', this.orgUserGroupRoles);
+        });
       } else {
         this.noneGroupsMember.data.push(group)
       }
@@ -700,4 +718,40 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.tabConfig.userservices = false
     }
   }
+
+  // async getOrgGroups() {
+  //   const orgGrpList = await this.orgGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise<GroupList>();
+  //   this.orgGroups = orgGrpList.groupList;
+  //   for (const group of this.orgGroups) {
+  //     const isGroupOfUser: any = this.userGroups?.find((ug) => ug.groupId === group.groupId);
+  //     if (isGroupOfUser) {
+  //       group.serviceRoleGroups.map((fc: any) => {
+  //         var serviceGroupApprovalDetails: any = this.userGroups?.find((ug: any) => ug.groupId === group.groupId && ug.accessServiceRoleGroupId === fc.id);
+  //         fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
+  //       });
+  //       group.checked = true;
+  //       group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
+  //       // let userGroup = {
+  //       //   approvalStatus: group.approvalStatus,
+  //       //   description: "Users can access services assigned to them by administrators.",
+  //       //   id: 6,
+  //       //   name: "Organisation User",
+  //       //   serviceView: true
+  //       // };
+  //       this.groupsMember.data.push(group);
+  //       console.log('Group', group);
+  //       group.serviceRoleGroups.forEach((element: any) => {
+  //         let groupRoles = this.orgUserGroupRoles.filter(e => { return e.id == element.id });
+  //         if (groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus == 1)) {
+  //           element.serviceView = true;
+  //           this.orgUserGroupRoles.push(element);
+  //         }
+  //         console.log('groupRole', element);
+  //         console.log('orgUserGroupRoles', this.orgUserGroupRoles);
+  //       });
+
+  //     }
+  //   }
+
+  // }
 }

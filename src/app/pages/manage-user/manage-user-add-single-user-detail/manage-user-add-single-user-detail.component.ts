@@ -66,6 +66,7 @@ export class ManageUserAddSingleUserDetailComponent
   public selectedApproveRequiredRole: any = []
   public pendingRoledeleteDetails: any = []
   public selectedGroupCheckboxes: any[] = [];
+  public orgUserGroupRoles:any[] = [];
   public groupsMember:userGroupTableDetail = {
     isAdmin:true,
     headerText: "Groups assigned",
@@ -166,6 +167,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.allIdps = [];
     this.approveRequiredRole = []
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
+    this.orgUserGroupRoles = [];
     this.userProfileRequestInfo = {
       organisationId: this.organisationId,
       title: 'undefined',
@@ -346,9 +348,18 @@ export class ManageUserAddSingleUserDetailComponent
         });
         
         group.checked = true
-        group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
+        group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);        
         this.groupsMember.data.push(group)
         this.selectedGroupCheckboxes.push(group.groupId)
+        console.log('Group', group);
+        group.serviceRoleGroups.forEach((element: any) => {
+          let groupRoles = this.orgUserGroupRoles.filter(e=> { return e.id == element.id});
+          if(groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus ==1)){
+            this.orgUserGroupRoles.push(element);
+          }
+          console.log('groupRole', element);
+          console.log('orgUserGroupRoles', this.orgUserGroupRoles);
+        });
       } else {
         this.noneGroupsMember.data.push(group)
       }
@@ -900,18 +911,23 @@ export class ManageUserAddSingleUserDetailComponent
 
   public groupsMemberCheckBoxAddRoles(data:any){
     this.selectedGroupCheckboxes.push(data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
+      
   }
 
   public groupsMemberCheckBoxRemoveRoles(data:any){
-    this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes,data.groupId)
+    this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes,data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
   }
 
   public noneGroupsMemberCheckBoxAddRoles(data:any){
-      this.selectedGroupCheckboxes.push(data.groupId);
+    this.selectedGroupCheckboxes.push(data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
     } 
   
   public noneGroupsMemberCheckBoxRemoveRoles(data:any){
-    this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes,data.groupId)
+    this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes,data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
   }
 
   private removeObjectById(arr:any, id:any) {
@@ -927,5 +943,19 @@ export class ManageUserAddSingleUserDetailComponent
       this.tabConfig.userservices = false
     }
   }
-  
+
+  public IsChangeInGroupSelection(responseGroups: any): void
+  {
+    var isSelectedAndResponseGroupsSame = !this.selectedGroupCheckboxes.every((groupId: any) => responseGroups.includes(groupId));
+    var isResponseGroupsSame = !responseGroups.every((groupId: any) => this.selectedGroupCheckboxes.includes(groupId));
+    if(isSelectedAndResponseGroupsSame || isResponseGroupsSame)
+    { 
+      this.formChanged = true;
+    }
+    else
+    {
+      this.formChanged = false;
+    }
+  }
+
 }
