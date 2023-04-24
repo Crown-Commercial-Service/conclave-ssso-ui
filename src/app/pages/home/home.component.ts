@@ -222,11 +222,14 @@ export class HomeComponent extends BaseComponent implements OnInit {
     }
 
     if (e.permissionName === 'DELEGATED_ACCESS' && this.isDelegation) {
+      if( this.systemModules.findIndex((x) => x.name === 'Delegated access') ===
+      -1) {
         this.systemModules.push({
           name: 'Delegated access',
           description: 'Manage delegated access to your approved services',
           route: '/delegated-access',
         });
+<<<<<<< HEAD
         
     this.systemModules.push({
       name: 'Data Migration',
@@ -240,6 +243,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
     //     this.systemModules.push({ name: 'Manage sign in providers', description: 'Add and manage sign in providers', route: '/' });
     //   }
     // }
+=======
+      }
+    }
+    
+>>>>>>> fe0402ebac72dbc43fc6d87ed7a7cffa9e24c6bd
     if (e.permissionName === 'MANAGE_SUBSCRIPTIONS') {
       if (
         this.otherModules.findIndex(
