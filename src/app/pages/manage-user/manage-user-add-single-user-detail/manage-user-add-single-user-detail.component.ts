@@ -240,10 +240,25 @@ export class ManageUserAddSingleUserDetailComponent
       await this.getOrgRoles();
       await this.getIdentityProviders();
       this.onFormValueChange();
+      this.patchAdminMailData()
     }
     this.MFA_Enabled = this.formGroup.controls.mfaEnabled.value;
   }
 
+   private patchAdminMailData(){
+    if(this.routeData.isCreatedByAdmin === true){
+      this.formGroup.controls['firstName'].setValue(
+        this.routeData.firstName
+      );
+      this.formGroup.controls['lastName'].setValue(
+        this.routeData.lastName
+      );
+      this.formGroup.controls['userName'].setValue(
+        this.routeData.userName
+      );
+    }
+   }
+   
   async getIdentityProviders() {
     let masterIdps = await this.configWrapperService.getIdentityProviders().toPromise().catch();
     this.identityProviders = await this.organisationGroupService.getOrganisationIdentityProviders(this.organisationId).toPromise();
@@ -253,7 +268,6 @@ export class ManageUserAddSingleUserDetailComponent
       let anyOrganisationIdp = this.identityProviders.find((x: any) => x.connectionName === idp.connectionName);
       if (anyOrganisationIdp) {
         idp.id = anyOrganisationIdp.id;
-
         if (this.isEdit) {
           let havingIdp: boolean | any = true;
           havingIdp = this.userProfileResponseInfo.detail.identityProviders?.some((userIdp) => userIdp.identityProviderId == idp.id);

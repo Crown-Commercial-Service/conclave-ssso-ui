@@ -195,6 +195,8 @@ import { UpdateOrgServiceComponent } from './pages/buyer/update-org-service/upda
 import { ConfirmOrgServiceComponent } from './pages/buyer/confirm-org-service/confirm-org-service.component';
 import { SuccessOrgServiceComponent } from './pages/buyer/success-org-service/success-org-service.component';
 import { ManageGroupErrorComponent } from './pages/manage-group/manage-group-error/manage-group-error.component';
+import { VerifyUserComponent } from './pages/manage-user/verify-user/verify-user.component';
+import { VerifyUserStatusComponent } from './pages/manage-user/verify-user-status/verify-user-status.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -355,7 +357,9 @@ export function createTranslateLoader(http: HttpClient) {
     UpdateOrgServiceComponent,
     ConfirmOrgServiceComponent,
     SuccessOrgServiceComponent,
-    ManageGroupErrorComponent
+    ManageGroupErrorComponent,
+    VerifyUserComponent,
+    VerifyUserStatusComponent
   ],
   imports: [
     // BrowserModule,
