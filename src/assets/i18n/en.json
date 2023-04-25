@@ -381,5 +381,6 @@
   "ORG_USER_GROUP_ACCESS": "You have access to the following services through your membership of one or more groups.",
   "ORG_USER_GROUP_ACCESS_NONE": "You do not have access to any service through your membership of a group.",
   "ORG_ADMIN_GROUP_ACCESS": "You have access to the following services through your membership of one or more groups. You can manage group membership, and access to services, through the dashboard.",
-  "ORG_ADMIN_GROUP_ACCESS_NONE": "You do not have access to any service through your membership of a group. You can manage group membership, and access to services, through the dashboard."
+  "ORG_ADMIN_GROUP_ACCESS_NONE": "You do not have access to any service through your membership of a group. You can manage group membership, and access to services, through the dashboard.",
+  "PENDING_LABEL" : "Pending Approval"
 }
