@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - 'sandbox'
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create tag and release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
+        with:
+          tag_name: v${{ github.event.pull_request.head.sha }}
+          release_name: Release v${{ github.event.pull_request.head.sha }}
+          body: |
+            This is an automatic release for the PR merge of ${{
+            github.event.pull_request.title }}.
+
+            Changes:
+            - ${{
+            join(github.event.pull_request.commits.*.message, "\n- ") }}
+          draft: false
+          prerelease: false
