@@ -247,6 +247,8 @@ export class ViewVerifiedOrgComponent implements OnInit {
       return selecedScheme?.schemeName;
     } else if (schema === 'GB-CCS') {
       return 'Internal Identifier';
+    } else if (schema === 'GB-PPG') {
+      return 'Public Procurement Organisation Number';
     } else {
       return '';
     }
