@@ -171,12 +171,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         this.identityProviderDisplayName = 'User ID and password'
       }
       this.userGroups = user.detail.userGroups || [];
-      this.userGroups = this.userGroups.filter(
-        (group, index, self) =>
-          self.findIndex(
-            (t) => t.groupId === group.groupId && t.group === group.group
-          ) === index
-      );
+
       if (this.routeStateData != undefined) {
         this.formGroup.setValue({
           firstName: this.routeStateData.firstName,
