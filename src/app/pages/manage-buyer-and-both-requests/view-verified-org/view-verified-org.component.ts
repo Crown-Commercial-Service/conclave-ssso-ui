@@ -254,6 +254,27 @@ export class ViewVerifiedOrgComponent implements OnInit {
     }
   }
 
+  public getId(id:string, schema: string): string {
+    let selecedScheme = this.schemeData.find(s => s.scheme === schema);
+    if(selecedScheme?.schemeName) {
+      return id;
+    }
+    else if (schema === 'GB-PPG') {
+      return this.convertIdToHyphenId(id);
+    }
+    else {
+      return id;
+    }
+  }
+
+  public convertIdToHyphenId(id:string): string {    
+    if (id != null)  {
+      return [id.slice(0, 3), '-', id.slice(3,6), '-', id.slice(6,9)].join('')
+    }
+    return id;
+  }
+
+
   public nevigateViewEdit() {
     let data = {
       companyHouseId: this.registries.identifier?.id,
