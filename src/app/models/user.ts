@@ -70,8 +70,8 @@ export interface ServicePermissionInfo {
     name: string;
     key: string;
     id: number,
-    serviceClientId ?: string;
-    serviceClientName ?: string;
+    serviceClientId?: string;
+    serviceClientName?: string;
 }
 
 export interface UserProfileRequestInfo extends UserDetail {
@@ -132,22 +132,25 @@ export interface OrgUserListResponse extends PaginationInfo {
 
 export interface PendingApproveRole {
     userName: string;
-    detail : PendingApproveRoleDetail
+    detail: PendingApproveRoleDetail
 }
 
 export interface PendingApproveRoleDetail {
-    roleIds : []
+    roleIds: []
 }
 
 export interface acceptRejectRequestDetail {
-    pendingRoleIds : []
+    pendingRoleIds: []
     status: number
 }
 export interface userGroupTableDetail {
-    isAdmin : boolean
+    isAdmin: boolean
     headerTextKey: string
-    headerText:string,
-    accessTable:string
-    groupShow:boolean
-    data:any[]
+    headerText: string,
+    accessTable: string
+    groupShow: boolean
+    noRoleMessage?: string | any
+    noDataGroupsMemberMessage?: string | any
+    noDatanoneGroupsMemberMessage?: string | any
+    data: any[]
 }
