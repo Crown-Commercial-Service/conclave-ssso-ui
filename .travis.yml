@@ -22,6 +22,7 @@ deploy:
 before_install:
 - sh env.sh
 - cat src/environments/environment.ts
+- sh release.sh
 before_deploy:
   - echo "install cloudfoundry cli"
   - wget  -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
