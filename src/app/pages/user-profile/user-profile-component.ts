@@ -287,7 +287,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                   accessRoleName: orgRole.roleName,
                   serviceName: orgRole.serviceName,
                   description: orgRole.description,
-                  serviceView: !this.showRoleView
+                  serviceView: !this.showRoleView,
+                  approvalStatus: 1
                 });
               }
             });
@@ -300,7 +301,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                   accessRoleName: orgRole.roleName,
                   serviceName: orgRole.serviceName,
                   description: orgRole.description,
-                  serviceView: !this.showRoleView
+                  serviceView: !this.showRoleView,
+                  approvalStatus: roleInfo.approvalStatus
                 });
               }
             });
