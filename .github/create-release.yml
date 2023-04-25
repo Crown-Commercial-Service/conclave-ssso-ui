@@ -1,3 +1,4 @@
+name: Release and tag generator
 on:
   push:
     branches:
@@ -13,11 +14,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
         with:
-          tag_name: v${{ github.event.pull_request.head.sha }}
-          release_name: Release v${{ github.event.pull_request.head.sha }}
+          tag_name: sand-release
+          release_name: Release to sandbox
           body: |
-            This is an automatic release for the PR merge of ${{
-            github.event.pull_request.title }}.
+            This is an automatic release for the PR merge of 
 
             Changes:
             - ${{
