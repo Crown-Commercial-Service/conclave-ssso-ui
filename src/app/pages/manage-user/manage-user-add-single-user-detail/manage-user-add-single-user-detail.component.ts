@@ -351,14 +351,12 @@ export class ManageUserAddSingleUserDetailComponent
         group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);        
         this.groupsMember.data.push(group)
         this.selectedGroupCheckboxes.push(group.groupId)
-        console.log('Group', group);
+        
         group.serviceRoleGroups.forEach((element: any) => {
           let groupRoles = this.orgUserGroupRoles.filter(e=> { return e.id == element.id});
           if(groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus ==1)){
             this.orgUserGroupRoles.push(element);
-          }
-          console.log('groupRole', element);
-          console.log('orgUserGroupRoles', this.orgUserGroupRoles);
+          }          
         });
       } else {
         this.noneGroupsMember.data.push(group)
