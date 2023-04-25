@@ -19,7 +19,7 @@ jobs:
           BRANCH=$(echo "${GITHUB_REF#refs/heads/}")
           VERSION=1
           VERSION_ID=$(expr $VERSION + 1)
-          TAG=$(echo "${BRANCH//\//_}"-VERSION_ID)
+          TAG=$(echo "${BRANCH//\//_}"-${VERSION_ID//\//_})
           git tag $TAG
           git push --tags
           curl --request POST \
