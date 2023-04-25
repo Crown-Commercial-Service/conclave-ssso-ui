@@ -47,7 +47,7 @@ export class ManageGroupEditUsersComponent
   usersTableHeaders = ['NAME', 'EMAIL', 'SELECT_USER'];
   usersColumnsToDisplay = ['name', 'userName'];
   userGridSource: CheckBoxUserListGridSource[] = [];
-
+  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   constructor(
     protected uiStore: Store<UIState>,
     private router: Router,

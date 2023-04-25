@@ -11,6 +11,7 @@ import {
   UserEditResponseInfo,
   UserProfileRequestInfo,
   UserProfileResponseInfo,
+  UserProfileServiceResponseInfo,
 } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
 
@@ -32,17 +33,33 @@ export class WrapperUserService {
   constructor(private http: HttpClient) {}
 
   createUser(userRequest: UserProfileRequestInfo): Observable<any> {
-    const url = `${this.url}`;
-    return this.http
-      .post<UserEditResponseInfo>(url, userRequest, this.options)
-      .pipe(
-        map((data: UserEditResponseInfo) => {
-          return data;
-        }),
-        catchError((error) => {
-          return throwError(error);
-        })
-      );
+    if(!environment.appSetting.hideSimplifyRole){
+      const url = `${this.url}/v1`;
+      userRequest.detail.serviceRoleGroupIds = userRequest.detail.roleIds
+      delete userRequest.detail.roleIds
+      return this.http
+        .post<UserEditResponseInfo>(url, userRequest, this.options)
+        .pipe(
+          map((data: UserEditResponseInfo) => {
+            return data;
+          }),
+          catchError((error) => {
+            return throwError(error);
+          })
+        );
+    } else {
+      const url = `${this.url}`;
+      return this.http
+        .post<UserEditResponseInfo>(url, userRequest, this.options)
+        .pipe(
+          map((data: UserEditResponseInfo) => {
+            return data;
+          }),
+          catchError((error) => {
+            return throwError(error);
+          })
+        );
+    }
   }
  
   // Commented below code to remove usage of api. This will be handled with user update api.
@@ -74,56 +91,127 @@ export class WrapperUserService {
   }
 
   getUser(userName: string): Observable<UserProfileResponseInfo> {
-    const url = `${this.url}?user-id=${encodeURIComponent(userName)}`;
-    return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
-      map((data: UserProfileResponseInfo) => {
-        return data;
-      }),
-      catchError((error) => {
-        return throwError(error);
-      })
-    );
-  }
-
-  getPendingApprovalUserRole(userName: string): Observable<UserProfileResponseInfo> {
-    const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}`;
-    return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
-      map((data: any) => {
-        return data;
-      }),
-      catchError((error) => {
-        return throwError(error);
-      })
-    );
-  }
-
-  userTokenVerify(encryptedToken: string): Observable<UserProfileResponseInfo> {
-    const url = `${this.url}/approve/verify?token=${encodeURIComponent(encryptedToken)}`;
-    return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
-      map((data: any) => {
-        return data
-      }),
-      catchError((error) => {
-        return throwError(error);
-      })
-    );
-  }
-
-  updateUser(
-    userName: string,
-    userRequest: UserProfileRequestInfo
-  ): Observable<any> {
-    const url = `${this.url}?user-id=${encodeURIComponent(userName)}`;
-    return this.http
-      .put<UserEditResponseInfo>(url, userRequest, this.options)
-      .pipe(
-        map((data: UserEditResponseInfo) => {
+    if(!environment.appSetting.hideSimplifyRole){
+      let roleInfo: any[]=[]
+      const url = `${this.url}/v1?user-id=${encodeURIComponent(userName)}`;
+      return this.http.get<UserProfileServiceResponseInfo>(url, this.options).pipe(
+        map((data: any) => {
+          data.detail.serviceRoleGroupInfo.forEach((roles:any)=>{
+            let structureObj = {
+              roleId: roles.id,
+              roleKey:roles.key,
+              roleName: roles.name,
+            }
+            roleInfo.push(structureObj)
+          })
+          data.detail.rolePermissionInfo = roleInfo
           return data;
         }),
         catchError((error) => {
           return throwError(error);
         })
       );
+    } else {
+      const url = `${this.url}?user-id=${encodeURIComponent(userName)}`;
+      return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+        map((data: UserProfileResponseInfo) => {
+          return data;
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    }
+  }
+
+  getPendingApprovalUserRole(userName: string): Observable<UserProfileResponseInfo> {
+    if(!environment.appSetting.hideSimplifyRole){
+      let roleInfo: any=[]
+      const url = `${this.url}/approve/servicerolegroups?user-id=${encodeURIComponent(userName)}`;
+      return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+        map((data: any) => {
+          data.forEach((role:any)=>{
+            let structureObj = {
+              roleId: role.id,
+              roleKey:role.key,
+              roleName: role.name,
+            }
+            roleInfo.push(structureObj)
+          })
+          return roleInfo;
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}`;
+      return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+        map((data: any) => {
+          return data;
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    }
+  }
+
+  userTokenVerify(encryptedToken: string): Observable<UserProfileResponseInfo> {
+    if(!environment.appSetting.hideSimplifyRole){
+      const url = `${this.url}/approve/servicerolegroup/verify?token=${encodeURIComponent(encryptedToken)}`;
+      return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+        map((data: any) => {
+          return data
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    } else {
+      const url = `${this.url}/approve/verify?token=${encodeURIComponent(encryptedToken)}`;
+      return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
+        map((data: any) => {
+          return data
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+    }
+  }
+
+  updateUser(
+    userName: string,
+    userRequest: UserProfileRequestInfo
+  ): Observable<any> {
+    if(!environment.appSetting.hideSimplifyRole){
+      const url = `${this.url}/v1?user-id=${encodeURIComponent(userName)}`;
+      userRequest.detail.serviceRoleGroupIds = userRequest.detail.roleIds
+      delete userRequest.detail.roleIds
+      return this.http
+        .put<UserEditResponseInfo>(url, userRequest, this.options)
+        .pipe(
+          map((data: UserEditResponseInfo) => {
+            return data;
+          }),
+          catchError((error) => {
+            return throwError(error);
+          })
+        );
+    } else {
+      const url = `${this.url}?user-id=${encodeURIComponent(userName)}`;
+      return this.http
+        .put<UserEditResponseInfo>(url, userRequest, this.options)
+        .pipe(
+          map((data: UserEditResponseInfo) => {
+            return data;
+          }),
+          catchError((error) => {
+            return throwError(error);
+          })
+        );
+    }
   }
 
   // Commented below code to remove usage of api. This will be handled with user update api.

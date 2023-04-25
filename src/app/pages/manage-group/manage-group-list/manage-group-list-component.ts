@@ -9,6 +9,7 @@ import { Group, GroupList } from "src/app/models/organisationGroup";
 import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrapper-org--group-service";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { ViewportScroller } from "@angular/common";
+import { environment } from "src/environments/environment";
 
 @Component({
     selector: 'app-manage-group-list',
@@ -22,6 +23,7 @@ import { ViewportScroller } from "@angular/common";
     ]
 })
 export class ManageGroupListComponent extends BaseComponent implements OnInit {
+    public showRoleView:boolean = environment.appSetting.hideSimplifyRole
     groupList: GroupList;
     organisationId: string;
     searchText: string = "";

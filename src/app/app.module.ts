@@ -191,6 +191,10 @@ import { AccessibilityStatementComponent } from './pages/accessibility-statement
 import { ManageUserRoleComponent } from './pages/manage-role/manage-user-role/manage-user-role.component';
 import { RoleRequestSuccessComponent } from './pages/manage-role/role-request-success/role-request-success.component';
 import { RoleRequestFailedComponent } from './pages/manage-role/role-request-failed/role-request-failed.component';
+import { UpdateOrgServiceComponent } from './pages/buyer/update-org-service/update-org-service.component';
+import { ConfirmOrgServiceComponent } from './pages/buyer/confirm-org-service/confirm-org-service.component';
+import { SuccessOrgServiceComponent } from './pages/buyer/success-org-service/success-org-service.component';
+import { ManageGroupErrorComponent } from './pages/manage-group/manage-group-error/manage-group-error.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -347,7 +351,11 @@ export function createTranslateLoader(http: HttpClient) {
     AccessibilityStatementComponent,
     ManageUserRoleComponent,
     RoleRequestSuccessComponent,
-    RoleRequestFailedComponent
+    RoleRequestFailedComponent,
+    UpdateOrgServiceComponent,
+    ConfirmOrgServiceComponent,
+    SuccessOrgServiceComponent,
+    ManageGroupErrorComponent
   ],
   imports: [
     // BrowserModule,
