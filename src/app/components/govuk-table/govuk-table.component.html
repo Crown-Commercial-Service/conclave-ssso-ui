@@ -3,7 +3,7 @@
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th *ngFor="let header of headerTextKeys" scope="col" class="govuk-table__header">
-          {{ header | translate }}
+          <span [ngClass]="{'hide_dots': header  === '.'}">{{ header | translate }}</span>
         </th>
         <th class="govuk-table__header govuk-link-adjust" *ngIf="hyperArrayVisible == true">.</th>
         <th class="govuk-table__header govuk-link-adjust" *ngIf="!isHyperLinkVisible">.</th>
@@ -91,7 +91,7 @@
             </div>
           </fieldset>
         </td>
-        <td class="tablular" *ngIf="!isHyperLinkVisible">
+        <td class="tablular govuk-table__cell" *ngIf="!isHyperLinkVisible">
           <a class="tablular" tabindex="0">.</a>
         </td>
       </tr>

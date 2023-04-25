@@ -174,8 +174,10 @@ export class DelegatedAccessUserComponent implements OnInit {
         let defaultUser = "ORG_DEFAULT_USER"
         let userSupport = "ORG_USER_SUPPORT"
         let manageSubscription = "MANAGE_SUBSCRIPTIONS"
+        let dataMigration = "DATA_MIGRATION"
 
-        if (element.roleKey != orgAdmin && element.roleKey != defaultUser && element.roleKey != userSupport && element.roleKey != manageSubscription) {
+        if (element.roleKey != orgAdmin && element.roleKey != defaultUser && element.roleKey != userSupport 
+          && element.roleKey != manageSubscription && element.roleKey != dataMigration) {
           this.roleDataList.push({
             roleId: element.roleId,
             roleKey: element.roleKey,
