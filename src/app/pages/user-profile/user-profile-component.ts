@@ -287,12 +287,28 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                   accessRoleName: orgRole.roleName,
                   serviceName: orgRole.serviceName,
                   description: orgRole.description,
-                  serviceView: !this.showRoleView
+                  serviceView: !this.showRoleView,
+                  approvalStatus: 1
                 });
               }
             });
+            
+            //Adding the pending approval service to the user role list with label pending approval
+            this.pendingRoleDetails && this.pendingRoleDetails.map((roleInfo: any) => {
+              var orgRole: any = orgRoles.find((r) => r.roleId == roleInfo.roleId);
+              if (orgRole) {                
+                this.roleDataList.push({
+                  accessRoleName: orgRole.roleName,
+                  serviceName: orgRole.serviceName,
+                  description: orgRole.description,
+                  serviceView: !this.showRoleView,
+                  approvalStatus: roleInfo.approvalStatus
+                });
+              }
+            });
+
           this.groupHint = "These are the services that you have access to."
-        }
+        }        
       });
 
 
@@ -653,16 +669,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
         this.groupsMember.data.push(group)
         this.selectedGroupCheckboxes.push(group.groupId)
-
-        console.log('Group', group);
+        
         group.serviceRoleGroups.forEach((element: any) => {
           let groupRoles = this.orgUserGroupRoles.filter(e => { return e.id == element.id });
           if (groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus == 1)) {
             element.serviceView = true;
             this.orgUserGroupRoles.push(element);
-          }
-          console.log('groupRole', element);
-          console.log('orgUserGroupRoles', this.orgUserGroupRoles);
+          }          
         });
       } else {
         if (this.isAdminUser) {
