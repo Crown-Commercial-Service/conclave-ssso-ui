@@ -54,6 +54,9 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
     else if (schema === 'GB-CCS') {
       return 'Internal Identifier';
     }
+    else if (schema === 'GB-PPG') {
+      return 'Public Procurement Organisation Number';
+    }
     else {
       return '';
     }
