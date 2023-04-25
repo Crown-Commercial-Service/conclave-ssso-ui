@@ -17,7 +17,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
         run: |
           BRANCH=$(echo "${GITHUB_REF#refs/heads/}")
-          TAG=$(echo "${BRANCH//\//_}")
+          VERSION=1
+          VERSION_ID=$(expr $VERSION + 1)
+          TAG=$(echo "${BRANCH//\//_}"-VERSION_ID)
           git tag $TAG
           git push --tags
           curl --request POST \
