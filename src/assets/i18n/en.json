@@ -372,5 +372,16 @@
   "CONFIRM_EMAIL":"Confirm email address",
   "NOTIFICATION_SENT":"Notification sent",
   "DUP_ORG":"Duplicate organisations",
-  "ACCESS_TO_USER":"Select the services that this user needs access to."
+  "ACCESS_TO_USER":"Select the services that this user needs access to.",
+  "ACCESS_TO_USER_SERVICE": "Select the services that this user needs access to as an individual, rather than through their membership of a group.",
+  "ACCESS_TO_GROUP_SEVICE": "This user has access to the following services through their membership of one or more groups. You can manage group membership, and access to services, through the dashboard.",
+  "ACCESS_TO_USER_ROLE": "Select the services that this user needs access to. You can also view the services that this user has access to through their membership of any groups.",
+  "NO_GROUP_ROLE_ACCESS_ADDUSER": "This user does not have access to any service through their membership of a group. You can manage group membership, and access to services, through the dashboard.",
+  "ORG_USER_INDIVIDUAL_ACCESS": "These services are assigned to you as an individual, rather than through your membership of a group.",
+  "ORG_USER_GROUP_ACCESS": "You have access to the following services through your membership of one or more groups.",
+  "ORG_USER_GROUP_ACCESS_NONE": "You do not have access to any service through your membership of a group.",
+  "ORG_ADMIN_GROUP_ACCESS": "You have access to the following services through your membership of one or more groups. You can manage group membership, and access to services, through the dashboard.",
+  "ORG_ADMIN_GROUP_ACCESS_NONE": "You do not have access to any service through your membership of a group. You can manage group membership, and access to services, through the dashboard.",  
+  "PENDING_LABEL" : "Pending Approval",
+  "ACCESS_TO_REGULAR_USER_SERVICE": "These services are assigned to you as an individual, rather than through your membership of a group."
 }
