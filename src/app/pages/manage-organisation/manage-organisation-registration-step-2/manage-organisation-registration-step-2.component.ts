@@ -18,6 +18,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-manage-organisation-registration-step-2',
@@ -64,7 +65,8 @@ export class ManageOrgRegStep2Component
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
     private formBuilder: FormBuilder,
-    private ActivatedRoute: ActivatedRoute
+    private ActivatedRoute: ActivatedRoute,
+    private SharedDataService:SharedDataService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.txtValue = '';
@@ -226,4 +228,13 @@ export class ManageOrgRegStep2Component
       }
     });
   }
+
+       /**
+   * checking whether scheme should show or not
+   * @param item getting scheme from html
+   * @returns returning boolean true or false
+   */
+       public checkShowStatus(item:any){
+        return this.SharedDataService.checkBlockedScheme(item) 
+       }
 }
