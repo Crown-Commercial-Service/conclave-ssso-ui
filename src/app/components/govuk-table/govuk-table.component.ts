@@ -116,6 +116,10 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
         return true 
          break; 
       } 
+      case 'dateOfUpload': { 
+        return true 
+         break; 
+      } 
       case 'date': { 
         return true 
          break; 

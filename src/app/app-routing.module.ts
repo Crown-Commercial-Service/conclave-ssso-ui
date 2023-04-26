@@ -1183,18 +1183,21 @@ const routes: Routes = [
   {
     path: 'data-migration/upload',
     pathMatch: 'full',
+    data: { title: 'Data migration',roles: ['MANAGE_SUBSCRIPTIONS'] },
     canActivate: [AuthGuard],
     component: DataMigrationUploadComponent,
   },
   {
     path: 'data-migration/status',
     pathMatch: 'full',
+    data: { title: 'File validation',roles: ['MANAGE_SUBSCRIPTIONS'] },
     canActivate: [AuthGuard],
     component: DataMigrationStatusComponent,
   },
   {
     path: 'data-migration/error',
     pathMatch: 'full',
+    data: { title: 'Error',roles: ['MANAGE_SUBSCRIPTIONS'] },
     canActivate: [AuthGuard],
     component: DataMigrationErrorComponent,
   },

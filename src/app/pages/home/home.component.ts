@@ -229,6 +229,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
           description: 'Manage delegated access to your approved services',
           route: '/delegated-access',
         });
+        this.systemModules.push({
+          name: 'Data Migration',
+          description: 'Migrate data',
+          route: '/data-migration/upload',
+        });
       }
     }
     

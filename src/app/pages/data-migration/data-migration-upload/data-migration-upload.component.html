@@ -91,11 +91,11 @@
                     {{ 'HISTORY_UPLOAD'| translate }}
                 </legend>
                 <div class="user-table">
-                    <app-govuk-table [headerTextKeys]="userUploadHistoryTable.usersTableHeaders" [data]="userUploadHistoryTable.userList.userList"
+                    <app-govuk-table [headerTextKeys]="userUploadHistoryTable.usersTableHeaders" [data]="userUploadHistoryTable.userList.dataMigrationList"
                     [dataKeys]="userUploadHistoryTable.usersColumnsToDisplay" [isHyperLinkVisible]="false"
                     [pageName]="userUploadHistoryTable.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=userUploadHistoryTable.hyperTextrray
                      [useServerPagination]="true" [serverPageCount]="userUploadHistoryTable.pageCount"
-                    [serverPageCurrentPage]="userUploadHistoryTable.currentPage" ></app-govuk-table>
+                    [serverPageCurrentPage]="userUploadHistoryTable.currentPage" (changeCurrentPageEvent)="setPage($event)"></app-govuk-table>
                 </div>
             </fieldset>
         </div>
