@@ -222,18 +222,16 @@ export class HomeComponent extends BaseComponent implements OnInit {
     }
 
     if (e.permissionName === 'DELEGATED_ACCESS' && this.isDelegation) {
+      if( this.systemModules.findIndex((x) => x.name === 'Delegated access') ===
+      -1) {
         this.systemModules.push({
           name: 'Delegated access',
           description: 'Manage delegated access to your approved services',
           route: '/delegated-access',
         });
+      }
     }
     
-    // if (e.permissionName === 'MANAGE_SIGN_IN_PROVIDERS') {
-    //   if (this.systemModules.findIndex(x => x.name === 'Manage sign in providers') === -1) {
-    //     this.systemModules.push({ name: 'Manage sign in providers', description: 'Add and manage sign in providers', route: '/' });
-    //   }
-    // }
     if (e.permissionName === 'MANAGE_SUBSCRIPTIONS') {
       if (
         this.otherModules.findIndex(

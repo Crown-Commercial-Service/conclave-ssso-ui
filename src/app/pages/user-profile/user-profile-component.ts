@@ -313,6 +313,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
     await this.getOrgGroups();
 
+
     this.getUserContact(this.userName);
     this.onFormValueChange();
 
@@ -331,7 +332,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
       ];
     }
-
 
   }
 
@@ -670,7 +670,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
         this.groupsMember.data.push(group)
         this.selectedGroupCheckboxes.push(group.groupId)
-
         group.serviceRoleGroups.forEach((element: any) => {
           let groupRoles = this.orgUserGroupRoles.filter(e => { return e.id == element.id });
           if (groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus == 1)) {

@@ -623,8 +623,6 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   updateUser(form: FormGroup) {
-    console.log("selectedCheckboxes", this.selectedGroupCheckboxes)
-    debugger
     this.userProfileRequestInfo.detail.groupIds = this.selectedGroupCheckboxes
     this.wrapperUserService
       .updateUser(
@@ -875,7 +873,6 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
 
-
   public ResetAdditionalSecurity(): void {
     if (this.MFA_Enabled) {
       let data = {
@@ -904,7 +901,6 @@ export class ManageUserAddSingleUserDetailComponent
     }
 
   }
-
 
   public groupsMemberCheckBoxAddRoles(data: any) {
     this.selectedGroupCheckboxes.push(data.groupId);
