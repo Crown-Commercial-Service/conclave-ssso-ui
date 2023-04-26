@@ -28,7 +28,7 @@ jobs:
       - name: Bump version
         uses: anothrNick/github-tag-action@v1.19.3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.TOKEN_GIT }}
           message: 'Bump version to %s'
 
       - name: Create GitHub release and tag
