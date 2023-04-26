@@ -69,5 +69,6 @@ export const environment = {
    hideDelegation:true,
    hideBulkupload:true,
    hideAutoValidation:false,
+   blockedScheme: ['GB-EDU',"GB-PPG"],
   },
 };
