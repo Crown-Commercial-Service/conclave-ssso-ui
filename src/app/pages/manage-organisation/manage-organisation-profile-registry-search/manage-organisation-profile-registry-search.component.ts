@@ -11,6 +11,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-registry-search',
@@ -41,10 +42,10 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
     isDunlength: false,
     DunData: '',
   };
-
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(private ref: ChangeDetectorRef,
+    private SharedDataService:SharedDataService,
     private formBuilder: FormBuilder,
     private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
@@ -191,5 +192,14 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
     this.txtValue = '';
     localStorage.setItem('scheme', this.scheme);
     localStorage.setItem('scheme_name', item.schemeName);
+  }
+
+  /**
+   * checking whether scheme should show or not
+   * @param item getting scheme from html
+   * @returns returning boolean true or false
+   */
+  public checkShowStatus(item:any){
+   return this.SharedDataService.checkBlockedScheme(item)
   }
 }
