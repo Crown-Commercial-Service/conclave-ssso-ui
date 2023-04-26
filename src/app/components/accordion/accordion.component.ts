@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-accordion',
@@ -22,10 +22,12 @@ export class AccordionComponent implements OnInit, OnChanges {
 
   @Output() checkBoxRemoveRoles = new EventEmitter<any>();
   @Output() checkBoxAddRoles = new EventEmitter<any>();
+  public routeData: any = {};
+  public isEdit: boolean = false;
 
 
   // public groupShow: boolean = false;
-  constructor(private router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute,) { }
 
   ngOnChanges(): void {
   }
@@ -58,11 +60,18 @@ export class AccordionComponent implements OnInit, OnChanges {
   }
 
   public goToEditGroup(groupId: any) {
+    let queryParams = this.activatedRoute.snapshot.queryParams;
+    if(queryParams.data)
+    {
+      this.routeData = JSON.parse(atob(queryParams.data));
+      this.isEdit = this.routeData['isEdit'];
+    }
     let data = {
-      isEdit: false,
+      isEdit: true,
       groupId: groupId,
       accessFrom: "users",
-      isUserAccess: true
+      isUserAccess: true,
+      userEditStatus: this.isEdit
     };
     window.open('manage-groups/view?data=' + JSON.stringify(data));
   }
