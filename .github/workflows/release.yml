@@ -16,8 +16,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14.x'
-      #test
-      #test
+
       # - name: Install dependencies
       #   run: npm install
 
@@ -26,13 +25,19 @@ jobs:
       #     npm run build
       #     npm test
 
+      - name: Bump version
+        uses: anothrNick/github-tag-action@v1.19.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: 'Bump version to %s'
+
       - name: Create GitHub release and tag
         uses: softprops/action-gh-release@v1
         with:
           files: |
             dist/*
-          tag_name: v1.0.0
-          release_title: Release v1.0.0
+          tag_name: v${{ env.TAG_NAME }}
+          release_title: Release v${{ env.TAG_NAME }}
           body: |
             # Release notes
             - Add feature A
