@@ -1,0 +1,38 @@
+name: Create Release and Tag
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build and test code
+        run: |
+          npm run build
+          npm test
+
+      - name: Create GitHub release and tag
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/*
+          tag_name: v1.0.0
+          release_title: Release v1.0.0
+          body: |
+            # Release notes
+            - Add feature A
+            - Fix issue B
