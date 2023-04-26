@@ -26,7 +26,7 @@ jobs:
       #     npm test
 
       - name: Bump version
-        uses: anothrNick/github-tag-action@v1.19.3
+        uses: anothrNick/github-tag-action@v1.61.0
         with:
           github_token: ${{ secrets.TOKEN_GIT }}
           message: 'Bump version to %s'
