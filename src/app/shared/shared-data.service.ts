@@ -56,5 +56,9 @@ export class SharedDataService {
     return !this.blockedScheme.includes(item.scheme)
    }
 
+   public checkBlockedSchemeText(item:any){
+    return !this.blockedScheme.includes(item)
+   }
+
   constructor() {}
 }

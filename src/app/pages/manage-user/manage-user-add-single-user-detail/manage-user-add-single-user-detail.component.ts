@@ -361,6 +361,9 @@ export class ManageUserAddSingleUserDetailComponent
       } else {
         this.noneGroupsMember.data.push(group)
       }
+      if(this.orgUserGroupRoles.length > 0){
+        this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(a,b){ return a.displayOrder - b.displayOrder});
+      } 
     }
   }
 
