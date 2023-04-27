@@ -683,6 +683,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         }
       }
     }
+    if(this.orgUserGroupRoles.length > 0){
+      this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(a,b){ return a.displayOrder - b.displayOrder});
+    }    
     this.groupsMember.isAdmin = this.isAdminUser;
     this.noneGroupsMember.isAdmin = this.isAdminUser;
   }
