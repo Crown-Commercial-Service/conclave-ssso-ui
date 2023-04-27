@@ -47,27 +47,20 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   }
 
   public getSchemaName(schema: string): string {
-    let selecedScheme = this.schemeData.find(s => s.scheme === schema);
-    if(selecedScheme?.schemeName) {
-      return selecedScheme?.schemeName;
-    }
-    else if (schema === 'GB-CCS') {
+    let selecedScheme = this.schemeData.find(s => s.scheme === schema);    
+    if (schema === 'GB-CCS') {
       return 'Internal Identifier';
     }
-    else if (schema === 'GB-PPG') {
-      return 'Public Procurement Organisation Number';
+    else if(selecedScheme?.schemeName) {
+      return selecedScheme?.schemeName;
     }
     else {
       return '';
     }
   }
 
-  public getId(id: string, schema: string): string {
-    let selecedScheme = this.schemeData.find(s => s.scheme === schema);
-    if (selecedScheme?.schemeName) {
-      return id;
-    }
-    else if (schema === 'GB-PPG') {
+  public getId(id:string, schema: string): string {
+    if (schema === 'GB-PPG') {
       return this.convertIdToHyphenId(id);
     }
     else {
@@ -75,9 +68,9 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
     }
   }
 
-  public convertIdToHyphenId(id: string): string {
-    if (id != null) {
-      return [id.slice(0, 3), '-', id.slice(3, 6), '-', id.slice(6, 9)].join('')
+  public convertIdToHyphenId(id:string): string {    
+    if (id != null)  {
+      return [id.slice(0, 3), '-', id.slice(3,6), '-', id.slice(6,9)].join('')
     }
     return id;
   }
