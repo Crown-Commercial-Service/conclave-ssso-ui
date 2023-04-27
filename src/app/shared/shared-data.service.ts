@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SharedDataService {
-  // public GName:any=''
+  
+  public blockedScheme:any[] = environment.appSetting.blockedScheme
 
   public NominiData: BehaviorSubject<any> = new BehaviorSubject(null);
 
@@ -51,5 +53,12 @@ export class SharedDataService {
     this.selectedRoleforGroup.next(JSON.parse(localStorage.getItem('roleForGroup') || ''))
    }
 
+   public checkBlockedScheme(item:any){
+    return !this.blockedScheme.includes(item.scheme)
+   }
+
+   public checkBlockedSchemeText(item:any){
+    return !this.blockedScheme.includes(item)
+   }
   constructor() {}
 }
