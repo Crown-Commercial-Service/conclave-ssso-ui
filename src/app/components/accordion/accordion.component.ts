@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-accordion',
@@ -27,7 +27,7 @@ export class AccordionComponent implements OnInit, OnChanges {
 
 
   // public groupShow: boolean = false;
-  constructor(private activatedRoute: ActivatedRoute,) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnChanges(): void {
   }
@@ -60,6 +60,7 @@ export class AccordionComponent implements OnInit, OnChanges {
   }
 
   public goToEditGroup(groupId: any) {
+    let isFromManageMyAccount = this.router.url === '/profile';
     let queryParams = this.activatedRoute.snapshot.queryParams;
     if(queryParams.data)
     {
@@ -69,7 +70,7 @@ export class AccordionComponent implements OnInit, OnChanges {
     let data = {
       isEdit: true,
       groupId: groupId,
-      accessFrom: "users",
+      accessFrom: isFromManageMyAccount ? "profile" : "users",
       isUserAccess: true,
       userEditStatus: this.isEdit
     };
