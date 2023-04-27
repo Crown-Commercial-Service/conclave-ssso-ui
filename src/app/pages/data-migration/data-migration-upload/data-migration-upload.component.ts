@@ -103,7 +103,7 @@ export class DataMigrationUploadComponent implements OnInit {
             this.DataMigrationService.uploadDataMigrationFile(this.file).subscribe({
                 next: (response: dataMigrationReportDetailsResponce) => {
                     this.router.navigateByUrl(
-                        'data-migration/status?data=' + JSON.stringify(response.id)
+                        'data-migration/status?data=' + response.id
                       );
                 },
                 error: (err) => {

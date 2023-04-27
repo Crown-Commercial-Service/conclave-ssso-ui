@@ -236,6 +236,17 @@ export class HomeComponent extends BaseComponent implements OnInit {
         });
       }
     }
+
+    if (e.permissionName === 'DATA_MIGRATION_DS') {
+      if( this.systemModules.findIndex((x) => x.name === 'Access Data Migration') ===
+      -1) {
+        this.systemModules.push({
+          name: 'Data Migration',
+          description: 'Migrate data',
+          route: '/data-migration/upload',
+        });
+      }
+    }
     
     if (e.permissionName === 'MANAGE_SUBSCRIPTIONS') {
       if (

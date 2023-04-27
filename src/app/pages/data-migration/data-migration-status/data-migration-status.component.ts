@@ -19,6 +19,7 @@ export class DataMigrationStatusComponent implements OnInit {
 
 
   public getUploadedFilesDetails(details:any) {
+    console.log("details",details.data)
     this.DataMigrationService.getDataMigrationFileStatusById(details.data).subscribe((data)=>{
       console.log("data",data)
     })
