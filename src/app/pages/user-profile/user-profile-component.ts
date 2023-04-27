@@ -94,7 +94,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   public groupsMember: userGroupTableDetail = {
     isAdmin: false,
-    headerText: "Groups assigned",
+    headerText: "Groups I am a member of",
     headerTextKey: "groupName",
     accessTable: "groupsMember",
     noRoleMessage: "You do not have access to any service through membership of this group.",
@@ -104,7 +104,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
   public noneGroupsMember: userGroupTableDetail = {
     isAdmin: false,
-    headerText: "Groups unassigned",
+    headerText: "Groups I am not a member of",
     headerTextKey: "groupName",
     accessTable: "noneGroupsMember",
     noRoleMessage: "You do not have access to any service through membership of this group.",
@@ -292,24 +292,26 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 });
               }
             });
-            
-            //Adding the pending approval service to the user role list with label pending approval
-            this.pendingRoleDetails && this.pendingRoleDetails.map((roleInfo: any) => {
-              var orgRole: any = orgRoles.find((r) => r.roleId == roleInfo.roleId);
-              if (orgRole) {                
-                this.roleDataList.push({
-                  accessRoleName: orgRole.roleName,
-                  serviceName: orgRole.serviceName,
-                  description: orgRole.description,
-                  serviceView: !this.showRoleView,
-                  approvalStatus: roleInfo.approvalStatus
-                });
-              }
-            });
+
+          //Adding the pending approval service to the user role list with label pending approval
+          this.pendingRoleDetails && this.pendingRoleDetails.map((roleInfo: any) => {
+            var orgRole: any = orgRoles.find((r) => r.roleId == roleInfo.roleId);
+            if (orgRole) {
+              this.roleDataList.push({
+                accessRoleName: orgRole.roleName,
+                serviceName: orgRole.serviceName,
+                description: orgRole.description,
+                serviceView: !this.showRoleView,
+                approvalStatus: roleInfo.approvalStatus
+              });
+            }
+          });
 
           this.groupHint = "These are the services that you have access to."
-        }        
+        }
       });
+
+    await this.getOrgGroups();
 
 
     this.getUserContact(this.userName);
@@ -331,7 +333,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       ];
     }
 
-    await this.getOrgGroups();
   }
 
   ngAfterViewChecked() {
@@ -669,13 +670,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
         this.groupsMember.data.push(group)
         this.selectedGroupCheckboxes.push(group.groupId)
-        
         group.serviceRoleGroups.forEach((element: any) => {
           let groupRoles = this.orgUserGroupRoles.filter(e => { return e.id == element.id });
           if (groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus == 1)) {
             element.serviceView = true;
             this.orgUserGroupRoles.push(element);
-          }          
+          }
         });
       } else {
         if (this.isAdminUser) {
