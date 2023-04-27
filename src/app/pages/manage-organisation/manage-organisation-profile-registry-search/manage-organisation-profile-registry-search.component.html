@@ -86,12 +86,13 @@
             What type of registry do you want to add?
           </legend>
           <div class="govuk-radios">
-            <div class="govuk-radios__item" *ngFor="let item of items$! | async" [class.govuk-form-group--error]="
+            <div class="govuk-radios__item custom_radio" *ngFor="let item of items$! | async" [class.govuk-form-group--error]="
                 submitted &&
                 (schemeSubjectObs | async) === item.scheme &&
                 txtValue == ''
               ">
-              <input class="govuk-radios__input" type="radio" [attr.id]="item.scheme + '-RadioButton'" name="scheme"
+              <div *ngIf="checkShowStatus(item)">
+                <input class="govuk-radios__input" type="radio" [attr.id]="item.scheme + '-RadioButton'" name="scheme"
                 [value]="item.scheme" value="{{ item.scheme }}" [checked]="(schemeSubjectObs | async) === item.scheme"
                 [(ngModel)]="scheme" (click)="onSelect(item)" />
               <label for="{{ item.scheme + '-RadioButton' }}" class="govuk-label govuk-radios__label">{{ item.schemeName
@@ -229,6 +230,7 @@
                         " /></span>
                   </div>
                 </form>
+              </div>
               </div>
             </div>
           </div>
