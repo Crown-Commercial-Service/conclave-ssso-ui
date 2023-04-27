@@ -27,13 +27,9 @@
           <p><strong>Before you start</strong></p>
           <p>You will need a valid company email address and <strong>one</strong> of the following:</p>
           <ul>
-            <li>Companies House registered number</li>
-            <li>Dun and Bradstreet number</li>
-            <li>Charity Commission for England and Wales number</li>
-            <li>Office of The Scottish Charity Regulator (OSCR) number</li>
-            <li>The Charity Commission for Northern Ireland number</li>
-            <li>National Health Service Organisations Registry number</li>
-            <li>Department for Education Unique Reference Number (URN)</li>
+            <span *ngFor="let details of schemeDetails">
+            <li *ngIf="checkShowStatus(details.id)">{{details.name}}</li> 
+           </span>
           </ul>
           <p>As an organisation administrator, your name and email address may be provided by CCS to employees of your
             organisation so that they can contact you about any registration queries.</p>
