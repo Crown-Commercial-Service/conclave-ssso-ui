@@ -32,8 +32,8 @@ import { ManageDelegateService } from '../manage-delegated/service/manage-delega
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent extends BaseComponent implements OnInit {
-  switchedOrgId=''
-  isDelegation:boolean=!environment.appSetting.hideDelegation
+  switchedOrgId = ''
+  isDelegation: boolean = !environment.appSetting.hideDelegation
   public orgDetails: any = ''
   systemModules: SystemModule[] = [];
   ccsModules: SystemModule[] = [];
@@ -45,8 +45,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
   accesstoken: any;
   opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(
     environment.uri.api.security +
-      '/security/sessions/?origin=' +
-      environment.uri.web.dashboard
+    '/security/sessions/?origin=' +
+    environment.uri.web.dashboard
   );
   rpIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(
     environment.uri.web.dashboard + '/assets/rpIFrame.html'
@@ -65,50 +65,50 @@ export class HomeComponent extends BaseComponent implements OnInit {
     private DelegateService: ManageDelegateService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
-    this.switchedOrgId = localStorage.getItem('permission_organisation_id') || "" 
+    this.switchedOrgId = localStorage.getItem('permission_organisation_id') || ""
   }
 
   ngOnInit() {
-  this.checkValidOrganisation()
+    this.checkValidOrganisation()
   }
- 
-  public checkValidOrganisation(){
+
+  public checkValidOrganisation() {
     this.delegatedApiService.getDeligatedOrg().subscribe({
       next: (data: any) => {
-        let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; })=> element.delegatedOrgId == this.switchedOrgId)
-        if(orgDetails === undefined){
-          this.DelegateService.setDelegatedOrg(0,'home');
+        let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; }) => element.delegatedOrgId == this.switchedOrgId)
+        if (orgDetails === undefined) {
+          this.DelegateService.setDelegatedOrg(0, 'home');
           this.initializer()
         } else {
           this.initializer()
         }
       },
       error: (error: any) => {
-        console.log("error",error)
+        console.log("error", error)
       },
     });
   }
 
 
-  public initializer(){
+  public initializer() {
     this.authService.getPermissions('HOME').toPromise().then((response) => {
       this.servicePermissions = response;
-      this.isOrgAdmin = this.servicePermissions.some(x => x.roleKey === "ORG_ADMINISTRATOR"); 
+      this.isOrgAdmin = this.servicePermissions.some(x => x.roleKey === "ORG_ADMINISTRATOR");
       localStorage.setItem('isOrgAdmin', JSON.stringify(this.isOrgAdmin));
-        this.authService.getCcsServices().toPromise().then((data: any) => {
-            this.ccsServices = data;
-            response.forEach((e: any, i: any) => {
-              this.loadActivities(e);
-            });
-              this.loadServices();
-              this.getDelegatedOrganisation();
-              setTimeout(() => {
-              this.GetOrgDetails()
-              },10 );
-          });
+      this.authService.getCcsServices().toPromise().then((data: any) => {
+        this.ccsServices = data;
+        response.forEach((e: any, i: any) => {
+          this.loadActivities(e);
+        });
+        this.loadServices();
+        this.getDelegatedOrganisation();
+        setTimeout(() => {
+          this.GetOrgDetails()
+        }, 10);
       });
+    });
   }
- 
+
 
   getCcsService(code: string) {
     return this.ccsServices.find((c) => c.code == code);
@@ -126,44 +126,44 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   loadServices() {
-    if(environment.appSetting.hideSimplifyRole){
+    if (environment.appSetting.hideSimplifyRole) {
       let permissions = this.servicePermissions.filter((sp) =>
-      sp.permissionName.startsWith('ACCESS_')
-    );
-    this.ccsServices.forEach((service: CcsServiceInfo) => {
-      let permisson = permissions.find(
-        (p) => p.permissionName == 'ACCESS_' + service.code
+        sp.permissionName.startsWith('ACCESS_')
       );
-      if (permisson) {
-        this.ccsModules.push({
-          name: service?.name,
-          description: service?.description,
-          href: service?.url,
-        });
-      }
-    });
+      this.ccsServices.forEach((service: CcsServiceInfo) => {
+        let permisson = permissions.find(
+          (p) => p.permissionName == 'ACCESS_' + service.code
+        );
+        if (permisson) {
+          this.ccsModules.push({
+            name: service?.name,
+            description: service?.description,
+            href: service?.url,
+          });
+        }
+      });
     } else {
       let permissions = this.servicePermissions.filter((sp) =>
-      sp.permissionName.endsWith('_DS')
-    );
-    this.ccsServices.forEach((service: CcsServiceInfo) => {
-      let permisson = permissions.find(
-        (p) => p.permissionName ==  service.code 
+        sp.permissionName.endsWith('_DS')
       );
-      if (permisson && this.checkService(service)) {
-        this.ccsModules.push({
-          name: service?.name,
-          description: service?.description,
-          href: service?.url,
-        });
-      }
-    });
+      this.ccsServices.forEach((service: CcsServiceInfo) => {
+        let permisson = permissions.find(
+          (p) => p.permissionName == service.code
+        );
+        if (permisson && this.checkService(service)) {
+          this.ccsModules.push({
+            name: service?.name,
+            description: service?.description,
+            href: service?.url,
+          });
+        }
+      });
     }
   }
 
-  checkService(service:any){
+  checkService(service: any) {
     let dublicateService: any = this.ccsModules.find((element) => element.href === service.url)
-    if(dublicateService){
+    if (dublicateService) {
       return false
     } else {
       return true
@@ -222,39 +222,23 @@ export class HomeComponent extends BaseComponent implements OnInit {
     }
 
     if (e.permissionName === 'DELEGATED_ACCESS' && this.isDelegation) {
-      if( this.systemModules.findIndex((x) => x.name === 'Delegated access') ===
-      -1) {
+      if (this.systemModules.findIndex((x) => x.name === 'Delegated access') ===
+        -1) {
         this.systemModules.push({
           name: 'Delegated access',
           description: 'Manage delegated access to your approved services',
           route: '/delegated-access',
         });
-        this.systemModules.push({
-          name: 'Data Migration',
-          description: 'Migrate data',
-          route: '/data-migration/upload',
-        });
       }
     }
 
-    if (e.permissionName === 'DATA_MIGRATION_DS') {
-      if( this.systemModules.findIndex((x) => x.name === 'Access Data Migration') ===
-      -1) {
-        this.systemModules.push({
-          name: 'Data Migration',
-          description: 'Migrate data',
-          route: '/data-migration/upload',
-        });
-      }
-    }
-    
     if (e.permissionName === 'MANAGE_SUBSCRIPTIONS') {
       if (
         this.otherModules.findIndex(
           (x) => x.name === 'Manage service eligibility'
         ) === -1
       ) {
-        if(environment.appSetting.hideSimplifyRole){
+        if (environment.appSetting.hideSimplifyRole) {
           this.otherModules.push({
             name: 'Manage service eligibility',
             description: 'Manage services and roles for organisations',
@@ -287,6 +271,16 @@ export class HomeComponent extends BaseComponent implements OnInit {
         });
       }
     }
+    if (e.permissionName === 'DATA_MIGRATION_DS') {
+      if (this.otherModules.findIndex((x) => x.name === 'Data Migration') ===
+        -1) {
+        this.otherModules.push({
+          name: 'Data Migration',
+          description: 'Migrate Users and Organisations',
+          route: '/data-migration/upload',
+        });
+      }
+    }
   }
 
   getModuleElementId(moduleName: string) {
@@ -296,7 +290,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   public getDelegatedOrganisation(): void {
     this.delegatedApiService.getDeligatedOrg().subscribe({
       next: (data: any) => {
-        if(data.detail.delegatedOrgs.length > 0 && this.isDelegation){
+        if (data.detail.delegatedOrgs.length > 0 && this.isDelegation) {
           this.systemModules.push({
             name: 'Manage my delegated access',
             description: 'Switch between your primary and delegating Organisation',
@@ -305,15 +299,15 @@ export class HomeComponent extends BaseComponent implements OnInit {
         }
       },
       error: (error: any) => {
-        console.log("error",error)
+        console.log("error", error)
       },
     });
   }
 
   public GetOrgDetails() {
     this.ciiService
-      .getOrgDetails(localStorage.getItem('permission_organisation_id') || "").toPromise().then((data:any) => {
-        this.orgDetails=data.identifier.legalName
+      .getOrgDetails(localStorage.getItem('permission_organisation_id') || "").toPromise().then((data: any) => {
+        this.orgDetails = data.identifier.legalName
       })
       .catch((err) => {
         console.log('err', err);

@@ -7,7 +7,8 @@
                         }}</a>
                 </li>
                 <li class="govuk-breadcrumbs__list-item">
-                    <a class="govuk-breadcrumbs__link" routerLink="/data-migration/upload">{{ 'DATA_MIGRATION' | translate
+                    <a class="govuk-breadcrumbs__link" routerLink="/data-migration/upload">{{ 'DATA_MIGRATION' |
+                        translate
                         }}</a>
                 </li>
                 <li class="govuk-breadcrumbs__list-item">
@@ -17,17 +18,17 @@
         </div>
         <h1 class="govuk-heading-xl page-title">{{ 'DATA_MIGRATION_ERROR_SUMMARY_HEADING' | translate }}</h1>
         <div class="user-table">
-            <app-govuk-table [headerTextKeys]="userUploadHistoryTable.usersTableHeaders" [data]="userUploadHistoryTable.userList.userList"
-            [dataKeys]="userUploadHistoryTable.usersColumnsToDisplay" [isHyperLinkVisible]="false"
-            [pageName]="userUploadHistoryTable.pageName" [hyperArrayVisible]="false"
-             [useServerPagination]="true" [serverPageCount]="userUploadHistoryTable.pageCount"
-            [serverPageCurrentPage]="userUploadHistoryTable.currentPage" ></app-govuk-table>
+            <app-govuk-table [headerTextKeys]="userUploadHistoryTable.usersTableHeaders"
+                [data]="userUploadHistoryTable.data.errorList" [dataKeys]="userUploadHistoryTable.usersColumnsToDisplay"
+                [isHyperLinkVisible]="false" [pageName]="userUploadHistoryTable.pageName" [hyperArrayVisible]="false"
+                [useClientPagination]="true"
+                [serverPageCurrentPage]="userUploadHistoryTable.currentPage"></app-govuk-table>
         </div>
 
-            <a href="javascript:;"  class="navigation-text" >
-                Upload a new file</a>
-                <br><br>
-                <a href="javascript:;"  class="navigation-text" >
-                    Return to dashboard</a>      
+        <a href="javascript:;" class="navigation-text" routerLink="/data-migration/upload">
+            Upload a new file</a>
+        <br><br>
+        <a href="javascript:;" class="navigation-text" routerLink="/home">
+            Return to dashboard</a>
     </div>
 </div>

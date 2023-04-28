@@ -201,6 +201,7 @@ import { DataMigrationUploadComponent } from './pages/data-migration/data-migrat
 import { DataMigrationSummaryComponent } from './pages/data-migration/data-migration-summary/data-migration-summary.component';
 import { DataMigrationErrorComponent } from './pages/data-migration/data-migration-error/data-migration-error.component';
 import { DataMigrationStatusComponent } from './pages/data-migration/data-migration-status/data-migration-status.component';
+import { CustomGovukTableComponent } from './components/custom-govuk-table/custom-govuk-table.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -367,7 +368,8 @@ export function createTranslateLoader(http: HttpClient) {
     DataMigrationUploadComponent,
     DataMigrationSummaryComponent,
     DataMigrationErrorComponent,
-    DataMigrationStatusComponent
+    DataMigrationStatusComponent,
+    CustomGovukTableComponent
   ],
   imports: [
     // BrowserModule,

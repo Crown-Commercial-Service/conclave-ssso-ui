@@ -59,6 +59,8 @@ export class DataMigrationUploadComponent implements OnInit {
                         }
                         case 2: {
                             f.status = 'Failed'
+                            
+                            f.link = ['View errors summary']
                             break;
                         }
                         case 3: {
@@ -67,6 +69,7 @@ export class DataMigrationUploadComponent implements OnInit {
                         }
                         case 4: {
                             f.status = 'Completed'
+                            f.link = ['Download report','View summary']
                             break;
                         }
                         default: {
@@ -107,7 +110,7 @@ export class DataMigrationUploadComponent implements OnInit {
                       );
                 },
                 error: (err) => {
-                    if (err.error == 'INVALID_UPLOAD_FILE_TYPE') {
+                    if (err.error == 'INVALID_DATA_MIGRATION_FILE_TYPE') {
                         this.errorInvalidFileFormat = true;
                     }
                 }
@@ -138,4 +141,16 @@ export class DataMigrationUploadComponent implements OnInit {
     public onCancelClick() {
         this.router.navigateByUrl('manage-users/add-user-selection');
     }
+
+    public onLinkClick(data: any): void {
+        if (data.event.target.innerText === "View summary") {
+          this.router.navigateByUrl('data-migration/summary');
+        } else {
+          if(data.status === "Failed"){
+            this.router.navigateByUrl(
+                'data-migration/error?data=' + data.id
+              );
+          }
+        }
+      }
 }

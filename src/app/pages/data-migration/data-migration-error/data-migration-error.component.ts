@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DataMigrationService } from 'src/app/services/postgres/data-migration.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -13,32 +15,31 @@ export class DataMigrationErrorComponent implements OnInit {
     pageCount: 0,
     pageSize: environment.listPageSize,
     usersTableHeaders: ['Error description', 'Row'],
-    usersColumnsToDisplay: ['description', 'row'],
-    userList: '',
+    usersColumnsToDisplay: ['key', 'value'],
+    errorList: '',
     pageName: 'Contactadmin',
   }
-  constructor() {
-    this.userUploadHistoryTable.userList = {
+  constructor(private DataMigrationService: DataMigrationService, private route: ActivatedRoute) {
+    this.userUploadHistoryTable.data = {
       currentPage: this.userUploadHistoryTable.currentPage,
       pageCount: 0,
       rowCount: 0,
       organisationId: this.organisationId,
-      userList: [],
+      errorList: [],
     };
    }
 
-  ngOnInit(): void {
 
-    this.userUploadHistoryTable.userList.userList = [
-      {
-          description: 'invalid details',
-          row:'Row 1'  
-      },
-      {
-          description: 'invalid details',
-          row:'Row 2'  
-      },
-  ]
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((details: any) => {
+      this.getUploadedFilesDetails(details)
+    });
   }
 
+
+  public getUploadedFilesDetails(details:any) {
+    this.DataMigrationService.getDataMigrationFileStatusById(details.data).subscribe((data)=>{
+      this.userUploadHistoryTable.data.errorList = data.errorDetails
+    })
+}
 }

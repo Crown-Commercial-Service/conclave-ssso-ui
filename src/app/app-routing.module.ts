@@ -148,6 +148,7 @@ import { VerifyUserStatusComponent } from './pages/manage-user/verify-user-statu
 import { DataMigrationUploadComponent } from './pages/data-migration/data-migration-upload/data-migration-upload.component';
 import { DataMigrationStatusComponent } from './pages/data-migration/data-migration-status/data-migration-status.component';
 import { DataMigrationErrorComponent } from './pages/data-migration/data-migration-error/data-migration-error.component';
+import { DataMigrationSummaryComponent } from './pages/data-migration/data-migration-summary/data-migration-summary.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1193,6 +1194,13 @@ const routes: Routes = [
     data: { title: 'File validation',roles: ['MANAGE_SUBSCRIPTIONS'] },
     canActivate: [AuthGuard],
     component: DataMigrationStatusComponent,
+  },
+  {
+    path: 'data-migration/summary',
+    pathMatch: 'full',
+    data: { title: 'File validation',roles: ['MANAGE_SUBSCRIPTIONS'] },
+    canActivate: [AuthGuard],
+    component: DataMigrationSummaryComponent,
   },
   {
     path: 'data-migration/error',
