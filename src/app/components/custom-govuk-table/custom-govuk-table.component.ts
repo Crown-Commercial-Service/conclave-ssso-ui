@@ -1,18 +1,16 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 import { BaseComponent } from '../base/base.component';
-
 @Component({
-  selector: 'app-govuk-table',
-  templateUrl: './govuk-table.component.html',
-  styleUrls: ['./govuk-table.component.scss']
+  selector: 'app-custom-govuk-table',
+  templateUrl: './custom-govuk-table.component.html',
+  styleUrls: ['./custom-govuk-table.component.scss']
 })
-export class GovUKTableComponent extends BaseComponent implements OnInit {
+export class CustomGovukTableComponent extends BaseComponent implements OnInit {
 
   @Input() headerTextKeys!: string[];
   @Input() data!: any[];
@@ -130,4 +128,5 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
       } 
    } 
   }
+
 }

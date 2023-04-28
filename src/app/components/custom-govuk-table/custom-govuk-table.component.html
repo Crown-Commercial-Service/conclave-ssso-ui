@@ -1,0 +1,63 @@
+<div class="table-scroll">
+    <table class="govuk-table" *ngIf="tableVisibleData.length != 0; else no_results">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header app-custom-class" *ngFor="let header of headerTextKeys">
+                    <span [ngClass]="{'hide_dots': header  === '.'}">{{ header | translate }}</span>
+                </th>
+                <th scope="col" class="govuk-table__header app-custom-class"></th>
+            </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            <tr class="govuk-table__row" *ngFor="let dataRow of tableVisibleData; let index = index">
+                <td class="govuk-table__cell">
+                    <span>
+                        {{dataRow.dateOfUpload | date: 'dd/MM/yyyy'}} <br>
+                        <span>{{ dataRow.dateOfUpload | date: 'HH:mm'}}</span>
+                    </span>
+                </td>
+                <td class="govuk-table__cell">{{dataRow.name}}</td>
+                <td class="govuk-table__cell">{{dataRow.fileName}}</td>
+                <td class="govuk-table__cell">{{dataRow.status}}</td>
+                <td class="govuk-table__cell table-links custom_table_data" (click)="onRowClick(dataRow, index,$event)" > <a class="navigation-text" href="javascript:;"
+                        *ngFor="let childLink of dataRow.link; let index = index">{{childLink}}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-template #no_results>
+        <p class="govuk-body govuk-!-font-weight-bold">
+            There are no matching results.
+        </p>
+    </ng-template>
+    <div *ngIf="
+    (useServerPagination == true || useClientPagination == true) &&
+    pageCount &&
+    pageCount > 1 &&
+    tableVisibleData.length != 0
+  " class="pagination-area" aria-label="Pagination">
+        <ul>
+            <li>
+                <a *ngIf="currentPage != 1" href="javascript:;" (click)="onSetPageClick(currentPage - 1)"
+                    aria-label="Previous">
+                    <span>{{ "PREVIOUS" | translate }}</span>
+                </a>
+                <a *ngIf="currentPage == 1" class="disabled" aria-label="Previous">
+                    <span>{{ "PREVIOUS" | translate }}</span>
+                </a>
+            </li>
+            <li *ngFor="let page of totalPagesArray">
+                <a href="javascript:;" [class.active]="page == currentPage" (click)="onSetPageClick(page)">
+                    {{ page }}</a>
+            </li>
+            <li class="inline-list">
+                <a *ngIf="currentPage != pageCount" href="javascript:;" (click)="onSetPageClick(currentPage + 1)"
+                    aria-label="Next">
+                    <span>{{ "NEXT" | translate }}</span>
+                </a>
+                <a *ngIf="currentPage == pageCount" class="disabled" aria-label="Next">
+                    <span>{{ "NEXT" | translate }}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
