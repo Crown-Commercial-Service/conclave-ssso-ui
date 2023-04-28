@@ -6,6 +6,7 @@ export const environment = {
       isApiGateWayEnabled: false,
       security: 'https://localhost:44352',
       postgres: 'https://localhost:44330',
+      datamigration: 'https://localhost:44309',
       wrapper: {
         apiGatewayEnabled: {
           user: 'https://localhost:44309/user-profiles',

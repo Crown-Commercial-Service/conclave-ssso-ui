@@ -197,6 +197,11 @@ import { SuccessOrgServiceComponent } from './pages/buyer/success-org-service/su
 import { ManageGroupErrorComponent } from './pages/manage-group/manage-group-error/manage-group-error.component';
 import { VerifyUserComponent } from './pages/manage-user/verify-user/verify-user.component';
 import { VerifyUserStatusComponent } from './pages/manage-user/verify-user-status/verify-user-status.component';
+import { DataMigrationUploadComponent } from './pages/data-migration/data-migration-upload/data-migration-upload.component';
+import { DataMigrationSummaryComponent } from './pages/data-migration/data-migration-summary/data-migration-summary.component';
+import { DataMigrationErrorComponent } from './pages/data-migration/data-migration-error/data-migration-error.component';
+import { DataMigrationStatusComponent } from './pages/data-migration/data-migration-status/data-migration-status.component';
+import { CustomGovukTableComponent } from './components/custom-govuk-table/custom-govuk-table.component';
 import { AccordionComponent } from './components/accordion/accordion.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -361,6 +366,11 @@ export function createTranslateLoader(http: HttpClient) {
     ManageGroupErrorComponent,
     VerifyUserComponent,
     VerifyUserStatusComponent,
+    DataMigrationUploadComponent,
+    DataMigrationSummaryComponent,
+    DataMigrationErrorComponent,
+    DataMigrationStatusComponent,
+    CustomGovukTableComponent,
     AccordionComponent
   ],
   imports: [
