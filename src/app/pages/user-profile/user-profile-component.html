@@ -141,23 +141,26 @@
                     <p>
                 </div>
 
-                <div>
-                    <app-accordion [headerTextKeys]="groupsMember.headerTextKey" [headerText]="groupsMember.headerText"
-                        [noRoleMessage]="groupsMember.noRoleMessage"
-                        [noDataGroupsMemberMessage]="groupsMember.noDataGroupsMemberMessage"
-                        [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
-                        [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow"
-                        (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)"
-                        (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <app-accordion [headerTextKeys]="groupsMember.headerTextKey"
+                            [headerText]="groupsMember.headerText" [noRoleMessage]="groupsMember.noRoleMessage"
+                            [noDataGroupsMemberMessage]="groupsMember.noDataGroupsMemberMessage"
+                            [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
+                            [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow"
+                            (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)"
+                            (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
 
-                    <app-accordion *ngIf="noneGroupsMember.isAdmin" [headerTextKeys]="noneGroupsMember.headerTextKey"
-                        [noRoleMessage]="noneGroupsMember.noRoleMessage"
-                        [noDatanoneGroupsMemberMessage]="noneGroupsMember.noDatanoneGroupsMemberMessage"
-                        [headerText]="noneGroupsMember.headerText" [accessTable]="noneGroupsMember.accessTable"
-                        [data]="noneGroupsMember.data" [isAdmin]="noneGroupsMember.isAdmin"
-                        [groupShow]="noneGroupsMember.groupShow"
-                        (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)"
-                        (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
+                        <app-accordion *ngIf="noneGroupsMember.isAdmin"
+                            [headerTextKeys]="noneGroupsMember.headerTextKey"
+                            [noRoleMessage]="noneGroupsMember.noRoleMessage"
+                            [noDatanoneGroupsMemberMessage]="noneGroupsMember.noDatanoneGroupsMemberMessage"
+                            [headerText]="noneGroupsMember.headerText" [accessTable]="noneGroupsMember.accessTable"
+                            [data]="noneGroupsMember.data" [isAdmin]="noneGroupsMember.isAdmin"
+                            [groupShow]="noneGroupsMember.groupShow"
+                            (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)"
+                            (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
+                    </div>
                 </div>
 
                 <div *ngIf="roleDataList.length == 0">
@@ -283,7 +286,7 @@
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
 
-                                <p class="govuk-hints" *ngIf="isAdminUser == true">{{ 'ACCESS_TO_USER_SERVICE'| translate }}</p>
+                                <p class="govuk-hints" *ngIf="isAdminUser == true">{{ 'ACCESS_TO_USER_SERVICE_MANAGE_MY_ACCOUNT'| translate }}</p>
                                 <p class="govuk-hints" *ngIf="isAdminUser == false">{{ 'ACCESS_TO_REGULAR_USER_SERVICE'| translate }}</p>
 
                                 <div *ngIf="roleDataList.length > 0 && isAdminUser==false">
