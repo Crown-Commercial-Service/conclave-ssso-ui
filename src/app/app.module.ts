@@ -370,7 +370,7 @@ export function createTranslateLoader(http: HttpClient) {
     DataMigrationSummaryComponent,
     DataMigrationErrorComponent,
     DataMigrationStatusComponent,
-    CustomGovukTableComponent
+    CustomGovukTableComponent,
     AccordionComponent
   ],
   imports: [
