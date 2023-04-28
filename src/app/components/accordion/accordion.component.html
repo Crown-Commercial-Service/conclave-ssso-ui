@@ -1,0 +1,113 @@
+<div class="admin_table" *ngIf="isAdmin">
+    <table class="govuk-table" *ngIf="data.length > 0; else noData">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header border-bottom-0">{{headerText}}</th>
+                <th scope="col" class="govuk-table__header border-bottom-0 govuk-text-align-right">
+                    <p *ngIf="accessTable === 'groupsMember'" class="govuk-body"><a href="javascript:;"
+                            class="govuk-link" (click)="onTopToggle()">{{groupShow ==
+                            true ? 'hide all assigned' : (groupShow == false ? 'show all assigned' : '')}}
+                            ({{data.length}})</a></p>
+                    <p *ngIf="accessTable === 'noneGroupsMember'" class="govuk-body"><a href="javascript:;"
+                            class="govuk-link" (click)="onTopToggle()">{{groupShow ==
+                            true ? 'hide all unassigned' : (groupShow == false ? 'show all unassigned' : '')}}
+                            ({{data.length}})</a></p>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="govuk-table__body border-top-1" *ngIf="groupShow">
+            <tr class="govuk-table__row" *ngFor="let groupdata of data ; let i=index">
+                <th scope="row" class="govuk-table__header">
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="{{'orgGroupControl_' + groupdata.groupId}}"
+                                name="{{'orgGroupControl_' + groupdata.groupId}}" type="checkbox" value="true"
+                                [(ngModel)]="groupdata.checked" (click)="onCheckBoxClick(groupdata,groupdata.checked)">
+                            <label
+                                class="govuk-label govuk-checkboxes__label govuk-!-margin-bottom-2 govuk-!-margin-left-4 govuk-link"
+                                for="{{'groupdata' + groupdata.groupId}}">
+                                <a href="javascript:;" class="govuk-link"
+                                    (click)="goToEditGroup(groupdata.groupId)">{{groupdata[headerTextKeys]}}</a>
+                            </label>
+                            <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-6" id="{{groupdata.groupId}}"
+                                style="display: none;">
+
+                                <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleData">
+                                    <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}}
+                                        <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
+                                    </li>
+                                </span>
+                                <ng-template #noRoleData>
+                                    {{!noRoleMessage? 'This user does not have access to any service through
+                                    their membership of this group.':noRoleMessage}}
+
+                                </ng-template>
+                            </ul>
+                        </div>
+                    </div>
+                </th>
+                <td class="govuk-table__cell govuk-text-align-right"><a href="javascript:;" class="govuk-link"
+                        (click)="onBottomToggle(groupdata.groupId)">{{getElementStatus(groupdata.groupId)}}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-template #noData>
+        <div>
+            <fieldset class="gov_uk_fieldset">
+                <strong class="custom_strong">{{headerText}}</strong>
+                <br>
+                <br>
+                <span *ngIf="accessTable === 'groupsMember'" class="none_span">
+                    {{!noDataGroupsMemberMessage? 'This user is not
+                    member of any group.':noDataGroupsMemberMessage}}</span>
+                <span *ngIf="accessTable === 'noneGroupsMember'" class="none_span">
+                    {{!noDatanoneGroupsMemberMessage? 'There are no unassigned groups for
+                    this user.':noDatanoneGroupsMemberMessage}}
+
+                </span>
+            </fieldset>
+        </div>
+    </ng-template>
+</div>
+<div class="admin_table" *ngIf="!isAdmin">
+    <table class="govuk-table" *ngIf="data.length > 0; else noDataIsNotAdmin">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">{{headerText}}</th>
+                <th scope="col" class="govuk-table__header"></th>
+            </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            <tr class="govuk-table__row" *ngFor="let groupdata of data ; let i=index">
+                <th scope="row" class="govuk-table__header">{{groupdata[headerTextKeys]}}
+                    <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-4" id="{{groupdata.groupId}}"
+                        style="display: none;">
+                        <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleDataIsNotAdmin">
+                            <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}}
+                                <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
+                            </li>
+                        </span>
+                        <ng-template #noRoleDataIsNotAdmin>
+                            {{!noRoleMessage? 'This user does not have access to any service through
+                            their membership of this group.':noRoleMessage}}
+                        </ng-template>
+                    </ul>
+                </th>
+                <td class="govuk-table__cell govuk-text-align-right"><a href="javascript:;" class="govuk-link"
+                        (click)="toggleRoleForUser(groupdata.groupId)">{{getElementStatus(groupdata.groupId)}}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-template #noDataIsNotAdmin>
+        <div>
+            <fieldset class="gov_uk_fieldset">
+                <strong class="custom_strong">{{headerText}}</strong>
+                <br>
+                <br>
+                <span *ngIf="accessTable === 'groupsMember'" class="none_span">
+                    {{!noDataGroupsMemberMessage? 'This user is not
+                    member of any group.':noDataGroupsMemberMessage}}</span>
+            </fieldset>
+        </div>
+    </ng-template>
+</div>

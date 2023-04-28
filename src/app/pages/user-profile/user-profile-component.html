@@ -18,22 +18,26 @@
     <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_MY_ACCOUNT' | translate }}</h1>
     <div class="govuk-error-summary form-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
         id="error-summary" data-module="govuk-error-summary" *ngIf="submitted && ((formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched) ||
-        (formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched))">
+            (formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched))">
         <h2 class="govuk-error-summary__title" id="error-summary-title">
             {{ 'ERROR_SUMMARY' | translate }}
         </h2>
         <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
-                <li *ngIf="submitted && formGroup.controls.firstName.errors?.required  && formGroup.controls.firstName.touched">
+                <li
+                    *ngIf="submitted && formGroup.controls.firstName.errors?.required  && formGroup.controls.firstName.touched">
                     <a href="javascript:;" onClick="return false;" (click)="setFocus(0)"> {{
                         'ERROR_FIRST_NAME' | translate }} </a>
                 </li>
-                <li *ngIf="submitted && formGroup.controls.lastName.errors?.required  && formGroup.controls.lastName.touched">
+                <li
+                    *ngIf="submitted && formGroup.controls.lastName.errors?.required  && formGroup.controls.lastName.touched">
                     <a href="javascript:;" onClick="return false;" (click)="setFocus(1)"> {{
                         'ERROR_LAST_NAME' | translate }}</a>
                 </li>
-                <li *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
-                    <a href="javascript:;" onClick="return false;" (click)="focusUserProfileInput()"> {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
+                <li
+                    *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
+                    <a href="javascript:;" onClick="return false;" (click)="focusUserProfileInput()"> {{
+                        'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
                 </li>
             </ul>
         </div>
@@ -105,8 +109,9 @@
                                         </div>
                                     </fieldset>
                                 </div>
-                                <button type="button" class="govuk-button"
-                                 data-module="govuk-button" [disabled]="!formGroup.controls.mfaEnabled.value" (click)="ResetAdditionalSecurity()">Reset my additional security</button>
+                                <button type="button" class="govuk-button" data-module="govuk-button"
+                                    [disabled]="!formGroup.controls.mfaEnabled.value"
+                                    (click)="ResetAdditionalSecurity()">Reset my additional security</button>
 
                                 <div>
                                     <p class="govuk-body govuk-!-font-size-19">
@@ -129,154 +134,258 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="userGroups.length == 0">
-                    <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
-                    <app-details [detailsData]="detailsData[1]"></app-details>
-                    <p>{{'NONE'| translate}}
-                    <p>
-                </div>
 
-                <div *ngIf="userGroups.length > 0">
+                <div>
                     <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
                     <app-details [detailsData]="detailsData[1]"></app-details>
                     <p>
                 </div>
 
-                <div *ngIf="userGroups.length > 0">
-                    <app-govuk-table [headerTextKeys]="userGroupTableHeaders" [data]="userGroups"
-                        [dataKeys]="userGroupColumnsToDisplay" [isHyperLinkVisible]="hasGroupViewPermission"
-                        [hyperLinkText]="'VIEW_DETAILS'" (hyperLinkClickEvent)="onGroupViewClick($event)"
-                        [useClientPagination]="true"></app-govuk-table>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <app-accordion [headerTextKeys]="groupsMember.headerTextKey"
+                            [headerText]="groupsMember.headerText" [noRoleMessage]="groupsMember.noRoleMessage"
+                            [noDataGroupsMemberMessage]="groupsMember.noDataGroupsMemberMessage"
+                            [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
+                            [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow"
+                            (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)"
+                            (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
+
+                        <app-accordion *ngIf="noneGroupsMember.isAdmin"
+                            [headerTextKeys]="noneGroupsMember.headerTextKey"
+                            [noRoleMessage]="noneGroupsMember.noRoleMessage"
+                            [noDatanoneGroupsMemberMessage]="noneGroupsMember.noDatanoneGroupsMemberMessage"
+                            [headerText]="noneGroupsMember.headerText" [accessTable]="noneGroupsMember.accessTable"
+                            [data]="noneGroupsMember.data" [isAdmin]="noneGroupsMember.isAdmin"
+                            [groupShow]="noneGroupsMember.groupShow"
+                            (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)"
+                            (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
+                    </div>
                 </div>
 
                 <div *ngIf="roleDataList.length == 0">
                     <div class="role_view" *ngIf="showRoleView">
-                        <h2  class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
+                        <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
                         <app-details [detailsData]="detailsData[2]"></app-details>
                     </div>
                     <div class="service_view" *ngIf="!showRoleView">
-                        <h2  class="govuk-heading-s"> {{ 'SERVICES' | translate }}</h2>
-                            <p class="govuk-hints">{{groupHint}}</p>
-                          <br>
+                        <h2 class="govuk-heading-s"> {{ 'SERVICES' | translate }}</h2>
+                        <p class="govuk-hints">{{groupHint}}</p>
+                        <br>
                     </div>
                     <p>{{'NONE'| translate}}
                     <p>
                 </div>
                 <div class="govuk-grid-row">
-                  <div class="govuk-grid-column-two-thirds">
-                   <div *ngIf="roleDataList.length > 0">
-                    <div class="role_view" *ngIf="showRoleView">
-                        <h2  class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
-                        <app-details [detailsData]="detailsData[2]"></app-details>
-                        <div class="roles_table" *ngIf="isAdminUser === true">
-                            <span class="table_caption">To help you choose the correct roles use the table below:</span>
-                            <table style="width:100%">
-                                <tr>
-                                    <th>For whom</th>
-                                    <th>Task</th>
-                                    <th>Roles to tick</th>
-                                </tr>
-                                <tr>
-                                    <td rowspan="2" class="column_one_space">
-                                        Organisational Administrators of Public Procurement Gateway (PPG)
-                                    </td>
-                                    <td class="litrel_space">Add an additional PPG administrator</td>
-                                    <td class="roles_padding">
-                                        <ul class="listing">
-                                            <li>Organisation Administrator - Dashboard Service</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="litrel_space" class="column_one_space">Add user to PPG</td>
-                                    <td class="roles_padding">
-                                        <ul class="listing">
-                                            <li>Organisation User - Dashboard Service</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td rowspan="2" class="column_one_space">
-                                        Buyers
-                                    </td>
-                                    <td class="litrel_space">Enable Contract Award Service</td>
-                                    <td class="roles_padding">
-                                        <ul  class="listing">
-                                            <li>eSourcing Service as a buyer</li>
-                                            <li>Contract Award Service (CAS) - add service</li>
-                                            <li>Contract Award Service (CAS) - add to dashboard</li>
-                                            <li>eSourcing Service - add service</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="litrel_space">Enable eSourcing</td>
-                                    <td class="roles_padding">
-                                        <ul class="listing">
-                                            <li>eSourcing Service as a buyer
-                                            </li>
-                                            <li>eSourcing Service - add service
-                                            </li>
-                                            <li>eSourcing Service - add to dashboard
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="column_one_space">Suppliers</td>
-                                    <td class="litrel_space">Enable eSourcing</td>
-                                    <td class="roles_padding">
-                                        <ul class="listing">
-                                            <li>eSourcing Service as a supplier</li>
-                                            <li>eSourcing Service - add service</li>
-                                            <li>eSourcing Service - add to dashboard</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                            </table>
-                            <br>
+                    <div class="govuk-grid-column-two-thirds">
+                        <div *ngIf="roleDataList.length > 0">
+                            <div class="role_view" *ngIf="showRoleView">
+                                <h2 class="govuk-heading-s"> {{ 'ROLES' | translate }}</h2>
+                                <app-details [detailsData]="detailsData[2]"></app-details>
+                                <div class="roles_table" *ngIf="isAdminUser === true">
+                                    <span class="table_caption">To help you choose the correct roles use the table
+                                        below:</span>
+                                    <table style="width:100%">
+                                        <tr>
+                                            <th>For whom</th>
+                                            <th>Task</th>
+                                            <th>Roles to tick</th>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2" class="column_one_space">
+                                                Organisational Administrators of Public Procurement Gateway (PPG)
+                                            </td>
+                                            <td class="litrel_space">Add an additional PPG administrator</td>
+                                            <td class="roles_padding">
+                                                <ul class="listing">
+                                                    <li>Organisation Administrator - Dashboard Service</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="litrel_space" class="column_one_space">Add user to PPG</td>
+                                            <td class="roles_padding">
+                                                <ul class="listing">
+                                                    <li>Organisation User - Dashboard Service</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2" class="column_one_space">
+                                                Buyers
+                                            </td>
+                                            <td class="litrel_space">Enable Contract Award Service</td>
+                                            <td class="roles_padding">
+                                                <ul class="listing">
+                                                    <li>eSourcing Service as a buyer</li>
+                                                    <li>Contract Award Service (CAS) - add service</li>
+                                                    <li>Contract Award Service (CAS) - add to dashboard</li>
+                                                    <li>eSourcing Service - add service</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="litrel_space">Enable eSourcing</td>
+                                            <td class="roles_padding">
+                                                <ul class="listing">
+                                                    <li>eSourcing Service as a buyer
+                                                    </li>
+                                                    <li>eSourcing Service - add service
+                                                    </li>
+                                                    <li>eSourcing Service - add to dashboard
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column_one_space">Suppliers</td>
+                                            <td class="litrel_space">Enable eSourcing</td>
+                                            <td class="roles_padding">
+                                                <ul class="listing">
+                                                    <li>eSourcing Service as a supplier</li>
+                                                    <li>eSourcing Service - add service</li>
+                                                    <li>eSourcing Service - add to dashboard</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                    </table>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="service_view" *ngIf="!showRoleView">
+                                <h2 class="govuk-heading-s"> {{ 'SERVICES' | translate }}</h2>
+                                <p class="govuk-hints">{{groupHint}}</p>
+                                <br>
+                            </div>
                         </div>
                     </div>
-                    <div class="service_view" *ngIf="!showRoleView">
-                        <h2  class="govuk-heading-s"> {{ 'SERVICES' | translate }}</h2>
-                          <p class="govuk-hints">{{groupHint}}</p>
-                          <br>
-                    </div>
                 </div>
-                </div>
-                </div>
-                <div *ngIf="roleDataList.length > 0 && isAdminUser==false">
-                    <div class="role_view" *ngIf="showRoleView">
-                        <app-govuk-table [headerTextKeys]="userRoleTableHeaders" [data]="roleDataList"
-                        [dataKeys]="userRoleColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
-                    </div>
-                    <div class="service_view" *ngIf="!showRoleView">
-                        <app-govuk-table [headerTextKeys]="userServiceTableHeaders" [data]="roleDataList"
-                        [dataKeys]="userServiceColumnsToDisplay" [useClientPagination]="true"></app-govuk-table>
-                    </div>
-                </div>
-                <div *ngIf="roleDataList.length > 0 && isAdminUser==true" class="govuk-checkboxes">
-                    <fieldset class="govuk-fieldset">
-                        <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgRole of roleDataList; let i=index">
-                            <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                [attr.disabled]="getDisbleRole(orgRole.roleKey) ? true : null"
-                                [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox" value="hmrc" (ngModelChange)="onUserRoleChecked(orgRole, $event)">
-                            <label *ngIf="orgRole.serviceName == null" class="govuk-label govuk-checkboxes__label"
-                                for="{{'orgRoleControl_' + orgRole.roleId}}" [ngClass]="{'role_lable': showRoleView === false,'govuk-!-padding-top-0': orgRole.description != ''}">
-                                {{orgRole.accessRoleName}}
-                            </label>
-                            <label *ngIf="orgRole.serviceName != null && showRoleView" class="govuk-label govuk-checkboxes__label"
-                                for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                {{orgRole.accessRoleName}} - {{orgRole.serviceName}} 
-                            </label>
-                            <strong class="govuk-tag govuk-tag--grey" *ngIf="checkIsPendingRole(orgRole)">
-                                Pending Approval
-                            </strong>
-                              <p class="govuk-body description_para">{{orgRole.description}} </p>
+                <div class="govuk-tabs" data-module="govuk-tabs">
+                    <h2 class="govuk-tabs__title">
+                        testing
+                    </h2>
+                    <ul class="govuk-tabs__list">
+                        <li class="govuk-tabs__list-item"
+                            [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.userservices}"
+                            (click)="tabChanged('userservices')">
+                            <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+                                Individual access
+                            </a>
+                        </li>
+                        <li class="govuk-tabs__list-item"
+                            [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.groupservices}"
+                            (click)="tabChanged('groupservices')">
+                            <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+                                Group access
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="govuk-tabs__panel" id="user-service"
+                        [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.userservices}">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+
+                                <p class="govuk-hints" *ngIf="isAdminUser == true">{{ 'ACCESS_TO_USER_SERVICE_MANAGE_MY_ACCOUNT'| translate }}</p>
+                                <p class="govuk-hints" *ngIf="isAdminUser == false">{{ 'ACCESS_TO_REGULAR_USER_SERVICE'| translate }}</p>
+
+                                <div *ngIf="roleDataList.length > 0 && isAdminUser==false">
+                                    <div class="role_view" *ngIf="showRoleView">
+                                        <app-govuk-table [headerTextKeys]="userRoleTableHeaders" [data]="roleDataList"
+                                            [dataKeys]="userRoleColumnsToDisplay"
+                                            [useClientPagination]="true"></app-govuk-table>
+                                    </div>
+                                    <div class="service_view" *ngIf="!showRoleView">
+                                        <app-govuk-table [headerTextKeys]="userServiceTableHeaders"
+                                            [data]="roleDataList" [dataKeys]="userServiceColumnsToDisplay"
+                                            [useClientPagination]="true"></app-govuk-table>
+                                    </div>
+                                </div>
+                                <div *ngIf="roleDataList.length > 0 && isAdminUser==true" class="govuk-checkboxes">
+                                    <fieldset class="govuk-fieldset">
+                                        <div class="govuk-checkboxes__item govuk-item-custom"
+                                            *ngFor="let orgRole of roleDataList; let i=index">
+                                            <input class="govuk-checkboxes__input"
+                                                id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                                [attr.disabled]="getDisbleRole(orgRole.roleKey) ? true : null"
+                                                [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                                value="hmrc" (ngModelChange)="onUserRoleChecked(orgRole, $event)">
+                                            <label *ngIf="orgRole.serviceName == null"
+                                                class="govuk-label govuk-checkboxes__label"
+                                                for="{{'orgRoleControl_' + orgRole.roleId}}"
+                                                [ngClass]="{'role_lable': showRoleView === false,'govuk-!-padding-top-0': orgRole.description != ''}">
+                                                {{orgRole.accessRoleName}}
+                                            </label>
+                                            <label *ngIf="orgRole.serviceName != null && showRoleView"
+                                                class="govuk-label govuk-checkboxes__label"
+                                                for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                                {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
+                                            </label>
+                                            <strong class="govuk-tag govuk-tag--grey"
+                                                *ngIf="checkIsPendingRole(orgRole)">
+                                                Pending Approval
+                                            </strong>
+                                            <p class="govuk-body description_para">{{orgRole.description}} </p>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                            </div>
                         </div>
-                    </fieldset>
+                    </div>
+                    <div class="govuk-tabs__panel" id="group-service"
+                        [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.groupservices}">
+                        <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 && isAdminUser == true">{{
+                            'ORG_ADMIN_GROUP_ACCESS'| translate }}</p>
+                        <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 && isAdminUser == false ">{{
+                            'ORG_USER_GROUP_ACCESS'| translate }}</p>
+
+                        <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 && isAdminUser == true">{{
+                            'ORG_ADMIN_GROUP_ACCESS_NONE'| translate }}</p>
+                        <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 && isAdminUser == false">{{
+                            'ORG_USER_GROUP_ACCESS_NONE'| translate }}</p>
+
+                        <div *ngIf="orgUserGroupRoles.length > 0 && isAdminUser==false">
+                            <div class="role_view" *ngIf="showRoleView">
+                                <app-govuk-table [headerTextKeys]="userRoleTableHeaders" [data]="orgUserGroupRoles"
+                                    [dataKeys]="userRoleColumnsToDisplay"
+                                    [useClientPagination]="true"></app-govuk-table>
+                            </div>
+                            <div class="service_view" *ngIf="!showRoleView">
+                                <app-govuk-table [headerTextKeys]="userServiceGroupTableHeaders"
+                                    [data]="orgUserGroupRoles" [dataKeys]="userServiceGroupColumnsToDisplay"
+                                    [useClientPagination]="true"></app-govuk-table>
+                            </div>
+                        </div>
+
+                        <div *ngIf="orgUserGroupRoles.length > 0 && isAdminUser==true"
+                            class="govuk-checkboxes govuk-checkboxes-custom-input">
+                            <div class="govuk-checkboxes__item govuk-item-custom"
+                                *ngFor="let orgRole of orgUserGroupRoles; let i=index">
+                                <input class="govuk-checkboxes__input" id="{{'orgRoleControlGroup_' + orgRole.id}}"
+                                    [attr.disabled]="true" [attr.checked]="true"
+                                    [formControlName]="'orgRoleControlGroup_' + orgRole.id" type="checkbox"
+                                    value="hmrc">
+                                <label class="govuk-label govuk-checkboxes__label role_lable"
+                                    [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
+                                    for="{{'orgRoleControlGroup_' + orgRole.id}}">
+                                    {{orgRole.name}}
+                                </label>
+                                <strong class="govuk-tag govuk-tag--grey"
+                                    *ngIf="orgRole.approvalStatus == 0 ? true : false">
+                                    Pending Approval
+                                </strong>
+                                <p class="govuk-body description_para govuk-!-padding-top-0">{{orgRole.description}}
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
+
+
+
+
                 <h2 class="govuk-heading-s contact-detail"> {{ 'CONTACT_DETAILS' | translate }}</h2>
                 <app-details [detailsData]="detailsData[3]"></app-details>
                 <div class="govuk-grid-row">
@@ -296,9 +405,9 @@
                         {{ 'ADD_ANOTHER_CONTACT_BTN' | translate }}
                     </button>
                     <!-- <button type="button" (click)="onContactAssignRemoveClick()"
-                        class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                        {{ 'ADD_REMOVE_ORG_CONTACT_BTN' | translate }}
-                    </button> -->
+                            class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                            {{ 'ADD_REMOVE_ORG_CONTACT_BTN' | translate }}
+                        </button> -->
                 </div>
 
                 <div class="govuk-button-group save-cancel-button-group">

@@ -17,6 +17,7 @@ import {
   UserEditResponseInfo,
   UserProfileRequestInfo,
   UserProfileResponseInfo,
+  userGroupTableDetail,
 } from 'src/app/models/user';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { Group, GroupList, Role } from 'src/app/models/organisationGroup';
@@ -40,7 +41,7 @@ import { Subscription } from 'rxjs';
 })
 export class ManageUserAddSingleUserDetailComponent
   extends FormBaseComponent
-  implements OnInit,OnDestroy {
+  implements OnInit, OnDestroy {
   public organisationId: string;
   public userProfileRequestInfo: UserProfileRequestInfo;
   public userProfileResponseInfo: UserProfileResponseInfo;
@@ -64,11 +65,33 @@ export class ManageUserAddSingleUserDetailComponent
   public pendingRoleDetails: any = []
   public selectedApproveRequiredRole: any = []
   public pendingRoledeleteDetails: any = []
+  public selectedGroupCheckboxes: any[] = [];
+  public orgUserGroupRoles: any[] = [];
+  public groupsMember: userGroupTableDetail = {
+    isAdmin: true,
+    headerText: "Groups this user is a member of",
+    headerTextKey: "groupName",
+    accessTable: "groupsMember",
+    groupShow: true,
+    data: [],
+  }
+  public noneGroupsMember: userGroupTableDetail = {
+    isAdmin: true,
+    headerText: "Groups this user is not a member of",
+    headerTextKey: "groupName",
+    accessTable: "noneGroupsMember",
+    groupShow: false,
+    data: []
+  }
   public detailsData: any = [
     'Add additional security steps to make an account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
     'Groups allow you to manage large numbers of users all at once. Services can be applied to groups to organise user’s more efficiently and allow bulk access to relevant services where it is required.',
     'The roles selected here will set what services are available to your users.',
   ];
+  public tabConfig = {
+    userservices: true,
+    groupservices: false
+  }
   public userTitleArray = ['Mr', 'Mrs', 'Miss', 'Ms', 'Doctor', 'Unspecified'];
   public emailHaserror: boolean = false;
   public MFA_Enabled: any = false;
@@ -76,7 +99,7 @@ export class ManageUserAddSingleUserDetailComponent
   private selectedRoleIds: number[] = []
   public isInvalidDomain: boolean = false
   public subscription: Subscription = new Subscription;
-  public showRoleView:boolean = environment.appSetting.hideSimplifyRole
+  public showRoleView: boolean = environment.appSetting.hideSimplifyRole
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private organisationGroupService: WrapperOrganisationGroupService,
@@ -93,7 +116,7 @@ export class ManageUserAddSingleUserDetailComponent
     private authService: AuthService,
     private locationStrategy: LocationStrategy,
     private organisationService: WrapperOrganisationService,
-    private sharedDataService:SharedDataService
+    private sharedDataService: SharedDataService
   ) {
     super(
       viewportScroller,
@@ -131,7 +154,7 @@ export class ManageUserAddSingleUserDetailComponent
     localStorage.removeItem('user_approved_role');
     localStorage.removeItem('user_access_name');
     if (queryParams.data) {
-      this.subscription = this.sharedDataService.userEditDetails.subscribe((data)=>{
+      this.subscription = this.sharedDataService.userEditDetails.subscribe((data) => {
         this.routeData = JSON.parse(atob(queryParams.data));
         this.isEdit = this.routeData['isEdit'];
         this.editingUserName = sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
@@ -144,6 +167,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.allIdps = [];
     this.approveRequiredRole = []
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
+    this.orgUserGroupRoles = [];
     this.userProfileRequestInfo = {
       organisationId: this.organisationId,
       title: 'undefined',
@@ -246,8 +270,8 @@ export class ManageUserAddSingleUserDetailComponent
     this.MFA_Enabled = this.formGroup.controls.mfaEnabled.value;
   }
 
-   private patchAdminMailData(){
-    if(this.routeData.isCreatedByAdmin === true){
+  private patchAdminMailData() {
+    if (this.routeData.isCreatedByAdmin === true) {
       this.formGroup.controls['firstName'].setValue(
         this.routeData.firstName
       );
@@ -258,8 +282,8 @@ export class ManageUserAddSingleUserDetailComponent
         this.routeData.userName
       );
     }
-   }
-   
+  }
+
   async getIdentityProviders() {
     let masterIdps = await this.configWrapperService.getIdentityProviders().toPromise().catch();
     this.identityProviders = await this.organisationGroupService.getOrganisationIdentityProviders(this.organisationId).toPromise();
@@ -302,23 +326,45 @@ export class ManageUserAddSingleUserDetailComponent
     });
   }
 
+
   async getOrgGroups() {
-    let orgGrpList = await this.organisationGroupService
-      .getOrganisationGroups(this.organisationId)
-      .toPromise<GroupList>();
+    const orgGrpList = await this.organisationGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise<GroupList>();
     this.orgGroups = orgGrpList.groupList;
-    this.orgGroups.forEach((group) => {
-      let isGroupOfUser =
-        this.userProfileResponseInfo.detail &&
-        this.userProfileResponseInfo.detail.userGroups &&
-        this.userProfileResponseInfo.detail.userGroups.some(
-          (ug) => ug.groupId == group.groupId
-        );
-      this.formGroup.addControl(
-        'orgGroupControl_' + group.groupId,
-        this.formBuilder.control(isGroupOfUser ? true : '')
-      );
-    });
+    for (const group of this.orgGroups) {
+      const isGroupOfUser: any = this.userProfileResponseInfo?.detail?.userGroups?.find((ug) => ug.groupId === group.groupId);
+      if (isGroupOfUser) {
+        // if(isGroupOfUser.approvalStatus === 0){
+        //  const pendingApproveRole = group?.serviceRoleGroups?.find((pg:any)=>pg.id === isGroupOfUser.accessServiceRoleGroupId)
+        //  group.serviceRoleGroups.map((fc:any)=>{
+        //  if(pendingApproveRole.id === fc.id){
+        //   fc.isPendingApproval = true
+        //   fc = pendingApproveRole
+        //  }
+        //  })
+        // }
+        group.serviceRoleGroups.map((fc: any) => {
+          var serviceGroupApprovalDetails: any = this.userProfileResponseInfo?.detail?.userGroups?.find((ug: any) => ug.groupId === group.groupId && ug.accessServiceRoleGroupId === fc.id);
+          fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
+        });
+
+        group.checked = true
+        group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
+        this.groupsMember.data.push(group)
+        this.selectedGroupCheckboxes.push(group.groupId)
+
+        group.serviceRoleGroups.forEach((element: any) => {
+          let groupRoles = this.orgUserGroupRoles.filter(e => { return e.id == element.id });
+          if (groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus == 1)) {
+            this.orgUserGroupRoles.push(element);
+          }
+        });
+      } else {
+        this.noneGroupsMember.data.push(group)
+      }
+      if(this.orgUserGroupRoles.length > 0){
+        this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(a,b){ return a.displayOrder - b.displayOrder});
+      } 
+    }
   }
 
   async getOrgRoles() {
@@ -413,8 +459,8 @@ export class ManageUserAddSingleUserDetailComponent
       this.userProfileRequestInfo.mfaEnabled = form.get('mfaEnabled')?.value;
       this.userProfileRequestInfo.detail.identityProviderIds =
         this.getSelectedIdpIds(form);
-      this.userProfileRequestInfo.detail.groupIds =
-        this.getSelectedGroupIds(form);
+      // this.userProfileRequestInfo.detail.groupIds =
+      //   this.getSelectedGroupIds(form);
       this.userProfileRequestInfo.detail.roleIds =
         this.getSelectedRoleIds(form);
       this.checkApproveRolesSelected()
@@ -447,15 +493,15 @@ export class ManageUserAddSingleUserDetailComponent
     return selectedIdpIds;
   }
 
-  getSelectedGroupIds(form: FormGroup) {
-    let selectedGroupIds: number[] = [];
-    this.orgGroups.map((group) => {
-      if (form.get('orgGroupControl_' + group.groupId)?.value === true) {
-        selectedGroupIds.push(group.groupId);
-      }
-    });
-    return selectedGroupIds;
-  }
+  // getSelectedGroupIds(form: FormGroup) {
+  //   let selectedGroupIds: number[] = [];
+  //   this.orgGroups.map((group) => {
+  //     if (form.get('orgGroupControl_' + group.groupId)?.value === true) {
+  //       selectedGroupIds.push(group.groupId);
+  //     }
+  //   });
+  //   return selectedGroupIds;
+  // }
 
 
 
@@ -502,8 +548,7 @@ export class ManageUserAddSingleUserDetailComponent
 
     if (!filterAlreadyExistRole) {
       this.selectedApproveRequiredRole.push(role.roleId)
-    }else
-    {
+    } else {
       // Remove below line to seperate normal and approval required role. It is added as we will not be using seperate api. Only user update api will be used
       this.selectedRoleIds.push(role.roleId);
     }
@@ -576,11 +621,12 @@ export class ManageUserAddSingleUserDetailComponent
         })
       })
       localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
-      localStorage.setItem('user_access_name',this.userProfileRequestInfo.userName);
+      localStorage.setItem('user_access_name', this.userProfileRequestInfo.userName);
     }
   }
 
   updateUser(form: FormGroup) {
+    this.userProfileRequestInfo.detail.groupIds = this.selectedGroupCheckboxes
     this.wrapperUserService
       .updateUser(
         this.userProfileRequestInfo.userName,
@@ -617,6 +663,7 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   createUser(form: FormGroup) {
+    this.userProfileRequestInfo.detail.groupIds = this.selectedGroupCheckboxes
     this.wrapperUserService.createUser(this.userProfileRequestInfo).subscribe({
       next: (userEditResponseInfo: UserEditResponseInfo) => {
         this.submitted = false;
@@ -708,110 +755,109 @@ export class ManageUserAddSingleUserDetailComponent
       this.inputs.toArray()[1].nativeElement.focus();
     }
   }
-  onGroupViewClick(groupId: any) {
-    var formData: UserProfileResponseInfo = {
-      title: this.formGroup.get('userTitle')?.value,
-      firstName: this.formGroup.get('firstName')?.value,
-      lastName: this.formGroup.get('lastName')?.value,
-      userName: this.formGroup.get('userName')?.value,
-      mfaEnabled: this.formGroup.get('mfaEnabled')?.value,
-      isAdminUser: false,
-      detail: {
-        id: this.userProfileResponseInfo.detail.id,
-        canChangePassword:
-          this.userProfileResponseInfo.detail.canChangePassword,
-        identityProviders: [],
-        userGroups: [],
-        rolePermissionInfo: [],
-      },
-      organisationId: this.organisationId,
-    };
+  // onGroupViewClick(groupId: any) {
+  //   var formData: UserProfileResponseInfo = {
+  //     title: this.formGroup.get('userTitle')?.value,
+  //     firstName: this.formGroup.get('firstName')?.value,
+  //     lastName: this.formGroup.get('lastName')?.value,
+  //     userName: this.formGroup.get('userName')?.value,
+  //     mfaEnabled: this.formGroup.get('mfaEnabled')?.value,
+  //     isAdminUser: false,
+  //     detail: {
+  //       id: this.userProfileResponseInfo.detail.id,
+  //       canChangePassword:
+  //         this.userProfileResponseInfo.detail.canChangePassword,
+  //       identityProviders: [],
+  //       userGroups: [],
+  //       rolePermissionInfo: [],
+  //     },
+  //     organisationId: this.organisationId,
+  //   };
 
-    // Filter the selected identity providers and keep it in route change
-    let selectedIdpIds = this.getSelectedIdpIds(this.formGroup);
-    selectedIdpIds.forEach((selectedIdpId) => {
-      if (
-        !formData.detail.identityProviders?.some(
-          (ug) => ug.identityProviderId == selectedIdpId
-        )
-      ) {
-        formData.detail.identityProviders &&
-          formData.detail.identityProviders.push({
-            identityProviderId: selectedIdpId,
-          });
-      }
-    });
+  //   // Filter the selected identity providers and keep it in route change
+  //   let selectedIdpIds = this.getSelectedIdpIds(this.formGroup);
+  //   selectedIdpIds.forEach((selectedIdpId) => {
+  //     if (
+  //       !formData.detail.identityProviders?.some(
+  //         (ug) => ug.identityProviderId == selectedIdpId
+  //       )
+  //     ) {
+  //       formData.detail.identityProviders &&
+  //         formData.detail.identityProviders.push({
+  //           identityProviderId: selectedIdpId,
+  //         });
+  //     }
+  //   });
 
-    // Filter the selected groups and keep it in route change
-    let selectedGroupIds = this.getSelectedGroupIds(this.formGroup);
-    selectedGroupIds.forEach((selectedGroupId) => {
-      if (
-        !(
-          formData.detail.userGroups &&
-          formData.detail.userGroups.some((ug) => ug.groupId == selectedGroupId)
-        )
-      ) {
-        formData.detail.userGroups &&
-          formData.detail.userGroups.push({
-            groupId: selectedGroupId,
-            group: '',
-            accessRole: '',
-            accessRoleName: '',
-            serviceClientId: '',
-          });
-      }
-    });
+  //   // Filter the selected groups and keep it in route change
+  //   let selectedGroupIds = this.getSelectedGroupIds(this.formGroup);
+  //   selectedGroupIds.forEach((selectedGroupId) => {
+  //     if (
+  //       !(
+  //         formData.detail.userGroups &&
+  //         formData.detail.userGroups.some((ug) => ug.groupId == selectedGroupId)
+  //       )
+  //     ) {
+  //       formData.detail.userGroups &&
+  //         formData.detail.userGroups.push({
+  //           groupId: selectedGroupId,
+  //           group: '',
+  //           accessRole: '',
+  //           accessRoleName: '',
+  //           serviceClientId: '',
+  //         });
+  //     }
+  //   });
 
-    // Filter the selected roles and keep it in route change
-    let selectedRoleIds = this.getSelectedRoleIds(this.formGroup);
-    selectedRoleIds.forEach((selectedRoleId) => {
-      if (
-        !(
-          formData.detail.rolePermissionInfo &&
-          formData.detail.rolePermissionInfo.some(
-            (ug) => ug.roleId == selectedRoleId
-          )
-        )
-      ) {
-        formData.detail.rolePermissionInfo &&
-          formData.detail.rolePermissionInfo.push({
-            roleId: selectedRoleId,
-            roleKey: '',
-            roleName: '',
-            serviceClientId: '',
-            serviceClientName: '',
-          });
-      }
-    });
+  //   // Filter the selected roles and keep it in route change
+  //   let selectedRoleIds = this.getSelectedRoleIds(this.formGroup);
+  //   selectedRoleIds.forEach((selectedRoleId) => {
+  //     if (
+  //       !(
+  //         formData.detail.rolePermissionInfo &&
+  //         formData.detail.rolePermissionInfo.some(
+  //           (ug) => ug.roleId == selectedRoleId
+  //         )
+  //       )
+  //     ) {
+  //       formData.detail.rolePermissionInfo &&
+  //         formData.detail.rolePermissionInfo.push({
+  //           roleId: selectedRoleId,
+  //           roleKey: '',
+  //           roleName: '',
+  //           serviceClientId: '',
+  //           serviceClientName: '',
+  //         });
+  //     }
+  //   });
 
-    let data = {
-      isEdit: false,
-      groupId: groupId,
-      accessFrom: "users",
-      userEditStatus: this.isEdit,
-      isUserAccess: true
-    };
-    this.router.navigateByUrl(
-      'manage-groups/view?data=' + JSON.stringify(data),
-      { state: { formData: formData, routeUrl: this.router.url } }
-    );
-  }
+  //   let data = {
+  //     isEdit: false,
+  //     groupId: groupId,
+  //     accessFrom: "users",
+  //     userEditStatus: this.isEdit,
+  //     isUserAccess: true
+  //   };
+  //   this.router.navigateByUrl(
+  //     'manage-groups/view?data=' + JSON.stringify(data),
+  //     { state: { formData: formData, routeUrl: this.router.url } }
+  //   );
+  // }
 
   onUserRoleChecked(obj: any, isChecked: boolean) {
     var roleKey = obj.roleKey;
     if (isChecked == true) {
-      this.setMfaStatus(roleKey,true)
+      this.setMfaStatus(roleKey, true)
       if (obj.pendingStatus === true) {
         this.removePendingRole(obj)
       }
     }
     else if (isChecked == false) {
-     this.setMfaStatus(roleKey,false)
-     this.addPendingRole(obj)
+      this.setMfaStatus(roleKey, false)
     }
   }
 
-  private setMfaStatus(roleKey: any,status:boolean) {
+  private setMfaStatus(roleKey: any, status: boolean) {
     if (roleKey == 'ORG_ADMINISTRATOR') {
       this.formGroup.controls['mfaEnabled'].setValue(status);
       this.isAutoDisableMFA = status;
@@ -829,15 +875,6 @@ export class ManageUserAddSingleUserDetailComponent
     }
   }
 
-  // Removed below logic to avoid approval required seperate delete api call. Delete pending role will be handled in normal role put call.
-  private addPendingRole(obj:any){
-    // if (obj.pendingStatus === true) {
-    //   let filterRole = this.pendingRoledeleteDetails.find((element: number) => element == obj.roleId)
-    //   if (filterRole === undefined) {
-    //     this.pendingRoledeleteDetails.push(obj.roleId)
-    //   }
-    // }
-  }
 
   public ResetAdditionalSecurity(): void {
     if (this.MFA_Enabled) {
@@ -859,12 +896,59 @@ export class ManageUserAddSingleUserDetailComponent
     this.subscription.unsubscribe()
   }
 
-  public getDisbleRoleForService(orgRoleKey:any){
-     if(orgRoleKey === 'ORG_DEFAULT_USER'){
-        return true
-     } else {
-        return null
-     }
+  public getDisbleRoleForService(orgRoleKey: any) {
+    if (orgRoleKey === 'ORG_DEFAULT_USER') {
+      return true
+    } else {
+      return null
+    }
 
   }
+
+  public groupsMemberCheckBoxAddRoles(data: any) {
+    this.selectedGroupCheckboxes.push(data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
+
+  }
+
+  public groupsMemberCheckBoxRemoveRoles(data: any) {
+    this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes, data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
+  }
+
+  public noneGroupsMemberCheckBoxAddRoles(data: any) {
+    this.selectedGroupCheckboxes.push(data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
+  }
+
+  public noneGroupsMemberCheckBoxRemoveRoles(data: any) {
+    this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes, data.groupId);
+    this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
+  }
+
+  private removeObjectById(arr: any, id: any) {
+    return arr.filter((item: any) => item !== id);
+  }
+
+  public tabChanged(activetab: string): void {
+    if (activetab === 'userservices') {
+      this.tabConfig.userservices = true
+      this.tabConfig.groupservices = false
+    } else {
+      this.tabConfig.groupservices = true
+      this.tabConfig.userservices = false
+    }
+  }
+
+  public IsChangeInGroupSelection(responseGroups: any): void {
+    var isSelectedAndResponseGroupsSame = !this.selectedGroupCheckboxes.every((groupId: any) => responseGroups.includes(groupId));
+    var isResponseGroupsSame = !responseGroups.every((groupId: any) => this.selectedGroupCheckboxes.includes(groupId));
+    if (isSelectedAndResponseGroupsSame || isResponseGroupsSame) {
+      this.formChanged = true;
+    }
+    else {
+      this.formChanged = false;
+    }
+  }
+
 }
