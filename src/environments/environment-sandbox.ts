@@ -13,12 +13,14 @@ export const environment = {
           organisation: 'https://sand-api-wrapper.london.cloudapps.digital/organisation-profiles',
           contact: 'https://sand-api-wrapper.london.cloudapps.digital/contacts',
           configuration: 'https://sand-api-wrapper.london.cloudapps.digital/configurations',
+          dataMigration: 'https://sand-api-wrapper.london.cloudapps.digital/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://sand-api-wrapper.london.cloudapps.digital/users',
           organisation: 'https://sand-api-wrapper.london.cloudapps.digital/organisations',
           contact: 'https://sand-api-wrapper.london.cloudapps.digital/contacts',
           configuration: 'https://sand-api-wrapper.london.cloudapps.digital/configurations',
+          dataMigration: 'https://sand-api-wrapper.london.cloudapps.digital/datamigration',
         }
       }
     },
