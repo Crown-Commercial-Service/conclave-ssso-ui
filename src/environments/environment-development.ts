@@ -15,14 +15,14 @@ export const environment = {
                     organisation: 'https://dev.api.crowncommercial.gov.uk/organisation-profiles',
                     contact: 'https://dev.api.crowncommercial.gov.uk/contacts',
                     configuration: 'https://dev.api.crowncommercial.gov.uk/configurations',
-                    dataMigration: 'https://dev.api.crowncommercial.gov.uk/datamigration',
+                    dataMigration: 'https://dev-api-wrapper.london.cloudapps.digital/datamigration',
                 },
                 apiGatewayDisabled: {
                     user: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/users',
                     organisation: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/organisations',
                     contact: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/contacts',
                     configuration: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/configurations',
-                    dataMigration: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/datamigration',
+                    dataMigration: 'https://dev-api-wrapper.london.cloudapps.digital/datamigration',
                 }
             }
         },
