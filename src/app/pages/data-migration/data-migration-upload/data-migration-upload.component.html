@@ -49,7 +49,7 @@
                     <div class="govuk-form-group"
                         [class.govuk-form-group--error]="submitted && ( fileSizeExceedError || errorRequired || errorInvalidFileFormat || errorServer)">
                         <label class="govuk-label" for="file-upload">
-                            Upload the file
+                            Upload a file
                         </label>
                         <span *ngIf="submitted && errorRequired" id="file-upload-error" class="govuk-error-message">
                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
@@ -85,7 +85,7 @@
                 </div>
             </form>
         </div>
-        <div class="govuk-form-group" id="user-group-form-group">
+        <div class="govuk-form-group" id="user-group-form-group" *ngIf="userUploadHistoryTable.userList.dataMigrationList.length > 0">
             <fieldset class="govuk-fieldset">
                 <legend class="govuk-heading-s">
                     {{ 'HISTORY_UPLOAD'| translate }}
@@ -94,7 +94,7 @@
                     <app-custom-govuk-table [headerTextKeys]="userUploadHistoryTable.usersTableHeaders" [data]="userUploadHistoryTable.userList.dataMigrationList"
                     [dataKeys]="userUploadHistoryTable.usersColumnsToDisplay" [isHyperLinkVisible]="false"
                     [pageName]="userUploadHistoryTable.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=userUploadHistoryTable.hyperTextrray
-                     [useServerPagination]="true" [serverPageCount]="userUploadHistoryTable.pageCount" (hyperLinkClickEvent)="onLinkClick($event)"
+                     [useServerPagination]="true" [serverPageCount]="userUploadHistoryTable.userList.pageCount" (hyperLinkClickEvent)="onLinkClick($event)"
                     [serverPageCurrentPage]="userUploadHistoryTable.currentPage" (changeCurrentPageEvent)="setPage($event)"></app-custom-govuk-table>
                 </div>
             </fieldset>
