@@ -133,8 +133,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
       this.ccsServices.forEach((service: CcsServiceInfo) => {
         let permisson = permissions.find(
           (p) => p.permissionName == 'ACCESS_' + service.code
-        );
-        if (permisson) {
+        );        
+        if (permisson) {          
           this.ccsModules.push({
             name: service?.name,
             description: service?.description,
@@ -147,18 +147,20 @@ export class HomeComponent extends BaseComponent implements OnInit {
         sp.permissionName.endsWith('_DS')
       );
       this.ccsServices.forEach((service: CcsServiceInfo) => {
-        let permisson = permissions.find(
-          (p) => p.permissionName == service.code
-        );
-        if (permisson && this.checkService(service)) {
-          this.ccsModules.push({
-            name: service?.name,
-            description: service?.description,
-            href: service?.url,
-          });
-        }
+        if(service.code != 'DATA_MIGRATION_DS'){
+          let permisson = permissions.find(
+            (p) => p.permissionName == service.code
+          );
+          if (permisson && this.checkService(service)) {
+            this.ccsModules.push({
+              name: service?.name,
+              description: service?.description,
+              href: service?.url,
+            });
+          }
+        }        
       });
-    }
+    }    
   }
 
   checkService(service: any) {
