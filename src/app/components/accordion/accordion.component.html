@@ -37,9 +37,9 @@
                                         <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
                                     </li>
                                 </span>
-                                <ng-template #noRoleData>
-                                    {{!noRoleMessage? 'This user does not have access to any service through
-                                    their membership of this group.':noRoleMessage}}
+                                <ng-template #noRoleData >
+                                  <label class ="no-data-message"> {{!noRoleMessage? 'This user does not have access to any service through
+                                    their membership of this group.':noRoleMessage}} </label>
 
                                 </ng-template>
                             </ul>
@@ -87,9 +87,9 @@
                                 <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
                             </li>
                         </span>
-                        <ng-template #noRoleDataIsNotAdmin>
-                            {{!noRoleMessage? 'This user does not have access to any service through
-                            their membership of this group.':noRoleMessage}}
+                        <ng-template #noRoleDataIsNotAdmin >
+                            <label class ="no-data-message">     {{!noRoleMessage? 'This user does not have access to any service through
+                            their membership of this group.':noRoleMessage}}</label>
                         </ng-template>
                     </ul>
                 </th>
