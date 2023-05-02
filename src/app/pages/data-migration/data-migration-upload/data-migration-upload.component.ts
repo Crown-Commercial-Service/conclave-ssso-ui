@@ -23,7 +23,7 @@ export class DataMigrationUploadComponent implements OnInit {
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     public userUploadHistoryTable: any = {
         currentPage: 1,
-        pageCount: 2,
+        pageCount: 1,
         pageSize: environment.listPageSize,
         usersTableHeaders: ['Date of upload', 'Name', 'File name', 'Status'],
         usersColumnsToDisplay: ['dateOfUpload', 'name', 'fileName', 'status'],
@@ -60,7 +60,7 @@ export class DataMigrationUploadComponent implements OnInit {
                         case 2: {
                             f.status = 'Failed'
                             
-                            f.link = ['View errors summary']
+                            f.link = ['View error summary']
                             break;
                         }
                         case 3: {
@@ -79,7 +79,7 @@ export class DataMigrationUploadComponent implements OnInit {
                     }
                 })
                 this.userUploadHistoryTable.userList.dataMigrationList = data.dataMigrationList
-                this.userUploadHistoryTable.userList.pageCount= data.pageCount
+                this.userUploadHistoryTable.userList.pageCount= data.pageCount                    
             })
     }
 
@@ -139,7 +139,7 @@ export class DataMigrationUploadComponent implements OnInit {
     }
 
     public onCancelClick() {
-        this.router.navigateByUrl('manage-users/add-user-selection');
+        this.router.navigateByUrl('home');
     }
 
     public onLinkClick(data: any): void {
