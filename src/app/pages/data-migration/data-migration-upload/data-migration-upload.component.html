@@ -85,7 +85,7 @@
                 </div>
             </form>
         </div>
-        <div class="govuk-form-group" id="user-group-form-group">
+        <div class="govuk-form-group" id="user-group-form-group" *ngIf="userUploadHistoryTable.userList.dataMigrationList.length > 0">
             <fieldset class="govuk-fieldset">
                 <legend class="govuk-heading-s">
                     {{ 'HISTORY_UPLOAD'| translate }}
