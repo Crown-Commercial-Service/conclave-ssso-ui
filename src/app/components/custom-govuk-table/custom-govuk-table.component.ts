@@ -38,7 +38,6 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   tableVisibleData!: any[];
   selectedRadioId: string = 'table-radio-id-non';
   constructor(
-    // private translateService: TranslateService,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
   }
@@ -47,46 +46,18 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges() {
-    if (this.useClientPagination) {
-      this.pageCount = Math.ceil(this.data.length / this.pageSize);
-      this.totalPagesArray = Array(this.pageCount).fill(0).map((x, i) => i + 1);
-      this.tableVisibleData = this.data.slice(0, this.pageSize);
-      this.currentPage = 1;
-    }
-    else {
       this.totalPagesArray = Array(this.serverPageCount).fill(0).map((x, i) => i + 1);
       this.pageCount = this.serverPageCount;
       this.tableVisibleData = this.data;
       this.currentPage = this.serverPageCurrentPage || 1;
-    }
   }
 
   onTableRowClick(dataRow: any, index: number,event:any) {
-   if (this.isHyperLinkVisible || this.hyperArrayVisible) {
-      if(this.hyperArrayVisible){
-        dataRow.event=event
-        this.hyperLinkClickEvent.emit(dataRow);
-      }else{
-        this.hyperLinkClickEvent.emit(dataRow);
-
-      }
-    }
-   
+    dataRow.event=event
+    this.hyperLinkClickEvent.emit(dataRow);
   }
 
   onSetPageClick(pageNumber: number) {
-    if (this.isRadioVisible) { // Emit the event to remove the radio selection 
-      this.selectedRadioId = 'table-radio-id-non';
-      this.radioClickEvent.emit(null);
-    }
-    this.currentPage = pageNumber;
-    if (this.useClientPagination) {
-      let startIndex = this.pageSize * (this.currentPage - 1);
-      let endIndex = startIndex + this.pageSize;
-      this.tableVisibleData = this.data.slice(startIndex, endIndex);
-    }
-    else {
       this.changeCurrentPageEvent.emit(pageNumber);
-    }
   }
 }

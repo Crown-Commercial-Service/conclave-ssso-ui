@@ -706,12 +706,17 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   private setGroupAdmin(){
     if(this.orgUserGroupRoles.length > 0){
-      this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(a,b){ return a.displayOrder - b.displayOrder});
+      this.sortGroupDisplayOrder()
     }    
     this.groupsMember.isAdmin = this.isAdminUser;
     this.noneGroupsMember.isAdmin = this.isAdminUser;
   }
   
+  
+  sortGroupDisplayOrder(){
+    this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(a,b){ return a.displayOrder - b.displayOrder});
+  }
+
 
   public groupsMemberCheckBoxAddRoles(data: any) {
     this.selectedGroupCheckboxes.push(data.groupId);

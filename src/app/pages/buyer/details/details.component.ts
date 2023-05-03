@@ -61,13 +61,8 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   }
 
   public getId(id:string, schema: string): string {
-    if (schema === 'GB-PPG') {
-      return this.convertIdToHyphenId(id);
-    }
-    else {
-      return id;
-    }
-  }
+    return this.SharedDataService.getId(id,schema)
+   }
 
   public convertIdToHyphenId(id:string): string {    
   return this.SharedDataService.convertIdToHyphenId(id)
