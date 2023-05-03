@@ -10,6 +10,7 @@ import { ViewportScroller } from '@angular/common';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
 import { environment } from 'src/environments/environment';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-buyer-details',
@@ -24,7 +25,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   public selectedOrgId: string = '';
   schemeData: any[] = [];
 
-  constructor(private ciiService: ciiService, private organisationService: WrapperOrganisationService,
+  constructor(private ciiService: ciiService, private organisationService: WrapperOrganisationService,private SharedDataService:SharedDataService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
@@ -69,10 +70,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   }
 
   public convertIdToHyphenId(id:string): string {    
-    if (id != null)  {
-      return [id.slice(0, 3), '-', id.slice(3,6), '-', id.slice(6,9)].join('')
-    }
-    return id;
+  return this.SharedDataService.convertIdToHyphenId(id)
   }
 
   public onContinueClick() {

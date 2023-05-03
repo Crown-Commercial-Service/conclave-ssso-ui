@@ -61,16 +61,8 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
     }
   }
 
-  onRowClick(dataRow: any, index: number,event:any) {
-    if (this.isCheckBoxVisible) {
-      dataRow.isChecked = !dataRow.isChecked;
-      this.checkBoxClickEvent.emit(dataRow);
-    }
-    else if (this.isRadioVisible) {
-      this.selectedRadioId = 'table-radio-id-' + index;
-      this.radioClickEvent.emit(dataRow);
-    }
-    else if (this.isHyperLinkVisible || this.hyperArrayVisible) {
+  onTableRowClick(dataRow: any, index: number,event:any) {
+   if (this.isHyperLinkVisible || this.hyperArrayVisible) {
       if(this.hyperArrayVisible){
         dataRow.event=event
         this.hyperLinkClickEvent.emit(dataRow);
@@ -79,8 +71,7 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
 
       }
     }
-    else {
-    }
+   
   }
 
   onSetPageClick(pageNumber: number) {
@@ -98,35 +89,4 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
       this.changeCurrentPageEvent.emit(pageNumber);
     }
   }
-
-
-  public findDateKey(key:string){
-    switch(key) { 
-      case 'endDate': { 
-         return true
-         break; 
-      } 
-      case 'dateofRegistration': { 
-        return true 
-         break; 
-      } 
-      case 'dateOfRegistration': { 
-        return true 
-         break; 
-      } 
-      case 'dateOfUpload': { 
-        return true 
-         break; 
-      } 
-      case 'date': { 
-        return true 
-         break; 
-      } 
-      default: { 
-        return false  
-         break; 
-      } 
-   } 
-  }
-
 }
