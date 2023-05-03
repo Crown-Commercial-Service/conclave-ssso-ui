@@ -28,6 +28,8 @@ export const environment = {
 
           configuration: 'https://nft.api.crowncommercial.gov.uk/configurations',
 
+          dataMigration: 'https://nft.api.crowncommercial.gov.uk/datamigration',
+
         },
 
         apiGatewayDisabled: {
@@ -39,6 +41,8 @@ export const environment = {
           contact: 'https://NFT-api-wrapper.london.cloudapps.digital/contacts',
 
           configuration: 'https://NFT-api-wrapper.london.cloudapps.digital/configurations',
+
+          dataMigration: 'https://NFT-api-wrapper.london.cloudapps.digital/datamigration',
 
         }
 

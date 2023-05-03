@@ -12,12 +12,14 @@ export const environment = {
           organisation: 'https://localhost:44309/organisation-profiles',
           contact: 'https://localhost:44309/contacts',
           configuration: 'https://localhost:44309/configurations',
+          dataMigration: 'https://localhost:44309/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://localhost:44309/users',
           organisation: 'https://localhost:44309/organisations',
           contact: 'https://localhost:44309/contacts',
           configuration: 'https://localhost:44309/configurations',
+          dataMigration: 'https://localhost:44309/datamigration',
         }
       }
     },
@@ -65,6 +67,7 @@ export const environment = {
     hideDelegation: false,
     hideBulkupload: false,
     hideAutoValidation: false,
-    hideSimplifyRole: false
+    hideSimplifyRole: false,
+    blockedScheme: ['GB-EDU',"GB-PPG"]
   },
 };

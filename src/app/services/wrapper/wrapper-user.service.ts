@@ -135,6 +135,7 @@ export class WrapperUserService {
               roleId: role.id,
               roleKey:role.key,
               roleName: role.name,
+              approvalStatus: role.status
             }
             roleInfo.push(structureObj)
           })

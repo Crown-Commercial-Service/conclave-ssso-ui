@@ -10,6 +10,7 @@ import { ViewportScroller } from '@angular/common';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
 import { environment } from 'src/environments/environment';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-buyer-details',
@@ -24,7 +25,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   public selectedOrgId: string = '';
   schemeData: any[] = [];
 
-  constructor(private ciiService: ciiService, private organisationService: WrapperOrganisationService,
+  constructor(private ciiService: ciiService, private organisationService: WrapperOrganisationService,private SharedDataService:SharedDataService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
@@ -47,16 +48,24 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   }
 
   public getSchemaName(schema: string): string {
-    let selecedScheme = this.schemeData.find(s => s.scheme === schema);
-    if(selecedScheme?.schemeName) {
-      return selecedScheme?.schemeName;
-    }
-    else if (schema === 'GB-CCS') {
+    let selecedScheme = this.schemeData.find(s => s.scheme === schema);    
+    if (schema === 'GB-CCS') {
       return 'Internal Identifier';
+    }
+    else if(selecedScheme?.schemeName) {
+      return selecedScheme?.schemeName;
     }
     else {
       return '';
     }
+  }
+
+  public getId(id:string, schema: string): string {
+    return this.SharedDataService.getId(id,schema)
+   }
+
+  public convertIdToHyphenId(id:string): string {    
+  return this.SharedDataService.convertIdToHyphenId(id)
   }
 
   public onContinueClick() {

@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OrganisationAuditListResponse } from 'src/app/models/organisation';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-view-pending-verification',
@@ -58,6 +59,7 @@ export class ViewPendingVerificationComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private wrapperBuyerAndBothService: WrapperBuyerBothService,
+    private SharedDataService:SharedDataService,
     private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
     private router: Router,
     private ciiService: ciiService,
@@ -236,14 +238,24 @@ export class ViewPendingVerificationComponent implements OnInit {
   }
 
   public getSchemaName(schema: string): string {
-    let selecedScheme = this.schemeData.find((s) => s.scheme === schema);
-    if (selecedScheme?.schemeName) {
-      return selecedScheme?.schemeName;
-    } else if (schema === 'GB-CCS') {
+    let selecedScheme = this.schemeData.find(s => s.scheme === schema);    
+    if (schema === 'GB-CCS') {
       return 'Internal Identifier';
-    } else {
+    }
+    else if(selecedScheme?.schemeName) {
+      return selecedScheme?.schemeName;
+    }
+    else {
       return '';
     }
+  }
+
+  public getId(id:string, schema: string): string {
+    return this.SharedDataService.getId(id,schema)
+   }
+
+  public convertIdToHyphenId(id:string): string {    
+    return this.SharedDataService.convertIdToHyphenId(id)
   }
 
   getPendingVerificationOrg() {

@@ -13,12 +13,15 @@ export const environment = {
           organisation: 'https://tst.api.crowncommercial.gov.uk/organisation-profiles',
           contact: 'https://tst.api.crowncommercial.gov.uk/contacts',
           configuration: 'https://tst.api.crowncommercial.gov.uk/configurations',
+          dataMigration: 'https://tst.api.crowncommercial.gov.uk/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://test-api-wrapper.london.cloudapps.digital/users',
           organisation: 'https://test-api-wrapper.london.cloudapps.digital/organisations',
           contact: 'https://test-api-wrapper.london.cloudapps.digital/contacts',
           configuration: 'https://test-api-wrapper.london.cloudapps.digital/configurations',
+          dataMigration: 'https://test-api-wrapper.london.cloudapps.digital/datamigration',
+          
         }
       }
     },

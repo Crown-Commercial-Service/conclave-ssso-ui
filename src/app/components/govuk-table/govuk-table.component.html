@@ -37,6 +37,9 @@
           <span *ngIf="!findDateKey(dataKey) && dataKey != 'owner'">
             <div *ngIf="dataRow['serviceView'] == true;else other_content" class="role_group_content">
               <span [ngClass]="[ dataRow['serviceView'] == true ? 'role_lable' : '']">{{ dataRow[dataKey] }}</span>
+              <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-3" *ngIf="dataRow['approvalStatus'] === 0">
+                {{ 'PENDING_LABEL' | translate }}
+              </strong>
               <br>
               <span>{{dataRow['description']}}</span>
             </div>
