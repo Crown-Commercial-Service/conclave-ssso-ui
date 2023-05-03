@@ -90,13 +90,18 @@
                 <legend class="govuk-heading-s">
                     {{ 'HISTORY_UPLOAD'| translate }}
                 </legend>
-                <div class="user-table">
+                <div class="user-table" *ngIf="userUploadHistoryTable.userList.dataMigrationList.length > 0; else no_results">
                     <app-custom-govuk-table [headerTextKeys]="userUploadHistoryTable.usersTableHeaders" [data]="userUploadHistoryTable.userList.dataMigrationList"
                     [dataKeys]="userUploadHistoryTable.usersColumnsToDisplay" [isHyperLinkVisible]="false"
                     [pageName]="userUploadHistoryTable.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=userUploadHistoryTable.hyperTextrray
                      [useServerPagination]="true" [serverPageCount]="userUploadHistoryTable.userList.pageCount" (hyperLinkClickEvent)="onLinkClick($event)"
                     [serverPageCurrentPage]="userUploadHistoryTable.currentPage" (changeCurrentPageEvent)="setPage($event)"></app-custom-govuk-table>
                 </div>
+                <ng-template #no_results>
+                    <p class="govuk-body govuk-!-font-weight-bold">
+                        There are no historical uploads.
+                    </p>
+                </ng-template>
             </fieldset>
         </div>
     </div>
