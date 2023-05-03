@@ -64,8 +64,7 @@ export class SharedDataService {
    public getId(id:string, schema: string){
     if (schema === 'GB-PPG') {
       return this.convertIdToHyphenId(id);
-    }
-    else {
+    } else {
       return id;
     }
    }
