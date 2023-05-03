@@ -31,6 +31,7 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
 })
 export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public showRoleView: boolean = environment.appSetting.hideSimplifyRole
+  public isFormGroupChanges:boolean = false
   submitted!: boolean;
   formGroup!: FormGroup;
   userServiceTableHeaders = ['NAME'];
@@ -660,12 +661,10 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     for (const group of this.orgGroups) {
       const isGroupOfUser: any = this.userGroups?.find((ug) => ug.groupId === group.groupId);
       if (isGroupOfUser) {
-
         group.serviceRoleGroups.map((fc: any) => {
           var serviceGroupApprovalDetails: any = this.userGroups?.find((ug: any) => ug.groupId === group.groupId && ug.accessServiceRoleGroupId === fc.id);
           fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
         });
-
         group.checked = true
         group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
         this.groupsMember.data.push(group)
@@ -691,23 +690,23 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   public groupsMemberCheckBoxAddRoles(data: any) {
-    this.formChanged = true;
     this.selectedGroupCheckboxes.push(data.groupId);
+    this.IsChangeInGroupSelection(this.userGroups?.map(x => x.groupId));
   }
 
   public groupsMemberCheckBoxRemoveRoles(data: any) {
-    this.formChanged = true;
     this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes, data.groupId)
+    this.IsChangeInGroupSelection(this.userGroups?.map(x => x.groupId));
   }
 
   public noneGroupsMemberCheckBoxAddRoles(data: any) {
-    this.formChanged = true;
     this.selectedGroupCheckboxes.push(data.groupId);
+    this.IsChangeInGroupSelection(this.userGroups?.map(x => x.groupId));
   }
 
   public noneGroupsMemberCheckBoxRemoveRoles(data: any) {
-    this.formChanged = true;
     this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes, data.groupId)
+    this.IsChangeInGroupSelection(this.userGroups?.map(x => x.groupId));
   }
 
   private removeObjectById(arr: any, id: any) {
@@ -730,6 +729,22 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.tabConfig.groupservices = true
       this.tabConfig.userservices = false
     }
+  }
+
+  public IsChangeInGroupSelection(responseGroups: any): void {
+    var isSelectedAndResponseGroupsSame = !this.selectedGroupCheckboxes.every((groupId: any) => responseGroups.includes(groupId));
+    var isResponseGroupsSame = !responseGroups.every((groupId: any) => this.selectedGroupCheckboxes.includes(groupId));
+    if (isSelectedAndResponseGroupsSame || isResponseGroupsSame) {
+      this.isFormGroupChanges = true;
+    }
+    else {
+      this.isFormGroupChanges = false;
+    }
+  }
+
+
+  public get isFormChanges(){
+    return this.formChanged || this.isFormGroupChanges;
   }
 
 }
