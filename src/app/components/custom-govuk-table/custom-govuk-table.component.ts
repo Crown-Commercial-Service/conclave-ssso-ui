@@ -49,9 +49,9 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   }
 
   private initChanges(){
-    this.totalPagesArray = Array(this.serverPageCount).fill(0).map((x, i) => i + 1);
     this.pageCount = this.serverPageCount;
     this.tableVisibleData = this.data;
+    this.totalPagesArray = Array(this.serverPageCount).fill(0).map((x, i) => i + 1);
     this.currentPage = this.serverPageCurrentPage || 1;
   }
 
