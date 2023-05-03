@@ -19,7 +19,7 @@
                 <td class="govuk-table__cell">{{dataRow.name}}</td>
                 <td class="govuk-table__cell">{{dataRow.fileName}}</td>
                 <td class="govuk-table__cell">{{dataRow.status}}</td>
-                <td class="govuk-table__cell table-links custom_table_data" (click)="onRowClick(dataRow, index,$event)" > <a class="navigation-text" href="javascript:;"
+                <td class="govuk-table__cell table-links custom_table_data" (click)="onTableRowClick(dataRow, index,$event)" > <a class="navigation-text" href="javascript:;"
                         *ngFor="let childLink of dataRow.link; let index = index">{{childLink}}</a></td>
             </tr>
         </tbody>

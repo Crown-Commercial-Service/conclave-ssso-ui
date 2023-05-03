@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OrganisationAuditListResponse } from 'src/app/models/organisation';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-view-pending-verification',
@@ -58,6 +59,7 @@ export class ViewPendingVerificationComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private wrapperBuyerAndBothService: WrapperBuyerBothService,
+    private SharedDataService:SharedDataService,
     private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
     private router: Router,
     private ciiService: ciiService,
@@ -249,19 +251,11 @@ export class ViewPendingVerificationComponent implements OnInit {
   }
 
   public getId(id:string, schema: string): string {
-    if (schema === 'GB-PPG') {
-      return this.convertIdToHyphenId(id);
-    }
-    else {
-      return id;
-    }
-  }
+    return this.SharedDataService.getId(id,schema)
+   }
 
   public convertIdToHyphenId(id:string): string {    
-    if (id != null)  {
-      return [id.slice(0, 3), '-', id.slice(3,6), '-', id.slice(6,9)].join('')
-    }
-    return id;
+    return this.SharedDataService.convertIdToHyphenId(id)
   }
 
   getPendingVerificationOrg() {

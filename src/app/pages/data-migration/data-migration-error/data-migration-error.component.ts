@@ -19,7 +19,7 @@ export class DataMigrationErrorComponent implements OnInit {
     errorList: '',
     pageName: 'Contactadmin',
   }
-  constructor(private DataMigrationService: DataMigrationService, private route: ActivatedRoute) {
+  constructor(private DataMigrationService: DataMigrationService, private activatedRoute: ActivatedRoute) {
     this.userUploadHistoryTable.data = {
       currentPage: this.userUploadHistoryTable.currentPage,
       pageCount: 0,
@@ -31,8 +31,8 @@ export class DataMigrationErrorComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((details: any) => {
-      this.getUploadedFilesDetails(details)
+    this.activatedRoute.queryParams.subscribe((routeData: any) => {
+      this.getUploadedFilesDetails(routeData)
     });
   }
 
