@@ -11,6 +11,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ManualValidationStatus } from 'src/app/constants/enum';
 import { OrganisationAuditListResponse } from 'src/app/models/organisation';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-view-verified-org',
@@ -59,6 +60,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
     private route: ActivatedRoute,
     private wrapperBuyerAndBothService: WrapperBuyerBothService,
     private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
+    private SharedDataService:SharedDataService,
     private router: Router,
     private ciiService: ciiService,
     private translate: TranslateService
@@ -255,21 +257,10 @@ export class ViewVerifiedOrgComponent implements OnInit {
   }
 
   public getId(id:string, schema: string): string {
-    if (schema === 'GB-PPG') {
-      return this.convertIdToHyphenId(id);
-    }
-    else {
-      return id;
-    }
+   return this.SharedDataService.getId(id,schema)
   }
 
-  public convertIdToHyphenId(id:string): string {    
-    if (id != null)  {
-      return [id.slice(0, 3), '-', id.slice(3,6), '-', id.slice(6,9)].join('')
-    }
-    return id;
-  }
-  
+
   public nevigateViewEdit() {
     let data = {
       companyHouseId: this.registries.identifier?.id,

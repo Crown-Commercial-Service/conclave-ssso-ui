@@ -102,32 +102,8 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   }
 
 
-  public findDateKey(key:string){
-    switch(key) { 
-      case 'endDate': { 
-         return true
-         break; 
-      } 
-      case 'dateofRegistration': { 
-        return true 
-         break; 
-      } 
-      case 'dateOfRegistration': { 
-        return true 
-         break; 
-      } 
-      case 'dateOfUpload': { 
-        return true 
-         break; 
-      } 
-      case 'date': { 
-        return true 
-         break; 
-      } 
-      default: { 
-        return false  
-         break; 
-      } 
-   } 
+  public findDateKey(key: string): boolean {
+    const dateKeys = ['endDate', 'dateofRegistration', 'dateOfRegistration', 'dateOfUpload', 'date'];
+    return dateKeys.includes(key);
   }
 }

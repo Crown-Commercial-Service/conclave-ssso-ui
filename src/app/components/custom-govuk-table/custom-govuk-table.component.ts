@@ -36,9 +36,7 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   totalPagesArray: number[] = [];
   pageSize: number = environment.listPageSize;
   tableVisibleData!: any[];
-  selectedRadioId: string = 'table-radio-id-non';
   constructor(
-    // private translateService: TranslateService,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
   }
@@ -47,86 +45,22 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges() {
-    if (this.useClientPagination) {
-      this.pageCount = Math.ceil(this.data.length / this.pageSize);
-      this.totalPagesArray = Array(this.pageCount).fill(0).map((x, i) => i + 1);
-      this.tableVisibleData = this.data.slice(0, this.pageSize);
-      this.currentPage = 1;
-    }
-    else {
-      this.totalPagesArray = Array(this.serverPageCount).fill(0).map((x, i) => i + 1);
-      this.pageCount = this.serverPageCount;
-      this.tableVisibleData = this.data;
-      this.currentPage = this.serverPageCurrentPage || 1;
-    }
+  this.initChanges()
   }
 
-  onRowClick(dataRow: any, index: number,event:any) {
-    if (this.isCheckBoxVisible) {
-      dataRow.isChecked = !dataRow.isChecked;
-      this.checkBoxClickEvent.emit(dataRow);
-    }
-    else if (this.isRadioVisible) {
-      this.selectedRadioId = 'table-radio-id-' + index;
-      this.radioClickEvent.emit(dataRow);
-    }
-    else if (this.isHyperLinkVisible || this.hyperArrayVisible) {
-      if(this.hyperArrayVisible){
-        dataRow.event=event
-        this.hyperLinkClickEvent.emit(dataRow);
-      }else{
-        this.hyperLinkClickEvent.emit(dataRow);
-
-      }
-    }
-    else {
-    }
+  private initChanges(){
+    this.pageCount = this.serverPageCount;
+    this.tableVisibleData = this.data;
+    this.totalPagesArray = Array(this.serverPageCount).fill(0).map((x, i) => i + 1);
+    this.currentPage = this.serverPageCurrentPage || 1;
   }
 
-  onSetPageClick(pageNumber: number) {
-    if (this.isRadioVisible) { // Emit the event to remove the radio selection 
-      this.selectedRadioId = 'table-radio-id-non';
-      this.radioClickEvent.emit(null);
-    }
-    this.currentPage = pageNumber;
-    if (this.useClientPagination) {
-      let startIndex = this.pageSize * (this.currentPage - 1);
-      let endIndex = startIndex + this.pageSize;
-      this.tableVisibleData = this.data.slice(startIndex, endIndex);
-    }
-    else {
+  public onTableRowClick(dataRow: any, index: number,event:any) {
+    dataRow.event=event
+    this.hyperLinkClickEvent.emit(dataRow);
+  }
+
+  public onSetPageClick(pageNumber: number) {
       this.changeCurrentPageEvent.emit(pageNumber);
-    }
   }
-
-
-  public findDateKey(key:string){
-    switch(key) { 
-      case 'endDate': { 
-         return true
-         break; 
-      } 
-      case 'dateofRegistration': { 
-        return true 
-         break; 
-      } 
-      case 'dateOfRegistration': { 
-        return true 
-         break; 
-      } 
-      case 'dateOfUpload': { 
-        return true 
-         break; 
-      } 
-      case 'date': { 
-        return true 
-         break; 
-      } 
-      default: { 
-        return false  
-         break; 
-      } 
-   } 
-  }
-
 }
