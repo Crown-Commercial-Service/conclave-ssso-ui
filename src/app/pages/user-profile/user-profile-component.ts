@@ -673,7 +673,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     if (isGroupOfUser) {
       this.setPendingApproveForGroup(group)
       group.checked = true
-      group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
+      group.serviceRoleGroups = group.serviceRoleGroups.filter((data: any) => data.approvalStatus === 0 || data.approvalStatus === 1);
       this.groupsMember.data.push(group)
       this.selectedGroupCheckboxes.push(group.groupId)
       this.setPendingApprovalStatus(group)
@@ -714,7 +714,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   
   
   sortGroupDisplayOrder(){
-    this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(a,b){ return a.displayOrder - b.displayOrder});
+    this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(c,d){ return c.displayOrder - d.displayOrder});
   }
 
 

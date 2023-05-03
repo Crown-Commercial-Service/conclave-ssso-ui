@@ -36,7 +36,6 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   totalPagesArray: number[] = [];
   pageSize: number = environment.listPageSize;
   tableVisibleData!: any[];
-  selectedRadioId: string = 'table-radio-id-non';
   constructor(
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
@@ -46,18 +45,22 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges() {
-      this.totalPagesArray = Array(this.serverPageCount).fill(0).map((x, i) => i + 1);
-      this.pageCount = this.serverPageCount;
-      this.tableVisibleData = this.data;
-      this.currentPage = this.serverPageCurrentPage || 1;
+  this.initChanges()
   }
 
-  onTableRowClick(dataRow: any, index: number,event:any) {
+  private initChanges(){
+    this.totalPagesArray = Array(this.serverPageCount).fill(0).map((x, i) => i + 1);
+    this.pageCount = this.serverPageCount;
+    this.tableVisibleData = this.data;
+    this.currentPage = this.serverPageCurrentPage || 1;
+  }
+
+  public onTableRowClick(dataRow: any, index: number,event:any) {
     dataRow.event=event
     this.hyperLinkClickEvent.emit(dataRow);
   }
 
-  onSetPageClick(pageNumber: number) {
+  public onSetPageClick(pageNumber: number) {
       this.changeCurrentPageEvent.emit(pageNumber);
   }
 }
