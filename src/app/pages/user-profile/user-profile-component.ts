@@ -31,6 +31,7 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
 })
 export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public showRoleView: boolean = environment.appSetting.hideSimplifyRole
+  public isFormGroupChanges:boolean = false
   submitted!: boolean;
   formGroup!: FormGroup;
   userServiceTableHeaders = ['NAME'];
@@ -657,57 +658,84 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   async getOrgGroups() {
     const orgGrpList = await this.orgGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise<GroupList>();
     this.orgGroups = orgGrpList.groupList;
+    this.getGroupDetails()
+  }
+
+
+  private getGroupDetails(){
     for (const group of this.orgGroups) {
       const isGroupOfUser: any = this.userGroups?.find((ug) => ug.groupId === group.groupId);
-      if (isGroupOfUser) {
+      this.matchGroupIds(isGroupOfUser,group)
+    }
+  }
 
-        group.serviceRoleGroups.map((fc: any) => {
-          var serviceGroupApprovalDetails: any = this.userGroups?.find((ug: any) => ug.groupId === group.groupId && ug.accessServiceRoleGroupId === fc.id);
-          fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
-        });
-
-        group.checked = true
-        group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
-        this.groupsMember.data.push(group)
-        this.selectedGroupCheckboxes.push(group.groupId)
-        group.serviceRoleGroups.forEach((element: any) => {
-          let groupRoles = this.orgUserGroupRoles.filter(e => { return e.id == element.id });
-          if (groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus == 1)) {
-            element.serviceView = true;
-            this.orgUserGroupRoles.push(element);
-          }
-        });
-      } else {
-        if (this.isAdminUser) {
-          this.noneGroupsMember.data.push(group)
-        }
+  private matchGroupIds(isGroupOfUser:any,group:any){
+    if (isGroupOfUser) {
+      this.setPendingApproveForGroup(group)
+      group.checked = true
+      group.serviceRoleGroups = group.serviceRoleGroups.filter((data: any) => data.approvalStatus === 0 || data.approvalStatus === 1);
+      this.groupsMember.data.push(group)
+      this.selectedGroupCheckboxes.push(group.groupId)
+      this.setPendingApprovalStatus(group)
+    } else {
+      if (this.isAdminUser) {
+        this.noneGroupsMember.data.push(group)
       }
     }
+  } 
+
+
+ private setPendingApproveForGroup(group:any){
+  group.serviceRoleGroups.map((fc: any) => {
+    var serviceGroupApprovalDetails: any = this.userGroups?.find((ug: any) => ug.groupId === group.groupId && ug.accessServiceRoleGroupId === fc.id);
+    fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
+  });
+ }
+
+
+  private setPendingApprovalStatus(group: any) {
+    for (const element of group.serviceRoleGroups) {
+      const hasMatchingRole = this.orgUserGroupRoles.some(role => role.id === element.id);
+      if (!hasMatchingRole && (element.approvalStatus === 0 || element.approvalStatus === 1)) {
+        element.serviceView = true;
+        this.orgUserGroupRoles.push(element);
+      }
+    }
+    this.setGroupAdmin()
+  }
+
+  private setGroupAdmin(){
     if(this.orgUserGroupRoles.length > 0){
-      this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(a,b){ return a.displayOrder - b.displayOrder});
+      this.sortGroupDisplayOrder()
     }    
     this.groupsMember.isAdmin = this.isAdminUser;
     this.noneGroupsMember.isAdmin = this.isAdminUser;
   }
+  
+  
+  sortGroupDisplayOrder(){
+    this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(c,d){ return c.displayOrder - d.displayOrder});
+  }
+
 
   public groupsMemberCheckBoxAddRoles(data: any) {
-    this.formChanged = true;
     this.selectedGroupCheckboxes.push(data.groupId);
+    this.IsChangeInGroupAdminSelection(this.userGroups?.map(x => x.groupId));
   }
 
   public groupsMemberCheckBoxRemoveRoles(data: any) {
-    this.formChanged = true;
     this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes, data.groupId)
+    this.IsChangeInGroupAdminSelection(this.userGroups?.map(x => x.groupId));
   }
 
   public noneGroupsMemberCheckBoxAddRoles(data: any) {
-    this.formChanged = true;
     this.selectedGroupCheckboxes.push(data.groupId);
+    this.IsChangeInGroupAdminSelection(this.userGroups?.map(x => x.groupId));
   }
 
   public noneGroupsMemberCheckBoxRemoveRoles(data: any) {
-    this.formChanged = true;
     this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes, data.groupId)
+    this.IsChangeInGroupAdminSelection(this.userGroups?.map(x => x.groupId));
   }
 
   private removeObjectById(arr: any, id: any) {
@@ -730,6 +758,22 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.tabConfig.groupservices = true
       this.tabConfig.userservices = false
     }
+  }
+
+  public IsChangeInGroupAdminSelection(responseGroups: any): void {
+    var isSelectedAndResponseGroupsSame = !this.selectedGroupCheckboxes.every((groupId: any) => responseGroups.includes(groupId));
+    var isResponseGroupsSame = !responseGroups.every((groupId: any) => this.selectedGroupCheckboxes.includes(groupId));
+    if (isSelectedAndResponseGroupsSame || isResponseGroupsSame) {
+      this.isFormGroupChanges = true;
+    }
+    else {
+      this.isFormGroupChanges = false;
+    }
+  }
+
+
+  public get isFormChanges(){
+    return this.formChanged || this.isFormGroupChanges;
   }
 
 }

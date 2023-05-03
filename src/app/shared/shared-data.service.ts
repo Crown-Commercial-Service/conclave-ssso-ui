@@ -60,5 +60,20 @@ export class SharedDataService {
     return !this.blockedScheme.includes(item)
    }
 
+
+   public getId(id:string, schema: string){
+    if (schema === 'GB-PPG') {
+      return this.convertIdToHyphenId(id);
+    } else {
+      return id;
+    }
+   }
+
+   public convertIdToHyphenId(id:string): string {    
+    if (id != null)  {
+      return [id.slice(0, 3), '-', id.slice(3,6), '-', id.slice(6,9)].join('')
+    }
+    return id;
+  }
   constructor() {}
 }

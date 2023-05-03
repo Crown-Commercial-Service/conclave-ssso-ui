@@ -100,6 +100,7 @@ export class ManageUserAddSingleUserDetailComponent
   public isInvalidDomain: boolean = false
   public subscription: Subscription = new Subscription;
   public showRoleView: boolean = environment.appSetting.hideSimplifyRole
+  public isFormGroupChanges:boolean = false
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private organisationGroupService: WrapperOrganisationGroupService,
@@ -236,7 +237,7 @@ export class ManageUserAddSingleUserDetailComponent
       await this.getApprovalRequriedRoles()
       await this.getPendingApprovalUserRole();
       await this.getOrgDetails()
-      await this.getOrgGroups();
+      await this.getOrgGroupsForUser();
       await this.getOrgRoles();
       await this.getIdentityProviders();
       this.onFormValueChange();
@@ -261,7 +262,7 @@ export class ManageUserAddSingleUserDetailComponent
       }
       await this.getApprovalRequriedRoles()
       await this.getOrgDetails()
-      await this.getOrgGroups();
+      await this.getOrgGroupsForUser();
       await this.getOrgRoles();
       await this.getIdentityProviders();
       this.onFormValueChange();
@@ -327,45 +328,51 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
 
-  async getOrgGroups() {
+  async getOrgGroupsForUser() {
     const orgGrpList = await this.organisationGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise<GroupList>();
     this.orgGroups = orgGrpList.groupList;
-    for (const group of this.orgGroups) {
-      const isGroupOfUser: any = this.userProfileResponseInfo?.detail?.userGroups?.find((ug) => ug.groupId === group.groupId);
-      if (isGroupOfUser) {
-        // if(isGroupOfUser.approvalStatus === 0){
-        //  const pendingApproveRole = group?.serviceRoleGroups?.find((pg:any)=>pg.id === isGroupOfUser.accessServiceRoleGroupId)
-        //  group.serviceRoleGroups.map((fc:any)=>{
-        //  if(pendingApproveRole.id === fc.id){
-        //   fc.isPendingApproval = true
-        //   fc = pendingApproveRole
-        //  }
-        //  })
-        // }
-        group.serviceRoleGroups.map((fc: any) => {
-          var serviceGroupApprovalDetails: any = this.userProfileResponseInfo?.detail?.userGroups?.find((ug: any) => ug.groupId === group.groupId && ug.accessServiceRoleGroupId === fc.id);
-          fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
-        });
-
-        group.checked = true
-        group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
-        this.groupsMember.data.push(group)
-        this.selectedGroupCheckboxes.push(group.groupId)
-
-        group.serviceRoleGroups.forEach((element: any) => {
-          let groupRoles = this.orgUserGroupRoles.filter(e => { return e.id == element.id });
-          if (groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus == 1)) {
-            this.orgUserGroupRoles.push(element);
-          }
-        });
-      } else {
-        this.noneGroupsMember.data.push(group)
-      }
-      if(this.orgUserGroupRoles.length > 0){
-        this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(a,b){ return a.displayOrder - b.displayOrder});
-      } 
-    }
+    this.getAllGroupDetails()
   }
+
+private getAllGroupDetails(){
+  for (const group of this.orgGroups) {
+    const isGroupOfUser: any = this.userProfileResponseInfo?.detail?.userGroups?.find((ug) => ug.groupId === group.groupId);
+    this.GetAssignedGroups(isGroupOfUser,group)
+  }
+}
+
+private GetAssignedGroups(isGroupOfUser:any,group:any){
+  if (isGroupOfUser) {
+    group.serviceRoleGroups.map((fc: any) => {
+      var serviceGroupApprovalDetails: any = this.userProfileResponseInfo?.detail?.userGroups?.find((ug: any) => ug.groupId === group.groupId && ug.accessServiceRoleGroupId === fc.id);
+      fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
+    });
+    group.checked = true
+    group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
+    this.groupsMember.data.push(group)
+    this.selectedGroupCheckboxes.push(group.groupId)
+    this.setOrgUserRole(group)
+  } else {
+    this.noneGroupsMember.data.push(group)
+  }
+  this.setDisplayOrder()
+ }
+
+
+ private setOrgUserRole(group:any){
+  group.serviceRoleGroups.forEach((element: any) => {
+    let groupRoles = this.orgUserGroupRoles.filter(e => { return e.id == element.id });
+    if (groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus == 1)) {
+      this.orgUserGroupRoles.push(element);
+    }
+  });
+ }
+
+ private setDisplayOrder(){
+  if(this.orgUserGroupRoles.length > 0){
+    this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(a,b){ return a.displayOrder - b.displayOrder});
+  } 
+ }
 
   async getOrgRoles() {
     this.orgRoles = await this.organisationGroupService
@@ -940,15 +947,15 @@ export class ManageUserAddSingleUserDetailComponent
     }
   }
 
+
   public IsChangeInGroupSelection(responseGroups: any): void {
-    var isSelectedAndResponseGroupsSame = !this.selectedGroupCheckboxes.every((groupId: any) => responseGroups.includes(groupId));
-    var isResponseGroupsSame = !responseGroups.every((groupId: any) => this.selectedGroupCheckboxes.includes(groupId));
-    if (isSelectedAndResponseGroupsSame || isResponseGroupsSame) {
-      this.formChanged = true;
-    }
-    else {
-      this.formChanged = false;
-    }
+    const isSelectedAndResponseGroupsSame = this.isEdit && !this.selectedGroupCheckboxes.every(groupId => responseGroups.includes(groupId));
+    const isResponseGroupsSame = !responseGroups.every((groupId: any) => this.selectedGroupCheckboxes.includes(groupId));
+    this.isFormGroupChanges = isSelectedAndResponseGroupsSame || isResponseGroupsSame || !this.isEdit && this.selectedGroupCheckboxes.length !== 0;
   }
 
+
+  public get isFormChanges(){
+    return this.formChanged || this.isFormGroupChanges;
+  }
 }
