@@ -100,6 +100,7 @@ export class ManageUserAddSingleUserDetailComponent
   public isInvalidDomain: boolean = false
   public subscription: Subscription = new Subscription;
   public showRoleView: boolean = environment.appSetting.hideSimplifyRole
+  public isFormGroupChanges:boolean = false
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private organisationGroupService: WrapperOrganisationGroupService,
@@ -941,14 +942,22 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   public IsChangeInGroupSelection(responseGroups: any): void {
-    var isSelectedAndResponseGroupsSame = !this.selectedGroupCheckboxes.every((groupId: any) => responseGroups.includes(groupId));
-    var isResponseGroupsSame = !responseGroups.every((groupId: any) => this.selectedGroupCheckboxes.includes(groupId));
-    if (isSelectedAndResponseGroupsSame || isResponseGroupsSame) {
-      this.formChanged = true;
-    }
-    else {
-      this.formChanged = false;
+    if(this.isEdit){
+      var isSelectedAndResponseGroupsSame = !this.selectedGroupCheckboxes.every((groupId: any) => responseGroups.includes(groupId));
+      var isResponseGroupsSame = !responseGroups.every((groupId: any) => this.selectedGroupCheckboxes.includes(groupId));
+      if (isSelectedAndResponseGroupsSame || isResponseGroupsSame) {
+        this.isFormGroupChanges = true;
+      }
+      else {
+        this.isFormGroupChanges = false;
+      }
+    } else {
+        this.isFormGroupChanges = this.selectedGroupCheckboxes.length != 0;
     }
   }
 
+
+  public get isFormChanges(){
+    return this.formChanged || this.isFormGroupChanges;
+  }
 }
