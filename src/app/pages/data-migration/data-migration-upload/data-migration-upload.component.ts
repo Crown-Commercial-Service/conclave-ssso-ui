@@ -25,7 +25,7 @@ export class DataMigrationUploadComponent implements OnInit {
         currentPage: 1,
         pageCount: 1,
         pageSize: environment.listPageSize,
-        usersTableHeaders: ['Date of upload', 'Name', 'File name', 'Status'],
+        usersTableHeaders: ['Date of upload', 'Name', 'File name', 'Status', '.', '.'],
         usersColumnsToDisplay: ['dateOfUpload', 'name', 'fileName', 'status'],
         userList: '',
         pageName: 'Contactadmin',
