@@ -254,11 +254,17 @@ export class HomeComponent extends BaseComponent implements OnInit {
           });
         }
       }
+      if (
+        this.otherModules.findIndex(
+          (x) => x.name === 'Manage Buyer status requests'
+        ) === -1
+      ){
       this.otherModules.push({
         name: 'Manage Buyer status requests',
         description: 'Verify and approve or decline Buyer status requests',
         route: '/manage-buyer-both',
       });
+    }
     }
     if (e.permissionName === 'ORG_USER_SUPPORT') {
       if (

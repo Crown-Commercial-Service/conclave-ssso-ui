@@ -29,8 +29,8 @@
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="history.back()" *ngIf="routeData.userEditStatus === false"> {{ 'CREATE_NEW_USER_ACCOUNT' | translate }}</a>
-                        <a class="govuk-breadcrumbs__link" (click)="history.back()" *ngIf="routeData.userEditStatus === true"> {{ 'EDIT_YOUR_USER_ACCOUNTS' | translate }}</a>
+                        <a class="govuk-breadcrumbs__link" (click)="navigateBackToUser()" *ngIf="routeData.userEditStatus === false"> {{ 'CREATE_NEW_USER_ACCOUNT' | translate }}</a>
+                        <a class="govuk-breadcrumbs__link" (click)="navigateBackToUser()" *ngIf="routeData.userEditStatus === true"> {{ 'EDIT_YOUR_USER_ACCOUNTS' | translate }}</a>
                     </li>
 
                     <li class="govuk-breadcrumbs__list-item">

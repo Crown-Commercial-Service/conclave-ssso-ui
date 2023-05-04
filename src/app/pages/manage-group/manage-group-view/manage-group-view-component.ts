@@ -176,4 +176,13 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     sessionStorage.removeItem('group_added_users');
     sessionStorage.removeItem('group_removed_users');
   }
+
+  navigateBackToUser(){
+    if(this.routeData.userEditStatus === true){
+      this.router.navigateByUrl('manage-users/add-user/details?data=' + btoa(JSON.stringify({'isEdit': true})));
+    }
+    else{
+      this.router.navigateByUrl('manage-users/add-user/details');
+    }
+  }
 }
