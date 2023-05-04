@@ -4,8 +4,7 @@
             <tr class="govuk-table__row">
                 <th scope="col" class="govuk-table__header app-custom-class" *ngFor="let header of headerTextKeys">
                     <span [ngClass]="{'hide_dots': header  === '.'}">{{ header | translate }}</span>
-                </th>
-                <th scope="col" class="govuk-table__header app-custom-class"></th>
+                </th>                
             </tr>
         </thead>
         <tbody class="govuk-table__body">
