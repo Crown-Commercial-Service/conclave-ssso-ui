@@ -94,6 +94,9 @@
                                         name="email" type="email" size="20" value="" autocomplete="email"
                                         spellcheck="false" [value]="userName">
                                 </div>
+                                <div class="govuk-radio">
+                                    <app-govuk-radio [details]="userTypeDetails" (clickedData)="onClickRadio($event)"></app-govuk-radio>
+                                </div>
                                 <div class="govuk-form-group" id="user-mfa-form-group">
                                     <fieldset class="govuk-fieldset">
                                         <legend class="govuk-heading-s">

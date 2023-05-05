@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { LocationStrategy, ViewportScroller } from '@angular/common';
 import { UIState } from 'src/app/store/ui.states';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserEditResponseInfo, UserGroup, UserProfileRequestInfo, userGroupTableDetail } from 'src/app/models/user';
+import { UserEditResponseInfo, UserGroup, UserProfileRequestInfo, userGroupTableDetail, userTypeDetails } from 'src/app/models/user';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { WrapperUserContactService } from 'src/app/services/wrapper/wrapper-user-contact.service';
 import {
@@ -23,6 +23,7 @@ import { FormBaseComponent } from 'src/app/components/form-base/form-base.compon
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -92,7 +93,23 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public selectedGroupCheckboxes: any[] = [];
   public orgGroups: Group[] = [];
   public orgUserGroupRoles: any[] = [];
-
+  public userTypeDetails:userTypeDetails = {
+    userLable:'User type',
+    data: [
+      {
+        name: 'Organisation Administrator',
+        description:
+          'Administrator manage users and give them access to services. Administrators can also access service theamsleves',
+      },
+      {
+        name: 'Organisation User',
+        description:
+          'Users Can access services assigned to them by administrators.',
+      },
+    ],
+    isGrayOut:null, // if want to gray out pass true otherwise null
+    selectedValue:"Organisation User"
+  }
   public groupsMember: userGroupTableDetail = {
     isAdmin: false,
     headerText: "Groups I am a member of",
@@ -130,7 +147,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     private authService: AuthService,
     private auditLogService: AuditLoggerService,
     private organisationService: WrapperOrganisationService,
-
   ) {
     super(
       viewportScroller,
@@ -151,6 +167,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+    console.log("userTypeDetails",this.userTypeDetails)
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     sessionStorage.removeItem(SessionStorageKey.UserContactUsername);
     await this.auditLogService
@@ -335,6 +352,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
 
   }
+
 
   ngAfterViewChecked() {
     this.scrollHelper.doScroll();
@@ -776,4 +794,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     return this.formChanged || this.isFormGroupChanges;
   }
 
+
+
+  public onClickRadio(event:any){
+    console.log("evesssnt",event)
+  }
 }
