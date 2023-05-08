@@ -159,8 +159,20 @@
                             </div>
                         </fieldset>
                     </div>
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-heading-s">
+                            {{ 'GROUPS'| translate }} (optional)
+                        </legend>
+                        <app-details [detailsData]="detailsData[1]"></app-details>
+                    </fieldset>
+                    <app-accordion [headerTextKeys]="groupsMember.headerTextKey" [headerText]="groupsMember.headerText" [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
+                     [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow"
+                    (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)" ></app-accordion>
 
-                    <div class="govuk-form-group" id="user-group-form-group">
+                    <app-accordion [headerTextKeys]="noneGroupsMember.headerTextKey" [headerText]="noneGroupsMember.headerText"  [accessTable]="noneGroupsMember.accessTable" [data]="noneGroupsMember.data" 
+                    [isAdmin]="noneGroupsMember.isAdmin" [groupShow]="noneGroupsMember.groupShow"
+                    (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
+                    <!-- <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">
                                 {{ 'GROUPS'| translate }} (Optional)
@@ -187,7 +199,7 @@
                             </div>
 
                         </fieldset>
-                    </div>
+                    </div> -->
 
                     <div class="govuk-form-group" id="user-role-form-group" *ngIf="showRoleView">
                         <fieldset class="govuk-fieldset">
@@ -288,30 +300,81 @@
 
                         </fieldset>
                     </div>
-
                     <div class="govuk-form-group" id="user-role-form-group" *ngIf="!showRoleView">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">
                                 {{ 'SERVICES'| translate }}
                             </legend>
-                            <p class="govuk-hints">{{ 'ACCESS_TO_USER'| translate }}</p>
-                            <div class="govuk-checkboxes">
-                                <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgRole of orgRoles; let i=index">
-                                    <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                        [attr.disabled]="isEdit && getDisbleRoleForService(orgRole.roleKey) ? true : null"
-                                        [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
-                                        (ngModelChange)="onUserRoleChecked(orgRole, $event)" value="hmrc">
-                                    <label
-                                        class="govuk-label govuk-checkboxes__label role_lable" [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
-                                        for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                        {{orgRole.roleName}}
-                                    </label>
-                                    <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.pendingStatus">
-                                        Pending Approval
-                                      </strong>
-                                      <p class="govuk-body description_para govuk-!-padding-top-0">{{orgRole.description}} </p>
+                            <p class="govuk-hints">{{ 'ACCESS_TO_USER_ROLE'| translate }}</p>
+
+                            <div class="govuk-tabs" data-module="govuk-tabs">
+                                <h2 class="govuk-tabs__title">
+                                    testing
+                                </h2>
+                                <ul class="govuk-tabs__list">
+                                  <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.userservices}" (click)="tabChanged('userservices')">
+                                    <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+                                        Individual access
+                                    </a>
+                                  </li>
+                                  <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.groupservices}" (click)="tabChanged('groupservices')">
+                                    <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+                                        Group access
+                                    </a>
+                                  </li>
+                                </ul>
+                                <div class="govuk-tabs__panel" id="user-service" [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.userservices}">
+                            <div class="govuk-grid-row">
+                                <div class="govuk-grid-column-full">
+
+                                    <p class="govuk-hints">{{ 'ACCESS_TO_USER_SERVICE'| translate }}</p>
+                                    
+                                    <div class="govuk-checkboxes">
+                                        <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgRole of orgRoles; let i=index">
+                                            <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                                [attr.disabled]="isEdit && getDisbleRoleForService(orgRole.roleKey) ? true : null"
+                                                [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                                (ngModelChange)="onUserRoleChecked(orgRole, $event)" value="hmrc">
+                                            <label
+                                                class="govuk-label govuk-checkboxes__label role_lable" [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
+                                                for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                                {{orgRole.roleName}}
+                                            </label>
+                                            <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.pendingStatus">
+                                                Pending Approval
+                                              </strong>
+                                              <p class="govuk-body description_para govuk-!-padding-top-0">{{orgRole.description}} </p>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
+                                </div>
+                                <div class="govuk-tabs__panel" id="group-service" [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.groupservices}">
+                                    <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 ? true : false">{{ 'ACCESS_TO_GROUP_SEVICE'| translate }}</p>
+                                    <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 ? true : false">{{ 'NO_GROUP_ROLE_ACCESS_ADDUSER'| translate }}</p>
+
+                                    <div class="govuk-checkboxes govuk-checkboxes-custom-input">
+                                        <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgRole of orgUserGroupRoles; let i=index">
+                                            <input class="govuk-checkboxes__input" id="{{'orgRoleControlGroup_' + orgRole.id}}"
+                                                [attr.disabled]="true" [attr.checked]="true"
+                                                [formControlName]="'orgRoleControlGroup_' + orgRole.id" type="checkbox"
+                                                value="hmrc">
+                                            <label
+                                                class="govuk-label govuk-checkboxes__label role_lable" [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
+                                                for="{{'orgRoleControlGroup_' + orgRole.id}}">
+                                                {{orgRole.name}}
+                                            </label>
+                                            <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.approvalStatus == 0 ? true : false">
+                                                Pending Approval
+                                              </strong>
+                                              <p class="govuk-body description_para govuk-!-padding-top-0">{{orgRole.description}} </p>
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                              </div>
+                            
                         </fieldset>
                     </div>
                     <div class="govuk-form-group" id="signin-provider-form-group"
@@ -348,7 +411,7 @@
                     </div>
 
                     <div class="govuk-button-group save-cancel-button-group">
-                        <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
+                        <button type="submit" class="govuk-button" [disabled]="!isFormChanges" data-module="govuk-button">
                             {{ 'SAVE_BTN' | translate }}
                         </button>
                         <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
