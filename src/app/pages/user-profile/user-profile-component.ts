@@ -658,6 +658,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   async getOrgGroups() {
     const orgGrpList = await this.orgGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise<GroupList>();
     this.orgGroups = orgGrpList.groupList;
+    this.groupsMember.isAdmin = this.isAdminUser;
+    this.noneGroupsMember.isAdmin = this.isAdminUser;
     this.getGroupDetails()
   }
 
@@ -708,8 +710,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     if(this.orgUserGroupRoles.length > 0){
       this.sortGroupDisplayOrder()
     }    
-    this.groupsMember.isAdmin = this.isAdminUser;
-    this.noneGroupsMember.isAdmin = this.isAdminUser;
   }
   
   
