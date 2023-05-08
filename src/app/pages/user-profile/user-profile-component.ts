@@ -95,20 +95,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public orgUserGroupRoles: any[] = [];
   public userTypeDetails:userTypeDetails = {
     userLable:'User type',
-    data: [
-      {
-        name: 'Organisation Administrator',
-        description:
-          'Administrator manage users and give them access to services. Administrators can also access service theamsleves',
-      },
-      {
-        name: 'Organisation User',
-        description:
-          'Users Can access services assigned to them by administrators.',
-      },
-    ],
+    data: [],
     isGrayOut:null, // if want to gray out pass true otherwise null
-    selectedValue:"Organisation User"
+    selectedValue:""
   }
   public groupsMember: userGroupTableDetail = {
     isAdmin: false,
@@ -326,6 +315,25 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           });
 
           this.groupHint = "These are the services that you have access to."
+        }
+        
+        orgRoles.forEach((role: any) => {
+          if (role.roleKey === 'ORG_DEFAULT_USER' || role.roleKey === 'ORG_ADMINISTRATOR') {
+            this.userTypeDetails.data.push({
+                key: role.roleKey,
+                name: role.roleName,
+                description: role.description
+            });
+          }
+        })
+        
+        this.userTypeDetails.isGrayOut = true;
+        
+        if (this.isAdminUser == true) {
+          this.userTypeDetails.selectedValue = "ORG_ADMINISTRATOR";
+        }
+        else{
+          this.userTypeDetails.selectedValue = "ORG_DEFAULT_USER";
         }
       });
 
@@ -768,6 +776,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
   }
 
+  public isHideRole(orgRole: any) {
+    if (orgRole === 'ORG_DEFAULT_USER' || orgRole === 'ORG_ADMINISTRATOR') {
+      return true
+    } else {
+      return false
+    }
+  }
+
   public tabChanged(activetab: string): void {
     if (activetab === 'userservices') {
       this.tabConfig.userservices = true
@@ -789,14 +805,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
   }
 
-
   public get isFormChanges(){
     return this.formChanged || this.isFormGroupChanges;
   }
 
-
-
-  public onClickRadio(event:any){
+  public onUserTypeChanged(event:any){
     console.log("evesssnt",event)
   }
 }

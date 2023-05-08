@@ -95,7 +95,7 @@
                                         spellcheck="false" [value]="userName">
                                 </div>
                                 <div class="govuk-radio">
-                                    <app-govuk-radio [details]="userTypeDetails" (clickedData)="onClickRadio($event)"></app-govuk-radio>
+                                    <app-govuk-radio [details]="userTypeDetails" (clickedData)="onUserTypeChanged($event)"></app-govuk-radio>
                                 </div>
                                 <div class="govuk-form-group" id="user-mfa-form-group">
                                     <fieldset class="govuk-fieldset">
@@ -308,27 +308,29 @@
                                     <fieldset class="govuk-fieldset">
                                         <div class="govuk-checkboxes__item govuk-item-custom"
                                             *ngFor="let orgRole of roleDataList; let i=index">
-                                            <input class="govuk-checkboxes__input"
+                                            <!-- <div *ngIf="!isHideRole(orgRole.roleKey)"> -->
+                                                <input class="govuk-checkboxes__input"
                                                 id="{{'orgRoleControl_' + orgRole.roleId}}"
                                                 [attr.disabled]="getDisbleRole(orgRole.roleKey) ? true : null"
                                                 [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
                                                 value="hmrc" (ngModelChange)="onUserRoleChecked(orgRole, $event)">
-                                            <label *ngIf="orgRole.serviceName == null"
-                                                class="govuk-label govuk-checkboxes__label"
-                                                for="{{'orgRoleControl_' + orgRole.roleId}}"
-                                                [ngClass]="{'role_lable': showRoleView === false,'govuk-!-padding-top-0': orgRole.description != ''}">
-                                                {{orgRole.accessRoleName}}
-                                            </label>
-                                            <label *ngIf="orgRole.serviceName != null && showRoleView"
-                                                class="govuk-label govuk-checkboxes__label"
-                                                for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                                {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
-                                            </label>
-                                            <strong class="govuk-tag govuk-tag--grey"
-                                                *ngIf="checkIsPendingRole(orgRole)">
-                                                Pending Approval
-                                            </strong>
-                                            <p class="govuk-body description_para">{{orgRole.description}} </p>
+                                                <label *ngIf="orgRole.serviceName == null"
+                                                    class="govuk-label govuk-checkboxes__label"
+                                                    for="{{'orgRoleControl_' + orgRole.roleId}}"
+                                                    [ngClass]="{'role_lable': showRoleView === false,'govuk-!-padding-top-0': orgRole.description != ''}">
+                                                    {{orgRole.accessRoleName}}
+                                                </label>
+                                                <label *ngIf="orgRole.serviceName != null && showRoleView"
+                                                    class="govuk-label govuk-checkboxes__label"
+                                                    for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                                    {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
+                                                </label>
+                                                <strong class="govuk-tag govuk-tag--grey"
+                                                    *ngIf="checkIsPendingRole(orgRole)">
+                                                    Pending Approval
+                                                </strong>
+                                                <p class="govuk-body description_para">{{orgRole.description}} </p>
+                                            <!-- </div>                                             -->
                                         </div>
                                     </fieldset>
                                 </div>

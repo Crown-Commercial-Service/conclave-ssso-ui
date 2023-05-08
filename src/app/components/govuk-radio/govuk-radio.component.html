@@ -8,17 +8,17 @@
         <div>
           <input
             class="govuk-radios__input"
-            [attr.id]="data.name + '-RadioButton'"
+            [attr.id]="data.key + '-RadioButton'"
             name="where-do-you-live"
             type="radio"
             [attr.disabled]="details.isGrayOut"
-            [value]="data.name"
+            [value]="data.key"
             (click)="onClickRadio(data)"
             [(ngModel)]="details.selectedValue"
           />
           <label
             class="govuk-label govuk-radios__label"
-            for="{{ data.name + '-RadioButton' }}"
+            for="{{ data.key + '-RadioButton' }}"
           >
             {{ data.name }}
           </label>
