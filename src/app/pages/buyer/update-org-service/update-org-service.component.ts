@@ -245,23 +245,56 @@ export class UpdateOrgServiceComponent implements OnInit {
     }
   }
 
-  public orgRoleEligibilty(orgType: any, role: any) {
-    if (orgType == '0') {
-      if (role.tradeEligibility == '0' || role.tradeEligibility == '2') {
-        return true
-      }
-    } else if (orgType == '1') {
-      if (role.tradeEligibility == '1' || role.tradeEligibility == '2') {
-        return true
-      }
+  public orgRoleEligibilty(orgType: any, role: any) 
+  { 
+    if (orgType == '0') 
+    { 
+      if (role.tradeEligibility == '0' || role.tradeEligibility == '2') 
+      { 
+        return true 
+      } 
     }
-    else if (orgType == '2') {
-      if (role.tradeEligibility == '0' || role.tradeEligibility == '1' || role.tradeEligibility == '2') {
-        return true
-      }
-    }
-    return false
+    else if (orgType == '1') 
+    { 
+      if (role.tradeEligibility == '1' || role.tradeEligibility == '2') 
+      { 
+        return true 
+      } 
+    } 
+    else if (orgType == '2') 
+    { 
+      if (role.tradeEligibility == '0' || role.tradeEligibility == '1' || role.tradeEligibility == '2') 
+      { 
+        return true 
+      } 
+    } 
+    return false 
   }
+    
+  // Below code will be used as part of code climate fix. Currently giving issue 5052 so reverting.
+  // private supplierEligibilty(role:any){
+  //   if (role.tradeEligibility == '0' || role.tradeEligibility == '2') {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // }
+
+  // private buyerEligibilty(role:any){
+  //   if (role.tradeEligibility == '1' || role.tradeEligibility == '2') {
+  //     return true
+  //   }  else {
+  //     return false
+  //   }
+  // }
+
+  // private bothEligibilty(role:any){
+  //   if (role.tradeEligibility == '0' || role.tradeEligibility == '1' || role.tradeEligibility == '2') {
+  //     return true
+  //   }  else {
+  //     return false
+  //   }
+  // }
 
 
   public checkRoleMatrixInDeleteRoles(orgType: any): void {

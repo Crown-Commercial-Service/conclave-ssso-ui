@@ -9,6 +9,7 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { Data } from 'src/app/models/data';
 import { dataService } from 'src/app/services/data/data.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { UIState } from 'src/app/store/ui.states';
 
 @Component({
@@ -25,8 +26,40 @@ import { UIState } from 'src/app/store/ui.states';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ManageOrgRegStep1Component extends BaseComponent implements OnInit {
+ 
+  public schemeDetails = [
+    {
+      name: 'Companies House registered number',
+      id: 'GB-COH',
+    },
+    {
+      name: 'Dun and Bradstreet number',
+      id: 'US-DUN',
+    },
+    {
+      name: 'Charity Commission for England and Wales number',
+      id: 'GB-CHC',
+    },
+    {
+      name: 'Office of The Scottish Charity Regulator (OSCR) number',
+      id: 'GB-SC',
+    },
+    {
+      name: 'The Charity Commission for Northern Ireland number',
+      id: 'GB-NIC',
+    },
+    {
+      name: 'National Health Service Organisations Registry number',
+      id: 'GB-NHS',
+    },
+    {
+      name: 'Department for Education Unique Reference Number (URN)',
+      id: 'GB-EDU',
+    },
+  ];
+  
 
-  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private SharedDataService : SharedDataService) {
     super(uiStore,viewportScroller,scrollHelper);
   }
 
@@ -35,5 +68,14 @@ export class ManageOrgRegStep1Component extends BaseComponent implements OnInit 
   public onClick() {
     this.router.navigateByUrl(`manage-org/register/initial-search`);
   }
+
+      /**
+   * checking whether scheme should show or not
+   * @param item getting scheme from html
+   * @returns returning boolean true or false
+   */
+      public checkShowStatus(item:any){
+        return this.SharedDataService.checkBlockedSchemeText(item)
+       }
 
 }
