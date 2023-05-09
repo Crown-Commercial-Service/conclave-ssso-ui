@@ -182,3 +182,6 @@ table {
  .govuk-checkboxes-custom-input .govuk-checkboxes__input:disabled + .govuk-checkboxes__label::after , .govuk-checkboxes-custom-input .govuk-checkboxes__input:disabled + .govuk-checkboxes__label::before {
     opacity: 0.5;  
  }
+ .govuk-item-custom-hide {
+  min-height: 0px;
+ }

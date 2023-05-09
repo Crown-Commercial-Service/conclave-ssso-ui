@@ -306,9 +306,10 @@
                                 </div>
                                 <div *ngIf="roleDataList.length > 0 && isAdminUser==true" class="govuk-checkboxes">
                                     <fieldset class="govuk-fieldset">
-                                        <div class="govuk-checkboxes__item govuk-item-custom"
-                                            *ngFor="let orgRole of roleDataList; let i=index">
-                                            <!-- <div *ngIf="!isHideRole(orgRole.roleKey)"> -->
+                                        <div class="govuk-checkboxes__item govuk-item-custom"                                             
+                                            *ngFor="let orgRole of roleDataList; let i=index"
+                                            [ngClass]="{'govuk-item-custom-hide' : isHideRole(orgRole.roleKey)}">
+                                            <div *ngIf="!isHideRole(orgRole.roleKey)">
                                                 <input class="govuk-checkboxes__input"
                                                 id="{{'orgRoleControl_' + orgRole.roleId}}"
                                                 [attr.disabled]="getDisbleRole(orgRole.roleKey) ? true : null"
@@ -330,7 +331,7 @@
                                                     Pending Approval
                                                 </strong>
                                                 <p class="govuk-body description_para">{{orgRole.description}} </p>
-                                            <!-- </div>                                             -->
+                                            </div>                                            
                                         </div>
                                     </fieldset>
                                 </div>

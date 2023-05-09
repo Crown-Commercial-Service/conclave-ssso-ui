@@ -259,7 +259,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           user.detail.rolePermissionInfo &&
             user.detail.rolePermissionInfo.map((roleInfo) => {
               var orgRole: any = orgRoles.find((r) => r.roleId == roleInfo.roleId);
-              if (orgRole) {
+              if (orgRole && !this.isHideRole(orgRole.roleKey)) {
                 switch (orgRole.roleKey) {
                   case 'CAT_USER': {
                     orgRole.serviceName = 'Contract Award Service (CAS)';
