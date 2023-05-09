@@ -37,7 +37,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   roesColumnsToDisplay = ['name'];
   detailsData = [
     'The roles selected here will set what services are available to the users in this group.',
-    'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
+    'Enable two-factor authentication to improve the security of your account. Additional security is required for administrator accounts.',
   ];
   public history = window.history
   constructor(
