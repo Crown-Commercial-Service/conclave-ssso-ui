@@ -44,6 +44,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     public serviceRoleGroup: any = {}
     public showRoleView: boolean = environment.appSetting.hideSimplifyRole
     public formGroup: FormGroup | any;
+    public orgAdminRole: any[] = [];
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, private sharedDataService: SharedDataService) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -113,16 +114,15 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
                 );
                 this.roleGridSource.push(roleGridSourceObject);
             }
-        });
-        console.log("roleGridSource", this.roleGridSource)
+        });        
     }
 
 
     getOrganisationRoles() {
         this.orgGroupService.getOrganisationRoles(this.organisationId).subscribe({
             next: (roleListResponse: Role[]) => {
-                if (roleListResponse != null) {
-                    this.orgRoleList = roleListResponse;
+                if (roleListResponse != null) {                    
+                    this.RemoveUserService(roleListResponse);                
                     this.setSearchResult();
                 }
             },
@@ -131,7 +131,36 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
         });
     }
 
-    onCheckBoxClickRow(dataRow: CheckBoxRoleListGridSource, event: any) {
+    RemoveUserService(roleList: Role[]){
+        this.orgRoleList = roleList.filter((role) => {
+            if(role.roleKey != 'ORG_ADMINISTRATOR' && role.roleKey != 'ORG_DEFAULT_USER')
+            {
+                return true;
+            }
+            else {
+                if(role.roleKey == 'ORG_ADMINISTRATOR'){
+                    let isChecked = (this.roleIds.findIndex(rId => rId == role.roleId) != -1 ||
+                    this.addingRoles.findIndex(role => role.roleId == role.roleId) != -1) &&
+                    this.removingRoles.findIndex(role => role.roleId == role.roleId) == -1;
+                    let roleGridSourceObject: CheckBoxRoleListGridSource = {
+                        roleId: role.roleId,
+                        roleKey: role.roleKey,
+                        roleName: role.roleName,
+                        isChecked: isChecked,
+                        description: role.description
+                    };
+                    this.formGroup.addControl(
+                        'orgRoleControl_' + role.roleId,
+                        this.formBuilder.control(isChecked ? true : false)
+                    );
+                    this.orgAdminRole.push(roleGridSourceObject);
+                }                
+                return false;
+            }
+        }); 
+    }
+
+    onCheckBoxClickRow(dataRow: CheckBoxRoleListGridSource, event: any) {        
         if (event) {
             let inRemovedListIndex = this.removingRoles.findIndex(rr => rr.roleId == dataRow.roleId);
             if (inRemovedListIndex != -1) { // If in removed list removing from there

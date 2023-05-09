@@ -237,7 +237,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               roleKey: element.roleKey,
               accessRoleName: element.roleName,
               serviceName: element.serviceName,
-              description: element.description
+              description: element.description,              
+              displayOrder: element.displayOrder
             });
             this.formGroup.addControl(
               'orgRoleControl_' + element.roleId,
@@ -295,7 +296,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                   serviceName: orgRole.serviceName,
                   description: orgRole.description,
                   serviceView: !this.showRoleView,
-                  approvalStatus: 1
+                  approvalStatus: 1,
+                  displayOrder: orgRole.displayOrder
                 });
               }
             });
@@ -309,11 +311,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 serviceName: orgRole.serviceName,
                 description: orgRole.description,
                 serviceView: !this.showRoleView,
-                approvalStatus: roleInfo.approvalStatus
+                approvalStatus: roleInfo.approvalStatus,
+                displayOrder: orgRole.displayOrder
               });
             }
           });
 
+          this.sortIndividualServices();
           this.groupHint = "These are the services that you have access to."
         }
         
@@ -345,14 +349,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
     if (this.isAdminUser == true) {
       this.detailsData = [
-        'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
+        'Enable two-factor authentication to improve the security of your account. Additional security is required for administrator accounts.',
         'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required services.',
         'The roles selected here will set what services are available to you.',
         'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
       ];
     } else {
       this.detailsData = [
-        'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
+        'Two-factor authentication improves the security of your account. Only administrators can enable or disable additional security for users.',
         'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required services.',
         'The roles selected here will set what services are available to you. Contact your admin if something is wrong.',
         'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
@@ -684,6 +688,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   async getOrgGroups() {
     const orgGrpList = await this.orgGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise<GroupList>();
     this.orgGroups = orgGrpList.groupList;
+    this.groupsMember.isAdmin = this.isAdminUser;
+    this.noneGroupsMember.isAdmin = this.isAdminUser;
     this.getGroupDetails()
   }
 
@@ -734,8 +740,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     if(this.orgUserGroupRoles.length > 0){
       this.sortGroupDisplayOrder()
     }    
-    this.groupsMember.isAdmin = this.isAdminUser;
-    this.noneGroupsMember.isAdmin = this.isAdminUser;
   }
   
   
@@ -807,6 +811,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   public get isFormChanges(){
     return this.formChanged || this.isFormGroupChanges;
+  }
+
+  private sortIndividualServices() {
+    if (this.roleDataList.length > 0) {
+        this.roleDataList = this.roleDataList.sort(function (c, d) {
+            return c.displayOrder - d.displayOrder
+        });
+    }
   }
 
   public onUserTypeChanged(event:any){
