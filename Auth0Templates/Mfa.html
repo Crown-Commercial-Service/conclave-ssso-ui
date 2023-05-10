@@ -1255,7 +1255,7 @@
     (function() {
       return new Auth0MFAWidget({
         container: "container",
-
+        defaultLocation : ['United Kingdom', 'GB', '+44'],
         theme: {
           icon: "{{ iconUrl | default: '//cdn.auth0.com/styleguide/1.0.0/img/badge.png' }}",
           primaryColor: "{{ primaryColor | default: '#ea5323' }}"
