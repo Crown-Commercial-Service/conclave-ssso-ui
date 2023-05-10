@@ -142,9 +142,9 @@
                         [class.govuk-form-group--error]="submitted && (mfaAdminValidationError)">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">
-                                Security Level
+                                Additional security
                             </legend>
-                            <app-details [detailsData]="detailsData[0]"></app-details>
+                            <p class="govuk-hints">{{ detailsData[0] }}</p>
                             <span id="mfa-error-admin" class="govuk-error-message label-detail-text-gap"
                                 *ngIf="submitted && mfaAdminValidationError">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
