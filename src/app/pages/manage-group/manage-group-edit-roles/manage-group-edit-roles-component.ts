@@ -147,7 +147,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
                         roleKey: role.roleKey,
                         roleName: role.roleName,
                         isChecked: isChecked,
-                        description: role.description
+                        description: 'Administrators manage users and give them access to services. Administrators can also access services themselves. Choose this option to make every user in this group an administrator.'
                     };
                     this.formGroup.addControl(
                         'orgRoleControl_' + role.roleId,
