@@ -333,11 +333,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         
         this.userTypeDetails.isGrayOut = true;
         
-        if (this.isAdminUser == true) {
-          this.userTypeDetails.selectedValue = "ORG_ADMINISTRATOR";
+        if(user.detail?.userGroups?.find((x: any) => x.accessServiceRoleGroupId === this.userTypeDetails.data.find(r => r.key === 'ORG_ADMINISTRATOR').id))
+        {
+          this.isAdminUser=true;
+          this.userTypeDetails.selectedValue = 'ORG_ADMINISTRATOR';
+          this.userTypeDetails.isGrayOut = true;
         }
         else{
-          this.userTypeDetails.selectedValue = "ORG_DEFAULT_USER";
+          this.userTypeDetails.selectedValue = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
         }
       });
 
