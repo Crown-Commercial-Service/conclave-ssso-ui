@@ -109,7 +109,9 @@ export class ManageUserAddSingleUserDetailComponent
   public subscription: Subscription = new Subscription;
   public showRoleView: boolean = environment.appSetting.hideSimplifyRole
   public isFormGroupChanges:boolean = false
+  public isFormUserTypeChanges:boolean = false
   public selectedUserType: any;
+  public oldSelectedUserType: any;
   public isAdminUser: boolean = false;
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
@@ -297,6 +299,7 @@ export class ManageUserAddSingleUserDetailComponent
       this.userTypeDetails.isGrayOut = true;
     }
     this.userTypeDetails.selectedValue = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
+    this.oldSelectedUserType = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
   }
 
   private patchAdminMailData() {
@@ -1005,7 +1008,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
 
 
   public get isFormChanges(){
-    return this.formChanged || this.isFormGroupChanges;
+    return this.formChanged || this.isFormGroupChanges || this.isFormUserTypeChanges;
   }
 
   public onUserTypeChanged(event:any){
@@ -1015,6 +1018,17 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     }
     else{
       this.setMfaStatus('ORG_ADMINISTRATOR', false);
+    }    
+    this.updateFormUserTypeChanged(event);
+  }
+
+  public updateFormUserTypeChanged(event:any){
+    if(this.oldSelectedUserType !== event.key)
+    {
+      this.isFormUserTypeChanges = true;
+    }
+    else{
+      this.isFormUserTypeChanges = false;
     }
   }
 }
