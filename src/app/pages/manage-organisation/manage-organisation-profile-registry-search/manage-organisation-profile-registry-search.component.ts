@@ -42,12 +42,12 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
     isDunlength: false,
     DunData: '',
   };
-
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(private ref: ChangeDetectorRef,
+    private SharedDataService:SharedDataService,
     private formBuilder: FormBuilder,
-    private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private SharedDataService:SharedDataService) {
+    private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
     this.organisationId = parseInt(this.route.snapshot.paramMap.get('organisationId') || '0');
     this.txtValue = '';
@@ -194,12 +194,12 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
     localStorage.setItem('scheme_name', item.schemeName);
   }
 
-     /**
+  /**
    * checking whether scheme should show or not
    * @param item getting scheme from html
    * @returns returning boolean true or false
    */
-     public checkShowStatus(item:any){
-      return this.SharedDataService.checkBlockedScheme(item)
-     }
+  public checkShowStatus(item:any){
+   return this.SharedDataService.checkBlockedScheme(item)
+  }
 }

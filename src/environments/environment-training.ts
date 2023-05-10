@@ -28,6 +28,8 @@ export const environment = {
 
           configuration: 'https://training-api-wrapper.london.cloudapps.digital/configurations',
 
+          dataMigration: 'https://training-api-wrapper.london.cloudapps.digital/datamigration',
+
         },
 
         apiGatewayDisabled: {
@@ -39,6 +41,10 @@ export const environment = {
           contact: 'https://training-api-wrapper.london.cloudapps.digital/contacts',
 
           configuration: 'https://training-api-wrapper.london.cloudapps.digital/configurations',
+
+          dataMigration: 'https://training-api-wrapper.london.cloudapps.digital/datamigration',
+
+          
 
         }
 
