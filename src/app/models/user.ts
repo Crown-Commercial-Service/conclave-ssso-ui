@@ -156,7 +156,8 @@ export interface userGroupTableDetail {
 }
 
 export interface userTypeDetails {
-    userLable:string
+    title:string
+    description:string
     data:any []
     isGrayOut:any
     selectedValue ?:string

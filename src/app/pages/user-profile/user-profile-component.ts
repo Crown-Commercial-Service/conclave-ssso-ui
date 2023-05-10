@@ -90,11 +90,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   private selectedRoleIds: number[] = [];
   public groupHint: string = ''
   private adminRoleKey: string = 'ORG_ADMINISTRATOR';
+  private userRoleKey: string = 'ORG_DEFAULT_USER';
   public selectedGroupCheckboxes: any[] = [];
   public orgGroups: Group[] = [];
   public orgUserGroupRoles: any[] = [];
   public userTypeDetails:userTypeDetails = {
-    userLable:'User type',
+    title:'User type',
+    description:'',
     data: [],
     isGrayOut:null, // if want to gray out pass true otherwise null
     selectedValue:""
@@ -156,7 +158,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log("userTypeDetails",this.userTypeDetails)
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     sessionStorage.removeItem(SessionStorageKey.UserContactUsername);
     await this.auditLogService
@@ -191,11 +192,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           lastName: user.lastName,
           mfaEnabled: user.mfaEnabled,
         });
-      }
+      }      
     }
     await this.getApprovalRequriedRoles()
     await this.getPendingApprovalUserRole();
-    await this.getOrgDetails();
+    //await this.getOrgDetails();
     //await this.getOrgGroups();
     await this.orgGroupService
       .getOrganisationRoles(this.organisationId)
@@ -206,7 +207,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             user.detail.rolePermissionInfo &&
             user.detail.rolePermissionInfo.some(
               (rp) => rp.roleId == r.roleId
-            );
+            );          
           if (userRole) {
             if (r.roleKey == this.adminRoleKey && this.isAdminUser == false) {
               this.isAdminUser = true;
@@ -228,6 +229,25 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             }
           }
         });
+        
+        orgRoles.forEach((role: any) => {
+          if (role.roleKey === this.userRoleKey || role.roleKey === this.adminRoleKey) {
+            this.userTypeDetails.data.push({
+                key: role.roleKey,
+                name: role.roleName,
+                description: role.description
+            });
+          }
+        })
+        
+        var adminRoleId = orgRoles.find(r => r.roleKey === this.adminRoleKey)?.roleId;
+        if(user.detail?.userGroups?.find((x: any) => x.accessServiceRoleGroupId === adminRoleId))
+        {
+          this.isAdminUser = true;
+        }        
+        this.userTypeDetails.isGrayOut = true;        
+        this.userTypeDetails.selectedValue = this.isAdminUser ? this.adminRoleKey : this.userRoleKey;
+        this.userTypeDetails.description = this.isAdminUser ? 'Only another administrators can change your user type' : 'Only administrators can change your user type';
 
         //bind Roles based on User Type
         if (this.isAdminUser == true) {
@@ -320,30 +340,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           this.sortIndividualServices();
           this.groupHint = "These are the services that you have access to."
         }
-        
-        orgRoles.forEach((role: any) => {
-          if (role.roleKey === 'ORG_DEFAULT_USER' || role.roleKey === 'ORG_ADMINISTRATOR') {
-            this.userTypeDetails.data.push({
-                key: role.roleKey,
-                name: role.roleName,
-                description: role.description
-            });
-          }
-        })
-        
-        this.userTypeDetails.isGrayOut = true;
-        
-        if(user.detail?.userGroups?.find((x: any) => x.accessServiceRoleGroupId === this.userTypeDetails.data.find(r => r.key === 'ORG_ADMINISTRATOR').id))
-        {
-          this.isAdminUser=true;
-          this.userTypeDetails.selectedValue = 'ORG_ADMINISTRATOR';
-          this.userTypeDetails.isGrayOut = true;
-        }
-        else{
-          this.userTypeDetails.selectedValue = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
-        }
       });
-
+    
+    await this.getOrgDetails();
     await this.getOrgGroups();
 
 
@@ -394,7 +393,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async getOrgDetails() {
-    if (this.isOrgAdmin) {
+    if (this.isAdminUser) {
       this.organisationDetails = await this.organisationService.getOrganisation(this.organisationId).toPromise().catch(e => {
       });
     }
@@ -745,8 +744,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }    
   }
   
-  
-  sortGroupDisplayOrder(){
+  private sortGroupDisplayOrder(){
     this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(c,d){ return c.displayOrder - d.displayOrder});
   }
 
@@ -776,7 +774,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   public getDisbleRole(orgRole: any) {
-    if (orgRole === 'ORG_DEFAULT_USER' || orgRole === 'ORG_ADMINISTRATOR') {
+    if (orgRole === this.userRoleKey || orgRole === this.adminRoleKey) {
       return true
     } else {
       return null
@@ -784,7 +782,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   public isHideRole(orgRole: any) {
-    if (orgRole === 'ORG_DEFAULT_USER' || orgRole === 'ORG_ADMINISTRATOR') {
+    if (orgRole === this.userRoleKey || orgRole === this.adminRoleKey) {
       return true
     } else {
       return false

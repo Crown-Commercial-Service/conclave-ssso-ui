@@ -69,7 +69,8 @@ export class ManageUserAddSingleUserDetailComponent
   public selectedGroupCheckboxes: any[] = [];
   public orgUserGroupRoles: any[] = [];
   public userTypeDetails:userTypeDetails = {
-    userLable:'User type',
+    title:'User type',
+    description:'',
     data: [],
     isGrayOut:null, // if want to gray out pass true otherwise null
     selectedValue:""
@@ -293,12 +294,9 @@ export class ManageUserAddSingleUserDetailComponent
     if(this.userProfileResponseInfo?.detail?.userGroups?.find((x: any) => x.accessServiceRoleGroupId === this.userTypeDetails.data.find(r => r.key === 'ORG_ADMINISTRATOR').id))
     {
       this.isAdminUser=true;
-      this.userTypeDetails.selectedValue = 'ORG_ADMINISTRATOR';
       this.userTypeDetails.isGrayOut = true;
     }
-    else{
-      this.userTypeDetails.selectedValue = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
-    }
+    this.userTypeDetails.selectedValue = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
   }
 
   private patchAdminMailData() {
