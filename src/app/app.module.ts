@@ -203,6 +203,7 @@ import { DataMigrationErrorComponent } from './pages/data-migration/data-migrati
 import { DataMigrationStatusComponent } from './pages/data-migration/data-migration-status/data-migration-status.component';
 import { CustomGovukTableComponent } from './components/custom-govuk-table/custom-govuk-table.component';
 import { AccordionComponent } from './components/accordion/accordion.component';
+import { GovukRadioComponent } from './components/govuk-radio/govuk-radio.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -371,7 +372,8 @@ export function createTranslateLoader(http: HttpClient) {
     DataMigrationErrorComponent,
     DataMigrationStatusComponent,
     CustomGovukTableComponent,
-    AccordionComponent
+    AccordionComponent,
+    GovukRadioComponent
   ],
   imports: [
     // BrowserModule,

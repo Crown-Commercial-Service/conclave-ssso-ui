@@ -154,3 +154,11 @@ export interface userGroupTableDetail {
     noDatanoneGroupsMemberMessage?: string | any
     data: any[]
 }
+
+export interface userTypeDetails {
+    title:string
+    description:string
+    data:any []
+    isGrayOut:any
+    selectedValue ?:string
+}
