@@ -1,0 +1,24 @@
+version: "2"
+checks:
+  argument-count:
+    enabled: true
+  complex-logic:
+    enabled: true
+  file-lines:
+    enabled: false
+  method-complexity:
+    enabled: true
+    config:
+      threshold: 20
+  method-count:
+    enabled: false
+  method-lines:
+    enabled: false
+  nested-control-flow:
+    enabled: true
+  return-statements:
+    enabled: true
+  similar-code:
+    enabled: false
+  identical-code:
+    enabled: true

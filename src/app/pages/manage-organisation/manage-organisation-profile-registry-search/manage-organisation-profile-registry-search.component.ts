@@ -47,7 +47,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
 
   constructor(private ref: ChangeDetectorRef,
     private formBuilder: FormBuilder,
-    private ciiService: ciiService, private router: Router, private route: ActivatedRoute,private SharedDataService:SharedDataService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private SharedDataService:SharedDataService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.organisationId = parseInt(this.route.snapshot.paramMap.get('organisationId') || '0');
     this.txtValue = '';
@@ -200,6 +200,6 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
    * @returns returning boolean true or false
    */
      public checkShowStatus(item:any){
-      return this.SharedDataService.checkBlockedScheme(item) 
+      return this.SharedDataService.checkBlockedScheme(item)
      }
 }
