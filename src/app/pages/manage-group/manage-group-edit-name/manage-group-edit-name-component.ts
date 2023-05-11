@@ -86,7 +86,6 @@ export class ManageGroupEditNameComponent
         indexOfspecialChars = indexOfspecialChars + 1
       }
     }
-    debugger
     return indexOfGname === indexOfspecialChars ? true : false
     }
 

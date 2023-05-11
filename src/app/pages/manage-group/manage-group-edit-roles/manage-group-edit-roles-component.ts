@@ -118,14 +118,6 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     }
 
 
-    public disableRoleCheck(dKey: string) {
-        if (dKey == 'FP_USER' || dKey == "ACCESS_FP_CLIENT") {
-            return true
-        } else {
-            return null
-        }
-    }
-
     getOrganisationRoles() {
         this.orgGroupService.getOrganisationRoles(this.organisationId).subscribe({
             next: (roleListResponse: Role[]) => {

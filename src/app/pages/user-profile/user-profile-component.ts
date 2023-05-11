@@ -81,6 +81,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   hasGroupViewPermission: boolean = false;
   isOrgAdmin: boolean = false;
   private selectedRoleIds:number[] = [];
+  private selectedGroupIds:number[] = [];
   public groupHint:string=''
   private adminRoleKey:string= 'ORG_ADMINISTRATOR';
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
@@ -144,7 +145,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           self.findIndex(
             (t) => t.groupId === group.groupId && t.group === group.group
           ) === index
-      );
+      );      
+      this.selectedGroupIds = this.userGroups.map(({ groupId }) => groupId);      
       if (this.routeStateData != undefined) {
         this.formGroup.setValue({
           firstName: this.routeStateData.firstName,
@@ -399,6 +401,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         firstName: form.get('firstName')?.value,
         lastName: form.get('lastName')?.value,
       };
+      if(this.isAdminUser){
+        userRequest.detail.groupIds = this.selectedGroupIds;
+      }
       this.userRequest = userRequest
       this.checkApproveRolesSelected()
     } else {
@@ -509,7 +514,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         })
       })
       localStorage.setItem('user_approved_role', JSON.stringify(matchRoles));
-
+      localStorage.setItem('user_access_name',this.userName);
     }
     this.submitPendingApproveRole(superAdminDomain === userDomain);
   }

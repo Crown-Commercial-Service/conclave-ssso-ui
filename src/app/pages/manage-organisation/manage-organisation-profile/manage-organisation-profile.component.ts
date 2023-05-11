@@ -53,7 +53,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     ];
     submitted: boolean = false;
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
-
+    pponSchema: string = 'GB-PPG';
 
 
     constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
@@ -100,7 +100,11 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             await this.ciiService.getOrgDetails(ciiOrgId).toPromise().then((data: any) => {
                 localStorage.setItem('cii_registries', JSON.stringify(data));
                 this.registries = data;
-                this.additionalIdentifiers = data.additionalIdentifiers;
+                data.additionalIdentifiers.forEach((Identifier: any) => {
+                  if (Identifier.scheme != this.pponSchema) {
+                    this.additionalIdentifiers.push(Identifier)
+                  }
+                })
             }).catch(e => {
             });
 

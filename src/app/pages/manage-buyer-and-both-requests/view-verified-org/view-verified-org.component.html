@@ -84,7 +84,7 @@
                                         <tr class="govuk-table__row" *ngFor="let row of additionalIdentifiers">
                                             <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}
                                             </th>
-                                            <td class="govuk-table__cell">{{ row.id }}</td>
+                                            <td class="govuk-table__cell">{{ getId(row.id, row.scheme) }}</td>
                                             <td class="govuk-table__cell"></td>
                                         </tr>
                                     </tbody>
