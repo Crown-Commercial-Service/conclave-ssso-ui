@@ -41,10 +41,10 @@
             </div>
         </div>
     </div>
-    <div *ngIf="addingRoles.length != 0" class="govuk-grid-row">
+    <div *ngIf="addingOrderRoles.length != 0" class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <div class="user-table">
-                <app-govuk-table [headerTextKeys]="rolesTableHeaders" [data]="addingRoles"
+                <app-govuk-table [headerTextKeys]="rolesTableHeaders" [data]="addingOrderRoles"
                     [dataKeys]="rolesColumnsToDisplay" [useClientPagination]="true">
                 </app-govuk-table>
             </div>
@@ -62,10 +62,10 @@
             </div>
         </div>
     </div>
-    <div *ngIf="removingRoles.length != 0" class="govuk-grid-row">
+    <div *ngIf="removingOrderdRoles.length != 0" class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <div class="user-table">
-                <app-govuk-table [headerTextKeys]="rolesTableHeaders" [data]="removingRoles"
+                <app-govuk-table [headerTextKeys]="rolesTableHeaders" [data]="removingOrderdRoles"
                     [dataKeys]="rolesColumnsToDisplay" [useClientPagination]="true">
                 </app-govuk-table>
             </div>
