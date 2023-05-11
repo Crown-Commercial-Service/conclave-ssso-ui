@@ -11,6 +11,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-registry-search',
@@ -46,7 +47,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
 
   constructor(private ref: ChangeDetectorRef,
     private formBuilder: FormBuilder,
-    private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private SharedDataService:SharedDataService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.organisationId = parseInt(this.route.snapshot.paramMap.get('organisationId') || '0');
     this.txtValue = '';
@@ -192,4 +193,13 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
     localStorage.setItem('scheme', this.scheme);
     localStorage.setItem('scheme_name', item.schemeName);
   }
+
+     /**
+   * checking whether scheme should show or not
+   * @param item getting scheme from html
+   * @returns returning boolean true or false
+   */
+     public checkShowStatus(item:any){
+      return this.SharedDataService.checkBlockedScheme(item)
+     }
 }
