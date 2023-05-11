@@ -18,6 +18,7 @@ import {
   UserProfileRequestInfo,
   UserProfileResponseInfo,
   userGroupTableDetail,
+  userTypeDetails,
 } from 'src/app/models/user';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { Group, GroupList, Role } from 'src/app/models/organisationGroup';
@@ -67,6 +68,13 @@ export class ManageUserAddSingleUserDetailComponent
   public pendingRoledeleteDetails: any = []
   public selectedGroupCheckboxes: any[] = [];
   public orgUserGroupRoles: any[] = [];
+  public userTypeDetails:userTypeDetails = {
+    title:'User type',
+    description:'',
+    data: [],
+    isGrayOut:null, // if want to gray out pass true otherwise null
+    selectedValue:""
+  }
   public groupsMember: userGroupTableDetail = {
     isAdmin: true,
     headerText: "Groups this user is a member of",
@@ -101,6 +109,11 @@ export class ManageUserAddSingleUserDetailComponent
   public subscription: Subscription = new Subscription;
   public showRoleView: boolean = environment.appSetting.hideSimplifyRole
   public isFormGroupChanges:boolean = false
+  public isFormUserTypeChanges:boolean = false
+  public selectedUserType: any;
+  public oldSelectedUserType: any;
+  public isAdminUser: boolean = false;
+
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private organisationGroupService: WrapperOrganisationGroupService,
@@ -269,6 +282,24 @@ export class ManageUserAddSingleUserDetailComponent
       this.patchAdminMailData()
     }
     this.MFA_Enabled = this.formGroup.controls.mfaEnabled.value;
+    this.orgRoles.forEach((role: any) => {
+      if (role.roleKey === 'ORG_DEFAULT_USER' || role.roleKey === 'ORG_ADMINISTRATOR') {
+        this.userTypeDetails.data.push({
+            id: role.roleId,
+            key: role.roleKey,
+            name: role.roleName,
+            description: role.description
+        });
+      }
+    });
+    
+    if(this.userProfileResponseInfo?.detail?.userGroups?.find((x: any) => x.accessServiceRoleGroupId === this.userTypeDetails.data.find(r => r.key === 'ORG_ADMINISTRATOR').id))
+    {
+      this.isAdminUser=true;
+      this.userTypeDetails.isGrayOut = true;
+    }
+    this.userTypeDetails.selectedValue = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
+    this.oldSelectedUserType = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
   }
 
   private patchAdminMailData() {
@@ -385,18 +416,22 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
           (rp) => rp.roleId == role.roleId
         );
       if (!this.isEdit) {
-        this.formGroup.addControl(
-          'orgRoleControl_' + role.roleId,
-          this.formBuilder.control(userRole ? true : '')
-        );
+        if (role.roleKey !== 'ORG_DEFAULT_USER' && role.roleKey !== 'ORG_ADMINISTRATOR') {
+          this.formGroup.addControl(
+            'orgRoleControl_' + role.roleId,
+            this.formBuilder.control(userRole ? true : '')
+          );
+        }
       } else {
         let PendinguserRole = this.pendingRoleDetails.some(
           (pendingRole: any) => pendingRole.roleKey == role.roleKey
         );
-        this.formGroup.addControl(
-          'orgRoleControl_' + role.roleId,
-          this.formBuilder.control(userRole ? true : PendinguserRole ? true : '')
-        );
+        if (role.roleKey !== 'ORG_DEFAULT_USER' && role.roleKey !== 'ORG_ADMINISTRATOR') {
+          this.formGroup.addControl(
+            'orgRoleControl_' + role.roleId,
+            this.formBuilder.control(userRole ? true : PendinguserRole ? true : '')
+          );
+        }
         if (userRole == true) {
           role.enabled = true
         }
@@ -412,9 +447,22 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         this.isAutoDisableMFA == false
       ) {
         this.isAutoDisableMFA = true;
+        this.isAdminUser = true;
+          this.selectedUserType = {
+            id: role.roleId,
+            key: role.roleKey
+          };
       }
 
     });
+
+    if(!this.selectedUserType){
+      var role = this.orgRoles.filter(x => x.roleKey == 'ORG_DEFAULT_USER');
+          this.selectedUserType = {
+            id: role[0].roleId,
+            key: role[0].roleKey
+          };
+    }
   }
 
   async getApprovalRequriedRoles() {
@@ -528,6 +576,10 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     });
     // Remove below line to seperate normal and approval required role. It is added as we will not be using seperate api. Only user update api will be used
     this.selectedRoleIds.push(...this.selectedApproveRequiredRole);
+    
+    if(!this.selectedRoleIds.some((roleId) => roleId == this.selectedUserType.id)){
+      this.selectedRoleIds.push(this.selectedUserType.id);
+    }
     return this.selectedRoleIds;
   }
 
@@ -956,6 +1008,27 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
 
 
   public get isFormChanges(){
-    return this.formChanged || this.isFormGroupChanges;
+    return this.formChanged || this.isFormGroupChanges || this.isFormUserTypeChanges;
+  }
+
+  public onUserTypeChanged(event:any){
+    this.selectedUserType = event;
+    if(event.key === 'ORG_ADMINISTRATOR'){
+      this.setMfaStatus('ORG_ADMINISTRATOR', true);
+    }
+    else{
+      this.setMfaStatus('ORG_ADMINISTRATOR', false);
+    }    
+    this.updateFormUserTypeChanged(event);
+  }
+
+  public updateFormUserTypeChanged(event:any){
+    if(this.oldSelectedUserType !== event.key)
+    {
+      this.isFormUserTypeChanges = true;
+    }
+    else{
+      this.isFormUserTypeChanges = false;
+    }
   }
 }
