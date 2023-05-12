@@ -300,6 +300,7 @@ export class ManageUserAddSingleUserDetailComponent
     }
     this.userTypeDetails.selectedValue = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
     this.oldSelectedUserType = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
+    this.removeDefaultUserRoleFromServiceRole();
   }
 
   private patchAdminMailData() {
@@ -1030,5 +1031,16 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     else{
       this.isFormUserTypeChanges = false;
     }
+  }
+
+  private removeDefaultUserRoleFromServiceRole(){
+    let defaultUserRoleId = this.userTypeDetails.data.filter(x => x.key === 'ORG_DEFAULT_USER')[0].id;
+    this.groupsMember.data.forEach(grp => {
+      grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
+    });
+    this.noneGroupsMember.data.forEach(grp => {
+      grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
+    });
+    this.orgUserGroupRoles = this.orgUserGroupRoles.filter((item: any) => item.id !== defaultUserRoleId);
   }
 }

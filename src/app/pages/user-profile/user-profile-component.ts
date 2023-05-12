@@ -233,6 +233,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         orgRoles.forEach((role: any) => {
           if (role.roleKey === this.userRoleKey || role.roleKey === this.adminRoleKey) {
             this.userTypeDetails.data.push({
+                id: role.roleId,
                 key: role.roleKey,
                 name: role.roleName,
                 description: role.description
@@ -247,7 +248,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         }        
         this.userTypeDetails.isGrayOut = true;        
         this.userTypeDetails.selectedValue = this.isAdminUser ? this.adminRoleKey : this.userRoleKey;
-        this.userTypeDetails.description = this.isAdminUser ? 'Only another administrators can change your user type' : 'Only administrators can change your user type';
+        this.userTypeDetails.description = this.isAdminUser ? 'Only another administrator can change your user type.' : 'Only an administrator can change your user type.';
 
         //bind Roles based on User Type
         if (this.isAdminUser == true) {
@@ -364,7 +365,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
       ];
     }
-
+    this.removeDefaultUserRoleFromServiceRole();
   }
 
 
@@ -824,5 +825,16 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   public onUserTypeChanged(event:any){
     console.log("evesssnt",event)
+  }
+
+  private removeDefaultUserRoleFromServiceRole(){
+    let defaultUserRoleId = this.userTypeDetails.data.filter(x => x.key === 'ORG_DEFAULT_USER')[0].id;
+    this.groupsMember.data.forEach(grp => {
+      grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
+    });
+    this.noneGroupsMember.data.forEach(grp => {
+      grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
+    });
+    this.orgUserGroupRoles = this.orgUserGroupRoles.filter((item: any) => item.id !== defaultUserRoleId);
   }
 }
