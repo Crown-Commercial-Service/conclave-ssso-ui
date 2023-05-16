@@ -14,7 +14,7 @@ export class AccordionComponent implements OnInit, OnChanges {
   @Input() isAdmin!: boolean
   @Input() accessTable!: string
   @Input() groupShow!: boolean
-
+  @Input() noRoleText!: string
   @Input() noRoleMessage!: string
   @Input() noDataGroupsMemberMessage!: string
   @Input() noDatanoneGroupsMemberMessage!: string
