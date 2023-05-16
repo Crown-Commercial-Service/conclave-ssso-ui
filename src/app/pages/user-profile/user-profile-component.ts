@@ -106,7 +106,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     headerText: "Groups I am a member of",
     headerTextKey: "groupName",
     accessTable: "groupsMember",
-    noRoleMessage: "You do not have access to any service through membership of this group.",
+    noRoleText: "You do not have access to any service through membership of this group.",
     noDataGroupsMemberMessage: "You are not member of any group.",
     groupShow: true,
     data: [],
@@ -116,7 +116,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     headerText: "Groups I am not a member of",
     headerTextKey: "groupName",
     accessTable: "noneGroupsMember",
-    noRoleMessage: "You do not have access to any service through membership of this group.",
+    noRoleText: "This group is not assigned with access to any service.",
     noDatanoneGroupsMemberMessage: "There are no unassiged groups available for you.",
     groupShow: false,
     data: []
@@ -366,6 +366,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       ];
     }
     this.removeDefaultUserRoleFromServiceRole();
+    this.setAccordinoForUser()
   }
 
 
@@ -376,6 +377,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   scrollToAnchor(elementId: string): void {
     this.viewportScroller.scrollToAnchor(elementId);
   }
+
+  private setAccordinoForUser(){
+    if(!this.isAdminUser){
+      this.groupsMember.noRoleText = "You do not have access to any service through membership of this group."
+    }
+   }
 
   public checkIsPendingRole(role: Role) {
     let filterRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)

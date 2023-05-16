@@ -149,6 +149,7 @@ export interface userGroupTableDetail {
     headerText: string,
     accessTable: string
     groupShow: boolean
+    noRoleText?: any
     noRoleMessage?: string | any
     noDataGroupsMemberMessage?: string | any
     noDatanoneGroupsMemberMessage?: string | any
