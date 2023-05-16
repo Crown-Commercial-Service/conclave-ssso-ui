@@ -98,7 +98,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     headerText: "Groups I am a member of",
     headerTextKey: "groupName",
     accessTable: "groupsMember",
-    noRoleMessage: "You do not have access to any service through membership of this group.",
+    noRoleText: "You do not have access to any service through membership of this group.",
     noDataGroupsMemberMessage: "You are not member of any group.",
     groupShow: true,
     data: [],
@@ -108,7 +108,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     headerText: "Groups I am not a member of",
     headerTextKey: "groupName",
     accessTable: "noneGroupsMember",
-    noRoleMessage: "You do not have access to any service through membership of this group.",
+    noRoleText: "This group is not assigned with access to any service.",
     noDatanoneGroupsMemberMessage: "There are no unassiged groups available for you.",
     groupShow: false,
     data: []
@@ -661,8 +661,15 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.groupsMember.isAdmin = this.isAdminUser;
     this.noneGroupsMember.isAdmin = this.isAdminUser;
     this.getGroupDetails()
+    this.setAccordinoForUser()
   }
 
+
+  private setAccordinoForUser(){
+    if(!this.isAdminUser){
+      this.groupsMember.noRoleText = "You do not have access to any service through membership of this group."
+    }
+   }
 
   private getGroupDetails(){
     for (const group of this.orgGroups) {
