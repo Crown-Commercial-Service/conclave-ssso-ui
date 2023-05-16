@@ -168,13 +168,16 @@
                         </legend>
                         <app-details [detailsData]="detailsData[1]"></app-details>
                     </fieldset>
-                    <app-accordion [headerTextKeys]="groupsMember.headerTextKey" [headerText]="groupsMember.headerText" [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
-                     [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow"
-                    (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)" ></app-accordion>
-
-                    <app-accordion [headerTextKeys]="noneGroupsMember.headerTextKey" [headerText]="noneGroupsMember.headerText"  [accessTable]="noneGroupsMember.accessTable" [data]="noneGroupsMember.data" 
-                    [isAdmin]="noneGroupsMember.isAdmin" [groupShow]="noneGroupsMember.groupShow"
-                    (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
+                    <div *ngIf="isEdit">
+                        <app-accordion [headerTextKeys]="groupsMember.headerTextKey" [headerText]="groupsMember.headerText" [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
+                        [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow" [noRoleText]="groupsMember.noRoleText"
+                       (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)" ></app-accordion>
+                    </div>
+                    <div>
+                        <app-accordion [headerTextKeys]="noneGroupsMember.headerTextKey" [headerText]="noneGroupsMember.headerText"  [accessTable]="noneGroupsMember.accessTable" [data]="noneGroupsMember.data" 
+                        [isAdmin]="noneGroupsMember.isAdmin" [groupShow]="noneGroupsMember.groupShow" [noRoleText]="noneGroupsMember.noRoleText"
+                        (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
+                    </div>
                     <!-- <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">
