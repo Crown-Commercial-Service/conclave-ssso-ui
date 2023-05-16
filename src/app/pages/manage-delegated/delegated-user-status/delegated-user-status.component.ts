@@ -23,7 +23,20 @@ export class DelegatedUserStatusComponent implements OnInit {
     Breadcrumb: '',
     status: '',
   };
-
+  public eventLog = {
+    usersTableHeaders: ['Owner', 'Event', 'Date'],
+    usersColumnsToDisplay: ['owner', 'event', 'date'],
+    currentPage: 1,
+    pageCount: 0,
+    pageSize: environment.listPageSize,
+    delegationAuditEventDetails: {
+      currentPage: 0,
+      pageCount: 0,
+      rowCount: 0,
+      organisationId: '',
+      delegationAuditEventList: [],
+    },
+  };
   hideSimplifyRole: boolean = environment.appSetting.hideSimplifyRole;
 
   constructor(
@@ -35,6 +48,13 @@ export class DelegatedUserStatusComponent implements OnInit {
     private titleService: Title,
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
+    this.eventLog.delegationAuditEventDetails = {
+      currentPage: this.eventLog.currentPage,
+      pageCount: 0,
+      rowCount: 0,
+      organisationId: this.organisationId,
+      delegationAuditEventList: [],
+    };
   }
 
   ngOnInit(): void {
@@ -122,6 +142,11 @@ export class DelegatedUserStatusComponent implements OnInit {
     })
   }
 
+  public setPageOrganisationEventLogs(pageNumber: any) {
+    this.eventLog.currentPage = pageNumber;
+    this.getEventLogDetails();
+  }
+
   public BackToDelegated(): void {
     window.history.back();
   }
@@ -135,5 +160,10 @@ export class DelegatedUserStatusComponent implements OnInit {
   public goToDelegatedAccessPage() {
     sessionStorage.setItem('activetab', 'expiredusers')
     this.router.navigateByUrl('delegated-access');
+  }
+
+
+  public getEventLogDetails(): void {
+
   }
 }
