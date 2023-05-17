@@ -144,7 +144,7 @@
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
                         <app-accordion [headerTextKeys]="groupsMember.headerTextKey"
-                            [headerText]="groupsMember.headerText" [noRoleMessage]="groupsMember.noRoleMessage"
+                            [headerText]="groupsMember.headerText" [noRoleText]="groupsMember.noRoleText"
                             [noDataGroupsMemberMessage]="groupsMember.noDataGroupsMemberMessage"
                             [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
                             [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow"
@@ -153,7 +153,7 @@
 
                         <app-accordion *ngIf="noneGroupsMember.isAdmin"
                             [headerTextKeys]="noneGroupsMember.headerTextKey"
-                            [noRoleMessage]="noneGroupsMember.noRoleMessage"
+                            [noRoleText]="noneGroupsMember.noRoleText"
                             [noDatanoneGroupsMemberMessage]="noneGroupsMember.noDatanoneGroupsMemberMessage"
                             [headerText]="noneGroupsMember.headerText" [accessTable]="noneGroupsMember.accessTable"
                             [data]="noneGroupsMember.data" [isAdmin]="noneGroupsMember.isAdmin"

@@ -14,7 +14,7 @@ export class AccordionComponent implements OnInit, OnChanges {
   @Input() isAdmin!: boolean
   @Input() accessTable!: string
   @Input() groupShow!: boolean
-
+  @Input() noRoleText!: string
   @Input() noRoleMessage!: string
   @Input() noDataGroupsMemberMessage!: string
   @Input() noDatanoneGroupsMemberMessage!: string
@@ -59,7 +59,7 @@ export class AccordionComponent implements OnInit, OnChanges {
     el.style.display = (el.style.display === 'block') ? 'none' : 'block';
   }
 
-  public goToEditGroup(groupId: any) {
+  public goToEditGroup(groupId: any) { 
     let isFromManageMyAccount = this.router.url === '/profile';
     let queryParams = this.activatedRoute.snapshot.queryParams;
     if(queryParams.data)
