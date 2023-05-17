@@ -80,6 +80,7 @@ export class ManageUserAddSingleUserDetailComponent
     headerText: "Groups this user is a member of",
     headerTextKey: "groupName",
     accessTable: "groupsMember",
+    noRoleText:"This user does not have access to any service through their membership of this group.",
     groupShow: true,
     data: [],
   }
@@ -88,6 +89,7 @@ export class ManageUserAddSingleUserDetailComponent
     headerText: "Groups this user is not a member of",
     headerTextKey: "groupName",
     accessTable: "noneGroupsMember",
+    noRoleText: "This group is not assigned with access to any service.",
     groupShow: false,
     data: []
   }
@@ -282,6 +284,7 @@ export class ManageUserAddSingleUserDetailComponent
       this.patchAdminMailData()
     }
     this.MFA_Enabled = this.formGroup.controls.mfaEnabled.value;
+    this.setAccordionDetails()
     this.orgRoles.forEach((role: any) => {
       if (role.roleKey === 'ORG_DEFAULT_USER' || role.roleKey === 'ORG_ADMINISTRATOR') {
         this.userTypeDetails.data.push({
@@ -300,6 +303,7 @@ export class ManageUserAddSingleUserDetailComponent
     }
     this.userTypeDetails.selectedValue = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
     this.oldSelectedUserType = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
+    this.removeDefaultUserRoleFromServiceRole();
   }
 
   private patchAdminMailData() {
@@ -316,6 +320,13 @@ export class ManageUserAddSingleUserDetailComponent
     }
   }
 
+  private setAccordionDetails(){
+    if(!this.isEdit){
+      this.noneGroupsMember.headerText = "Available groups"
+      this.noneGroupsMember.noRoleText = "This group is not assigned with access to any service."
+    }
+  }
+  
   async getIdentityProviders() {
     let masterIdps = await this.configWrapperService.getIdentityProviders().toPromise().catch();
     this.identityProviders = await this.organisationGroupService.getOrganisationIdentityProviders(this.organisationId).toPromise();
@@ -1030,5 +1041,16 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     else{
       this.isFormUserTypeChanges = false;
     }
+  }
+
+  private removeDefaultUserRoleFromServiceRole(){
+    let defaultUserRoleId = this.userTypeDetails.data.filter(x => x.key === 'ORG_DEFAULT_USER')[0].id;
+    this.groupsMember.data.forEach(grp => {
+      grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
+    });
+    this.noneGroupsMember.data.forEach(grp => {
+      grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
+    });
+    this.orgUserGroupRoles = this.orgUserGroupRoles.filter((item: any) => item.id !== defaultUserRoleId);
   }
 }

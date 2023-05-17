@@ -106,7 +106,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     headerText: "Groups I am a member of",
     headerTextKey: "groupName",
     accessTable: "groupsMember",
-    noRoleMessage: "You do not have access to any service through membership of this group.",
+    noRoleText: "You do not have access to any service through membership of this group.",
     noDataGroupsMemberMessage: "You are not member of any group.",
     groupShow: true,
     data: [],
@@ -116,7 +116,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     headerText: "Groups I am not a member of",
     headerTextKey: "groupName",
     accessTable: "noneGroupsMember",
-    noRoleMessage: "You do not have access to any service through membership of this group.",
+    noRoleText: "This group is not assigned with access to any service.",
     noDatanoneGroupsMemberMessage: "There are no unassiged groups available for you.",
     groupShow: false,
     data: []
@@ -233,6 +233,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         orgRoles.forEach((role: any) => {
           if (role.roleKey === this.userRoleKey || role.roleKey === this.adminRoleKey) {
             this.userTypeDetails.data.push({
+                id: role.roleId,
                 key: role.roleKey,
                 name: role.roleName,
                 description: role.description
@@ -247,7 +248,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         }        
         this.userTypeDetails.isGrayOut = true;        
         this.userTypeDetails.selectedValue = this.isAdminUser ? this.adminRoleKey : this.userRoleKey;
-        this.userTypeDetails.description = this.isAdminUser ? 'Only another administrators can change your user type' : 'Only administrators can change your user type';
+        this.userTypeDetails.description = this.isAdminUser ? 'Only another administrator can change your user type.' : 'Only an administrator can change your user type.';
 
         //bind Roles based on User Type
         if (this.isAdminUser == true) {
@@ -364,7 +365,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
       ];
     }
-
+    this.removeDefaultUserRoleFromServiceRole();
+    this.setAccordinoForUser()
   }
 
 
@@ -375,6 +377,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   scrollToAnchor(elementId: string): void {
     this.viewportScroller.scrollToAnchor(elementId);
   }
+
+  private setAccordinoForUser(){
+    if(!this.isAdminUser){
+      this.groupsMember.noRoleText = "You do not have access to any service through membership of this group."
+    }
+   }
 
   public checkIsPendingRole(role: Role) {
     let filterRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
@@ -824,5 +832,16 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   public onUserTypeChanged(event:any){
     console.log("evesssnt",event)
+  }
+
+  private removeDefaultUserRoleFromServiceRole(){
+    let defaultUserRoleId = this.userTypeDetails.data.filter(x => x.key === 'ORG_DEFAULT_USER')[0].id;
+    this.groupsMember.data.forEach(grp => {
+      grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
+    });
+    this.noneGroupsMember.data.forEach(grp => {
+      grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
+    });
+    this.orgUserGroupRoles = this.orgUserGroupRoles.filter((item: any) => item.id !== defaultUserRoleId);
   }
 }
