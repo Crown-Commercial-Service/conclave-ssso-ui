@@ -83,8 +83,11 @@
             <div>
                 <div class="govuk-form-group">
                     <h2 class="govuk-label-wrapper">
-                        <strong>
+                        <strong *ngIf="pageAccessMode =='add'">
                             You are granting a delegated access to:
+                        </strong>
+                        <strong *ngIf="pageAccessMode =='edit'">
+                            You are editing the delegated access for:
                         </strong>
                     </h2>
                     <div class="span-group govuk-!-margin-top-4">
@@ -125,9 +128,12 @@
                                             Start date
                                         </h1>
                                     </legend>
-                                    <div id="start-hint" class="govuk-hint">
+                                    <div id="start-hint" class="govuk-hint"  *ngIf="pageAccessMode =='add'">
                                         Please enter the start date for delegated access. Note, it cannot be in the
                                         past.
+                                    </div>
+                                    <div id="start-hint" class="govuk-hint" *ngIf="pageAccessMode =='edit'">
+                                        You can edit the start date for delegated access only if the access hasn’t started yet. You can’t enter today’s date or a date in the past.
                                     </div>
                                     <div class="govuk-date-input" id="start">
                                         <span id="name-error" class="govuk-error-message"
@@ -205,8 +211,7 @@
                                         and less than 28 from the start date.
                                     </div>
                                     <div id="end-hint" class="govuk-hint" *ngIf="pageAccessMode =='edit'">
-                                        You can edit end date for delegated access. Note, it cannot be more than 365
-                                        days and less than 28 days from the start date.
+                                        You can edit the date when you want this delegated access to end. It should be between 1 and 365 days from the start date.
                                     </div>
                                     <div class="govuk-date-input" id="end">
                                         <span id="name-error" class="govuk-error-message"
@@ -335,7 +340,13 @@
                             <br>
                             <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" href="javascript:;"
                                 class="navigation-text" (click)="Resentactivation()"> Resend activation link </a>
-                            <div class="govuk-button-group save-cancel-button-group govuk-!-margin-top-7">
+                                <br>
+                                <br> 
+                                <button *ngIf="pageAccessMode == 'edit'" type="button" class="govuk-button govuk-button--warning"
+                                data-module="govuk-button" (click)="RemoveAccess()">
+                                Remove access
+                              </button>
+                            <div class="govuk-button-group save-cancel-button-group">
                                 <button type="submit" class="govuk-button" data-module="govuk-button"
                                     (click)="onSubmit(formGroup)">
                                     Save and continue
@@ -345,9 +356,6 @@
                                     Cancel
                                 </button>
                             </div>
-                            <a *ngIf="pageAccessMode == 'edit'" href="javascript:;" class="navigation-text text-danger"
-                                (click)="RemoveAccess()"> Remove
-                                access </a>
                         </form>
                     </div>
                 </div>
