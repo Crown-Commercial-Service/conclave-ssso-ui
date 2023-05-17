@@ -103,7 +103,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
 
 
   public findDateKey(key: string): boolean {
-    const dateKeys = ['endDate', 'dateofRegistration', 'dateOfRegistration', 'dateOfUpload', 'date'];
+    const dateKeys = ['endDate','startDate','dateofRegistration', 'dateOfRegistration', 'dateOfUpload', 'date'];
     return dateKeys.includes(key);
   }
 }
