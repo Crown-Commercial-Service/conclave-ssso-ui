@@ -73,12 +73,14 @@ export class ManageUserAddSingleUserDetailComponent
     headerTextKey: "groupName",
     accessTable: "groupsMember",
     groupShow: true,
+    noRoleText:"This user does not have access to any service through their membership of this group.",
     data: [],
   }
   public noneGroupsMember: userGroupTableDetail = {
     isAdmin: true,
     headerText: "Groups this user is not a member of",
     headerTextKey: "groupName",
+    noRoleText: "This group is not assigned with access to any service.",
     accessTable: "noneGroupsMember",
     groupShow: false,
     data: []
@@ -269,6 +271,7 @@ export class ManageUserAddSingleUserDetailComponent
       this.patchAdminMailData()
     }
     this.MFA_Enabled = this.formGroup.controls.mfaEnabled.value;
+    this.setAccordionDetails()
   }
 
   private patchAdminMailData() {
@@ -282,6 +285,13 @@ export class ManageUserAddSingleUserDetailComponent
       this.formGroup.controls['userName'].setValue(
         this.routeData.userName
       );
+    }
+  }
+
+  private setAccordionDetails(){
+    if(!this.isEdit){
+      this.noneGroupsMember.headerText = "Available groups"
+      this.noneGroupsMember.noRoleText = "This group is not assigned with access to any service."
     }
   }
 
