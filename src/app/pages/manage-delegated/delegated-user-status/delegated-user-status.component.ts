@@ -61,6 +61,7 @@ export class DelegatedUserStatusComponent implements OnInit {
     this.route.queryParams.subscribe((para: any) => {
       let RouteData: any = JSON.parse(atob(para.data));
       if (RouteData.event) {
+        console.log("RouteData.event", RouteData.event)
         RouteData.event.userName = decodeURIComponent(unescape(RouteData.event.userName));
       }
       switch (RouteData.status) {
@@ -103,6 +104,7 @@ export class DelegatedUserStatusComponent implements OnInit {
         }
       }
     });
+    this.getEventLogDetails()
   }
 
 
@@ -163,7 +165,10 @@ export class DelegatedUserStatusComponent implements OnInit {
   }
 
 
-  public getEventLogDetails(): void {
-
+  private getEventLogDetails(): void {
+    this.DelegatedService.getDelegatedEventLogs(this.eventLog.pageSize, this.eventLog.currentPage, this.UserStatus.event.userName, this.organisationId).subscribe((response) => {
+      console.log("response",response)
+      this.eventLog.delegationAuditEventDetails = response
+    })
   }
 }

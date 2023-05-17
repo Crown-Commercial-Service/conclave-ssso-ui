@@ -218,6 +218,19 @@ export class WrapperUserDelegatedService {
     );
   }
 
+  getDelegatedEventLogs(  pageSize: number,currentPage: number, userId:string,delegatedOrganisationId:string): Observable<any> {
+    pageSize = pageSize <= 0 ? 10 : pageSize;
+      const url = `${this.Usersurl}/v1/delegate-user-auditevents?pageSize=${pageSize}&currentPage=${currentPage}&user-id=${userId}&delegated-organisation-id=${delegatedOrganisationId}`;
+      return this.http.get<any>(url).pipe(
+        map((data: any) => {
+          console.log("data.organisationAuditEventList",data)
+          data.organisationAuditEventList = data.orgAuditEventServiceRoleGroupList
+          return  data
+        }), catchError(error => {
+          return throwError(error);
+        })
+      );
+  }
 
 
 
