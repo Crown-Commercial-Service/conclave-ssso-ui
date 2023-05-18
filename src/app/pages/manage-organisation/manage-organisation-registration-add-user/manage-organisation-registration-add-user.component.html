@@ -76,7 +76,7 @@
                     </a>
                     <a onClick="return false;" (click)="setFocus(2)" href="javascript:;"
                       *ngIf="formGroup.controls['email'].hasError('required')">
-                      <li>Enter your email address</li>
+                      <li>Enter your work email address</li>
                     </a>
                     <a onClick="return false;" (click)="setFocus(2)" href="javascript:;"
                       *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
@@ -102,6 +102,12 @@
                   userTitleEnum[item] }}</option>
               </select>
             </div> -->
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="organisation">{{ 'NAME_OF_YOUR_ORGANISATION' | translate }}</label>
+              <input [readonly]="true" [class.disabled]="true" class="govuk-input text-box-disabled" id="organisation"
+                name="organisation" maxlength="100" spellcheck="false"
+                [value]="ciiOrganisationInfo?.identifier?.legalName">
+            </div>
             <div class="govuk-form-group"
               [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid">
               <label class="govuk-label" for="firstName">{{ 'FIRSTNAME' | translate }}</label>
@@ -134,10 +140,10 @@
             </div>
             <div class="govuk-form-group"
               [class.govuk-form-group--error]="submitted && formGroup.controls.email.invalid">
-              <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
+              <label class="govuk-label" for="email">{{ 'WORK_EMAIL_ADDRESS' | translate }}</label>
               <span id="email-error" class="govuk-error-message"
                 *ngIf="submitted && formGroup.controls.email.errors?.required">
-                <span class="govuk-visually-hidden">Error:</span>Enter your email
+                <span class="govuk-visually-hidden">Error:</span>Enter your work email
               </span>
               <span id="email-error" class="govuk-error-message"
                 *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
