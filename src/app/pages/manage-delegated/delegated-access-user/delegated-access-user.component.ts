@@ -28,21 +28,44 @@ export class DelegatedAccessUserComponent implements OnInit {
   private RoleInfo: any = []
   private userSelectedFormData: any;
   public hideSimplifyRole = environment.appSetting.hideSimplifyRole;
+  private userId:number= 0
+  public eventLogForActiveUser: any = {
+    delegationAuditEventDetails: {
+      currentPage: 0,
+      pageCount: 0,
+      rowCount: 0,
+      organisationId: '',
+      delegationAuditEventServiceRoleGroupList: [],
+    },
+    usersTableHeaders: ['Owner', 'Event', 'Date'],
+    usersColumnsToDisplay: ['owner', 'event', 'date'],
+    currentPage: 1,
+    pageCount: 0,
+    pageName:"eventLog",
+    pageSize: environment.listPageSize,
+  };
   public isStartDateDisabled:boolean=false;
-
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private route: Router,
-    private DelegatedService: WrapperUserDelegatedService,
+    private DelegatedApiService: WrapperUserDelegatedService,
     private formbuilder: FormBuilder,
     private ManageDelegateService: ManageDelegateService,
     private orgRoleService: WrapperOrganisationGroupService,
     protected scrollHelper: ScrollHelper,
     private ActivatedRoute: ActivatedRoute,
-    private titleService: Title
+    private titleService: Title,
+    private DelegatedService: ManageDelegateService,
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userSelectedFormData = sessionStorage.getItem('deleagted_user_details')
+    this.eventLogForActiveUser.delegationAuditEventDetails = {
+      currentPage: this.eventLogForActiveUser.currentPage,
+      pageCount: 0,
+      rowCount: 0,
+      organisationId: this.organisationId,
+      delegationAuditEventServiceRoleGroupList: [],
+    };
   }
 
   ngOnInit(): void {
@@ -57,12 +80,14 @@ export class DelegatedAccessUserComponent implements OnInit {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userDetails = JSON.parse(atob(para.data));
       this.userDetails.userName = decodeURIComponent(unescape(this.userDetails.userName));
+      this.userId = this.userDetails.id
       this.pageAccessMode = this.userDetails.pageaccessmode
       if (this.userSelectedFormData) {
         this.userSelectedData(this.userDetails.userName, this.organisationId)
       }
       else if (this.pageAccessMode === 'edit') {
         this.getUserDetails(this.userDetails.userName, this.organisationId, this.userDetails.startDate, this.userDetails.endDate, this.userDetails.delegationAccepted)
+        this.getEventLogDetailsForActiveUser()
         this.titleService.setTitle(
           `${'Edit current delegated access'}   - CCS`
         );
@@ -104,7 +129,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     let data = JSON.parse(this.userSelectedFormData)
     this.userSelectedFormData = JSON.parse(data)
     setTimeout(() => {
-      this.DelegatedService.getEdituserDetails(userId, delegatedOrgId).subscribe({
+      this.DelegatedApiService.getEdituserDetails(userId, delegatedOrgId).subscribe({
         next: (response: any) => {
           this.getOrgRoles()
           this.RoleInfo = this.userSelectedFormData
@@ -139,7 +164,7 @@ export class DelegatedAccessUserComponent implements OnInit {
    */
   public getUserDetails(userId: string, delegatedOrgId: string, startDateFromListPage: any, endDateFromListPage: any, delegationAcceptedFromListPage: any) {
     setTimeout(() => {
-      this.DelegatedService.getEdituserDetails(userId, delegatedOrgId).subscribe({
+      this.DelegatedApiService.getEdituserDetails(userId, delegatedOrgId).subscribe({
         next: (response: any) => {
           this.getOrgRoles()
           this.RoleInfo = response
@@ -528,5 +553,17 @@ export class DelegatedAccessUserComponent implements OnInit {
   public nevigate(path: string) {
     this.route.navigateByUrl(path)
     sessionStorage.removeItem('deleagted_user_details')
+  }
+
+  public setPageOrganisationEventLogs(pageNumber: any) {
+    this.eventLogForActiveUser.currentPage = pageNumber;
+    this.getEventLogDetailsForActiveUser();
+  }
+
+  private getEventLogDetailsForActiveUser(): void {
+    this.DelegatedApiService.getDelegatedEventLogs(this.eventLogForActiveUser.pageSize, this.eventLogForActiveUser.currentPage, this.userId).subscribe((response) => {
+    this.eventLogForActiveUser.delegationAuditEventDetails.delegationAuditEventServiceRoleGroupList = this.DelegatedService.matchDelegatedDetailsOne(response.delegationAuditEventServiceRoleGroupList)
+    this.eventLogForActiveUser.pageCount =  response.pageCount;
+    })
   }
 }
