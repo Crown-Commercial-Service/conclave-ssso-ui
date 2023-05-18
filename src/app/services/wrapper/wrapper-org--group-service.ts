@@ -186,7 +186,8 @@ export class WrapperOrganisationGroupService {
               orgTypeEligibility: f.orgTypeEligibility,
               subscriptionTypeEligibility: f.subscriptionTypeEligibility,
               tradeEligibility: f.tradeEligibility,
-              description: f.description
+              description: f.description,
+              displayOrder: f.displayOrder
             }
             structureData.push(structureObj)
           })

@@ -3,10 +3,10 @@
     <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
             <li class="govuk-breadcrumbs__list-item">
-                <a *ngIf="this.isOrgAdmin" class="govuk-breadcrumbs__link" routerLink="/home">
+                <a *ngIf="this.isAdminUser" class="govuk-breadcrumbs__link" routerLink="/home">
                     {{ 'ADMINISTRATOR_DASHBOARD' | translate }}
                 </a>
-                <a *ngIf="!this.isOrgAdmin" class="govuk-breadcrumbs__link" routerLink="/home">
+                <a *ngIf="!this.isAdminUser" class="govuk-breadcrumbs__link" routerLink="/home">
                     {{"PUBLIC_PROCUREMENT_GATEWAY_DASHBOARD" | translate}}
                 </a>
             </li>
@@ -94,12 +94,15 @@
                                         name="email" type="email" size="20" value="" autocomplete="email"
                                         spellcheck="false" [value]="userName">
                                 </div>
+                                <div class="govuk-radio">
+                                    <app-govuk-radio [details]="userTypeDetails" (clickedData)="onUserTypeChanged($event)"></app-govuk-radio>
+                                </div>
                                 <div class="govuk-form-group" id="user-mfa-form-group">
                                     <fieldset class="govuk-fieldset">
                                         <legend class="govuk-heading-s">
-                                            Security Level
+                                            Additional security
                                         </legend>
-                                        <app-details [detailsData]="detailsData[0]"></app-details>
+                                        <p class="govuk-hints">{{ detailsData[0] }}</p>
                                         <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
                                             <input [attr.disabled]=true class="govuk-checkboxes__input" id="mfaEnabled"
                                                 formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
@@ -144,7 +147,7 @@
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
                         <app-accordion [headerTextKeys]="groupsMember.headerTextKey"
-                            [headerText]="groupsMember.headerText" [noRoleMessage]="groupsMember.noRoleMessage"
+                            [headerText]="groupsMember.headerText" [noRoleText]="groupsMember.noRoleText"
                             [noDataGroupsMemberMessage]="groupsMember.noDataGroupsMemberMessage"
                             [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
                             [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow"
@@ -153,7 +156,7 @@
 
                         <app-accordion *ngIf="noneGroupsMember.isAdmin"
                             [headerTextKeys]="noneGroupsMember.headerTextKey"
-                            [noRoleMessage]="noneGroupsMember.noRoleMessage"
+                            [noRoleText]="noneGroupsMember.noRoleText"
                             [noDatanoneGroupsMemberMessage]="noneGroupsMember.noDatanoneGroupsMemberMessage"
                             [headerText]="noneGroupsMember.headerText" [accessTable]="noneGroupsMember.accessTable"
                             [data]="noneGroupsMember.data" [isAdmin]="noneGroupsMember.isAdmin"
@@ -303,29 +306,32 @@
                                 </div>
                                 <div *ngIf="roleDataList.length > 0 && isAdminUser==true" class="govuk-checkboxes">
                                     <fieldset class="govuk-fieldset">
-                                        <div class="govuk-checkboxes__item govuk-item-custom"
-                                            *ngFor="let orgRole of roleDataList; let i=index">
-                                            <input class="govuk-checkboxes__input"
+                                        <div class="govuk-checkboxes__item govuk-item-custom"                                             
+                                            *ngFor="let orgRole of roleDataList; let i=index"
+                                            [ngClass]="{'govuk-item-custom-hide' : isHideRole(orgRole.roleKey)}">
+                                            <div *ngIf="!isHideRole(orgRole.roleKey)">
+                                                <input class="govuk-checkboxes__input"
                                                 id="{{'orgRoleControl_' + orgRole.roleId}}"
                                                 [attr.disabled]="getDisbleRole(orgRole.roleKey) ? true : null"
                                                 [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
                                                 value="hmrc" (ngModelChange)="onUserRoleChecked(orgRole, $event)">
-                                            <label *ngIf="orgRole.serviceName == null"
-                                                class="govuk-label govuk-checkboxes__label"
-                                                for="{{'orgRoleControl_' + orgRole.roleId}}"
-                                                [ngClass]="{'role_lable': showRoleView === false,'govuk-!-padding-top-0': orgRole.description != ''}">
-                                                {{orgRole.accessRoleName}}
-                                            </label>
-                                            <label *ngIf="orgRole.serviceName != null && showRoleView"
-                                                class="govuk-label govuk-checkboxes__label"
-                                                for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                                {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
-                                            </label>
-                                            <strong class="govuk-tag govuk-tag--grey"
-                                                *ngIf="checkIsPendingRole(orgRole)">
-                                                Pending Approval
-                                            </strong>
-                                            <p class="govuk-body description_para">{{orgRole.description}} </p>
+                                                <label *ngIf="orgRole.serviceName == null"
+                                                    class="govuk-label govuk-checkboxes__label"
+                                                    for="{{'orgRoleControl_' + orgRole.roleId}}"
+                                                    [ngClass]="{'role_lable': showRoleView === false,'govuk-!-padding-top-0': orgRole.description != ''}">
+                                                    {{orgRole.accessRoleName}}
+                                                </label>
+                                                <label *ngIf="orgRole.serviceName != null && showRoleView"
+                                                    class="govuk-label govuk-checkboxes__label"
+                                                    for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                                    {{orgRole.accessRoleName}} - {{orgRole.serviceName}}
+                                                </label>
+                                                <strong class="govuk-tag govuk-tag--grey"
+                                                    *ngIf="checkIsPendingRole(orgRole)">
+                                                    Pending Approval
+                                                </strong>
+                                                <p class="govuk-body description_para">{{orgRole.description}} </p>
+                                            </div>                                            
                                         </div>
                                     </fieldset>
                                 </div>

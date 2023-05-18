@@ -149,8 +149,17 @@ export interface userGroupTableDetail {
     headerText: string,
     accessTable: string
     groupShow: boolean
+    noRoleText?: any
     noRoleMessage?: string | any
     noDataGroupsMemberMessage?: string | any
     noDatanoneGroupsMemberMessage?: string | any
     data: any[]
+}
+
+export interface userTypeDetails {
+    title:string
+    description:string
+    data:any []
+    isGrayOut:any
+    selectedValue ?:string
 }

@@ -6,11 +6,11 @@
                 <th scope="col" class="govuk-table__header border-bottom-0 govuk-text-align-right">
                     <p *ngIf="accessTable === 'groupsMember'" class="govuk-body"><a href="javascript:;"
                             class="govuk-link" (click)="onTopToggle()">{{groupShow ==
-                            true ? 'hide all assigned' : (groupShow == false ? 'show all assigned' : '')}}
+                            true ? 'hide all' : (groupShow == false ? 'show all' : '')}}
                             ({{data.length}})</a></p>
                     <p *ngIf="accessTable === 'noneGroupsMember'" class="govuk-body"><a href="javascript:;"
                             class="govuk-link" (click)="onTopToggle()">{{groupShow ==
-                            true ? 'hide all unassigned' : (groupShow == false ? 'show all unassigned' : '')}}
+                            true ? 'hide all' : (groupShow == false ? 'show all' : '')}}
                             ({{data.length}})</a></p>
                 </th>
             </tr>
@@ -38,9 +38,7 @@
                                     </li>
                                 </span>
                                 <ng-template #noRoleData >
-                                  <label class ="no-data-message"> {{!noRoleMessage? 'This user does not have access to any service through
-                                    their membership of this group.':noRoleMessage}} </label>
-
+                                    <label class ="no-data-message"> {{noRoleText}} </label>
                                 </ng-template>
                             </ul>
                         </div>
@@ -88,8 +86,7 @@
                             </li>
                         </span>
                         <ng-template #noRoleDataIsNotAdmin >
-                            <label class ="no-data-message">     {{!noRoleMessage? 'This user does not have access to any service through
-                            their membership of this group.':noRoleMessage}}</label>
+                            <label class ="no-data-message">{{noRoleText}}</label>
                         </ng-template>
                     </ul>
                 </th>

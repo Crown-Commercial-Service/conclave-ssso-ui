@@ -212,7 +212,8 @@
                 </ngx-intl-tel-input>
               </div>
             </div>
-            <div class="govuk-checkboxes__item">
+            <div class="govuk-checkboxes__item"
+            [class.govuk-form-group--error]="submitted && formGroup.controls['webUrl'].invalid">
               <input class="govuk-checkboxes__input" id="web-checkbox" name="web-checkbox" type="checkbox"
                 (click)="checkBoxClick('Web')" [checked]="toggleInput[4].isChecked">
               <label class="govuk-label govuk-checkboxes__label" for="web-checkbox">

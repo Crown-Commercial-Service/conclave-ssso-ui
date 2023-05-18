@@ -462,7 +462,7 @@ export class UpdateOrgServiceComponent implements OnInit {
     this.orgRoles$ = this.wrapperConfigService.getRoles().pipe(share());
     this.orgRoles$.subscribe({
       next: (orgRoles: Role[]) => {
-        this.roles = orgRoles;
+        this.roles = orgRoles;              
         this.orgEligableRoles$ = this.organisationGroupService.getGroupOrganisationRoles(this.organisation.ciiOrganisationId).pipe(share());
         this.orgEligableRoles$.subscribe({
           next: (eRoles: Role[]) => {
@@ -484,6 +484,16 @@ export class UpdateOrgServiceComponent implements OnInit {
         console.log(err)
       }
     });
+  }
+
+  hideService(rolekey:any){
+    //Removing org admin role and org user role
+    if(rolekey == 'ORG_ADMINISTRATOR' || rolekey == 'ORG_DEFAULT_USER'){
+      return true;
+    }
+    else{
+      return false;
+    }    
   }
 
 }

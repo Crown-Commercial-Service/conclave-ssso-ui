@@ -138,13 +138,16 @@
                             (input)="validateEmailLength($event)" [class.govuk-input--error]="(submitted && formGroup.controls.userName.invalid)
                             || formGroup.controls.userName.hasError('alreadyExists')">
                     </div>
+                    <div class="govuk-radio">
+                        <app-govuk-radio [details]="userTypeDetails" (clickedData)="onUserTypeChanged($event)"></app-govuk-radio>
+                    </div>
                     <div class="govuk-form-group" id="user-mfa-form-group"
                         [class.govuk-form-group--error]="submitted && (mfaAdminValidationError)">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">
-                                Security Level
+                                Additional security
                             </legend>
-                            <app-details [detailsData]="detailsData[0]"></app-details>
+                            <p class="govuk-hints">{{ detailsData[0] }}</p>
                             <span id="mfa-error-admin" class="govuk-error-message label-detail-text-gap"
                                 *ngIf="submitted && mfaAdminValidationError">
                                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
@@ -165,13 +168,16 @@
                         </legend>
                         <app-details [detailsData]="detailsData[1]"></app-details>
                     </fieldset>
-                    <app-accordion [headerTextKeys]="groupsMember.headerTextKey" [headerText]="groupsMember.headerText" [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
-                     [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow"
-                    (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)" ></app-accordion>
-
-                    <app-accordion [headerTextKeys]="noneGroupsMember.headerTextKey" [headerText]="noneGroupsMember.headerText"  [accessTable]="noneGroupsMember.accessTable" [data]="noneGroupsMember.data" 
-                    [isAdmin]="noneGroupsMember.isAdmin" [groupShow]="noneGroupsMember.groupShow"
-                    (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
+                    <div *ngIf="isEdit">
+                        <app-accordion [headerTextKeys]="groupsMember.headerTextKey" [headerText]="groupsMember.headerText" [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
+                        [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow" [noRoleText]="groupsMember.noRoleText"
+                       (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)" ></app-accordion>
+                    </div>
+                    <div>
+                        <app-accordion [headerTextKeys]="noneGroupsMember.headerTextKey" [headerText]="noneGroupsMember.headerText"  [accessTable]="noneGroupsMember.accessTable" [data]="noneGroupsMember.data" 
+                        [isAdmin]="noneGroupsMember.isAdmin" [groupShow]="noneGroupsMember.groupShow" [noRoleText]="noneGroupsMember.noRoleText"
+                        (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
+                    </div>
                     <!-- <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-heading-s">
@@ -330,21 +336,23 @@
                                     <p class="govuk-hints">{{ 'ACCESS_TO_USER_SERVICE'| translate }}</p>
                                     
                                     <div class="govuk-checkboxes">
-                                        <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgRole of orgRoles; let i=index">
-                                            <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                                [attr.disabled]="isEdit && getDisbleRoleForService(orgRole.roleKey) ? true : null"
-                                                [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
-                                                (ngModelChange)="onUserRoleChecked(orgRole, $event)" value="hmrc">
-                                            <label
-                                                class="govuk-label govuk-checkboxes__label role_lable" [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
-                                                for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                                {{orgRole.roleName}}
-                                            </label>
-                                            <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.pendingStatus">
-                                                Pending Approval
-                                              </strong>
-                                              <p class="govuk-body description_para govuk-!-padding-top-0">{{orgRole.description}} </p>
-                                        </div>
+                                        <ng-container *ngFor="let orgRole of orgRoles; let i=index">
+                                            <div class="govuk-checkboxes__item govuk-item-custom" *ngIf="orgRole.roleKey != 'ORG_DEFAULT_USER' && orgRole.roleKey != 'ORG_ADMINISTRATOR'">
+                                                <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                                    [attr.disabled]="isEdit && getDisbleRoleForService(orgRole.roleKey) ? true : null"
+                                                    [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
+                                                    (ngModelChange)="onUserRoleChecked(orgRole, $event)" value="hmrc">
+                                                <label
+                                                    class="govuk-label govuk-checkboxes__label role_lable" [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
+                                                    for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                                    {{orgRole.roleName}}
+                                                </label>
+                                                <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.pendingStatus">
+                                                    Pending Approval
+                                                </strong>
+                                                <p class="govuk-body description_para govuk-!-padding-top-0">{{orgRole.description}} </p>
+                                            </div>
+                                        </ng-container>
                                     </div>
 
                                 </div>
