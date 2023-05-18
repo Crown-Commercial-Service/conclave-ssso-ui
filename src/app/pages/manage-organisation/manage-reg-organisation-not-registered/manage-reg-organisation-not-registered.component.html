@@ -38,13 +38,13 @@
                 <div class="govuk-details__text">
                     <p>
                         Being an administrator means you have full rights to all settings and services on this account.
-                        you can:
+                        You can:
 
 
                     </p>
                     <ul class="gov-uk-actual-ul">
-                        <li>add, access and delete any date </li>
-                        <li>add other administrator</li>
+                        <li>add, access and delete any data </li>
+                        <li>add other administrators</li>
                         <li>
                             set up 'users' - people who can use the service, but with limited access compared to you
                         </li>
@@ -52,7 +52,7 @@
                     <p>
                         We recommend consulting your colleagues and planning who should be administrators. Once you have
                         chosen,
-                        be sure to share who is doing the role with the people who will need to know whtinin your team.
+                        be sure to share who is doing the role with the people who will need to know within your team.
                     </p>
                 </div>
             </details>
@@ -63,21 +63,21 @@
                         <input class="govuk-radios__input" type="radio" id="orgAdminRadioButton" value="useradmin"
                             [(ngModel)]="adminSelectionMode" />
                         <label for="orgAdminRadioButton" class="govuk-label govuk-radios__label">
-                            I am happy being the administrator for my organisation
+                            I will be an administrator for this organisation
                         </label>
                     </div>
                     <div class="govuk-radios__item" id="nominateAdminRadioSelection">
                         <input class="govuk-radios__input" type="radio" id="nominateAdminRadioButton"
                             value="nominateadmin" [(ngModel)]="adminSelectionMode" />
                         <label for="nominateAdminRadioButton" class="govuk-label govuk-radios__label">
-                            I would like to nominate a colleague to register to become an administrator
+                            Nominate a colleague to be an administrator
                         </label>
                     </div>
                     <div class="govuk-radios__item" id="unknownAdminRadioSelection">
                         <input class="govuk-radios__input" type="radio" id="unknownAdminRadioButton" value="unkownadmin"
                             [(ngModel)]="adminSelectionMode" />
                         <label for="unknownAdminRadioButton" class="govuk-label govuk-radios__label">
-                            I do not know who my administrator would be
+                            We do not know who our administrator will be yet
                         </label>
                     </div>
                 </div>
