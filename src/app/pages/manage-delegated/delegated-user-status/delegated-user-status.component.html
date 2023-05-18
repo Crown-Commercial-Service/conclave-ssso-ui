@@ -181,12 +181,12 @@
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
                                 <div class="user-table">
-                                    <app-govuk-table [headerTextKeys]="eventLog.usersTableHeaders"
-                                        [data]="eventLog.delegationAuditEventDetails.delegationAuditEventList"
+                                    <app-custom-govuk-table [headerTextKeys]="eventLog.usersTableHeaders"
+                                        [data]="eventLog.delegationAuditEventDetails.delegationAuditEventServiceRoleGroupList"
                                         [dataKeys]="eventLog.usersColumnsToDisplay" [isHyperLinkVisible]="false"
                                         [useServerPagination]="true" [serverPageCount]="eventLog.pageCount"
-                                        [serverPageCurrentPage]="eventLog.currentPage"
-                                        (changeCurrentPageEvent)="setPageOrganisationEventLogs($event)"></app-govuk-table>
+                                        [serverPageCurrentPage]="eventLog.currentPage" [pageName]="eventLog.pageName"
+                                        (changeCurrentPageEvent)="setPageOrganisationEventLogs($event)"></app-custom-govuk-table>
                                 </div>
                             </div>
                         </div>

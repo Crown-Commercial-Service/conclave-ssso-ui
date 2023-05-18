@@ -6,6 +6,7 @@ import { Role } from 'src/app/models/organisationGroup';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { environment } from 'src/environments/environment';
+import { ManageDelegateService } from '../service/manage-delegate.service';
 
 @Component({
   selector: 'app-delegated-user-status',
@@ -23,18 +24,19 @@ export class DelegatedUserStatusComponent implements OnInit {
     Breadcrumb: '',
     status: '',
   };
-  public eventLog = {
+  public eventLog: any = {
     usersTableHeaders: ['Owner', 'Event', 'Date'],
     usersColumnsToDisplay: ['owner', 'event', 'date'],
     currentPage: 1,
     pageCount: 0,
+    pageName: 'eventLog',
     pageSize: environment.listPageSize,
     delegationAuditEventDetails: {
       currentPage: 0,
       pageCount: 0,
       rowCount: 0,
       organisationId: '',
-      delegationAuditEventList: [],
+      delegationAuditEventServiceRoleGroupList: [],
     },
   };
   hideSimplifyRole: boolean = environment.appSetting.hideSimplifyRole;
@@ -44,8 +46,9 @@ export class DelegatedUserStatusComponent implements OnInit {
     private router: Router,
     private orgRoleService: WrapperOrganisationGroupService,
     private formbuilder: FormBuilder,
-    private DelegatedService: WrapperUserDelegatedService,
-    private titleService: Title,
+    private DelegatedService: ManageDelegateService,
+    private DelegationApiService: WrapperUserDelegatedService,
+    private titleService: Title
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.eventLog.delegationAuditEventDetails = {
@@ -53,7 +56,7 @@ export class DelegatedUserStatusComponent implements OnInit {
       pageCount: 0,
       rowCount: 0,
       organisationId: this.organisationId,
-      delegationAuditEventList: [],
+      delegationAuditEventServiceRoleGroupList: [],
     };
   }
 
@@ -61,8 +64,10 @@ export class DelegatedUserStatusComponent implements OnInit {
     this.route.queryParams.subscribe((para: any) => {
       let RouteData: any = JSON.parse(atob(para.data));
       if (RouteData.event) {
-        console.log("RouteData.event", RouteData.event)
-        RouteData.event.userName = decodeURIComponent(unescape(RouteData.event.userName));
+        console.log('RouteData.event', RouteData.event);
+        RouteData.event.userName = decodeURIComponent(
+          unescape(RouteData.event.userName)
+        );
       }
       switch (RouteData.status) {
         case '001': {
@@ -74,9 +79,7 @@ export class DelegatedUserStatusComponent implements OnInit {
         }
         case '002': {
           this.UserStatus = RouteData;
-          this.titleService.setTitle(
-            `${'User not found'}  - CCS`
-          );
+          this.titleService.setTitle(`${'User not found'}  - CCS`);
           break;
         }
         case '003': {
@@ -94,7 +97,7 @@ export class DelegatedUserStatusComponent implements OnInit {
           this.titleService.setTitle(
             `${'View expired delegated access'}  - CCS`
           );
-          this.getUserDetails(RouteData)
+          this.getUserDetails(RouteData);
           //statements;
           break;
         }
@@ -104,44 +107,46 @@ export class DelegatedUserStatusComponent implements OnInit {
         }
       }
     });
-    this.getEventLogDetails()
+    this.getEventLogDetails();
   }
 
-
   public getUserDetails(response: any) {
-    const startDate = response.event.startDate.split('-')
-    const endDate = response.event.endDate.split('-')
+    const startDate = response.event.startDate.split('-');
+    const endDate = response.event.endDate.split('-');
     this.formGroup.patchValue({
       startday: startDate[2].slice(0, 2),
       startmonth: startDate[1],
       startyear: startDate[0],
       endday: endDate[2].slice(0, 2),
       endmonth: endDate[1],
-      endyear: endDate[0]
+      endyear: endDate[0],
     });
-    this.getOrgRoles(response)
+    this.getOrgRoles(response);
   }
   public getOrgRoles(roleResponse: any): void {
-    this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise().then((response: Role[]) => {
-      let orgRoles = response
-      orgRoles.forEach((f) => {
-        roleResponse.event.rolePermissionInfo.forEach((element: any) => {
-          if (element.roleId === f.roleId) {
-            this.roleDataList.push({
-              roleId: f.roleId,
-              roleKey: f.roleKey,
-              accessRoleName: f.roleName,
-              serviceName: f.serviceName,
-              description: f.description
-            });
-            this.formGroup.addControl(
-              'orgRoleControl_' + element.roleId,
-              this.formbuilder.control(true)
-            );
-          }
+    this.orgRoleService
+      .getOrganisationRoles(this.organisationId)
+      .toPromise()
+      .then((response: Role[]) => {
+        let orgRoles = response;
+        orgRoles.forEach((f) => {
+          roleResponse.event.rolePermissionInfo.forEach((element: any) => {
+            if (element.roleId === f.roleId) {
+              this.roleDataList.push({
+                roleId: f.roleId,
+                roleKey: f.roleKey,
+                accessRoleName: f.roleName,
+                serviceName: f.serviceName,
+                description: f.description,
+              });
+              this.formGroup.addControl(
+                'orgRoleControl_' + element.roleId,
+                this.formbuilder.control(true)
+              );
+            }
+          });
         });
-      })
-    })
+      });
   }
 
   public setPageOrganisationEventLogs(pageNumber: any) {
@@ -156,19 +161,27 @@ export class DelegatedUserStatusComponent implements OnInit {
     this.router.navigateByUrl('home');
   }
   public Back(): void {
-    sessionStorage.setItem('activetab', 'expiredusers')
+    sessionStorage.setItem('activetab', 'expiredusers');
     window.history.back();
   }
   public goToDelegatedAccessPage() {
-    sessionStorage.setItem('activetab', 'expiredusers')
+    sessionStorage.setItem('activetab', 'expiredusers');
     this.router.navigateByUrl('delegated-access');
   }
 
-
   private getEventLogDetails(): void {
-    this.DelegatedService.getDelegatedEventLogs(this.eventLog.pageSize, this.eventLog.currentPage, this.UserStatus.event.userName, this.organisationId).subscribe((response) => {
-      console.log("response",response)
-      this.eventLog.delegationAuditEventDetails = response
-    })
+    this.DelegationApiService.getDelegatedEventLogs(
+      this.eventLog.pageSize,
+      this.eventLog.currentPage,
+      this.UserStatus.event.id
+    ).subscribe((response) => {
+      this.eventLog.delegationAuditEventDetails = response;
+      this.eventLog.delegationAuditEventDetails.delegationAuditEventServiceRoleGroupList
+      =
+      this.DelegatedService.matchDelegatedDetailsOne(
+        response.delegationAuditEventServiceRoleGroupList
+      );
+     this.eventLog.pageCount =  response.pageCount;
+    });
   }
 }
