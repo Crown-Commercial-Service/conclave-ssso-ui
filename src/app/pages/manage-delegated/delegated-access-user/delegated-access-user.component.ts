@@ -28,6 +28,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   private RoleInfo: any = []
   private userSelectedFormData: any;
   public hideSimplifyRole = environment.appSetting.hideSimplifyRole;
+  public isStartDateDisabled:boolean=false;
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
@@ -340,7 +341,7 @@ export class DelegatedAccessUserComponent implements OnInit {
  * @param form forms group value getting from html
  */
   public edituserdetails(form: FormGroup) {
-    if (this.formValid(form) && (!this.StartDateValidation && !this.EndDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
+    if (this.formValid(form) && (!this.StartDateValidation &&!this.PastDateValidation && !this.EndDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
       const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
       const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
       let data = {
@@ -411,15 +412,15 @@ export class DelegatedAccessUserComponent implements OnInit {
    * @returns boolean
    */
   public get PastDateValidation() {
-    if (this.pageAccessMode == 'add') {
+    if(this.pageAccessMode === 'edit' && this.isStartDateDisabled)
+    {
+        return false;
+    }
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const StartDate = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
       const date = new Date(StartDate);
       return date < today;
-    } else {
-      return false
-    }
   }
 
 
@@ -436,7 +437,7 @@ export class DelegatedAccessUserComponent implements OnInit {
       const oneDay = 86400000;
       const diffInTime = EndDate.getTime() - StartDate.getTime();
       const diffInDays = Math.round(diffInTime / oneDay);
-      if (diffInDays > 365 || diffInDays < 28) {
+      if (diffInDays > 365 || diffInDays < 1) {
         return true
       }
       return false
@@ -493,9 +494,22 @@ export class DelegatedAccessUserComponent implements OnInit {
     */
   private formDisable() {
     if (this.pageAccessMode === 'edit') {
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
+      const startDate=new Date(StartDateForm);
+      startDate.setHours(0,0,0,0);
+      if(startDate<=today || this.delegationAccepted)
+      {
+        this.isStartDateDisabled=true;
       this.formGroup.controls['startday'].disable()
       this.formGroup.controls['startmonth'].disable()
       this.formGroup.controls['startyear'].disable()
+      }
+      else
+      {
+        this.isStartDateDisabled=false;
+      }
     }
   }
 
