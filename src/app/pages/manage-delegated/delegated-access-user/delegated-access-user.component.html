@@ -337,6 +337,21 @@
                                 </fieldset>
                             </div>
                             <!-- user permission -->
+                            <div class="span-group govuk-!-margin-top-4" *ngIf="pageAccessMode == 'edit'">
+                                <h2 class="govuk-heading-m">Event log</h2>
+                                <div class="govuk-grid-row">
+                                    <div class="govuk-grid-column-full">
+                                        <div class="user-table">
+                                            <app-custom-govuk-table [headerTextKeys]="eventLogForActiveUser.usersTableHeaders"
+                                                [data]="eventLogForActiveUser.delegationAuditEventDetails.delegationAuditEventServiceRoleGroupList"
+                                                [dataKeys]="eventLogForActiveUser.usersColumnsToDisplay" [isHyperLinkVisible]="false"
+                                                [useServerPagination]="true" [serverPageCount]="eventLogForActiveUser.pageCount"
+                                                [serverPageCurrentPage]="eventLogForActiveUser.currentPage" [pageName]="eventLogForActiveUser.pageName"
+                                                (changeCurrentPageEvent)="setPageOrganisationEventLogs($event)"></app-custom-govuk-table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <br>
                             <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" href="javascript:;"
                                 class="navigation-text" (click)="Resentactivation()"> Resend activation link </a>
