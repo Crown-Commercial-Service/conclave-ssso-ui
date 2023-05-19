@@ -107,7 +107,6 @@ export class DelegatedUserStatusComponent implements OnInit {
         }
       }
     });
-    this.getEventLogDetails();
   }
 
   public getUserDetails(response: any) {
@@ -144,6 +143,7 @@ export class DelegatedUserStatusComponent implements OnInit {
                 this.formbuilder.control(true)
               );
             }
+          this.getEventLogDetails();
           });
         });
       });
