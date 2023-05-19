@@ -218,9 +218,9 @@ export class WrapperUserDelegatedService {
     );
   }
 
-  getDelegatedEventLogs(  pageSize: number,currentPage: number, id:number): Observable<any> {
+  getDelegatedEventLogs(  pageSize: number,currentPage: number, id:number,delegatedOrganisationId:string): Observable<any> {
     pageSize = pageSize <= 0 ? 10 : pageSize;
-      const url = `${this.Usersurl}/v1/delegate-user-auditevents?pageSize=${pageSize}&currentPage=${currentPage}&id=${id}`;
+      const url = `${this.Usersurl}/v1/delegate-user-auditevents?pageSize=${pageSize}&currentPage=${currentPage}&id=${id}&delegated-organisation-id=${delegatedOrganisationId}`;
       return this.http.get<any>(url).pipe(
         map((data: any) => {
           console.log("data.organisationAuditEventList",data)
