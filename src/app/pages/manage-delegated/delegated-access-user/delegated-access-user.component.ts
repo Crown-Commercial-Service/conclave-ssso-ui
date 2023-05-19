@@ -230,8 +230,8 @@ export class DelegatedAccessUserComponent implements OnInit {
           }
         }
       });
+     this.getEventLogDetailsForActiveUser()
     });
-
   }
 
   /**
