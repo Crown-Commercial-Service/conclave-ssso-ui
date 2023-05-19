@@ -561,7 +561,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   }
 
   private getEventLogDetailsForActiveUser(): void {
-    this.DelegatedApiService.getDelegatedEventLogs(this.eventLogForActiveUser.pageSize, this.eventLogForActiveUser.currentPage, this.userId).subscribe((response) => {
+    this.DelegatedApiService.getDelegatedEventLogs(this.eventLogForActiveUser.pageSize, this.eventLogForActiveUser.currentPage, this.userId,this.organisationId).subscribe((response) => {
     this.eventLogForActiveUser.delegationAuditEventDetails.delegationAuditEventServiceRoleGroupList = this.DelegatedService.matchDelegatedDetailsOne(response.delegationAuditEventServiceRoleGroupList)
     this.eventLogForActiveUser.pageCount =  response.pageCount;
     })
