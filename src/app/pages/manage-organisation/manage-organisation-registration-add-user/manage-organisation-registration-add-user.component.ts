@@ -23,24 +23,26 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   submitted: boolean = false;
   userTitleEnum = UserTitleEnum;
   ciiOrganisationInfo: CiiOrganisationDto;
-  public pageAccessMode:any;
-  public buyerFlow:any;
+  public pageAccessMode: any;
+  public buyerFlow: any;
+  legalName: string = '';
+
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
-  
+
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,
-private PatternService:PatternService,
+    private PatternService: PatternService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private ActivatedRoute: ActivatedRoute) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private ActivatedRoute: ActivatedRoute) {
     super(uiStore, viewportScroller, scrollHelper);
 
     this.formGroup = this.formBuilder.group({
-      firstName: ['', Validators.compose([Validators.required,Validators.pattern(this.PatternService.NameValidator)])],
-      lastName: ['', Validators.compose([Validators.required,Validators.pattern(this.PatternService.NameValidator)])],
+      firstName: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.NameValidator)])],
+      lastName: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.NameValidator)])],
       email: ['', Validators.compose([Validators.required, Validators.pattern(this.PatternService.emailPattern)])],
     });
     this.ciiOrganisationInfo = {}
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
-      if(para.data != undefined){
+      if (para.data != undefined) {
         this.pageAccessMode = JSON.parse(atob(para.data));
       } else {
         this.pageAccessMode = null
@@ -62,17 +64,17 @@ private PatternService:PatternService,
   }
 
 
-  validateEmailLength(data:any){
-    if(this.PatternService.emailValidator(data.target.value)){
-        this.formGroup.controls['email'].setErrors({ 'incorrect': true})
-      }
-}
+  validateEmailLength(data: any) {
+    if (this.PatternService.emailValidator(data.target.value)) {
+      this.formGroup.controls['email'].setErrors({ 'incorrect': true })
+    }
+  }
 
   public onSubmit(form: FormGroup) {
     this.submitted = true;
-    if(this.PatternService.emailValidator(form.get('email')?.value)){
-      this.formGroup.controls['email'].setErrors({ 'incorrect': true})
-}
+    if (this.PatternService.emailValidator(form.get('email')?.value)) {
+      this.formGroup.controls['email'].setErrors({ 'incorrect': true })
+    }
     if (this.formValid(form)) {
       const regType = localStorage.getItem("manage-org_reg_type") || "";
       let organisationRegisterDto: OrganisationRegisterDto = {
@@ -137,7 +139,7 @@ private PatternService:PatternService,
     return form.valid;
   }
 
-  public goConfirmOrgPage():void{
+  public goConfirmOrgPage(): void {
     const schemeDetails = JSON.parse(localStorage.getItem('schemeDetails') || '');
     this.router.navigateByUrl(
       `manage-org/register/search/${schemeDetails.scheme}?id=${encodeURIComponent(
@@ -146,11 +148,11 @@ private PatternService:PatternService,
     );
   }
 
-  public onClickNominate(){
+  public onClickNominate() {
     this.router.navigateByUrl(`/nominate?data=` + btoa(JSON.stringify(0)));
   }
 
-  public goBack(){
+  public goBack() {
     window.history.back()
   }
 

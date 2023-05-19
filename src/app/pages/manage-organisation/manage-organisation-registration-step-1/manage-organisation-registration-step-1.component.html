@@ -20,28 +20,35 @@
       <div class="content-left">
         <div class="content flex">
           <h1 class="govuk-heading-xl page-title">Create an account</h1>
-          <p class="govuk-body-l">Register your organisation to create an account and begin using our services.
-            <br>Completing the registration process will make you the administrator for your organisation’s account.
+          <p class="govuk-body-l">Welcome to the Crown Commercial Service Public Procurement Gateway (PPG).
+            <br>This is the new digital home for all of your public procurement services and information.
           </p>
+          <p>First, you need to create an administrator account.</p>
+          <p>This will allow you to go on and register your organisation to use our services.</p>
           <br>
+
           <p><strong>Before you start</strong></p>
-          <p>You will need a valid company email address and <strong>one</strong> of the following:</p>
-          <ul>
-            <span *ngFor="let details of schemeDetails">
-            <li *ngIf="checkShowStatus(details.id)">{{details.name}}</li> 
-           </span>
+          <p>We recomment opening the guidance below in another tab</p>
+          <div class="govuk-details__text detail-text">
+            <p><strong>Guidance for using the Public Procurement Gateway</strong></p>
+            <a href="https://www.crowncommercial.gov.uk/public-procurement-gateway-guides" rel="noreferrer noopener"
+              target="_blank" class="navigation-text">See our guide for new users, it has all the
+              information you need to get you started.</a>
+          </div>
+
+          <p><strong> You will need a </strong>valid company email address and one of the following </p>
+          <ul class=gov-uk-actual-ul>
+            <li>Companies House registered number</li>
+            <li>Dun and Bradstreet number</li>
+            <li>Charity Commission for England and Wales number</li>
+            <li>Office of The Scottish Charity Regulator (OSCR) number</li>
+            <li>The Charity Commission for Northern Ireland number</li>
+            <li>National Health Service Organisations Registry number</li>
+            <li>Department for Education Unique Reference Number (URN)</li>
           </ul>
-          <p>As an organisation administrator, your name and email address may be provided by CCS to employees of your
-            organisation so that they can contact you about any registration queries.</p>
-          <p>Registering takes around 10 minutes.</p>
           <!-- <div class="govuk-inset-text">
             This service is also available <a class="navigation-text" href="javascript:;">in Welsh (Cymraeg)</a>.
           </div> -->
-          <div class="govuk-details__text detail-text">
-            <p><strong>Before you start</strong></p>
-            <p>We will request some basic information from you to establish if your organisation has previously been
-              registered.</p>
-          </div>
 
           <button id="startNowButton" type="button"
             class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button govuk-button--start"
@@ -54,14 +61,14 @@
           </button>
         </div>
       </div>
-      <div class="content-right">
+      <!-- <div class="content-right">
         <div class="card card-help">
           <h2 class="card-title">Guides</h2>
           <a href="https://www.crowncommercial.gov.uk/public-procurement-gateway-guides" class="navigation-text"
             rel="noreferrer noopener" target="_blank">Learn about the Public Procurement Gateway, and how to set up an
             account.</a>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
