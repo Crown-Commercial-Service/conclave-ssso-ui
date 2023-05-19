@@ -8,29 +8,35 @@
                         <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate
+                            }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' | translate }}</a>
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{
+                            'ENTER_DETAIL' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG' | translate }}</a>
+                        <a class="govuk-breadcrumbs__link"
+                            routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                      <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate }}</a>
-                  </li>
+                        <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' |
+                            translate }}</a>
+                    </li>
                     <li class="govuk-breadcrumbs__list-item">
                         <span class="govuk-breadcrumbs__link"> {{ 'FIND_ADMIN' | translate }}</span>
                     </li>
                 </ol>
-              </div>
+            </div>
             <div>
                 <h1 class="govuk-heading-xl page-title">
                     How to find your administrator</h1>
-                <p>Your administrator is someone who works for your organisation. We can't tell
-                    you exactly who your administrator is but here are a few ideas of who to ask.</p>
-                <p class="govuk-body"> Your administrator might be:</p>
-                <ul class="govuk-list govuk-list--bullet">
+                <p>
+                    It will be someone who works for your organisation. We can't tell you who your administrator is, but
+                    you should ask:
+                </p>
+
+                <ul class="govuk-list govuk-list--bullet gov-uk-actual-ul">
                     <li>the person who gave you your work email account</li>
                     <li>someone in your IT or HR department</li>
                     <li>your direct line manager</li>
@@ -40,7 +46,7 @@
                 <p class="govuk-body-l"></p>
                 <div class="govuk-form-group">
                     <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
-                        (click)="goBack()">Return to choose your administrator</button>
+                        (click)="goBack()">Go back</button>
                     <p><a id="homeLink" class="navigation-text" href="https://www.crowncommercial.gov.uk/">Return
                             to Crown Commercial Service homepage</a></p>
                 </div>
