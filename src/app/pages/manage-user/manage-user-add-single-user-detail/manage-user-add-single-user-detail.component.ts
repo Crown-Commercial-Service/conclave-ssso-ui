@@ -94,7 +94,7 @@ export class ManageUserAddSingleUserDetailComponent
     data: []
   }
   public detailsData: any = [
-    'Enable two-factor authentication to improve the security of your account. Additional security is required for administrator accounts.',,
+    'Enable two-factor authentication to improve the security of your account. Additional security is required for administrator accounts.',
     'Groups allow you to manage large numbers of users all at once. Services can be applied to groups to organise user’s more efficiently and allow bulk access to relevant services where it is required.',
     'The roles selected here will set what services are available to your users.',
   ];
