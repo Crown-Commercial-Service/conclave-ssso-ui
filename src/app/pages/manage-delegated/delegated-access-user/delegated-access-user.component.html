@@ -34,17 +34,17 @@
                 <div class="govuk-error-summary__body">
                     <ul class="govuk-list govuk-error-summary__list">
                         <li
-                            *ngIf="submitted && pageAccessMode != 'edit' && (formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                            *ngIf="submitted && (formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
                             <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">Enter start
                                 date</a>
                         </li>
                         <li
-                            *ngIf="submitted && pageAccessMode != 'edit' && StartDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                            *ngIf="submitted && StartDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
                             <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">Enter valid
                                 start date</a>
                         </li>
                         <li
-                            *ngIf="submitted && pageAccessMode != 'edit' && PastDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                            *ngIf="submitted && PastDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
                             <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">The start
                                 date cannot be in the past</a>
                         </li>
@@ -61,7 +61,7 @@
                         <li
                             *ngIf="submitted && !(formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required')) && EndDateDaysValidation && !EndDateValidation">
                             <a href="javascript:;" onClick="return false;" (click)="setFocus('end-day')">The end date
-                                cannot be more than 365 days or less than 28 days from start date</a>
+                                cannot be more than 365 days or less than 1 day from start date</a>
                         </li>
                         <li *ngIf="submitted && getSelectedRoleIds(formGroup).length == 0">
                             <a href="javascript:;" onClick="return false;"
@@ -121,7 +121,7 @@
                         <!-- start date  -->
                         <form [formGroup]="formGroup" (submit)="onSubmit(formGroup)">
                             <div class="govuk-form-group"
-                                [class.govuk-form-group--error]="submitted && pageAccessMode != 'edit' && (StartDateValidation || PastDateValidation || formGroup.controls.startday.invalid || formGroup.controls.startmonth.invalid || formGroup.controls.startyear.invalid)">
+                                [class.govuk-form-group--error]="submitted && (StartDateValidation || PastDateValidation || formGroup.controls.startday.invalid || formGroup.controls.startmonth.invalid || formGroup.controls.startyear.invalid)">
                                 <fieldset class="govuk-fieldset" role="group" aria-describedby="start-hint">
                                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                                         <h1 class="govuk-fieldset__heading govuk-!-font-size-24">
@@ -137,17 +137,17 @@
                                     </div>
                                     <div class="govuk-date-input" id="start">
                                         <span id="name-error" class="govuk-error-message"
-                                            *ngIf="submitted && pageAccessMode != 'edit' && (formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                                            *ngIf="submitted && (formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
                                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
                                                 }}</span> Enter start date
                                         </span>
                                         <span id="name-error" class="govuk-error-message"
-                                            *ngIf="submitted && pageAccessMode != 'edit' && StartDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                                            *ngIf="submitted && StartDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
                                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
                                                 }}</span> Enter valid start date
                                         </span>
                                         <span id="name-error" class="govuk-error-message"
-                                            *ngIf="submitted && pageAccessMode != 'edit' && PastDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
+                                            *ngIf="submitted && PastDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
                                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
                                                 }}</span> The start date cannot be in the past
                                         </span>
@@ -158,9 +158,9 @@
                                                 </label>
                                                 <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                                     id="start-day" name="start-day" type="text"
-                                                    [class.govuk-input--error]="submitted && pageAccessMode != 'edit' && (formGroup.controls.startday.invalid || StartDateValidation || PastDateValidation)"
+                                                    [class.govuk-input--error]="submitted && (formGroup.controls.startday.invalid || StartDateValidation || PastDateValidation)"
                                                     inputmode="numeric" formControlName="startday" maxlength="2"
-                                                    [class.disable]="pageAccessMode == 'edit'"
+                                                    [class.disable]="isStartDateDisabled"
                                                     (input)="ValueChanged(formGroup.controls.startday.value,'start-day','startdate')">
                                             </div>
                                         </div>
@@ -171,10 +171,10 @@
                                                 </label>
                                                 <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                                     id="start-month" name="start-month" type="text"
-                                                    [class.govuk-input--error]="submitted && pageAccessMode != 'edit'  && (formGroup.controls.startmonth.invalid || StartDateValidation || PastDateValidation)"
+                                                    [class.govuk-input--error]="submitted && (formGroup.controls.startmonth.invalid || StartDateValidation || PastDateValidation)"
                                                     (keydown.backspace)="tiggerBackspace(formGroup.controls.startmonth.value,'start-month','startdate')"
                                                     inputmode="numeric" formControlName="startmonth" maxlength="2"
-                                                    [class.disable]="pageAccessMode == 'edit'"
+                                                    [class.disable]="isStartDateDisabled"
                                                     (input)="ValueChanged(formGroup.controls.startmonth.value,'start-month','startdate')">
                                             </div>
                                         </div>
@@ -185,9 +185,9 @@
                                                 </label>
                                                 <input class="govuk-input govuk-date-input__input govuk-input--width-4"
                                                     id="start-year" name="start-year" type="text"
-                                                    [class.govuk-input--error]="submitted && pageAccessMode != 'edit' && (formGroup.controls.startyear.invalid || StartDateValidation || PastDateValidation)"
+                                                    [class.govuk-input--error]="submitted && (formGroup.controls.startyear.invalid || StartDateValidation || PastDateValidation)"
                                                     inputmode="numeric" formControlName="startyear" maxlength="4"
-                                                    [class.disable]="pageAccessMode == 'edit'"
+                                                    [class.disable]="isStartDateDisabled"
                                                     (keydown.backspace)="tiggerBackspace(formGroup.controls.startyear.value,'start-year','startdate')">
                                             </div>
                                         </div>
@@ -208,7 +208,7 @@
                                     <div id="end-hint" class="govuk-hint" *ngIf="pageAccessMode =='add'">
                                         Please enter the end date for delegated access. Note, it cannot be more than 365
                                         days
-                                        and less than 28 from the start date.
+                                        and less than 1 from the start date.
                                     </div>
                                     <div id="end-hint" class="govuk-hint" *ngIf="pageAccessMode =='edit'">
                                         You can edit the date when you want this delegated access to end. It should be between 1 and 365 days from the start date.
@@ -227,7 +227,7 @@
                                         <span id="name-error" class="govuk-error-message"
                                             *ngIf="submitted && !(formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required')) && EndDateDaysValidation && !EndDateValidation">
                                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
-                                                }}</span> The end date cannot be more than 365 days or less than 28 days
+                                                }}</span> The end date cannot be more than 365 days or less than 1 day
                                             from start date
                                         </span>
                                         <div class="govuk-date-input__item">
@@ -337,6 +337,21 @@
                                 </fieldset>
                             </div>
                             <!-- user permission -->
+                            <div class="span-group govuk-!-margin-top-4" *ngIf="pageAccessMode == 'edit'">
+                                <h2 class="govuk-heading-m">Event log</h2>
+                                <div class="govuk-grid-row">
+                                    <div class="govuk-grid-column-full">
+                                        <div class="user-table">
+                                            <app-custom-govuk-table [headerTextKeys]="eventLogForActiveUser.usersTableHeaders"
+                                                [data]="eventLogForActiveUser.delegationAuditEventDetails.delegationAuditEventServiceRoleGroupList"
+                                                [dataKeys]="eventLogForActiveUser.usersColumnsToDisplay" [isHyperLinkVisible]="false"
+                                                [useServerPagination]="true" [serverPageCount]="eventLogForActiveUser.pageCount"
+                                                [serverPageCurrentPage]="eventLogForActiveUser.currentPage" [pageName]="eventLogForActiveUser.pageName"
+                                                (changeCurrentPageEvent)="setPageOrganisationEventLogs($event)"></app-custom-govuk-table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <br>
                             <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" href="javascript:;"
                                 class="navigation-text" (click)="Resentactivation()"> Resend activation link </a>
