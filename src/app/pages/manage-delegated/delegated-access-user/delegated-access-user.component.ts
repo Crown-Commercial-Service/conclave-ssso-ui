@@ -45,6 +45,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     pageSize: environment.listPageSize,
   };
   public isStartDateDisabled:boolean=false;
+  public pastDateValidationMessage="The start date cannot be in the past";
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private route: Router,
@@ -445,7 +446,18 @@ export class DelegatedAccessUserComponent implements OnInit {
       today.setHours(0, 0, 0, 0);
       const StartDate = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
       const date = new Date(StartDate);
+      date.setHours(0, 0, 0, 0);
+      if(this.pageAccessMode==='edit')
+      {
+        if(date<=today)
+        {
+          this.pastDateValidationMessage="The start date cannot be today or in the past";
+        }
+        return date <= today;
+      }
+      else{
       return date < today;
+      }
   }
 
 
