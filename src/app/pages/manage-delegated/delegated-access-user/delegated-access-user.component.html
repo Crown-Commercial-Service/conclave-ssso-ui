@@ -45,8 +45,7 @@
                         </li>
                         <li
                             *ngIf="submitted && PastDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
-                            <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">The start
-                                date cannot be in the past</a>
+                            <a href="javascript:;" onClick="return false;" (click)="setFocus('start-day')">{{pastDateValidationMessage}}</a>
                         </li>
                         <li
                             *ngIf="submitted && (formGroup.controls.endday.hasError('required') || formGroup.controls.endmonth.hasError('required') || formGroup.controls.endyear.hasError('required'))">
@@ -149,7 +148,7 @@
                                         <span id="name-error" class="govuk-error-message"
                                             *ngIf="submitted && PastDateValidation && !(formGroup.controls.startday.hasError('required') || formGroup.controls.startmonth.hasError('required') || formGroup.controls.startyear.hasError('required'))">
                                             <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate
-                                                }}</span> The start date cannot be in the past
+                                                }}</span> {{pastDateValidationMessage}}
                                         </span>
                                         <div class="govuk-date-input__item">
                                             <div class="govuk-form-group">
