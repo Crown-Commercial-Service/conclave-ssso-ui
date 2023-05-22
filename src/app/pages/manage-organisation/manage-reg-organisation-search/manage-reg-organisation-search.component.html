@@ -59,7 +59,7 @@
                     <label class="govuk-label" for="organisation">{{ 'NAME_OF_YOUR_ORGANISATION' | translate }}</label>
                     <span id="firstname-error" class="govuk-error-message"
                         *ngIf="submitted && formGroup.controls.organisation.invalid">
-                        <span class="govuk-visually-hidden">Error:</span>Enter your Organisation
+                        <span class="govuk-visually-hidden">Error:</span>Enter your organisation name
                     </span>
                     <mat-form-field class="example-full-width">
                         <input id="organisation" [ngModel]="searchOrgName" (ngModelChange)="onSearchTextChange($event)"
