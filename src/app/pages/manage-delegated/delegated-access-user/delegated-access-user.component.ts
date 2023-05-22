@@ -145,13 +145,13 @@ export class DelegatedAccessUserComponent implements OnInit {
             endmonth: endDate[1],
             endyear: endDate[0]
           });
+          this.formDisable()
         },
         error: (error: any) => {
           this.route.navigateByUrl('delegated-error')
         },
       });
     }, 0);
-    this.formDisable()
   }
 
   /**
