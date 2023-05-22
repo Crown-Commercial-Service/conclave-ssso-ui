@@ -112,7 +112,7 @@
               [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid">
               <label class="govuk-label" for="firstName">{{ 'FIRSTNAME' | translate }}</label>
               <span id="firstname-error" class="govuk-error-message"
-                *ngIf="submitted && formGroup.controls.lastName.errors?.required">
+                *ngIf="submitted && formGroup.controls.firstName.errors?.required">
                 <span class="govuk-visually-hidden">Error:</span>Enter your first name
               </span>
               <span id="firstname-error" class="govuk-error-message"
