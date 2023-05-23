@@ -701,8 +701,15 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.groupsMember.isAdmin = this.isAdminUser;
     this.noneGroupsMember.isAdmin = this.isAdminUser;
     this.getGroupDetails()
+    this.setAccordinoForUser()
   }
 
+
+  private setAccordinoForUser(){
+    if(!this.isAdminUser){
+      this.groupsMember.noRoleText = "You do not have access to any service through membership of this group."
+    }
+   }
 
   private getGroupDetails(){
     for (const group of this.orgGroups) {

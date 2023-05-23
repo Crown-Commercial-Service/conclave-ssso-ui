@@ -13,7 +13,7 @@ export const environment = {
           organisation: 'https://tst.api.crowncommercial.gov.uk/organisation-profiles',
           contact: 'https://tst.api.crowncommercial.gov.uk/contacts',
           configuration: 'https://tst.api.crowncommercial.gov.uk/configurations',
-          dataMigration: 'https://tst.api.crowncommercial.gov.uk/datamigration',
+          dataMigration: 'https://test-api-wrapper.london.cloudapps.digital/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://test-api-wrapper.london.cloudapps.digital/users',
@@ -71,5 +71,6 @@ export const environment = {
    hideBulkupload:false,
    hideAutoValidation:false,
    hideSimplifyRole:false,
+   blockedScheme: ["GB-PPG"],
   },
 };
