@@ -137,9 +137,9 @@
 <div class="govuk-form-group" id="user-mfa-form-group">
     <fieldset class="govuk-fieldset">
         <legend class="govuk-heading-s">
-            Security Level
+            Additional security
         </legend>
-        <app-details [detailsData]="detailsData[1]"></app-details>
+        <p class="govuk-hints">{{ detailsData[1] }}</p>        
         <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
             <input [attr.disabled]=true [checked]="group.mfaEnabled" class="govuk-checkboxes__input" id="mfaEnabled"
                 formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">

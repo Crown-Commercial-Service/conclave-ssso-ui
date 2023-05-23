@@ -17,12 +17,12 @@ export class DataMigrationStatusComponent implements OnInit {
     });
   }
 
-
   private triggerDataMigrationStatus(details:any){
-   this.getUploadedFilesDetails(details)
-  }
+    this.getUploadedFilesDetails(details)
+   }
 
-  private getUploadedFilesDetails(details:any) {
+
+   private getUploadedFilesDetails(details:any) {
     this.DataMigrationService.getDataMigrationFileStatusById(details.data).subscribe((data)=>{
       if(data.dataMigrationStatus === 0){
        this.triggerDataMigrationStatus(details)

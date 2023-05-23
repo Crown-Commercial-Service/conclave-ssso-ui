@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { LocationStrategy, ViewportScroller } from '@angular/common';
 import { UIState } from 'src/app/store/ui.states';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserEditResponseInfo, UserGroup, UserProfileRequestInfo, userGroupTableDetail } from 'src/app/models/user';
+import { UserEditResponseInfo, UserGroup, UserProfileRequestInfo, userGroupTableDetail, userTypeDetails } from 'src/app/models/user';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { WrapperUserContactService } from 'src/app/services/wrapper/wrapper-user-contact.service';
 import {
@@ -23,6 +23,7 @@ import { FormBaseComponent } from 'src/app/components/form-base/form-base.compon
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -89,10 +90,17 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   private selectedRoleIds: number[] = [];
   public groupHint: string = ''
   private adminRoleKey: string = 'ORG_ADMINISTRATOR';
+  private userRoleKey: string = 'ORG_DEFAULT_USER';
   public selectedGroupCheckboxes: any[] = [];
   public orgGroups: Group[] = [];
   public orgUserGroupRoles: any[] = [];
-
+  public userTypeDetails:userTypeDetails = {
+    title:'User type',
+    description:'',
+    data: [],
+    isGrayOut:null, // if want to gray out pass true otherwise null
+    selectedValue:""
+  }
   public groupsMember: userGroupTableDetail = {
     isAdmin: false,
     headerText: "Groups I am a member of",
@@ -130,7 +138,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     private authService: AuthService,
     private auditLogService: AuditLoggerService,
     private organisationService: WrapperOrganisationService,
-
   ) {
     super(
       viewportScroller,
@@ -185,11 +192,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           lastName: user.lastName,
           mfaEnabled: user.mfaEnabled,
         });
-      }
+      }      
     }
     await this.getApprovalRequriedRoles()
     await this.getPendingApprovalUserRole();
-    await this.getOrgDetails();
+    //await this.getOrgDetails();
     //await this.getOrgGroups();
     await this.orgGroupService
       .getOrganisationRoles(this.organisationId)
@@ -200,7 +207,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             user.detail.rolePermissionInfo &&
             user.detail.rolePermissionInfo.some(
               (rp) => rp.roleId == r.roleId
-            );
+            );          
           if (userRole) {
             if (r.roleKey == this.adminRoleKey && this.isAdminUser == false) {
               this.isAdminUser = true;
@@ -222,6 +229,26 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             }
           }
         });
+        
+        orgRoles.forEach((role: any) => {
+          if (role.roleKey === this.userRoleKey || role.roleKey === this.adminRoleKey) {
+            this.userTypeDetails.data.push({
+                id: role.roleId,
+                key: role.roleKey,
+                name: role.roleName,
+                description: role.description
+            });
+          }
+        })
+        
+        var adminRoleId = orgRoles.find(r => r.roleKey === this.adminRoleKey)?.roleId;
+        if(user.detail?.userGroups?.find((x: any) => x.accessServiceRoleGroupId === adminRoleId))
+        {
+          this.isAdminUser = true;
+        }        
+        this.userTypeDetails.isGrayOut = true;        
+        this.userTypeDetails.selectedValue = this.isAdminUser ? this.adminRoleKey : this.userRoleKey;
+        this.userTypeDetails.description = this.isAdminUser ? 'Only another administrator can change your user type.' : 'Only an administrator can change your user type.';
 
         //bind Roles based on User Type
         if (this.isAdminUser == true) {
@@ -231,7 +258,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               roleKey: element.roleKey,
               accessRoleName: element.roleName,
               serviceName: element.serviceName,
-              description: element.description
+              description: element.description,              
+              displayOrder: element.displayOrder
             });
             this.formGroup.addControl(
               'orgRoleControl_' + element.roleId,
@@ -253,7 +281,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           user.detail.rolePermissionInfo &&
             user.detail.rolePermissionInfo.map((roleInfo) => {
               var orgRole: any = orgRoles.find((r) => r.roleId == roleInfo.roleId);
-              if (orgRole) {
+              if (orgRole && !this.isHideRole(orgRole.roleKey)) {
                 switch (orgRole.roleKey) {
                   case 'CAT_USER': {
                     orgRole.serviceName = 'Contract Award Service (CAS)';
@@ -289,7 +317,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                   serviceName: orgRole.serviceName,
                   description: orgRole.description,
                   serviceView: !this.showRoleView,
-                  approvalStatus: 1
+                  approvalStatus: 1,
+                  displayOrder: orgRole.displayOrder
                 });
               }
             });
@@ -303,15 +332,18 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
                 serviceName: orgRole.serviceName,
                 description: orgRole.description,
                 serviceView: !this.showRoleView,
-                approvalStatus: roleInfo.approvalStatus
+                approvalStatus: roleInfo.approvalStatus,
+                displayOrder: orgRole.displayOrder
               });
             }
           });
 
+          this.sortIndividualServices();
           this.groupHint = "These are the services that you have access to."
         }
       });
-
+    
+    await this.getOrgDetails();
     await this.getOrgGroups();
 
 
@@ -320,21 +352,23 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
     if (this.isAdminUser == true) {
       this.detailsData = [
-        'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
+        'Enable two-factor authentication to improve the security of your account. Additional security is required for administrator accounts.',
         'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required services.',
         'The roles selected here will set what services are available to you.',
         'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
       ];
     } else {
       this.detailsData = [
-        'Add additional security steps to make your account more secure. Additional security needs to be enabled for all admin users. This can be accessed using a personal or work digital device.',
+        'Two-factor authentication improves the security of your account. Only administrators can enable or disable additional security for users.',
         'Here are the groups that you are a part of. Groups allow you to manage large numbers of users all at once. You can give your group a name, add users and assign them specifically required services.',
         'The roles selected here will set what services are available to you. Contact your admin if something is wrong.',
         'Send messages to multiple contacts in your organisation. You can also send targeted communications to specific users.',
       ];
     }
-
+    this.removeDefaultUserRoleFromServiceRole();
+    this.setAccordinoForUser()
   }
+
 
   ngAfterViewChecked() {
     this.scrollHelper.doScroll();
@@ -343,6 +377,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   scrollToAnchor(elementId: string): void {
     this.viewportScroller.scrollToAnchor(elementId);
   }
+
+  private setAccordinoForUser(){
+    if(!this.isAdminUser){
+      this.groupsMember.noRoleText = "You do not have access to any service through membership of this group."
+    }
+   }
 
   public checkIsPendingRole(role: Role) {
     let filterRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
@@ -361,7 +401,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async getOrgDetails() {
-    if (this.isOrgAdmin) {
+    if (this.isAdminUser) {
       this.organisationDetails = await this.organisationService.getOrganisation(this.organisationId).toPromise().catch(e => {
       });
     }
@@ -719,8 +759,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }    
   }
   
-  
-  sortGroupDisplayOrder(){
+  private sortGroupDisplayOrder(){
     this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(c,d){ return c.displayOrder - d.displayOrder});
   }
 
@@ -750,10 +789,18 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   public getDisbleRole(orgRole: any) {
-    if (orgRole === 'ORG_DEFAULT_USER' || orgRole === 'ORG_ADMINISTRATOR') {
+    if (orgRole === this.userRoleKey || orgRole === this.adminRoleKey) {
       return true
     } else {
       return null
+    }
+  }
+
+  public isHideRole(orgRole: any) {
+    if (orgRole === this.userRoleKey || orgRole === this.adminRoleKey) {
+      return true
+    } else {
+      return false
     }
   }
 
@@ -778,9 +825,30 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
   }
 
-
   public get isFormChanges(){
     return this.formChanged || this.isFormGroupChanges;
   }
 
+  private sortIndividualServices() {
+    if (this.roleDataList.length > 0) {
+        this.roleDataList = this.roleDataList.sort(function (c, d) {
+            return c.displayOrder - d.displayOrder
+        });
+    }
+  }
+
+  public onUserTypeChanged(event:any){
+    console.log("evesssnt",event)
+  }
+
+  private removeDefaultUserRoleFromServiceRole(){
+    let defaultUserRoleId = this.userTypeDetails.data.filter(x => x.key === 'ORG_DEFAULT_USER')[0].id;
+    this.groupsMember.data.forEach(grp => {
+      grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
+    });
+    this.noneGroupsMember.data.forEach(grp => {
+      grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
+    });
+    this.orgUserGroupRoles = this.orgUserGroupRoles.filter((item: any) => item.id !== defaultUserRoleId);
+  }
 }
