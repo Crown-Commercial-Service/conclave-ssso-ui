@@ -705,12 +705,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
 
-  private setAccordinoForUser(){
-    if(!this.isAdminUser){
-      this.groupsMember.noRoleText = "You do not have access to any service through membership of this group."
-    }
-   }
-
   private getGroupDetails(){
     for (const group of this.orgGroups) {
       const isGroupOfUser: any = this.userGroups?.find((ug) => ug.groupId === group.groupId);
