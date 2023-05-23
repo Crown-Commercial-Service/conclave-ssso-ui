@@ -43,7 +43,7 @@
                     <details class="govuk-details" data-module="govuk-details">
                         <summary class="govuk-details__summary">
                             <span class="govuk-details__summary-text">
-                                Addtional security
+                                Additional Security
                             </span>
                         </summary>
                         <div class="govuk-details__text">
@@ -59,7 +59,7 @@
                     </p>
                     <div>
                         <p class="govuk-body">
-                            <strong class="">The user will be given a below permissions.</strong>
+                            <strong class="">The user will be given access to the following services:</strong>
                         </p>
                         <ul *ngIf="hideSimplifyRole" class="govuk-list">
                             <li *ngFor="let details of UserSelectedinfo.roleDetails">
@@ -79,9 +79,11 @@
                     <div *ngIf="!hideSimplifyRole" class="govuk-grid-row">
                         <div class="govuk-grid-column-full">
                             <div class="user-table">
-                                <app-govuk-table [headerTextKeys]="rolesTableHeaders" [data]="getSelectedRole()"
-                                    [dataKeys]="rolesColumnsToDisplay" [useClientPagination]="true">
-                                </app-govuk-table>
+                                <app-govuk-table [headerTextKeys]="delegationRolesTable.rolesTableHeaders"
+                                [data]="delegationRolesTable.details.data" [dataKeys]="delegationRolesTable.rolesColumnsToDisplay"
+                                [isHyperLinkVisible]="false" [hyperArrayVisible]="false" [pageName]="delegationRolesTable.pageName" 
+                                [useClientPagination]="true"
+                              ></app-govuk-table>
                             </div>
                         </div>
                     </div>

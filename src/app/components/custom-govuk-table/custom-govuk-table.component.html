@@ -1,4 +1,5 @@
 <div class="table-scroll">
+    <div class="table_custom" *ngIf="pageName != 'eventLog'">
     <table class="govuk-table" *ngIf="tableVisibleData.length != 0; else no_results">
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
@@ -23,6 +24,41 @@
             </tr>
         </tbody>
     </table>
+   </div>
+   <div class="table_custom" *ngIf="pageName == 'eventLog'">
+    <table class="govuk-table" *ngIf="tableVisibleData.length != 0; else no_results">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header app-custom-class">Owner</th>
+                <th scope="col" class="govuk-table__header app-custom-class">Event</th>
+                <th scope="col" class="govuk-table__header app-custom-class">Date</th>
+            </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            <tr class="govuk-table__row" *ngFor="let dataRow of tableVisibleData; let index = index">
+                <td class="govuk-table__cell">
+                    <div *ngIf="dataRow.actionedBy === 'Admin'">
+                        <span>{{dataRow.actionedByFirstName}} {{dataRow.actionedByLastName}}</span><br>
+                        <span>{{dataRow.actionedByUserName}}</span>
+                    </div>
+                    <div *ngIf="dataRow.actionedBy != 'Admin'">
+                        <span>Automatic</span>
+                    </div>
+                    </td>
+                <td class="govuk-table__cell">
+                    <span>{{dataRow.eventLog.name}}</span>
+                    <div *ngFor="let columnData of dataRow.eventLog.column">
+                        <span >{{columnData.name}} : {{ columnData.date  | date: 'dd/MM/yyyy'}}</span>
+                    </div>
+                </td>
+                <td class="govuk-table__cell"> 
+                    <span> {{dataRow.actionedOnUtc | date: 'dd/MM/yyyy'}}</span><br>
+                    <span >{{ dataRow.actionedOnUtc | date: 'HH:mm'}}</span>
+                  </td>
+            </tr>
+        </tbody>
+    </table>
+   </div>
     <ng-template #no_results>
         <p class="govuk-body govuk-!-font-weight-bold">
             There are no matching results.

@@ -14,10 +14,23 @@ export class DelegatedUserConfirmComponent implements OnInit {
   public UserSelectedinfo: any;
   public pageAccessMode = ''
   public hideSimplifyRole = environment.appSetting.hideSimplifyRole;
-  rolesTableHeaders = ['NAME'];
-  rolesColumnsToDisplay = ['accessRoleName'];
-
-  constructor(private route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, private titleService: Title,) { }
+  public delegationRolesTable: any = {
+    currentPage: 1,
+    pageCount: 0,
+    pageSize: environment.listPageSize,
+    rolesTableHeaders :['NAME'],
+    rolesColumnsToDisplay : ['accessRoleName'],
+    data: '',
+    pageName: 'Contactadmin',
+  }
+  constructor(private route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, private titleService: Title,) { 
+    this.delegationRolesTable.details = {
+      currentPage: this.delegationRolesTable.currentPage,
+      pageCount: 0,
+      rowCount: 0,
+      data: [],
+    };
+  }
 
   ngOnInit(): void {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
@@ -36,7 +49,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
         `${'Confirm Delegation'}  - CCS`
       );
     }
-
+   this.getSelectedRole()
   }
 
 
@@ -130,7 +143,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
         description: f.description,
         serviceView: true
       }
-      data.push(obj)
+      this.delegationRolesTable.details.data.push(obj)
     })
     return data
   }
