@@ -95,7 +95,8 @@
                                         spellcheck="false" [value]="userName">
                                 </div>
                                 <div class="govuk-radio">
-                                    <app-govuk-radio [details]="userTypeDetails" (clickedData)="onUserTypeChanged($event)"></app-govuk-radio>
+                                    <app-govuk-radio [details]="userTypeDetails"
+                                        (clickedData)="onUserTypeChanged($event)"></app-govuk-radio>
                                 </div>
                                 <div class="govuk-form-group" id="user-mfa-form-group">
                                     <fieldset class="govuk-fieldset">
@@ -129,7 +130,7 @@
                             </div>
 
                             <div class="content-right">
-                                <div class="card card-help">
+                                <div class="card card-help govuk-details__text detail-text">
                                     <h3 class="card-title">Have an issue?</h3>
                                     <a class="navigation-text" routerLink="/contact-admin">Contact my admin</a>
                                 </div>
@@ -155,8 +156,7 @@
                             (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
 
                         <app-accordion *ngIf="noneGroupsMember.isAdmin"
-                            [headerTextKeys]="noneGroupsMember.headerTextKey"
-                            [noRoleText]="noneGroupsMember.noRoleText"
+                            [headerTextKeys]="noneGroupsMember.headerTextKey" [noRoleText]="noneGroupsMember.noRoleText"
                             [noDatanoneGroupsMemberMessage]="noneGroupsMember.noDatanoneGroupsMemberMessage"
                             [headerText]="noneGroupsMember.headerText" [accessTable]="noneGroupsMember.accessTable"
                             [data]="noneGroupsMember.data" [isAdmin]="noneGroupsMember.isAdmin"
@@ -289,8 +289,10 @@
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
 
-                                <p class="govuk-hints" *ngIf="isAdminUser == true">{{ 'ACCESS_TO_USER_SERVICE_MANAGE_MY_ACCOUNT'| translate }}</p>
-                                <p class="govuk-hints" *ngIf="isAdminUser == false">{{ 'ACCESS_TO_REGULAR_USER_SERVICE'| translate }}</p>
+                                <p class="govuk-hints" *ngIf="isAdminUser == true">{{
+                                    'ACCESS_TO_USER_SERVICE_MANAGE_MY_ACCOUNT'| translate }}</p>
+                                <p class="govuk-hints" *ngIf="isAdminUser == false">{{ 'ACCESS_TO_REGULAR_USER_SERVICE'|
+                                    translate }}</p>
 
                                 <div *ngIf="roleDataList.length > 0 && isAdminUser==false">
                                     <div class="role_view" *ngIf="showRoleView">
@@ -306,15 +308,16 @@
                                 </div>
                                 <div *ngIf="roleDataList.length > 0 && isAdminUser==true" class="govuk-checkboxes">
                                     <fieldset class="govuk-fieldset">
-                                        <div class="govuk-checkboxes__item govuk-item-custom"                                             
+                                        <div class="govuk-checkboxes__item govuk-item-custom"
                                             *ngFor="let orgRole of roleDataList; let i=index"
                                             [ngClass]="{'govuk-item-custom-hide' : isHideRole(orgRole.roleKey)}">
                                             <div *ngIf="!isHideRole(orgRole.roleKey)">
                                                 <input class="govuk-checkboxes__input"
-                                                id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                                [attr.disabled]="getDisbleRole(orgRole.roleKey) ? true : null"
-                                                [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
-                                                value="hmrc" (ngModelChange)="onUserRoleChecked(orgRole, $event)">
+                                                    id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                                    [attr.disabled]="getDisbleRole(orgRole.roleKey) ? true : null"
+                                                    [formControlName]="'orgRoleControl_' + orgRole.roleId"
+                                                    type="checkbox" value="hmrc"
+                                                    (ngModelChange)="onUserRoleChecked(orgRole, $event)">
                                                 <label *ngIf="orgRole.serviceName == null"
                                                     class="govuk-label govuk-checkboxes__label"
                                                     for="{{'orgRoleControl_' + orgRole.roleId}}"
@@ -331,7 +334,7 @@
                                                     Pending Approval
                                                 </strong>
                                                 <p class="govuk-body description_para">{{orgRole.description}} </p>
-                                            </div>                                            
+                                            </div>
                                         </div>
                                     </fieldset>
                                 </div>
@@ -369,9 +372,7 @@
                             <div class="govuk-checkboxes__item govuk-item-custom"
                                 *ngFor="let orgRole of orgUserGroupRoles; let i=index">
                                 <input class="govuk-checkboxes__input" id="{{'orgRoleControlGroup_' + orgRole.id}}"
-                                    [attr.disabled]="true" [attr.checked]="true"
-                                     type="checkbox"
-                                    value="hmrc">
+                                    [attr.disabled]="true" [attr.checked]="true" type="checkbox" value="hmrc">
                                 <label class="govuk-label govuk-checkboxes__label role_lable"
                                     [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
                                     for="{{'orgRoleControlGroup_' + orgRole.id}}">
