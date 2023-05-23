@@ -88,7 +88,6 @@ export class DelegatedAccessUserComponent implements OnInit {
       }
       else if (this.pageAccessMode === 'edit') {
         this.getUserDetails(this.userDetails.userName, this.organisationId, this.userDetails.startDate, this.userDetails.endDate, this.userDetails.delegationAccepted)
-        this.getEventLogDetailsForActiveUser()
         this.titleService.setTitle(
           `${'Edit current delegated access'}   - CCS`
         );
@@ -231,7 +230,9 @@ export class DelegatedAccessUserComponent implements OnInit {
           }
         }
       });
-     this.getEventLogDetailsForActiveUser()
+      if (this.pageAccessMode === 'edit'){
+        this.getEventLogDetailsForActiveUser()
+      }     
     });
   }
 
