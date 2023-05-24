@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ManualValidationStatus } from 'src/app/constants/enum';
 import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
-import { MbsrService } from 'src/app/shared/mbsr.service';
+import { HelperService } from 'src/app/shared/helper.service';
 
 @Component({
   selector: 'app-view-verified-org',
@@ -65,7 +65,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
     private router: Router,
     private ciiService: ciiService,
     private translate: TranslateService,
-    private mbsrService:MbsrService
+    private helperService:HelperService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -177,7 +177,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
           this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
             (f: any) => {
               f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') + ' ' + (f.actionedBy ?? '');
-              const ukDatetime=this.mbsrService.convertToLocalDateTime(f.date);
+              const ukDatetime=this.helperService.convertToLocalDateTime(f.date);
               f.date=ukDatetime;
               if (f.owner.trim() == '') {
                 f.defaultOwnerChanges = true

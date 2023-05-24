@@ -11,7 +11,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
-import { MbsrService } from 'src/app/shared/mbsr.service';
+import { HelperService } from 'src/app/shared/helper.service';
 
 @Component({
   selector: 'app-view-pending-verification',
@@ -65,7 +65,7 @@ export class ViewPendingVerificationComponent implements OnInit {
     private router: Router,
     private ciiService: ciiService,
     private translate: TranslateService,
-    private MbsrService:MbsrService
+    private helperService:HelperService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -160,7 +160,7 @@ export class ViewPendingVerificationComponent implements OnInit {
                   (f.lastName ?? '') +
                   ' ' +
                   (f.actionedBy ?? '');
-                const ukDatetime=this.MbsrService.convertToLocalDateTime(f.date);
+                const ukDatetime=this.helperService.convertToLocalDateTime(f.date);
                 f.date=ukDatetime;
                 if (f.owner.trim() == '') {
                   f.defaultOwnerChanges = true;

@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class MbsrService {
+export class HelperService {
 
   constructor() { }
+  
   public convertToLocalDateTime(eventDateTime:Date){
     const stringInput = eventDateTime +"+00:00" ;
     let timeZone = "Europe/London";

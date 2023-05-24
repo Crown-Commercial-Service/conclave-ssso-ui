@@ -52,8 +52,8 @@
                     </div>
                 </td>
                 <td class="govuk-table__cell"> 
-                    <span> {{dataRow.actionedOnUtc | date: 'dd/MM/yyyy'}}</span><br>
-                    <span >{{ getDateandTime(dataRow.actionedOnUtc) | date: 'HH:mm'}}</span>
+                    <span> {{helperservice.convertToLocalDateTime(dataRow.actionedOnUtc) | date: 'dd/MM/yyyy'}}</span><br>
+                    <span >{{helperservice.convertToLocalDateTime(dataRow.actionedOnUtc) | date: 'HH:mm'}}</span>
                   </td>
             </tr>
         </tbody>
