@@ -53,7 +53,7 @@
                 </td>
                 <td class="govuk-table__cell"> 
                     <span> {{dataRow.actionedOnUtc | date: 'dd/MM/yyyy'}}</span><br>
-                    <span >{{ dataRow.actionedOnUtc | date: 'HH:mm'}}</span>
+                    <span >{{ getDateandTime(dataRow.actionedOnUtc) | date: 'HH:mm'}}</span>
                   </td>
             </tr>
         </tbody>
