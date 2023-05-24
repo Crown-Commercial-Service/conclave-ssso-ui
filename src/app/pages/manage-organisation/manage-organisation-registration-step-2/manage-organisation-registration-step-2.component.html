@@ -81,7 +81,7 @@
                 txtValue == ''
               ">
               <div *ngIf="checkShowStatus(item)">
-                <input class="govuk-radios__input" type="radio" [attr.id]="item.scheme + '-RadioButton'" name="scheme"
+              <input class="govuk-radios__input" type="radio" [attr.id]="item.scheme + '-RadioButton'" name="scheme"
                 [value]="item.scheme" value="{{ item.scheme }}" [checked]="(schemeSubjectObs | async) === item.scheme"
                 [(ngModel)]="scheme" (click)="onSelect(item)" />
               <label for="{{ item.scheme + '-RadioButton' }}" class="govuk-label govuk-radios__label">{{ item.schemeName
@@ -223,7 +223,7 @@
                   </div>
                 </form>
               </div>
-              </div>
+            </div>
             </div>
           </div>
         </fieldset>

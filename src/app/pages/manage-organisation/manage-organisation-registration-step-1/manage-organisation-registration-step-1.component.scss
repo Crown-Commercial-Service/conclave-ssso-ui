@@ -46,3 +46,31 @@ a{
 .content-right {
   width: 33.3%;
 }
+.govuk-notification-banner__title {
+  font-size: 19px;
+  font-size: 1.1875rem;
+  line-height: 1.3157894737;
+}
+.govuk-notification-banner__title {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+  margin: 0;
+  padding: 0;
+  color: #ffffff;
+}
+.govuk-notification-banner__content {
+  color: #0b0c0c;
+  padding: 15px;
+  background-color: #ffffff;
+}
+.govuk-notification-banner__heading {
+  max-width: 100%; 
+}
+.govuk-notification-banner {
+  margin-bottom: 15px;
+}

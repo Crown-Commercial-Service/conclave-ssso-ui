@@ -40,7 +40,7 @@
             </div>
             <div *ngIf="operation === operationEnum.MyAccountUpdate">
                 <p class="govuk-body-l">{{ 'MY_ACCOUNT_UPDATE_SUCCESS' | translate }}</p>
-                <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null'">
+                <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null' && showRole">
                     <fieldset class="govuk-fieldset">
                       <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following {{showRoleView === true ? 'role': (showRoleView == false ? 'service' : '')}} will be assigned after manual validation has been conducted:
                       </legend>
@@ -97,7 +97,7 @@
                 || operation === operationEnum.UserUpdateWithIdamRegister">
                 <p class="govuk-body-l">{{ 'THE_USER' | translate }}{{ userName }}{{
                     'INSTRUCTIONS_WILL_BE_EMAILED_TO_SETUP_ACCOUNT_PASSWORD' | translate }}</p>
-                    <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null'">
+                    <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null' && showRole">
                         <fieldset class="govuk-fieldset">
                           <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following {{showRoleView === true ? 'role': (showRoleView == false ? 'service' : '')}} will be assigned after manual validation has been conducted:
                           </legend>
@@ -137,7 +137,7 @@
             </div>
             <div *ngIf="operation === operationEnum.UserUpdate">
                 <p class="govuk-body-l">{{ 'USER_UPDATE_SUCCESS' | translate }}</p>
-                    <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null'">
+                    <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null' && showRole">
                         <fieldset class="govuk-fieldset">
                           <legend  class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;" *ngIf="approveRequiredRole.length > 0">The following {{showRoleView === true ? 'role': (showRoleView == false ? 'service' : '')}} will be assigned after manual validation has been conducted:
                           </legend>
