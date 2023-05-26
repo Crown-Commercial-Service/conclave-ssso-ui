@@ -34,7 +34,9 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
     groupName: string = '';
     roleIds: number[] = [];
     addingRoles: Role[] = [];
+    addingOrderRoles: Role[] = [];
     removingRoles: Role[] = [];
+    removingOrderdRoles: Role[] = [];
     routeData: any = {};
     userCount: number = 0;
     rolesTableHeaders = ['NAME'];
@@ -68,8 +70,36 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
         } else {
             this.titleService.setTitle(`Confirm services – Manage Groups - CCS`);
         }
+        this.getOrganisationRoles()
         this.initialteServiceRoleGroups()
     }
+
+    getOrganisationRoles() {
+        this.orgGroupService.getOrganisationRoles(this.organisationId).subscribe({
+            next: (roleListResponse: Role[]) => {
+                if (roleListResponse != null) {
+                    roleListResponse.forEach((roles:Role,index:number)=>{
+                        this.chanageIndexValue(roles,index)
+                    })
+                }
+            },
+            error: (error: any) => {
+            }
+        });
+    }
+
+
+    private chanageIndexValue(roles: Role, index: number): void {
+        const removeRole = this.removingRoles.find((r) => r.roleKey === roles.roleKey);
+        const addRole = this.addingRoles.find((r) => r.roleKey === roles.roleKey);
+        if (removeRole) {
+          this.removingOrderdRoles.push(removeRole);
+        }
+        if (addRole) {
+          this.addingOrderRoles.push(addRole);
+        }
+      }
+
 
     onConfirmClick() {
         let groupPatchRequestInfo: OrganisationGroupRequestInfo = {
@@ -78,8 +108,6 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
                 removedRoleIds: this.removingRoles.map(rr => rr.roleId)
             }
         };
-        console.log(groupPatchRequestInfo);
-
         this.orgGroupService.patchUpdateOrganisationGroup(this.organisationId, this.editingGroupId, groupPatchRequestInfo)
             .subscribe(
                 (result) => {

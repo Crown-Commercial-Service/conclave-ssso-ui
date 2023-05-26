@@ -26,8 +26,12 @@ import { UIState } from 'src/app/store/ui.states';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ManageOrgRegStep1Component extends BaseComponent implements OnInit {
- 
-  public schemeDetails = [
+
+  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private SharedDataService:SharedDataService) {
+    super(uiStore,viewportScroller,scrollHelper,);
+  }
+
+  schemeDetails = [
     {
       name: 'Companies House registered number',
       id: 'GB-COH',
@@ -57,12 +61,6 @@ export class ManageOrgRegStep1Component extends BaseComponent implements OnInit 
       id: 'GB-EDU',
     },
   ];
-  
-
-  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private SharedDataService : SharedDataService) {
-    super(uiStore,viewportScroller,scrollHelper);
-  }
-
   ngOnInit() { }
 
   public onClick() {
@@ -77,5 +75,4 @@ export class ManageOrgRegStep1Component extends BaseComponent implements OnInit 
       public checkShowStatus(item:any){
         return this.SharedDataService.checkBlockedSchemeText(item)
        }
-
 }

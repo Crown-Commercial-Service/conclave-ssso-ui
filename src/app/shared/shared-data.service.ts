@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class SharedDataService {
+  
   public blockedScheme:any[] = environment.appSetting.blockedScheme
 
   public NominiData: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -59,6 +60,5 @@ export class SharedDataService {
    public checkBlockedSchemeText(item:any){
     return !this.blockedScheme.includes(item)
    }
-
   constructor() {}
 }
