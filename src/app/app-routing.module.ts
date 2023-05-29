@@ -1085,7 +1085,7 @@ const routes: Routes = [
   },
   {
     path: 'delegated-success',
-    data: { title: 'delegated-success', roles: ['DELEGATED_ACCESS'] },
+    data: { title: 'Delegated user successfully updated', roles: ['DELEGATED_ACCESS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: DelegatedSuccessComponent,
