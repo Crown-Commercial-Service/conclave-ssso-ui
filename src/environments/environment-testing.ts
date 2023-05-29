@@ -71,5 +71,6 @@ export const environment = {
    hideBulkupload:false,
    hideAutoValidation:false,
    hideSimplifyRole:false,
+   blockedScheme: ["GB-PPG"],
   },
 };
