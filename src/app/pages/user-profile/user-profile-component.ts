@@ -712,6 +712,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   private matchGroupIds(isGroupOfUser:any,group:any){
+    group.disabled = (group.groupName === "Organisation Administrators") ? true : null;
     if (isGroupOfUser) {
       this.setPendingApproveForGroup(group)
       group.checked = true
@@ -740,7 +741,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       const hasMatchingRole = this.orgUserGroupRoles.some(role => role.id === element.id);
       if (!hasMatchingRole && (element.approvalStatus === 0 || element.approvalStatus === 1)) {
         element.serviceView = true;
-        this.orgUserGroupRoles.push(element);
+        if(element.name != "Organisation Administrator"){
+          this.orgUserGroupRoles.push(element);
+        }
       }
     }
     this.setGroupAdmin()
