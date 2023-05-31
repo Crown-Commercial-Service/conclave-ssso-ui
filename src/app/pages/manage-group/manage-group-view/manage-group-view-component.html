@@ -78,10 +78,11 @@
             Group : {{group.groupName}} </h1>
         <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">
             {{ 'VIEW_GROUP' | translate }} : {{group.groupName}} </h1>
+        <p class="govuk-hints" *ngIf="isAdminGroup">{{ 'DEFAULT_ADMIN_GROUP_DESC' | translate }}</p>
     </div>
 </div>
 
-<div class="govuk-grid-row" *ngIf="isEdit==true">
+<div class="govuk-grid-row" *ngIf="isEdit==true && !isAdminGroup">
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-button-group">
             <button type="button" (click)="onNameEditClick()" class="govuk-button govuk-button--secondary"
@@ -91,7 +92,7 @@
         </div>
     </div>
 </div>
-<div class="top-margin">
+<div class="top-margin" *ngIf="!isAdminGroup">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <div *ngIf="showRoleView">
@@ -134,7 +135,7 @@
     </div>
 </div>
 
-<div class="govuk-form-group" id="user-mfa-form-group">
+<!-- <div class="govuk-form-group" id="user-mfa-form-group" *ngIf="!isAdminGroup">
     <fieldset class="govuk-fieldset">
         <legend class="govuk-heading-s">
             Additional security
@@ -148,7 +149,7 @@
             </label>
         </div>
     </fieldset>
-</div>
+</div> -->
 
 <div class="top-margin">
     <div>
@@ -179,7 +180,7 @@
                     {{ 'MANAGE_USER_BTN' | translate }}
                 </button>
             </div>
-            <div>
+            <div *ngIf="!isAdminGroup">
                 <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{ 'DELETE_GROUP' |
                     translate }}</a>
             </div>
