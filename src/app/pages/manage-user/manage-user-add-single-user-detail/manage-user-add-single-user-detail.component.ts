@@ -908,13 +908,16 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
 
   private setAdminDetails(data: any,isChecked:boolean) {
-    this.userTypeDetails.selectedValue = (data.groupType === 1 && isChecked) ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
-    if (this.userTypeDetails.selectedValue === 'ORG_ADMINISTRATOR') {
-      this.selectedUserType = this.userTypeDetails.data.find(event => event.key === "ORG_ADMINISTRATOR")
-      this.setMfaStatus('ORG_ADMINISTRATOR', true);
-    } else {
-      this.selectedUserType = this.userTypeDetails.data.find(event => event.key === "ORG_DEFAULT_USER")
-      this.setMfaStatus('ORG_ADMINISTRATOR', false);
+    if(data.groupType === 1){
+      this.userTypeDetails.selectedValue = (isChecked) ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
+      if (this.userTypeDetails.selectedValue === 'ORG_ADMINISTRATOR') {
+        this.selectedUserType = this.userTypeDetails.data.find(event => event.key === "ORG_ADMINISTRATOR")
+        this.setMfaStatus('ORG_ADMINISTRATOR', true);
+      } 
+      else {
+        this.selectedUserType = this.userTypeDetails.data.find(event => event.key === "ORG_DEFAULT_USER")
+        this.setMfaStatus('ORG_ADMINISTRATOR', false);
+      }
     }
   }
 
