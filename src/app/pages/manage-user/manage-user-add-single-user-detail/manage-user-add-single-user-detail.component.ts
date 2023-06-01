@@ -289,12 +289,6 @@ export class ManageUserAddSingleUserDetailComponent
         });
       }
     });
-    
-    // if(this.userProfileResponseInfo?.detail?.userGroups?.find((x: any) => x.accessServiceRoleGroupId === this.userTypeDetails.data.find(r => r.key === 'ORG_ADMINISTRATOR').id))
-    // {
-    //   this.isAdminUser=true;
-    //   this.userTypeDetails.isGrayOut = true;
-    // }
     this.userTypeDetails.selectedValue = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
     this.oldSelectedUserType = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
     this.removeDefaultUserRoleFromServiceRole();
@@ -367,7 +361,6 @@ export class ManageUserAddSingleUserDetailComponent
   async getOrgGroupsForUser() {
     const orgGrpList = await this.organisationGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise<GroupList>();
     this.orgGroups = orgGrpList.groupList;
-    console.log("this.orgGroups",this.orgGroups)
     this.getAllGroupDetails()
   }
 
@@ -400,7 +393,9 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   group.serviceRoleGroups.forEach((element: any) => {
     let groupRoles = this.orgUserGroupRoles.filter(e => { return e.id == element.id });
     if (groupRoles.length <= 0 && (element.approvalStatus == 0 || element.approvalStatus == 1)) {
-      this.orgUserGroupRoles.push(element);
+      if(element.name != "Organisation Administrator"){
+        this.orgUserGroupRoles.push(element);
+      }
     }
   });
  }
@@ -884,12 +879,14 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
 
   public groupsMemberCheckBoxAddRoles(data: any) {
+    this.setAdminDetails(data,true)
     this.selectedGroupCheckboxes.push(data.groupId);
     this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
 
   }
 
   public groupsMemberCheckBoxRemoveRoles(data: any) {
+    this.setAdminDetails(data,false)
     this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes, data.groupId);
     this.IsChangeInGroupSelection(this.userProfileResponseInfo?.detail?.userGroups?.map(x => x.groupId));
   }
@@ -911,12 +908,12 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
 
   private setAdminDetails(data: any,isChecked:boolean) {
-    console.log("data",data)
-    debugger
     this.userTypeDetails.selectedValue = (data.groupType === 1 && isChecked) ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
     if (this.userTypeDetails.selectedValue === 'ORG_ADMINISTRATOR') {
+      this.selectedUserType = this.userTypeDetails.data.find(event => event.key === "ORG_ADMINISTRATOR")
       this.setMfaStatus('ORG_ADMINISTRATOR', true);
     } else {
+      this.selectedUserType = this.userTypeDetails.data.find(event => event.key === "ORG_DEFAULT_USER")
       this.setMfaStatus('ORG_ADMINISTRATOR', false);
     }
   }
@@ -944,7 +941,6 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
 
   public onUserTypeChanged(event:any){
-    console.log("event",event)
     this.selectedUserType = event;
     if(event.key === 'ORG_ADMINISTRATOR'){
       this.setMfaandAdminGroup()
@@ -961,6 +957,12 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
    if (matchedObject) {
     matchedObject.checked = true;
     this.selectedGroupCheckboxes.push(matchedObject.groupId);
+   } else {
+   const matchedObject = this.groupsMember.data.find(obj => obj.groupType === 1);
+    if (matchedObject) {
+      matchedObject.checked = true;
+      this.selectedGroupCheckboxes.push(matchedObject.groupId);
+     } 
    }
     this.setMfaStatus('ORG_ADMINISTRATOR', true);
   }
@@ -968,8 +970,14 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   private removeMfaandAdminGroup(){
     const matchedObject = this.noneGroupsMember.data.find(obj => obj.groupType === 1);
     if (matchedObject) {
-      matchedObject.checked = false;
-     this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes, matchedObject.groupId);
+       matchedObject.checked = false;
+       this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes, matchedObject.groupId);
+    } else {
+    const matchedObject = this.groupsMember.data.find(obj => obj.groupType === 1);
+      if(matchedObject){
+        matchedObject.checked = false;
+        this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes, matchedObject.groupId);
+      }
     }
    this.setMfaStatus('ORG_ADMINISTRATOR', false);
   }

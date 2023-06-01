@@ -834,7 +834,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   public onUserTypeChanged(event:any){
-    console.log("evesssnt",event)
+    console.log("disable event")
   }
 
   private removeDefaultUserRoleFromServiceRole(){
