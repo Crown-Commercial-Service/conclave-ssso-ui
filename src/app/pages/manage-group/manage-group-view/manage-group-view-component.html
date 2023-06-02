@@ -78,7 +78,15 @@
             Group : {{group.groupName}} </h1>
         <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">
             {{ 'VIEW_GROUP' | translate }} : {{group.groupName}} </h1>
-        <p class="govuk-hints" *ngIf="isAdminGroup">{{ 'DEFAULT_ADMIN_GROUP_DESC' | translate }}</p>
+        <p class="govuk-hints" *ngIf="isAdminGroup">
+           <span>This group has been created automatically for all users in your organisation with administrator privileges. You can use it to easily add or remove the administrator role from users, but you can’t use it to add or remove services from users.</span>
+           <br>
+           <br>
+           <span>If you add a user to this group then they will become an administrator. Removing someone from this group will remove their administrator privileges.</span>
+           <br>
+           <br>
+           <span>You cannot delete this group or change its name.</span>
+        </p>
     </div>
 </div>
 
