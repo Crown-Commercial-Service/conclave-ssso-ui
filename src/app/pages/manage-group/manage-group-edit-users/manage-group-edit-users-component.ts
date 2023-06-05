@@ -64,7 +64,6 @@ export class ManageGroupEditUsersComponent
     if (queryParams.data) {
       let routeData = JSON.parse(queryParams.data);
       this.isEdit = routeData['isEdit'];
-      console.log("routeData",routeData)
       this.editingGroupId = routeData['groupId'];
       this.groupName = sessionStorage.getItem('Gname') || '';
       this.userName = localStorage.getItem('user_name') || '';
