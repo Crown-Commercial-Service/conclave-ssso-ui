@@ -64,7 +64,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   }
 
   onRowClick(dataRow: any, index: number,event:any) {
-    if (this.isCheckBoxVisible) {
+    if (this.isCheckBoxVisible && !dataRow.isDisable) {
       dataRow.isChecked = !dataRow.isChecked;
       this.checkBoxClickEvent.emit(dataRow);
     }
