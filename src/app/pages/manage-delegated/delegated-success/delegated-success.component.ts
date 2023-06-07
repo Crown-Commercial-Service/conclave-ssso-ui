@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,12 +9,25 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DelegatedSuccessComponent implements OnInit {
 public userInfo:any;
-  constructor(private ActivatedRoute: ActivatedRoute) { }
+    
+  constructor(private ActivatedRoute: ActivatedRoute,private titleService: Title) { }
 
   ngOnInit(): void {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data));
       this.userInfo.userName = decodeURIComponent(unescape(this.userInfo.userName));
+      switch (this.userInfo.status) {
+        case 'create': {
+          this.titleService.setTitle(
+            `${'Delegated user successfully added'}   - CCS`
+          );
+          break;
+        }
+        default: {
+          //statements;
+          break;
+        }
+      }
     });
   }
 

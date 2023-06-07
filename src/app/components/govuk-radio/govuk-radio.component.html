@@ -1,0 +1,35 @@
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-heading-s">
+      {{ details.title }}
+    </legend>
+    <p *ngIf="details.description">
+      {{ details.description }}
+    </p>
+    <div class="govuk-radios" data-module="govuk-radios">
+      <div class="govuk-radios__item" *ngFor="let data of details.data">
+        <div>
+          <input
+            class="govuk-radios__input"
+            [attr.id]="data.key + '-RadioButton'"
+            name="where-do-you-live"
+            type="radio"
+            [attr.disabled]="details.isGrayOut"
+            [value]="data.key"
+            (click)="onClickRadio(data)"
+            [(ngModel)]="details.selectedValue"
+          />
+          <label
+            class="govuk-label govuk-radios__label"
+            for="{{ data.key + '-RadioButton' }}"
+          >
+            {{ data.name }}
+          </label>
+          <p class="govuk-body description_para govuk-!-padding-top-0">
+            {{ data.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>

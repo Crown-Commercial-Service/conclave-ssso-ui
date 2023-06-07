@@ -8568,3 +8568,25 @@ h4 {
   margin-top: 0;
   padding: 0;
 }
+.govuk-radios__item.custom_radio.govuk-form-group--error {
+   border-left: 0;
+}
+.govuk-radios__item.custom_radio.govuk-form-group--error:before {
+   content: "";
+   position: absolute;
+   width: 5px;
+   height: 100%;
+   background: #d4351c;
+   left: -15px;
+}
+.govuk-checkboxes__item.govuk-form-group--error {
+   border-left: 0;
+}
+.govuk-checkboxes__item.govuk-form-group--error:before {
+   content: "";
+   position: absolute;
+   width: 5px;
+   height: 100%;
+   background: #d4351c;
+   left: -15px;
+}

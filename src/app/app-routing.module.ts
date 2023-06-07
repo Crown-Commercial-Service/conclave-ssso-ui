@@ -145,6 +145,10 @@ import { ConfirmOrgServiceComponent } from './pages/buyer/confirm-org-service/co
 import { SuccessOrgServiceComponent } from './pages/buyer/success-org-service/success-org-service.component';
 import { VerifyUserComponent } from './pages/manage-user/verify-user/verify-user.component';
 import { VerifyUserStatusComponent } from './pages/manage-user/verify-user-status/verify-user-status.component';
+import { DataMigrationUploadComponent } from './pages/data-migration/data-migration-upload/data-migration-upload.component';
+import { DataMigrationStatusComponent } from './pages/data-migration/data-migration-status/data-migration-status.component';
+import { DataMigrationErrorComponent } from './pages/data-migration/data-migration-error/data-migration-error.component';
+import { DataMigrationSummaryComponent } from './pages/data-migration/data-migration-summary/data-migration-summary.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1081,7 +1085,7 @@ const routes: Routes = [
   },
   {
     path: 'delegated-success',
-    data: { title: 'delegated-success', roles: ['DELEGATED_ACCESS'] },
+    data: { title: 'Delegated user successfully updated', roles: ['DELEGATED_ACCESS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: DelegatedSuccessComponent,
@@ -1176,6 +1180,34 @@ const routes: Routes = [
     data: { roles: ['MANAGE_SUBSCRIPTIONS'] },
     canActivate: [AuthGuard, RoleGuard],
     component: BuyerBothErrorComponent,
+  },
+  {
+    path: 'data-migration/upload',
+    pathMatch: 'full',
+    data: { title: 'Data migration',roles: ['MANAGE_SUBSCRIPTIONS'] },
+    canActivate: [AuthGuard],
+    component: DataMigrationUploadComponent,
+  },
+  {
+    path: 'data-migration/status',
+    pathMatch: 'full',
+    data: { title: 'File validation',roles: ['MANAGE_SUBSCRIPTIONS'] },
+    canActivate: [AuthGuard],
+    component: DataMigrationStatusComponent,
+  },
+  {
+    path: 'data-migration/summary',
+    pathMatch: 'full',
+    data: { title: 'File validation',roles: ['MANAGE_SUBSCRIPTIONS'] },
+    canActivate: [AuthGuard],
+    component: DataMigrationSummaryComponent,
+  },
+  {
+    path: 'data-migration/error',
+    pathMatch: 'full',
+    data: { title: 'Error',roles: ['MANAGE_SUBSCRIPTIONS'] },
+    canActivate: [AuthGuard],
+    component: DataMigrationErrorComponent,
   },
   {
     path: 'terms-of-use',

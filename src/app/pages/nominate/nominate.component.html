@@ -3,62 +3,71 @@
     <div class="content flex">
       <div class="govuk-breadcrumbs" *ngIf="pageAccessMode == 1">
         <ol class="govuk-breadcrumbs__list">
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-              <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate }}</a>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
           </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <span class="govuk-breadcrumbs__link"> {{ 'NOMINATE' | translate }}</span>
-            </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' |
+              translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG'
+              | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate
+              }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <span class="govuk-breadcrumbs__link"> {{ 'NOMINATE' | translate }}</span>
+          </li>
         </ol>
       </div>
       <div class="govuk-breadcrumbs" *ngIf="pageAccessMode == 0">
         <ol class="govuk-breadcrumbs__list">
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-              <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate }}</a>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' |
+              translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG'
+              | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate
+              }}</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">
             <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/type">{{ 'ORG_TYPE' | translate }}</a>
-         </li>
-         <li class="govuk-breadcrumbs__list-item">
-          <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/search">{{ 'ORG_DETAILS' | translate }}</a>
-         </li>
-         <li class="govuk-breadcrumbs__list-item">
-          <a class="govuk-breadcrumbs__link"  href="javascript:;" (click)="goConfirmOrgPage()">{{ 'CONFIRM_ORG_DETAILS' | translate }}</a>
-         </li>
-            <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/user"> {{ 'CREATE_ADMIN_ACC' | translate }}</a>
-            </li>
-            <li class="govuk-breadcrumbs__list-item">
-              <span class="govuk-breadcrumbs__link"> {{ 'NOMINATE' | translate }}</span>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/search">{{ 'ORG_DETAILS' | translate
+              }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" href="javascript:;" (click)="goConfirmOrgPage()">{{ 'CONFIRM_ORG_DETAILS'
+              | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/user"> {{ 'CREATE_ADMIN_ACC' | translate
+              }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <span class="govuk-breadcrumbs__link"> {{ 'NOMINATE' | translate }}</span>
           </li>
         </ol>
       </div>
       <h1 class="govuk-heading-xl page-title">Nominate a colleague to register your organisation</h1>
-      <h2>Enter the contact details of the colleague you’d like to nominate as the administrator for your organisation.</h2>
+
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-three-quarters">
           <form class="govuk-!-width-three-quarters" [class.error]="!formValid(formGroup)" [formGroup]="formGroup">
@@ -68,25 +77,25 @@
                 <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
                 <div class="govuk-error-summary__body">
                   <ul class="govuk-list govuk-error-summary__list">
-                    <a *ngIf="formGroup.controls['firstName'].hasError('required')" href="javascript:;" onClick="return false;"
-                      (click)="setFocus(0)">
+                    <a *ngIf="formGroup.controls['firstName'].hasError('required')" href="javascript:;"
+                      onClick="return false;" (click)="setFocus(0)">
                       <li>Enter the nominee's first name</li>
                     </a>
-                    <a *ngIf="formGroup.controls['lastName'].hasError('required')" href="javascript:;" onClick="return false;"
-                      (click)="setFocus(1)">
+                    <a *ngIf="formGroup.controls['lastName'].hasError('required')" href="javascript:;"
+                      onClick="return false;" (click)="setFocus(1)">
                       <li>Enter the nominee's last name</li>
                     </a>
-                    <a *ngIf="formGroup.controls['email'].hasError('required')" href="javascript:;" onClick="return false;"
-                      (click)="setFocus(2)">
+                    <a *ngIf="formGroup.controls['email'].hasError('required')" href="javascript:;"
+                      onClick="return false;" (click)="setFocus(2)">
                       <li>Enter the nominee's email address</li>
                     </a>
-                    <a *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid" href="javascript:;" onClick="return false;"
-                      (click)="setFocus(2)">
+                    <a *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid"
+                      href="javascript:;" onClick="return false;" (click)="setFocus(2)">
                       <li>Enter an email address in the correct format, like name@example.com</li>
                     </a>
-                    <a *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)" href="javascript:;" onClick="return false;"
-                    (click)="customFocum()">
-                    <li>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</li>
+                    <a *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)"
+                      href="javascript:;" onClick="return false;" (click)="customFocum()">
+                      <li>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</li>
                     </a>
                   </ul>
                 </div>
@@ -100,9 +109,9 @@
                 <span class="govuk-visually-hidden">Error:</span>Enter the nominee's first name
               </span>
               <span id="firstname-error" class="govuk-error-message"
-              *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
-              <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
-            </span>
+                *ngIf="submitted && !formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid">
+                <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+              </span>
               <input class="govuk-input" #input id="firstName" formControlName="firstName" maxlength="100"
                 name="firstName" size="20" type="text" value="" autocomplete="given-name"
                 [class.govuk-input--error]="submitted && formGroup.controls.firstName.invalid">
@@ -115,28 +124,28 @@
                 <span class="govuk-visually-hidden">Error:</span>Enter the nominee's last name
               </span>
               <span id="lastname-error" class="govuk-error-message"
-              *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
-              <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
-            </span>
+                *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
+                <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
+              </span>
               <input class="govuk-input" #input id="lastName" formControlName="lastName" maxlength="100" name="lastName"
                 size="20" type="text" value="" autocomplete="family-name"
                 [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid">
             </div>
             <div class="govuk-form-group"
               [class.govuk-form-group--error]="submitted && formGroup.controls.email.invalid">
-              <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
-              <span id="email-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls.email.errors?.required">
+              <label class="govuk-label" for="email">{{ 'WORK_EMAIL_ADDRESS' | translate }}</label>
+              <span id="email-error" class="govuk-error-message"
+                *ngIf="submitted && formGroup.controls.email.errors?.required">
                 <span class="govuk-visually-hidden">Error:</span>Enter the nominee's email address
               </span>
               <span id="email-error" class="govuk-error-message"
-              *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
-                  <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like name@example.com
+                *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
+                <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like
+                name@example.com
               </span>
-              <input #input class="govuk-input" id="email" formControlName="email"  name="email"
-              size="20" type="email" value="" autocomplete="email"
-              spellcheck="false" 
-              (input)="validateEmailLength($event)"
-              [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
+              <input #input class="govuk-input" id="email" formControlName="email" name="email" size="20" type="email"
+                value="" autocomplete="email" spellcheck="false" (input)="validateEmailLength($event)"
+                [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
             </div>
             <div id="continueButton" class="govuk-form-group">
               <button type="submit" class="govuk-button" data-module="govuk-button"
