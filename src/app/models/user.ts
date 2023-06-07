@@ -115,6 +115,7 @@ export interface UserEditResponseInfo {
 export interface CheckBoxUserListGridSource extends UserListInfo {
     isChecked?: boolean;
     isAdmin: boolean;
+    isDisable:boolean
 }
 
 export interface OrganisationUserDto {

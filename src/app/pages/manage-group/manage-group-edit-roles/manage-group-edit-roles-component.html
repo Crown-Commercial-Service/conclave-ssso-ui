@@ -65,21 +65,7 @@
                     </label>
                       <p *ngIf="!showRoleView" class="govuk-body description_para">{{orgRole.description}} </p>
                 </div>
-
-                <hr class="seperator">
-                <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgAdminRole of orgAdminRole; let i=index">
-                    <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgAdminRole.roleId}}"
-                        [formControlName]="'orgRoleControl_' + orgAdminRole.roleId" type="checkbox" value="hmrc" (ngModelChange)="onCheckBoxClickRow(orgAdminRole,$event)">
-                    <label *ngIf="orgAdminRole.serviceName == null" class="govuk-label govuk-checkboxes__label govuk-!-padding-top-0"
-                        for="{{'orgRoleControl_' + orgAdminRole.roleId}}" [ngClass]="{'role_lable': showRoleView === false,'govuk-!-padding-top-0': orgAdminRole.description != ''}">
-                        {{orgAdminRole.roleName}}
-                    </label>
-                    <label *ngIf="orgAdminRole.serviceName != null && showRoleView" class="govuk-label govuk-checkboxes__label"
-                        for="{{'orgRoleControl_' + orgAdminRole.roleId}}">
-                        {{orgAdminRole.roleName}} - {{orgAdminRole.serviceName}} 
-                    </label>
-                      <p *ngIf="!showRoleView" class="govuk-body description_para">{{orgAdminRole.description}} </p>
-                </div>
+                
             </fieldset>
     </form>
     </div>
