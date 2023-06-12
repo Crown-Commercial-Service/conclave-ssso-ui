@@ -37,8 +37,8 @@
                 </p>
                 <p class="govuk-body">
                     Date of registration:<strong
-                        class="govuk-!-margin-left-2 govuk-!-display-inline-block govuk-valign-top">{{routeDetails.dateOfRegistration
-                        | date: 'dd/MM/yyyy'}} <br>{{routeDetails.dateOfRegistration | date: 'HH:mm'}}</strong>
+                        class="govuk-!-margin-left-2 govuk-!-display-inline-block govuk-valign-top">{{helperService.convertToLocalDateTime(routeDetails.dateOfRegistration)
+                        | date: 'dd/MM/yyyy'}} <br>{{helperService.convertToLocalDateTime(routeDetails.dateOfRegistration) | date: 'HH:mm'}}</strong>
                 </p>
             </div>
             <div class="span-group govuk-!-margin-top-4">

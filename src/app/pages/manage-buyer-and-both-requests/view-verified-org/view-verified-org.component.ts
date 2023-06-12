@@ -65,7 +65,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
     private router: Router,
     private ciiService: ciiService,
     private translate: TranslateService,
-    private helperService:HelperService
+    public helperService:HelperService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
