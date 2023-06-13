@@ -65,7 +65,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
     private router: Router,
     private ciiService: ciiService,
     private translate: TranslateService,
-    private helperService:HelperService
+    public helperService:HelperService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -177,8 +177,6 @@ export class ViewVerifiedOrgComponent implements OnInit {
           this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
             (f: any) => {
               f.owner = (f.firstName ?? '') + ' ' + (f.lastName ?? '') + ' ' + (f.actionedBy ?? '');
-              const ukDatetime=this.helperService.convertToLocalDateTime(f.date);
-              f.date=ukDatetime;
               if (f.owner.trim() == '') {
                 f.defaultOwnerChanges = true
                 if (f.event?.toUpperCase() == "INACTIVEORGANISATIONREMOVED") {
