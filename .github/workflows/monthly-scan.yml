@@ -8,8 +8,7 @@ on:
     #This scan will run on the last day of every month
     
   push:
-    branches-ignore: 
-    - '*'
+    branches: [main, p3sprint/*, feature/*]
 jobs:
   trufflehog-scan:
     runs-on: ubuntu-latest
@@ -35,7 +34,7 @@ jobs:
          server_port: ${{ secrets.SERVER_PORT }}
          username: ${{ secrets.USER_NAME }}
          password: ${{ secrets.PASSWORD }}
-         subject: Trufflehog Monthly Deep Scan Results
+         subject: Git Secrets Scan Results
          to: "rahulgandhi.jayabalan@brickendon.com,ponselvam.sakthivel@brickendon.com"
          from: "secops@brickendon.com"
          body: |
