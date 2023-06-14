@@ -25,13 +25,11 @@ a {
   ul {
     text-align: center;
   }
+
   li {
     display: inline-block;
     font-size: 19px;
     margin-right: 10px;
-    a {
-      text-decoration: none;
-    }
   }
 }
 
@@ -56,7 +54,7 @@ a {
 //   margin-right: 10px;
 //   top: 3px;
 // }
-.tablular{
+.tablular {
   cursor: default;
   text-decoration: none;
   color: transparent;
@@ -64,24 +62,98 @@ a {
   cursor: default;
   font-size: 0;
 }
-.navigation-text{
+
+.navigation-text {
   text-decoration: underline;
   color: #005ea5;
 }
-.navigation-text-red{
+
+.navigation-text-red {
   text-decoration: underline;
   color: #942828;
 }
+
 .govuk-table_action-links {
   display: flex;
   justify-content: space-between;
   gap: 20px;
 }
+
 .govuk-link-adjust {
   color: transparent;
 }
 
-.isDisabled{
+.pagination-area li.active,
+.pagination-area li.active:hover {
+  font-weight: 700;
+  outline: 1px solid rgba(0, 0, 0, 0);
+  background-color: #1d70b8;
+  color: #fff;
+}
+
+.pagination-area li.active a {
+  color: #fff;
+}
+
+.pagination-area li a {
+  color: #4c2c92;
+  text-decoration-thickness: max(1px, 0.0625rem);
+  text-underline-offset: 0.1578em;
+}
+
+.pagination-area li a:hover {
+  text-decoration-thickness: max(3px, 0.1875rem, 0.12em);
+  -webkit-text-decoration-skip-ink: none;
+  text-decoration-skip-ink: none;
+  -webkit-text-decoration-skip: none;
+  text-decoration-skip: none;
+}
+
+.pagination-area li a:focus {
+  outline: 3px solid rgba(0, 0, 0, 0);
+  color: #0b0c0c;
+  background-color: #fd0;
+  box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
+  text-decoration: none;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.govuk-pagination__link-title {
+  font-weight: 700;
+}
+
+.pagination-area li:hover {
+  background-color: #f3f2f1;
+}
+
+.pagination-area li.custom-listing {
+  background: transparent;
+}
+
+.govuk-pagination__icon--prev {
+  margin-right: 15px;
+}
+
+.govuk-pagination__icon--next {
+  margin-left: 15px;
+}
+
+.govuk-pagination__icon {
+  width: 0.9375rem;
+  height: 0.8125rem;
+  color: #505a5f;
+  fill: currentcolor;
+  forced-color-adjust: auto;
+}
+
+.pagination-area li {
+  min-width: 45px;
+  min-height: 45px;
+  padding: 10px 15px;
+}
+
+.isDisabled {
   opacity: 0.5;
   pointer-events: none;
 }
@@ -89,17 +161,21 @@ a {
 .role_lable {
   font-weight: bold;
 }
+
 .govuk-hints {
   color: black !important;
 }
+
 .role_group_content {
   position: relative;
   top: 13px;
   padding: 0px 0px 0px 0 !important;
 }
+
 .role_group_table {
   padding: 0px 0px 0px 0 !important;
 }
-.hide_dots{
+
+.hide_dots {
   display: none;
 }

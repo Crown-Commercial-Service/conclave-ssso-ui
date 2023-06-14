@@ -6,6 +6,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 import { BaseComponent } from '../base/base.component';
+import { PaginationService } from 'src/app/shared/pagination.service';
 
 @Component({
   selector: 'app-govuk-table',
@@ -33,14 +34,16 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Output() radioClickEvent = new EventEmitter<any>();
   @Output() changeCurrentPageEvent = new EventEmitter<number>();
 
-  pageCount?: number;
+  pageCount?: number | any;
   currentPage: number = 1;
   totalPagesArray: number[] = [];
   pageSize: number = environment.listPageSize;
   tableVisibleData!: any[];
   selectedRadioId: string = 'table-radio-id-non';
+  public maxVisibleDots = 5
   constructor(
     // private translateService: TranslateService,
+    private PaginationService:PaginationService,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
   }
@@ -62,6 +65,11 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
       this.currentPage = this.serverPageCurrentPage || 1;
     }
   }
+
+ public getPaginationData(): Array<any> {
+   return this.PaginationService.getVisibleDots(this.currentPage,this.pageCount)
+  }
+  
 
   onRowClick(dataRow: any, index: number,event:any) {
     if (this.isCheckBoxVisible && !dataRow.isDisable) {
