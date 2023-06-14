@@ -7,6 +7,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 import { BaseComponent } from '../base/base.component';
 import { PaginationService } from 'src/app/shared/pagination.service';
+import { HelperService } from 'src/app/shared/helper.service';
 
 @Component({
   selector: 'app-govuk-table',
@@ -41,7 +42,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   tableVisibleData!: any[];
   selectedRadioId: string = 'table-radio-id-non';
   public maxVisibleDots = 5
-  constructor(
+   constructor(
     // private translateService: TranslateService,
     private PaginationService:PaginationService,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {

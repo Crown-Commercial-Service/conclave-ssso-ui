@@ -22,7 +22,7 @@ export const environment = {
                     organisation: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/organisations',
                     contact: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/contacts',
                     configuration: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/configurations',
-                    dataMigration: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/datamigration',
+                    dataMigration: 'https://dev-api-wrapper.london.cloudapps.digital/datamigration',
                 }
             }
         },
@@ -72,6 +72,6 @@ export const environment = {
      hideBulkupload:false,
      hideAutoValidation:false,
      hideSimplifyRole:false,
-     blockedScheme: ['GB-EDU',"GB-PPG"],
+     blockedScheme: ["GB-PPG"],
     },
 };
