@@ -44,7 +44,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   public maxVisibleDots = 5
    constructor(
     // private translateService: TranslateService,
-    private PaginationService:PaginationService,
+    private PaginationService:PaginationService,public helperservice:HelperService,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
   }
