@@ -63,7 +63,10 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
     this.hyperLinkClickEvent.emit(dataRow);
   }
 
-  public onSetPageClick(pageNumber: number) {
+  public onSetPageClick(pageNumber: any) {
+    if(pageNumber === '...') {
+      return
+    }
       this.changeCurrentPageEvent.emit(pageNumber);
   }
 

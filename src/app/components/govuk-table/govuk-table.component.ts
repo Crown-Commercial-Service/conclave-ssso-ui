@@ -94,7 +94,10 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
     }
   }
 
-  onSetPageClick(pageNumber: number) {
+  onSetPageClick(pageNumber: any) {
+    if(pageNumber === '...') {
+      return
+    }
     if (this.isRadioVisible) { // Emit the event to remove the radio selection 
       this.selectedRadioId = 'table-radio-id-non';
       this.radioClickEvent.emit(null);
