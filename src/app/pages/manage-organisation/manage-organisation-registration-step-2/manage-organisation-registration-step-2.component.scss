@@ -11,7 +11,7 @@ button {
   font-family: Source Sans Pro;
 }
 
-input[type=radio] {
+input[type="radio"] {
   width: 300px;
   height: 50px;
   margin-right: 10px;
@@ -23,7 +23,7 @@ input[type=radio] {
   border-left: 2px solid #8f8f8f;
   padding-left: 20px;
   margin-left: -20px;
-  .text-input{
+  .text-input {
     margin-left: 15px;
   }
 }
@@ -32,7 +32,7 @@ input[type=radio] {
   position: relative;
 }
 
-.custom-field input[type="text"]{
+.custom-field input[type="text"] {
   max-width: 50px;
 }
 /* Chrome, Safari, Edge, Opera */
@@ -43,28 +43,28 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
-label[for="input1"]
-{
-    display:none;
+label[for="input1"] {
+  display: none;
 }
-label[for="input2"]
-{
-    display:none;
+label[for="input2"] {
+  display: none;
 }
-label[for="input3"]
-{
-    display:none;
+label[for="input3"] {
+  display: none;
 }
 
-.custom_span
-{
+.custom_span {
   font-size: 16px;
 }
 
 .govuk-radios__item.custom_radio {
   min-height: auto;
+}
+
+.govuk-fieldset__legend--m {
+  font-weight: 500;
 }

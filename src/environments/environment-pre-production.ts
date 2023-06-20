@@ -30,6 +30,8 @@ export const environment = {
 
                   configuration: 'https://pre.api.crowncommercial.gov.uk/configurations',
 
+                  dataMigration: 'https://pre.api.crowncommercial.gov.uk/datamigration',
+
               },
 
               apiGatewayDisabled: {
@@ -41,6 +43,8 @@ export const environment = {
                   contact: 'https://preprod-api-wrapper.london.cloudapps.digital/contacts',
 
                   configuration: 'https://preprod-api-wrapper.london.cloudapps.digital/configurations',
+
+                  dataMigration: 'https://preprod-api-wrapper.london.cloudapps.digital/datamigration',
 
               }
 

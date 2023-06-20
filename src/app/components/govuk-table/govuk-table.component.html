@@ -22,7 +22,7 @@
           ]" [ngClass]="{'isDisabled': dataRow['isDisable']  == true}" [ngClass]="[ dataRow['serviceView'] == true ? 'role_group_table' : '']">
           <span *ngIf="findDateKey(dataKey)">
             {{dataRow[dataKey] | date: 'dd/MM/yyyy'}} <br>
-            <span *ngIf="findDateKey(dataKey)">{{ dataRow[dataKey] | date: 'HH:mm'}}</span>
+            <span *ngIf="findDateKey(dataKey) && pageName != 'Delegatedaccess'">{{ dataRow[dataKey] | date: 'HH:mm'}}</span>
           </span>
           <span *ngIf="dataKey == 'owner'">
             <span *ngIf="dataRow['defaultOwnerChanges'] == false">
@@ -37,6 +37,9 @@
           <span *ngIf="!findDateKey(dataKey) && dataKey != 'owner'">
             <div *ngIf="dataRow['serviceView'] == true;else other_content" class="role_group_content">
               <span [ngClass]="[ dataRow['serviceView'] == true ? 'role_lable' : '']">{{ dataRow[dataKey] }}</span>
+              <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-3" *ngIf="dataRow['approvalStatus'] === 0">
+                {{ 'PENDING_LABEL' | translate }}
+              </strong>
               <br>
               <span>{{dataRow['description']}}</span>
             </div>

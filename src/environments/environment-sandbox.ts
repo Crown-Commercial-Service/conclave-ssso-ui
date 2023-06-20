@@ -13,12 +13,14 @@ export const environment = {
           organisation: 'https://sand-api-wrapper.london.cloudapps.digital/organisation-profiles',
           contact: 'https://sand-api-wrapper.london.cloudapps.digital/contacts',
           configuration: 'https://sand-api-wrapper.london.cloudapps.digital/configurations',
+          dataMigration: 'https://sand-api-wrapper.london.cloudapps.digital/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://sand-api-wrapper.london.cloudapps.digital/users',
           organisation: 'https://sand-api-wrapper.london.cloudapps.digital/organisations',
           contact: 'https://sand-api-wrapper.london.cloudapps.digital/contacts',
           configuration: 'https://sand-api-wrapper.london.cloudapps.digital/configurations',
+          dataMigration: 'https://sand-api-wrapper.london.cloudapps.digital/datamigration',
         }
       }
     },
@@ -39,7 +41,7 @@ export const environment = {
     key: 'ROLLBAR',
     enable : false,
     security_log: false,
-    environment: 'sandbox'
+    environment: 'sand-ccs-sso'
   },
   cookies_policy: {
     essentialcookies: {
@@ -65,6 +67,8 @@ export const environment = {
    hideIDP:false,
    hideDelegation:false,
    hideBulkupload:false,
-   hideAutoValidation:false,
+   hideAutoValidation:true,
+   hideSimplifyRole:false,
+   blockedScheme: ["GB-PPG"],
   },
 };
