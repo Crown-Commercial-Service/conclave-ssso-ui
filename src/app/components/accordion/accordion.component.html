@@ -53,7 +53,7 @@
                     </div>
                 </th>
                 <td class="govuk-table__cell govuk-text-align-right">
-                    <a *ngIf="groupdata.groupName != 'Organisation Administrators'" href="javascript:;" class="govuk-link" 
+                    <a *ngIf="groupdata.groupType === 0" href="javascript:;" class="govuk-link" 
                         (click)="onBottomToggle(groupdata.groupId)">{{getElementStatus(groupdata.groupId)}}</a>
                     </td>
             </tr>
