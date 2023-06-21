@@ -820,13 +820,13 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   onUserRoleChecked(obj: any, isChecked: boolean) {
     var roleKey = obj.roleKey;
     if (isChecked == true) {
-      this.setMfaStatus(roleKey, true)
+      // this.setMfaStatus(roleKey, true)
       if (obj.pendingStatus === true) {
         this.removePendingRole(obj)
       }
     }
     else if (isChecked == false) {
-      this.setMfaStatus(roleKey, false)
+      // this.setMfaStatus(roleKey, false)
     }
   }
 
