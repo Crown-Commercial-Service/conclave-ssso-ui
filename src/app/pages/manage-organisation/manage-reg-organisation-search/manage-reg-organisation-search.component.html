@@ -15,7 +15,7 @@
     </div>
     <h1 class="govuk-heading-xl page-title">
         Enter your details</h1>
-    <p class="govuk-body-l">Enter your name, organisation, and work email address</p>
+    <!-- <p class="govuk-body-l">Enter your name, organisation, and work email address</p> -->
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-three-quarters">
             <form class="govuk-!-width-three-quarters" [class.error]="!formValid(formGroup)" [formGroup]="formGroup">
@@ -40,7 +40,7 @@
                                 </a>
                                 <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
                                     *ngIf="formGroup.controls['email'].hasError('required')">
-                                    <li>Enter your email address</li>
+                                    <li>Enter your work email address</li>
                                 </a>
                                 <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
                                     *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
@@ -56,10 +56,10 @@
                 </div>
                 <div class="govuk-form-group"
                     [class.govuk-form-group--error]="submitted && formGroup.controls.organisation.invalid">
-                    <label class="govuk-label" for="organisation">{{ 'ORGANISATION' | translate }}</label>
+                    <label class="govuk-label" for="organisation">{{ 'NAME_OF_YOUR_ORGANISATION' | translate }}</label>
                     <span id="firstname-error" class="govuk-error-message"
                         *ngIf="submitted && formGroup.controls.organisation.invalid">
-                        <span class="govuk-visually-hidden">Error:</span>Enter your Organisation
+                        <span class="govuk-visually-hidden">Error:</span>Enter your organisation name
                     </span>
                     <mat-form-field class="example-full-width">
                         <input id="organisation" [ngModel]="searchOrgName" (ngModelChange)="onSearchTextChange($event)"
@@ -109,19 +109,20 @@
                         <span class="govuk-visually-hidden">Error:</span>Enter your last name
                     </span>
                     <span id="lastname-error" class="govuk-error-message"
-                    *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
-                    <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}
-                  </span>
+                        *ngIf="submitted && !formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid">
+                        <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate
+                        }}
+                    </span>
                     <input #input class="govuk-input" id="lastName" formControlName="lastName" maxlength="100"
                         name="lastName" size="20" type="text" value="" autocomplete="family-name"
                         [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid">
                 </div>
                 <div class="govuk-form-group"
                     [class.govuk-form-group--error]="submitted && formGroup.controls.email.invalid">
-                    <label class="govuk-label" for="email">{{ 'EMAIL' | translate }}</label>
+                    <label class="govuk-label" for="email">{{ 'WORK_EMAIL_ADDRESS' | translate }}</label>
                     <span id="email-error" class="govuk-error-message"
                         *ngIf="submitted && formGroup.controls.email.errors?.required">
-                        <span class="govuk-visually-hidden">Error:</span>Enter your email address
+                        <span class="govuk-visually-hidden">Error:</span>Enter your work email address
                     </span>
                     <span id="email-error" class="govuk-error-message"
                         *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">

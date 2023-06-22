@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class SharedDataService {
-  
   public blockedScheme:any[] = environment.appSetting.blockedScheme
 
   public NominiData: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -60,5 +59,21 @@ export class SharedDataService {
    public checkBlockedSchemeText(item:any){
     return !this.blockedScheme.includes(item)
    }
+
+
+   public getId(id:string, schema: string){
+    if (schema === 'GB-PPG') {
+      return this.convertIdToHyphenId(id);
+    } else {
+      return id;
+    }
+   }
+
+   public convertIdToHyphenId(id:string): string {    
+    if (id != null)  {
+      return [id.slice(0, 3), '-', id.slice(3,6), '-', id.slice(6,9)].join('')
+    }
+    return id;
+  }
   constructor() {}
 }

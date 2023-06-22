@@ -56,6 +56,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     pponSchema: string = 'GB-PPG';
 
 
+
     constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
         protected uiStore: Store<UIState>, private readonly tokenService: TokenService, private organisationGroupService: WrapperOrganisationGroupService,
@@ -100,10 +101,10 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             await this.ciiService.getOrgDetails(ciiOrgId).toPromise().then((data: any) => {
                 localStorage.setItem('cii_registries', JSON.stringify(data));
                 this.registries = data;
-                data.additionalIdentifiers.forEach((Identifier: any) => {
-                  if (Identifier.scheme != this.pponSchema) {
+                data.additionalIdentifiers.forEach((Identifier:any)=>{
+                 if(Identifier.scheme != this.pponSchema){
                     this.additionalIdentifiers.push(Identifier)
-                  }
+                  }   
                 })
             }).catch(e => {
             });

@@ -2,12 +2,12 @@ app-manage-organisation-registration-step-3 {
   color: #000000;
   label {
     font-size: 12px;
-    font-weight: 400; 
+    font-weight: 400;
   }
   h4 {
     color: #000000;
   }
-  input[type=radio] {
+  input[type="radio"] {
     width: 300px;
     height: 50px;
     margin-right: 10px;
@@ -26,14 +26,25 @@ app-manage-organisation-registration-step-3 {
   position: relative;
 }
 
-.form-field-country:focus,.form-field-country:active,.mat-focused{
+.form-field-country:focus,
+.form-field-country:active,
+.mat-focused {
   outline: 3px solid #fd0;
-    outline-offset: 0;
-    -webkit-box-shadow: inset 0 0 0 2px;
-    box-shadow: inset 0 0 0 2px;
+  outline-offset: 0;
+  -webkit-box-shadow: inset 0 0 0 2px;
+  box-shadow: inset 0 0 0 2px;
 }
 
 .mat-option.mat-active {
   background: #177ddc !important;
   color: white;
+}
+
+.line-to-grow-with-content {
+  width: max-content;
+}
+
+.full-length {
+  width: auto;
+  margin-bottom: 30px;
 }

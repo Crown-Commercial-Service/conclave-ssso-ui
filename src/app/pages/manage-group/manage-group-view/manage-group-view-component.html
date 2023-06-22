@@ -2,7 +2,7 @@
     <div class="govuk-grid-column-two-thirds">
         <div class="user-profile-container">
             <div class="govuk-breadcrumbs">
-                <ol class="govuk-breadcrumbs__list" *ngIf="routeData.accessFrom != 'users'">
+                <ol class="govuk-breadcrumbs__list" *ngIf="routeData.accessFrom != 'users' && routeData.accessFrom != 'profile'">
                     <li class="govuk-breadcrumbs__list-item">
                         <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
                             }}</a>
@@ -16,7 +16,9 @@
                         <span *ngIf="isEdit!=true" class="govuk-breadcrumbs__link">{{ 'VIEW_GROUP' | translate}}</span>
                     </li>
                 </ol>
-                <ol class="govuk-breadcrumbs__list" *ngIf="(routeData.accessFrom === 'users' && routeData.isUserAccess)">
+                <ol class="govuk-breadcrumbs__list"
+                    *ngIf="(routeData.accessFrom === 'users' && routeData.isUserAccess)">
+
                     <li class="govuk-breadcrumbs__list-item">
                         <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
                             }}</a>
@@ -26,15 +28,17 @@
                             translate
                             }}</a>
                     </li>
-                    <li  class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="history.back()" *ngIf="routeData.userEditStatus === false"> {{ 'CREATE_NEW_USER_ACCOUNT' | translate }}</a>
-                        <a class="govuk-breadcrumbs__link" (click)="history.back()" *ngIf="routeData.userEditStatus === true"> {{ 'EDIT_YOUR_USER_ACCOUNTS' | translate }}</a>
-                    </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span  class="govuk-breadcrumbs__link">{{ 'VIEW_GROUP' | translate}}</span>
+                        <a class="govuk-breadcrumbs__link" (click)="navigateBackToUser()" *ngIf="routeData.userEditStatus === false"> {{ 'CREATE_NEW_USER_ACCOUNT' | translate }}</a>
+                        <a class="govuk-breadcrumbs__link" (click)="navigateBackToUser()" *ngIf="routeData.userEditStatus === true"> {{ 'EDIT_YOUR_USER_ACCOUNTS' | translate }}</a>
+                    </li>
+
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">{{ 'VIEW_GROUP' | translate}}</span>
                     </li>
                 </ol>
-                <ol class="govuk-breadcrumbs__list" *ngIf="(routeData.accessFrom === 'users' && !routeData.isUserAccess)">
+                <ol class="govuk-breadcrumbs__list"
+                    *ngIf="(routeData.accessFrom === 'users' && !routeData.isUserAccess)">
                     <li class="govuk-breadcrumbs__list-item">
                         <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
                             }}</a>
@@ -45,7 +49,21 @@
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span  class="govuk-breadcrumbs__link">{{ 'VIEW_GROUP' | translate}}</span>
+                        <span class="govuk-breadcrumbs__link">{{ 'VIEW_GROUP' | translate}}</span>
+                    </li>
+                </ol>
+                <ol class="govuk-breadcrumbs__list"
+                    *ngIf="(routeData.accessFrom === 'profile')">
+
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate
+                            }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" routerLink="/profile">{{ 'MANAGE_MY_ACCOUNT' | translate }}</a>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <span class="govuk-breadcrumbs__link">{{ 'VIEW_GROUP' | translate}}</span>
                     </li>
                 </ol>
             </div>
@@ -82,7 +100,8 @@
             </div>
             <div *ngIf="!showRoleView">
                 <h2 class="govuk-heading-s">{{ 'SERVICE_FOR_GROUP' | translate }}</h2>
-                <p class="govuk-hints">This group has access to the services below. To manage these, select 'Manage group services'.</p>
+                <p class="govuk-hints">This group has access to the services below. To manage these, select 'Manage
+                    group services'.</p>
             </div>
             <div *ngIf="group.roles.length == 0">
                 <p>{{'NONE'| translate}}
@@ -102,14 +121,14 @@
     <div class="govuk-grid-row" *ngIf="isEdit==true">
         <div class="govuk-grid-column-two-thirds">
             <div class="govuk-button-group">
-                <button *ngIf="showRoleView" type="button" (click)="onRoleEditClick()" class="govuk-button govuk-button--secondary"
-                    data-module="govuk-button">
+                <button *ngIf="showRoleView" type="button" (click)="onRoleEditClick()"
+                    class="govuk-button govuk-button--secondary" data-module="govuk-button">
                     {{ 'MANAGE_GROUP_ROLE_BTN' | translate }}
                 </button>
-                <button *ngIf="!showRoleView" type="button" (click)="onRoleEditClick()" class="govuk-button govuk-button--secondary"
-                data-module="govuk-button">
-                 {{ 'MANAGE_GROUP_SERVICE_BTN' | translate }}
-            </button>
+                <button *ngIf="!showRoleView" type="button" (click)="onRoleEditClick()"
+                    class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    {{ 'MANAGE_GROUP_SERVICE_BTN' | translate }}
+                </button>
             </div>
         </div>
     </div>
@@ -118,9 +137,9 @@
 <div class="govuk-form-group" id="user-mfa-form-group">
     <fieldset class="govuk-fieldset">
         <legend class="govuk-heading-s">
-            Security Level
+            Additional security
         </legend>
-     <app-details [detailsData]="detailsData[1]"></app-details>
+        <p class="govuk-hints">{{ detailsData[1] }}</p>        
         <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
             <input [attr.disabled]=true [checked]="group.mfaEnabled" class="govuk-checkboxes__input" id="mfaEnabled"
                 formControlName="mfaEnabled" name="mfaEnabled" type="checkbox">
@@ -161,7 +180,8 @@
                 </button>
             </div>
             <div>
-                <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{ 'DELETE_GROUP' | translate }}</a>
+                <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{ 'DELETE_GROUP' |
+                    translate }}</a>
             </div>
         </div>
     </div>

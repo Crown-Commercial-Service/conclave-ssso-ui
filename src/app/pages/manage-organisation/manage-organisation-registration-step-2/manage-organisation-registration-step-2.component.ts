@@ -229,12 +229,12 @@ export class ManageOrgRegStep2Component
     });
   }
 
-      /**
+   /**
    * checking whether scheme should show or not
    * @param item getting scheme from html
    * @returns returning boolean true or false
    */
-      public checkShowStatus(item:any){
-        return this.SharedDataService.checkBlockedScheme(item)
-       }
+   public checkShowStatus(item:any){
+    return this.SharedDataService.checkBlockedScheme(item)
+   }
 }

@@ -23,10 +23,10 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
     currentPage: 1,
     pageCount: 0,
     pageSize: environment.listPageSize,
-    usersTableHeaders: ['NAME', 'EMAIL', 'Remaining days', 'Organisation'],
-    usersColumnsToDisplay: ['name', 'userName', 'remainingDays', 'originOrganisation'],
+    usersTableHeaders: ['NAME', 'EMAIL','Start date','End date','Organisation'],
+    usersColumnsToDisplay: ['name', 'userName', 'startDate','endDate', 'originOrganisation'],
     userList: '',
-    pageName: 'Contactadmin',
+    pageName: 'Delegatedaccess',
     hyperTextrray: ['Remove', 'Edit']
   }
 
@@ -37,7 +37,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
     usersTableHeaders: ['NAME', 'EMAIL', 'Expiry date', 'Organisation'],
     usersColumnsToDisplay: ['name', 'userName', 'endDate', 'originOrganisation'],
     userList: '',
-    pageName: 'Contactadmin',
+    pageName: 'Delegatedaccess',
     hyperTextrray: ['View']
   }
   constructor(private router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService) {
