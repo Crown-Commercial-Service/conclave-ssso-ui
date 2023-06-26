@@ -28,20 +28,45 @@ export class DelegatedAccessUserComponent implements OnInit {
   private RoleInfo: any = []
   private userSelectedFormData: any;
   public hideSimplifyRole = environment.appSetting.hideSimplifyRole;
-
+  private userId:number= 0
+  public eventLogForActiveUser: any = {
+    delegationAuditEventDetails: {
+      currentPage: 0,
+      pageCount: 0,
+      rowCount: 0,
+      organisationId: '',
+      delegationAuditEventServiceRoleGroupList: [],
+    },
+    usersTableHeaders: ['Owner', 'Event', 'Date'],
+    usersColumnsToDisplay: ['owner', 'event', 'date'],
+    currentPage: 1,
+    pageCount: 0,
+    pageName:"eventLog",
+    pageSize: environment.listPageSize,
+  };
+  public isStartDateDisabled:boolean=false;
+  public pastDateValidationMessage="The start date cannot be in the past";
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private route: Router,
-    private DelegatedService: WrapperUserDelegatedService,
+    private DelegatedApiService: WrapperUserDelegatedService,
     private formbuilder: FormBuilder,
     private ManageDelegateService: ManageDelegateService,
     private orgRoleService: WrapperOrganisationGroupService,
     protected scrollHelper: ScrollHelper,
     private ActivatedRoute: ActivatedRoute,
-    private titleService: Title
+    private titleService: Title,
+    private DelegatedService: ManageDelegateService,
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userSelectedFormData = sessionStorage.getItem('deleagted_user_details')
+    this.eventLogForActiveUser.delegationAuditEventDetails = {
+      currentPage: this.eventLogForActiveUser.currentPage,
+      pageCount: 0,
+      rowCount: 0,
+      organisationId: this.organisationId,
+      delegationAuditEventServiceRoleGroupList: [],
+    };
   }
 
   ngOnInit(): void {
@@ -56,6 +81,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userDetails = JSON.parse(atob(para.data));
       this.userDetails.userName = decodeURIComponent(unescape(this.userDetails.userName));
+      this.userId = this.userDetails.id
       this.pageAccessMode = this.userDetails.pageaccessmode
       if (this.userSelectedFormData) {
         this.userSelectedData(this.userDetails.userName, this.organisationId)
@@ -103,7 +129,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     let data = JSON.parse(this.userSelectedFormData)
     this.userSelectedFormData = JSON.parse(data)
     setTimeout(() => {
-      this.DelegatedService.getEdituserDetails(userId, delegatedOrgId).subscribe({
+      this.DelegatedApiService.getEdituserDetails(userId, delegatedOrgId).subscribe({
         next: (response: any) => {
           this.getOrgRoles()
           this.RoleInfo = this.userSelectedFormData
@@ -119,13 +145,13 @@ export class DelegatedAccessUserComponent implements OnInit {
             endmonth: endDate[1],
             endyear: endDate[0]
           });
+          this.formDisable()
         },
         error: (error: any) => {
           this.route.navigateByUrl('delegated-error')
         },
       });
     }, 0);
-    this.formDisable()
   }
 
   /**
@@ -138,7 +164,7 @@ export class DelegatedAccessUserComponent implements OnInit {
    */
   public getUserDetails(userId: string, delegatedOrgId: string, startDateFromListPage: any, endDateFromListPage: any, delegationAcceptedFromListPage: any) {
     setTimeout(() => {
-      this.DelegatedService.getEdituserDetails(userId, delegatedOrgId).subscribe({
+      this.DelegatedApiService.getEdituserDetails(userId, delegatedOrgId).subscribe({
         next: (response: any) => {
           this.getOrgRoles()
           this.RoleInfo = response
@@ -204,8 +230,10 @@ export class DelegatedAccessUserComponent implements OnInit {
           }
         }
       });
+      if (this.pageAccessMode === 'edit'){
+        this.getEventLogDetailsForActiveUser()
+      }     
     });
-
   }
 
   /**
@@ -340,7 +368,7 @@ export class DelegatedAccessUserComponent implements OnInit {
  * @param form forms group value getting from html
  */
   public edituserdetails(form: FormGroup) {
-    if (this.formValid(form) && (!this.StartDateValidation && !this.EndDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
+    if (this.formValid(form) && (!this.StartDateValidation &&!this.PastDateValidation && !this.EndDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
       const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
       const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
       let data = {
@@ -411,15 +439,26 @@ export class DelegatedAccessUserComponent implements OnInit {
    * @returns boolean
    */
   public get PastDateValidation() {
-    if (this.pageAccessMode == 'add') {
+    if(this.pageAccessMode === 'edit' && this.isStartDateDisabled)
+    {
+        return false;
+    }
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const StartDate = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
       const date = new Date(StartDate);
+      date.setHours(0, 0, 0, 0);
+      if(this.pageAccessMode==='edit')
+      {
+        if(date<=today)
+        {
+          this.pastDateValidationMessage="The start date cannot be today or in the past";
+        }
+        return date <= today;
+      }
+      else{
       return date < today;
-    } else {
-      return false
-    }
+      }
   }
 
 
@@ -436,7 +475,7 @@ export class DelegatedAccessUserComponent implements OnInit {
       const oneDay = 86400000;
       const diffInTime = EndDate.getTime() - StartDate.getTime();
       const diffInDays = Math.round(diffInTime / oneDay);
-      if (diffInDays > 365 || diffInDays < 28) {
+      if (diffInDays > 365 || diffInDays < 1) {
         return true
       }
       return false
@@ -493,9 +532,22 @@ export class DelegatedAccessUserComponent implements OnInit {
     */
   private formDisable() {
     if (this.pageAccessMode === 'edit') {
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
+      const startDate=new Date(StartDateForm);
+      startDate.setHours(0,0,0,0);
+      if(startDate<=today || this.delegationAccepted)
+      {
+        this.isStartDateDisabled=true;
       this.formGroup.controls['startday'].disable()
       this.formGroup.controls['startmonth'].disable()
       this.formGroup.controls['startyear'].disable()
+      }
+      else
+      {
+        this.isStartDateDisabled=false;
+      }
     }
   }
 
@@ -514,5 +566,17 @@ export class DelegatedAccessUserComponent implements OnInit {
   public nevigate(path: string) {
     this.route.navigateByUrl(path)
     sessionStorage.removeItem('deleagted_user_details')
+  }
+
+  public setPageOrganisationEventLogs(pageNumber: any) {
+    this.eventLogForActiveUser.currentPage = pageNumber;
+    this.getEventLogDetailsForActiveUser();
+  }
+
+  private getEventLogDetailsForActiveUser(): void {
+    this.DelegatedApiService.getDelegatedEventLogs(this.eventLogForActiveUser.pageSize, this.eventLogForActiveUser.currentPage, this.userId,this.organisationId).subscribe((response) => {
+    this.eventLogForActiveUser.delegationAuditEventDetails.delegationAuditEventServiceRoleGroupList = this.DelegatedService.matchDelegatedDetailsOne(response.delegationAuditEventServiceRoleGroupList)
+    this.eventLogForActiveUser.pageCount =  response.pageCount;
+    })
   }
 }

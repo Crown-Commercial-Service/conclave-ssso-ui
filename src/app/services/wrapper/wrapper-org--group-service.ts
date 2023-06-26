@@ -44,6 +44,17 @@ export class WrapperOrganisationGroupService {
     );
   }
 
+  getOrganisationGroupsWithRoles(organisationId: string, searchString: string = ''): Observable<any> {
+    const url = `${this.url}/${organisationId}/groups/servicerolegroups?search-string=${encodeURIComponent(searchString)}`;
+    return this.http.get<GroupList>(url).pipe(
+      map((data: GroupList) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
   getOrganisationGroup(organisationId: string, groupId: number): Observable<any> {
     if (!environment.appSetting.hideSimplifyRole) {
       const url = `${this.url}/${organisationId}/groups/${groupId}/servicerolegroups`;
@@ -175,7 +186,8 @@ export class WrapperOrganisationGroupService {
               orgTypeEligibility: f.orgTypeEligibility,
               subscriptionTypeEligibility: f.subscriptionTypeEligibility,
               tradeEligibility: f.tradeEligibility,
-              description: f.description
+              description: f.description,
+              displayOrder: f.displayOrder
             }
             structureData.push(structureObj)
           })

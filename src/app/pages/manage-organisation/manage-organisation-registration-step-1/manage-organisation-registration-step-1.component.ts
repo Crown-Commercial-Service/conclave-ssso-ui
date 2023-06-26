@@ -1,5 +1,10 @@
 import { ViewportScroller } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { timeout } from 'rxjs/operators';
@@ -13,24 +18,22 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { UIState } from 'src/app/store/ui.states';
 
 @Component({
-    selector: 'app-manage-organisation-registration-step-1',
-    templateUrl: './manage-organisation-registration-step-1.component.html',
-    styleUrls: ['./manage-organisation-registration-step-1.component.scss'],
-    animations: [
-        slideAnimation({
-            close: { 'transform': 'translateX(12.5rem)' },
-            open: { left: '-12.5rem' }
-        })
-    ],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-manage-organisation-registration-step-1',
+  templateUrl: './manage-organisation-registration-step-1.component.html',
+  styleUrls: ['./manage-organisation-registration-step-1.component.scss'],
+  animations: [
+    slideAnimation({
+      close: { transform: 'translateX(12.5rem)' },
+      open: { left: '-12.5rem' },
+    }),
+  ],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManageOrgRegStep1Component extends BaseComponent implements OnInit {
-
-  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private SharedDataService:SharedDataService) {
-    super(uiStore,viewportScroller,scrollHelper,);
-  }
-
+export class ManageOrgRegStep1Component
+  extends BaseComponent
+  implements OnInit
+{
   schemeDetails = [
     {
       name: 'Companies House registered number',
@@ -61,18 +64,30 @@ export class ManageOrgRegStep1Component extends BaseComponent implements OnInit 
       id: 'GB-EDU',
     },
   ];
-  ngOnInit() { }
+
+  constructor(
+    private dataService: dataService,
+    private router: Router,
+    protected uiStore: Store<UIState>,
+    protected viewportScroller: ViewportScroller,
+    protected scrollHelper: ScrollHelper,
+    private SharedDataService:SharedDataService
+  ) {
+    super(uiStore, viewportScroller, scrollHelper);
+  }
+
+  ngOnInit() {}
 
   public onClick() {
     this.router.navigateByUrl(`manage-org/register/initial-search`);
   }
 
-      /**
+    /**
    * checking whether scheme should show or not
    * @param item getting scheme from html
    * @returns returning boolean true or false
    */
-      public checkShowStatus(item:any){
-        return this.SharedDataService.checkBlockedSchemeText(item)
-       }
+    public checkShowStatus(item:any){
+      return this.SharedDataService.checkBlockedSchemeText(item)
+     }
 }

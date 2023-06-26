@@ -95,7 +95,8 @@ export class ManageGroupEditUsersComponent
         this.organisationId,
         this.searchingUserName,
         this.currentPage,
-        this.pageSize
+        this.pageSize,
+        true
       )
       .subscribe({
         next: (userListResponse: UserListResponse) => {
