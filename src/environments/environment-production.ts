@@ -68,7 +68,7 @@ export const environment = {
   },
   appSetting: {
    hideIDP:true,
-   hideDelegation:false,
+   hideDelegation:true,
    hideBulkupload:true,
    hideAutoValidation:false,
    hideSimplifyRole:false,
