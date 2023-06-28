@@ -49,6 +49,7 @@ export class ManageGroupEditUsersComponent
   userGridSource: CheckBoxUserListGridSource[] = [];
   public userName = ''
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole
+  groupType: number = 0;
   constructor(
     protected uiStore: Store<UIState>,
     private router: Router,
@@ -65,6 +66,7 @@ export class ManageGroupEditUsersComponent
       let routeData = JSON.parse(queryParams.data);
       this.isEdit = routeData['isEdit'];
       this.editingGroupId = routeData['groupId'];
+      this.groupType = routeData['groupType'];
       this.groupName = sessionStorage.getItem('Gname') || '';
       this.userName = localStorage.getItem('user_name') || '';
     }
@@ -226,7 +228,7 @@ export class ManageGroupEditUsersComponent
 
   public isAdminGroupAndUser(totalUserName:string){
     let isAdmin =  totalUserName === this.userName
-    if(isAdmin && this.groupName === 'Organisation Administrators'){
+    if(isAdmin && this.groupType == 1){
       return true
     } else {
       return false
