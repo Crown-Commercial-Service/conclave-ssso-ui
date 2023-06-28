@@ -712,7 +712,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   private matchGroupIds(isGroupOfUser:any,group:any){
-    group.disabled = (group.groupName === "Organisation Administrators") ? true : null;
+    group.disabled = (group.groupType === 1) ? true : null;
     if (isGroupOfUser) {
       this.setPendingApproveForGroup(group)
       group.checked = true
