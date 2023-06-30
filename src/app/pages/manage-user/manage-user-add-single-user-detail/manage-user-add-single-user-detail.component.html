@@ -318,13 +318,13 @@
                                     testing
                                 </h2>
                                 <ul class="govuk-tabs__list">
-                                  <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.userservices}" (click)="tabChanged('userservices')">
-                                    <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+                                  <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.userservices}" (click)="tabChanged('user-service')">
+                                    <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;" >
                                         Individual access
                                     </a>
                                   </li>
-                                  <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.groupservices}" (click)="tabChanged('groupservices')">
-                                    <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+                                  <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.groupservices}" (click)="tabChanged('group-service')">
+                                    <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;" >
                                         Group access
                                     </a>
                                   </li>
@@ -332,9 +332,8 @@
                                 <div class="govuk-tabs__panel" id="user-service" [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.userservices}">
                             <div class="govuk-grid-row">
                                 <div class="govuk-grid-column-full">
-
+                                    <h2 class="govuk-heading-m">Individual access</h2>
                                     <p class="govuk-hints">{{ 'ACCESS_TO_USER_SERVICE'| translate }}</p>
-                                    
                                     <div class="govuk-checkboxes">
                                         <ng-container *ngFor="let orgRole of orgRoles; let i=index">
                                             <div class="govuk-checkboxes__item govuk-item-custom" *ngIf="orgRole.roleKey != 'ORG_DEFAULT_USER' && orgRole.roleKey != 'ORG_ADMINISTRATOR'">
@@ -359,9 +358,9 @@
                             </div>
                                 </div>
                                 <div class="govuk-tabs__panel" id="group-service" [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.groupservices}">
+                                    <h2 class="govuk-heading-m">Group access</h2>
                                     <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 ? true : false">{{ 'ACCESS_TO_GROUP_SEVICE'| translate }}</p>
                                     <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 ? true : false">{{ 'NO_GROUP_ROLE_ACCESS_ADDUSER'| translate }}</p>
-
                                     <div class="govuk-checkboxes govuk-checkboxes-custom-input">
                                         <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgRole of orgUserGroupRoles; let i=index">
                                             <input class="govuk-checkboxes__input" id="{{'orgRoleControlGroup_' + orgRole.id}}"
