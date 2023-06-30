@@ -5,6 +5,8 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 import { BaseComponent } from '../base/base.component';
+import { HelperService } from 'src/app/shared/helper.service';
+
 @Component({
   selector: 'app-custom-govuk-table',
   templateUrl: './custom-govuk-table.component.html',
@@ -37,7 +39,7 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   pageSize: number = environment.listPageSize;
   tableVisibleData!: any[];
   constructor(
-    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,public helperservice:HelperService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 

@@ -6,6 +6,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 import { BaseComponent } from '../base/base.component';
+import { HelperService } from 'src/app/shared/helper.service';
 
 @Component({
   selector: 'app-govuk-table',
@@ -41,7 +42,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   selectedRadioId: string = 'table-radio-id-non';
   constructor(
     // private translateService: TranslateService,
-    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, public helperservice: HelperService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
@@ -64,7 +65,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   }
 
   onRowClick(dataRow: any, index: number,event:any) {
-    if (this.isCheckBoxVisible) {
+    if (this.isCheckBoxVisible && !dataRow.isDisable) {
       dataRow.isChecked = !dataRow.isChecked;
       this.checkBoxClickEvent.emit(dataRow);
     }

@@ -72,6 +72,7 @@ export interface OrganisationGroupResponseInfo extends Group {
   roles: GroupRole[];
   users: GroupUser[];
   serviceRoleGroups: GroupRole[];
+  groupType: any;
 }
 
 export interface GroupRole {

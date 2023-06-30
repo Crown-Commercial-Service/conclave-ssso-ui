@@ -20,31 +20,39 @@
                 <th scope="row" class="govuk-table__header">
                     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item">
-                            <input class="govuk-checkboxes__input" id="{{'orgGroupControl_' + groupdata.groupId}}"
-                                name="{{'orgGroupControl_' + groupdata.groupId}}" type="checkbox" value="true"
-                                [(ngModel)]="groupdata.checked" (click)="onCheckBoxClick(groupdata,groupdata.checked)">
-                            <label
-                                class="govuk-label govuk-checkboxes__label govuk-!-margin-bottom-2 govuk-!-margin-left-4 govuk-link"
-                                for="{{'groupdata' + groupdata.groupId}}">
+                            <span>
+                                <input class="govuk-checkboxes__input" id="{{'orgGroupControl_' + groupdata.groupId}}"
+                                    name="{{'orgGroupControl_' + groupdata.groupId}}" type="checkbox" value="true"
+                                    [(ngModel)]="groupdata.checked"
+                                    (click)="onCheckBoxClick(groupdata,groupdata.checked)"
+                                    [attr.disabled]="groupdata.disabled">
+                                <label
+                                    class="govuk-label govuk-checkboxes__label govuk-!-margin-bottom-2 govuk-!-margin-left-4 govuk-link"
+                                    for="{{'groupdata' + groupdata.groupId}}">
+
+                                </label>
+                            </span>
+                            <span>
                                 <a href="javascript:;" class="govuk-link"
                                     (click)="goToEditGroup(groupdata.groupId)">{{groupdata[headerTextKeys]}}</a>
-                            </label>
-                            <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-6" id="{{groupdata.groupId}}"
-                                style="display: none;">
+                                <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-6 govuk-!-padding-left-8 govuk-!-padding-top-4"
+                                    id="{{groupdata.groupId}}" style="display: none;">
 
-                                <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleData">
-                                    <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}}
-                                        <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
-                                    </li>
-                                </span>
-                                <ng-template #noRoleData >
-                                    <label class ="no-data-message"> {{noRoleText}} </label>
-                                </ng-template>
-                            </ul>
+                                    <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleData">
+                                        <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}}
+                                            <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
+                                        </li>
+                                    </span>
+                                    <ng-template #noRoleData>
+                                        <label class="no-data-message"> {{noRoleText}} </label>
+                                    </ng-template>
+                                </ul>
+                            </span>
+
                         </div>
                     </div>
                 </th>
-                <td class="govuk-table__cell govuk-text-align-right"><a href="javascript:;" class="govuk-link"
+                <td  class="govuk-table__cell govuk-text-align-right"><a *ngIf="groupdata.groupType === 0" href="javascript:;" class="govuk-link"
                         (click)="onBottomToggle(groupdata.groupId)">{{getElementStatus(groupdata.groupId)}}</a></td>
             </tr>
         </tbody>
@@ -85,8 +93,8 @@
                                 <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
                             </li>
                         </span>
-                        <ng-template #noRoleDataIsNotAdmin >
-                            <label class ="no-data-message">{{noRoleText}}</label>
+                        <ng-template #noRoleDataIsNotAdmin>
+                            <label class="no-data-message">{{noRoleText}}</label>
                         </ng-template>
                     </ul>
                 </th>
