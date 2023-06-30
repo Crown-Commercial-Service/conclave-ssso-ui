@@ -146,7 +146,10 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
 
   public tabChanged(activetab: string): void {
-     
+    document.getElementById(activetab)?.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+    });
     if (activetab === 'currentusers') {
       this.tabConfig.currentusers = true
       this.tabConfig.expiredusers = false
