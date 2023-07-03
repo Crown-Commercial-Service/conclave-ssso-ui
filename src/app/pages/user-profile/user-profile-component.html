@@ -265,20 +265,17 @@
                     </div>
                 </div>
                 <div class="govuk-tabs" data-module="govuk-tabs">
-                    <h2 class="govuk-tabs__title">
-                        testing
-                    </h2>
                     <ul class="govuk-tabs__list">
                         <li class="govuk-tabs__list-item"
                             [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.userservices}"
-                            (click)="tabChanged('userservices')">
+                            (click)="tabChanged('user-service')">
                             <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
                                 Individual access
                             </a>
                         </li>
                         <li class="govuk-tabs__list-item"
                             [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.groupservices}"
-                            (click)="tabChanged('groupservices')">
+                            (click)="tabChanged('group-service')">
                             <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
                                 Group access
                             </a>
@@ -286,9 +283,9 @@
                     </ul>
                     <div class="govuk-tabs__panel" id="user-service"
                         [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.userservices}">
+                        <h2 class="govuk-heading-m">Individual access</h2>
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
-
                                 <p class="govuk-hints" *ngIf="isAdminUser == true">{{
                                     'ACCESS_TO_USER_SERVICE_MANAGE_MY_ACCOUNT'| translate }}</p>
                                 <p class="govuk-hints" *ngIf="isAdminUser == false">{{ 'ACCESS_TO_REGULAR_USER_SERVICE'|
@@ -344,6 +341,7 @@
                     </div>
                     <div class="govuk-tabs__panel" id="group-service"
                         [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.groupservices}">
+                        <h2 class="govuk-heading-m">Group access</h2>
                         <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 && isAdminUser == true">{{
                             'ORG_ADMIN_GROUP_ACCESS'| translate }}</p>
                         <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 && isAdminUser == false ">{{

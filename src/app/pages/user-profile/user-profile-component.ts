@@ -107,7 +107,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     headerTextKey: "groupName",
     accessTable: "groupsMember",
     noRoleText: "You do not have access to any service through membership of this group.",
-    noDataGroupsMemberMessage: "You are not member of any group.",
+    noDataGroupsMemberMessage: "You are not a member of any group.",
     groupShow: true,
     data: [],
   }
@@ -712,7 +712,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   private matchGroupIds(isGroupOfUser:any,group:any){
-    group.disabled = (group.groupName === "Organisation Administrators") ? true : null;
+    group.disabled = (group.groupType === 1) ? true : null;
     if (isGroupOfUser) {
       this.setPendingApproveForGroup(group)
       group.checked = true
@@ -801,7 +801,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   public tabChanged(activetab: string): void {
-    if (activetab === 'userservices') {
+    document.getElementById(activetab)?.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+    });
+    if (activetab === 'user-service') {
       this.tabConfig.userservices = true
       this.tabConfig.groupservices = false
     } else {
