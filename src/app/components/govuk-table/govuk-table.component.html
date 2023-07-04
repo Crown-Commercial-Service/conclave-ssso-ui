@@ -21,8 +21,8 @@
               : ''
           ]" [ngClass]="{'isDisabled': dataRow['isDisable']  == true}" [ngClass]="[ dataRow['serviceView'] == true ? 'role_group_table' : '']">
           <span *ngIf="findDateKey(dataKey)">
-            {{dataRow[dataKey] | date: 'dd/MM/yyyy'}} <br>
-            <span *ngIf="findDateKey(dataKey) && pageName != 'Delegatedaccess'">{{ dataRow[dataKey] | date: 'HH:mm'}}</span>
+            {{ helperservice.convertToLocalDateTime(dataRow[dataKey]) | date: 'dd/MM/yyyy'}} <br>
+            <span *ngIf="findDateKey(dataKey) && pageName != 'Delegatedaccess'">{{ helperservice.convertToLocalDateTime(dataRow[dataKey]) | date: 'HH:mm'}}</span>
           </span>
           <span *ngIf="dataKey == 'owner'">
             <span *ngIf="dataRow['defaultOwnerChanges'] == false">
@@ -47,6 +47,9 @@
             <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'userName' && dataRow['isAdmin']) ||
             (dataKey === 'userId' && dataRow['isAdmin'])">
               Admin
+            </strong>
+            <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'groupName' && dataRow['groupType'] == '1') ">
+              Default Group
             </strong>
           </span>
           <br>

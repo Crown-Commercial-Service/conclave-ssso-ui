@@ -397,5 +397,6 @@
   "ORG_ADMIN_GROUP_ACCESS_NONE": "You do not have access to any service through your membership of a group. You can manage group membership, and access to services, through the dashboard.",
   "PENDING_LABEL": "Pending Approval",
   "ACCESS_TO_REGULAR_USER_SERVICE": "These services are assigned to you as an individual, rather than through your membership of a group.",
-  "ACCESS_TO_USER_SERVICE_MANAGE_MY_ACCOUNT": "Select the services that you need access to as an individual, rather than through your membership of a group."
+  "ACCESS_TO_USER_SERVICE_MANAGE_MY_ACCOUNT": "Select the services that you need access to as an individual, rather than through your membership of a group.",
+  "DEFAULT_ADMIN_GROUP_DESC": "This group is intendent for Organisation Administrators only. You cannot delete it, change its name and add or remove services from it. By adding or removing users from it you are distributing Organisation Administrator credentials."
 }

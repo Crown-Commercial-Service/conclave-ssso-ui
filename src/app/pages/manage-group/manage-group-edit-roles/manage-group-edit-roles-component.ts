@@ -133,28 +133,11 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
 
     RemoveUserService(roleList: Role[]){
         this.orgRoleList = roleList.filter((role) => {
-            if(role.roleKey != 'ORG_ADMINISTRATOR' && role.roleKey != 'ORG_DEFAULT_USER')
+            if(role.roleKey != 'ORG_ADMINISTRATOR' && role.roleKey != 'ORG_DEFAULT_USER' && role.roleKey != 'FP_USER')
             {
                 return true;
             }
-            else {
-                if(role.roleKey == 'ORG_ADMINISTRATOR'){
-                    let isChecked = (this.roleIds.findIndex(rId => rId == role.roleId) != -1 ||
-                    this.addingRoles.findIndex(role => role.roleId == role.roleId) != -1) &&
-                    this.removingRoles.findIndex(role => role.roleId == role.roleId) == -1;
-                    let roleGridSourceObject: CheckBoxRoleListGridSource = {
-                        roleId: role.roleId,
-                        roleKey: role.roleKey,
-                        roleName: role.roleName,
-                        isChecked: isChecked,
-                        description: 'Administrators manage users and give them access to services. Administrators can also access services themselves. Choose this option to make every user in this group an administrator.'
-                    };
-                    this.formGroup.addControl(
-                        'orgRoleControl_' + role.roleId,
-                        this.formBuilder.control(isChecked ? true : false)
-                    );
-                    this.orgAdminRole.push(roleGridSourceObject);
-                }                
+            else {                             
                 return false;
             }
         }); 
