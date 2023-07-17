@@ -88,7 +88,7 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
         return 'Charities Commission for England and Wales';
       }
       case 'GB-SC': { 
-        return 'Office of the Scottish Charity Regulator (OSCR)';
+        return 'Scottish Charities Commission';
       }
       case 'GB-NIC': { 
         return 'Northern Ireland Charities Commission';
