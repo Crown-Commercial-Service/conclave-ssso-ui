@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    idam_client_id: 'IDAM_ID',
+    idam_client_id: '%IDAM%',
     uri: {
         api: {
             isApiGateWayEnabled: true,
@@ -41,7 +41,7 @@ export const environment = {
     listPageSize: 10,
     mailDecryptKey:'conclavesimpleemailencrypt',
     rollbar: {
-        key: 'ROLLBAR',
+        key: '%ROLLBAR%',
         enable: true,
         security_log: false,
         environment: 'dev-ccs-sso'
