@@ -544,6 +544,21 @@
   font-weight: 700;
   color: #1d70b8;
 }
+  
+  .topnav {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+    background-color: yellow;
+    height: 40px;
+  }
+  
+  .para_text {
+    margin-top: 6px;
+  }
+  .para_text span {
+    font-weight: 600;
+  }
 </style>
 
 <body class="govuk-template__body show-flourishes pillar--none js-enabled">
@@ -551,6 +566,11 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TZCX5VP" height="0" width="0"
         style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
+  <div class="topnav">
+   <p class="govuk-body para_text">This is the
+    <span>test</span> environment.
+   </p> 
+  </div>
     <div id="cookieBannerDiv" style="display:none;" class="govuk-cookie-banner " data-nosnippet role="region"
         aria-label="Cookies on Public Procurement Gateway">
         <div id="cookieBannerSelectionDiv" class="govuk-cookie-banner__message govuk-width-container">
@@ -712,8 +732,8 @@
                                 <button class="govuk-button" type="button" onclick="location.href='https://dev.identify.crowncommercial.gov.uk/manage-org/register';">Create an account</button>
                               </div>
                                 <label class="govuk-label" style="margin-top:8px;margin-bottom:0px" for="email">Email
-                                    address<br />
-                                    <div class="govuk-hint">This is the email address you used to setup your account
+                                    address<br /> 
+                                    <div class="govuk-hint">This is the email address you used to set up your account
                                     </div>
                                 </label>
                                 <span style="display: none" id="email-error" class="govuk-error-message">

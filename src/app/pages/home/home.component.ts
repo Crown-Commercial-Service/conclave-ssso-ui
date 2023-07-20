@@ -191,7 +191,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         ) === -1
       ) {
         this.systemModules.push({
-          name: 'Manage organisation(s)',
+          name: 'Manage organisation',
           description: 'View details for your organisation',
           route: '/manage-org/profile',
         });
@@ -205,7 +205,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
       ) {
         this.systemModules.push({
           name: 'Manage groups',
-          description: 'Create groups and organize users',
+          description: 'Create groups and organise users',
           route: '/manage-groups',
         });
       }
