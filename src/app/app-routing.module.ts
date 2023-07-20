@@ -201,7 +201,7 @@ const routes: Routes = [
   },
   {
     path: 'contact-admin',
-    data: { title: 'contact-admin', roles: ['MANAGE_MY_ACCOUNT'] },
+    data: { title: 'Contact my administrator', roles: ['MANAGE_MY_ACCOUNT'] },
     canActivate: [AuthGuard, RoleGuard],
     pathMatch: 'full',
     component: ContactAdminComponent,

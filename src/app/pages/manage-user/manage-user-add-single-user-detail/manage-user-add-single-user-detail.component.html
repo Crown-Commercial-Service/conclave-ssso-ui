@@ -15,13 +15,13 @@
                     <span class="govuk-breadcrumbs__link"> {{ 'CREATE_NEW_USER_ACCOUNT' | translate }}</span>
                 </li>
                 <li *ngIf="isEdit == true" class="govuk-breadcrumbs__list-item">
-                    <span class="govuk-breadcrumbs__link"> {{ 'EDIT_YOUR_USER_ACCOUNTS' | translate }}</span>
+                    <span class="govuk-breadcrumbs__link"> {{ 'EDIT_USER_ACCOUNTS' | translate }}</span>
                 </li>
             </ol>
         </div>
 
         <h1 *ngIf="isEdit != true" class="govuk-heading-xl page-title">{{ 'CREATE_NEW_USER_ACCOUNT' | translate }}</h1>
-        <h1 *ngIf="isEdit == true" class="govuk-heading-xl page-title">{{ 'EDIT_YOUR_USER_ACCOUNTS' | translate }}</h1>
+        <h1 *ngIf="isEdit == true" class="govuk-heading-xl page-title">{{ 'EDIT_USER_ACCOUNTS' | translate }}</h1>
 
         <h2 *ngIf="isEdit == true" class="govuk-heading-m page-title">{{ 'RESET_PASSWORD_OR_DELETE_USER_ACCOUNTS' |
             translate }}</h2>

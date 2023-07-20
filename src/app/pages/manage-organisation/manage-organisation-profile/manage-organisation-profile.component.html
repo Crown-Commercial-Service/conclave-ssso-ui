@@ -138,9 +138,6 @@
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
       (click)="onRegistryAddClick()">Add new registry</button>
   </div>
-  <p style="margin-top:40px;"><strong>If you have previously tried to signup or register (CII registry) and have made a
-      mistake, Please</strong> <a id="contactCCSLink" class="navigation-text" href="{{ccsContactUrl}}" target="_blank">
-      Contact CCS</a></p>
   <div class="govuk-button-group">
     <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button"
       (click)="onSaveChanges()" [disabled]="changedIdpList.length ==0">Save changes</button>
