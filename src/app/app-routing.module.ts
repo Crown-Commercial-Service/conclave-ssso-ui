@@ -344,7 +344,7 @@ const routes: Routes = [
   },
   {
     path: 'manage-org/register/type',
-    data: { title: 'Buyer/Supplier Type - Registration' },
+    data: { title: 'Organisation type' },
     pathMatch: 'full',
     component: ManageOrgRegRightToBuyComponent,
   },
