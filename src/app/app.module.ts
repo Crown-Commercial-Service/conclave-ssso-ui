@@ -205,6 +205,7 @@ import { CustomGovukTableComponent } from './components/custom-govuk-table/custo
 import { AccordionComponent } from './components/accordion/accordion.component';
 import { GovukRadioComponent } from './components/govuk-radio/govuk-radio.component';
 import { EnvironmentBannerComponent } from './components/environment-banner/environment-banner.component';
+import { PermissionPipe } from './pipes/permission.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -375,7 +376,8 @@ export function createTranslateLoader(http: HttpClient) {
     CustomGovukTableComponent,
     AccordionComponent,
     GovukRadioComponent,
-    EnvironmentBannerComponent
+    EnvironmentBannerComponent,
+    PermissionPipe
   ],
   imports: [
     // BrowserModule,
