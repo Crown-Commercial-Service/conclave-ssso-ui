@@ -28,7 +28,8 @@ export const environment = {
     },
     web: {
       //dashboard: 'https://dev.sso.conclave.crowncommercial.gov.uk'
-      dashboard: 'https://identify.crowncommercial.gov.uk'
+      dashboard: 'https://identify.crowncommercial.gov.uk',
+      name: "",   // <= name should not be any value in production
     },
     ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
   },

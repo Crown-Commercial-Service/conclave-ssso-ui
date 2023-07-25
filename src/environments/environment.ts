@@ -25,7 +25,7 @@ export const environment = {
     },
     web: {
       dashboard: 'http://localhost:4200',
-      name: "Development"
+      name: "DEV"
     },
     ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
   },
