@@ -56,8 +56,8 @@ export const environment = {
 
           //dashboard: 'https://preprod-ccs-sso.london.cloudapps.digital' 
 
-          dashboard: 'https://preprod.identify.crowncommercial.gov.uk'
-
+          dashboard: 'https://preprod.identify.crowncommercial.gov.uk',
+          name: "PRE-PROD"
       },
 
       ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
