@@ -42,10 +42,19 @@ a {
     position: relative;
     left: 16px;
   }
-  .govuk-checkboxes__input + .govuk-checkboxes__label::before {
+  .govuk-item-custom .govuk-checkboxes__input + .govuk-checkboxes__label::before {
     top: 4px;
   }
-  .govuk-checkboxes__input + .govuk-checkboxes__label::after {
-    top: 18px;
+  .govuk-item-custom .govuk-checkboxes__input + .govuk-checkboxes__label::after {
+    top: 15px;
   }
+  .govuk-checkboxes-custom-input .govuk-checkboxes__input:disabled + .govuk-checkboxes__label {
+    opacity: 1;  
+   } 
+   .govuk-checkboxes-custom-input .govuk-checkboxes__input:disabled + .govuk-checkboxes__label::after , .govuk-checkboxes-custom-input .govuk-checkboxes__input:disabled + .govuk-checkboxes__label::before {
+      opacity: 0.5;  
+   }
+   .govuk-item-custom-hide {
+    min-height: 0px;
+   }
  
