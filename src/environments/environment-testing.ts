@@ -3,7 +3,7 @@ export const environment = {
   idam_client_id:'%IDAM%',
   uri: {
     api: {
-      isApiGateWayEnabled: true,
+      isApiGateWayEnabled: false,
       security: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5004',
       postgres: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5001',
       cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
