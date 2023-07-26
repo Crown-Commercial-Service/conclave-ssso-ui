@@ -4,28 +4,28 @@ export const environment = {
     uri: {
       api: {
         isApiGateWayEnabled: false,
-        security: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5004',
-        postgres: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5001',
+        security: 'https://dev.api.crowncommercial.gov.uk/aws',
+        postgres: 'https://dev.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
         cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
-            user: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/user-profiles',
-            organisation: 'http://sand-alb-backend-91858601.eu-west-2.elb.amazonaws.com:5000/organisation-profiles',
-            contact: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/contacts',
-            configuration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/configurations',
-            dataMigration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/datamigration',
+            user: 'https://dev.api.crowncommercial.gov.uk/aws/user-profile',
+            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/organisation-profile',
+            contact: 'https://dev.api.crowncommercial.gov.uk/aws/contact-service',
+            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/configuration-service',
+            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/datamigration',
           },
           apiGatewayDisabled: {
-            user: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/users',
-            organisation: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/organisations',
-            contact: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/contacts',
-            configuration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/configurations',
-            dataMigration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/datamigration',
+            user: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/users',
+            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/organisations',
+            contact: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/contacts',
+            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/configurations',
+            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/datamigration',
           }
         }
       },
       web: {
-        dashboard: 'http://dev-alb-frontend-1521951989.eu-west-2.elb.amazonaws.com'
+        dashboard: 'https://dev.identify.crowncommercial.gov.uk/aws/'
       },
       ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
     },
