@@ -60,7 +60,7 @@ export const environment = {
           name: "PRE-PROD"
       },
 
-      ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+      ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact"
 
   },
 

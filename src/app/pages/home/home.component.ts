@@ -189,7 +189,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     if (e.permissionName === 'MANAGE_ORGS') {
       if (
         this.systemModules.findIndex(
-          (x) => x.name === 'Manage organisation(s)'
+          (x) => x.name === 'Manage organisation'
         ) === -1
       ) {
         this.systemModules.push({
@@ -312,6 +312,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
             name: 'Manage my delegated access',
             description: 'Switch between your primary and delegating Organisation',
             route: '/delegated-organisation',
+            orderId : 6
           });
         }
       },
