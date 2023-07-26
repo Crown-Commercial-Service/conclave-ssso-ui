@@ -27,7 +27,7 @@ export const environment = {
       dashboard: 'http://localhost:4200',
       name: "DEV"
     },
-    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+    ccsContactUrl: "https://webdev.crowncommercial.gov.uk/contact"
   },
   googleTagMangerId: 'GTM-1',
   cookieExpirationTimeInMinutes: 10,// 525600 => 365 Days

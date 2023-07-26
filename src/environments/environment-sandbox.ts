@@ -28,7 +28,7 @@ export const environment = {
       dashboard: 'https://sand-ccs-sso.london.cloudapps.digital',
       name: "Sandbox"
     },
-    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+    ccsContactUrl: "https://webdev.crowncommercial.gov.uk/contact"
   },
   googleTagMangerId: 'GTM',
   cookieExpirationTimeInMinutes: 525600,
