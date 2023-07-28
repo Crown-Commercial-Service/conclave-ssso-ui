@@ -55,7 +55,7 @@
             Choose one option
           </legend>
           <div class="govuk-radios">
-            <div class="govuk-radios__item custom_radio" *ngFor="let item of items$! | async"
+            <div class="govuk-radios__item custom_radio" *ngFor="let item of newScheme | scheme"
               [class.govuk-form-group--error]="
                 submitted &&
                 (schemeSubjectObs | async) === item.scheme &&
@@ -88,42 +88,42 @@
                     </ng-template>
 
                     <P class="govuk-body govuk-!-font-weight-regular custom_span"
-                      *ngIf="item.schemeName === 'Companies House'">
+                      *ngIf="item.scheme === 'GB-COH'">
                       <span> Go to the </span>
                       <a href="https://find-and-update.company-information.service.gov.uk/?" class="navigation-text govuk-link"
                         rel="noreferrer noopener" target="_blank">Companies House</a>
                       <span> website to search for your organisation details</span>
                     </P>
                     <P class="govuk-body govuk-!-font-weight-regular custom_span"
-                      *ngIf="item.schemeName === 'Charity Commission for England and Wales'">
+                      *ngIf="item.scheme === 'GB-CHC'">
                       <span> Go to the </span>
                       <a href="https://register-of-charities.charitycommission.gov.uk/charity-search" class="navigation-text govuk-link"
                         rel="noreferrer noopener" target="_blank">Charity Commission for England and Wales</a>
                       <span> website to search for your organisation details</span>
                     </P>
                     <P class="govuk-body govuk-!-font-weight\regular custom_span"
-                      *ngIf="item.schemeName === 'Office of The Scottish Charity Regulator (OSCR)'">
+                      *ngIf="item.scheme === 'GB-SC'">
                       <span> Go to the </span>
                       <a href="https://www.oscr.org.uk/search/" class="navigation-text govuk-link" rel="noreferrer noopener"
                         target="_blank">Office of the Scottish Charity Regulator</a>
                       <span> website to search for your organisation details</span>
                     </P>
                     <P class="govuk-body govuk-!-font-weight-regular custom_span"
-                      *ngIf="item.schemeName === 'The Charity Commission for Northern Ireland'">
+                      *ngIf="item.scheme === 'GB-NIC'">
                       <span> Go to the </span>
                       <a href="https://www.charitycommissionni.org.uk/charity-search/?pageNumber=1" class="navigation-text govuk-link"
                         rel="noreferrer noopener" target="_blank">Charity Commission for Northern Ireland</a>
                       <span> website to search for your organisation details</span>
                     </P>
                     <P class="govuk-body govuk-!-font-weight-regular custom_span"
-                      *ngIf="item.schemeName === 'National Health Service Organisations Registry'">
+                      *ngIf="item.scheme === 'GB-NHS'">
                       <span> Go to the </span>
                       <a href="https://odsportal.digital.nhs.uk/Organisation/Search" class="navigation-text govuk-link"
                         rel="noreferrer noopener" target="_blank">National Health Service Organisations Registry</a>
                       <span> website to search for your organisation details</span>
                     </P>
                     <P class="govuk-body govuk-!-font-weight-regular custom_span"
-                      *ngIf="item.schemeName === 'Department for Education'">
+                      *ngIf="item.scheme === 'GB-EDU'">
                       <span> Go to the </span>
                       <a href="https://www.get-information-schools.service.gov.uk" class="navigation-text govuk-link"
                         rel="noreferrer noopener" target="_blank">Department for Education</a>
