@@ -40,6 +40,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
     isDunlength: false,
     DunData: '',
   };
+  public newScheme:any = []
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(private ref: ChangeDetectorRef,
@@ -56,7 +57,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
     this.items$ = this.ciiService.getSchemes().pipe(share());
     this.items$.subscribe({
       next: result => {
-        console.log(result);
+        this.newScheme = result
         this.scheme = result[0].scheme;
         this.schemeName = result[0].schemeName;
         localStorage.setItem('scheme_name', this.schemeName);
