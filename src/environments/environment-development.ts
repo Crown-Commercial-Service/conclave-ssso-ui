@@ -25,7 +25,7 @@ export const environment = {
         }
       },
       web: {
-        dashboard: 'http://dev-alb-frontend-1521951989.eu-west-2.elb.amazonaws.com'
+        dashboard: 'https://pathivu-new.dreamguystech.com/aws/'
       },
       ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
     },
