@@ -4,8 +4,8 @@ export const environment = {
     uri: {
       api: {
         isApiGateWayEnabled: false,
-        security: 'https://dev.api.crowncommercial.gov.uk/aws',
-        postgres: 'https://dev.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
+        security: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5004',
+        postgres: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5001',
         cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
@@ -16,11 +16,11 @@ export const environment = {
             dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/datamigration',
           },
           apiGatewayDisabled: {
-            user: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/users',
-            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/organisations',
-            contact: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/contacts',
-            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/configurations',
-            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/datamigration',
+            user: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/users',
+            organisation: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/organisations',
+            contact: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/contacts',
+            configuration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/configurations',
+            dataMigration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/datamigration',
           }
         }
       },
