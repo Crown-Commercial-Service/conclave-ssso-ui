@@ -3,11 +3,11 @@ export const environment = {
     idam_client_id: 'IDAM_ID',
     uri: {
         api: {
-            isApiGateWayEnabled: true,
+            isApiGateWayEnabled: false,
             //security: 'https://dev.security.conclave.crowncommercial.gov.uk',
-            security: 'https://dev.api.crowncommercial.gov.uk',
+            security: 'https://dev-api-security.london.cloudapps.digital',
             //postgres: 'https://dev.core.conclave.crowncommercial.gov.uk',
-            postgres: 'https://dev.api.crowncommercial.gov.uk/core',
+            postgres: 'https://dev-api-core.london.cloudapps.digital',
             //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
             wrapper: {
                 apiGatewayEnabled: {
@@ -18,11 +18,11 @@ export const environment = {
                     dataMigration: 'https://dev.api.crowncommercial.gov.uk/datamigration',
                 },
                 apiGatewayDisabled: {
-                    user: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/users',
-                    organisation: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/organisations',
-                    contact: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/contacts',
-                    configuration: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/configurations',
-                    dataMigration: 'https://dev-api-wrapper.london.cloudapps.digital/datamigration',
+                    user: 'https://dev-api-security.london.cloudapps.digital/users',
+                    organisation: 'https://dev-api-security.london.cloudapps.digital/organisations',
+                    contact: 'https://dev-api-security.london.cloudapps.digital/contacts',
+                    configuration: 'https://dev-api-security.london.cloudapps.digital/configurations',
+                    dataMigration: 'https://dev-api-security.london.cloudapps.digital/datamigration',
                 }
             }
         },
