@@ -25,7 +25,7 @@ export const environment = {
         }
       },
       web: {
-        dashboard: 'https://dev.identify.crowncommercial.gov.uk/aws'
+        dashboard: 'https://dev.identify.crowncommercial.gov.uk'
       },
       ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
     },
