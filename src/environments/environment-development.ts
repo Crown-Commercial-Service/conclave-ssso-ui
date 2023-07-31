@@ -3,17 +3,17 @@ export const environment = {
     idam_client_id:'%IDAM%',
     uri: {
       api: {
-        isApiGateWayEnabled: false,
-        security: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5004',
-        postgres: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5001',
+        isApiGateWayEnabled: true,
+        security: 'https://dev.api.crowncommercial.gov.uk/aws',
+        postgres: 'https://dev.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
         cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
-            user: 'https://dev.api.crowncommercial.gov.uk/aws/user-profile',
-            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/organisation-profile',
-            contact: 'https://dev.api.crowncommercial.gov.uk/aws/contact-service',
-            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/configuration-service',
-            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/datamigration',
+            user: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/users',
+            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/organisations',
+            contact: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/contacts',
+            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/configurations',
+            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/datamigration',
           },
           apiGatewayDisabled: {
             user: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/users',
@@ -25,7 +25,7 @@ export const environment = {
         }
       },
       web: {
-        dashboard: 'http://dev-alb-frontend-1521951989.eu-west-2.elb.amazonaws.com'
+        dashboard: 'https://dev.identify.crowncommercial.gov.uk'
       },
       ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
     },
