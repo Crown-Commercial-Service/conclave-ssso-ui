@@ -28,7 +28,7 @@ export const environment = {
         },
         web: {
             //dashboard: 'https://dev.sso.conclave.crowncommercial.gov.uk'
-            dashboard: 'https://dev.identify.crowncommercial.gov.uk',
+            dashboard: 'https://dev-ccs-sso.london.cloudapps.digital',
             name: "DEV" 
         },
         ccsContactUrl: "https://webdev.crowncommercial.gov.uk/contact"
