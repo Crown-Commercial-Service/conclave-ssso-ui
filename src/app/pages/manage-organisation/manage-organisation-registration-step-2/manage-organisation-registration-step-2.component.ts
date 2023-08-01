@@ -52,7 +52,7 @@ export class ManageOrgRegStep2Component
   };
   public pageAccessMode:any;
   submitted: boolean = false;
-
+  public newScheme:any = []
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -83,6 +83,7 @@ export class ManageOrgRegStep2Component
     this.items$ = this.ciiService.getSchemes().pipe(share());
     this.items$.subscribe({
       next: (result) => {
+        this.newScheme = result
         this.scheme = result[0].scheme;
         this.schemeName = result[0].schemeName;
         localStorage.setItem('scheme_name', this.schemeName);
