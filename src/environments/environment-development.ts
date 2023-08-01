@@ -72,4 +72,3 @@ export const environment = {
      blockedScheme: ['GB-EDU',"GB-PPG"]
     },
   };
-  
