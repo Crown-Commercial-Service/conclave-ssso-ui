@@ -1,77 +1,74 @@
 export const environment = {
     production: true,
-    idam_client_id: 'IDAM_ID',
+    idam_client_id:'%IDAM%',
     uri: {
-        api: {
-            isApiGateWayEnabled: true,
-            //security: 'https://dev.security.conclave.crowncommercial.gov.uk',
-            security: 'https://dev.api.crowncommercial.gov.uk',
-            //postgres: 'https://dev.core.conclave.crowncommercial.gov.uk',
-            postgres: 'https://dev.api.crowncommercial.gov.uk/core',
-            //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
-            wrapper: {
-                apiGatewayEnabled: {
-                    user: 'https://dev.api.crowncommercial.gov.uk/user-profiles',
-                    organisation: 'https://dev.api.crowncommercial.gov.uk/organisation-profiles',
-                    contact: 'https://dev.api.crowncommercial.gov.uk/contacts',
-                    configuration: 'https://dev.api.crowncommercial.gov.uk/configurations',
-                    dataMigration: 'https://dev.api.crowncommercial.gov.uk/datamigration',
-                },
-                apiGatewayDisabled: {
-                    user: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/users',
-                    organisation: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/organisations',
-                    contact: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/contacts',
-                    configuration: 'https://dev.wrapper.conclave.crowncommercial.gov.uk/configurations',
-                    dataMigration: 'https://dev-api-wrapper.london.cloudapps.digital/datamigration',
-                }
-            }
-        },
-        web: {
-            //dashboard: 'https://dev.sso.conclave.crowncommercial.gov.uk'
-            dashboard: 'https://dev.identify.crowncommercial.gov.uk'
-        },
-        ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+      api: {
+        isApiGateWayEnabled: true,
+        security: 'https://dev.api.crowncommercial.gov.uk/aws',
+        postgres: 'https://dev.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
+        cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
+        wrapper: {
+          apiGatewayEnabled: {
+            user: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/users',
+            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/organisations',
+            contact: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/contacts',
+            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/configurations',
+            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/datamigration',
+          },
+          apiGatewayDisabled: {
+            user: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/users',
+            organisation: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/organisations',
+            contact: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/contacts',
+            configuration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/configurations',
+            dataMigration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/datamigration',
+          }
+        }
+      },
+      web: {
+        dashboard: 'https://dev.identify.crowncommercial.gov.uk'
+      },
+      ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
     },
-    googleTagMangerId: 'GTM',
+    googleTagMangerId: 'GTM-TZCX5VP',
     cookieExpirationTimeInMinutes: 525600,
     bulkUploadPollingFrequencyInSeconds: 5,
-    bulkUploadMaxFileSizeInBytes: 1048576,
-    bulkUploadTemplateFileUrl: 'BUCKET_URL', // Put the publicly accessible url of the template file
+    bulkUploadMaxFileSizeInBytes:1048576,
+    bulkUploadTemplateFileUrl: 'https://dev.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
     usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
     listPageSize: 10,
     mailDecryptKey:'conclavesimpleemailencrypt',
     rollbar: {
-        key: 'ROLLBAR',
-        enable: true,
-        security_log: false,
-        environment: 'dev-ccs-sso'
+      key: '%ROLLBAR%',
+      enable : false,
+      security_log: false,
+      environment: 'dev-ccs-sso'
     },
     cookies_policy: {
-        essentialcookies: {
-            notify_admin_session: 20,
-            cookie_policy: 1,
-            ccs_sso_visitedsites: 60,
-            opbs: 60,
-            ccs_sso: 60,
-            conclave: 60,
-            XSRF_TOKEN: 30,
-            XSRF_TOKEN_SVR: 30,
-            AspNetCore_Antiforgery_GWNWkbbyKbw: 30
-        },
-        Auth0cookies: {
-            auth0_compat: 3,
-            did_compat: 6,
-            did: 6,
-            auth0: 3,
-            __cf_bm: 30
-        },
+      essentialcookies: {
+          notify_admin_session: 20,
+          cookie_policy: 1,
+          ccs_sso_visitedsites: 60,
+          opbs: 60,
+          ccs_sso: 60,
+          conclave: 60,
+          XSRF_TOKEN: 30,
+          XSRF_TOKEN_SVR: 30,
+          AspNetCore_Antiforgery_GWNWkbbyKbw: 30
+      },
+      Auth0cookies: {
+          auth0_compat: 3,
+          did_compat: 6,
+          did: 6,
+          auth0: 3,
+          __cf_bm: 30
+      },
     },
     appSetting: {
-     hideIDP:true,
+     hideIDP:false,
      hideDelegation:false,
      hideBulkupload:false,
      hideAutoValidation:false,
      hideSimplifyRole:false,
-     blockedScheme: ["GB-PPG"],
+     blockedScheme: ['GB-EDU',"GB-PPG"]
     },
-};
+  };
