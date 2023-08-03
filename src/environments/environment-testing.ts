@@ -4,8 +4,8 @@ export const environment = {
   uri: {
     api: {
       isApiGateWayEnabled: false,
-      security: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5004',
-      postgres: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5001',
+      security: 'https://tst.api.crowncommercial.gov.uk/aws',
+      postgres: 'https://tst.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
       cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
@@ -16,11 +16,11 @@ export const environment = {
           dataMigration: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5000/datamigration',
         },
         apiGatewayDisabled: {
-          user: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5000/users',
-          organisation: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5000/organisations',
-          contact: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5000/contacts',
-          configuration: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5000/configurations',
-          dataMigration: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5000/datamigration',
+          user: 'https://tst.api.crowncommercial.gov.uk/aws/wrapper/users',
+          organisation: 'https://tst.api.crowncommercial.gov.uk/aws/wrapper/organisations',
+          contact: 'https://tst.api.crowncommercial.gov.uk/aws/wrapper/contacts',
+          configuration: 'https://tst.api.crowncommercial.gov.uk/aws/wrapper/configurations',
+          dataMigration: 'https://tst.api.crowncommercial.gov.uk/aws/wrapper/datamigration',
           
         }
       }
