@@ -141,7 +141,7 @@ export class AuthService {
 
   resetPassword(userName: string): Observable<any> {
     var changepwd = { "userName": userName }
-    return this.httpService.post(`${this.url}/security/password-reset-requests`, changepwd);
+    return this.httpService.post(`${this.url}/security/users/reset`, changepwd);
   }
 
   token(code: string): Observable<any> {
