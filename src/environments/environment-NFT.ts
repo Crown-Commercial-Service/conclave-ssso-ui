@@ -57,7 +57,8 @@ export const environment = {
 
     },
 
-    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact"
+    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
+    ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
 
   },
 
