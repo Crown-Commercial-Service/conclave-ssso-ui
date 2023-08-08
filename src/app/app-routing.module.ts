@@ -201,7 +201,7 @@ const routes: Routes = [
   },
   {
     path: 'contact-admin',
-    data: { title: 'contact-admin', roles: ['MANAGE_MY_ACCOUNT'] },
+    data: { title: 'Contact my administrator', roles: ['MANAGE_MY_ACCOUNT'] },
     canActivate: [AuthGuard, RoleGuard],
     pathMatch: 'full',
     component: ContactAdminComponent,
@@ -344,7 +344,7 @@ const routes: Routes = [
   },
   {
     path: 'manage-org/register/type',
-    data: { title: 'Buyer/Supplier Type - Registration' },
+    data: { title: 'Organisation type' },
     pathMatch: 'full',
     component: ManageOrgRegRightToBuyComponent,
   },

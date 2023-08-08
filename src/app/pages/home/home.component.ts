@@ -173,43 +173,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   loadActivities(e: any) {
-    if (e.permissionName === 'MANAGE_USERS') {
-      if (
-        this.systemModules.findIndex((x) => x.name === 'Manage users') === -1
-      ) {
-        this.systemModules.push({
-          name: 'Manage users',
-          description: 'Create and manage users and what they can do',
-          route: '/manage-users',
-        });
-      }
-    }
-    if (e.permissionName === 'MANAGE_ORGS') {
-      if (
-        this.systemModules.findIndex(
-          (x) => x.name === 'Manage organisation(s)'
-        ) === -1
-      ) {
-        this.systemModules.push({
-          name: 'Manage organisation(s)',
-          description: 'View details for your organisation',
-          route: '/manage-org/profile',
-        });
-
-
-      }
-    }
-    if (e.permissionName === 'MANAGE_GROUPS') {
-      if (
-        this.systemModules.findIndex((x) => x.name === 'Manage groups') === -1
-      ) {
-        this.systemModules.push({
-          name: 'Manage groups',
-          description: 'Create groups and organize users',
-          route: '/manage-groups',
-        });
-      }
-    }
     if (e.permissionName === 'MANAGE_MY_ACCOUNT') {
       if (
         this.systemModules.findIndex((x) => x.name === 'Manage my account') ===
@@ -219,10 +182,50 @@ export class HomeComponent extends BaseComponent implements OnInit {
           name: 'Manage my account',
           description: 'Manage your details',
           route: '/profile',
+          orderId : 1
         });
       }
     }
+    if (e.permissionName === 'MANAGE_ORGS') {
+      if (
+        this.systemModules.findIndex(
+          (x) => x.name === 'Manage organisation'
+        ) === -1
+      ) {
+        this.systemModules.push({
+          name: 'Manage organisation',
+          description: 'View details for your organisation',
+          route: '/manage-org/profile',
+          orderId : 2
+        });
 
+
+      }
+    }
+    if (e.permissionName === 'MANAGE_USERS') {
+      if (
+        this.systemModules.findIndex((x) => x.name === 'Manage users') === -1
+      ) {
+        this.systemModules.push({
+          name: 'Manage users',
+          description: 'Create and manage users and what they can do',
+          route: '/manage-users',
+          orderId : 3
+        });
+      }
+    }
+    if (e.permissionName === 'MANAGE_GROUPS') {
+      if (
+        this.systemModules.findIndex((x) => x.name === 'Manage groups') === -1
+      ) {
+        this.systemModules.push({
+          name: 'Manage groups',
+          description: 'Create groups and organise users',
+          route: '/manage-groups',
+          orderId : 4
+        });
+      }
+    }
     if (e.permissionName === 'DELEGATED_ACCESS' && this.isDelegation) {
       if (this.systemModules.findIndex((x) => x.name === 'Delegated access') ===
         -1) {
@@ -230,10 +233,25 @@ export class HomeComponent extends BaseComponent implements OnInit {
           name: 'Delegated access',
           description: 'Manage delegated access to your approved services',
           route: '/delegated-access',
+          orderId : 5
         });
       }
     }
-
+ 
+    if (e.permissionName === 'ORG_USER_SUPPORT') {
+      if (
+        this.otherModules.findIndex(
+          (x) => x.name === 'Organisation users support'
+        ) === -1
+      ) {
+        this.otherModules.push({
+          name: 'Organisation users support',
+          description: 'Support for users of other organisations',
+          route: '/org-support/search',
+          orderId : 1
+        });
+      }
+    }
     if (e.permissionName === 'MANAGE_SUBSCRIPTIONS') {
       if (
         this.otherModules.findIndex(
@@ -245,12 +263,14 @@ export class HomeComponent extends BaseComponent implements OnInit {
             name: 'Manage service eligibility',
             description: 'Manage services and roles for organisations',
             route: '/buyer/search',
+            orderId : 2
           });
         } else {
           this.otherModules.push({
             name: 'Manage service eligibility',
             description: 'Manage organisations’ type and services',
             route: '/buyer/search',
+            orderId : 2
           });
         }
       }
@@ -263,21 +283,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
         name: 'Manage Buyer status requests',
         description: 'Verify and approve or decline Buyer status requests',
         route: '/manage-buyer-both',
+        orderId : 3
       });
     }
-    }
-    if (e.permissionName === 'ORG_USER_SUPPORT') {
-      if (
-        this.otherModules.findIndex(
-          (x) => x.name === 'Organisation users support'
-        ) === -1
-      ) {
-        this.otherModules.push({
-          name: 'Organisation users support',
-          description: 'Support for users of other organisations',
-          route: '/org-support/search',
-        });
-      }
     }
     if (e.permissionName === 'DATA_MIGRATION_DS') {
       if (this.otherModules.findIndex((x) => x.name === 'Data Migration') ===
@@ -286,6 +294,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
           name: 'Data Migration',
           description: 'Migrate Users and Organisations',
           route: '/data-migration/upload',
+          orderId : 4
         });
       }
     }
@@ -303,6 +312,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
             name: 'Manage my delegated access',
             description: 'Switch between your primary and delegating Organisation',
             route: '/delegated-organisation',
+            orderId : 6
           });
         }
       },
