@@ -9,11 +9,11 @@ export const environment = {
         cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
-            user: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/users',
-            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/organisations',
-            contact: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/contacts',
-            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/configurations',
-            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/datamigration',
+            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/users',
+            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/organisations',
+            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/contacts',
+            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/configurations',
+            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/datamigration',
           },
           apiGatewayDisabled: {
             user: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/users',
