@@ -139,7 +139,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div id="GROUPS">
                     <h2 class="govuk-heading-s"> {{ 'GROUPS' | translate }}</h2>
                     <app-details [detailsData]="detailsData[1]"></app-details>
                     <p>
@@ -343,7 +343,7 @@
                         [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.groupservices}">
                         <h2 class="govuk-heading-m">Group access</h2>
                         <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 && isAdminUser == true">{{
-                            'ORG_ADMIN_GROUP_ACCESS'| translate }}</p>
+                            'ORG_ADMIN_GROUP_ACCESS'| translate }} <a class="navigation-text" (click)="scrollContent('GROUPS')">manage group membership</a> {{'ORG_ADMIN_GROUP_MEMBER' | translate}}</p>
                         <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 && isAdminUser == false ">{{
                             'ORG_USER_GROUP_ACCESS'| translate }}</p>
 

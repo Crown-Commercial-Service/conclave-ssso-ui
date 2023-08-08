@@ -58,8 +58,8 @@ export const environment = {
 
     },
 
-    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
-
+    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact",
+    ccsDashboardUrl: "https://www.crowncommercial.gov.uk"
   },
 
   googleTagMangerId: 'GTM',
