@@ -32,7 +32,8 @@ export const environment = {
       dashboard: 'https://uat.identify.crowncommercial.gov.uk',
       name: "UAT"
     },
-    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact"
+    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
+    ccsDashboardUrl: "https://webdev.crowncommercial.gov.uk"
   },
 
   googleTagMangerId: 'GTM',
