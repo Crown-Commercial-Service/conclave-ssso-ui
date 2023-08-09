@@ -4,7 +4,7 @@ export const environment = {
     uri: {
       api: {
         isApiGateWayEnabled: true,
-        security: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5004',
+        security: 'https://dev.ppg-sso-service.crowncommercial.gov.uk',
         postgres: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/dashboard-wrapper',
         cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
