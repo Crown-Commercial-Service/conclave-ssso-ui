@@ -28,7 +28,7 @@
     "bootstrap": "^4.6.0",
     "crypto": "^1.0.1",
     "crypto-js": "^4.1.1",
-    "google-libphonenumber": "^3.2.23",
+    "google-libphonenumber": "^3.2.33",
     "govuk-frontend": "^3.13.1",
     "intl-tel-input": "^17.0.13",
     "jw-angular-pagination": "^1.2.0",
