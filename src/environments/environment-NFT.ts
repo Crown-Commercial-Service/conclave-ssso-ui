@@ -12,7 +12,7 @@ export const environment = {
 
       security: 'https://nft.api.crowncommercial.gov.uk',
 
-      postgres: 'https://nft.api.crowncommercial.gov.uk/core',
+      postgres: 'https://nft.api.crowncommercial.gov.uk/dashboard-wrapper',
 
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
 
@@ -28,7 +28,6 @@ export const environment = {
 
           configuration: 'https://nft.api.crowncommercial.gov.uk/configurations',
 
-          dataMigration: 'https://nft.api.crowncommercial.gov.uk/datamigration',
 
         },
 
@@ -42,7 +41,6 @@ export const environment = {
 
           configuration: 'https://NFT-api-wrapper.london.cloudapps.digital/configurations',
 
-          dataMigration: 'https://NFT-api-wrapper.london.cloudapps.digital/datamigration',
 
         }
 
