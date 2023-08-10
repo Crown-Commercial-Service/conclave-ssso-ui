@@ -117,7 +117,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     headerTextKey: "groupName",
     accessTable: "noneGroupsMember",
     noRoleText: "This group is not assigned with access to any service.",
-    noDatanoneGroupsMemberMessage: "There are no unassiged groups available for you.",
+    noDatanoneGroupsMemberMessage: "There are no unassigned groups available for you.",
     groupShow: false,
     data: []
   }
@@ -850,5 +850,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
     });
     this.orgUserGroupRoles = this.orgUserGroupRoles.filter((item: any) => item.id !== defaultUserRoleId);
+  }
+
+  public scrollContent(id: string): void {
+    document.getElementById(id)?.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+    });
   }
 }

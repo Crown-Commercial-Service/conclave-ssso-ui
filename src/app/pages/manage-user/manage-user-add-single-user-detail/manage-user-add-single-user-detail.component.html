@@ -163,7 +163,7 @@
                         </fieldset>
                     </div>
                     <fieldset class="govuk-fieldset">
-                        <legend class="govuk-heading-s">
+                        <legend class="govuk-heading-s" id="GROUPS">
                             {{ 'GROUPS'| translate }} (optional)
                         </legend>
                         <app-details [detailsData]="detailsData[1]"></app-details>
@@ -357,7 +357,9 @@
                                 <div class="govuk-tabs__panel" id="group-service" [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.groupservices}">
                                     <h2 class="govuk-heading-m">Group access</h2>
                                     <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 ? true : false">{{ 'ACCESS_TO_GROUP_SEVICE'| translate }}</p>
-                                    <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 ? true : false">{{ 'NO_GROUP_ROLE_ACCESS_ADDUSER'| translate }}</p>
+                                    <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 ? true : false">{{ 'NO_GROUP_ROLE_ACCESS_ADDUSER'| translate }} 
+                                        <a class="navigation-text" (click)="scrollContent('GROUPS')">manage group membership</a> {{'NO_GROUP_ROLE_ACCESS_ADDUSER_END' | translate}}
+                                    </p>
                                     <div class="govuk-checkboxes govuk-checkboxes-custom-input">
                                         <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgRole of orgUserGroupRoles; let i=index">
                                             <input class="govuk-checkboxes__input" id="{{'orgRoleControlGroup_' + orgRole.id}}"
