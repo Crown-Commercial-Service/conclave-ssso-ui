@@ -26,9 +26,10 @@ export const environment = {
       }
     },
     web: {
-      dashboard: 'http://test-alb-frontend-527952456.eu-west-2.elb.amazonaws.com'
+      dashboard: 'http://test-alb-frontend-527952456.eu-west-2.elb.amazonaws.com',
+      name: "TEST"
     },
-    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact"
   },
   
   googleTagMangerId: 'GTM',
