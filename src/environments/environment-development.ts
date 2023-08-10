@@ -9,18 +9,18 @@ export const environment = {
         cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
-            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/users',
-            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/organisations',
-            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/contacts',
-            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/configurations',
-            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/datamigration',
+            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/user-profile',
+            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
+            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/contact-service',
+            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
+            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/migrations',
           },
           apiGatewayDisabled: {
-            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/users',
-            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/organisations',
-            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/contacts',
-            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/configurations',
-            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/datamigration',
+            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/user-profile',
+            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
+            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/contact-service',
+            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
+            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/migrations',
           }
         }
       },
