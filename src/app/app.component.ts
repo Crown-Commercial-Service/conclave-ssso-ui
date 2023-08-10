@@ -22,7 +22,7 @@ import { GoogleTagManagerService } from 'angular-google-tag-manager';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  public home = environment.uri.web.dashboard
+  public home = environment.uri.ccsDashboardUrl
   @HostBinding('class') className = '';
   public sideNavVisible$: Observable<boolean>;
   public IsActivePage:string=''
