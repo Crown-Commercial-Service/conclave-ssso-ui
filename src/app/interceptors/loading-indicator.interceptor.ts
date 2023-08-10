@@ -22,7 +22,7 @@ export class LoadingIndicatorInterceptor implements HttpInterceptor {
       `${environment.uri.api.security}/security/authorize`,
       `${environment.uri.api.security}/security/token`,
       `${environment.uri.api.postgres}/auth/refresh-tokens`,
-      `${environment.uri.api.postgres}/authorization​/sessions`,
+      `${environment.uri.api.postgres}/authorization/sessions`,
       `${environment.uri.api.postgres}/organisations/orgs-by-name`
     ];
   }
