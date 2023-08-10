@@ -1,32 +1,32 @@
 export const environment = {
   production: true,
-  idam_client_id:'IDAM_ID',
+  idam_client_id:'%IDAM%',
   uri: {
     api: {
-      isApiGateWayEnabled: true,
-      security: 'https://tst.api.crowncommercial.gov.uk',
-      postgres: 'https://tst.api.crowncommercial.gov.uk/core',
+      isApiGateWayEnabled: false,
+      security: 'https://tst.api.crowncommercial.gov.uk/aws',
+      postgres: 'https://tst.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
       cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://tst.api.crowncommercial.gov.uk/user-profiles',
-          organisation: 'https://tst.api.crowncommercial.gov.uk/organisation-profiles',
-          contact: 'https://tst.api.crowncommercial.gov.uk/contacts',
-          configuration: 'https://tst.api.crowncommercial.gov.uk/configurations',
-          dataMigration: 'https://tst.api.crowncommercial.gov.uk/datamigration',
+          user: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5000/user-profiles',
+          organisation: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5000/organisation-profiles',
+          contact: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5000/contacts',
+          configuration: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5000/configurations',
+          dataMigration: 'http://test-alb-backend-1815036124.eu-west-2.elb.amazonaws.com:5000/datamigration',
         },
         apiGatewayDisabled: {
-          user: 'https://test-api-wrapper.london.cloudapps.digital/users',
-          organisation: 'https://test-api-wrapper.london.cloudapps.digital/organisations',
-          contact: 'https://test-api-wrapper.london.cloudapps.digital/contacts',
-          configuration: 'https://test-api-wrapper.london.cloudapps.digital/configurations',
-          dataMigration: 'https://test-api-wrapper.london.cloudapps.digital/datamigration',
+          user: 'https://tst.api.crowncommercial.gov.uk/aws/wrapper/users',
+          organisation: 'https://tst.api.crowncommercial.gov.uk/aws/wrapper/organisations',
+          contact: 'https://tst.api.crowncommercial.gov.uk/aws/wrapper/contacts',
+          configuration: 'https://tst.api.crowncommercial.gov.uk/aws/wrapper/configurations',
+          dataMigration: 'https://tst.api.crowncommercial.gov.uk/aws/wrapper/datamigration',
           
         }
       }
     },
     web: {
-      dashboard: 'https://test.identify.crowncommercial.gov.uk',
+      dashboard: 'http://test-alb-frontend-527952456.eu-west-2.elb.amazonaws.com',
       name: "TEST"
     },
     ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact"
@@ -36,12 +36,12 @@ export const environment = {
   cookieExpirationTimeInMinutes: 525600,
   bulkUploadPollingFrequencyInSeconds: 5,
   bulkUploadMaxFileSizeInBytes:1048576,
-  bulkUploadTemplateFileUrl: 'BUCKET_URL', // Put the publicly accessible url of the template file
+  bulkUploadTemplateFileUrl: 'https://tst.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv', // Put the publicly accessible url of the template file
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
   mailDecryptKey:'conclavesimpleemailencrypt',
   rollbar: {
-        key: 'ROLLBAR',
+        key: '%ROLLBAR%',
         enable : false,
         security_log:false,
         environment: 'test-ccs-sso'
