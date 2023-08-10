@@ -1,4 +1,4 @@
-<div class="table-scroll">
+<div class="table-scrolls">
   <table class="govuk-table" *ngIf="tableVisibleData.length != 0; else no_results">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
@@ -21,8 +21,8 @@
               : ''
           ]" [ngClass]="{'isDisabled': dataRow['isDisable']  == true}" [ngClass]="[ dataRow['serviceView'] == true ? 'role_group_table' : '']">
           <span *ngIf="findDateKey(dataKey)">
-            {{dataRow[dataKey] | date: 'dd/MM/yyyy'}} <br>
-            <span *ngIf="findDateKey(dataKey) && pageName != 'Delegatedaccess'">{{ dataRow[dataKey] | date: 'HH:mm'}}</span>
+            {{ helperservice.convertToLocalDateTime(dataRow[dataKey]) | date: 'dd/MM/yyyy'}} <br>
+            <span *ngIf="findDateKey(dataKey) && pageName != 'Delegatedaccess'">{{ helperservice.convertToLocalDateTime(dataRow[dataKey]) | date: 'HH:mm'}}</span>
           </span>
           <span *ngIf="dataKey == 'owner'">
             <span *ngIf="dataRow['defaultOwnerChanges'] == false">
@@ -47,6 +47,9 @@
             <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'userName' && dataRow['isAdmin']) ||
             (dataKey === 'userId' && dataRow['isAdmin'])">
               Admin
+            </strong>
+            <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'groupName' && dataRow['groupType'] == '1') ">
+              Default Group
             </strong>
           </span>
           <br>
@@ -113,25 +116,26 @@
     tableVisibleData.length != 0
   " class="pagination-area" aria-label="Pagination">
   <ul>
-    <li>
-      <a *ngIf="currentPage != 1" href="javascript:;" (click)="onSetPageClick(currentPage - 1)" aria-label="Previous">
-        <span>{{ "PREVIOUS" | translate }}</span>
-      </a>
-      <a *ngIf="currentPage == 1" class="disabled" aria-label="Previous">
+    <li (click)="onSetPageClick(currentPage - 1)" *ngIf="currentPage != 1">
+      <a  href="javascript:;"  aria-label="Previous" class="govuk-pagination__link-title">
+        <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+          <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+        </svg>
         <span>{{ "PREVIOUS" | translate }}</span>
       </a>
     </li>
-    <li *ngFor="let page of totalPagesArray">
-      <a href="javascript:;" [class.active]="page == currentPage" (click)="onSetPageClick(page)">
+    <li *ngFor="let page of getPaginationData(); let i = index"  [class.active]="page == currentPage" [ngClass]="{'custom-listing': page === '...'}" (click)="onSetPageClick(page)">
+      <a *ngIf="page !== '...'" href="javascript:;"  >
         {{ page }}</a>
+        <span  *ngIf="page === '...'">{{ page }}</span>
     </li>
-    <li class="inline-list">
-      <a *ngIf="currentPage != pageCount" href="javascript:;" (click)="onSetPageClick(currentPage + 1)"
-        aria-label="Next">
+    <li class="inline-list" *ngIf="currentPage != pageCount" (click)="onSetPageClick(currentPage + 1)">
+      <a  href="javascript:;" 
+        aria-label="Next" class="govuk-pagination__link-title">
         <span>{{ "NEXT" | translate }}</span>
-      </a>
-      <a *ngIf="currentPage == pageCount" class="disabled" aria-label="Next">
-        <span>{{ "NEXT" | translate }}</span>
+        <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+          <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+        </svg>
       </a>
     </li>
   </ul>

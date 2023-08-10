@@ -5,6 +5,9 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 import { BaseComponent } from '../base/base.component';
+import { HelperService } from 'src/app/shared/helper.service';
+import { PaginationService } from 'src/app/shared/pagination.service';
+
 @Component({
   selector: 'app-custom-govuk-table',
   templateUrl: './custom-govuk-table.component.html',
@@ -31,13 +34,13 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   @Output() radioClickEvent = new EventEmitter<any>();
   @Output() changeCurrentPageEvent = new EventEmitter<number>();
 
-  pageCount?: number;
+  pageCount?: number | any;
   currentPage: number = 1;
   totalPagesArray: number[] = [];
   pageSize: number = environment.listPageSize;
   tableVisibleData!: any[];
   constructor(
-    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,public helperservice:HelperService,private PaginationService:PaginationService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
@@ -60,7 +63,14 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
     this.hyperLinkClickEvent.emit(dataRow);
   }
 
-  public onSetPageClick(pageNumber: number) {
+  public onSetPageClick(pageNumber: any) {
+    if(pageNumber === '...') {
+      return
+    }
       this.changeCurrentPageEvent.emit(pageNumber);
   }
+
+  public getPaginationDataForCustom(): Array<any> {
+    return this.PaginationService.getVisibleDots(this.currentPage,this.pageCount)
+   }
 }

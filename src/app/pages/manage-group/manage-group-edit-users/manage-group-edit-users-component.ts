@@ -47,7 +47,9 @@ export class ManageGroupEditUsersComponent
   usersTableHeaders = ['NAME', 'EMAIL', 'SELECT_USER'];
   usersColumnsToDisplay = ['name', 'userName'];
   userGridSource: CheckBoxUserListGridSource[] = [];
+  public userName = ''
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole
+  groupType: number = 0;
   constructor(
     protected uiStore: Store<UIState>,
     private router: Router,
@@ -63,9 +65,10 @@ export class ManageGroupEditUsersComponent
     if (queryParams.data) {
       let routeData = JSON.parse(queryParams.data);
       this.isEdit = routeData['isEdit'];
-      console.log("this.isEdit",this.isEdit)
       this.editingGroupId = routeData['groupId'];
+      this.groupType = routeData['groupType'];
       this.groupName = sessionStorage.getItem('Gname') || '';
+      this.userName = localStorage.getItem('user_name') || '';
     }
     var existingUsersString = sessionStorage.getItem('group_existing_users');
     var addingUsersString = sessionStorage.getItem('group_added_users');
@@ -119,7 +122,8 @@ export class ManageGroupEditUsersComponent
                 name: orgUser.name,
                 userName: orgUser.userName,
                 isChecked: isChecked,
-                isAdmin: orgUser.isAdmin
+                isAdmin: orgUser.isAdmin,
+                isDisable: this.isAdminGroupAndUser(orgUser.userName)
               };
               this.userGridSource.push(userGridSourceObject);
             });
@@ -220,5 +224,14 @@ export class ManageGroupEditUsersComponent
     this.router.navigateByUrl(
       'manage-groups/view?data=' + JSON.stringify(data)
     );
+  }
+
+  public isAdminGroupAndUser(totalUserName:string){
+    let isAdmin =  totalUserName === this.userName
+    if(isAdmin && this.groupType == 1){
+      return true
+    } else {
+      return false
+    }
   }
 }

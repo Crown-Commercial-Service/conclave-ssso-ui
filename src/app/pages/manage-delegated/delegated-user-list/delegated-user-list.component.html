@@ -34,9 +34,6 @@
     </div>
 </div>
 <div class="govuk-tabs" data-module="govuk-tabs">
-    <h2 class="govuk-tabs__title">
-        testing
-    </h2>
     <ul class="govuk-tabs__list">
       <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.currentusers}" (click)="tabChanged('currentusers')">
         <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
@@ -49,8 +46,9 @@
         </a>
       </li>
     </ul>
-    <div class="govuk-tabs__panel" id="past-day" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.expiredusers}">
-<div class="govuk-grid-row">
+    <div class="govuk-tabs__panel" id="currentusers" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.expiredusers}">
+    <h2 class="govuk-heading-m">Current users with delegated access to your Organisation</h2>
+    <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <div class="user-table">
             <app-govuk-table [headerTextKeys]="currentUserstableConfig.usersTableHeaders" [data]="currentUserstableConfig.userList.userList"
@@ -62,7 +60,8 @@
     </div>
 </div>
     </div>
-    <div class="govuk-tabs__panel" id="past-week" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.currentusers}">
+    <div class="govuk-tabs__panel" id="expiredusers" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.currentusers}">
+    <h2 class="govuk-heading-m">Users with expired delegated access to your Organisation</h2>
       <div class="user-table">
         <app-govuk-table [headerTextKeys]="expiredUserstableConfig.usersTableHeaders" [data]="expiredUserstableConfig.userList.userList"
         [dataKeys]="expiredUserstableConfig.usersColumnsToDisplay" [isHyperLinkVisible]="false"

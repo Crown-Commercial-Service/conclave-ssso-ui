@@ -107,7 +107,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     headerTextKey: "groupName",
     accessTable: "groupsMember",
     noRoleText: "You do not have access to any service through membership of this group.",
-    noDataGroupsMemberMessage: "You are not member of any group.",
+    noDataGroupsMemberMessage: "You are not a member of any group.",
     groupShow: true,
     data: [],
   }
@@ -712,6 +712,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   private matchGroupIds(isGroupOfUser:any,group:any){
+    group.disabled = (group.groupType === 1) ? true : null;
     if (isGroupOfUser) {
       this.setPendingApproveForGroup(group)
       group.checked = true
@@ -740,7 +741,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       const hasMatchingRole = this.orgUserGroupRoles.some(role => role.id === element.id);
       if (!hasMatchingRole && (element.approvalStatus === 0 || element.approvalStatus === 1)) {
         element.serviceView = true;
-        this.orgUserGroupRoles.push(element);
+        if(element.name != "Organisation Administrator"){
+          this.orgUserGroupRoles.push(element);
+        }
       }
     }
     this.setGroupAdmin()
@@ -798,7 +801,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   public tabChanged(activetab: string): void {
-    if (activetab === 'userservices') {
+    document.getElementById(activetab)?.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+    });
+    if (activetab === 'user-service') {
       this.tabConfig.userservices = true
       this.tabConfig.groupservices = false
     } else {
@@ -831,7 +838,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   public onUserTypeChanged(event:any){
-    console.log("evesssnt",event)
+    console.log("disable event")
   }
 
   private removeDefaultUserRoleFromServiceRole(){

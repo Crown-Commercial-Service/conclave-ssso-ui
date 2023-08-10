@@ -35,6 +35,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   usersColumnsToDisplay = ['name', 'userId', 'userPendingRoleStatus'];
   rolesTableHeaders = ['NAME'];
   roesColumnsToDisplay = ['name'];
+  isAdminGroup: boolean = false;
   detailsData = [
     'The roles selected here will set what services are available to the users in this group.',
     'Enable two-factor authentication to improve the security of your account. Additional security is required for administrator accounts.',
@@ -56,6 +57,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       groupId: 0,
       mfaEnabled: false,
       groupName: '',
+      groupType: 0,
       roles: [],
       users: [],
       serviceRoleGroups: []
@@ -91,7 +93,9 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
           group.roles.forEach((f: any) => {
             f.serviceView = !this.showRoleView
           })
-          this.group = group;
+          this.group = group;          
+          this.isAdminGroup = this.group.groupType == '1'? true : false;
+          
           this.removeUserService();          
           this.group.users.forEach((f: any) => {
             f.userPendingRoleStatus = this.getUserPendingRoleStatusMessage(f.userPendingRoleStatus);
@@ -141,6 +145,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     let data = {
       isEdit: this.isEdit,
       groupId: this.editingGroupId,
+      groupType:this.group.groupType
     };
     this.router.navigateByUrl(
       'manage-groups/edit-users?data=' + JSON.stringify(data)
