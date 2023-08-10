@@ -5,7 +5,7 @@ export const environment = {
     api: {
       isApiGateWayEnabled: false,
       security: 'https://sand-api-security.london.cloudapps.digital',
-      postgres: 'https://sand-api-core.london.cloudapps.digital',
+      postgres: 'https://sand-api-core.london.cloudapps.digital/dashboard-wrapper',
       cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
@@ -13,14 +13,12 @@ export const environment = {
           organisation: 'https://sand-api-wrapper.london.cloudapps.digital/organisation-profiles',
           contact: 'https://sand-api-wrapper.london.cloudapps.digital/contacts',
           configuration: 'https://sand-api-wrapper.london.cloudapps.digital/configurations',
-          dataMigration: 'https://sand-api-wrapper.london.cloudapps.digital/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://sand-api-wrapper.london.cloudapps.digital/users',
           organisation: 'https://sand-api-wrapper.london.cloudapps.digital/organisations',
           contact: 'https://sand-api-wrapper.london.cloudapps.digital/contacts',
           configuration: 'https://sand-api-wrapper.london.cloudapps.digital/configurations',
-          dataMigration: 'https://sand-api-wrapper.london.cloudapps.digital/datamigration',
         }
       }
     },

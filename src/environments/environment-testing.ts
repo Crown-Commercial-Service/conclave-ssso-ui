@@ -5,7 +5,7 @@ export const environment = {
     api: {
       isApiGateWayEnabled: true,
       security: 'https://tst.api.crowncommercial.gov.uk',
-      postgres: 'https://tst.api.crowncommercial.gov.uk/core',
+      postgres: 'https://tst.api.crowncommercial.gov.uk/dashboard-wrapper',
       cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
@@ -13,15 +13,12 @@ export const environment = {
           organisation: 'https://tst.api.crowncommercial.gov.uk/organisation-profiles',
           contact: 'https://tst.api.crowncommercial.gov.uk/contacts',
           configuration: 'https://tst.api.crowncommercial.gov.uk/configurations',
-          dataMigration: 'https://tst.api.crowncommercial.gov.uk/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://test-api-wrapper.london.cloudapps.digital/users',
           organisation: 'https://test-api-wrapper.london.cloudapps.digital/organisations',
           contact: 'https://test-api-wrapper.london.cloudapps.digital/contacts',
           configuration: 'https://test-api-wrapper.london.cloudapps.digital/configurations',
-          dataMigration: 'https://test-api-wrapper.london.cloudapps.digital/datamigration',
-          
         }
       }
     },
@@ -30,7 +27,7 @@ export const environment = {
       name: "TEST"
     },
     ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
-    ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
+    ccsDashboardUrl: "https://webdev.crowncommercial.gov.uk"
   },
   
   googleTagMangerId: 'GTM',

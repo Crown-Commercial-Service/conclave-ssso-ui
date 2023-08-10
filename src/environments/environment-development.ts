@@ -16,11 +16,11 @@ export const environment = {
             dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/datamigration',
           },
           apiGatewayDisabled: {
-            user: 'https://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/users',
-            organisation: 'https://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/organisations',
-            contact: 'https://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/contacts',
-            configuration: 'https://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/configurations',
-            dataMigration: 'https://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/datamigration',
+            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/users',
+            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/organisations',
+            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/contacts',
+            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/configurations',
+            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/datamigration',
           }
         }
       },

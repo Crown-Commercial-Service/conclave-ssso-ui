@@ -64,7 +64,7 @@ export class WrapperUserService {
  
   // Commented below code to remove usage of api. This will be handled with user update api.
   createPendingApproveRole(userRequest: PendingApproveRole): Observable<any> {
-    // const url = `${this.url}/approve/roles`;
+    // const url = `${this.url}/approval/roles`;
     // return this.http
     //   .post<UserEditResponseInfo>(url, userRequest, this.options)
     //   .pipe(
@@ -127,7 +127,7 @@ export class WrapperUserService {
   getPendingApprovalUserRole(userName: string): Observable<UserProfileResponseInfo> {
     if(!environment.appSetting.hideSimplifyRole){
       let roleInfo: any=[]
-      const url = `${this.url}/approve/servicerolegroups?user-id=${encodeURIComponent(userName)}`;
+      const url = `${this.url}/approve/service-role-groups?user-id=${encodeURIComponent(userName)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           data.forEach((role:any)=>{
@@ -146,7 +146,7 @@ export class WrapperUserService {
         })
       );
     } else {
-      const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}`;
+      const url = `${this.url}/approval/roles?user-id=${encodeURIComponent(userName)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           return data;
@@ -160,7 +160,7 @@ export class WrapperUserService {
 
   userTokenVerify(encryptedToken: string): Observable<UserProfileResponseInfo> {
     if(!environment.appSetting.hideSimplifyRole){
-      const url = `${this.url}/approve/servicerolegroup/verify?token=${encodeURIComponent(encryptedToken)}`;
+      const url = `${this.url}/approve/service-role-group/verfication?token=${encodeURIComponent(encryptedToken)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           return data
@@ -170,7 +170,7 @@ export class WrapperUserService {
         })
       );
     } else {
-      const url = `${this.url}/approve/verify?token=${encodeURIComponent(encryptedToken)}`;
+      const url = `${this.url}/approval/verfication?token=${encodeURIComponent(encryptedToken)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           return data
@@ -230,7 +230,7 @@ export class WrapperUserService {
 
   // Commented below code to remove usage of api. This will be handled with user update api.
   deleteApprovePendingRole(userName: string, roleIds: number): Observable<any> {
-    // const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}&roles=${roleIds}`;
+    // const url = `${this.url}/approval/roles?user-id=${encodeURIComponent(userName)}&roles=${roleIds}`;
     // return this.http.delete(url).pipe(
     //   map(() => {
     //     return true;
@@ -242,7 +242,7 @@ export class WrapperUserService {
   }
 
   acceptRejectRequest(userRequest: acceptRejectRequestDetail): Observable<any> {
-    const url = `${this.url}/approve/roles`;
+    const url = `${this.url}/approval/roles`;
     return this.http
       .put<UserEditResponseInfo>(url, userRequest, this.options)
       .pipe(
