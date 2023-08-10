@@ -9,14 +9,14 @@
     "requiresCompatibilities": [
         "FARGATE"
     ],
-    "cpu": "512",
-    "memory": "1024",
+    "cpu": "256",
+    "memory": "512",
     "containerDefinitions": [
         {
             "name": "%SPACE%-angular",
             "image": "%AWS_ACCOUNT_ID%.dkr.ecr.eu-west-2.amazonaws.com/%SPACE%-angular:%SPACE%-angular-%BUILD_NUMBER%",
-            "cpu": 1,
-            "memoryReservation": 1024,
+            "cpu": 0,
+            "memoryReservation": 512,
             "portMappings": [
                 {
                     "containerPort": 80,
