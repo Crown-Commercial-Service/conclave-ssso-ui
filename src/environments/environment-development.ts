@@ -9,16 +9,16 @@ export const environment = {
         cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
-            user: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/users',
-            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/organisations',
-            contact: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/contacts',
-            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/configurations',
+            user: 'https://dev.api.crowncommercial.gov.uk/aws/user-profile',
+            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/organisation-profile',
+            contact: 'https://dev.api.crowncommercial.gov.uk/aws/contact-service',
+            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/configuration-service'
           },
           apiGatewayDisabled: {
-            user: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/users',
-            organisation: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/organisations',
-            contact: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/contacts',
-            configuration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/configurations',
+            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/user-profile',
+            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
+            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/contact-service',
+            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/organisation-profile'
           }
         }
       },
