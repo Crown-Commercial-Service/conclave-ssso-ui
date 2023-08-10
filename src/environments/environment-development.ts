@@ -13,14 +13,12 @@ export const environment = {
             organisation: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/organisations',
             contact: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/contacts',
             configuration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/configurations',
-            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/datamigration',
           },
           apiGatewayDisabled: {
             user: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/users',
             organisation: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/organisations',
             contact: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/contacts',
             configuration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/configurations',
-            dataMigration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/datamigration',
           }
         }
       },
