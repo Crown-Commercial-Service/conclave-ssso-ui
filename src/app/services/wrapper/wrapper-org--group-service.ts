@@ -202,7 +202,7 @@ export class WrapperOrganisationGroupService {
   getOrganisationApprovalRequiredRoles(): Observable<any> {
     if(!environment.appSetting.hideSimplifyRole){
       const structureData:any = []
-      const url = `${this.configURl}/approve/service-role-groups`;
+      const url = `${this.configURl}/approval/service-role-groups`;
       return this.http.get<Role[]>(url).pipe(map((data: Role[]) => {
         data.forEach((f:any) => {
           let structureObj = {

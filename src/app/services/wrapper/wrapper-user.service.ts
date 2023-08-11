@@ -127,7 +127,7 @@ export class WrapperUserService {
   getPendingApprovalUserRole(userName: string): Observable<UserProfileResponseInfo> {
     if(!environment.appSetting.hideSimplifyRole){
       let roleInfo: any=[]
-      const url = `${this.url}/approve/service-role-groups?user-id=${encodeURIComponent(userName)}`;
+      const url = `${this.url}/approval/service-role-groups?user-id=${encodeURIComponent(userName)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           data.forEach((role:any)=>{
@@ -160,7 +160,7 @@ export class WrapperUserService {
 
   userTokenVerify(encryptedToken: string): Observable<UserProfileResponseInfo> {
     if(!environment.appSetting.hideSimplifyRole){
-      const url = `${this.url}/approve/service-role-group/verfication?token=${encodeURIComponent(encryptedToken)}`;
+      const url = `${this.url}/approval/service-role-group/verfication?token=${encodeURIComponent(encryptedToken)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           return data
