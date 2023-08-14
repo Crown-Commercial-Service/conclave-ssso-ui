@@ -194,7 +194,7 @@ export class AuthService {
     const options = {
       headers: new HttpHeaders().append('responseType', 'text')
     }
-    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/sessions`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/refresh-tokens`;
     return this.httpService.get(coreDataUrl, { responseType: 'text' });
   }
 
@@ -273,7 +273,7 @@ export class AuthService {
   }
 
   clearRefreshToken() {
-    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/sessions`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/sign-out`;
     return this.httpService.post(coreDataUrl, null);
   }
 
