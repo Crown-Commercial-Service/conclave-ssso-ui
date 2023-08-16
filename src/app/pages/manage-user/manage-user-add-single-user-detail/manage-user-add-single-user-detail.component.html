@@ -144,9 +144,9 @@
                     <div class="govuk-form-group" id="user-mfa-form-group"
                         [class.govuk-form-group--error]="submitted && (mfaAdminValidationError)">
                         <fieldset class="govuk-fieldset">
-                            <h2 class="govuk-heading-s">
+                            <legend class="govuk-heading-s">
                                 Additional security
-                            </h2>
+                            </legend>
                             <p class="govuk-hints">{{ detailsData[0] }}</p>
                             <span id="mfa-error-admin" class="govuk-error-message label-detail-text-gap"
                                 *ngIf="submitted && mfaAdminValidationError">
@@ -163,9 +163,9 @@
                         </fieldset>
                     </div>
                     <fieldset class="govuk-fieldset">
-                        <h2 class="govuk-heading-s" id="GROUPS">
+                        <legend class="govuk-heading-s" id="GROUPS">
                             {{ 'GROUPS'| translate }} (optional)
-                        </h2>
+                        </legend>
                         <app-details [detailsData]="detailsData[1]"></app-details>
                     </fieldset>
                     <div *ngIf="isEdit">
@@ -308,9 +308,9 @@
                     </div>
                     <div class="govuk-form-group" id="user-role-form-group" *ngIf="!showRoleView">
                         <fieldset class="govuk-fieldset">
-                            <h2 class="govuk-heading-s">
+                            <legend class="govuk-heading-s">
                                 {{ 'SERVICES'| translate }}
-                            </h2>
+                            </legend>
                             <p class="govuk-hints">{{ 'ACCESS_TO_USER_ROLE'| translate }}</p>
 
                             <div class="govuk-tabs" data-module="govuk-tabs">
@@ -356,9 +356,7 @@
                                 </div>
                                 <div class="govuk-tabs__panel" id="group-service" [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.groupservices}">
                                     <h2 class="govuk-heading-m">Group access</h2>
-                                    <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 ? true : false">{{ 'ACCESS_TO_GROUP_SEVICE'| translate }}
-                                        <a class="navigation-text" (click)="scrollContent('GROUPS')">manage group membership</a> {{ 'ORG_ADMIN_GROUP_MEMBER'| translate }}
-                                    </p>
+                                    <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 ? true : false">{{ 'ACCESS_TO_GROUP_SEVICE'| translate }}</p>
                                     <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 ? true : false">{{ 'NO_GROUP_ROLE_ACCESS_ADDUSER'| translate }} 
                                         <a class="navigation-text" (click)="scrollContent('GROUPS')">manage group membership</a> {{'NO_GROUP_ROLE_ACCESS_ADDUSER_END' | translate}}
                                     </p>
@@ -388,9 +386,9 @@
                     <div class="govuk-form-group" id="signin-provider-form-group"
                         [class.govuk-form-group--error]="submitted && formGroup.hasError('identityProviderRequired')">
                         <fieldset class="govuk-fieldset">
-                            <h2 class="govuk-heading-s">
+                            <legend class="govuk-heading-s">
                                 {{ 'SIGN_IN_PROVIDER'| translate }}
-                            </h2>
+                            </legend>
                             <span class="sign_in_prov">
                                 {{ idpStatus == false ? 'A sign in provider gives users the option to use a different service to sign in. Sign in
                                 providers are set at an organisational level. To update the sign in providers for your
