@@ -43,7 +43,7 @@ export const environment = {
     key: 'ROLLBAR',
     enable : false,
     security_log: false,
-    environment: 'sandbox'
+    environment: 'sand-ccs-sso'
   },
   cookies_policy: {
     essentialcookies: {
@@ -69,6 +69,8 @@ export const environment = {
    hideIDP:false,
    hideDelegation:false,
    hideBulkupload:false,
-   hideAutoValidation:false,
+   hideAutoValidation:true,
+   hideSimplifyRole:false,
+   blockedScheme: ["GB-PPG"],
   },
 };
