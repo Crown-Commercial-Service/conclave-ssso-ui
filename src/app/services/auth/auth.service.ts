@@ -152,7 +152,7 @@ export class AuthService {
     this.RollbarErrorService.RollbarDebug('Token_req:'+ body)
     return this.httpService.post(`${this.url}/security/token`, body, options).pipe(
       map(data => {
-       this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data))
+       this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data)) 
         return data;
       }),
       catchError(error => {

@@ -100,9 +100,9 @@
                                 </div>
                                 <div class="govuk-form-group" id="user-mfa-form-group">
                                     <fieldset class="govuk-fieldset">
-                                        <legend class="govuk-heading-s">
+                                        <h2 class="govuk-heading-s">
                                             Additional security
-                                        </legend>
+                                        </h2>
                                         <p class="govuk-hints">{{ detailsData[0] }}</p>
                                         <div class="govuk-form-group govuk-checkboxes__item" id="user-mfa-form-group">
                                             <input [attr.disabled]=true class="govuk-checkboxes__input" id="mfaEnabled"
@@ -348,7 +348,7 @@
                             'ORG_USER_GROUP_ACCESS'| translate }}</p>
 
                         <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 && isAdminUser == true">{{
-                            'ORG_ADMIN_GROUP_ACCESS_NONE'| translate }}</p>
+                            'ORG_ADMIN_GROUP_ACCESS_NONE'| translate }} <a  class="navigation-text" (click)="scrollContent('GROUPS')">manage group membership</a> {{'ORG_ADMIN_GROUP_ACCESS_NONE_CTN'| translate}}</p>
                         <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 && isAdminUser == false">{{
                             'ORG_USER_GROUP_ACCESS_NONE'| translate }}</p>
 
