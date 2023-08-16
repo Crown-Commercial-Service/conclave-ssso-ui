@@ -17,19 +17,19 @@
     <ng-container *ngIf="changes?.hasChanges === false">
       <div class="govuk-form-group" style="margin-top:30px;">
         <fieldset class="govuk-fieldset">
-          <h2 class="govuk-heading-s" style="font-size: 22px;">Organisation type:</h2>
+          <legend class="govuk-fieldset__legend" style="font-size: 22px;">Organisation type:</legend>
           <div class="govuk-checkboxes">
             <div class="govuk-__item">
               <label class="govuk-label">- No Changes</label>
             </div>
           </div>
-          <h2 class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services you are assigning to this organisation:</h2>
+          <legend class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services you are assigning to this organisation:</legend>
           <div class="govuk-checkboxes">
             <div class="govuk-__item">
               <label class="govuk-label">- No Changes</label>
             </div>
           </div>
-          <h2 class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services you are unassigning from this organisation:</h2>
+          <legend class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services you are unassigning from this organisation:</legend>
           <div class="govuk-checkboxes">
             <div class="govuk-__item">
               <label class="govuk-label">- No Changes</label>
@@ -45,15 +45,15 @@
     <ng-container *ngIf="changes?.hasChanges === true">
       <div class="govuk-form-group" style="margin-top:30px;"*ngIf="changes?.autoValidate === true">
         <fieldset class="govuk-fieldset">
-          <h2 class="govuk-heading-s" style="font-size: 22px;">Organisation type:</h2>
+          <legend class="govuk-fieldset__legend" style="font-size: 22px;">Organisation type:</legend>
           <div class="govuk-checkboxes">
             <div class="govuk-__item">
               <label *ngIf="changes?.orgType == changes?.org?.supplierBuyerType" class="govuk-label">- No Changes</label>
               <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">{{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : 'Supplier')}}</label>
             </div>
           </div>
-          <h2 *ngIf="changes?.toAdd.length > 0" class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services you are assigning to this organisation:
-          </h2>
+          <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services you are assigning to this organisation:
+          </legend>
           <div class="govuk-checkboxes">
             <ng-container>
               <div class="govuk-__item">
@@ -64,8 +64,8 @@
               </div>
             </ng-container>
           </div>
-          <h2 *ngIf="changes?.toDelete.length > 0" class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services you are unassigning from this organisation:
-          </h2>
+          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services you are unassigning from this organisation:
+          </legend>
           <div class="govuk-checkboxes">
             <ng-container>
               <div class="govuk-__item">
@@ -80,15 +80,15 @@
       </div>
       <div class="govuk-form-group" style="margin-top:30px;" *ngIf="changes?.autoValidate === false">
         <fieldset class="govuk-fieldset">
-          <h2 class="govuk-heading-s" style="font-size: 22px;">Organisation type:</h2>
+          <legend class="govuk-fieldset__legend" style="font-size: 22px;">Organisation type:</legend>
           <div class="govuk-checkboxes">
             <div class="govuk-__item">
               <label *ngIf="changes?.orgType == changes?.org?.supplierBuyerType" class="govuk-label">- No Changes</label>
               <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">{{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : 'Supplier')}} - Automatic validation of verified buyer status has been unsuccessful. This will require manual validation and a request will be created on the 'Manage buyer status requests' page.</label>
             </div>
           </div>
-          <h2 *ngIf="changes?.toAutoValid.length > 0" class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services which will be assigned after manual validation is completed:
-          </h2>
+          <legend *ngIf="changes?.toAutoValid.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services which will be assigned after manual validation is completed:
+          </legend>
           <div class="govuk-checkboxes">
             <ng-container>
               <div class="govuk-__item">
@@ -99,8 +99,8 @@
               </div>
             </ng-container>
           </div>
-          <h2 *ngIf="changes?.toAdd.length > 0" class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services you are assigning to this organisation:
-          </h2>
+          <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services you are assigning to this organisation:
+          </legend>
           <div class="govuk-checkboxes">
             <ng-container>
               <div class="govuk-__item">
@@ -111,8 +111,8 @@
               </div>
             </ng-container>
           </div>
-          <h2 *ngIf="changes?.toDelete.length > 0" class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services you are unassigning from this organisation:
-          </h2>
+          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services you are unassigning from this organisation:
+          </legend>
           <div class="govuk-checkboxes">
             <ng-container>
               <div class="govuk-__item">

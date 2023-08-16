@@ -11,7 +11,7 @@ install:
 - npm install
 before_script:
 - npm install -g @angular/cli
-script: npm run build -- --output-hashing=all
+script: npm run build
 after_script: ls
 deploy:
 - provider: script

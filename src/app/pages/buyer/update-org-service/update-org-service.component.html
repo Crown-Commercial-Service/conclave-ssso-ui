@@ -36,9 +36,9 @@
     </div>
     <div class="govuk-form-group">
       <fieldset class="govuk-fieldset">
-        <h2 class="govuk-heading-s">
+        <legend class="govuk-fieldset__legend">
           Update organisation type
-        </h2>
+        </legend>
           <div class="govuk-radios">
               <div class="govuk-radios__item" id="orgAdminRadioSelection" >
                   <input class="govuk-radios__input" type="radio" id="supplierRadioButton" value="0"
@@ -69,9 +69,9 @@
     style="margin-top: 30px"
   >
     <fieldset class="govuk-fieldset">
-      <h2 class="govuk-heading-s">
+      <legend class="govuk-fieldset__legend">
         Services for this organisation, select/unselect where appropriate
-      </h2>
+      </legend>
       <div class="govuk-checkboxes" *ngIf="orgEligableRoles$ | async as o">
         <ng-container *ngFor="let role of roles">
           <div class="govuk-checkboxes__item govuk-item-custom" *ngIf="role.isDeleted === false && tradeEligibilityStatus(role) && role.orgTypeEligibility !== 0 && !hideService(role.roleKey)">
