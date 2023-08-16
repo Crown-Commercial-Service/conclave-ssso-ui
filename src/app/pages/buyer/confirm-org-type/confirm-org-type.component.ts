@@ -58,7 +58,7 @@ export class ConfirmOrgTypeComponent  extends BaseComponent {
       companyHouseId:this.routeData.companyHouseId
     };
 
-    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'switch').toPromise().then(() => {
+    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'validation/auto/switch').toPromise().then(() => {
       this.router.navigateByUrl(`update-org-type/buyer-success/${this.org.ciiOrganisationId}`);
     }).catch(error => {
       console.log(error);

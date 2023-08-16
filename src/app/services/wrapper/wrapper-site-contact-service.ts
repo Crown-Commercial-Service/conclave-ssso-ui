@@ -24,7 +24,7 @@ export class WrapperSiteContactService {
   }
 
   assignSiteContact(organisationId: string, siteId: number, contactInfo: ContactAssignmentInfo): Observable<any> {
-    const url = `${this.url}/${organisationId}/sites/${siteId}/assigned-contacts`;
+    const url = `${this.url}/${organisationId}/sites/${siteId}/contacts/assignment`;
     return this.http.post<number[]>(url, contactInfo, this.options).pipe(
       map((data: number[]) => {
         return data;
@@ -79,7 +79,7 @@ export class WrapperSiteContactService {
   }
 
   unassignSiteContact(organisationId: string, siteId: number, contactPointIds: number[]): Observable<any> {
-    var url = `${this.url}/${organisationId}/sites/${siteId}/assigned-contacts?contact-point-ids=${contactPointIds[0]}`;
+    var url = `${this.url}/${organisationId}/sites/${siteId}/contacts/assignment?contact-point-ids=${contactPointIds[0]}`;
     contactPointIds.splice(0, 1).forEach((id) => {
       url = url + `&contactPointIds=${id}`;
     });
