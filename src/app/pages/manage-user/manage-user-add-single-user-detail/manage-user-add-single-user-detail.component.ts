@@ -927,7 +927,11 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
 
   public tabChanged(activetab: string): void {
-    if (activetab === 'userservices') {
+    document.getElementById(activetab)?.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+    });
+    if (activetab === 'user-service') {
       this.tabConfig.userservices = true
       this.tabConfig.groupservices = false
     } else {

@@ -160,6 +160,10 @@ export class BuyerBothRequestsComponent implements OnInit {
   }
 
   public tabChanged(activetab: string): void {
+    document.getElementById(activetab)?.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+    });
     if (activetab === 'verifiedOrg') {
       this.tabConfig.pendingOrg = false;
       this.tabConfig.verifiedOrg = true;
