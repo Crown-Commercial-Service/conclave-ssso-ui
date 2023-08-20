@@ -23,7 +23,6 @@ export const environment = {
           contact: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/contact-service',
           configuration: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
           dataMigration: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/datamigration',
-
         }
       }
     },

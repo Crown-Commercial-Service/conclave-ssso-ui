@@ -129,7 +129,7 @@ export class AuthService {
   }
 
   changePassword(passwordChangeDetail: PasswordChangeDetail): Observable<any> {
-    return this.httpService.post(`${environment.uri.api.postgres}/auth/passwords`, passwordChangeDetail).pipe(
+    return this.httpService.post(`${environment.uri.api.postgres}/authorization/passwords`, passwordChangeDetail).pipe(
       map(data => {
         return data;
       }),
@@ -141,7 +141,7 @@ export class AuthService {
 
   resetPassword(userName: string): Observable<any> {
     var changepwd = { "userName": userName }
-    return this.httpService.post(`${this.url}/security/password-reset-requests`, changepwd);
+    return this.httpService.post(`${this.url}/security/users/reset`, changepwd);
   }
 
   token(code: string): Observable<any> {
@@ -152,7 +152,7 @@ export class AuthService {
     this.RollbarErrorService.RollbarDebug('Token_req:'+ body)
     return this.httpService.post(`${this.url}/security/token`, body, options).pipe(
       map(data => {
-       this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data))
+       this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data)) 
         return data;
       }),
       catchError(error => {
@@ -176,7 +176,7 @@ export class AuthService {
 
 
   createSession(refreshToken: string) {
-    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/sessions`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/sessions`;
     const body = {
       'refreshToken': refreshToken
     }
@@ -194,7 +194,7 @@ export class AuthService {
     const options = {
       headers: new HttpHeaders().append('responseType', 'text')
     }
-    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/refresh-tokens`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/refresh-tokens`;
     return this.httpService.get(coreDataUrl, { responseType: 'text' });
   }
 
@@ -273,7 +273,7 @@ export class AuthService {
   }
 
   clearRefreshToken() {
-    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/sign-out`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/sign-out`;
     return this.httpService.post(coreDataUrl, null);
   }
 
@@ -318,7 +318,7 @@ export class AuthService {
       headers: new HttpHeaders().append('Content-Type', 'application/json')
     }
     const body = { email }
-    return this.httpService.post(`${environment.uri.api.postgres}/users/nominees`, JSON.stringify(email), options).pipe(
+    return this.httpService.post(`${environment.uri.api.postgres}/users/nomination`, JSON.stringify(email), options).pipe(
       map(data => {
         return data;
       }),

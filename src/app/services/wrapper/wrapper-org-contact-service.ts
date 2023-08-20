@@ -23,7 +23,7 @@ export class WrapperOrganisationContactService {
   }
 
   assignOrgContact(organisationId: string, contactInfo: ContactAssignmentInfo): Observable<any> {
-    const url = `${this.url}/${organisationId}/assigned-contacts`;
+    const url = `${this.url}/${organisationId}/contacts/assignment`;
     return this.http.post<number[]>(url, contactInfo, this.options).pipe(
       map((data: number[]) => {
         return data;
@@ -78,7 +78,7 @@ export class WrapperOrganisationContactService {
   }
 
   unassignOrgContact(organisationId: string, contactPointIds: number[]): Observable<any> {
-    var url = `${this.url}/${organisationId}/assigned-contacts?contact-point-ids=${contactPointIds[0]}`;
+    var url = `${this.url}/${organisationId}/contacts/assignment?contact-point-ids=${contactPointIds[0]}`;
     contactPointIds.splice(0, 1).forEach((id) => {
       url = url + `&contactPointIds=${id}`;
     });

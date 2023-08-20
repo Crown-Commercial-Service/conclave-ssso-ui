@@ -1168,6 +1168,13 @@ const routes: Routes = [
     component: SuccessRightToBuyComponent,
   },
   {
+    path: 'decline-success',
+    pathMatch: 'full',
+    data: { roles: ['MANAGE_SUBSCRIPTIONS'] },
+    canActivate: [AuthGuard, RoleGuard],
+    component: BuyerBothRequestsSuccessComponent,
+  },
+  {
     path: 'buyer-and-both-success',
     pathMatch: 'full',
     data: { roles: ['MANAGE_SUBSCRIPTIONS'] },

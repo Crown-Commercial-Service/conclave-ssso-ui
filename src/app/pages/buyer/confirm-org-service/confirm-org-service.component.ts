@@ -97,7 +97,7 @@ export class ConfirmOrgServiceComponent  extends BaseComponent {
       serviceRoleGroupsToAutoValid: this.filterRoleId(this.changes.toAutoValid),
       companyHouseId:this.routeData.companyHouseId
     };
-    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'servicerolegroups/switch').toPromise().then(() => {
+    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'validation/auto/switch/service-role-groups').toPromise().then(() => {
       this.router.navigateByUrl(`org-service/success/${this.org.ciiOrganisationId}`);
     }).catch(error => {
       console.log(error);
