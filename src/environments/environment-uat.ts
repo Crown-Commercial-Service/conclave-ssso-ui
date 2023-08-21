@@ -70,9 +70,12 @@ export const environment = {
     },
   },
   appSetting: {
-   hideIDP:false,
+   hideIDP:true,
    hideDelegation:false,
    hideBulkupload:false,
    hideAutoValidation:false,
+   hideSimplifyRole:false,
+   blockedScheme: ["GB-PPG"],
   },
 };
+

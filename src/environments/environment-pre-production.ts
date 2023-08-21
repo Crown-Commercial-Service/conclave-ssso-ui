@@ -88,7 +88,7 @@ export const environment = {
 
       security_log:false,
     
-    environment: 'pre-production'
+    environment: 'preprod-ccs-sso'
 
   },
   
@@ -117,5 +117,7 @@ export const environment = {
    hideDelegation:false,
    hideBulkupload:false,
    hideAutoValidation:false,
+   hideSimplifyRole:false,
+   blockedScheme: ["GB-PPG"],
   },
 };
