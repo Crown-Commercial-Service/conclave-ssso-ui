@@ -247,19 +247,19 @@ const routes: Routes = [
   },
   {
     path: 'forgot-password',
-    data: { title: 'Forgot Password' },
+    data: { title: 'Reset your password' },
     pathMatch: 'full',
     component: ForgotPasswordComponent,
   },
   {
     path: 'forgot-password-success',
-    data: { title: 'Success - Forgot Password' },
+    data: { title: 'Success - Reset your password' },
     pathMatch: 'full',
     component: ForgotPasswordSuccessComponent,
   },
   {
     path: 'forgot-password-error',
-    data: { title: 'Error - Forgot Password' },
+    data: { title: 'Error - Reset your password' },
     pathMatch: 'full',
     component: ForgotPasswordErrorComponent,
   },
