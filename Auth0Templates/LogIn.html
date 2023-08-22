@@ -368,9 +368,9 @@
 
     .card.card-help {
         height: auto;
-        min-width: 100px;
         max-width: 300px;
         margin-left: auto;
+        word-break: break-word;
     }
 
     .card-help .card-title {
@@ -391,7 +391,7 @@
     }
 
     .content-right {
-        width: 33.3%;
+        width: calc(33.3% - 15px);
     }
 
     @media(max-width: 767.98px) {
@@ -738,14 +738,12 @@
                                     </div>
                                 </label>
                                 <span style="display: none" id="email-error" class="govuk-error-message">
-                                    <span class="govuk-visually-hidden">Error:</span>
                                 </span>
                                 <input type="email" class="govuk-input" id="email" placeholder="Enter your email">
                             </div>
                             <div id="password-form-group" style="margin-top:30px;" class="govuk-form-group">
                                 <label class="govuk-label" for="password">Password</label>
                                 <span style="display: none" id="password-error" class="govuk-error-message">
-                                    <span class="govuk-visually-hidden">Error:</span>
                                     Password is required
                                 </span>
                                 <input type="password" autocomplete="off" class="govuk-input" id="password"
@@ -1169,8 +1167,8 @@
         });
     </script>
 </body>
-
 </html> 
 
  
 
+ 

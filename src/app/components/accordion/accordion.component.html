@@ -32,7 +32,7 @@
                                     <span>
                                         <a href="javascript:;" class="govuk-link" href="javascript:void(0)"
                                             (click)="goToEditGroup(groupdata.groupId)">{{groupdata[headerTextKeys]}}</a>
-                                        <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-6 govuk-!-padding-left-8 govuk-!-padding-top-4"
+                                        <ul class="govuk-list govuk-list--bullet govuk-!-padding-top-4 govuk-!-padding-left-3"
                                             id="{{groupdata.groupId}}" style="display: none;">
         
                                             <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleData">
@@ -41,7 +41,7 @@
                                                 </li>
                                             </span>
                                             <ng-template #noRoleData>
-                                                <label class="no-data-message"> {{noRoleText}} </label>
+                                                <label class="no-data-message no-data-message-l"> {{noRoleText}} </label>
                                             </ng-template>
                                         </ul>
                                     </span>
