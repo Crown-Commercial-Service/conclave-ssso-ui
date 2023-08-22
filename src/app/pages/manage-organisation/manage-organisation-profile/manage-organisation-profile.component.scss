@@ -79,3 +79,11 @@ app-manage-organisation-profile {
 .govuk-heading-s {
   font-size: 1.1875rem !important;
 }
+.table-scrolls {
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+.table-scrolls .govuk-table__header:last-child,.table-scrolls .govuk-table__cell:last-child {
+  padding-right: 1px0;
+}
