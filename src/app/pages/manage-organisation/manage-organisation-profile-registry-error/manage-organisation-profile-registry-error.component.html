@@ -14,7 +14,7 @@
         <li class="govuk-breadcrumbs__list-item" *ngIf="reason === 'generic'">
           <span class="govuk-breadcrumbs__link">Unexpected error</span>
         </li>
-        <li class="govuk-breadcrumbs__list-item" *ngIf="reason === 'notfound'">
+        <li class="govuk-breadcrumbs__list-item" *ngIf="reason === 'notfound' || reason === 'ciidown'">
           <span class="govuk-breadcrumbs__link">Invalid registry</span>
         </li>
         <li class="govuk-breadcrumbs__list-item" *ngIf="reason === 'existsInConclave'">
@@ -30,6 +30,8 @@
   <p class="govuk-body-l" *ngIf="reason === 'notfound'">We could not find any matching records for your search. Please check the details and  try again</p>
   <p class="govuk-body-l" *ngIf="reason === 'existsInConclave'">This Organisation is already registered for Public Procurement Gateway. Contact your Organisation Administrator</p>
   <p class="govuk-body-l" *ngIf="reason === 'exists'">This Registry is already registered for your organisation. Search with a different organisation ID</p>
+  <p class="govuk-body-l" *ngIf="reason === 'ciidown'">The registry you have selected is currently unavailable. Please try again later or select a different registry to register with.</p>
+
   <!-- <p><a routerLink="/manage-org/profile/{{organisationId}}/registry/search">Search with a different organisation ID</a></p> -->
   <!-- <p><a (click)="goBack()">Search with a different organisation ID</a></p> -->
   <p *ngIf="reason !== 'generic'"><a class="navigation-text" routerLink="/manage-org/profile/registry/search">Search with a different organisation ID</a></p>
