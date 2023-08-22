@@ -149,6 +149,7 @@ import { DataMigrationUploadComponent } from './pages/data-migration/data-migrat
 import { DataMigrationStatusComponent } from './pages/data-migration/data-migration-status/data-migration-status.component';
 import { DataMigrationErrorComponent } from './pages/data-migration/data-migration-error/data-migration-error.component';
 import { DataMigrationSummaryComponent } from './pages/data-migration/data-migration-summary/data-migration-summary.component';
+import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -425,6 +426,12 @@ const routes: Routes = [
     data: { title: 'Error - Registration' },
     pathMatch: 'full',
     component: ManageOrgRegErrorNotFoundComponent,
+  },
+  {
+    path: 'manage-org/register/error/cii',
+    data: { title: 'Error - Registration' },
+    pathMatch: 'full',
+    component: ManageOrganisationRegisterationCiiComponent,
   },
   {
     path: 'manage-org/register/error/reg-id-exists',
