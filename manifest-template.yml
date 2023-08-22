@@ -3,6 +3,6 @@ applications:
 - name: CF_SPACE-ccs-sso
   instances: 1
   memory: 1G
-  buildpack: https://github.com/cloudfoundry/nginx.buildpack
+  buildpack: https://github.com/cloudfoundry/nginx.conf
   routes:
     - route: CF_SPACE-ccs-sso.london.cloudapps.digital
