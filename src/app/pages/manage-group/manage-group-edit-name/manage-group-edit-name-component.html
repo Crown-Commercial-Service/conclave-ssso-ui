@@ -110,6 +110,7 @@
                             <input #input formControlName="groupName" class="govuk-input" id="group-name"
                                 name="group-name" type="text"
                                 [class.govuk-input--error]="submitted && (formGroup.controls.groupName.invalid || formGroup.controls.groupName.hasError('alreadyExists'))" />
+                                <label for="group-name" class="unwanted_lable">.</label>  
                         </div>
                     </div>
                 </div>

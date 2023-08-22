@@ -108,6 +108,7 @@
 
   <h2 class="govuk-heading-s" *ngIf="registries">Registries</h2>
   <app-details [detailsData]="detailsData[2]"></app-details>
+  <div class="table-scrolls">
   <table class="govuk-table" *ngIf="registries">
     <h2 class="govuk-table__caption govuk-table__caption--m govuk-heading-s">Below are the registries currently linked to your
       organisation</h2>
@@ -134,6 +135,7 @@
       </tr>
     </tbody>
   </table>
+</div>
   <div class="govuk-form-group govuk-button-group" *ngIf="registries != null">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
       (click)="onRegistryAddClick()">Add new registry</button>

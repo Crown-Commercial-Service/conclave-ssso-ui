@@ -159,7 +159,7 @@
                                 <ngx-intl-tel-input
                                     [cssClass]="submitted && formGroup.controls['phone'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input' "
                                     [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
-                                    [enablePlaceholder]="true" [searchCountryFlag]="true" [maxLength]="15"
+                                    [enablePlaceholder]="true" [searchCountryFlag]="true" [maxLength]="'15'"
                                     [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
                                     [selectFirstCountry]="false" [phoneValidation]="true"
                                     [separateDialCode]="separateDialCode"
@@ -188,7 +188,7 @@
                                     [enablePlaceholder]="true" [searchCountryFlag]="true"
                                     [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
                                     [selectFirstCountry]="false" [phoneValidation]="true"
-                                    [separateDialCode]="separateDialCode" [maxLength]="15"
+                                    [separateDialCode]="separateDialCode" [maxLength]="'15'"
                                     [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'" name="mobile"
                                     formControlName="mobile">
                                 </ngx-intl-tel-input>
@@ -211,7 +211,7 @@
                                 <ngx-intl-tel-input
                                     [cssClass]="submitted && formGroup.controls['fax'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input'"
                                     [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
-                                    [enablePlaceholder]="true" [searchCountryFlag]="true" [maxLength]="15"
+                                    [enablePlaceholder]="true" [searchCountryFlag]="true" [maxLength]="'15'"
                                     [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
                                     [selectFirstCountry]="false" [phoneValidation]="true"
                                     [separateDialCode]="separateDialCode"
@@ -220,7 +220,7 @@
                                 </ngx-intl-tel-input>
                                 <label for="fax" class="unwanted_lable">.</label>  
                             </div>
-                        </div>
+                        </div> 
                         <div class="govuk-checkboxes__item"
                         [class.govuk-form-group--error]="submitted && formGroup.controls['webUrl'].invalid">
                             <input class="govuk-checkboxes__input" id="web-checkbox" name="web-checkbox" type="checkbox"
