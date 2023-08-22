@@ -160,7 +160,7 @@ export class WrapperUserService {
 
   userTokenVerify(encryptedToken: string): Observable<UserProfileResponseInfo> {
     if(!environment.appSetting.hideSimplifyRole){
-      const url = `${this.url}/approval/service-role-group/verfication?token=${encodeURIComponent(encryptedToken)}`;
+      const url = `${this.url}/approval/service-role-group/verification?token=${encodeURIComponent(encryptedToken)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           return data
@@ -170,7 +170,7 @@ export class WrapperUserService {
         })
       );
     } else {
-      const url = `${this.url}/approval/verfication?token=${encodeURIComponent(encryptedToken)}`;
+      const url = `${this.url}/approval/verification?token=${encodeURIComponent(encryptedToken)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           return data
