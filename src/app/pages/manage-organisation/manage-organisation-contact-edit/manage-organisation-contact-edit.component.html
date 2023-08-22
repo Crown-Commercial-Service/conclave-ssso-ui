@@ -139,6 +139,7 @@
                 <input #input formControlName="email" class="govuk-input" id="email" name="email" type="email"
                   [class.govuk-input--error]="submitted && formGroup.controls.email.hasError('email') || submitted && contact_error"
                   size="20" value="" autocomplete="email" spellcheck="false" (input)="validateEmailLength($event)">
+                  <label for="email" class="unwanted_lable">.</label>  
               </div>
             </div>
             <div class="govuk-checkboxes__item"
@@ -158,12 +159,13 @@
                 <ngx-intl-tel-input
                   [cssClass]="submitted && formGroup.controls['phone'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input' "
                   [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
-                  [searchCountryFlag]="true" [maxLength]="'15'"
+                  [searchCountryFlag]="true" [maxLength]="15"
                   [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
                   [phoneValidation]="true" [separateDialCode]="separateDialCode"
                   [numberFormat]="PhoneNumberFormat.International" [inputId]="'phone'" name="phone"
-                  formControlName="phone">
+                  formControlName="phone" aria-expanded="true">
                 </ngx-intl-tel-input>
+                <label for="phone" class="unwanted_lable">.</label>  
               </div>
             </div>
             <div class="govuk-checkboxes__item"
@@ -184,9 +186,10 @@
                   [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
                   [searchCountryFlag]="true" [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
                   [selectFirstCountry]="false" [phoneValidation]="true" [separateDialCode]="separateDialCode"
-                  [maxLength]="'15'" [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'" name="mobile"
+                  [maxLength]="15" [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'" name="mobile"
                   formControlName="mobile">
                 </ngx-intl-tel-input>
+                <label for="mobile" class="unwanted_lable">.</label>  
               </div>
             </div>
             <div class="govuk-checkboxes__item"
@@ -205,11 +208,12 @@
                 <ngx-intl-tel-input
                   [cssClass]="submitted && formGroup.controls['fax'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input'"
                   [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
-                  [searchCountryFlag]="true" [maxLength]="'15'"
+                  [searchCountryFlag]="true" [maxLength]="15"
                   [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
                   [phoneValidation]="true" [separateDialCode]="separateDialCode"
                   [numberFormat]="PhoneNumberFormat.International" [inputId]="'fax'" name="fax" formControlName="fax">
                 </ngx-intl-tel-input>
+                <label for="fax" class="unwanted_lable">.</label>  
               </div>
             </div>
             <div class="govuk-checkboxes__item"
@@ -227,6 +231,7 @@
                 </span>
                 <input formControlName="webUrl" class="govuk-input" id="web" name="web" type="text"
                   [class.govuk-input--error]="submitted && contact_error">
+                <label for="web" class="unwanted_lable">.</label>  
               </div>
             </div>
           </div>
