@@ -8,7 +8,7 @@ export const environment = {
 
     api: {
 
-      isApiGateWayEnabled: true,
+      isApiGateWayEnabled: false,
 
       security: 'https://nft.ppg-sso-service.crowncommercial.gov.uk',
 
@@ -38,7 +38,7 @@ export const environment = {
     web: {
 
       dashboard: 'https://nft-ppg-sso.crowncommercial.gov.uk',
-      name: "UAT"
+      name: "NFT"
 
     },
 
