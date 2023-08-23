@@ -3,6 +3,6 @@ applications:
 - name: CF_SPACE-ccs-sso
   instances: 1
   memory: 1G
-  buildpack: https://github.com/Crown-Commercial-Service/conclave-ssso-ui/blob/sandbox/nginx.conf
+  buildpack: https://github.com/cloudfoundry/staticfile-buildpack
   routes:
     - route: CF_SPACE-ccs-sso.london.cloudapps.digital
