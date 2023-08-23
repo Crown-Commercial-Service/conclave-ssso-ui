@@ -31,7 +31,8 @@ export const environment = {
       dashboard: 'https://identify.crowncommercial.gov.uk',
       name: "",   // <= name should not be any value in production
     },
-    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact",
+    ccsDashboardUrl: "https://identify.crowncommercial.gov.uk"
   },
   googleTagMangerId: 'GTM',
   cookieExpirationTimeInMinutes: 525600,
