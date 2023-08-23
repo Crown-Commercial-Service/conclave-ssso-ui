@@ -26,9 +26,11 @@ export const environment = {
       }
     },
     web: {
-      dashboard: 'https://test.identify.crowncommercial.gov.uk'
+      dashboard: 'https://test.identify.crowncommercial.gov.uk',
+      name: "TEST"
     },
-    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
+    ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
   },
   
   googleTagMangerId: 'GTM',

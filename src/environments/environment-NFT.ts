@@ -52,11 +52,12 @@ export const environment = {
 
     web: {
 
-      dashboard: 'https://nft.identify.crowncommercial.gov.uk'
+      dashboard: 'https://nft.identify.crowncommercial.gov.uk',
+      name: "NFT"
 
     },
 
-    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact"
 
   },
 
