@@ -47,9 +47,9 @@
 
   <div class="govuk-form-group" *ngIf="idps" [class.govuk-form-group--error]="!isValid && submitted">
     <fieldset class="govuk-fieldset">
-      <legend class="govuk-heading-s">
+      <h2 class="govuk-heading-s">
         {{ 'SIGN_IN_PROVIDER'| translate }}
-      </legend>
+      </h2>
       <div id="signin-hint" class="govuk-hint" style="color: black;">
         {{ idpStatus == false ? 'A sign in provider gives users the option to use a different service to sign in. Sign in providers are set at an
         organisational level. Any updates applied here will apply to all of your organisation’s users' : (idpStatus == true ? 'Users can only use a User ID and password to sign in. You may be able to allow additional sign-in methods in the future.' : '')}}
@@ -61,9 +61,9 @@
       <div class="govuk-checkboxes label-detail-text-gap">
         <div class="govuk-checkboxes__item" *ngFor="let idp of idps">
           <input type="checkbox" [value]="idp.id" #input [checked]="idp.enabled === true"
-            [attr.disabled]="idpStatus"
+            [attr.disabled]="idpStatus === true ? true : null"
             (change)="onIdentityProviderChange($event,idp)" class="govuk-checkboxes__input"
-            id="orgRoleControl_{{idp.id}}" [attr.disabled] = "true">
+            id="orgRoleControl_{{idp.id}}">
           <label class="govuk-label govuk-checkboxes__label" for="orgRoleControl_{{idp.id}}">{{idp.name}}</label>
         </div>
       </div>
@@ -108,9 +108,10 @@
 
   <h2 class="govuk-heading-s" *ngIf="registries">Registries</h2>
   <app-details [detailsData]="detailsData[2]"></app-details>
+  <div class="table-scrolls">
   <table class="govuk-table" *ngIf="registries">
-    <caption class="govuk-table__caption govuk-table__caption--m">Below are the registries currently linked to your
-      organisation</caption>
+    <h2 class="govuk-table__caption govuk-table__caption--m govuk-heading-s">Below are the registries currently linked to your
+      organisation</h2>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Registry</th>
@@ -134,6 +135,7 @@
       </tr>
     </tbody>
   </table>
+</div>
   <div class="govuk-form-group govuk-button-group" *ngIf="registries != null">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
       (click)="onRegistryAddClick()">Add new registry</button>

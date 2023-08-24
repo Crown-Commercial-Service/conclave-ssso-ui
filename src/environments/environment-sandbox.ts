@@ -5,7 +5,7 @@ export const environment = {
     api: {
       isApiGateWayEnabled: false,
       security: 'https://sand-api-security.london.cloudapps.digital',
-      postgres: 'https://sand-api-core.london.cloudapps.digital',
+      postgres: 'https://sand-api-core.london.cloudapps.digital/dashboard-wrapper',
       cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
@@ -13,14 +13,12 @@ export const environment = {
           organisation: 'https://sand-api-wrapper.london.cloudapps.digital/organisation-profiles',
           contact: 'https://sand-api-wrapper.london.cloudapps.digital/contacts',
           configuration: 'https://sand-api-wrapper.london.cloudapps.digital/configurations',
-          dataMigration: 'https://sand-api-wrapper.london.cloudapps.digital/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://sand-api-wrapper.london.cloudapps.digital/users',
           organisation: 'https://sand-api-wrapper.london.cloudapps.digital/organisations',
           contact: 'https://sand-api-wrapper.london.cloudapps.digital/contacts',
           configuration: 'https://sand-api-wrapper.london.cloudapps.digital/configurations',
-          dataMigration: 'https://sand-api-wrapper.london.cloudapps.digital/datamigration',
         }
       }
     },
@@ -28,7 +26,8 @@ export const environment = {
       dashboard: 'https://sand-ccs-sso.london.cloudapps.digital',
       name: "Sandbox"
     },
-    ccsContactUrl: "https://webdev.crowncommercial.gov.uk/contact"
+    ccsContactUrl: "https://webdev.crowncommercial.gov.uk/contact",
+    ccsDashboardUrl: "https://webdev.crowncommercial.gov.uk"
   },
   googleTagMangerId: 'GTM',
   cookieExpirationTimeInMinutes: 525600,
@@ -42,7 +41,7 @@ export const environment = {
     key: 'ROLLBAR',
     enable : false,
     security_log: false,
-    environment: 'sandbox'
+    environment: 'sand-ccs-sso'
   },
   cookies_policy: {
     essentialcookies: {
@@ -68,6 +67,8 @@ export const environment = {
    hideIDP:false,
    hideDelegation:false,
    hideBulkupload:false,
-   hideAutoValidation:false,
+   hideAutoValidation:true,
+   hideSimplifyRole:false,
+   blockedScheme: ["GB-PPG"],
   },
 };

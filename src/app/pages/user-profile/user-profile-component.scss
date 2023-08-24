@@ -97,6 +97,7 @@ a {
 }
 .content-right {
   width: 33.3%;
+  padding-left: 15px;
 }
 table,
 th,
@@ -185,3 +186,8 @@ table {
  .govuk-item-custom-hide {
   min-height: 0px;
  }
+
+ .navigation-text {
+  color: #1d70b8 !important;
+ }
+ 
