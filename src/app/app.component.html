@@ -3,7 +3,10 @@
 <header class="header-global">
     <div class="ccs-width-container">
         <div class="nav-wrapper">
-            <a [href]="home" class="logo"><span class="header_logo" alt="Go to the CCS homepage"></span></a>
+            <a [href]="home" class="logo"><span class="header_logo" alt="Go to the CCS homepage">
+            </span>
+            <span class="visually-hidden">Go to the CCS homepage</span>
+        </a>
             <nav class="global-navigation" data-toggle="nav"
                 data-app-uri="http://www.crowncommercial.gov.uk/contact/sendToSalesforce"
                 data-app-pathinfo="/contact/sendToSalesforce" aria-hidden="false">
@@ -55,6 +58,7 @@
             <div class="govuk-footer__meta-item">
                 <a class="govuk-footer__link logo"[href]="home">
                     <span class="header_logo" alt="Go to the CCS homepage"></span>
+                    <span class="visually-hidden">Go to the CCS homepage</span>
                 </a>
             </div>
             <div class="govuk-footer__meta-item govuk-footer__meta-item--grow right-content">
