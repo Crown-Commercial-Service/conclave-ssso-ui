@@ -862,7 +862,17 @@
 }
 .header-global .logo {
     min-height: 116px;
-}  
+}
+/* This class provides visually hidden text for accessibility */
+.visually-hidden {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0;
+    border: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}    
     </style>
 </head>
 
@@ -948,7 +958,8 @@
     <header class="header-global">
         <div class="ccs-width-container">
             <div class="nav-wrapper">
-                <a href="https://webdev.crowncommercial.gov.uk/" class="logo"><span class="header_logo" alt="Go to the CCS homepage"></span></a>
+                <a href="https://webdev.crowncommercial.gov.uk/" class="logo"><span class="header_logo" alt="Go to the CCS homepage"></span>
+                    <span class="visually-hidden">Go to the CCS homepage</span></a>
                 <nav class="global-navigation" data-toggle="nav"
                     data-app-uri="http://www.crowncommercial.gov.uk/contact/sendToSalesforce"
                     data-app-pathinfo="/contact/sendToSalesforce" aria-hidden="false">
@@ -1115,7 +1126,8 @@
         <div class="govuk-width-container ">
             <div class="govuk-footer__meta">
                 <div class="govuk-footer__meta-item">
-                    <a class="govuk-footer__link logo" href="https://webdev.crowncommercial.gov.uk/"><span class="header_logo" alt="Go to the CCS homepage"></span></a>
+                    <a class="govuk-footer__link logo" href="https://webdev.crowncommercial.gov.uk/"><span class="header_logo" alt="Go to the CCS homepage"></span>
+                        <span class="visually-hidden">Go to the CCS homepage</span></a>
                 </div>
                 <div class="govuk-footer__meta-item govuk-footer__meta-item--grow right-content">
                     <ul class="govuk-list">
