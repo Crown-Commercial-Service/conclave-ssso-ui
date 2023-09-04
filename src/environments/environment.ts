@@ -5,19 +5,19 @@ export const environment = {
     api: {
       isApiGateWayEnabled: false,
       security: 'https://localhost:44352',
-      postgres: 'https://localhost:44330/dashboard-wrapper',
+      postgres: 'https://localhost:5000/dashboard-wrapper',
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://localhost:44309/user-profiles',
-          organisation: 'https://localhost:44309/organisation-profiles',
-          contact: 'https://localhost:44309/contacts',
-          configuration: 'https://localhost:44309/configurations',
+          user: 'https://localhost:5014/user-profiles',
+          organisation: 'https://localhost:7021/organisation-profiles',
+          contact: 'http://localhost:11674/contact-service',
+          configuration: 'https://localhost:7022/configuration-service',
         },
         apiGatewayDisabled: {
-          user: 'https://localhost:44309/users',
-          organisation: 'https://localhost:44309/organisations',
-          contact: 'https://localhost:44309/contacts',
-          configuration: 'https://localhost:44309/configurations',
+          user: 'https://localhost:5014/users',
+          organisation: 'https://localhost:7021/organisations',
+          contact: 'http://localhost:11674/contact-service',
+          configuration: 'https://localhost:7022/configuration-service',
         }
       }
     },
