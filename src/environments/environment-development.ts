@@ -4,16 +4,16 @@ export const environment = {
     uri: {
       api: {
         isApiGateWayEnabled: true,
-        security: 'https://dev.api.crowncommercial.gov.uk/aws',
-        postgres: 'https://dev.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
+        security: 'https://dev.ppg-sso-service.crowncommercial.gov.uk',
+        postgres: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/dashboard-wrapper',
         cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
-            user: 'https://dev.api.crowncommercial.gov.uk/aws/user-profile',
-            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/organisation-profile',
-            contact: 'https://dev.api.crowncommercial.gov.uk/aws/contact-service',
-            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/configuration-service',
-            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/organisation-profile/migrations',
+            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/user-profile',
+            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
+            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/contact-service',
+            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
+            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/migrations',
           },
           apiGatewayDisabled: {
             user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/user-profile',
