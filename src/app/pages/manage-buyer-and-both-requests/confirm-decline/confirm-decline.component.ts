@@ -31,7 +31,7 @@ export class ConfirmDeclineComponent implements OnInit {
   public confirmAndDecline(): void {
     this.wrapperBuyerAndBothService.manualValidation(this.routeDetails.organisationId, ManualValidationStatus.decline).subscribe({
       next: (response: any) => {
-        this.router.navigateByUrl('buyer-and-both-success');
+        this.router.navigateByUrl('decline-success');
       },
       error: (error: any) => {
         this.router.navigateByUrl('buyer-and-both-fail');
@@ -43,7 +43,7 @@ export class ConfirmDeclineComponent implements OnInit {
       organisationName: this.routeDetails.organisationName
     };
     this.router.navigateByUrl(
-      'buyer-and-both-success?data=' + btoa(JSON.stringify(data))
+      'decline-success?data=' + btoa(JSON.stringify(data))
     );
   }
 

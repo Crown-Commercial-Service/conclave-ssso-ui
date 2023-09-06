@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    idam_client_id: '',
+    idam_client_id: 'IDAM_ID',
     uri: {
       api: {
         isApiGateWayEnabled: false,
@@ -27,7 +27,8 @@ export const environment = {
         dashboard: 'http://localhost:4200',
         name: "DEV"
       },
-      ccsContactUrl: "https://webdev.crowncommercial.gov.uk/contact"
+      ccsContactUrl: "https://webdev.crowncommercial.gov.uk/contact",
+      ccsDashboardUrl: "https://webdev.crowncommercial.gov.uk"
     },
     googleTagMangerId: 'GTM-1',
     cookieExpirationTimeInMinutes: 10,// 525600 => 365 Days
