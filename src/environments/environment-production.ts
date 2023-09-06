@@ -32,7 +32,7 @@ export const environment = {
       name: "",   // <= name should not be any value in production
     },
     ccsContactUrl: "https://www.crowncommercial.gov.uk/contact",
-    ccsDashboardUrl: "https://www.crowncommercial.gov.uk"
+    ccsDashboardUrl: "https://identify.crowncommercial.gov.uk"
   },
   googleTagMangerId: 'GTM',
   cookieExpirationTimeInMinutes: 525600,
