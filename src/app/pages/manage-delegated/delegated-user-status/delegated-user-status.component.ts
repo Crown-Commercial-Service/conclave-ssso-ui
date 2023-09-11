@@ -173,7 +173,7 @@ export class DelegatedUserStatusComponent implements OnInit {
     this.DelegationApiService.getDelegatedEventLogs(
       this.eventLog.pageSize,
       this.eventLog.currentPage,
-      this.UserStatus.event.id,
+      this.UserStatus.event.userName,
       this.organisationId
     ).subscribe((response) => {
       this.eventLog.delegationAuditEventDetails = response;
