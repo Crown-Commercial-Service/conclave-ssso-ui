@@ -8,21 +8,21 @@ export const environment = {
 
     api: {
 
-      isApiGateWayEnabled: false,
+      isApiGateWayEnabled: true,
 
-      security: 'https://nft.ppg-sso-service.crowncommercial.gov.uk',
+      security: 'https://nft.api.crowncommercial.gov.uk/aws',
 
-      postgres: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/dashboard-wrapper',
+      postgres: 'https://nft.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
 
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
 
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/user-profile',
-          organisation: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/contact-service',
-          configuration: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/datamigration',
+          user: 'https://nft.api.crowncommercial.gov.uk/aws/user-profile',
+          organisation: 'https://nft.api.crowncommercial.gov.uk/aws/organisation-profile',
+          contact: 'https://nft.api.crowncommercial.gov.uk/aws/contact-service',
+          configuration: 'https://nft.api.crowncommercial.gov.uk/aws/configuration-service',
+          dataMigration: 'https://nft.api.crowncommercial.gov.uk/aws/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/user-profile',

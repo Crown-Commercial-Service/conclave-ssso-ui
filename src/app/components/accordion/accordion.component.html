@@ -28,26 +28,26 @@
                                     [attr.disabled]="groupdata.disabled">
                                 <label
                                     class="govuk-label govuk-checkboxes__label govuk-!-margin-bottom-2 govuk-!-margin-left-4 govuk-link"
-                                    for="{{'groupdata' + groupdata.groupId}}">
-
+                                    for="{{'orgGroupControl_' + groupdata.groupId}}">
+                                    <span>
+                                        <a href="javascript:;" class="govuk-link" href="javascript:void(0)"
+                                            (click)="goToEditGroup(groupdata.groupId)">{{groupdata[headerTextKeys]}}</a>
+                                        <ul class="govuk-list govuk-list--bullet govuk-!-padding-top-4 govuk-!-padding-left-3"
+                                            id="{{groupdata.groupId}}" style="display: none;">
+        
+                                            <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleData">
+                                                <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}}
+                                                    <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
+                                                </li>
+                                            </span>
+                                            <ng-template #noRoleData>
+                                                <label class="no-data-message no-data-message-l"> {{noRoleText}} </label>
+                                            </ng-template>
+                                        </ul>
+                                    </span>
                                 </label>
                             </span>
-                            <span>
-                                <a href="javascript:;" class="govuk-link"
-                                    (click)="goToEditGroup(groupdata.groupId)">{{groupdata[headerTextKeys]}}</a>
-                                <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-6 govuk-!-padding-left-8 govuk-!-padding-top-4"
-                                    id="{{groupdata.groupId}}" style="display: none;">
-
-                                    <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleData">
-                                        <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}}
-                                            <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
-                                        </li>
-                                    </span>
-                                    <ng-template #noRoleData>
-                                        <label class="no-data-message"> {{noRoleText}} </label>
-                                    </ng-template>
-                                </ul>
-                            </span>
+                        
 
                         </div>
                     </div>

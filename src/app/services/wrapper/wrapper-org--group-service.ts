@@ -45,7 +45,7 @@ export class WrapperOrganisationGroupService {
   }
 
   getOrganisationGroupsWithRoles(organisationId: string, searchString: string = ''): Observable<any> {
-    const url = `${this.url}/${organisationId}/groups/servicerolegroups?search-string=${encodeURIComponent(searchString)}`;
+    const url = `${this.url}/${organisationId}/groups/service-role-groups?search-string=${encodeURIComponent(searchString)}`;
     return this.http.get<GroupList>(url).pipe(
       map((data: GroupList) => {
         return data;
@@ -57,7 +57,7 @@ export class WrapperOrganisationGroupService {
 
   getOrganisationGroup(organisationId: string, groupId: number): Observable<any> {
     if (!environment.appSetting.hideSimplifyRole) {
-      const url = `${this.url}/${organisationId}/groups/${groupId}/servicerolegroups`;
+      const url = `${this.url}/${organisationId}/groups/${groupId}/service-role-groups`;
       return this.http.get<OrganisationGroupResponseInfo>(url).pipe(
         map((data: OrganisationGroupResponseInfo) => {
           data.roles = data.serviceRoleGroups
@@ -100,7 +100,7 @@ export class WrapperOrganisationGroupService {
       }
       orgGroupPatchInfo.serviceRoleGroupInfo = serviceRoleGroupInfos
       delete orgGroupPatchInfo.roleInfo
-      const url = `${this.url}/${organisationId}/groups/${groupId}/servicerolegroups`;
+      const url = `${this.url}/${organisationId}/groups/${groupId}/service-role-groups`;
       return this.http.patch(url, orgGroupPatchInfo).pipe(
         map(() => {
           return true;
@@ -175,7 +175,7 @@ export class WrapperOrganisationGroupService {
       );
     } else {
       const structureData: any = []
-      const url = `${this.url}/${organisationId}/servicerolegroups`;
+      const url = `${this.url}/${organisationId}/service-role-groups`;
       return this.http.get<Role[]>(url).pipe(
         map((data: Role[]) => {
           data.forEach((f: any) => {
@@ -202,7 +202,7 @@ export class WrapperOrganisationGroupService {
   getOrganisationApprovalRequiredRoles(): Observable<any> {
     if(!environment.appSetting.hideSimplifyRole){
       const structureData:any = []
-      const url = `${this.configURl}/approve/servicerolegroups`;
+      const url = `${this.configURl}/approval/service-role-groups`;
       return this.http.get<Role[]>(url).pipe(map((data: Role[]) => {
         data.forEach((f:any) => {
           let structureObj = {
@@ -223,7 +223,7 @@ export class WrapperOrganisationGroupService {
         })
       );
     } else {
-      const url = `${this.configURl}/approve/roles`;
+      const url = `${this.configURl}/approval/roles`;
       return this.http.get<Role[]>(url).pipe(map((data: Role[]) => {return data } ),
          catchError(err => {
           return throwError(err);
@@ -235,7 +235,7 @@ export class WrapperOrganisationGroupService {
   getGroupOrganisationRoles(organisationId: string): Observable<any> {
     if (!environment.appSetting.hideSimplifyRole) {
       const structureData: any = []
-      const url = `${this.url}/${organisationId}/servicerolegroups`;
+      const url = `${this.url}/${organisationId}/service-role-groups`;
       return this.http.get<Role[]>(url).pipe(
         map((data: any[]) => {
           data.forEach((f) => {
