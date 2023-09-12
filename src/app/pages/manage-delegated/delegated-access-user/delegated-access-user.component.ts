@@ -28,7 +28,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   private RoleInfo: any = []
   private userSelectedFormData: any;
   public hideSimplifyRole = environment.appSetting.hideSimplifyRole;
-  private userId:string= ''
+  private userId:number= 0
   public eventLogForActiveUser: any = {
     delegationAuditEventDetails: {
       currentPage: 0,
@@ -81,7 +81,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userDetails = JSON.parse(atob(para.data));
       this.userDetails.userName = decodeURIComponent(unescape(this.userDetails.userName));
-      this.userId = this.userDetails.userName
+      this.userId = this.userDetails.id
       this.pageAccessMode = this.userDetails.pageaccessmode
       if (this.userSelectedFormData) {
         this.userSelectedData(this.userDetails.userName, this.organisationId)
