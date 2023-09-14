@@ -13,7 +13,7 @@ import { ContactAssignedStatus } from 'src/app/constants/enum';
 })
 export class WrapperSiteContactService {
   url: string = `${environment.uri.api.isApiGateWayEnabled ?
-    environment.uri.api.wrapper.apiGatewayEnabled.organisation : environment.uri.api.wrapper.apiGatewayDisabled.organisation}`;
+    environment.uri.api.wrapper.apiGatewayEnabled.contact : environment.uri.api.wrapper.apiGatewayDisabled.contact}/organisations`;
 
   private options = {
     headers: new HttpHeaders(),

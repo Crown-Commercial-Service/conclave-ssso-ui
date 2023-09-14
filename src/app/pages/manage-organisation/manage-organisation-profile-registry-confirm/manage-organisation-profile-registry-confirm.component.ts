@@ -47,7 +47,6 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
   }
 
   ngOnInit() {
-    this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/error/ciidown`);
     this.schemeName = localStorage.getItem('scheme_name') ?? '';
     this.route.params.subscribe(params => {
       this.routeParams = params;
