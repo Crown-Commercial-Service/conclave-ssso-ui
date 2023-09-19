@@ -1014,4 +1014,10 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     });
     this.orgUserGroupRoles = this.orgUserGroupRoles.filter((item: any) => item.id !== defaultUserRoleId);
   }
+  public scrollContent(id: string): void {
+    document.getElementById(id)?.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+    });
+  }
 }

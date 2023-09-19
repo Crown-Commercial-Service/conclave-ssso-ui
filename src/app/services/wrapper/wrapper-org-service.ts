@@ -53,7 +53,7 @@ export class WrapperOrganisationService {
   }
 
   getAutoValidationStatus(organisationId: string) {
-    const url = `${this.url}/${organisationId}/autovalidate`;
+    const url = `${this.url}/${organisationId}/validation/auto`;
     return this.http.get<OrganisationDto>(url).pipe(
       map((data: OrganisationDto) => {
         return data;

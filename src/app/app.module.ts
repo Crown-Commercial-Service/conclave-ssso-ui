@@ -207,6 +207,7 @@ import { GovukRadioComponent } from './components/govuk-radio/govuk-radio.compon
 import { EnvironmentBannerComponent } from './components/environment-banner/environment-banner.component';
 import { PermissionPipe } from './pipes/permission.pipe';
 import { SchemePipe } from './pipes/scheme.pipe';
+import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -379,7 +380,8 @@ export function createTranslateLoader(http: HttpClient) {
     GovukRadioComponent,
     EnvironmentBannerComponent,
     PermissionPipe,
-    SchemePipe
+    SchemePipe,
+    ManageOrganisationRegisterationCiiComponent
   ],
   imports: [
     // BrowserModule,

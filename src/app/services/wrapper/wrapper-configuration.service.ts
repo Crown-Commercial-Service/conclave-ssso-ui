@@ -50,7 +50,7 @@ export class WrapperConfigurationService {
   getRoles(): Observable<any> {
     if(!environment.appSetting.hideSimplifyRole){
       const structureData:any = []
-      const url = `${this.url}/servicerolegroups`;
+      const url = `${this.url}/service-role-groups`;
       return this.http.get<any[]>(url, this.options).pipe(
         map((data: any[]) => {
           data.forEach((f)=>{

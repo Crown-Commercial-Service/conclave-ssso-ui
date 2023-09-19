@@ -149,6 +149,8 @@ import { DataMigrationUploadComponent } from './pages/data-migration/data-migrat
 import { DataMigrationStatusComponent } from './pages/data-migration/data-migration-status/data-migration-status.component';
 import { DataMigrationErrorComponent } from './pages/data-migration/data-migration-error/data-migration-error.component';
 import { DataMigrationSummaryComponent } from './pages/data-migration/data-migration-summary/data-migration-summary.component';
+import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
+import { UserProfileResolver } from './resolvers/user-profile.resolver';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -183,6 +185,7 @@ const routes: Routes = [
     data: { title: 'My Profile', roles: ['MANAGE_MY_ACCOUNT'] },
     canActivate: [AuthGuard, RoleGuard],
     pathMatch: 'full',
+    resolve: { isAdmin: UserProfileResolver },
     component: UserProfileComponent,
   },
   {
@@ -247,19 +250,19 @@ const routes: Routes = [
   },
   {
     path: 'forgot-password',
-    data: { title: 'Forgot Password' },
+    data: { title: 'Reset your password' },
     pathMatch: 'full',
     component: ForgotPasswordComponent,
   },
   {
     path: 'forgot-password-success',
-    data: { title: 'Success - Forgot Password' },
+    data: { title: 'Success - Reset your password' },
     pathMatch: 'full',
     component: ForgotPasswordSuccessComponent,
   },
   {
     path: 'forgot-password-error',
-    data: { title: 'Error - Forgot Password' },
+    data: { title: 'Error - Reset your password' },
     pathMatch: 'full',
     component: ForgotPasswordErrorComponent,
   },
@@ -425,6 +428,12 @@ const routes: Routes = [
     data: { title: 'Error - Registration' },
     pathMatch: 'full',
     component: ManageOrgRegErrorNotFoundComponent,
+  },
+  {
+    path: 'manage-org/register/error/cii',
+    data: { title: 'Error - Registration' },
+    pathMatch: 'full',
+    component: ManageOrganisationRegisterationCiiComponent,
   },
   {
     path: 'manage-org/register/error/reg-id-exists',
@@ -1166,6 +1175,13 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: SuccessRightToBuyComponent,
+  },
+  {
+    path: 'decline-success',
+    pathMatch: 'full',
+    data: { roles: ['MANAGE_SUBSCRIPTIONS'] },
+    canActivate: [AuthGuard, RoleGuard],
+    component: BuyerBothRequestsSuccessComponent,
   },
   {
     path: 'buyer-and-both-success',

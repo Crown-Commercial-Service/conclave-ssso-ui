@@ -125,7 +125,10 @@ export class ManageOrgRegStep3Component
           error: (err) => {
             if (err.status == '404') {
               this.router.navigateByUrl(`manage-org/register/error/notfound`);
-            } else if (err.status == '409') {
+            } else if (err.status == '503'){
+              this.router.navigateByUrl(`manage-org/register/error/cii`);
+            } 
+            else if (err.status == '409') {
               this.ciiOrgId = err.error.organisationId;
               this.setOrgIdForOrgDetails(this.ciiOrgId);
               window.location.replace(

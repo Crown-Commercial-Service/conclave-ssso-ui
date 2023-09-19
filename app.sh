@@ -56,6 +56,7 @@ cp -rf dist ./deploy/
 cp -rf Staticfile ./deploy/
 cp -rf nginx.conf ./deploy/
 cp -rf manifest.yml ./deploy/
+cp -rf mime.types ./deploy/
 cd deploy
 
 cf push

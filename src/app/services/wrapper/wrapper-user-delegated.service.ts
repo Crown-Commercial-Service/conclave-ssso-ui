@@ -197,7 +197,7 @@ export class WrapperUserDelegatedService {
 
 
   resentActivationLink(userId: string, organizationId: string) {
-    const url = `${this.Usersurl}/delegate-user-resend-activation?user-id=${encodeURIComponent(userId)}&delegated-organisation-id=${organizationId}`;
+    const url = `${this.Usersurl}/delegate-user/resend-activation?user-id=${encodeURIComponent(userId)}&delegated-organisation-id=${organizationId}`;
     return this.http.put(url, this.options).pipe(
       map(() => {
         return true;
@@ -208,7 +208,7 @@ export class WrapperUserDelegatedService {
   }
 
   activateUser(activationCode: string): Observable<any> {
-    const url = `${this.Usersurl}/delegate-user-validation?acceptance-code=${activationCode}`;
+    const url = `${this.Usersurl}/delegate-user/validation?acceptance-code=${activationCode}`;
     return this.http.get<any>(url, this.options).pipe(
       map((data: any) => {
         return data;
