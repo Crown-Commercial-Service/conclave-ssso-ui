@@ -131,7 +131,7 @@ export class WrapperOrganisationGroupService {
     );
   }
 
-  getOrganisationRoles(organisationId: string): Observable<any> {
+  getOrganisationRoles(organisationId: string): Observable<Role[]> {
     if (environment.appSetting.hideSimplifyRole) {
       const url = `${this.url}/${organisationId}/roles`;
       return this.http.get<Role[]>(url).pipe(
