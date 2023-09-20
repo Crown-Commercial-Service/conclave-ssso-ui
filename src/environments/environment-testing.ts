@@ -5,15 +5,15 @@ export const environment = {
     api: {
       isApiGateWayEnabled: true,
       security: 'https://tst.api.crowncommercial.gov.uk/aws',
-      postgres: 'https://tst.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
+      postgres: 'https://tst.api.crowncommercial.gov.uk/dashboard-wrapper',
       cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://tst.api.crowncommercial.gov.uk/aws/user-profile',
-          organisation: 'https://tst.api.crowncommercial.gov.uk/aws/organisation-profile',
-          contact: 'https://tst.api.crowncommercial.gov.uk/aws/contact-service',
-          configuration: 'https://tst.api.crowncommercial.gov.uk/aws/configuration-service',
-          dataMigration: 'https://tst.api.crowncommercial.gov.uk/aws/organisation-profile/migrations',
+          user: 'https://tst.api.crowncommercial.gov.uk/user-profile',
+          organisation: 'https://tst.api.crowncommercial.gov.uk/organisation-profile',
+          contact: 'https://tst.api.crowncommercial.gov.uk/contact-service',
+          configuration: 'https://tst.api.crowncommercial.gov.uk/configuration-service',
+          dataMigration: 'https://tst.api.crowncommercial.gov.uk/organisation-profile/migrations',
         },
         apiGatewayDisabled: {
           user: 'https://test.ppg-sso-service.crowncommercial.gov.uk/user-profile',
