@@ -65,7 +65,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
   }
 
   public checkPasswordStrong(control: FormControl) {
-    var format = /[!@#$%^&*_]+/;
+    var format = /[!"#$%&'()*+,\-.\/:;<=>?@[\]\\^_{|}]+/;
     let hasNumber = /\d/.test(control.value);
     let hasUpper = /[A-Z]/.test(control.value);
     let hasLower = /[a-z]/.test(control.value);
