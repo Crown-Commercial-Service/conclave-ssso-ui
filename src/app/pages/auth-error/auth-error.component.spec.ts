@@ -4,6 +4,7 @@ import { AuthErrorComponent } from './auth-error.component';
 
 describe('AuthErrorComponent', () => {
   let component: AuthErrorComponent;
+  
   let fixture: ComponentFixture<AuthErrorComponent>;
 
   beforeEach(async () => {
