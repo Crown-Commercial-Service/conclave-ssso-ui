@@ -15,16 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- GA4 script -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-624NHLKTKL"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-624NHLKTKL');
-    </script>
-    <!--  GA4 script -->
       <!-- Google Tag Manager -->
     <script>
         (function (w, d, s, l, i) {
@@ -788,8 +778,8 @@
                                 Sign in
                             </button>
                             <div class="align-right">
-                                <a id="forgotPwdLink" style="margin-bottom: 15px;" class="navigation-text"
-                                    href="https://dev.identify.crowncommercial.gov.uk/forgot-password">I have forgotten
+                                <a id="forgotPwdLink" style="margin-bottom: 15px;" class="navigation-text" onclick="forgotPassword()"
+                                    >I have forgotten
                                     my
                                     password</a>
                                 <br />
@@ -876,7 +866,7 @@
                         <li>
                             <ul class="govuk-footer__inline-list">
                                 <li class="govuk-footer__inline-list-item">
-                                    <a class="govuk-footer__link"
+                                    <a class="govuk-footer__link" referrerpolicy="unsafe-url"
                                         href="https://webdev.crowncommercial.gov.uk/contact">Contact CCS</a>
                                 </li>
                                 <li class="govuk-footer__inline-list-item">
@@ -969,6 +959,10 @@
                 deleteCookie("_cls_v", 'removed');
             }
     
+        function forgotPassword(){
+            let lastUserEmail = document.getElementById("email").value
+            localStoagre.setItem('lastUserEmail', lastUserEmail);
+        }    
 
         window.addEventListener('load', function () {
             //debugger;
