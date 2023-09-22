@@ -11,7 +11,7 @@ import { ContactPoint, UserContactInfo, UserContactInfoList } from 'src/app/mode
 })
 export class WrapperUserContactService {
     url: string = `${environment.uri.api.isApiGateWayEnabled ?
-        environment.uri.api.wrapper.apiGatewayEnabled.user : environment.uri.api.wrapper.apiGatewayDisabled.user}/contacts`;
+        environment.uri.api.wrapper.apiGatewayEnabled.contact : environment.uri.api.wrapper.apiGatewayDisabled.contact}/user/contacts`;
 
     private options = {
         headers: new HttpHeaders()

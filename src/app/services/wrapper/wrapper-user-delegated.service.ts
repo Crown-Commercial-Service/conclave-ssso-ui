@@ -197,7 +197,7 @@ export class WrapperUserDelegatedService {
 
 
   resentActivationLink(userId: string, organizationId: string) {
-    const url = `${this.Usersurl}/delegate-user-resend-activation?user-id=${encodeURIComponent(userId)}&delegated-organisation-id=${organizationId}`;
+    const url = `${this.Usersurl}/delegate-user/resend-activation?user-id=${encodeURIComponent(userId)}&delegated-organisation-id=${organizationId}`;
     return this.http.put(url, this.options).pipe(
       map(() => {
         return true;
@@ -208,7 +208,7 @@ export class WrapperUserDelegatedService {
   }
 
   activateUser(activationCode: string): Observable<any> {
-    const url = `${this.Usersurl}/delegate-user-validation?acceptance-code=${activationCode}`;
+    const url = `${this.Usersurl}/delegate-user/validation?acceptance-code=${activationCode}`;
     return this.http.get<any>(url, this.options).pipe(
       map((data: any) => {
         return data;
@@ -220,7 +220,7 @@ export class WrapperUserDelegatedService {
 
   getDelegatedEventLogs(  pageSize: number,currentPage: number, id:number,delegatedOrganisationId:string): Observable<any> {
     pageSize = pageSize <= 0 ? 10 : pageSize;
-      const url = `${this.Usersurl}/v1/delegate-user-auditevents?pageSize=${pageSize}&currentPage=${currentPage}&id=${id}&delegated-organisation-id=${delegatedOrganisationId}`;
+      const url = `${this.Usersurl}/v1/delegate-user/audit-events?user-id=${id}&delegated-organisation-id=${delegatedOrganisationId}&PageSize=${pageSize}&CurrentPage=${currentPage}`;
       return this.http.get<any>(url).pipe(
         map((data: any) => {
           console.log("data.organisationAuditEventList",data)
