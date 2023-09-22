@@ -1,104 +1,142 @@
-// import { TestBed } from '@angular/core/testing';
-// import { RouterTestingModule } from '@angular/router/testing';
-// import { MatToolbarModule } from '@angular/material/toolbar';
-// import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-// import { MatButtonModule } from '@angular/material/button';
-// import { MatCardModule } from '@angular/material/card';
-// import { MatIconModule } from '@angular/material/icon';
-// import { MatDialogModule } from '@angular/material/dialog';
-// import { MatFormFieldModule } from '@angular/material/form-field';
-// import { MatCheckboxModule } from '@angular/material/checkbox';
-// import { MatInputModule } from '@angular/material/input';
-// import { MatExpansionModule } from '@angular/material/expansion';
-// import { FlexLayoutModule } from '@angular/flex-layout';
-// import { NzButtonModule } from 'ng-zorro-antd/button';
-// import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-// import { NzMenuModule } from 'ng-zorro-antd/menu';
-// import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-// import { NzSliderModule } from 'ng-zorro-antd/slider';
-// import { NzSwitchModule } from 'ng-zorro-antd/switch';
-// import { NzLayoutModule } from 'ng-zorro-antd/layout';
-// import { ComponentsModule } from './components/index';
-// import { AppComponent } from './app.component';
-// import { HttpClient } from '@angular/common/http';
-// import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-// import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-// import { StoreModule } from '@ngrx/store';
-// import * as reducers from './store/ui.reducers';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Store, StoreModule } from '@ngrx/store';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from './services/auth/auth.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
+import { LoadingIndicatorService } from './services/helper/loading-indicator.service';
+import { GlobalRouteService } from './services/helper/global-route.service';
+import { GoogleTagManagerService } from 'angular-google-tag-manager';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppComponent } from './app.component';
+import { environment } from 'src/environments/environment';
+import * as reducers from './store/ui.reducers';
 
-// export function HttpLoaderFactory(http: HttpClient) {
-//   return new TranslateHttpLoader(http);
-// }
+describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
-// export function createTranslateLoader(http: HttpClient) {
-//   return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
-// }
+  beforeEach(() => {
+    const storeStub = () => ({ pipe: () => ({}), dispatch: () => ({}) });
+    const overlayContainerStub = () => ({
+      getContainerElement: () => ({
+        classList: { add: () => ({}), remove: () => ({}) }
+      })
+    });
+    const translateServiceStub = () => ({ setDefaultLang: () => ({}) });
+    const activatedRouteStub = () => ({
+      firstChild: { firstChild: {}, snapshot: { data: {} } }
+    });
+    const routerStub = () => ({
+      events: {
+        pipe: () => ({ subscribe: () => {} }),
+        subscribe: () => {}
+      },
+      navigate: (array: Array<any>, object: any) => ({})
+    });
+    const authServiceStub = () => ({
+      isUserAuthenticated: () => ({}),
+      isInMemoryTokenExists: () => ({}),
+      registerTokenRenewal: () => ({}),
+      logOutAndRedirect: () => ({})
+    });
+    const domSanitizerStub = () => ({});
+    const titleStub = () => ({ setTitle: () => ({}) });
+    const loadingIndicatorServiceStub = () => ({});
+    const globalRouteServiceStub = () => ({ globalRoute: {} });
+    const googleTagManagerServiceStub = () => ({});
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('ui-state', reducers.reducer),
+        RouterTestingModule
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [AppComponent],
+      providers: [
+        { provide: Store, useFactory: storeStub },
+        { provide: OverlayContainer, useFactory: overlayContainerStub },
+        { provide: TranslateService, useFactory: translateServiceStub },
+        { provide: ActivatedRoute, useFactory: activatedRouteStub },
+        { provide: Router, useFactory: routerStub },
+        { provide: AuthService, useFactory: authServiceStub },
+        { provide: DomSanitizer, useFactory: domSanitizerStub },
+        { provide: Title, useFactory: titleStub },
+        {
+          provide: LoadingIndicatorService,
+          useFactory: loadingIndicatorServiceStub
+        },
+        { provide: GlobalRouteService, useFactory: globalRouteServiceStub },
+        {
+          provide: GoogleTagManagerService,
+          useFactory: googleTagManagerServiceStub
+        }
+      ]
+    });
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+  });
 
-// class HttpClientMock {
-//   public get() {
-//     return 'response';
-//   }
-// }
+  it('It is created', () => {
+    expect(component).toBeTruthy();
+  });
 
-// describe('AppComponent', () => {
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       imports: [
-//         RouterTestingModule,
-//         FlexLayoutModule,
-//         MatToolbarModule,
-//         MatSlideToggleModule,
-//         MatButtonModule,
-//         MatCardModule,
-//         MatIconModule,
-//         MatDialogModule,
-//         MatFormFieldModule,
-//         MatInputModule,
-//         MatCheckboxModule,
-//         MatExpansionModule,
-//         NzButtonModule,
-//         NzDropDownModule,
-//         NzMenuModule,
-//         NzBreadCrumbModule,
-//         NzSliderModule,
-//         NzSwitchModule,
-//         NzLayoutModule,
-//         ComponentsModule,
-//         TranslateModule.forRoot({
-//           loader: {
-//             provide: TranslateLoader,
-//             useFactory: (createTranslateLoader),
-//             deps: [HttpClient]
-//           }
-//         }),
-//         StoreModule.forRoot({}),
-//         StoreModule.forFeature('ui-state', reducers.reducer),
-//       ],
-//       declarations: [
-//         AppComponent
-//       ],
-//       providers: [
-//         { provide: HttpClient, useClass: HttpClientMock },
-//       ]
-//     }).compileComponents();
-//   });
+  it(`home has default value`, () => {
+    expect(component.home).toEqual(environment.uri.ccsDashboardUrl);
+  });
 
-//   it('should create the app', () => {
-//     const fixture = TestBed.createComponent(AppComponent);
-//     const app = fixture.componentInstance;
-//     expect(app).toBeTruthy();
-//   });
+  it(`isAuthenticated has default value`, () => {
+    expect(component.isAuthenticated).toEqual(false);
+  });
 
-//   it(`should have as title 'ccs-sso-web'`, () => {
-//     const fixture = TestBed.createComponent(AppComponent);
-//     const app = fixture.componentInstance;
-//     expect(app.title).toEqual('ccs-sso-web');
-//   });
+  it(`ccsContactUrl has default value`, () => {
+    expect(component.ccsContactUrl).toEqual(environment.uri.ccsContactUrl);
+  });
 
-//   it('should render title', () => {
-//     const fixture = TestBed.createComponent(AppComponent);
-//     fixture.detectChanges();
-//     const compiled = fixture.nativeElement;
-//     expect(compiled.querySelector('.content span').textContent).toContain('ccs-sso-web app is running!');
-//   });
-// });
+  describe('ngOnInit', () => {
+    it('makes expected calls', () => {
+      const overlayContainerStub: OverlayContainer = fixture.debugElement.injector.get(
+        OverlayContainer
+      );
+      const routerStub: Router = fixture.debugElement.injector.get(Router);
+      const authServiceStub: AuthService = fixture.debugElement.injector.get(
+        AuthService
+      );
+      spyOn(overlayContainerStub, 'getContainerElement').and.callThrough();
+      spyOn(routerStub, 'navigate').and.callThrough();
+      spyOn(authServiceStub, 'isUserAuthenticated').and.callThrough();
+      spyOn(authServiceStub, 'isInMemoryTokenExists').and.callThrough();
+      spyOn(authServiceStub, 'registerTokenRenewal').and.callThrough();
+      component.ngOnInit();
+      expect(overlayContainerStub.getContainerElement).toHaveBeenCalled();
+      expect(routerStub.navigate).toHaveBeenCalled();
+      expect(authServiceStub.isUserAuthenticated).toHaveBeenCalled();
+      expect(authServiceStub.isInMemoryTokenExists).toHaveBeenCalled();
+      expect(authServiceStub.registerTokenRenewal).toHaveBeenCalled();
+    });
+  });
+
+  describe('onToggle', () => {
+    it('makes expected calls', () => {
+      const storeStub: Store = fixture.debugElement.injector.get(Store);
+      spyOn(storeStub, 'dispatch').and.callThrough();
+      component.onToggle();
+      expect(storeStub.dispatch).toHaveBeenCalled();
+    });
+  });
+
+  describe('signoutAndRedirect', () => {
+    it('makes expected calls', () => {
+      const authServiceStub: AuthService = fixture.debugElement.injector.get(
+        AuthService
+      );
+      spyOn(authServiceStub, 'logOutAndRedirect').and.callThrough();
+      component.signoutAndRedirect();
+      expect(authServiceStub.logOutAndRedirect).toHaveBeenCalled();
+    });
+  });
+});
