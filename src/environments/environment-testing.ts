@@ -4,7 +4,7 @@ export const environment = {
   uri: {
     api: {
       isApiGateWayEnabled: true,
-      security: 'https://tst.api.crowncommercial.gov.uk/aws',
+      security: 'https://tst.api.crowncommercial.gov.uk',
       postgres: 'https://tst.api.crowncommercial.gov.uk/dashboard-wrapper',
       cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
@@ -25,7 +25,7 @@ export const environment = {
       }
     },
     web: {
-      dashboard: 'https://test-ppg-sso.crowncommercial.gov.uk',
+      dashboard: 'https://test.identify.crowncommercial.gov.uk',
       name: "TEST"
     },
     ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
