@@ -43,6 +43,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
     * @memberof ForgotPasswordComponent
     */
     ngOnInit() {
+        console.log("storage",localStorage.getItem('lastUserEmail'))
         this.translateService.get('RESET_PASSWORD_ERROR').subscribe((value) => {
             this.resetErrorString = value;
         });

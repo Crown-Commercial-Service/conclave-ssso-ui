@@ -150,6 +150,7 @@ import { DataMigrationStatusComponent } from './pages/data-migration/data-migrat
 import { DataMigrationErrorComponent } from './pages/data-migration/data-migration-error/data-migration-error.component';
 import { DataMigrationSummaryComponent } from './pages/data-migration/data-migration-summary/data-migration-summary.component';
 import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
+import { UserProfileResolver } from './resolvers/user-profile.resolver';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -184,6 +185,7 @@ const routes: Routes = [
     data: { title: 'My Profile', roles: ['MANAGE_MY_ACCOUNT'] },
     canActivate: [AuthGuard, RoleGuard],
     pathMatch: 'full',
+    resolve: { isAdmin: UserProfileResolver },
     component: UserProfileComponent,
   },
   {
