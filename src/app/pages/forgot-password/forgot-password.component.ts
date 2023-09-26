@@ -12,6 +12,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-forgot-password',
@@ -31,7 +32,8 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         private authService: AuthService,
         private PatternService:PatternService,
         protected uiStore: Store<UIState>, protected viewportScroller:
-            ViewportScroller, protected scrollHelper: ScrollHelper
+            ViewportScroller, protected scrollHelper: ScrollHelper,
+            private route : ActivatedRoute
     ) {
         super(uiStore, viewportScroller, scrollHelper);
         this.resetForm = this.formBuilder.group({
@@ -43,7 +45,11 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
     * @memberof ForgotPasswordComponent
     */
     ngOnInit() {
-        console.log("storage",localStorage.getItem('lastUserEmail'))
+        // console.log("storage",localStorage.getItem('lastUserEmail'));
+        // console.log("mail", this.route.snapshot.queryParamMap.get('email'));
+        this.resetForm.setValue({
+            userName : this.route.snapshot.queryParamMap.get('email')
+        }) ;
         this.translateService.get('RESET_PASSWORD_ERROR').subscribe((value) => {
             this.resetErrorString = value;
         });
