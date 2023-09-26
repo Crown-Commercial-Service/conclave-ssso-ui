@@ -14,7 +14,7 @@ import { PatternService } from 'src/app/shared/pattern.service';
 export class FindDelegatedUserComponent implements OnInit {
   public formGroup!: FormGroup;
   public submitted: boolean = false;
-  private organisationId: string = ''
+  public organisationId: string = ''
   public error: string = ''
   constructor(
     private route: Router,
