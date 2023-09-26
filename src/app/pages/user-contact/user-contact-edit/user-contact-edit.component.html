@@ -139,6 +139,7 @@
                                     [class.govuk-input--error]="submitted && formGroup.controls.email.hasError('email') || submitted && contact_error"
                                     size="20" value="" autocomplete="email" spellcheck="false"
                                     (input)="validateEmailLength($event)">
+                                  <label for="email" class="unwanted_lable">.</label>  
                             </div>
                         </div>
                         <div class="govuk-checkboxes__item"
@@ -165,6 +166,7 @@
                                     [numberFormat]="PhoneNumberFormat.International" [inputId]="'phone'" name="phone"
                                     formControlName="phone">
                                 </ngx-intl-tel-input>
+                                <label for="phone" class="unwanted_lable">.</label>  
                             </div>
                         </div>
                         <div class="govuk-checkboxes__item"
@@ -190,6 +192,7 @@
                                     [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'" name="mobile"
                                     formControlName="mobile">
                                 </ngx-intl-tel-input>
+                                <label for="mobile" class="unwanted_lable">.</label>  
                             </div>
                         </div>
                         <div class="govuk-checkboxes__item"
@@ -215,8 +218,9 @@
                                     [numberFormat]="PhoneNumberFormat.International" [inputId]="'fax'" name="fax"
                                     formControlName="fax">
                                 </ngx-intl-tel-input>
+                                <label for="fax" class="unwanted_lable">.</label>  
                             </div>
-                        </div>
+                        </div> 
                         <div class="govuk-checkboxes__item"
                         [class.govuk-form-group--error]="submitted && formGroup.controls['webUrl'].invalid">
                             <input class="govuk-checkboxes__input" id="web-checkbox" name="web-checkbox" type="checkbox"
@@ -232,6 +236,7 @@
                                 </span>
                                 <input formControlName="webUrl" class="govuk-input" id="web" name="web" type="text"
                                     [class.govuk-input--error]="submitted && contact_error">
+                                <label for="web" class="unwanted_lable">.</label>  
                             </div>
                         </div>
                     </div>

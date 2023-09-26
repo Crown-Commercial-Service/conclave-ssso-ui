@@ -25,9 +25,9 @@
     <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">
         {{ 'CREATE_GROUP' | translate }}
     </h1>
-    <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">
+    <label *ngIf="isEdit==true" class="govuk-heading-xl page-title"  for="group-name">
         {{ 'UPDATE_GROUP_NAME' | translate }}
-    </h1>
+    </label>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <div class="govuk-error-summary form-error-summary" aria-labelledby="error-summary-title" role="alert"
@@ -103,10 +103,10 @@
                             <div *ngIf="isEdit!=true" id="group-name-hint" class="govuk-hint">
                                 {{ 'YOU_CAN_CHANGE_THIS_LATER' | translate }}
                             </div>
-                            <label *ngIf="isEdit==true" class="govuk-label govuk-radios__label"
+                            <!-- <label *ngIf="isEdit==true" class="govuk-label govuk-radios__label"
                                 title="select one option" for="group-name" style="display: none; visibility: hidden">
                                 <span style="display: none; visibility: hidden">Select the option</span>
-                            </label>
+                            </label> -->
                             <input #input formControlName="groupName" class="govuk-input" id="group-name"
                                 name="group-name" type="text"
                                 [class.govuk-input--error]="submitted && (formGroup.controls.groupName.invalid || formGroup.controls.groupName.hasError('alreadyExists'))" />

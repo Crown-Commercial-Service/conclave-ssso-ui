@@ -64,7 +64,10 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
               this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/error/notfound`);
             } else if (err.status == '409') {
               this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/error/existsInConclave`);
-            } else {
+            } else if (err.status == '503') {
+              this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/error/ciidown`);
+            }
+            else {
               this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/error/generic`);
             }
           }
