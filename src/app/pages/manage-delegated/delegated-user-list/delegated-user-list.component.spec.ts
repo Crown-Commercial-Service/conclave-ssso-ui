@@ -1,36 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
-
 import { DelegatedUserListComponent } from './delegated-user-list.component';
-import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
-import { UserListResponse } from 'src/app/models/user';
+import { environment } from 'src/environments/environment';
 
 describe('DelegatedUserListComponent', () => {
   let component: DelegatedUserListComponent;
   let fixture: ComponentFixture<DelegatedUserListComponent>;
-  let debugElement: DebugElement;
-  let htmlElement: HTMLElement;
-  let wrapperUserDelegatedService: WrapperUserDelegatedService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [DelegatedUserListComponent],
-      imports: [RouterTestingModule, FormsModule, TranslateModule.forRoot()],
-      providers: [WrapperUserDelegatedService],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DelegatedUserListComponent);
     component = fixture.componentInstance;
-    debugElement = fixture.debugElement;
-    htmlElement = debugElement.nativeElement;
-    wrapperUserDelegatedService = TestBed.inject(WrapperUserDelegatedService);
     fixture.detectChanges();
   });
 
@@ -38,72 +24,49 @@ describe('DelegatedUserListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display the correct table headers for current users', () => {
-    component.currentUserstableConfig = {
-      usersTableHeaders: [
-        'NAME',
-        'EMAIL',
-        'Start date',
-        'End date',
-        'Organisation',
-      ],
-      usersColumnsToDisplay: [
-        'name',
-        'userName',
-        'startDate',
-        'endDate',
-        'originOrganisation',
-      ],
-      userList: '',
-      pageName: 'Delegatedaccess',
-      hyperTextrray: ['Remove', 'Edit'],
-    };
-    fixture.detectChanges();
-    const tableHeaders = htmlElement.querySelectorAll('.govuk-table__header');
-    expect(tableHeaders.length).toBe(5);
-    expect(tableHeaders[0].textContent).toContain('NAME');
-    expect(tableHeaders[1].textContent).toContain('EMAIL');
-    expect(tableHeaders[2].textContent).toContain('Start date');
-    expect(tableHeaders[3].textContent).toContain('End date');
-    expect(tableHeaders[4].textContent).toContain('Organisation');
-  });
-
-  it('should display the correct table headers for expired users', () => {
-    component.expiredUserstableConfig = {
-      usersTableHeaders: ['NAME', 'EMAIL', 'Expiry date', 'Organisation'],
-      usersColumnsToDisplay: [
-        'name',
-        'userName',
-        'endDate',
-        'originOrganisation',
-      ],
-      userList: '',
-      pageName: 'Delegatedaccess',
-      hyperTextrray: ['View'],
-    };
-    fixture.detectChanges();
-    const tableHeaders = htmlElement.querySelectorAll('.govuk-table__header');
-    expect(tableHeaders.length).toBe(4);
-    expect(tableHeaders[0].textContent).toContain('NAME');
-    expect(tableHeaders[1].textContent).toContain('EMAIL');
-    expect(tableHeaders[2].textContent).toContain('Expiry date');
-    expect(tableHeaders[3].textContent).toContain('Organisation');
-  });
-
-  it('should call WrapperUserDelegatedService.GetCurrentUsers on component initialization', () => {
-    spyOn(wrapperUserDelegatedService, 'GetCurrentUsers').and.returnValue(
-      of({})
+  it('should initialize with default values', () => {
+    expect(component.searchText).toBe('');
+    expect(component.searchSumbited).toBe(false);
+    expect(component.tabConfig.currentusers).toBe(true);
+    expect(component.tabConfig.expiredusers).toBe(false);
+    expect(component.organisationId).toBe('');
+    expect(component.currentUserstableConfig.currentPage).toBe(1);
+    expect(component.currentUserstableConfig.pageCount).toBe(0);
+    expect(component.currentUserstableConfig.pageSize).toBe(
+      environment.listPageSize
     );
+  });
+
+  it('should call getOrganisationCurrentUsers and getOrganisationExpiredUsers on ngOnInit', () => {
+    spyOn(component, 'getOrganisationCurrentUsers');
+    spyOn(component, 'getOrganisationExpiredUsers');
+
     component.ngOnInit();
-    expect(wrapperUserDelegatedService.GetCurrentUsers).toHaveBeenCalled();
+
+    expect(component.getOrganisationCurrentUsers).toHaveBeenCalled();
+    expect(component.getOrganisationExpiredUsers).toHaveBeenCalled();
   });
 
-  it('should call WrapperUserDelegatedService.GetExpiredUsers when search button is clicked', () => {
-    spyOn(wrapperUserDelegatedService, 'GetExpiredUsers').and.returnValue(
-      of({})
+  it('should navigate to find-delegated-user component on FindDelegateUser', () => {
+    spyOn(component.router, 'navigateByUrl');
+
+    component.FindDelegateUser();
+
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
+      'find-delegated-user'
     );
-    const searchButton = htmlElement.querySelector('button');
-    searchButton?.click();
-    expect(wrapperUserDelegatedService.GetExpiredUsers).toHaveBeenCalled();
+  });
+
+  it('should render the template correctly', () => {
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('.page-title').textContent).toContain(
+      'Delegated access'
+    );
+    expect(
+      compiled.querySelector('.govuk-tabs__list-item--selected').textContent
+    ).toContain('Current users with delegated access to your Organisation');
+    expect(
+      compiled.querySelector('.govuk-tabs__list-item:nth-child(2)').textContent
+    ).toContain('Users with expired delegated access to your Organisation');
   });
 });

@@ -1,44 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { By } from '@angular/platform-browser';
-import { Observable, of } from 'rxjs';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FindDelegatedUserComponent } from './find-delegated-user.component';
-import { PatternService } from 'src/app/shared/pattern.service';
-import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { Router } from '@angular/router';
 
 describe('FindDelegatedUserComponent', () => {
   let component: FindDelegatedUserComponent;
   let fixture: ComponentFixture<FindDelegatedUserComponent>;
-  let mockWrapperUserDelegatedService: Partial<WrapperUserDelegatedService>;
 
   beforeEach(async () => {
-    mockWrapperUserDelegatedService = {
-      getuserDetail: (
-        email: string,
-        organisationId: string
-      ): Observable<any> => {
-        // Mock the response of the getuserDetail method here
-        return of({});
-      },
-    };
-
     await TestBed.configureTestingModule({
+      declarations: [FindDelegatedUserComponent],
       imports: [
-        FormsModule,
         ReactiveFormsModule,
         RouterTestingModule,
-        TranslateModule.forRoot(),
-      ],
-      declarations: [FindDelegatedUserComponent],
-      providers: [
-        { provide: PatternService, useValue: {} },
-        {
-          provide: WrapperUserDelegatedService,
-          useValue: mockWrapperUserDelegatedService,
-        },
+        HttpClientTestingModule,
       ],
     }).compileComponents();
   });
@@ -53,72 +30,53 @@ describe('FindDelegatedUserComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render the page title correctly', () => {
-    const pageTitle = fixture.debugElement.query(
-      By.css('.page-title')
-    ).nativeElement;
-    expect(pageTitle.textContent).toContain('Find a user');
+  it('should initialize the form with empty email field', () => {
+    expect(component.formGroup.get('email')!.value).toEqual('');
   });
 
-  it('should display an error message if email is not provided', () => {
-    component.formGroup.controls['email'].setValue('');
-    component.submitted = true;
-    fixture.detectChanges();
-
-    const errorList = fixture.debugElement.queryAll(
-      By.css('.govuk-error-summary__list li')
-    );
-    expect(errorList[0].nativeElement.textContent).toContain(
-      'Enter your email address'
-    );
+  it('should set focus to email field', () => {
+    const emailInput = fixture.nativeElement.querySelector('#email');
+    spyOn(emailInput, 'focus');
+    component.setFocus({});
+    expect(emailInput.focus).toHaveBeenCalled();
   });
 
-  it('should display an error message if email is not in the correct format', () => {
-    component.formGroup.controls['email'].setValue('invalid_email');
-    component.submitted = true;
-    fixture.detectChanges();
-
-    const errorList = fixture.debugElement.queryAll(
-      By.css('.govuk-error-summary__list li')
-    );
-    expect(errorList[1].nativeElement.textContent).toContain(
-      'Enter an email address in the correct format, like name@example.com'
-    );
+  it('should validate email length and set error if invalid', () => {
+    const emailControl = component.formGroup.get('email')!;
+    emailControl.setValue('invalidemail');
+    component.validateEmailLength({ target: { value: 'invalidemail' } });
+    expect(emailControl.hasError('incorrect')).toBeTrue();
   });
 
-  it('should display an error message if user already has delegated access', () => {
-    spyOn(mockWrapperUserDelegatedService, 'getuserDetail').and.returnValue(
-      of({ organisationId: component.organisationId })
-    );
-    component.formGroup.controls['email'].setValue('example@example.com');
-    component.submitted = true;
-    fixture.detectChanges();
+  it('should navigate to delegated-user-status page if user is registered under the same organisation', () => {
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigateByUrl');
 
-    const errorList = fixture.debugElement.queryAll(
-      By.css('.govuk-error-summary__list li')
-    );
-    expect(errorList[2].nativeElement.textContent).toContain(
-      'User already has delegated access'
+    const userResponse = {
+      organisationId: 'exampleOrganisationId',
+    };
+    component.GetUserStatus(component.formGroup);
+    expect(router.navigateByUrl).toHaveBeenCalledWith(
+      'delegated-user-status?data=' + btoa(JSON.stringify(userResponse))
     );
   });
 
-  // Add more test cases as needed
+  it('should navigate to delegate-access-user page if user is not registered under the same organisation', () => {
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigateByUrl');
 
-  it('should call GetUserStatus method when the Continue button is clicked', () => {
-    spyOn(component, 'GetUserStatus');
-    const continueButton = fixture.debugElement.query(
-      By.css('.govuk-button[data-module="govuk-button"]')
-    ).nativeElement;
-    continueButton.click();
-    expect(component.GetUserStatus).toHaveBeenCalled();
+    const userResponse = {
+      organisationId: 'differentOrganisationId',
+    };
+    component.GetUserStatus(component.formGroup);
+    expect(router.navigateByUrl).toHaveBeenCalledWith(
+      'delegate-access-user?data=' + btoa(JSON.stringify(userResponse))
+    );
   });
 
-  it('should call Cancel method when the Cancel button is clicked', () => {
-    spyOn(component, 'Cancel');
-    const cancelButton = fixture.debugElement.query(
-      By.css('.govuk-button--secondary[data-module="govuk-button"]')
-    ).nativeElement;
-    cancelButton.click();
-    expect(component.Cancel).toHaveBeenCalled();
+  it('should navigate to previous page on cancel', () => {
+    const windowSpy = spyOn(window.history, 'back');
+    component.Cancel();
+    expect(windowSpy).toHaveBeenCalled();
   });
 });

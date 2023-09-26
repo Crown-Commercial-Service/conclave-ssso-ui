@@ -1,29 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DelegatedSuccessComponent } from './delegated-success.component';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { DelegatedSuccessComponent } from './delegated-success.component';
 
 describe('DelegatedSuccessComponent', () => {
   let component: DelegatedSuccessComponent;
   let fixture: ComponentFixture<DelegatedSuccessComponent>;
-  let mockActivatedRoute: any;
-  let mockTitleService: any;
+  let activatedRouteMock: any;
+  let titleServiceMock: any;
 
   beforeEach(async () => {
-    mockActivatedRoute = {
-      queryParams: of({
-        data: 'base64-encoded-data',
-      }),
+    activatedRouteMock = {
+      queryParams: {
+        subscribe: jest.fn(),
+      },
     };
 
-    mockTitleService = jasmine.createSpyObj('Title', ['setTitle']);
+    titleServiceMock = {
+      setTitle: jest.fn(),
+    };
 
     await TestBed.configureTestingModule({
       declarations: [DelegatedSuccessComponent],
       providers: [
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: Title, useValue: mockTitleService },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: Title, useValue: titleServiceMock },
       ],
     }).compileComponents();
   });
@@ -38,19 +39,19 @@ describe('DelegatedSuccessComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set the title when status is "create"', () => {
-    const mockData = {
-      userName: 'John Doe',
-      status: 'create',
-    };
-    const base64EncodedData = btoa(JSON.stringify(mockData));
-    spyOn(window, 'atob').and.returnValue(base64EncodedData);
-    spyOn(window, 'decodeURIComponent').and.returnValue('John Doe');
-    spyOn(window, 'unescape').and.returnValue('John Doe');
+  it('should set the page title when status is "create"', () => {
+    const mockQueryParams = { data: 'some_data' };
+    const mockUserInfo = { status: 'create', userName: 'John Doe' };
+
+    activatedRouteMock.queryParams.subscribe.mockImplementation(
+      (callback: any) => {
+        callback(mockQueryParams);
+      }
+    );
 
     component.ngOnInit();
 
-    expect(mockTitleService.setTitle).toHaveBeenCalledWith(
+    expect(titleServiceMock.setTitle).toHaveBeenCalledWith(
       'Delegated user successfully added - CCS'
     );
   });

@@ -1,24 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { DelegatedUserActivationComponent } from './delegated-user-activation.component';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { By } from '@angular/platform-browser';
 
 describe('DelegatedUserActivationComponent', () => {
   let component: DelegatedUserActivationComponent;
   let fixture: ComponentFixture<DelegatedUserActivationComponent>;
-  let mockDelegatedService: jasmine.SpyObj<WrapperUserDelegatedService>;
   let mockActivatedRoute: any;
   let mockRouter: any;
+  let mockDelegatedService: any;
 
   beforeEach(async () => {
-    mockDelegatedService = jasmine.createSpyObj('WrapperUserDelegatedService', [
-      'activateUser',
-    ]);
     mockActivatedRoute = {
-      queryParams: of({ activationcode: '12345' }),
+      queryParams: of({ activationcode: 'testActivationCode' }),
     };
-    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
+
+    mockRouter = {
+      navigate: jest.fn(),
+    };
+
+    mockDelegatedService = {
+      activateUser: jest.fn(),
+    };
 
     await TestBed.configureTestingModule({
       declarations: [DelegatedUserActivationComponent],
@@ -43,25 +48,45 @@ describe('DelegatedUserActivationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should activate user on initialization', () => {
+  it('should activate user on component initialization and display success message', () => {
     const mockUserResponse = {
       /* mock user response object */
     };
-    mockDelegatedService.activateUser.and.returnValue(of(mockUserResponse));
+    mockDelegatedService.activateUser.mockReturnValue(of(mockUserResponse));
 
     component.ngOnInit();
+    fixture.detectChanges();
 
-    expect(mockDelegatedService.activateUser).toHaveBeenCalledWith('12345');
-    expect(component.userActivation).toBeTruthy();
+    expect(mockDelegatedService.activateUser).toHaveBeenCalledWith(
+      'testActivationCode'
+    );
+    expect(component.userActivation).toBe(true);
+
+    const successMessage = fixture.debugElement.query(By.css('.content-left'));
+    expect(successMessage).toBeTruthy();
+    expect(successMessage.nativeElement.innerText).toContain(
+      'You have activated your delegated access.'
+    );
   });
 
-  it('should handle error if activation fails', () => {
-    const mockError = new Error('Activation failed');
-    mockDelegatedService.activateUser.and.returnValue(mockError);
+  it('should handle error when activating user and display error message', () => {
+    const mockError = new Error('Activation Error');
+    mockDelegatedService.activateUser.mockReturnValue(throwError(mockError));
 
     component.ngOnInit();
+    fixture.detectChanges();
 
-    expect(mockDelegatedService.activateUser).toHaveBeenCalledWith('12345');
-    expect(component.userActivation).toBeFalsy();
+    expect(mockDelegatedService.activateUser).toHaveBeenCalledWith(
+      'testActivationCode'
+    );
+    expect(component.userActivation).toBe(false);
+
+    const errorMessage = fixture.debugElement.query(
+      By.css('.govuk-error-summary__body')
+    );
+    expect(errorMessage).toBeTruthy();
+    expect(errorMessage.nativeElement.innerText).toContain(
+      'The activation link for the delegated access is expired.'
+    );
   });
 });

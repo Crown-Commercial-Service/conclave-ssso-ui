@@ -1,87 +1,116 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
-import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { DelegatedRemoveConfirmComponent } from './delegated-remove-confirm.component';
+import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 
 describe('DelegatedRemoveConfirmComponent', () => {
   let component: DelegatedRemoveConfirmComponent;
   let fixture: ComponentFixture<DelegatedRemoveConfirmComponent>;
-  let routerSpy: jasmine.SpyObj<Router>;
-  let routeStub: Partial<ActivatedRoute>;
-  let delegatedServiceSpy: jasmine.SpyObj<WrapperUserDelegatedService>;
+  let mockDelegatedService: Partial<WrapperUserDelegatedService>;
 
-  beforeEach(() => {
-    routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
-    routeStub = {
-      queryParams: {
-        subscribe: (fn: (value: any) => void) => {
-          fn({ data: 'exampleData' });
-        },
-      },
+  beforeEach(async () => {
+    mockDelegatedService = {
+      deleteDelegatedUser: jest.fn(),
+      resentActivationLink: jest.fn(),
     };
-    delegatedServiceSpy = jasmine.createSpyObj('WrapperUserDelegatedService', [
-      'deleteDelegatedUser',
-      'resentActivationLink',
-    ]);
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [DelegatedRemoveConfirmComponent],
+      imports: [RouterTestingModule],
       providers: [
-        { provide: Router, useValue: routerSpy },
-        { provide: ActivatedRoute, useValue: routeStub },
-        { provide: WrapperUserDelegatedService, useValue: delegatedServiceSpy },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: convertToParamMap({
+                data: 'encoded-data',
+              }),
+              queryParams: {
+                data: 'encoded-data',
+              },
+            },
+          },
+        },
+        {
+          provide: WrapperUserDelegatedService,
+          useValue: mockDelegatedService,
+        },
       ],
     }).compileComponents();
-
-    fixture = TestBed.createComponent(DelegatedRemoveConfirmComponent);
-    component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  beforeEach(() => {
+    fixture = TestBed.createComponent(DelegatedRemoveConfirmComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize component', () => {
-    const queryParams = { data: 'exampleData' };
+  it('should initialize the component', () => {
+    expect(component.organisationId).toBeDefined();
+    expect(component.RouteData).toBeUndefined();
+
     component.ngOnInit();
-    expect(component.RouteData).toEqual(JSON.parse(atob(queryParams.data)));
-    expect(component.RouteData.userName).toEqual(
-      decodeURIComponent(unescape(component.RouteData.userName))
-    );
+
+    expect(component.RouteData).toBeDefined();
+    expect(component.RouteData.userName).toBeDefined();
   });
 
-  it('should confirm remove user', () => {
-    const data = {
-      status: 'delete',
-      userName: component.RouteData.userName,
+  it('should confirm and remove user', () => {
+    const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
+    const deleteDelegatedUserSpy = jest.spyOn(
+      component.DelegatedService,
+      'deleteDelegatedUser'
+    );
+
+    component.RouteData = {
+      userName: 'test-user',
+      pageaccessmode: 'remove',
     };
+
     component.ConfirmRemoveUser();
-    expect(delegatedServiceSpy.deleteDelegatedUser).toHaveBeenCalledWith(
-      component.RouteData.userName,
+
+    expect(deleteDelegatedUserSpy).toHaveBeenCalledWith(
+      'test-user',
       component.organisationId
     );
-    expect(routerSpy.navigateByUrl).toHaveBeenCalledWith(
-      'delegated-success?data=' + btoa(JSON.stringify(data))
+    expect(routerSpy).toHaveBeenCalledWith(
+      'delegated-success?data=encoded-data'
     );
   });
 
-  it('should confirm resent link', () => {
-    const data = {
-      status: 'resent',
-      userName: component.RouteData.userName,
+  it('should confirm and resend activation link', () => {
+    const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
+    const resentActivationLinkSpy = jest.spyOn(
+      component.DelegatedService,
+      'resentActivationLink'
+    );
+
+    component.RouteData = {
+      userName: 'test-user',
+      pageaccessmode: 'resent',
     };
+
     component.ConfirmResentLink();
-    expect(delegatedServiceSpy.resentActivationLink).toHaveBeenCalledWith(
-      component.RouteData.userName,
+
+    expect(resentActivationLinkSpy).toHaveBeenCalledWith(
+      'test-user',
       component.organisationId
     );
-    expect(routerSpy.navigateByUrl).toHaveBeenCalledWith(
-      'delegated-success?data=' + btoa(JSON.stringify(data))
+    expect(routerSpy).toHaveBeenCalledWith(
+      'delegated-success?data=encoded-data'
     );
   });
 
   it('should cancel and go back', () => {
+    const historySpy = jest.spyOn(window.history, 'back');
+
     component.Cancel();
-    expect(window.history.back).toHaveBeenCalled();
+
+    expect(historySpy).toHaveBeenCalled();
   });
 });

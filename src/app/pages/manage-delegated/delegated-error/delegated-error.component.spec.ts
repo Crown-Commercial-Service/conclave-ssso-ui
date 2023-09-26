@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DelegatedErrorComponent } from './delegated-error.component';
 
 describe('DelegatedErrorComponent', () => {
@@ -8,9 +7,8 @@ describe('DelegatedErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DelegatedErrorComponent ]
-    })
-    .compileComponents();
+      declarations: [DelegatedErrorComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +17,22 @@ describe('DelegatedErrorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render the error message', () => {
+    const errorMessage =
+      'An unexpected error has occurred. Please try again in a few minutes';
+    const compiledTemplate = fixture.nativeElement;
+    const errorSummary = compiledTemplate.querySelector(
+      '.govuk-error-summary__title'
+    );
+    const errorLink = compiledTemplate.querySelector(
+      '.govuk-error-summary__list a'
+    );
+
+    expect(errorSummary.textContent).toContain('ERROR_SUMMARY');
+    expect(errorLink.textContent).toContain(errorMessage);
   });
 });
