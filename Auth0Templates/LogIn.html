@@ -961,7 +961,8 @@
     
         function forgotPassword(){
             let lastUserEmail = document.getElementById("email").value
-            localStoagre.setItem('lastUserEmail', lastUserEmail);
+            localStorage.setItem('lastUserEmail', lastUserEmail);
+            window.location.href = "https://dev.identify.crowncommercial.gov.uk/forgot-password?email="+lastUserEmail;
         }    
 
         window.addEventListener('load', function () {
