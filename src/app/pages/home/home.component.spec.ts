@@ -65,7 +65,7 @@ describe('HomeComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('It is created', () => {
+  it('should creat', () => {
     expect(component).toBeTruthy();
   });
 
@@ -103,9 +103,9 @@ describe('HomeComponent', () => {
 
   describe('ngOnInit', () => {
     it('makes expected calls', () => {
-      spyOn(component, 'checkValidOrganisation').and.callThrough();
+      const spy1 = jest.spyOn(component, 'checkValidOrganisation');
       component.ngOnInit();
-      expect(component.checkValidOrganisation).toHaveBeenCalled();
+      expect(spy1).toHaveBeenCalled();
     });
   });
 
@@ -117,18 +117,13 @@ describe('HomeComponent', () => {
       const manageDelegateServiceStub: ManageDelegateService = fixture.debugElement.injector.get(
         ManageDelegateService
       );
-      spyOn(component, 'initializer').and.callThrough();
-      spyOn(
-        wrapperUserDelegatedServiceStub,
-        'getDeligatedOrg'
-      ).and.callThrough();
-      spyOn(manageDelegateServiceStub, 'setDelegatedOrg').and.callThrough();
+      const spy1 = jest.spyOn(component, 'initializer');
+      const spy2 = jest.spyOn(wrapperUserDelegatedServiceStub,'getDeligatedOrg');
+      const spy3 = jest.spyOn(manageDelegateServiceStub, 'setDelegatedOrg');
       component.checkValidOrganisation();
-      expect(component.initializer).toHaveBeenCalled();
-      expect(
-        wrapperUserDelegatedServiceStub.getDeligatedOrg
-      ).toHaveBeenCalled();
-      expect(manageDelegateServiceStub.setDelegatedOrg).toHaveBeenCalled();
+      expect(spy1).toHaveBeenCalled();
+      expect(spy2).toHaveBeenCalled();
+      expect(spy3).toHaveBeenCalled();
     });
   });
 
@@ -137,27 +132,27 @@ describe('HomeComponent', () => {
       const authServiceStub: AuthService = fixture.debugElement.injector.get(
         AuthService
       );
-      spyOn(component, 'loadActivities').and.callThrough();
-      spyOn(component, 'loadServices').and.callThrough();
-      spyOn(component, 'getDelegatedOrganisation').and.callThrough();
-      spyOn(component, 'GetOrgDetails').and.callThrough();
-      spyOn(authServiceStub, 'getPermissions').and.callThrough();
-      spyOn(authServiceStub, 'getCcsServices').and.callThrough();
+      const spy1 = jest.spyOn(component, 'loadActivities');
+      const spy2 = jest.spyOn(component, 'loadServices');
+      const spy3 = jest.spyOn(component, 'getDelegatedOrganisation');
+      const spy4 = jest.spyOn(component, 'GetOrgDetails');
+      const spy5 = jest.spyOn(authServiceStub, 'getPermissions');
+      const spy6 = jest.spyOn(authServiceStub, 'getCcsServices');
       component.initializer();
-      expect(component.loadActivities).toHaveBeenCalled();
-      expect(component.loadServices).toHaveBeenCalled();
-      expect(component.getDelegatedOrganisation).toHaveBeenCalled();
-      expect(component.GetOrgDetails).toHaveBeenCalled();
-      expect(authServiceStub.getPermissions).toHaveBeenCalled();
-      expect(authServiceStub.getCcsServices).toHaveBeenCalled();
+      expect(spy1).toHaveBeenCalled();
+      expect(spy2).toHaveBeenCalled();
+      expect(spy3).toHaveBeenCalled();
+      expect(spy4).toHaveBeenCalled();
+      expect(spy5).toHaveBeenCalled();
+      expect(spy6).toHaveBeenCalled();
     });
   });
 
   describe('loadServices', () => {
     it('makes expected calls', () => {
-      spyOn(component, 'checkService').and.callThrough();
+      const spy1 = jest.spyOn(component, 'checkService');
       component.loadServices();
-      expect(component.checkService).toHaveBeenCalled();
+      expect(spy1).toHaveBeenCalled();
     });
   });
 
@@ -166,14 +161,9 @@ describe('HomeComponent', () => {
       const wrapperUserDelegatedServiceStub: WrapperUserDelegatedService = fixture.debugElement.injector.get(
         WrapperUserDelegatedService
       );
-      spyOn(
-        wrapperUserDelegatedServiceStub,
-        'getDeligatedOrg'
-      ).and.callThrough();
+      const spy1 = jest.spyOn(wrapperUserDelegatedServiceStub,'getDeligatedOrg');
       component.getDelegatedOrganisation();
-      expect(
-        wrapperUserDelegatedServiceStub.getDeligatedOrg
-      ).toHaveBeenCalled();
+      expect(spy1).toHaveBeenCalled();
     });
   });
 
@@ -182,9 +172,9 @@ describe('HomeComponent', () => {
       const ciiServiceStub: ciiService = fixture.debugElement.injector.get(
         ciiService
       );
-      spyOn(ciiServiceStub, 'getOrgDetails').and.callThrough();
+      const spy1 = jest.spyOn(ciiServiceStub, 'getOrgDetails');
       component.GetOrgDetails();
-      expect(ciiServiceStub.getOrgDetails).toHaveBeenCalled();
+      expect(spy1).toHaveBeenCalled();
     });
   });
 });

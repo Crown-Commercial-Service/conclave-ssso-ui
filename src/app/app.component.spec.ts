@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { AuthService } from './services/auth/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Title } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AuthService } from './services/auth/auth.service';
 import { LoadingIndicatorService } from './services/helper/loading-indicator.service';
 import { GlobalRouteService } from './services/helper/global-route.service';
 import { GoogleTagManagerService } from 'angular-google-tag-manager';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
-import * as reducers from './store/ui.reducers';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -44,15 +43,19 @@ describe('AppComponent', () => {
       registerTokenRenewal: () => ({}),
       logOutAndRedirect: () => ({})
     });
-    const domSanitizerStub = () => ({});
+    class HttpClientMock {
+      public get() {
+        return 'response';
+      }
+    }
+    const domSanitizerStub = () => ({ bypassSecurityTrustResourceUrl: () => ({})});
     const titleStub = () => ({ setTitle: () => ({}) });
     const loadingIndicatorServiceStub = () => ({});
     const globalRouteServiceStub = () => ({ globalRoute: {} });
     const googleTagManagerServiceStub = () => ({});
+    
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('ui-state', reducers.reducer),
         RouterTestingModule
       ],
       schemas: [NO_ERRORS_SCHEMA],
@@ -81,7 +84,7 @@ describe('AppComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('It is created', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -106,26 +109,27 @@ describe('AppComponent', () => {
       const authServiceStub: AuthService = fixture.debugElement.injector.get(
         AuthService
       );
-      spyOn(overlayContainerStub, 'getContainerElement').and.callThrough();
-      spyOn(routerStub, 'navigate').and.callThrough();
-      spyOn(authServiceStub, 'isUserAuthenticated').and.callThrough();
-      spyOn(authServiceStub, 'isInMemoryTokenExists').and.callThrough();
-      spyOn(authServiceStub, 'registerTokenRenewal').and.callThrough();
+      
+      const overlayContainerSpy = jest.spyOn(overlayContainerStub, 'getContainerElement');
+      const routerStubSpy = jest.spyOn(routerStub, 'navigate');
+      const authServiceSpy = jest.spyOn(authServiceStub, 'isUserAuthenticated');
+      const authServiceSpy1 =  jest.spyOn(authServiceStub, 'isInMemoryTokenExists');
+      const authServiceSpy2 = jest.spyOn(authServiceStub, 'registerTokenRenewal');
       component.ngOnInit();
-      expect(overlayContainerStub.getContainerElement).toHaveBeenCalled();
-      expect(routerStub.navigate).toHaveBeenCalled();
-      expect(authServiceStub.isUserAuthenticated).toHaveBeenCalled();
-      expect(authServiceStub.isInMemoryTokenExists).toHaveBeenCalled();
-      expect(authServiceStub.registerTokenRenewal).toHaveBeenCalled();
+      expect(overlayContainerSpy).toHaveBeenCalled();
+      expect(routerStubSpy).toHaveBeenCalled();
+      expect(authServiceSpy).toHaveBeenCalled();
+      expect(authServiceSpy1).toHaveBeenCalled();
+      expect(authServiceSpy2).toHaveBeenCalled();
     });
   });
 
   describe('onToggle', () => {
     it('makes expected calls', () => {
       const storeStub: Store = fixture.debugElement.injector.get(Store);
-      spyOn(storeStub, 'dispatch').and.callThrough();
+      const storeStubSpy = jest.spyOn(storeStub, 'dispatch');
       component.onToggle();
-      expect(storeStub.dispatch).toHaveBeenCalled();
+      expect(storeStubSpy).toHaveBeenCalled();
     });
   });
 
@@ -134,9 +138,9 @@ describe('AppComponent', () => {
       const authServiceStub: AuthService = fixture.debugElement.injector.get(
         AuthService
       );
-      spyOn(authServiceStub, 'logOutAndRedirect').and.callThrough();
+      const authServiceStubSpy = jest.spyOn(authServiceStub, 'logOutAndRedirect');
       component.signoutAndRedirect();
-      expect(authServiceStub.logOutAndRedirect).toHaveBeenCalled();
+      expect(authServiceStubSpy).toHaveBeenCalled();
     });
   });
 });
