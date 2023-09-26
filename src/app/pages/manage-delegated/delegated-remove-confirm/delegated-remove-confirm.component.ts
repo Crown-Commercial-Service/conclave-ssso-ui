@@ -8,7 +8,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
   styleUrls: ['./delegated-remove-confirm.component.scss'],
 })
 export class DelegatedRemoveConfirmComponent implements OnInit {
-  private organisationId: string;
+  public organisationId: string;
   public RouteData:any;
   constructor(private router: Router, private route: ActivatedRoute,private DelegatedService: WrapperUserDelegatedService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';

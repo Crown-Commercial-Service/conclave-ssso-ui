@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Role } from 'src/app/models/organisationGroup';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { ManageDelegateService } from '../service/manage-delegate.service';
 
 @Component({
@@ -143,7 +143,7 @@ export class DelegatedUserStatusComponent implements OnInit {
                 this.formbuilder.control(true)
               );
             }
-          this.getEventLogDetails();
+            this.getEventLogDetails();
           });
         });
       });
@@ -177,12 +177,11 @@ export class DelegatedUserStatusComponent implements OnInit {
       this.organisationId
     ).subscribe((response) => {
       this.eventLog.delegationAuditEventDetails = response;
-      this.eventLog.delegationAuditEventDetails.delegationAuditEventServiceRoleGroupList
-      =
-      this.DelegatedService.matchDelegatedDetailsOne(
-        response.delegationAuditEventServiceRoleGroupList
-      );
-     this.eventLog.pageCount =  response.pageCount;
+      this.eventLog.delegationAuditEventDetails.delegationAuditEventServiceRoleGroupList =
+        this.DelegatedService.matchDelegatedDetailsOne(
+          response.delegationAuditEventServiceRoleGroupList
+        );
+      this.eventLog.pageCount = response.pageCount;
     });
   }
 }
