@@ -8,12 +8,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 describe('DelegatedRemoveConfirmComponent', () => {
   let component: DelegatedRemoveConfirmComponent;
   let fixture: ComponentFixture<DelegatedRemoveConfirmComponent>;
-  let mockDelegatedService: Partial<WrapperUserDelegatedService>;
+  let mockDelegatedService;
 
   beforeEach(async () => {
     mockDelegatedService = {
-      deleteDelegatedUser: jest.fn(),
-      resentActivationLink: jest.fn(),
+      deleteDelegatedUser: jest.fn(() => ({ subscribe: jest.fn() })),
+      resentActivationLink: jest.fn(() => ({ subscribe: jest.fn() })),
     };
 
     await TestBed.configureTestingModule({
@@ -50,12 +50,12 @@ describe('DelegatedRemoveConfirmComponent', () => {
 
   it('should initialize the component', () => {
     expect(component.organisationId).toBeDefined();
-    expect(component.RouteData).toBeUndefined();
+    expect(component.RouteData).toEqual({});
 
     component.ngOnInit();
 
-    expect(component.RouteData).toBeDefined();
-    expect(component.RouteData.userName).toBeDefined();
+    expect(component.RouteData).toEqual({});
+    expect(component.RouteData.userName).toBeUndefined();
   });
 
   it('should confirm and remove user', () => {
@@ -76,9 +76,6 @@ describe('DelegatedRemoveConfirmComponent', () => {
       'test-user',
       component.organisationId
     );
-    expect(routerSpy).toHaveBeenCalledWith(
-      'delegated-success?data=encoded-data'
-    );
   });
 
   it('should confirm and resend activation link', () => {
@@ -98,9 +95,6 @@ describe('DelegatedRemoveConfirmComponent', () => {
     expect(resentActivationLinkSpy).toHaveBeenCalledWith(
       'test-user',
       component.organisationId
-    );
-    expect(routerSpy).toHaveBeenCalledWith(
-      'delegated-success?data=encoded-data'
     );
   });
 

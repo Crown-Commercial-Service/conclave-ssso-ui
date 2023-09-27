@@ -9,7 +9,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 })
 export class DelegatedRemoveConfirmComponent implements OnInit {
   public organisationId: string;
-  public RouteData:any;
+  public RouteData:any = {};
   constructor(public router: Router, private route: ActivatedRoute, public DelegatedService: WrapperUserDelegatedService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
