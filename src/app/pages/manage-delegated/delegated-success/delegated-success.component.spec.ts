@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { DelegatedSuccessComponent } from './delegated-success.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 describe('DelegatedSuccessComponent', () => {
   let component: DelegatedSuccessComponent;
@@ -21,10 +22,12 @@ describe('DelegatedSuccessComponent', () => {
     };
 
     await TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [DelegatedSuccessComponent],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: Title, useValue: titleServiceMock },
+        TranslateService,
       ],
     }).compileComponents();
   });
@@ -40,8 +43,10 @@ describe('DelegatedSuccessComponent', () => {
   });
 
   it('should set the page title when status is "create"', () => {
-    const mockQueryParams = { data: 'some_data' };
-    const mockUserInfo = { status: 'create', userName: 'John Doe' };
+    const mockUserInfo = btoa(
+      JSON.stringify({ status: 'create', userName: 'John Doe' })
+    );
+    const mockQueryParams = { data: mockUserInfo };
 
     activatedRouteMock.queryParams.subscribe.mockImplementation(
       (callback: any) => {

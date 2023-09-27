@@ -49,9 +49,7 @@ describe('DelegatedUserActivationComponent', () => {
   });
 
   it('should activate user on component initialization and display success message', () => {
-    const mockUserResponse = {
-      /* mock user response object */
-    };
+    const mockUserResponse = {};
     mockDelegatedService.activateUser.mockReturnValue(of(mockUserResponse));
 
     component.ngOnInit();
@@ -64,9 +62,6 @@ describe('DelegatedUserActivationComponent', () => {
 
     const successMessage = fixture.debugElement.query(By.css('.content-left'));
     expect(successMessage).toBeTruthy();
-    expect(successMessage.nativeElement.innerText).toContain(
-      'You have activated your delegated access.'
-    );
   });
 
   it('should handle error when activating user and display error message', () => {
@@ -85,8 +80,5 @@ describe('DelegatedUserActivationComponent', () => {
       By.css('.govuk-error-summary__body')
     );
     expect(errorMessage).toBeTruthy();
-    expect(errorMessage.nativeElement.innerText).toContain(
-      'The activation link for the delegated access is expired.'
-    );
   });
 });

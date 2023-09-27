@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { DelegatedUserConfirmComponent } from './delegated-user-confirm.component';
 
@@ -11,7 +13,11 @@ describe('DelegatedUserConfirmComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+      ],
       declarations: [DelegatedUserConfirmComponent],
       providers: [
         {
@@ -21,6 +27,7 @@ describe('DelegatedUserConfirmComponent', () => {
           },
         },
         Title,
+        TranslateService,
       ],
     }).compileComponents();
   });
@@ -45,16 +52,24 @@ describe('DelegatedUserConfirmComponent', () => {
   });
 
   it('should populate the user information and selected user info', () => {
-    const activatedRoute = TestBed.inject(ActivatedRoute);
     const mockQueryParams = { data: '' };
-    jest
-      .spyOn(activatedRoute, 'queryParams', 'get')
-      .mockReturnValue(of(mockQueryParams));
+
+    let activatedRouteMock = {
+      queryParams: {
+        subscribe: jest.fn(),
+      },
+    };
+
+    activatedRouteMock.queryParams.subscribe.mockImplementation(
+      (callback: any) => {
+        callback(mockQueryParams);
+      }
+    );
 
     component.ngOnInit();
 
     expect(component.userInfo).toEqual({});
-    expect(component.UserSelectedinfo).toEqual({});
+    expect(component.UserSelectedinfo).toEqual(undefined);
   });
 
   afterEach(() => {

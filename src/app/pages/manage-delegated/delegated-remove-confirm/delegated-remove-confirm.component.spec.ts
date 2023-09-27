@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { DelegatedRemoveConfirmComponent } from './delegated-remove-confirm.component';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 describe('DelegatedRemoveConfirmComponent', () => {
   let component: DelegatedRemoveConfirmComponent;
@@ -17,18 +18,14 @@ describe('DelegatedRemoveConfirmComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [DelegatedRemoveConfirmComponent],
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: {
-              paramMap: convertToParamMap({
-                data: 'encoded-data',
-              }),
-              queryParams: {
-                data: 'encoded-data',
-              },
+            queryParams: {
+              data: 'encoded-data',
+              subscribe: jest.fn(),
             },
           },
         },
@@ -36,6 +33,7 @@ describe('DelegatedRemoveConfirmComponent', () => {
           provide: WrapperUserDelegatedService,
           useValue: mockDelegatedService,
         },
+        TranslateService,
       ],
     }).compileComponents();
   });

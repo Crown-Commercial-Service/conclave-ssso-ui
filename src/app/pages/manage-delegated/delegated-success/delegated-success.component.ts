@@ -5,22 +5,25 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-delegated-success',
   templateUrl: './delegated-success.component.html',
-  styleUrls: ['./delegated-success.component.scss']
+  styleUrls: ['./delegated-success.component.scss'],
 })
 export class DelegatedSuccessComponent implements OnInit {
-public userInfo:any;
-    
-  constructor(private ActivatedRoute: ActivatedRoute,private titleService: Title) { }
+  public userInfo: any = {};
+
+  constructor(
+    private ActivatedRoute: ActivatedRoute,
+    private titleService: Title
+  ) {}
 
   ngOnInit(): void {
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data));
-      this.userInfo.userName = decodeURIComponent(unescape(this.userInfo.userName));
+      this.userInfo.userName = decodeURIComponent(
+        unescape(this.userInfo.userName)
+      );
       switch (this.userInfo.status) {
         case 'create': {
-          this.titleService.setTitle(
-            `${'Delegated user successfully added'}   - CCS`
-          );
+          this.titleService.setTitle(`Delegated user successfully added - CCS`);
           break;
         }
         default: {
@@ -30,5 +33,4 @@ public userInfo:any;
       }
     });
   }
-
 }

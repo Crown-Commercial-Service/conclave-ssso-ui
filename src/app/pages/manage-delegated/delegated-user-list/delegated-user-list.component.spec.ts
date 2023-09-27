@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DelegatedUserListComponent } from './delegated-user-list.component';
 import { environment } from 'src/environments/environment';
 
@@ -9,8 +11,13 @@ describe('DelegatedUserListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+      ],
       declarations: [DelegatedUserListComponent],
+      providers: [TranslateService],
     }).compileComponents();
   });
 
@@ -18,6 +25,10 @@ describe('DelegatedUserListComponent', () => {
     fixture = TestBed.createComponent(DelegatedUserListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    const scrollIntoViewMock = jest.fn();
+    jest.spyOn(document, 'getElementById').mockReturnValue({
+      scrollIntoView: scrollIntoViewMock,
+    } as any);
   });
 
   it('should create the component', () => {
