@@ -27,6 +27,10 @@ describe('DelegatedUserListComponent', () => {
     let scrollIntoViewMock = jest.fn();
     window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
     fixture.detectChanges();
+    const scrollIntoViewMock = jest.fn();
+    jest.spyOn(document, 'getElementById').mockReturnValue({
+      scrollIntoView: scrollIntoViewMock,
+    } as any);
   });
 
   it('should create the component', () => {
