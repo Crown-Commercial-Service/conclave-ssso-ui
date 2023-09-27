@@ -24,11 +24,9 @@ describe('DelegatedUserListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DelegatedUserListComponent);
     component = fixture.componentInstance;
+    let scrollIntoViewMock = jest.fn();
+    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
     fixture.detectChanges();
-    const scrollIntoViewMock = jest.fn();
-    jest.spyOn(document, 'getElementById').mockReturnValue({
-      scrollIntoView: scrollIntoViewMock,
-    } as any);
   });
 
   it('should create the component', () => {
@@ -49,17 +47,19 @@ describe('DelegatedUserListComponent', () => {
   });
 
   it('should call getOrganisationCurrentUsers and getOrganisationExpiredUsers on ngOnInit', () => {
-    spyOn(component, 'getOrganisationCurrentUsers');
-    spyOn(component, 'getOrganisationExpiredUsers');
+    jest.spyOn(component, 'getOrganisationCurrentUsers');
+    jest.spyOn(component, 'getOrganisationExpiredUsers');
+    jest.useFakeTimers();
 
     component.ngOnInit();
 
+    jest.runAllTimers();
     expect(component.getOrganisationCurrentUsers).toHaveBeenCalled();
     expect(component.getOrganisationExpiredUsers).toHaveBeenCalled();
   });
 
   it('should navigate to find-delegated-user component on FindDelegateUser', () => {
-    spyOn(component.router, 'navigateByUrl');
+    jest.spyOn(component.router, 'navigateByUrl');
 
     component.FindDelegateUser();
 
