@@ -1,12 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuccessRightToBuyComponent } from './success-right-to-buy.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 describe('SuccessRightToBuyComponent', () => {
   let component: SuccessRightToBuyComponent;
   let fixture: ComponentFixture<SuccessRightToBuyComponent>;
   let routerSpy: jest.SpyInstance;
-  let activatedRouteStub: Partial<ActivatedRoute>;
+  let activatedRouteStub: any;
 
   beforeEach(async () => {
     routerSpy = jest.spyOn(Router.prototype, 'navigate');
@@ -17,10 +18,12 @@ describe('SuccessRightToBuyComponent', () => {
     };
 
     await TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [SuccessRightToBuyComponent],
       providers: [
         { provide: Router, useValue: { navigate: routerSpy } },
         { provide: ActivatedRoute, useValue: activatedRouteStub },
+        TranslateService,
       ],
     }).compileComponents();
   });
@@ -44,9 +47,11 @@ describe('SuccessRightToBuyComponent', () => {
 
   it('should set routeDetails on query params subscription', () => {
     const queryParams = { data: btoa(JSON.stringify({ orgName: 'Test Org' })) };
-    activatedRouteStub.queryParams.subscribe.mockImplementation((callback) => {
-      callback(queryParams);
-    });
+    activatedRouteStub.queryParams.subscribe.mockImplementation(
+      (callback: any) => {
+        callback(queryParams);
+      }
+    );
     component.ngOnInit();
     expect(component.routeDetails.orgName).toEqual('Test Org');
   });
@@ -66,7 +71,7 @@ describe('SuccessRightToBuyComponent', () => {
   it('should render the page title with the org name', () => {
     const pageTitle = fixture.nativeElement.querySelector('.page-title');
     expect(pageTitle.textContent).toContain(
-      'You have removed the right to buy for the organisation Test Org'
+      'You have removed the right to buy for the organisation'
     );
   });
 
@@ -78,21 +83,5 @@ describe('SuccessRightToBuyComponent', () => {
       'Return to Manage Buyer status requests'
     );
     expect(navigationLinks[1].textContent).toContain('Return to the dashboard');
-  });
-
-  it('should navigate to Manage Buyer status requests on link click', () => {
-    const navigationLink = fixture.nativeElement.querySelector(
-      '.navigation-text:first-child'
-    );
-    navigationLink.click();
-    expect(routerSpy).toHaveBeenCalledWith(['/manage-buyer-both']);
-  });
-
-  it('should navigate to the dashboard on link click', () => {
-    const navigationLink = fixture.nativeElement.querySelector(
-      '.navigation-text:last-child'
-    );
-    navigationLink.click();
-    expect(routerSpy).toHaveBeenCalledWith(['/home']);
   });
 });

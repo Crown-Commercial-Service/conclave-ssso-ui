@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { ViewPendingVerificationComponent } from './view-pending-verification.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ViewPendingVerificationComponent', () => {
   let component: ViewPendingVerificationComponent;
@@ -21,7 +22,7 @@ describe('ViewPendingVerificationComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ViewPendingVerificationComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: Router, useValue: routerMock },
@@ -33,6 +34,7 @@ describe('ViewPendingVerificationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewPendingVerificationComponent);
     component = fixture.componentInstance;
+    component.routeDetails = { dateOfRegistration: new Date().toString() };
     fixture.detectChanges();
   });
 

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BuyerBothRequestsSuccessComponent } from './buyer-both-requests-success.component';
 
 describe('BuyerBothRequestsSuccessComponent', () => {
@@ -8,27 +9,22 @@ describe('BuyerBothRequestsSuccessComponent', () => {
   let fixture: ComponentFixture<BuyerBothRequestsSuccessComponent>;
   let titleService: Title;
   let router: Router;
-  let activatedRoute: ActivatedRoute;
+  let activatedRouteMock: any;
 
   beforeEach(async () => {
+    activatedRouteMock = {
+      queryParams: {
+        subscribe: jest.fn(),
+      },
+    };
+
     await TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [BuyerBothRequestsSuccessComponent],
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: {
-            queryParams: {
-              subscribe: (fn: any) =>
-                fn({
-                  data: btoa(
-                    JSON.stringify({
-                      status: 'accept',
-                      organisationName: 'TestOrg',
-                    })
-                  ),
-                }),
-            },
-          },
+          useValue: activatedRouteMock,
         },
         {
           provide: Router,
@@ -38,6 +34,7 @@ describe('BuyerBothRequestsSuccessComponent', () => {
           provide: Title,
           useValue: { setTitle: jest.fn() },
         },
+        TranslateService,
       ],
     }).compileComponents();
   });
@@ -47,7 +44,6 @@ describe('BuyerBothRequestsSuccessComponent', () => {
     component = fixture.componentInstance;
     titleService = TestBed.inject(Title);
     router = TestBed.inject(Router);
-    activatedRoute = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -56,21 +52,37 @@ describe('BuyerBothRequestsSuccessComponent', () => {
   });
 
   it('should set the page title for accept status', () => {
+    const mockUserInfo = btoa(
+      JSON.stringify({ status: 'accept', organisationName: 'TestOrg' })
+    );
+    const mockQueryParams = { data: mockUserInfo };
+
+    activatedRouteMock.queryParams.subscribe.mockImplementation(
+      (callback: any) => {
+        callback(mockQueryParams);
+      }
+    );
+
     expect(titleService.setTitle).toHaveBeenCalledWith(
       'Accept right to buy status – success - CCS'
     );
   });
 
   it('should set the page title for decline status', () => {
-    activatedRoute.queryParams.subscribe((para: any) => {
-      para.data = btoa(
-        JSON.stringify({ status: 'decline', organisationName: 'TestOrg' })
-      );
-      fixture.detectChanges();
-      expect(titleService.setTitle).toHaveBeenCalledWith(
-        'Decline right to buy status – success - CCS'
-      );
-    });
+    const mockUserInfo = btoa(
+      JSON.stringify({ status: 'decline', organisationName: 'TestOrg' })
+    );
+    const mockQueryParams = { data: mockUserInfo };
+
+    activatedRouteMock.queryParams.subscribe.mockImplementation(
+      (callback: any) => {
+        callback(mockQueryParams);
+      }
+    );
+
+    expect(titleService.setTitle).toHaveBeenCalledWith(
+      'Decline right to buy status – success - CCS'
+    );
   });
 
   it('should navigate to manage-buyer-both on returnToRequests', () => {
@@ -84,6 +96,17 @@ describe('BuyerBothRequestsSuccessComponent', () => {
   });
 
   it('should display the correct message for accept status', () => {
+    const mockUserInfo = btoa(
+      JSON.stringify({ status: 'accept', organisationName: 'TestOrg' })
+    );
+    const mockQueryParams = { data: mockUserInfo };
+
+    activatedRouteMock.queryParams.subscribe.mockImplementation(
+      (callback: any) => {
+        callback(mockQueryParams);
+      }
+    );
+
     expect(
       fixture.nativeElement.querySelector('.page-title').textContent
     ).toContain(
@@ -92,16 +115,21 @@ describe('BuyerBothRequestsSuccessComponent', () => {
   });
 
   it('should display the correct message for decline status', () => {
-    activatedRoute.queryParams.subscribe((para: any) => {
-      para.data = btoa(
-        JSON.stringify({ status: 'decline', organisationName: 'TestOrg' })
-      );
-      fixture.detectChanges();
-      expect(
-        fixture.nativeElement.querySelector('.page-title').textContent
-      ).toContain(
-        'You have declined the right to buy status for organisation TestOrg'
-      );
-    });
+    const mockUserInfo = btoa(
+      JSON.stringify({ status: 'decline', organisationName: 'TestOrg' })
+    );
+    const mockQueryParams = { data: mockUserInfo };
+
+    activatedRouteMock.queryParams.subscribe.mockImplementation(
+      (callback: any) => {
+        callback(mockQueryParams);
+      }
+    );
+
+    expect(
+      fixture.nativeElement.querySelector('.page-title').textContent
+    ).toContain(
+      'You have declined the right to buy status for organisation TestOrg'
+    );
   });
 });

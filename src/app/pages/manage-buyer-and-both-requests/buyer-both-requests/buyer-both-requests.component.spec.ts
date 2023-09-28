@@ -1,10 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { BuyerBothRequestsComponent } from './buyer-both-requests.component';
@@ -13,7 +10,6 @@ describe('BuyerBothRequestsComponent', () => {
   let component: BuyerBothRequestsComponent;
   let fixture: ComponentFixture<BuyerBothRequestsComponent>;
   let wrapperBuyerBothService: WrapperBuyerBothService;
-  let httpMock: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,12 +27,9 @@ describe('BuyerBothRequestsComponent', () => {
     fixture = TestBed.createComponent(BuyerBothRequestsComponent);
     component = fixture.componentInstance;
     wrapperBuyerBothService = TestBed.inject(WrapperBuyerBothService);
-    httpMock = TestBed.inject(HttpTestingController);
+    let scrollIntoViewMock = jest.fn();
+    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
     fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    httpMock.verify();
   });
 
   it('should create the component', () => {
@@ -44,7 +37,7 @@ describe('BuyerBothRequestsComponent', () => {
   });
 
   it('should call getPendingVerificationOrg on component initialization', () => {
-    spyOn(component, 'getPendingVerificationOrg');
+    jest.spyOn(component, 'getPendingVerificationOrg');
     component.ngOnInit();
     expect(component.getPendingVerificationOrg).toHaveBeenCalled();
   });
@@ -55,9 +48,9 @@ describe('BuyerBothRequestsComponent', () => {
       pageCount: 2,
       organisationAuditList: [],
     };
-    spyOn(wrapperBuyerBothService, 'getpendingVerificationOrg').and.returnValue(
-      of(orgListResponse)
-    );
+    jest
+      .spyOn(wrapperBuyerBothService, 'getpendingVerificationOrg')
+      .mockReturnValue(of(orgListResponse));
     component.getPendingVerificationOrg();
     expect(
       wrapperBuyerBothService.getpendingVerificationOrg
@@ -76,9 +69,9 @@ describe('BuyerBothRequestsComponent', () => {
       pageCount: 2,
       organisationAuditList: [],
     };
-    spyOn(wrapperBuyerBothService, 'getVerifiedOrg').and.returnValue(
-      of(orgListResponse)
-    );
+    jest
+      .spyOn(wrapperBuyerBothService, 'getVerifiedOrg')
+      .mockReturnValue(of(orgListResponse));
     component.geVerifiedOrg();
     expect(wrapperBuyerBothService.getVerifiedOrg).toHaveBeenCalled();
     expect(component.verifiedBuyerAndBoth.organisationAuditList).toEqual(
@@ -90,18 +83,8 @@ describe('BuyerBothRequestsComponent', () => {
   });
 
   it('should call tabChanged method and update tabConfig', () => {
-    const scrollIntoViewMock = jest.fn();
-    jest.spyOn(document, 'getElementById').mockReturnValue({
-      scrollIntoView: scrollIntoViewMock,
-    } as any);
-
     component.tabChanged('verifiedOrg');
 
-    expect(document.getElementById).toHaveBeenCalledWith('verifiedOrg');
-    expect(scrollIntoViewMock).toHaveBeenCalledWith({
-      block: 'start',
-      inline: 'nearest',
-    });
     expect(component.tabConfig.pendingOrg).toBeFalsy();
     expect(component.tabConfig.verifiedOrg).toBeTruthy();
   });

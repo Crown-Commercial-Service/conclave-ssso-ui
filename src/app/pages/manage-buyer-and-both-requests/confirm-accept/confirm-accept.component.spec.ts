@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ConfirmAcceptComponent } from './confirm-accept.component';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 describe('ConfirmAcceptComponent', () => {
   let component: ConfirmAcceptComponent;
@@ -20,6 +21,7 @@ describe('ConfirmAcceptComponent', () => {
     };
 
     await TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [ConfirmAcceptComponent],
       providers: [
         {
@@ -31,6 +33,7 @@ describe('ConfirmAcceptComponent', () => {
           provide: WrapperBuyerBothService,
           useValue: wrapperBuyerBothServiceSpyObj,
         },
+        TranslateService
       ],
     }).compileComponents();
   });

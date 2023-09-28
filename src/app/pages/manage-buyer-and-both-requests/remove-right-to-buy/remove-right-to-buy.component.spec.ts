@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RemoveRightToBuyComponent } from './remove-right-to-buy.component';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { of, throwError } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 describe('RemoveRightToBuyComponent', () => {
   let component: RemoveRightToBuyComponent;
@@ -25,6 +26,7 @@ describe('RemoveRightToBuyComponent', () => {
     };
 
     await TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [RemoveRightToBuyComponent],
       providers: [
         { provide: Router, useValue: routerSpyObj },
@@ -33,6 +35,7 @@ describe('RemoveRightToBuyComponent', () => {
           provide: WrapperBuyerBothService,
           useValue: wrapperBuyerAndBothServiceSpyObj,
         },
+        TranslateService,
       ],
     }).compileComponents();
   });
@@ -76,7 +79,7 @@ describe('RemoveRightToBuyComponent', () => {
       wrapperBuyerAndBothServiceSpy.manualValidation.mockReturnValue(
         of(mockResponse)
       );
-      const mockRouteDetails = { id: 123, orgName: 'Test Organization' };
+      const mockRouteDetails = { id: '123', orgName: 'Test Organization' };
       component.routeDetails = mockRouteDetails;
       component.confirm();
       expect(
