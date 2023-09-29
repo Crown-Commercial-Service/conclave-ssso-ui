@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManageUserDeleteConfirmComponent } from './manage-user-delete-confirm-component';
+import { ManageUserProfilesComponent } from './manage-user-profiles-component';
 
-describe('ManageUserDeleteConfirmComponent', () => {
-  let component: ManageUserDeleteConfirmComponent;
-  let fixture: ComponentFixture<ManageUserDeleteConfirmComponent>;
+describe('ManageUserProfilesComponent', () => {
+  let component: ManageUserProfilesComponent;
+  let fixture: ComponentFixture<ManageUserProfilesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ManageUserDeleteConfirmComponent ]
+      declarations: [ ManageUserProfilesComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ManageUserDeleteConfirmComponent);
+    fixture = TestBed.createComponent(ManageUserProfilesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

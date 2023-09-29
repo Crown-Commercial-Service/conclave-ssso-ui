@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SendMFAResetNotificationSuccessComponent } from './send-mfa-reset-notification-success';
+import { MFAResetComponent } from './mfa-reset-component';
 
-describe('SendMFAResetNotificationSuccessComponent', () => {
-  let component: SendMFAResetNotificationSuccessComponent;
-  let fixture: ComponentFixture<SendMFAResetNotificationSuccessComponent>;
+describe('MFAResetComponent', () => {
+  let component: MFAResetComponent;
+  let fixture: ComponentFixture<MFAResetComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SendMFAResetNotificationSuccessComponent ]
+      declarations: [ MFAResetComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SendMFAResetNotificationSuccessComponent);
+    fixture = TestBed.createComponent(MFAResetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

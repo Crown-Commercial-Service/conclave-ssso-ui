@@ -6,20 +6,29 @@ describe('AccessibilityStatementComponent', () => {
   let component: AccessibilityStatementComponent;
   let fixture: ComponentFixture<AccessibilityStatementComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AccessibilityStatementComponent ]
-    })
-    .compileComponents();
-  });
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [AccessibilityStatementComponent],
+    });
     fixture = TestBed.createComponent(AccessibilityStatementComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should initialize userName as an empty string', () => {
+    expect(component.userName).toEqual('');
+  });
+
+  it('should initialize isOrgAdmin as false', () => {
+    expect(component.isOrgAdmin).toBe(false);
+  });
+
+  it('should call window.print() when print() is invoked', () => {
+    spyOn(window, 'print');
+    component.print();
+    expect(window.print).toHaveBeenCalled();
   });
 });
