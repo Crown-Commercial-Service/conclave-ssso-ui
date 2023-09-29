@@ -10,7 +10,7 @@ export const environment = {
 
       isApiGateWayEnabled: true,
 
-      security: 'https://nft.api.crowncommercial.gov.uk',
+      security: 'https://nft.api.crowncommercial.gov.uk/aws',
 
       postgres: 'https://nft.api.crowncommercial.gov.uk/dashboard-wrapper',
 
