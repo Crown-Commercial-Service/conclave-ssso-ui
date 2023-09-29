@@ -100,7 +100,7 @@ describe('ViewVerifiedOrgComponent', () => {
 
   describe('getPendingVerificationOrg', () => {
     it('should call getpendingVerificationOrg method of WrapperBuyerBothService', () => {
-      wrapperBuyerBothServiceSpy.getpendingVerificationOrg.mockReturnValue({
+      wrapperBuyerBothServiceSpy.getpendingVerificationOrg.mockImplementation({
         subscribe: jest.fn(),
       });
       component.getPendingVerificationOrg();
