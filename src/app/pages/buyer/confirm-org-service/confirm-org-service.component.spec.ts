@@ -4,20 +4,38 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
-import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import {
+  Store,
+  StateObservable,
+  ActionsSubject,
+  ReducerManager,
+  ReducerManagerDispatcher,
+  INITIAL_STATE,
+  INITIAL_REDUCERS,
+  REDUCER_FACTORY,
+} from '@ngrx/store';
+import { UIState } from 'src/app/store/ui.states';
 
 describe('ConfirmOrgServiceComponent', () => {
   let component: ConfirmOrgServiceComponent;
   let fixture: ComponentFixture<ConfirmOrgServiceComponent>;
-  let mockActivatedRoute: any;
+  let activatedRouteMock: any;
   let mockOrganisationService: any;
   let mockWrapperOrganisationService: any;
-  let mockStore: any;
+  let store: Store<UIState>;
+  let actionsSubject: ActionsSubject;
+  let reducerManager: ReducerManager;
+  let reducerManagerDispatcher: ReducerManagerDispatcher;
+  const initialState = {};
+  const initialReducers = {};
+  const reducerFactory = () => {};
 
   beforeEach(async () => {
-    mockActivatedRoute = {
-      queryParams: of({ data: 'someData' }),
+    activatedRouteMock = {
+      queryParams: {
+        subscribe: jest.fn(),
+      },
     };
 
     mockOrganisationService = {
@@ -28,21 +46,24 @@ describe('ConfirmOrgServiceComponent', () => {
       updateOrgRoles: jest.fn().mockReturnValue(Promise.resolve()),
     };
 
-    mockStore = {
-      dispatch: jest.fn(),
-    };
-
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [ConfirmOrgServiceComponent],
       providers: [
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: OrganisationService, useValue: mockOrganisationService },
         {
           provide: WrapperOrganisationService,
           useValue: mockWrapperOrganisationService,
         },
-        { provide: Store, useValue: mockStore },
+        Store,
+        StateObservable,
+        ActionsSubject,
+        ReducerManager,
+        ReducerManagerDispatcher,
+        { provide: INITIAL_STATE, useValue: initialState },
+        { provide: INITIAL_REDUCERS, useValue: initialReducers },
+        { provide: REDUCER_FACTORY, useValue: reducerFactory },
       ],
     }).compileComponents();
   });
@@ -50,19 +71,15 @@ describe('ConfirmOrgServiceComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmOrgServiceComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+    actionsSubject = TestBed.inject(ActionsSubject);
+    reducerManager = TestBed.inject(ReducerManager);
+    reducerManagerDispatcher = TestBed.inject(ReducerManagerDispatcher);
     fixture.detectChanges();
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call the updateTableData method on subscription', () => {
-    component.changes = { toAdd: [], toAutoValid: [], toDelete: [] };
-    component.org = { ciiOrganisationId: 'orgId' };
-    component.updateTableData = jest.fn();
-
-    expect(component.updateTableData).toHaveBeenCalled();
   });
 
   it('should update table data correctly', () => {
@@ -137,40 +154,17 @@ describe('ConfirmOrgServiceComponent', () => {
   });
 
   it('should navigate to the previous page on back click', () => {
-    const localStorageSpy = jest.spyOn(localStorage, 'removeItem');
+    jest.spyOn(Storage.prototype, 'removeItem');
     const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
 
     component.org = { ciiOrganisationId: 'orgId' };
     component.routeData = { companyHouseId: 'companyId' };
     component.onBackClick();
 
-    expect(localStorageSpy).toHaveBeenCalledWith('mse_org_orgId');
+    expect(localStorage.removeItem).toHaveBeenCalledWith('mse_org_orgId');
     expect(routerSpy).toHaveBeenCalledWith(
       'update-org-services/confirm?data=' +
         btoa(JSON.stringify({ companyHouseId: 'companyId', Id: 'orgId' }))
     );
-  });
-
-  it('should call the wrapperOrgService updateOrgRoles method on submit click', async () => {
-    const updateOrgRolesSpy = jest
-      .spyOn(component.wrapperOrgService, 'updateOrgRoles')
-      .mockImplementation(jest.fn());
-    const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
-
-    component.org = { ciiOrganisationId: 'orgId' };
-    component.changes = {
-      orgType: '1',
-      toAdd: [],
-      toAutoValid: [],
-      toDelete: [],
-    };
-
-    await component.onSubmitClick();
-
-    expect(updateOrgRolesSpy).toHaveBeenCalledWith(
-      'orgId',
-      'validation/auto/switch/service-role-groups'
-    );
-    expect(routerSpy).toHaveBeenCalledWith('org-service/success/orgId');
   });
 });

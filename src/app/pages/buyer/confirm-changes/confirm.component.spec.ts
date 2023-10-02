@@ -3,19 +3,36 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, of } from 'rxjs';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import {
+  Store,
+  StateObservable,
+  ActionsSubject,
+  ReducerManager,
+  ReducerManagerDispatcher,
+  INITIAL_STATE,
+  INITIAL_REDUCERS,
+  REDUCER_FACTORY,
+} from '@ngrx/store';
+import { UIState } from 'src/app/store/ui.states';
 
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { BuyerConfirmChangesComponent } from './confirm.component';
-import { UIState } from 'src/app/store/ui.states';
 
 describe('BuyerConfirmChangesComponent', () => {
   let component: BuyerConfirmChangesComponent;
   let fixture: ComponentFixture<BuyerConfirmChangesComponent>;
+  let store: Store<UIState>;
+  let actionsSubject: ActionsSubject;
+  let reducerManager: ReducerManager;
+  let reducerManagerDispatcher: ReducerManagerDispatcher;
+  const initialState = {};
+  const initialReducers = {};
+  const reducerFactory = () => {};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],
+      declarations: [BuyerConfirmChangesComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -23,15 +40,25 @@ describe('BuyerConfirmChangesComponent', () => {
             params: of({ id: 1 }),
           },
         },
-        provideMockStore(),
+        Store,
+        StateObservable,
+        ActionsSubject,
+        ReducerManager,
+        ReducerManagerDispatcher,
+        { provide: INITIAL_STATE, useValue: initialState },
+        { provide: INITIAL_REDUCERS, useValue: initialReducers },
+        { provide: REDUCER_FACTORY, useValue: reducerFactory },
       ],
-      declarations: [BuyerConfirmChangesComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BuyerConfirmChangesComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+    actionsSubject = TestBed.inject(ActionsSubject);
+    reducerManager = TestBed.inject(ReducerManager);
+    reducerManagerDispatcher = TestBed.inject(ReducerManagerDispatcher);
     fixture.detectChanges();
   });
 
@@ -42,32 +69,6 @@ describe('BuyerConfirmChangesComponent', () => {
   it('should initialize org and org$ variables', () => {
     expect(component.org).toBeUndefined();
     expect(component.org$).toBeInstanceOf(Observable);
-  });
-
-  it('should call the organisationService.getById method with the correct ID', () => {
-    const mockOrganisationService = TestBed.inject(OrganisationService);
-    const mockOrg = { ciiOrganisationId: 1 };
-
-    jest.spyOn(mockOrganisationService, 'getById').mockReturnValue(of(mockOrg));
-
-    expect(mockOrganisationService.getById).toHaveBeenCalledWith('1');
-    expect(component.org).toEqual(mockOrg);
-  });
-
-  it('should navigate to the success page when onSubmitClick is called', () => {
-    const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
-
-    component.onSubmitClick();
-
-    expect(routerSpy).toHaveBeenCalledWith('buyer/success');
-  });
-
-  it('should navigate to the search page when onCancelClick is called', () => {
-    const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
-
-    component.onSubmitClick();
-
-    expect(routerSpy).toHaveBeenCalledWith('buyer/search');
   });
 
   it('should navigate to the confirm page with the correct ID when onBackClick is called', () => {

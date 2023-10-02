@@ -97,13 +97,15 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
   }
 
   public onBackClick() {
-    localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
-    let data = {
-      companyHouseId: this.routeData.companyHouseId,
-      Id: this.org.ciiOrganisationId,
-    };
-    this.router.navigateByUrl(
-      'update-org-type/confirm?data=' + btoa(JSON.stringify(data))
-    );
+    if (this.org && this.org.ciiOrganisationId) {
+      localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
+      let data = {
+        companyHouseId: this.routeData.companyHouseId,
+        Id: this.org.ciiOrganisationId,
+      };
+      this.router.navigateByUrl(
+        'update-org-type/confirm?data=' + btoa(JSON.stringify(data))
+      );
+    }
   }
 }

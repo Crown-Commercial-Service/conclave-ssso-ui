@@ -66,7 +66,8 @@ export class AutoValidationBuyerSuccessComponent implements OnDestroy {
   }
   ngOnDestroy(): void {
     localStorage.removeItem('defaultRole');
-    localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
+    if (this.org && this.org.ciiOrganisationId)
+      localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
   }
 
   public onBackClick() {

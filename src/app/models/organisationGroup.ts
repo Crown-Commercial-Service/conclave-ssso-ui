@@ -1,6 +1,6 @@
 export interface Group {
   serviceRoleGroups: any;
-  checked ?: boolean;
+  checked?: boolean;
   groupId: number;
   mfaEnabled: boolean;
   groupName: string;
@@ -52,9 +52,9 @@ export interface RoleDetail {
 
 export interface Role extends RoleDetail {
   pendingStatus?: boolean;
-  roleId: number;
-  roleKey: string;
-  roleName: string;
+  roleId?: number;
+  roleKey?: string;
+  roleName?: string;
 }
 
 export interface ServiceRoleGroup extends RoleDetail {

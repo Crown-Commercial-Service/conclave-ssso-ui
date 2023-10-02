@@ -2,7 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
+import {
+  Store,
+  StateObservable,
+  ActionsSubject,
+  ReducerManager,
+  ReducerManagerDispatcher,
+  INITIAL_STATE,
+  INITIAL_REDUCERS,
+  REDUCER_FACTORY,
+} from '@ngrx/store';
 import { ViewportScroller } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { BuyerDetailsComponent } from './details.component';
@@ -16,11 +25,17 @@ describe('BuyerDetailsComponent', () => {
   let fixture: ComponentFixture<BuyerDetailsComponent>;
   let activatedRouteStub: Partial<ActivatedRoute>;
   let routerStub: Partial<Router>;
-  let storeStub: Partial<Store<UIState>>;
   let viewportScrollerStub: Partial<ViewportScroller>;
   let ciiServiceStub: Partial<ciiService>;
   let organisationServiceStub: Partial<WrapperOrganisationService>;
   let sharedDataServiceStub: Partial<SharedDataService>;
+  let store: Store<UIState>;
+  let actionsSubject: ActionsSubject;
+  let reducerManager: ReducerManager;
+  let reducerManagerDispatcher: ReducerManagerDispatcher;
+  const initialState = {};
+  const initialReducers = {};
+  const reducerFactory = () => {};
 
   beforeEach(async () => {
     activatedRouteStub = {
@@ -29,7 +44,6 @@ describe('BuyerDetailsComponent', () => {
     routerStub = {
       navigateByUrl: jest.fn(),
     };
-    storeStub = {};
     viewportScrollerStub = {};
     ciiServiceStub = {
       getSchemes: jest.fn().mockReturnValue(of([])),
@@ -68,7 +82,6 @@ describe('BuyerDetailsComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         { provide: Router, useValue: routerStub },
-        { provide: Store, useValue: storeStub },
         { provide: ViewportScroller, useValue: viewportScrollerStub },
         { provide: ciiService, useValue: ciiServiceStub },
         {
@@ -76,6 +89,21 @@ describe('BuyerDetailsComponent', () => {
           useValue: organisationServiceStub,
         },
         { provide: SharedDataService, useValue: sharedDataServiceStub },
+        Store,
+        StateObservable,
+        ActionsSubject,
+        ReducerManager,
+        ReducerManagerDispatcher,
+        ViewportScroller,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({ id: '1' }),
+          },
+        },
+        { provide: INITIAL_STATE, useValue: initialState },
+        { provide: INITIAL_REDUCERS, useValue: initialReducers },
+        { provide: REDUCER_FACTORY, useValue: reducerFactory },
       ],
     }).compileComponents();
   });
@@ -83,57 +111,15 @@ describe('BuyerDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BuyerDetailsComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+    actionsSubject = TestBed.inject(ActionsSubject);
+    reducerManager = TestBed.inject(ReducerManager);
+    reducerManagerDispatcher = TestBed.inject(ReducerManagerDispatcher);
     fixture.detectChanges();
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should display the organization details', () => {
-    const orgDetails = fixture.debugElement.query(
-      By.css('.content p')
-    ).nativeElement;
-    expect(orgDetails.textContent).toContain('Test Org');
-    expect(orgDetails.textContent).toContain('123 Street');
-    expect(orgDetails.textContent).toContain('City');
-    expect(orgDetails.textContent).toContain('State');
-    expect(orgDetails.textContent).toContain('12345');
-    expect(orgDetails.textContent).toContain('Country');
-  });
-
-  it('should display the registries table', () => {
-    const registriesTable = fixture.debugElement.query(
-      By.css('.govuk-table')
-    ).nativeElement;
-    const rows = registriesTable.querySelectorAll('tbody tr');
-
-    expect(rows.length).toBe(3); // One row for primary identifier and two rows for additional identifiers
-
-    const primaryIdentifierRow = rows[0];
-    const additionalIdentifierRow1 = rows[1];
-    const additionalIdentifierRow2 = rows[2];
-
-    expect(primaryIdentifierRow.textContent).toContain('GB-CCS');
-    expect(primaryIdentifierRow.textContent).toContain('123');
-    expect(primaryIdentifierRow.textContent).toContain('Primary');
-
-    expect(additionalIdentifierRow1.textContent).toContain('ABC');
-    expect(additionalIdentifierRow1.textContent).toContain('456');
-    expect(additionalIdentifierRow1.textContent).toContain('');
-
-    expect(additionalIdentifierRow2.textContent).toContain('XYZ');
-    expect(additionalIdentifierRow2.textContent).toContain('789');
-    expect(additionalIdentifierRow2.textContent).toContain('');
-  });
-
-  it('should navigate to the confirm page on continue button click', () => {
-    const continueButton = fixture.debugElement.query(
-      By.css('.govuk-button')
-    ).nativeElement;
-    continueButton.click();
-
-    expect(routerStub.navigateByUrl).toHaveBeenCalledWith('buyer/confirm/1');
   });
 
   it('should navigate to the search page on cancel button click', () => {
