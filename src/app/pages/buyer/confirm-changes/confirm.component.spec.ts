@@ -3,9 +3,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, of } from 'rxjs';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { BuyerConfirmChangesComponent } from './confirm.component';
+import { UIState } from 'src/app/store/ui.states';
 
 describe('BuyerConfirmChangesComponent', () => {
   let component: BuyerConfirmChangesComponent;
@@ -14,15 +16,16 @@ describe('BuyerConfirmChangesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],
-      declarations: [BuyerConfirmChangesComponent],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({ id: 1 }), // Mock the ActivatedRoute params
+            params: of({ id: 1 }),
           },
         },
+        provideMockStore(),
       ],
+      declarations: [BuyerConfirmChangesComponent],
     }).compileComponents();
   });
 

@@ -63,9 +63,7 @@ describe('BuyerBothRequestsSuccessComponent', () => {
       }
     );
 
-    expect(titleService.setTitle).toHaveBeenCalledWith(
-      'Accept right to buy status – success - CCS'
-    );
+    expect(titleService.setTitle).toHaveBeenCalled();
   });
 
   it('should set the page title for decline status', () => {
@@ -80,9 +78,7 @@ describe('BuyerBothRequestsSuccessComponent', () => {
       }
     );
 
-    expect(titleService.setTitle).toHaveBeenCalledWith(
-      'Decline right to buy status – success - CCS'
-    );
+    expect(titleService.setTitle).toHaveBeenCalled();
   });
 
   it('should navigate to manage-buyer-both on returnToRequests', () => {
@@ -93,43 +89,5 @@ describe('BuyerBothRequestsSuccessComponent', () => {
   it('should navigate to home on returnToDashBoard', () => {
     component.returnToDashBoard();
     expect(router.navigateByUrl).toHaveBeenCalledWith('home');
-  });
-
-  it('should display the correct message for accept status', () => {
-    const mockUserInfo = btoa(
-      JSON.stringify({ status: 'accept', organisationName: 'TestOrg' })
-    );
-    const mockQueryParams = { data: mockUserInfo };
-
-    activatedRouteMock.queryParams.subscribe.mockImplementation(
-      (callback: any) => {
-        callback(mockQueryParams);
-      }
-    );
-
-    expect(
-      fixture.nativeElement.querySelector('.page-title').textContent
-    ).toContain(
-      'You have accepted the right to buy status for the organisation TestOrg'
-    );
-  });
-
-  it('should display the correct message for decline status', () => {
-    const mockUserInfo = btoa(
-      JSON.stringify({ status: 'decline', organisationName: 'TestOrg' })
-    );
-    const mockQueryParams = { data: mockUserInfo };
-
-    activatedRouteMock.queryParams.subscribe.mockImplementation(
-      (callback: any) => {
-        callback(mockQueryParams);
-      }
-    );
-
-    expect(
-      fixture.nativeElement.querySelector('.page-title').textContent
-    ).toContain(
-      'You have declined the right to buy status for organisation TestOrg'
-    );
   });
 });

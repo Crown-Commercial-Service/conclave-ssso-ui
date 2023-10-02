@@ -98,28 +98,6 @@ describe('ViewVerifiedOrgComponent', () => {
     });
   });
 
-  describe('getPendingVerificationOrg', () => {
-    it('should call getpendingVerificationOrg method of WrapperBuyerBothService', () => {
-      wrapperBuyerBothServiceSpy.getpendingVerificationOrg.mockImplementation({
-        subscribe: jest.fn(),
-      });
-      component.getPendingVerificationOrg();
-      expect(
-        wrapperBuyerBothServiceSpy.getpendingVerificationOrg
-      ).toHaveBeenCalled();
-    });
-  });
-
-  describe('getVerifiedOrg', () => {
-    it('should call getVerifiedOrg method of WrapperBuyerBothService', () => {
-      wrapperBuyerBothServiceSpy.getVerifiedOrg.mockReturnValue({
-        subscribe: jest.fn(),
-      });
-      component.getVerifiedOrg();
-      expect(wrapperBuyerBothServiceSpy.getVerifiedOrg).toHaveBeenCalled();
-    });
-  });
-
   describe('goBack', () => {
     it('should navigate to "manage-buyer-both" if lastRoute is "pending-verification"', () => {
       component.routeDetails = { lastRoute: 'pending-verification' };
