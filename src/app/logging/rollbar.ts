@@ -4,7 +4,6 @@ import {
     InjectionToken,
     ErrorHandler
 } from '@angular/core';
-import * as Rollbar from 'rollbar';
 import { environment } from 'src/environments/environment';
 
 const rollbarConfig = {
@@ -13,13 +12,13 @@ const rollbarConfig = {
     captureUnhandledRejections: true,
 };
 
-export const RollbarService = new InjectionToken<Rollbar>('rollbar');
+export const RollbarService = new InjectionToken<any>('rollbar');
 
 @Injectable()
 export class RollbarErrorHandler implements ErrorHandler {
   private  rollbarEnvironment=environment.rollbar.environment
 
-    constructor(@Inject(RollbarService) private rollbar: Rollbar) { }
+    constructor(@Inject(RollbarService) private rollbar: any) { }
 
     handleError(err: any): void {
         if (environment.rollbar.enable) {
@@ -31,6 +30,6 @@ export class RollbarErrorHandler implements ErrorHandler {
     }
 }
 
-export function rollbarFactory() {
-    return new Rollbar(rollbarConfig);
-}
+// export function rollbarFactory() {
+//     return new Rollbar(rollbarConfig);
+// }
