@@ -44,11 +44,12 @@
             Please choose one option:
           </legend>
           <div class="govuk-radios">
-            <div class="govuk-radios__item" *ngFor="let item of items$! | async" [class.govuk-form-group--error]="
+            <div class="govuk-radios__item custom_radio" *ngFor="let item of newScheme | scheme" [class.govuk-form-group--error]="
                 submitted &&
                 (schemeSubjectObs | async) === item.scheme &&
                 txtValue == ''
               ">
+            <div *ngIf="checkShowStatus(item)">
               <input class="govuk-radios__input" type="radio" [attr.id]="item.scheme + '-RadioButton'" name="scheme"
                 [value]="item.scheme" value="{{ item.scheme }}" [checked]="(schemeSubjectObs | async) === item.scheme"
                 [(ngModel)]="scheme" (click)="onSelect(item)" />
@@ -57,11 +58,20 @@
               <div *ngIf="(schemeSubjectObs | async) === item.scheme" id="{{ item.scheme + '-Div' }}" class="box-input">
                 <label *ngIf="validationObj.activeElement != 'US-DUN'" for="{{ item.scheme + '-TextBox' }}"
                   class="govuk-hint govuk-radios__hint">
-                  <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
-                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
-                    'Please enter a registry number' | translate }}
-                  </span>
-                  Enter your {{ item.schemeName }} Number
+                  <div *ngIf="item.schemeName === 'Department for Education'; else otherSchema">
+                    <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
+                      <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                      Please enter a registry number
+                    </span>
+                    Enter your {{ item.schemeName }} Unique Reference Number (URN)
+                  </div>
+                  <ng-template #otherSchema>
+                    <span id="name-error" class="govuk-error-message" *ngIf="submitted && txtValue == ''">
+                      <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> {{
+                      'Please enter a registry number' | translate }}
+                    </span>
+                    Enter your {{ item.schemeName }} Number
+                  </ng-template>
                   <P class="govuk-body govuk-!-font-weight-regular custom_span"
                     *ngIf="item.schemeName === 'Companies House'">
                     <span> Go to the</span>
@@ -172,7 +182,8 @@
                   </div>
                 </form>
               </div>
-            </div>
+              </div>           
+            </div>         
           </div>
         </fieldset>
       </div>
