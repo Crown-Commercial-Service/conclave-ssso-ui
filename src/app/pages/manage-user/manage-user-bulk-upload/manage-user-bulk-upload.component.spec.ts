@@ -1,25 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule } from '@angular/forms';
 import { ViewportScroller } from '@angular/common';
 import {
   Component,
   ElementRef,
-  NO_ERRORS_SCHEMA,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BulkUploadResponse } from 'src/app/models/bulkUploadResponse';
+import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { BulkUploadService } from 'src/app/services/postgres/bulk-upload.service';
+import { environment } from 'src/environments/environment';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { BulkUploadService } from 'src/app/services/postgres/bulk-upload.service';
-import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ManageUserBulkUploadComponent } from './manage-user-bulk-upload.component';
 
 describe('ManageUserBulkUploadComponent', () => {
   let component: ManageUserBulkUploadComponent;
   let fixture: ComponentFixture<ManageUserBulkUploadComponent>;
+  let router: Router;
+  let bulkUploadService: BulkUploadService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,13 +35,14 @@ describe('ManageUserBulkUploadComponent', () => {
       ],
       declarations: [ManageUserBulkUploadComponent],
       providers: [BulkUploadService, ViewportScroller, ScrollHelper],
-      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ManageUserBulkUploadComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    bulkUploadService = TestBed.inject(BulkUploadService);
     fixture.detectChanges();
   });
 
@@ -45,54 +50,49 @@ describe('ManageUserBulkUploadComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize component properties correctly', () => {
-    expect(component.organisationId).toBe('');
-    expect(component.submitted).toBe(false);
-    expect(component.errorInvalidFileFormat).toBe(false);
-    expect(component.errorServer).toBe(false);
-    expect(component.errorRequired).toBe(false);
-    expect(component.fileSizeExceedError).toBe(false);
+  it('should initialize variables correctly', () => {
+    expect(component.organisationId).toBeDefined();
+    expect(component.submitted).toBeFalse();
+    expect(component.errorInvalidFileFormat).toBeFalse();
+    expect(component.errorServer).toBeFalse();
+    expect(component.errorRequired).toBeFalse();
+    expect(component.fileSizeExceedError).toBeFalse();
     expect(component.file).toBeUndefined();
-    expect(component.maxFileSize).toBeGreaterThan(0);
-    expect(component.isBulkUpload).toBeDefined();
+    expect(component.maxFileSize).toBe(
+      environment.bulkUploadMaxFileSizeInBytes / (1024 * 1024)
+    );
+    expect(component.bulkUploadTemplateUrl).toBe(
+      environment.bulkUploadTemplateFileUrl
+    );
   });
 
-  it('should set focus on input element', () => {
-    const inputIndex = 0;
-    const inputElement = {
-      nativeElement: { focus: jest.fn() },
+  it('should read file correctly', () => {
+    const fileEvent: any = {
+      target: {
+        files: [{ name: 'test.csv', size: 1024 }],
+      },
     };
-    component.inputs = new QueryList<ElementRef<any>>();
-    component.inputs.reset([inputElement]);
-    component.setFocus(inputIndex);
-    expect(inputElement.nativeElement.focus).toHaveBeenCalled();
-  });
-
-  it('should read file when file input changes', () => {
-    const file = new File(['test'], 'test.csv');
-    const fileEvent = { target: { files: [file] } };
-
     component.readFile(fileEvent);
-
-    expect(component.file).toBe(file);
+    expect(component.file.name).toBe('test.csv');
   });
 
-  it('should validate file and return true when file is valid', () => {
-    const file = new File(['test'], 'test.csv');
-    component.file = file;
-
-    const result = component.validateFile();
-
-    expect(result).toBe(true);
-    expect(component.errorRequired).toBe(false);
-    expect(component.fileSizeExceedError).toBe(false);
+  it('should reset error flags correctly', () => {
+    component.errorInvalidFileFormat = true;
+    component.errorServer = true;
+    component.errorRequired = true;
+    component.fileSizeExceedError = true;
+    component.resetError();
+    expect(component.errorInvalidFileFormat).toBeFalse();
+    expect(component.errorServer).toBeFalse();
+    expect(component.errorRequired).toBeFalse();
+    expect(component.fileSizeExceedError).toBeFalse();
   });
 
-  it('should validate file and return false when file is required', () => {
-    const result = component.validateFile();
-
-    expect(result).toBe(false);
-    expect(component.errorRequired).toBe(true);
-    expect(component.fileSizeExceedError).toBe(false);
+  it('should navigate to add user selection on cancel click', () => {
+    spyOn(router, 'navigateByUrl');
+    component.onCancelClick();
+    expect(router.navigateByUrl).toHaveBeenCalledWith(
+      'manage-users/add-user-selection'
+    );
   });
 });

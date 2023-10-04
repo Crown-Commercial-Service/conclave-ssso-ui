@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DelegatedAccessUserComponent } from './delegated-access-user.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { AuthService } from '../../../services/auth/auth.service';
 
 describe('DelegatedAccessUserComponent', () => {
   let component: DelegatedAccessUserComponent;
@@ -8,8 +11,14 @@ describe('DelegatedAccessUserComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule],
       declarations: [DelegatedAccessUserComponent],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        HttpClientTestingModule,
+      ],
+      providers: [AuthService],
     }).compileComponents();
   });
 
@@ -23,37 +32,43 @@ describe('DelegatedAccessUserComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render the form with correct elements', () => {
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.govuk-heading-xl').textContent).toContain(
-      'My Form'
-    );
-    expect(compiled.querySelector('.govuk-label').textContent).toContain(
-      'Name'
-    );
-    expect(compiled.querySelector('.govuk-input').getAttribute('type')).toBe(
-      'text'
-    );
-    expect(compiled.querySelector('.govuk-button').textContent).toContain(
-      'Submit'
-    );
+  it('should display the correct page title based on pageAccessMode', () => {
+    component.pageAccessMode = 'add';
+    fixture.detectChanges();
+    const pageTitle = fixture.nativeElement.querySelector('.page-title');
+    expect(pageTitle.textContent).toContain('Delegate access to a user');
+
+    component.pageAccessMode = 'edit';
+    fixture.detectChanges();
+    expect(pageTitle.textContent).toContain('Edit current delegated access');
   });
 
-  it('should update the name value on input change', () => {
-    const compiled = fixture.nativeElement;
-    const input = compiled.querySelector('.govuk-input');
-    input.value = 'John Doe';
-    input.dispatchEvent(new Event('input'));
+  it('should display the user details correctly', () => {
+    component.userDetails = {
+      firstName: 'John',
+      lastName: 'Doe',
+      userName: 'johndoe@example.com',
+      originOrganisationName: 'Example Org',
+      mfaEnabled: true,
+    };
     fixture.detectChanges();
-    expect(component.formGroup.value.name).toBe('John Doe');
-  });
 
-  it('should call the onSubmit method when the form is submitted', () => {
-    spyOn(component, 'onSubmit');
-    const compiled = fixture.nativeElement;
-    const form = compiled.querySelector('form');
-    form.dispatchEvent(new Event('submit'));
-    fixture.detectChanges();
-    expect(component.onSubmit).toHaveBeenCalled();
+    const nameElement = fixture.nativeElement.querySelector(
+      '.user-profile-container p:first-child strong'
+    );
+    const emailElement = fixture.nativeElement.querySelector(
+      '.user-profile-container p:nth-child(2) strong'
+    );
+    const orgElement = fixture.nativeElement.querySelector(
+      '.user-profile-container p:nth-child(3) strong'
+    );
+    const mfaElement = fixture.nativeElement.querySelector(
+      '.govuk-details__text strong'
+    );
+
+    expect(nameElement.textContent).toContain('John Doe');
+    expect(emailElement.textContent).toContain('johndoe@example.com');
+    expect(orgElement.textContent).toContain('Example Org');
+    expect(mfaElement.textContent).toContain('Enabled');
   });
 });

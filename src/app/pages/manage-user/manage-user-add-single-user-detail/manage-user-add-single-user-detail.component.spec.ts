@@ -1,73 +1,106 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { ManageUserAddSingleUserDetailComponent } from './manage-user-add-single-user-detail.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  Store,
+  StateObservable,
+  ActionsSubject,
+  ReducerManager,
+  ReducerManagerDispatcher,
+  INITIAL_STATE,
+  INITIAL_REDUCERS,
+  REDUCER_FACTORY,
+} from '@ngrx/store';
+import { AuthService } from '../../../services/auth/auth.service';
 
 describe('ManageUserAddSingleUserDetailComponent', () => {
   let component: ManageUserAddSingleUserDetailComponent;
   let fixture: ComponentFixture<ManageUserAddSingleUserDetailComponent>;
-  let submitButton: DebugElement;
+  const initialState = {};
+  const initialReducers = {};
+  const reducerFactory = () => {};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot()],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+      ],
       declarations: [ManageUserAddSingleUserDetailComponent],
+      providers: [
+        Store,
+        StateObservable,
+        ActionsSubject,
+        ReducerManager,
+        ReducerManagerDispatcher,
+        { provide: INITIAL_STATE, useValue: initialState },
+        { provide: INITIAL_REDUCERS, useValue: initialReducers },
+        { provide: REDUCER_FACTORY, useValue: reducerFactory },
+        AuthService,
+      ],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ManageUserAddSingleUserDetailComponent);
     component = fixture.componentInstance;
-    submitButton = fixture.debugElement.query(By.css('button[type="submit"]'));
     fixture.detectChanges();
   });
 
-  it('should create the app', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render the form', () => {
-    const formElement = fixture.debugElement.query(By.css('form'));
-    expect(formElement).toBeTruthy();
-  });
-
-  it('should disable submit button if form is invalid', () => {
-    component.formGroup.controls.firstName.setValue('');
-    component.formGroup.controls.lastName.setValue('');
-    component.formGroup.controls.userName.setValue('');
-    fixture.detectChanges();
-    expect(submitButton.nativeElement.disabled).toBeTruthy();
-  });
-
-  it('should enable submit button if form is valid', () => {
-    component.formGroup.controls.firstName.setValue('John');
-    component.formGroup.controls.lastName.setValue('Doe');
-    component.formGroup.controls.userName.setValue('johndoe@example.com');
-    fixture.detectChanges();
-    expect(submitButton.nativeElement.disabled).toBeFalsy();
-  });
-
-  it('should display error message for required fields', () => {
-    component.formGroup.controls.firstName.markAsTouched();
-    component.formGroup.controls.lastName.markAsTouched();
-    component.formGroup.controls.userName.markAsTouched();
-    fixture.detectChanges();
-    const errorMessages = fixture.debugElement.queryAll(
-      By.css('.govuk-error-message')
+  it('should render the breadcrumbs correctly', () => {
+    const breadcrumbs = fixture.nativeElement.querySelectorAll(
+      '.govuk-breadcrumbs__link'
     );
-    expect(errorMessages.length).toBe(3);
+    expect(breadcrumbs.length).toBe(3);
+    expect(breadcrumbs[0].textContent).toContain('ADMINISTRATOR_DASHBOARD');
+    expect(breadcrumbs[1].textContent).toContain('MANAGE_YOUR_USER_ACCOUNTS');
+    expect(breadcrumbs[2].textContent).toContain('CREATE_NEW_USER_ACCOUNT');
   });
 
-  it('should call onSubmit method when form is submitted', () => {
+  it('should render the page title correctly', () => {
+    const pageTitle = fixture.nativeElement.querySelector('.page-title');
+    expect(pageTitle.textContent).toContain('CREATE_NEW_USER_ACCOUNT');
+  });
+
+  it('should render the form inputs correctly', () => {
+    const formInputs = fixture.nativeElement.querySelectorAll('.govuk-input');
+    expect(formInputs.length).toBe(4);
+
+    expect(formInputs[0].id).toBe('userTitle');
+    expect(formInputs[0].name).toBe('userTitle');
+
+    expect(formInputs[1].id).toBe('first-name');
+    expect(formInputs[1].name).toBe('first-name');
+
+    expect(formInputs[2].id).toBe('last-name');
+    expect(formInputs[2].name).toBe('last-name');
+
+    expect(formInputs[3].id).toBe('email');
+    expect(formInputs[3].name).toBe('email');
+  });
+
+  it('should call onSubmit method when the form is submitted', () => {
     spyOn(component, 'onSubmit');
-    component.formGroup.controls.firstName.setValue('John');
-    component.formGroup.controls.lastName.setValue('Doe');
-    component.formGroup.controls.userName.setValue('johndoe@example.com');
-    fixture.detectChanges();
-    const formElement = fixture.debugElement.query(By.css('form'));
-    formElement.triggerEventHandler('submit', null);
+    const form = fixture.nativeElement.querySelector('form');
+    form.dispatchEvent(new Event('submit'));
     expect(component.onSubmit).toHaveBeenCalled();
+  });
+
+  it('should call onCancelClick method when the cancel button is clicked', () => {
+    spyOn(component, 'onCancelClick');
+    const cancelButton = fixture.nativeElement.querySelector(
+      '.govuk-button--secondary'
+    );
+    cancelButton.click();
+    expect(component.onCancelClick).toHaveBeenCalled();
   });
 });

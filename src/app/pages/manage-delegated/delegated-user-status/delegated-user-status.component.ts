@@ -42,7 +42,7 @@ export class DelegatedUserStatusComponent implements OnInit {
   hideSimplifyRole: boolean = environment.appSetting.hideSimplifyRole;
 
   constructor(
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private router: Router,
     private orgRoleService: WrapperOrganisationGroupService,
     private formbuilder: FormBuilder,

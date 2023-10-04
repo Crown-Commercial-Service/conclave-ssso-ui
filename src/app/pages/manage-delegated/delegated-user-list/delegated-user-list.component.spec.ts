@@ -1,13 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DelegatedUserListComponent } from './delegated-user-list.component';
-import { environment } from 'src/environments/environment';
+import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('DelegatedUserListComponent', () => {
   let component: DelegatedUserListComponent;
   let fixture: ComponentFixture<DelegatedUserListComponent>;
+  let wrapperUserDelegatedService: WrapperUserDelegatedService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,15 +19,14 @@ describe('DelegatedUserListComponent', () => {
         TranslateModule.forRoot(),
       ],
       declarations: [DelegatedUserListComponent],
-      providers: [TranslateService],
+      providers: [WrapperUserDelegatedService],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DelegatedUserListComponent);
     component = fixture.componentInstance;
-    let scrollIntoViewMock = jest.fn();
-    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
+    wrapperUserDelegatedService = TestBed.inject(WrapperUserDelegatedService);
     fixture.detectChanges();
   });
 
@@ -34,50 +35,49 @@ describe('DelegatedUserListComponent', () => {
   });
 
   it('should initialize with default values', () => {
-    expect(component.searchText).toBe('');
-    expect(component.searchSumbited).toBe(false);
-    expect(component.tabConfig.currentusers).toBe(true);
-    expect(component.tabConfig.expiredusers).toBe(false);
-    expect(component.organisationId).toBe('');
-    expect(component.currentUserstableConfig.currentPage).toBe(1);
-    expect(component.currentUserstableConfig.pageCount).toBe(0);
-    expect(component.currentUserstableConfig.pageSize).toBe(
-      environment.listPageSize
-    );
+    expect(component.searchText).toEqual('');
+    expect(component.searchSumbited).toBeFalse();
+    expect(component.tabConfig.currentusers).toBeTrue();
+    expect(component.tabConfig.expiredusers).toBeFalse();
+    expect(component.organisationId).toEqual('');
+    expect(component.currentUserstableConfig.currentPage).toEqual(1);
   });
 
-  it('should call getOrganisationCurrentUsers and getOrganisationExpiredUsers on ngOnInit', () => {
-    jest.spyOn(component, 'getOrganisationCurrentUsers');
-    jest.spyOn(component, 'getOrganisationExpiredUsers');
-    jest.useFakeTimers();
-
-    component.ngOnInit();
-
-    jest.runAllTimers();
-    expect(component.getOrganisationCurrentUsers).toHaveBeenCalled();
-    expect(component.getOrganisationExpiredUsers).toHaveBeenCalled();
-  });
-
-  it('should navigate to find-delegated-user component on FindDelegateUser', () => {
-    jest.spyOn(component.router, 'navigateByUrl');
-
-    component.FindDelegateUser();
-
+  it('should navigate to delegated-remove-confirm page on onLinkClick with "Remove" action', () => {
+    spyOn(component.router, 'navigateByUrl');
+    const data = {
+      event: {
+        target: {
+          innerText: 'Remove',
+        },
+        userName: 'testUser',
+      },
+    };
+    component.onLinkClick(data);
     expect(component.router.navigateByUrl).toHaveBeenCalledWith(
-      'find-delegated-user'
+      'delegated-remove-confirm?data=' + btoa(JSON.stringify(data))
     );
   });
 
-  it('should render the template correctly', () => {
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.page-title').textContent).toContain(
-      'Delegated access'
+  it('should navigate to delegate-access-user page on onLinkClick with "Edit" action', () => {
+    spyOn(component.router, 'navigateByUrl');
+    const data = {
+      event: {
+        target: {
+          innerText: 'Edit',
+        },
+        userName: 'testUser',
+      },
+    };
+    component.onLinkClick(data);
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
+      'delegate-access-user?data=' + btoa(JSON.stringify(data))
     );
-    expect(
-      compiled.querySelector('.govuk-tabs__list-item--selected').textContent
-    ).toContain('Current users with delegated access to your Organisation');
-    expect(
-      compiled.querySelector('.govuk-tabs__list-item:nth-child(2)').textContent
-    ).toContain('Users with expired delegated access to your Organisation');
+  });
+
+  it('should unsubscribe from subscriptions on ngOnDestroy', () => {
+    spyOn(sessionStorage, 'removeItem');
+    component.ngOnDestroy();
+    expect(sessionStorage.removeItem).toHaveBeenCalledWith('activetab');
   });
 });

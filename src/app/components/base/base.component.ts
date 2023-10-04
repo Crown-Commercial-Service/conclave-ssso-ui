@@ -15,7 +15,8 @@ export class BaseComponent {
     protected scrollHelper: ScrollHelper
   ) {
     this.sideNavVisible$ = of(false);
-    this.sideNavVisible$ = this.uiStore.pipe(select(getSideNavVisible));
+    if (this.uiStore && this.uiStore.pipe)
+      this.sideNavVisible$ = this.uiStore.pipe(select(getSideNavVisible));
     if (viewportScroller) {
       viewportScroller.setOffset([100, 100]);
     }

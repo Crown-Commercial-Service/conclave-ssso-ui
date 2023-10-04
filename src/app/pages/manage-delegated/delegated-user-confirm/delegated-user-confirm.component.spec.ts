@@ -1,63 +1,116 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { RouterTestingModule } from '@angular/router/testing';
-// import { ActivatedRoute } from '@angular/router';
-// import { Title } from '@angular/platform-browser';
-// import { of } from 'rxjs';
-// import { DelegatedUserConfirmComponent } from './delegated-user-confirm.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DelegatedUserConfirmComponent } from './delegated-user-confirm.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { of, throwError } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
-// describe('DelegatedUserConfirmComponent', () => {
-//   let component: DelegatedUserConfirmComponent;
-//   let fixture: ComponentFixture<DelegatedUserConfirmComponent>;
+describe('DelegatedUserConfirmComponent', () => {
+  let component: DelegatedUserConfirmComponent;
+  let fixture: ComponentFixture<DelegatedUserConfirmComponent>;
+  let mockRouter: any;
+  let mockTitleService: any;
+  let mockDelegatedService: any;
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       imports: [RouterTestingModule],
-//       declarations: [DelegatedUserConfirmComponent],
-//       providers: [
-//         {
-//           provide: ActivatedRoute,
-//           useValue: {
-//             queryParams: of({ data: '' }),
-//           },
-//         },
-//         Title,
-//       ],
-//     }).compileComponents();
-//   });
+  beforeEach(async () => {
+    const activatedRouteStub = () => ({
+      queryParams: {
+        subscribe: (f: any) => f(atob(JSON.stringify({ userDetails: {} }))),
+      },
+    });
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(DelegatedUserConfirmComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+    mockRouter = jasmine.createSpyObj(['navigateByUrl']);
 
-//   it('should create the component', () => {
-//     expect(component).toBeTruthy();
-//   });
+    mockTitleService = jasmine.createSpyObj(['setTitle']);
 
-//   it('should set the page title based on the access mode', () => {
-//     const titleService = TestBed.inject(Title);
-//     const spySetTitle = jest.spyOn(titleService, 'setTitle');
+    mockDelegatedService = jasmine.createSpyObj([
+      'createDelegatedUser',
+      'updateDelegatedUser',
+    ]);
 
-//     component.ngOnInit();
+    await TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
+      declarations: [DelegatedUserConfirmComponent],
+      providers: [
+        { provide: ActivatedRoute, useFactory: activatedRouteStub },
+        { provide: Router, useValue: mockRouter },
+        { provide: Title, useValue: mockTitleService },
+        {
+          provide: WrapperUserDelegatedService,
+          useValue: mockDelegatedService,
+        },
+      ],
+    }).compileComponents();
+  });
 
-//     expect(spySetTitle).toHaveBeenCalledWith('Confirm Delegation - CCS');
-//   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(DelegatedUserConfirmComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//   it('should populate the user information and selected user info', () => {
-//     const activatedRoute = TestBed.inject(ActivatedRoute);
-//     const mockQueryParams = { data: '' };
-//     jest
-//       .spyOn(activatedRoute, 'queryParams', 'get')
-//       .mockReturnValue(of(mockQueryParams));
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
 
-//     component.ngOnInit();
+  describe('ngOnInit', () => {
+    it('should set the page title', () => {
+      component.pageAccessMode = 'edit';
+      component.ngOnInit();
+      expect(mockTitleService.setTitle).toHaveBeenCalledWith(
+        'Confirm Delegation - CCS'
+      );
+    });
 
-//     expect(component.userInfo).toEqual({});
-//     expect(component.UserSelectedinfo).toEqual({});
-//   });
+    it('should call getSelectedRole method', () => {
+      spyOn(component, 'getSelectedRole');
+      component.ngOnInit();
+      expect(component.getSelectedRole).toHaveBeenCalled();
+    });
+  });
 
-//   afterEach(() => {
-//     jest.clearAllMocks();
-//   });
-// });
+  describe('onSubmit', () => {
+    it('should call updateDelegatedUser method if pageAccessMode is "edit"', () => {
+      component.pageAccessMode = 'edit';
+      spyOn(component, 'updateDelegatedUser');
+      component.onSubmit();
+      expect(component.updateDelegatedUser).toHaveBeenCalled();
+    });
+
+    it('should call createDelegateUser method if pageAccessMode is not "edit"', () => {
+      component.pageAccessMode = 'add';
+      spyOn(component, 'createDelegateUser');
+      component.onSubmit();
+      expect(component.createDelegateUser).toHaveBeenCalled();
+    });
+  });
+
+  describe('exchangeGroupAndRole', () => {
+    it('should exchange group and role ids if hideSimplifyRole is false', () => {
+      component.hideSimplifyRole = false;
+      component.UserSelectedinfo = { detail: { roleIds: [1, 2, 3] } };
+      component.exchangeGroupAndRole();
+      expect(component.UserSelectedinfo.detail.serviceRoleGroupIds).toEqual([
+        1, 2, 3,
+      ]);
+      expect(component.UserSelectedinfo.detail.roleIds).toBeUndefined();
+    });
+  });
+
+  describe('onClickNevigation', () => {
+    it('should navigate to the specified path', () => {
+      spyOn(component.route, 'navigateByUrl');
+      component.onClickNevigation('home');
+      expect(component.route.navigateByUrl).toHaveBeenCalledWith('home');
+    });
+  });
+
+  describe('Cancel', () => {
+    it('should navigate back in history', () => {
+      spyOn(window.history, 'back');
+      component.Cancel();
+      expect(window.history.back).toHaveBeenCalled();
+    });
+  });
+});

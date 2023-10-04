@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ViewportScroller } from '@angular/common';
 import {
   Store,
   StateObservable,
@@ -11,30 +12,30 @@ import {
   INITIAL_REDUCERS,
   REDUCER_FACTORY,
 } from '@ngrx/store';
+import { FormBuilder } from '@angular/forms';
+import { QueryList, ElementRef } from '@angular/core';
+import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { UIState } from 'src/app/store/ui.states';
 import { ManageUserAddSelectionComponent } from './manage-user-add-selection-component';
 
 describe('ManageUserAddSelectionComponent', () => {
   let component: ManageUserAddSelectionComponent;
   let fixture: ComponentFixture<ManageUserAddSelectionComponent>;
-  let store: Store<UIState>;
-  let actionsSubject: ActionsSubject;
-  let reducerManager: ReducerManager;
-  let reducerManagerDispatcher: ReducerManagerDispatcher;
   const initialState = {};
   const initialReducers = {};
   const reducerFactory = () => {};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [ManageUserAddSelectionComponent],
       imports: [
-        ReactiveFormsModule,
         RouterTestingModule,
+        ReactiveFormsModule,
         TranslateModule.forRoot(),
       ],
       providers: [
+        ViewportScroller,
         Store,
         StateObservable,
         ActionsSubject,
@@ -43,18 +44,15 @@ describe('ManageUserAddSelectionComponent', () => {
         { provide: INITIAL_STATE, useValue: initialState },
         { provide: INITIAL_REDUCERS, useValue: initialReducers },
         { provide: REDUCER_FACTORY, useValue: reducerFactory },
+        FormBuilder,
+        ScrollHelper,
       ],
-      declarations: [ManageUserAddSelectionComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ManageUserAddSelectionComponent);
     component = fixture.componentInstance;
-    store = TestBed.inject(Store);
-    actionsSubject = TestBed.inject(ActionsSubject);
-    reducerManager = TestBed.inject(ReducerManager);
-    reducerManagerDispatcher = TestBed.inject(ReducerManagerDispatcher);
     fixture.detectChanges();
   });
 
@@ -62,43 +60,46 @@ describe('ManageUserAddSelectionComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the selectionForm with required validators', () => {
-    expect(component.selectionForm).toBeDefined();
-    expect(component.selectionForm.controls.selection).toBeDefined();
-    expect(component.selectionForm.controls.selection.value).toBe('');
-    expect(component.selectionForm.controls.selection.valid).toBeFalsy();
-    expect(
-      component.selectionForm.controls.selection.errors?.required
-    ).toBeTruthy();
+  it('should initialize the selection form with default values', () => {
+    expect(component.selectionForm.value).toEqual({ selection: '' });
   });
 
-  it('should set focus on the input element', () => {
+  it('should set focus on input element with given index', () => {
     const inputIndex = 0;
-    const inputElement =
-      fixture.nativeElement.querySelectorAll('input')[inputIndex];
-    jest.spyOn(inputElement, 'focus');
+    const inputs: QueryList<ElementRef> = component.inputs;
+    spyOn(inputs.toArray()[inputIndex].nativeElement, 'focus');
     component.setFocus(inputIndex);
-    expect(inputElement.focus).toHaveBeenCalled();
+    expect(inputs.toArray()[inputIndex].nativeElement.focus).toHaveBeenCalled();
   });
 
-  it('should navigate to add-user/details when "Single User" is selected', () => {
-    const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
+  it('should navigate to add-user/details when "singleUser" option is selected and form is valid', () => {
+    spyOn(component.router, 'navigateByUrl');
+    component.selectionForm.patchValue({ selection: 'singleUser' });
     component.onSubmit(component.selectionForm);
-    component.selectionForm.controls.selection.setValue('singleUser');
-    component.onSubmit(component.selectionForm);
-    expect(routerSpy).toHaveBeenCalledWith('manage-users/add-user/details');
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
+      'manage-users/add-user/details'
+    );
   });
 
-  it('should navigate to bulk-users when "Multiple Users" is selected', () => {
-    const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
-    component.selectionForm.controls.selection.setValue('multipleUsers');
+  it('should navigate to bulk-users when "multipleUsers" option is selected and form is valid', () => {
+    spyOn(component.router, 'navigateByUrl');
+    component.selectionForm.patchValue({ selection: 'multipleUsers' });
     component.onSubmit(component.selectionForm);
-    expect(routerSpy).toHaveBeenCalledWith('manage-users/bulk-users');
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
+      'manage-users/bulk-users'
+    );
   });
 
-  it('should cancel and navigate to manage-users when onCancelClick is called', () => {
-    const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
+  it('should not navigate when form is invalid', () => {
+    spyOn(component.router, 'navigateByUrl');
+    component.submitted = true;
+    component.onSubmit(component.selectionForm);
+    expect(component.router.navigateByUrl).not.toHaveBeenCalled();
+  });
+
+  it('should navigate to manage-users when cancel button is clicked', () => {
+    spyOn(component.router, 'navigateByUrl');
     component.onCancelClick();
-    expect(routerSpy).toHaveBeenCalledWith('manage-users');
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith('manage-users');
   });
 });

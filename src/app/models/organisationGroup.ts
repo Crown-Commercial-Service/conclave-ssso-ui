@@ -52,9 +52,9 @@ export interface RoleDetail {
 
 export interface Role extends RoleDetail {
   pendingStatus?: boolean;
-  roleId?: number;
-  roleKey?: string;
-  roleName?: string;
+  roleId: number;
+  roleKey: string;
+  roleName: string;
 }
 
 export interface ServiceRoleGroup extends RoleDetail {

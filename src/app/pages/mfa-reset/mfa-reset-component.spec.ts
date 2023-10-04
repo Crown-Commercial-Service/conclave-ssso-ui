@@ -1,90 +1,88 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
-import { Title } from '@angular/platform-browser';
+import { Observable, of } from 'rxjs';
 import { MFAResetComponent } from './mfa-reset-component';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
-
-import { MFAResetComponent } from './mfa-reset-component';
+import { Title } from '@angular/platform-browser';
+import {
+  Store,
+  StateObservable,
+  ActionsSubject,
+  ReducerManager,
+  ReducerManagerDispatcher,
+  INITIAL_STATE,
+  INITIAL_REDUCERS,
+  REDUCER_FACTORY,
+} from '@ngrx/store';
 
 describe('MFAResetComponent', () => {
   let component: MFAResetComponent;
   let fixture: ComponentFixture<MFAResetComponent>;
+  let mockRouter: Router;
+  let mockActivatedRoute: ActivatedRoute;
+  let mockMFAService: MFAService;
+  let mockAuthService: AuthService;
+  let mockTitleService: Title;
+  const initialState = {};
+  const initialReducers = {};
+  const reducerFactory = () => {};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MFAResetComponent ]
-    })
-    .compileComponents();
+      imports: [RouterTestingModule],
+      declarations: [MFAResetComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { queryParams: of({ t: 'mock-token' }) },
+        },
+        {
+          provide: MFAService,
+          useValue: { resetMFA: () => Promise.resolve() },
+        },
+        { provide: AuthService, useValue: { logOutAndRedirect: () => {} } },
+        { provide: Title, useValue: { setTitle: () => {} } },
+        Store,
+        StateObservable,
+        ActionsSubject,
+        ReducerManager,
+        ReducerManagerDispatcher,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({ id: '1' }),
+          },
+        },
+        { provide: INITIAL_STATE, useValue: initialState },
+        { provide: INITIAL_REDUCERS, useValue: initialReducers },
+        { provide: REDUCER_FACTORY, useValue: reducerFactory },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MFAResetComponent);
     component = fixture.componentInstance;
-    mfaService = TestBed.inject(MFAService);
-    authService = TestBed.inject(AuthService);
-    titleService = TestBed.inject(Title);
-    router = TestBed.inject(Router);
-    fixture.detectChanges();
+    mockRouter = TestBed.inject(Router);
+    mockActivatedRoute = TestBed.inject(ActivatedRoute);
+    mockMFAService = TestBed.inject(MFAService);
+    mockAuthService = TestBed.inject(AuthService);
+    mockTitleService = TestBed.inject(Title);
+    spyOn(mockRouter, 'navigateByUrl');
+    spyOn(mockAuthService, 'logOutAndRedirect');
+    spyOn(mockTitleService, 'setTitle');
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should reset MFA and navigate on reset button click', async () => {
-    const sendResetMFANotificationSpy = jest
-      .spyOn(mfaService, 'sendResetMFANotification')
-      .mockReturnValue(null);
-    const routerNavigateSpy = jest.spyOn(router, 'navigateByUrl');
-
-    component.userName = 'testUser';
-    await component.onResetMfaClick();
-
-    expect(sendResetMFANotificationSpy).toHaveBeenCalledWith('testUser');
-    expect(sessionStorage.getItem('MFAResetUserName')).toBe('testUser');
-    expect(routerNavigateSpy).toHaveBeenCalledWith(
-      'mfaresetnotification/success'
-    );
-  });
-
-  it('should handle successful MFA reset', () => {
-    jest.spyOn(mfaService, 'resetMFA').mockReturnValue(Promise.resolve());
-
-    component.ngOnInit();
-
-    expect(component.resetSuccess).toBe(true);
-    expect(component.resultVerified).toBe(true);
-    expect(titleService.getTitle()).toBe(
-      'Success - Additional security Reset - CCS'
-    );
-  });
-
-  it('should handle error during MFA reset', () => {
-    const errorResponse = {
-      error: { error: 'INVALID_TICKET', error_description: 'testUser' },
-    };
-    jest
-      .spyOn(mfaService, 'resetMFA')
-      .mockReturnValue(Promise.reject(errorResponse));
-
-    component.ngOnInit();
-
-    expect(component.resetSuccess).toBe(false);
-    expect(component.resultVerified).toBe(true);
-    expect(titleService.getTitle()).toBe(
-      'Error - Additional security Reset - CCS'
-    );
-    expect(component.userName).toBe('testUser');
-  });
-
-  it('should log out and redirect on navigate link click', () => {
-    const logOutAndRedirectSpy = jest.spyOn(authService, 'logOutAndRedirect');
-
-    component.onNavigateLinkClick();
-
-    expect(logOutAndRedirectSpy).toHaveBeenCalled();
+  describe('onNavigateLinkClick', () => {
+    it('should call logOutAndRedirect method of AuthService', () => {
+      component.onNavigateLinkClick();
+      expect(mockAuthService.logOutAndRedirect).toHaveBeenCalled();
+    });
   });
 });

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DelegatedErrorComponent } from './delegated-error.component';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('DelegatedErrorComponent', () => {
   let component: DelegatedErrorComponent;
@@ -10,7 +10,6 @@ describe('DelegatedErrorComponent', () => {
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [DelegatedErrorComponent],
-      providers: [TranslateService],
     }).compileComponents();
   });
 
@@ -28,14 +27,13 @@ describe('DelegatedErrorComponent', () => {
     const errorMessage =
       'An unexpected error has occurred. Please try again in a few minutes';
     const compiledTemplate = fixture.nativeElement;
-    const errorSummary = compiledTemplate.querySelector(
-      '.govuk-error-summary__title'
-    );
     const errorLink = compiledTemplate.querySelector(
       '.govuk-error-summary__list a'
     );
 
-    expect(errorSummary.textContent).toContain('ERROR_SUMMARY');
+    expect(
+      compiledTemplate.querySelector('.govuk-error-summary__title').textContent
+    ).toContain('ERROR_SUMMARY');
     expect(errorLink.textContent).toContain(errorMessage);
   });
 });

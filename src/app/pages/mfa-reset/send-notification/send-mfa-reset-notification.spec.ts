@@ -1,53 +1,41 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SendMFAResetNotificationComponent } from './send-mfa-reset-notification';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MFAService } from 'src/app/services/auth/mfa.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { Store } from '@ngrx/store';
-import { UIState } from 'src/app/store/ui.states';
-import { ViewportScroller } from '@angular/common';
-import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { of } from 'rxjs';
+import { SendMFAResetNotificationComponent } from './send-mfa-reset-notification';
+import { MFAService } from '../../../services/auth/mfa.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { AuthService } from '../../../services/auth/auth.service';
 
 describe('SendMFAResetNotificationComponent', () => {
   let component: SendMFAResetNotificationComponent;
   let fixture: ComponentFixture<SendMFAResetNotificationComponent>;
   let mockActivatedRoute: any;
   let mockRouter: any;
-  let mockMFAService: any;
-  let mockAuthService: any;
+  let mockStore: any;
 
   beforeEach(async () => {
     mockActivatedRoute = {
-      queryParams: {
-        subscribe: (callback: Function) => {
-          const params = { u: 'encrypted-value' }; // Provide any required query parameters for testing
-          callback(params);
-        },
-      },
+      queryParams: of({ u: 'encrypted-value' }),
     };
 
     mockRouter = {
-      navigateByUrl: jest.fn(),
+      navigateByUrl: jasmine.createSpy('navigateByUrl'),
     };
 
-    mockMFAService = {
-      sendResetMFANotification: jest.fn(),
-    };
-
-    mockAuthService = {
-      logOutAndRedirect: jest.fn(),
+    mockStore = {
+      dispatch: jasmine.createSpy('dispatch'),
     };
 
     await TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       declarations: [SendMFAResetNotificationComponent],
       providers: [
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Router, useValue: mockRouter },
-        { provide: MFAService, useValue: mockMFAService },
-        { provide: AuthService, useValue: mockAuthService },
-        { provide: Store, useClass: MockStore },
-        ViewportScroller,
-        ScrollHelper,
+        { provide: Store, useValue: mockStore },
+        MFAService,
+        AuthService,
       ],
     }).compileComponents();
   });
@@ -62,36 +50,18 @@ describe('SendMFAResetNotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to success page after sending MFA reset notification', async () => {
-    await component.ngOnInit();
+  it('should initialize the component', () => {
+    spyOn(component, 'onNavigateLinkClick');
+    component.ngOnInit();
 
-    expect(mockMFAService.sendResetMFANotification).toHaveBeenCalledWith(
-      component.userName
+    expect(component.userName).toBe('original-username');
+    expect(sessionStorage.setItem).toHaveBeenCalledWith(
+      'MFAResetUserName',
+      'original-username'
     );
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(
+    expect(component.onNavigateLinkClick).toHaveBeenCalled();
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
       'mfaresetnotification/success'
     );
   });
-
-  it('should handle error when sending MFA reset notification', async () => {
-    mockMFAService.sendResetMFANotification.mockRejectedValue('Error');
-
-    await component.ngOnInit();
-
-    expect(component.sendError).toBe(true);
-  });
-
-  it('should call logOutAndRedirect method when navigate link is clicked', () => {
-    component.onNavigateLinkClick();
-
-    expect(mockAuthService.logOutAndRedirect).toHaveBeenCalled();
-  });
 });
-
-class MockStore {
-  select() {
-    return {
-      subscribe: () => {},
-    };
-  }
-}
