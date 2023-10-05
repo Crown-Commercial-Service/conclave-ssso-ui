@@ -36,15 +36,15 @@ describe('ConfirmOrgTypeComponent', () => {
   const reducerFactory = () => {};
 
   beforeEach(async () => {
-    mockRouter = { navigateByUrl: jest.fn() };
+    mockRouter = { navigateByUrl: jasmine.createSpy('navigateByUrl') };
     mockActivatedRoute = { queryParams: of({ data: 'test-data' }) };
-    mockOrganisationService = { getById: jest.fn() };
-    mockWrapperOrgService = { updateOrgRoles: jest.fn() };
+    mockOrganisationService = { getById: jasmine.createSpy('getById') };
+    mockWrapperOrgService = { updateOrgRoles: jasmine.createSpy('updateOrgRoles') };
     mockViewportScroller = {
-      scrollToPosition: jest.fn(),
-      setOffset: jest.fn(),
+      scrollToPosition: jasmine.createSpy('scrollToPosition'),
+      setOffset: jasmine.createSpy('setOffset'),
     };
-    mockScrollHelper = { scrollToElement: jest.fn() };
+    mockScrollHelper = { scrollToElement: jasmine.createSpy('scrollToElement') };
 
     await TestBed.configureTestingModule({
       declarations: [ConfirmOrgTypeComponent],
@@ -52,10 +52,7 @@ describe('ConfirmOrgTypeComponent', () => {
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: OrganisationService, useValue: mockOrganisationService },
-        {
-          provide: WrapperOrganisationService,
-          useValue: mockWrapperOrgService,
-        },
+        { provide: WrapperOrganisationService, useValue: mockWrapperOrgService },
         { provide: ViewportScroller, useValue: mockViewportScroller },
         { provide: ScrollHelper, useValue: mockScrollHelper },
         Store,

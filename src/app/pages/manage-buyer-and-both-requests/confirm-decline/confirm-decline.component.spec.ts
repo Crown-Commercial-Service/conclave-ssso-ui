@@ -7,18 +7,23 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 describe('ConfirmDeclineComponent', () => {
   let component: ConfirmDeclineComponent;
   let fixture: ComponentFixture<ConfirmDeclineComponent>;
-  let mockRouter: any;
-  let mockWrapperBuyerBothService: any;
+  let mockRouter: jasmine.SpyObj<Router>;
+  let mockWrapperBuyerBothService: jasmine.SpyObj<WrapperBuyerBothService>;
   let mockActivatedRoute: any;
 
   beforeEach(async () => {
-    mockRouter = { navigateByUrl: jest.fn() };
-    mockWrapperBuyerBothService = { manualValidation: jest.fn() };
+    mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl']);
+    mockWrapperBuyerBothService = jasmine.createSpyObj(
+      'WrapperBuyerBothService',
+      ['manualValidation']
+    );
     mockActivatedRoute = {
       queryParams: {
-        subscribe: jest.fn((fn: (value: any) => void) => {
-          fn({ data: 'someData' });
-        }),
+        subscribe: jasmine
+          .createSpy()
+          .and.callFake((fn: (value: any) => void) => {
+            fn({ data: 'someData' });
+          }),
       },
     };
 
@@ -58,19 +63,17 @@ describe('ConfirmDeclineComponent', () => {
       organisationId: 'orgId',
       organisationName: 'orgName',
     };
-
     component.confirmAndDecline();
-
     expect(mockWrapperBuyerBothService.manualValidation).toHaveBeenCalledWith(
       'orgId',
-      'decline'
+      1
     );
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('decline-success');
   });
 
   it('should navigate to previous page on Back', () => {
+    spyOn(window.history, 'back');
     component.Back();
-
     expect(window.history.back).toHaveBeenCalled();
   });
 });

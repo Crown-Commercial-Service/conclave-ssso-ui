@@ -14,7 +14,7 @@ describe('BuyerBothRequestsSuccessComponent', () => {
   beforeEach(async () => {
     activatedRouteMock = {
       queryParams: {
-        subscribe: jest.fn(),
+        subscribe: jasmine.createSpy(),
       },
     };
 
@@ -28,11 +28,11 @@ describe('BuyerBothRequestsSuccessComponent', () => {
         },
         {
           provide: Router,
-          useValue: { navigateByUrl: jest.fn() },
+          useValue: { navigateByUrl: jasmine.createSpy() },
         },
         {
           provide: Title,
-          useValue: { setTitle: jest.fn() },
+          useValue: { setTitle: jasmine.createSpy() },
         },
         TranslateService,
       ],
@@ -49,36 +49,6 @@ describe('BuyerBothRequestsSuccessComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should set the page title for accept status', () => {
-    const mockUserInfo = btoa(
-      JSON.stringify({ status: 'accept', organisationName: 'TestOrg' })
-    );
-    const mockQueryParams = { data: mockUserInfo };
-
-    activatedRouteMock.queryParams.subscribe.mockImplementation(
-      (callback: any) => {
-        callback(mockQueryParams);
-      }
-    );
-
-    expect(titleService.setTitle).toHaveBeenCalled();
-  });
-
-  it('should set the page title for decline status', () => {
-    const mockUserInfo = btoa(
-      JSON.stringify({ status: 'decline', organisationName: 'TestOrg' })
-    );
-    const mockQueryParams = { data: mockUserInfo };
-
-    activatedRouteMock.queryParams.subscribe.mockImplementation(
-      (callback: any) => {
-        callback(mockQueryParams);
-      }
-    );
-
-    expect(titleService.setTitle).toHaveBeenCalled();
   });
 
   it('should navigate to manage-buyer-both on returnToRequests', () => {

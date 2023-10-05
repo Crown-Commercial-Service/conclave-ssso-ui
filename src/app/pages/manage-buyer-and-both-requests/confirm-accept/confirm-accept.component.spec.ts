@@ -8,17 +8,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 describe('ConfirmAcceptComponent', () => {
   let component: ConfirmAcceptComponent;
   let fixture: ComponentFixture<ConfirmAcceptComponent>;
-  let routerSpy: jest.Mocked<Router>;
-  let wrapperBuyerBothServiceSpy: jest.Mocked<WrapperBuyerBothService>;
+  let routerSpy: jasmine.SpyObj<Router>;
+  let wrapperBuyerBothServiceSpy: jasmine.SpyObj<WrapperBuyerBothService>;
 
   beforeEach(async () => {
-    const routerSpyObj = {
-      navigateByUrl: jest.fn(),
-    };
-
-    const wrapperBuyerBothServiceSpyObj = {
-      manualValidation: jest.fn(),
-    };
+    const routerSpyObj = jasmine.createSpyObj('Router', ['navigateByUrl']);
+    const wrapperBuyerBothServiceSpyObj = jasmine.createSpyObj('WrapperBuyerBothService', ['manualValidation']);
 
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
@@ -41,10 +36,8 @@ describe('ConfirmAcceptComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmAcceptComponent);
     component = fixture.componentInstance;
-    routerSpy = TestBed.inject(Router) as jest.Mocked<Router>;
-    wrapperBuyerBothServiceSpy = TestBed.inject(
-      WrapperBuyerBothService
-    ) as jest.Mocked<WrapperBuyerBothService>;
+    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+    wrapperBuyerBothServiceSpy = TestBed.inject(WrapperBuyerBothService) as jasmine.SpyObj<WrapperBuyerBothService>;
   });
 
   it('should create the component', () => {
@@ -65,7 +58,7 @@ describe('ConfirmAcceptComponent', () => {
       organisationName: 'orgName',
     };
     component.routeDetails = mockRouteDetails;
-    wrapperBuyerBothServiceSpy.manualValidation.mockReturnValue(of({}));
+    wrapperBuyerBothServiceSpy.manualValidation.and.returnValue(of({}));
     component.confirm();
     expect(wrapperBuyerBothServiceSpy.manualValidation).toHaveBeenCalledWith(
       mockRouteDetails.organisationId,
@@ -77,6 +70,7 @@ describe('ConfirmAcceptComponent', () => {
   });
 
   it('should navigate on Back', () => {
+    spyOn(window.history, 'back');
     component.Back();
     expect(window.history.back).toHaveBeenCalled();
   });

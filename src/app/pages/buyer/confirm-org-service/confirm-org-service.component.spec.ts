@@ -34,16 +34,16 @@ describe('ConfirmOrgServiceComponent', () => {
   beforeEach(async () => {
     activatedRouteMock = {
       queryParams: {
-        subscribe: jest.fn(),
+        subscribe: jasmine.createSpy('subscribe').and.returnValue(of()),
       },
     };
-
     mockOrganisationService = {
-      getById: jest.fn().mockReturnValue(of({})),
+      getById: jasmine.createSpy('getById').and.returnValue(of({})),
     };
-
     mockWrapperOrganisationService = {
-      updateOrgRoles: jest.fn().mockReturnValue(Promise.resolve()),
+      updateOrgRoles: jasmine
+        .createSpy('updateOrgRoles')
+        .and.returnValue(Promise.resolve()),
     };
 
     await TestBed.configureTestingModule({
@@ -106,9 +106,7 @@ describe('ConfirmOrgServiceComponent', () => {
         },
       ],
     };
-
     component.updateTableData();
-
     expect(component.toAdd).toEqual([
       {
         accessRoleName: 'Role 1',
@@ -117,7 +115,6 @@ describe('ConfirmOrgServiceComponent', () => {
         serviceView: true,
       },
     ]);
-
     expect(component.toAutoValid).toEqual([
       {
         accessRoleName: 'Role 2',
@@ -126,7 +123,6 @@ describe('ConfirmOrgServiceComponent', () => {
         serviceView: true,
       },
     ]);
-
     expect(component.toDelete).toEqual([
       {
         accessRoleName: 'Role 3',
@@ -139,28 +135,22 @@ describe('ConfirmOrgServiceComponent', () => {
 
   it('should filter role IDs correctly', () => {
     const roleArray = [{ roleId: '1' }, { roleId: '2' }, { roleId: '3' }];
-
     const filteredArray = component.filterRoleId(roleArray);
-
     expect(filteredArray).toEqual(['1', '2', '3']);
   });
 
   it('should navigate to the previous page on cancel click', () => {
-    const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
-
+    const routerSpy = spyOn(component.router, 'navigateByUrl');
     component.onCancelClick();
-
     expect(routerSpy).toHaveBeenCalledWith('buyer/search');
   });
 
   it('should navigate to the previous page on back click', () => {
-    jest.spyOn(Storage.prototype, 'removeItem');
-    const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
-
+    spyOn(Storage.prototype, 'removeItem');
+    const routerSpy = spyOn(component.router, 'navigateByUrl');
     component.org = { ciiOrganisationId: 'orgId' };
     component.routeData = { companyHouseId: 'companyId' };
     component.onBackClick();
-
     expect(localStorage.removeItem).toHaveBeenCalledWith('mse_org_orgId');
     expect(routerSpy).toHaveBeenCalledWith(
       'update-org-services/confirm?data=' +

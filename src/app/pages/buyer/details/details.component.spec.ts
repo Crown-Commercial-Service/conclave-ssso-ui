@@ -42,12 +42,12 @@ describe('BuyerDetailsComponent', () => {
       params: of({ id: '1' }),
     };
     routerStub = {
-      navigateByUrl: jest.fn(),
+      navigateByUrl: jasmine.createSpy('navigateByUrl'),
     };
     viewportScrollerStub = {};
     ciiServiceStub = {
-      getSchemes: jest.fn().mockReturnValue(of([])),
-      getOrgDetails: jest.fn().mockReturnValue(
+      getSchemes: jasmine.createSpy('getSchemes').and.returnValue(of([])),
+      getOrgDetails: jasmine.createSpy('getOrgDetails').and.returnValue(
         of({
           identifier: { scheme: 'GB-CCS', id: '123' },
           additionalIdentifiers: [
@@ -58,7 +58,7 @@ describe('BuyerDetailsComponent', () => {
       ),
     };
     organisationServiceStub = {
-      getOrganisation: jest.fn().mockReturnValue(
+      getOrganisation: jasmine.createSpy('getOrganisation').and.returnValue(
         of({
           identifier: { legalName: 'Test Org' },
           address: {
@@ -72,8 +72,8 @@ describe('BuyerDetailsComponent', () => {
       ),
     };
     sharedDataServiceStub = {
-      getId: jest.fn().mockReturnValue('ABC-123'),
-      convertIdToHyphenId: jest.fn().mockReturnValue('ABC-123'),
+      getId: jasmine.createSpy('getId').and.returnValue('ABC-123'),
+      convertIdToHyphenId: jasmine.createSpy('convertIdToHyphenId').and.returnValue('ABC-123'),
     };
 
     await TestBed.configureTestingModule({
@@ -84,10 +84,7 @@ describe('BuyerDetailsComponent', () => {
         { provide: Router, useValue: routerStub },
         { provide: ViewportScroller, useValue: viewportScrollerStub },
         { provide: ciiService, useValue: ciiServiceStub },
-        {
-          provide: WrapperOrganisationService,
-          useValue: organisationServiceStub,
-        },
+        { provide: WrapperOrganisationService, useValue: organisationServiceStub },
         { provide: SharedDataService, useValue: sharedDataServiceStub },
         Store,
         StateObservable,
@@ -95,12 +92,7 @@ describe('BuyerDetailsComponent', () => {
         ReducerManager,
         ReducerManagerDispatcher,
         ViewportScroller,
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            params: of({ id: '1' }),
-          },
-        },
+        { provide: ActivatedRoute, useValue: { params: of({ id: '1' }) } },
         { provide: INITIAL_STATE, useValue: initialState },
         { provide: INITIAL_REDUCERS, useValue: initialReducers },
         { provide: REDUCER_FACTORY, useValue: reducerFactory },
@@ -123,11 +115,8 @@ describe('BuyerDetailsComponent', () => {
   });
 
   it('should navigate to the search page on cancel button click', () => {
-    const cancelButton = fixture.debugElement.query(
-      By.css('.govuk-button--secondary')
-    ).nativeElement;
+    const cancelButton = fixture.debugElement.query(By.css('.govuk-button--secondary')).nativeElement;
     cancelButton.click();
-
     expect(routerStub.navigateByUrl).toHaveBeenCalledWith('buyer/search');
   });
 });

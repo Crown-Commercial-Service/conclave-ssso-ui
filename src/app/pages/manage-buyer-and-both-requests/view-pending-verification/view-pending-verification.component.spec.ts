@@ -17,7 +17,7 @@ describe('ViewPendingVerificationComponent', () => {
     };
 
     routerMock = {
-      navigateByUrl: jest.fn(),
+      navigateByUrl: jasmine.createSpy(),
     };
 
     await TestBed.configureTestingModule({

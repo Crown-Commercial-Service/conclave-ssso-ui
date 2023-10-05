@@ -27,8 +27,7 @@ describe('BuyerBothRequestsComponent', () => {
     fixture = TestBed.createComponent(BuyerBothRequestsComponent);
     component = fixture.componentInstance;
     wrapperBuyerBothService = TestBed.inject(WrapperBuyerBothService);
-    let scrollIntoViewMock = jest.fn();
-    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
+    spyOn(window.HTMLElement.prototype, 'scrollIntoView');
     fixture.detectChanges();
   });
 
@@ -37,7 +36,7 @@ describe('BuyerBothRequestsComponent', () => {
   });
 
   it('should call getPendingVerificationOrg on component initialization', () => {
-    jest.spyOn(component, 'getPendingVerificationOrg');
+    spyOn(component, 'getPendingVerificationOrg');
     component.ngOnInit();
     expect(component.getPendingVerificationOrg).toHaveBeenCalled();
   });
@@ -48,19 +47,11 @@ describe('BuyerBothRequestsComponent', () => {
       pageCount: 2,
       organisationAuditList: [],
     };
-    jest
-      .spyOn(wrapperBuyerBothService, 'getpendingVerificationOrg')
-      .mockReturnValue(of(orgListResponse));
+    spyOn(wrapperBuyerBothService, 'getpendingVerificationOrg').and.returnValue(of(orgListResponse));
     component.getPendingVerificationOrg();
-    expect(
-      wrapperBuyerBothService.getpendingVerificationOrg
-    ).toHaveBeenCalled();
-    expect(
-      component.pendingVerificationBuyerAndBoth.organisationAuditList
-    ).toEqual(orgListResponse);
-    expect(component.pendingVerificationBuyerAndBoth.pageCount).toEqual(
-      orgListResponse.pageCount
-    );
+    expect(wrapperBuyerBothService.getpendingVerificationOrg).toHaveBeenCalled();
+    expect(component.pendingVerificationBuyerAndBoth.organisationAuditList).toEqual(orgListResponse);
+    expect(component.pendingVerificationBuyerAndBoth.pageCount).toEqual(orgListResponse.pageCount);
   });
 
   it('should call getVerifiedOrg service method and update verifiedBuyerAndBoth', () => {
@@ -69,22 +60,15 @@ describe('BuyerBothRequestsComponent', () => {
       pageCount: 2,
       organisationAuditList: [],
     };
-    jest
-      .spyOn(wrapperBuyerBothService, 'getVerifiedOrg')
-      .mockReturnValue(of(orgListResponse));
+    spyOn(wrapperBuyerBothService, 'getVerifiedOrg').and.returnValue(of(orgListResponse));
     component.geVerifiedOrg();
     expect(wrapperBuyerBothService.getVerifiedOrg).toHaveBeenCalled();
-    expect(component.verifiedBuyerAndBoth.organisationAuditList).toEqual(
-      orgListResponse
-    );
-    expect(component.verifiedBuyerAndBoth.pageCount).toEqual(
-      orgListResponse.pageCount
-    );
+    expect(component.verifiedBuyerAndBoth.organisationAuditList).toEqual(orgListResponse);
+    expect(component.verifiedBuyerAndBoth.pageCount).toEqual(orgListResponse.pageCount);
   });
 
   it('should call tabChanged method and update tabConfig', () => {
     component.tabChanged('verifiedOrg');
-
     expect(component.tabConfig.pendingOrg).toBeFalsy();
     expect(component.tabConfig.verifiedOrg).toBeTruthy();
   });

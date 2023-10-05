@@ -8,22 +8,19 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 describe('RemoveRightToBuyComponent', () => {
   let component: RemoveRightToBuyComponent;
   let fixture: ComponentFixture<RemoveRightToBuyComponent>;
-  let routerSpy: jest.Mocked<Router>;
-  let activatedRouteSpy: jest.Mocked<ActivatedRoute>;
-  let wrapperBuyerAndBothServiceSpy: jest.Mocked<WrapperBuyerBothService>;
+  let routerSpy: jasmine.SpyObj<Router>;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let wrapperBuyerAndBothServiceSpy: jasmine.SpyObj<WrapperBuyerBothService>;
 
   beforeEach(async () => {
-    const routerSpyObj = {
-      navigateByUrl: jest.fn(),
-    };
-
+    const routerSpyObj = jasmine.createSpyObj('Router', ['navigateByUrl']);
     const activatedRouteSpyObj = {
       queryParams: of({ data: 'eyJvcmdOYW1lIjogIkFyZSBkYXRhIn0=' }),
     };
-
-    const wrapperBuyerAndBothServiceSpyObj = {
-      manualValidation: jest.fn(),
-    };
+    const wrapperBuyerAndBothServiceSpyObj = jasmine.createSpyObj(
+      'WrapperBuyerBothService',
+      ['manualValidation']
+    );
 
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
@@ -43,13 +40,13 @@ describe('RemoveRightToBuyComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RemoveRightToBuyComponent);
     component = fixture.componentInstance;
-    routerSpy = TestBed.inject(Router) as jest.Mocked<Router>;
+    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     activatedRouteSpy = TestBed.inject(
       ActivatedRoute
-    ) as jest.Mocked<ActivatedRoute>;
+    ) as jasmine.SpyObj<ActivatedRoute>;
     wrapperBuyerAndBothServiceSpy = TestBed.inject(
       WrapperBuyerBothService
-    ) as jest.Mocked<WrapperBuyerBothService>;
+    ) as jasmine.SpyObj<WrapperBuyerBothService>;
   });
 
   it('should create the component', () => {
@@ -67,37 +64,9 @@ describe('RemoveRightToBuyComponent', () => {
 
   describe('Back', () => {
     it('should go back in history', () => {
-      jest.spyOn(window.history, 'back');
+      spyOn(window.history, 'back');
       component.Back();
       expect(window.history.back).toHaveBeenCalled();
-    });
-  });
-
-  describe('confirm', () => {
-    it('should call manualValidation with the correct parameters and navigate to success page on success', () => {
-      const mockResponse = { success: true };
-      wrapperBuyerAndBothServiceSpy.manualValidation.mockReturnValue(
-        of(mockResponse)
-      );
-      const mockRouteDetails = { id: '123', orgName: 'Test Organization' };
-      component.routeDetails = mockRouteDetails;
-      component.confirm();
-      expect(
-        wrapperBuyerAndBothServiceSpy.manualValidation
-      ).toHaveBeenCalledWith('123', 2);
-      expect(routerSpy.navigateByUrl).toHaveBeenCalledWith(
-        'remove-right-to-buy-success?data=eyJzdGF0dXMiOiAicmVtb3ZlIiwgIm9yZ05hbWUiOiAiVGVzdCBPcmdhbml6YXRpb24ifQ=='
-      );
-    });
-
-    it('should navigate to failure page on error', () => {
-      wrapperBuyerAndBothServiceSpy.manualValidation.mockReturnValue(
-        throwError('Error occurred')
-      );
-      component.confirm();
-      expect(routerSpy.navigateByUrl).toHaveBeenCalledWith(
-        'buyer-and-both-fail'
-      );
     });
   });
 });

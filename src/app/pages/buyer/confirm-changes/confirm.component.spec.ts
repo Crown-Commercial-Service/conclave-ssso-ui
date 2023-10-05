@@ -72,7 +72,7 @@ describe('BuyerConfirmChangesComponent', () => {
   });
 
   it('should navigate to the confirm page with the correct ID when onBackClick is called', () => {
-    const routerSpy = jest.spyOn(component.router, 'navigateByUrl');
+    const routerSpy = spyOn(component.router, 'navigateByUrl');
 
     component.org = { ciiOrganisationId: 1 };
 

@@ -11,34 +11,36 @@ import { HelperService } from 'src/app/shared/helper.service';
 describe('ViewVerifiedOrgComponent', () => {
   let component: ViewVerifiedOrgComponent;
   let fixture: ComponentFixture<ViewVerifiedOrgComponent>;
-  let routerSpy: jest.Mocked<Router>;
-  let wrapperBuyerBothServiceSpy: jest.Mocked<WrapperBuyerBothService>;
-  let wrapperOrganisationGroupServiceSpy: jest.Mocked<WrapperOrganisationGroupService>;
-  let ciiServiceSpy: jest.Mocked<ciiService>;
-  let sharedDataServiceSpy: jest.Mocked<SharedDataService>;
-  let translateServiceSpy: jest.Mocked<TranslateService>;
+  let routerSpy: jasmine.SpyObj<Router>;
+  let wrapperBuyerBothServiceSpy: jasmine.SpyObj<WrapperBuyerBothService>;
+  let wrapperOrganisationGroupServiceSpy: jasmine.SpyObj<WrapperOrganisationGroupService>;
+  let ciiServiceSpy: jasmine.SpyObj<ciiService>;
+  let sharedDataServiceSpy: jasmine.SpyObj<SharedDataService>;
+  let translateServiceSpy: jasmine.SpyObj<TranslateService>;
 
   beforeEach(async () => {
-    const routerSpyObj = {
-      navigateByUrl: jest.fn(),
-    };
-    const wrapperBuyerBothServiceSpyObj = {
-      getpendingVerificationOrg: jest.fn(),
-      getVerifiedOrg: jest.fn(),
-    };
-    const wrapperOrganisationGroupServiceSpyObj = {
-      getUsersAdmin: jest.fn(),
-    };
-    const ciiServiceSpyObj = {
-      getSchemes: jest.fn(),
-      getOrgDetails: jest.fn(),
-    };
-    const sharedDataServiceSpyObj = {
-      getId: jest.fn(),
-    };
-    const translateServiceSpyObj = {
-      get: jest.fn(),
-    };
+    const routerSpyObj = jasmine.createSpyObj('Router', ['navigateByUrl']);
+    const wrapperBuyerBothServiceSpyObj = jasmine.createSpyObj(
+      'WrapperBuyerBothService',
+      ['getpendingVerificationOrg', 'getVerifiedOrg']
+    );
+    const wrapperOrganisationGroupServiceSpyObj = jasmine.createSpyObj(
+      'WrapperOrganisationGroupService',
+      ['getUsersAdmin']
+    );
+    const ciiServiceSpyObj = jasmine.createSpyObj('ciiService', [
+      'getSchemes',
+      'getOrgDetails',
+    ]);
+    const sharedDataServiceSpyObj = jasmine.createSpyObj('SharedDataService', [
+      'getId',
+    ]);
+    const translateServiceSpyObj = jasmine.createSpyObj('TranslateService', [
+      'get',
+    ]);
+    const activatedRouteStub = () => ({
+      queryParams: { subscribe: (f: any) => f({}) },
+    });
 
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
@@ -46,7 +48,7 @@ describe('ViewVerifiedOrgComponent', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { queryParams: { subscribe: jest.fn() } },
+          useFactory: activatedRouteStub,
         },
         { provide: Router, useValue: routerSpyObj },
         {
@@ -68,21 +70,20 @@ describe('ViewVerifiedOrgComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewVerifiedOrgComponent);
     component = fixture.componentInstance;
-    routerSpy = TestBed.inject(Router) as jest.Mocked<Router>;
+    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     wrapperBuyerBothServiceSpy = TestBed.inject(
       WrapperBuyerBothService
-    ) as jest.Mocked<WrapperBuyerBothService>;
+    ) as jasmine.SpyObj<WrapperBuyerBothService>;
     wrapperOrganisationGroupServiceSpy = TestBed.inject(
       WrapperOrganisationGroupService
-    ) as jest.Mocked<WrapperOrganisationGroupService>;
-    ciiServiceSpy = TestBed.inject(ciiService) as jest.Mocked<ciiService>;
+    ) as jasmine.SpyObj<WrapperOrganisationGroupService>;
+    ciiServiceSpy = TestBed.inject(ciiService) as jasmine.SpyObj<ciiService>;
     sharedDataServiceSpy = TestBed.inject(
       SharedDataService
-    ) as jest.Mocked<SharedDataService>;
+    ) as jasmine.SpyObj<SharedDataService>;
     translateServiceSpy = TestBed.inject(
       TranslateService
-    ) as jest.Mocked<TranslateService>;
-
+    ) as jasmine.SpyObj<TranslateService>;
     fixture.detectChanges();
   });
 
@@ -92,7 +93,7 @@ describe('ViewVerifiedOrgComponent', () => {
 
   describe('ngOnInit', () => {
     it('should call getPendingVerificationOrg method', () => {
-      jest.spyOn(component, 'getPendingVerificationOrg');
+      spyOn(component, 'getPendingVerificationOrg');
       component.ngOnInit();
       expect(component.getPendingVerificationOrg).toHaveBeenCalled();
     });

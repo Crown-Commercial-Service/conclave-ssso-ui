@@ -6,14 +6,14 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 describe('SuccessRightToBuyComponent', () => {
   let component: SuccessRightToBuyComponent;
   let fixture: ComponentFixture<SuccessRightToBuyComponent>;
-  let routerSpy: jest.SpyInstance;
+  let routerSpy: jasmine.SpyObj<Router>;
   let activatedRouteStub: any;
 
   beforeEach(async () => {
-    routerSpy = jest.spyOn(Router.prototype, 'navigate');
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     activatedRouteStub = {
       queryParams: {
-        subscribe: jest.fn(),
+        subscribe: jasmine.createSpy(),
       },
     };
 
@@ -21,7 +21,7 @@ describe('SuccessRightToBuyComponent', () => {
       imports: [TranslateModule.forRoot()],
       declarations: [SuccessRightToBuyComponent],
       providers: [
-        { provide: Router, useValue: { navigate: routerSpy } },
+        { provide: Router, useValue: routerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         TranslateService,
       ],
@@ -39,7 +39,7 @@ describe('SuccessRightToBuyComponent', () => {
   });
 
   it('should subscribe to query params on init', () => {
-    jest.spyOn(component, 'ngOnInit');
+    spyOn(component, 'ngOnInit');
     component.ngOnInit();
     expect(component.ngOnInit).toHaveBeenCalled();
     expect(activatedRouteStub.queryParams.subscribe).toHaveBeenCalled();
@@ -47,7 +47,7 @@ describe('SuccessRightToBuyComponent', () => {
 
   it('should set routeDetails on query params subscription', () => {
     const queryParams = { data: btoa(JSON.stringify({ orgName: 'Test Org' })) };
-    activatedRouteStub.queryParams.subscribe.mockImplementation(
+    activatedRouteStub.queryParams.subscribe.and.callFake(
       (callback: any) => {
         callback(queryParams);
       }
