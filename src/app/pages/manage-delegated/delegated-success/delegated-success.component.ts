@@ -11,8 +11,8 @@ export class DelegatedSuccessComponent implements OnInit {
   public userInfo: any = {};
 
   constructor(
-    private ActivatedRoute: ActivatedRoute,
-    private titleService: Title
+    public ActivatedRoute: ActivatedRoute,
+    public titleService: Title
   ) {}
 
   ngOnInit(): void {

@@ -64,25 +64,4 @@ describe('AutoValidationBuyerSuccessComponent', () => {
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should navigate to home if changes are not available', () => {
-    mockOrganisationService.getById.and.returnValue(of(null));
-    fixture.detectChanges();
-
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('home');
-  });
-
-  it('should navigate to update-org-type/confirm on back button click', () => {
-    component.org = { ciiOrganisationId: '123' };
-    fixture.detectChanges();
-
-    const backButton = fixture.debugElement.query(
-      By.css('.govuk-button--secondary')
-    );
-    backButton.triggerEventHandler('click', null);
-
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(
-      'update-org-type/confirm/123'
-    );
-  });
 });

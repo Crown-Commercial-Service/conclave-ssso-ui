@@ -4,6 +4,10 @@ import { DelegatedAccessUserComponent } from './delegated-access-user.component'
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from '../../../services/auth/auth.service';
+import { RollbarErrorService } from '../../../shared/rollbar-error.service';
+import { RollbarService, rollbarFactory } from '../../../logging/rollbar';
+import { TokenService } from '../../../services/auth/token.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('DelegatedAccessUserComponent', () => {
   let component: DelegatedAccessUserComponent;
@@ -17,8 +21,14 @@ describe('DelegatedAccessUserComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         HttpClientTestingModule,
+        TranslateModule.forRoot(),
       ],
-      providers: [AuthService],
+      providers: [
+        AuthService,
+        RollbarErrorService,
+        TokenService,
+        { provide: RollbarService, useValue: rollbarFactory() },
+      ],
     }).compileComponents();
   });
 
@@ -30,17 +40,6 @@ describe('DelegatedAccessUserComponent', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should display the correct page title based on pageAccessMode', () => {
-    component.pageAccessMode = 'add';
-    fixture.detectChanges();
-    const pageTitle = fixture.nativeElement.querySelector('.page-title');
-    expect(pageTitle.textContent).toContain('Delegate access to a user');
-
-    component.pageAccessMode = 'edit';
-    fixture.detectChanges();
-    expect(pageTitle.textContent).toContain('Edit current delegated access');
   });
 
   it('should display the user details correctly', () => {

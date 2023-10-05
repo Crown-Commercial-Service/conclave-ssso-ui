@@ -1,50 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DelegatedUserConfirmComponent } from './delegated-user-confirm.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
-import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
-import { of, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('DelegatedUserConfirmComponent', () => {
   let component: DelegatedUserConfirmComponent;
   let fixture: ComponentFixture<DelegatedUserConfirmComponent>;
-  let mockRouter: any;
-  let mockTitleService: any;
-  let mockDelegatedService: any;
 
   beforeEach(async () => {
-    const activatedRouteStub = () => ({
-      queryParams: {
-        subscribe: (f: any) => f(atob(JSON.stringify({ userDetails: {} }))),
-      },
-    });
-
-    mockRouter = jasmine.createSpyObj(['navigateByUrl']);
-
-    mockTitleService = jasmine.createSpyObj(['setTitle']);
-
-    mockDelegatedService = jasmine.createSpyObj([
-      'createDelegatedUser',
-      'updateDelegatedUser',
-    ]);
-
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [DelegatedUserConfirmComponent],
-      providers: [
-        { provide: ActivatedRoute, useFactory: activatedRouteStub },
-        { provide: Router, useValue: mockRouter },
-        { provide: Title, useValue: mockTitleService },
-        {
-          provide: WrapperUserDelegatedService,
-          useValue: mockDelegatedService,
-        },
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
       ],
+      declarations: [DelegatedUserConfirmComponent],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(DelegatedUserConfirmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -54,63 +28,64 @@ describe('DelegatedUserConfirmComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should set the page title', () => {
-      component.pageAccessMode = 'edit';
-      component.ngOnInit();
-      expect(mockTitleService.setTitle).toHaveBeenCalledWith(
-        'Confirm Delegation - CCS'
-      );
-    });
-
-    it('should call getSelectedRole method', () => {
-      spyOn(component, 'getSelectedRole');
-      component.ngOnInit();
-      expect(component.getSelectedRole).toHaveBeenCalled();
-    });
+  it('should initialize the component correctly', () => {
+    expect(component.userInfo).toEqual({});
+    expect(component.UserSelectedinfo).toBeUndefined();
+    expect(component.pageAccessMode).toEqual('');
+    expect(component.hideSimplifyRole).toBeFalsy();
+    expect(component.delegationRolesTable.currentPage).toEqual(1);
+    expect(component.delegationRolesTable.pageCount).toEqual(0);
+    expect(component.delegationRolesTable.pageSize).toEqual(
+      environment.listPageSize
+    );
+    expect(component.delegationRolesTable.rolesTableHeaders).toEqual(['NAME']);
+    expect(component.delegationRolesTable.rolesColumnsToDisplay).toEqual([
+      'accessRoleName',
+    ]);
+    expect(component.delegationRolesTable.data).toEqual('');
+    expect(component.delegationRolesTable.pageName).toEqual('Contactadmin');
   });
 
-  describe('onSubmit', () => {
-    it('should call updateDelegatedUser method if pageAccessMode is "edit"', () => {
-      component.pageAccessMode = 'edit';
-      spyOn(component, 'updateDelegatedUser');
-      component.onSubmit();
-      expect(component.updateDelegatedUser).toHaveBeenCalled();
-    });
-
-    it('should call createDelegateUser method if pageAccessMode is not "edit"', () => {
-      component.pageAccessMode = 'add';
-      spyOn(component, 'createDelegateUser');
-      component.onSubmit();
-      expect(component.createDelegateUser).toHaveBeenCalled();
-    });
+  it('should call the createDelegateUser method when pageAccessMode is "add" and onSubmit is called', () => {
+    spyOn(component, 'createDelegateUser');
+    component.pageAccessMode = 'add';
+    component.onSubmit();
+    expect(component.createDelegateUser).toHaveBeenCalled();
   });
 
-  describe('exchangeGroupAndRole', () => {
-    it('should exchange group and role ids if hideSimplifyRole is false', () => {
-      component.hideSimplifyRole = false;
-      component.UserSelectedinfo = { detail: { roleIds: [1, 2, 3] } };
-      component.exchangeGroupAndRole();
-      expect(component.UserSelectedinfo.detail.serviceRoleGroupIds).toEqual([
-        1, 2, 3,
-      ]);
-      expect(component.UserSelectedinfo.detail.roleIds).toBeUndefined();
-    });
+  it('should call the updateDelegatedUser method when pageAccessMode is "edit" and onSubmit is called', () => {
+    spyOn(component, 'updateDelegatedUser');
+    component.pageAccessMode = 'edit';
+    component.onSubmit();
+    expect(component.updateDelegatedUser).toHaveBeenCalled();
   });
 
-  describe('onClickNevigation', () => {
-    it('should navigate to the specified path', () => {
-      spyOn(component.route, 'navigateByUrl');
-      component.onClickNevigation('home');
-      expect(component.route.navigateByUrl).toHaveBeenCalledWith('home');
-    });
+  it('should navigate to "home" when onClickNevigation is called with path "home"', () => {
+    spyOn(component.route, 'navigateByUrl');
+    component.onClickNevigation('home');
+    expect(component.route.navigateByUrl).toHaveBeenCalledWith('home');
   });
 
-  describe('Cancel', () => {
-    it('should navigate back in history', () => {
-      spyOn(window.history, 'back');
-      component.Cancel();
-      expect(window.history.back).toHaveBeenCalled();
-    });
+  it('should navigate to "delegated-access" when onClickNevigation is called with path "delegated-access"', () => {
+    spyOn(component.route, 'navigateByUrl');
+    component.onClickNevigation('delegated-access');
+    expect(component.route.navigateByUrl).toHaveBeenCalledWith(
+      'delegated-access'
+    );
+  });
+
+  it('should navigate back in history when Cancel is called', () => {
+    spyOn(window.history, 'back');
+    component.Cancel();
+    expect(window.history.back).toHaveBeenCalled();
+  });
+
+  it('should display the correct breadcrumbs', () => {
+    const breadcrumbs = fixture.nativeElement.querySelectorAll(
+      '.govuk-breadcrumbs__link'
+    );
+    expect(breadcrumbs[0].textContent).toContain('ADMINISTRATOR_DASHBOARD');
+    expect(breadcrumbs[1].textContent).toContain('Delegated access');
+    expect(breadcrumbs[2].textContent).toContain('Confirm delegation');
   });
 });

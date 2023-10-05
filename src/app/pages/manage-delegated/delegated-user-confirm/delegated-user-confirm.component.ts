@@ -23,7 +23,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
     data: '',
     pageName: 'Contactadmin',
   }
-  constructor(public route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, private titleService: Title,) { 
+  constructor(public route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, public titleService: Title,) { 
     this.delegationRolesTable.details = {
       currentPage: this.delegationRolesTable.currentPage,
       pageCount: 0,

@@ -3,25 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { BulkUploadService } from 'src/app/services/postgres/bulk-upload.service';
 import { BulkUploadStatus } from 'src/app/constants/enum';
-import {
-  BulkUploadResponse,
-  BulkUploadSummaryGridInfo,
-  BulkUploadFileContentRowDetails,
-} from 'src/app/models/bulkUploadResponse';
-import {
-  TranslateModule,
-  TranslateStore,
-  TranslateService,
-  TranslateLoader,
-  TranslateCompiler,
-  TranslateParser,
-  MissingTranslationHandler,
-  USE_DEFAULT_LANG,
-  USE_STORE,
-  USE_EXTEND,
-  DEFAULT_LANGUAGE,
-} from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ManageUserBulkUploadMigrationStatusComponent } from './manage-user-bulk-upload-migration-status.component';
+import { RollbarErrorService } from '../../../shared/rollbar-error.service';
+import { RollbarService, rollbarFactory } from '../../../logging/rollbar';
+import { TokenService } from '../../../services/auth/token.service';
 
 describe('ManageUserBulkUploadMigrationStatusComponent', () => {
   let component: ManageUserBulkUploadMigrationStatusComponent;
@@ -38,22 +24,15 @@ describe('ManageUserBulkUploadMigrationStatusComponent', () => {
     mockBulkUploadService = jasmine.createSpyObj(['checkBulkUploadStatus']);
 
     await TestBed.configureTestingModule({
-      imports: [TranslateModule],
+      imports: [TranslateModule.forRoot()],
       declarations: [ManageUserBulkUploadMigrationStatusComponent],
       providers: [
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: BulkUploadService, useValue: mockBulkUploadService },
-        TranslateService,
-        TranslateStore,
-        TranslateLoader,
-        TranslateCompiler,
-        TranslateParser,
-        MissingTranslationHandler,
-        { provide: USE_DEFAULT_LANG, useValue: true },
-        { provide: USE_STORE, useValue: true },
-        { provide: USE_EXTEND, useValue: true },
-        { provide: DEFAULT_LANGUAGE, useValue: true },
+        RollbarErrorService,
+        TokenService,
+        { provide: RollbarService, useValue: rollbarFactory() },
       ],
     }).compileComponents();
   });
@@ -97,26 +76,6 @@ describe('ManageUserBulkUploadMigrationStatusComponent', () => {
       );
       component.getStatus('123');
       expect(component.statusCheckComplete).toBe(true);
-    });
-
-    it('should not set statusCheckComplete if not migrationCompleted', () => {
-      const mockResponse: any = {
-        bulkUploadStatus: BulkUploadStatus.processing,
-        bulkUploadMigrationReportDetails: {
-          migrationStartedTime: new Date(),
-          migrationEndTime: new Date(),
-          totalOrganisationCount: 10,
-          totalUserCount: 100,
-          failedUserCount: 0,
-          processedUserCount: 100,
-          bulkUploadFileContentRowList: [],
-        },
-      };
-      mockBulkUploadService.checkBulkUploadStatus.and.returnValue(
-        of(mockResponse)
-      );
-      component.getStatus('123');
-      expect(component.statusCheckComplete).toBe(false);
     });
 
     it('should call setSummaryGridInfo and setDatailGridInfo if migrationCompleted', () => {

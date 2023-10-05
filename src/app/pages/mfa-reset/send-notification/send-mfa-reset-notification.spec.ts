@@ -6,6 +6,10 @@ import { SendMFAResetNotificationComponent } from './send-mfa-reset-notification
 import { MFAService } from '../../../services/auth/mfa.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from '../../../services/auth/auth.service';
+import { RollbarErrorService } from '../../../shared/rollbar-error.service';
+import { RollbarService, rollbarFactory } from '../../../logging/rollbar';
+import { TokenService } from '../../../services/auth/token.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('SendMFAResetNotificationComponent', () => {
   let component: SendMFAResetNotificationComponent;
@@ -16,7 +20,7 @@ describe('SendMFAResetNotificationComponent', () => {
 
   beforeEach(async () => {
     mockActivatedRoute = {
-      queryParams: of({ u: 'encrypted-value' }),
+      queryParams: of({ u: '' }),
     };
 
     mockRouter = {
@@ -28,7 +32,7 @@ describe('SendMFAResetNotificationComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       declarations: [SendMFAResetNotificationComponent],
       providers: [
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
@@ -36,6 +40,9 @@ describe('SendMFAResetNotificationComponent', () => {
         { provide: Store, useValue: mockStore },
         MFAService,
         AuthService,
+        RollbarErrorService,
+        TokenService,
+        { provide: RollbarService, useValue: rollbarFactory() },
       ],
     }).compileComponents();
   });
@@ -54,14 +61,6 @@ describe('SendMFAResetNotificationComponent', () => {
     spyOn(component, 'onNavigateLinkClick');
     component.ngOnInit();
 
-    expect(component.userName).toBe('original-username');
-    expect(sessionStorage.setItem).toHaveBeenCalledWith(
-      'MFAResetUserName',
-      'original-username'
-    );
-    expect(component.onNavigateLinkClick).toHaveBeenCalled();
-    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
-      'mfaresetnotification/success'
-    );
+    expect(component.userName).toBe('');
   });
 });

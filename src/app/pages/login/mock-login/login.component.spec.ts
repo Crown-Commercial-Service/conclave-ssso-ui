@@ -5,6 +5,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RollbarErrorService } from '../../../shared/rollbar-error.service';
+import { RollbarService, rollbarFactory } from '../../../logging/rollbar';
+import { TokenService } from '../../../services/auth/token.service';
+import { Store } from '@ngrx/store';
+import { UIState } from 'src/app/store/ui.states';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -13,8 +18,11 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let authService: AuthService;
   let location: Location;
+  let mockStore: jasmine.SpyObj<Store<UIState>>;
 
   beforeEach(async () => {
+    mockStore = jasmine.createSpyObj('Store', ['dispatch']);
+
     await TestBed.configureTestingModule({
       declarations: [LoginComponent],
       imports: [
@@ -23,7 +31,14 @@ describe('LoginComponent', () => {
         TranslateModule.forRoot(),
         HttpClientTestingModule,
       ],
-      providers: [AuthService, Location],
+      providers: [
+        AuthService,
+        Location,
+        RollbarErrorService,
+        TokenService,
+        { provide: Store, useValue: mockStore },
+        { provide: RollbarService, useValue: rollbarFactory() },
+      ],
     }).compileComponents();
   });
 

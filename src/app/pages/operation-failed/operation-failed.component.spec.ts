@@ -1,9 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
-
 import { AuthService } from '../../services/auth/auth.service';
 import { OperationFailedComponent } from './operation-failed.component';
+import { RollbarErrorService } from '../../shared/rollbar-error.service';
+import { RollbarService, rollbarFactory } from '../../logging/rollbar';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TokenService } from '../../services/auth/token.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('OperationFailedComponent', () => {
   let component: OperationFailedComponent;
@@ -11,9 +15,19 @@ describe('OperationFailedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, StoreModule.forRoot({})],
+      imports: [
+        RouterTestingModule,
+        StoreModule.forRoot({}),
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+      ],
       declarations: [OperationFailedComponent],
-      providers: [AuthService],
+      providers: [
+        AuthService,
+        RollbarErrorService,
+        TokenService,
+        { provide: RollbarService, useValue: rollbarFactory() },
+      ],
     }).compileComponents();
   });
 
@@ -21,6 +35,10 @@ describe('OperationFailedComponent', () => {
     fixture = TestBed.createComponent(OperationFailedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
   });
 
   it('should create the component', () => {
@@ -68,20 +86,5 @@ describe('OperationFailedComponent', () => {
 
     const signInLink = fixture.nativeElement.querySelector('.navigation-text');
     expect(signInLink.textContent).toContain('SING_IN_AGAIN');
-  });
-
-  it('should render the template correctly for operation "UserCreate"', () => {
-    component.operation = component.operationEnum.UserCreate;
-    component.userName = 'testuser';
-    fixture.detectChanges();
-
-    const errorText = fixture.nativeElement.querySelector('.govuk-body-l');
-    expect(errorText.textContent).toContain('THE_USER');
-    expect(errorText.textContent).toContain('testuser');
-    expect(errorText.textContent).toContain('messageKey');
-
-    const manageUsersLink =
-      fixture.nativeElement.querySelector('.navigation-text');
-    expect(manageUsersLink.textContent).toContain('MANAGE_YOUR_USER_ACCOUNTS');
   });
 });

@@ -2,42 +2,35 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmDeclineComponent } from './confirm-decline.component';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { of, throwError } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ConfirmDeclineComponent', () => {
   let component: ConfirmDeclineComponent;
   let fixture: ComponentFixture<ConfirmDeclineComponent>;
-  let mockRouter: jasmine.SpyObj<Router>;
-  let mockWrapperBuyerBothService: jasmine.SpyObj<WrapperBuyerBothService>;
-  let mockActivatedRoute: any;
+  let mockRouter: any;
+  let mockWrapperService: any;
 
   beforeEach(async () => {
     mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl']);
-    mockWrapperBuyerBothService = jasmine.createSpyObj(
-      'WrapperBuyerBothService',
-      ['manualValidation']
-    );
-    mockActivatedRoute = {
-      queryParams: {
-        subscribe: jasmine
-          .createSpy()
-          .and.callFake((fn: (value: any) => void) => {
-            fn({ data: 'someData' });
-          }),
-      },
-    };
+    mockWrapperService = jasmine.createSpyObj('WrapperBuyerBothService', [
+      'manualValidation',
+    ]);
 
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [ConfirmDeclineComponent],
       providers: [
-        { provide: Router, useValue: mockRouter },
         {
-          provide: WrapperBuyerBothService,
-          useValue: mockWrapperBuyerBothService,
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({
+              data: 'eyJvcmciOiAiMTIzNDU2Nzg5MCIsICJvcmduYW1lTmFtZSI6ICJKb2huIERvZSJ9',
+            }),
+          },
         },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        TranslateService,
+        { provide: Router, useValue: mockRouter },
+        { provide: WrapperBuyerBothService, useValue: mockWrapperService },
       ],
     }).compileComponents();
   });
@@ -52,28 +45,53 @@ describe('ConfirmDeclineComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize routeDetails on ngOnInit', () => {
-    expect(component.routeDetails).toBeUndefined();
+  it('should initialize routeDetails when queryParams are received', () => {
+    const mockRouteDetails = {
+      organisationId: '123',
+      organisationName: 'Test Org',
+    };
+    spyOn(JSON, 'parse').and.returnValue(mockRouteDetails);
+
     component.ngOnInit();
-    expect(component.routeDetails).toEqual({ data: 'someData' });
+
+    expect(component.routeDetails).toEqual(mockRouteDetails);
   });
 
-  it('should call wrapperBuyerAndBothService.manualValidation and navigate to decline-success on confirmAndDecline', () => {
+  it('should call manualValidation method and navigate to decline-success on confirmAndDecline', () => {
+    const mockResponse = { success: true };
+    mockWrapperService.manualValidation.and.returnValue(of(mockResponse));
+
     component.routeDetails = {
-      organisationId: 'orgId',
-      organisationName: 'orgName',
+      organisationId: '123',
+      organisationName: 'Test Org',
     };
     component.confirmAndDecline();
-    expect(mockWrapperBuyerBothService.manualValidation).toHaveBeenCalledWith(
-      'orgId',
-      1
-    );
+
+    expect(mockWrapperService.manualValidation).toHaveBeenCalledWith('123', 1);
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('decline-success');
   });
 
-  it('should navigate to previous page on Back', () => {
+  it('should navigate to buyer-and-both-fail on error in manualValidation', () => {
+    const mockError = { message: 'Error' };
+    mockWrapperService.manualValidation.and.returnValue(throwError(mockError));
+
+    component.routeDetails = {
+      organisationId: '123',
+      organisationName: 'Test Org',
+    };
+    component.confirmAndDecline();
+
+    expect(mockWrapperService.manualValidation).toHaveBeenCalledWith('123', 1);
+    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(
+      'buyer-and-both-fail'
+    );
+  });
+
+  it('should navigate back on Back method call', () => {
     spyOn(window.history, 'back');
+
     component.Back();
+
     expect(window.history.back).toHaveBeenCalled();
   });
 });

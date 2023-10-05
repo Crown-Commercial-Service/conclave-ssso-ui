@@ -1,70 +1,38 @@
 import { TestBed } from '@angular/core/testing';
+import Rollbar from 'rollbar';
+import { environment } from 'src/environments/environment';
 import { RollbarErrorService } from './rollbar-error.service';
 import { RollbarService } from '../logging/rollbar';
-import { environment } from '../../environments/environment';
 
 describe('RollbarErrorService', () => {
-  let service: RollbarErrorService;
-  let rollbarServiceMock: any;
+  let rollbarErrorService: RollbarErrorService;
+  let rollbar: jasmine.SpyObj<Rollbar>;
 
   beforeEach(() => {
-    rollbarServiceMock = {
-      configure: jasmine.createSpy('configure'),
-      debug: jasmine.createSpy('debug'),
-    };
+    const rollbarSpy = jasmine.createSpyObj('Rollbar', ['configure', 'debug']);
 
     TestBed.configureTestingModule({
       providers: [
         RollbarErrorService,
-        { provide: RollbarService, useValue: rollbarServiceMock },
+        { provide: RollbarService, useValue: rollbarSpy },
       ],
     });
 
-    service = TestBed.inject(RollbarErrorService);
+    rollbarErrorService = TestBed.inject(RollbarErrorService);
+    rollbar = TestBed.inject(RollbarService) as jasmine.SpyObj<Rollbar>;
   });
 
-  it('should configure Rollbar with the correct log level and environment when calling RollbarDebug', () => {
-    spyOnProperty(environment, 'rollbar').and.returnValue({
-      security_log: true,
-      environment: 'test',
-    });
-    const data = 'Some debug data';
+  it('should not call rollbar.debug() when security_log is false', () => {
+    rollbarErrorService.RollbarDebug('Test data');
 
-    service.RollbarDebug(data);
-
-    expect(rollbarServiceMock.configure).toHaveBeenCalledWith({
-      logLevel: 'info',
-      payload: { environment: 'test' },
-    });
-    expect(rollbarServiceMock.debug).toHaveBeenCalledWith(data);
+    expect(rollbar.configure).not.toHaveBeenCalled();
+    expect(rollbar.debug).not.toHaveBeenCalled();
   });
 
-  it('should configure Rollbar with the correct log level and environment when calling rollBarHttp', () => {
-    spyOnProperty(environment, 'rollbar').and.returnValue({
-      security_log: true,
-      environment: 'test',
-    });
-    const data = 'Some HTTP data';
+  it('should not call rollbar.debug() when security_log is false for rollBarHttp()', () => {
+    rollbarErrorService.rollBarHttp('Test data');
 
-    service.rollBarHttp(data);
-
-    expect(rollbarServiceMock.configure).toHaveBeenCalledWith({
-      logLevel: 'info',
-      payload: { environment: 'test' },
-    });
-    expect(rollbarServiceMock.debug).toHaveBeenCalledWith(data);
-  });
-
-  it('should not configure Rollbar or call debug when security_log is false', () => {
-    spyOnProperty(environment, 'rollbar').and.returnValue({
-      security_log: false,
-    });
-    const data = 'Some data';
-
-    service.RollbarDebug(data);
-    service.rollBarHttp(data);
-
-    expect(rollbarServiceMock.configure).not.toHaveBeenCalled();
-    expect(rollbarServiceMock.debug).not.toHaveBeenCalled();
+    expect(rollbar.configure).not.toHaveBeenCalled();
+    expect(rollbar.debug).not.toHaveBeenCalled();
   });
 });

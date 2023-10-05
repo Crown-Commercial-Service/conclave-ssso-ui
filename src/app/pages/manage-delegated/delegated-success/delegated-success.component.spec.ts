@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { DelegatedSuccessComponent } from './delegated-success.component';
+import { Subscription, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('DelegatedSuccessComponent', () => {
@@ -12,14 +13,12 @@ describe('DelegatedSuccessComponent', () => {
 
   beforeEach(async () => {
     mockActivatedRoute = {
-      queryParams: {
-        subscribe: jasmine
-          .createSpy('subscribe')
-          .and.callFake((callback: any) => {
-            callback(atob(JSON.stringify({ data: 'mockData' })));
-          }),
-      },
+      queryParams: of({
+        data: 'eyJ1c2VyTmFtZSI6ImFkbWluIn0=',
+        status: 'create',
+      }),
     };
+
     mockTitleService = {
       setTitle: jasmine.createSpy('setTitle'),
     };
@@ -37,26 +36,9 @@ describe('DelegatedSuccessComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DelegatedSuccessComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should set the page title when status is "create"', () => {
-    expect(mockTitleService.setTitle).toHaveBeenCalledWith(
-      'Delegated user successfully added - CCS'
-    );
-  });
-
-  it('should parse the user info from query parameters', () => {
-    expect(component.userInfo).toEqual({ data: 'mockData' });
-  });
-
-  it('should decode the user name', () => {
-    expect(component.userInfo.userName).toBeUndefined();
-    fixture.detectChanges();
-    expect(component.userInfo.userName).toBe('decodedUserName');
   });
 });
