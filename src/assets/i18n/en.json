@@ -68,7 +68,7 @@
   "ERROR_PASSWORD_MATCH": "Passwords do not match",
   "MY_ACCOUNT_UPDATE_SUCCESS": "You have successfully saved these changes",
   "USER_CONTACT_UPDATE_SUCCESS": "You have updated your contact list",
-  "PASSWORD_CHANGE_SUCCESS": "Your password has been changed",
+  "PASSWORD_CHANGE_SUCCESS": "Your password has been changed.",
   "RETURN_TO_MANAGE_MY_ACCOUNT": "Return to Manage my account",
   "YOU_CAN_NOW": "You can now",
   "SING_IN_TO_YOUR_ACCOUNT": "sign in to your account",
@@ -403,5 +403,6 @@
   "PENDING_LABEL": "Pending Approval",
   "ACCESS_TO_REGULAR_USER_SERVICE": "These services are assigned to you as an individual, rather than through your membership of a group.",
   "ACCESS_TO_USER_SERVICE_MANAGE_MY_ACCOUNT": "Select the services that you need access to as an individual, rather than through your membership of a group.",
-  "DEFAULT_ADMIN_GROUP_DESC": "This group is intendent for Organisation Administrators only. You cannot delete it, change its name and add or remove services from it. By adding or removing users from it you are distributing Organisation Administrator credentials."
+  "DEFAULT_ADMIN_GROUP_DESC": "This group is intendent for Organisation Administrators only. You cannot delete it, change its name and add or remove services from it. By adding or removing users from it you are distributing Organisation Administrator credentials.",
+  "SIGN_IN_AGAIN":"You have been signed out. Please sign in again using your new password."
 }
