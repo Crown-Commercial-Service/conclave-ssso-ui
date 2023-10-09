@@ -5,19 +5,31 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
+import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
+import { TokenService } from 'src/app/services/auth/token.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('HelpAndSupportComponent', () => {
   let component: HelpAndSupportComponent;
   let fixture: ComponentFixture<HelpAndSupportComponent>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   beforeEach(async () => {
-    authServiceSpy = jasmine.createSpyObj('AuthService', ['isAuthenticated']);
-
     await TestBed.configureTestingModule({
       declarations: [HelpAndSupportComponent],
-      imports: [StoreModule.forRoot({}), BrowserAnimationsModule],
-      providers: [{ provide: AuthService, useValue: authServiceSpy }],
+      imports: [
+        StoreModule.forRoot({}),
+        BrowserAnimationsModule,
+        RouterTestingModule,
+        HttpClientTestingModule,
+      ],
+      providers: [
+        AuthService,
+        RollbarErrorService,
+        TokenService,
+        { provide: RollbarService, useValue: rollbarFactory() },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
@@ -33,7 +45,8 @@ describe('HelpAndSupportComponent', () => {
   });
 
   it('should show breadcrumbs when authenticated', () => {
-    authServiceSpy.isAuthenticated.and.returnValue(of(true));
+    spyOn(component.authService, 'isAuthenticated').and.returnValue(of(true));
+    component.ngOnInit();
     fixture.detectChanges();
     const breadcrumbs =
       fixture.nativeElement.querySelector('.govuk-breadcrumbs');
@@ -41,7 +54,8 @@ describe('HelpAndSupportComponent', () => {
   });
 
   it('should not show breadcrumbs when not authenticated', () => {
-    authServiceSpy.isAuthenticated.and.returnValue(of(false));
+    spyOn(component.authService, 'isAuthenticated').and.returnValue(of(false));
+    component.ngOnInit();
     fixture.detectChanges();
     const breadcrumbs =
       fixture.nativeElement.querySelector('.govuk-breadcrumbs');

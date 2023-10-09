@@ -1,29 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TokenComponent } from './token.component';
+import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
-import { dataService } from 'src/app/services/data/data.service';
-import { ViewportScroller } from '@angular/common';
-import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-import { UIState } from 'src/app/store/ui.states';
+import { of } from 'rxjs';
+import { TokenComponent } from './token.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TokenComponent', () => {
   let component: TokenComponent;
   let fixture: ComponentFixture<TokenComponent>;
-  let mockDataService: jasmine.SpyObj<dataService>;
-  let mockStore: jasmine.SpyObj<Store<UIState>>;
+  let storeMock: jasmine.SpyObj<Store>;
 
   beforeEach(async () => {
-    mockDataService = jasmine.createSpyObj('dataService', ['getData']);
-    mockStore = jasmine.createSpyObj('Store', ['select']);
+    storeMock = jasmine.createSpyObj('Store', ['select']);
+    storeMock.select.and.returnValue(of(false));
 
     await TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule, BrowserAnimationsModule],
       declarations: [TokenComponent],
-      providers: [
-        { provide: dataService, useValue: mockDataService },
-        { provide: Store, useValue: mockStore },
-        ViewportScroller,
-        ScrollHelper,
-      ],
+      providers: [{ provide: Store, useValue: storeMock }],
     }).compileComponents();
   });
 
@@ -33,7 +28,25 @@ describe('TokenComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display the page title correctly', () => {
+    const pageTitleElement = fixture.debugElement.query(
+      By.css('.govuk-heading-xl.page-title')
+    );
+    expect(pageTitleElement.nativeElement.textContent).toContain('Token');
+  });
+
+  it('should display the sample data correctly', () => {
+    component.sampleData = 'Token';
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const sampleDataElement = fixture.debugElement.query(
+      By.css('div.content.flex')
+    );
+    expect(sampleDataElement.nativeElement.textContent).toContain('Token');
   });
 });
