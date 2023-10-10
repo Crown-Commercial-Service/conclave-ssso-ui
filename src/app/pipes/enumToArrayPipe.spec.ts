@@ -7,16 +7,28 @@ describe('EnumToArrayPipe', () => {
     pipe = new EnumToArrayPipe();
   });
 
-  it('should return an empty array if no valid numbers are found', () => {
-    const data = {
-      Key1: 'invalid',
-      Key2: 'invalid',
-      Key3: 'invalid',
+  it('should transform an enum object to an array of numbers', () => {
+    const enumObject = {
+      1: 'data 1',
+      2: 'data 2',
+      3: 'data 3',
     };
-    const expectedOutput: number[] = [];
 
-    const transformedData = pipe.transform(data);
+    const result = pipe.transform(enumObject);
 
-    expect(transformedData).toEqual(expectedOutput);
+    expect(result).toEqual([1, 2, 3]);
+  });
+
+  it('should ignore non-numeric keys in the enum object', () => {
+    const enumObject = {
+      1: 'data 1',
+      2: 'data 2',
+      3: 'data 3',
+      NonNumericKey: 'abc',
+    };
+
+    const result = pipe.transform(enumObject);
+
+    expect(result).toEqual([1, 2, 3]);
   });
 });
