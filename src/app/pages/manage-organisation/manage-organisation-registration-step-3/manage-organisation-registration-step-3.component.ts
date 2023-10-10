@@ -168,7 +168,7 @@ export class ManageOrgRegStep3Component
   }
   checkAddressDetailsEmpty(streetAddress:string,postalCode:string)
   {
-      if(!(streetAddress.trim() !== '' && postalCode.trim() !== ''))
+      if(streetAddress.trim() == '' || postalCode.trim() == '')
       {
        this.router.navigateByUrl(`manage-org/register/error/address-details`);
       }
