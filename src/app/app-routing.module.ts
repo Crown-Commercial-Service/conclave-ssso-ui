@@ -151,6 +151,7 @@ import { DataMigrationErrorComponent } from './pages/data-migration/data-migrati
 import { DataMigrationSummaryComponent } from './pages/data-migration/data-migration-summary/data-migration-summary.component';
 import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
 import { UserProfileResolver } from './resolvers/user-profile.resolver';
+import { ManageOrgRegErrorAddressDetailsComponent } from './pages/manage-organisation/manage-organisation-registration-error-empty-address-details/manage-organisation-registration-error-empty-address-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -416,6 +417,12 @@ const routes: Routes = [
     data: { title: 'Error - Registration' },
     pathMatch: 'full',
     component: ManageOrgRegErrorGenericComponent,
+  },
+  {
+    path: 'manage-org/register/error/address-details',
+    data: { title: 'Error - Registration' },
+    pathMatch: 'full',
+    component:ManageOrgRegErrorAddressDetailsComponent,
   },
   {
     path: 'manage-org/register/error/username',
