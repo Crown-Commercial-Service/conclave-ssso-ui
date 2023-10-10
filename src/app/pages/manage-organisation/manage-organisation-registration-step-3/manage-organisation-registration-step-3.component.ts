@@ -108,6 +108,7 @@ export class ManageOrgRegStep3Component
               this.countryCode = result.address.countryCode;
               this.selectedIdentifiers = result.additionalIdentifiers;
               this.orgDetails=result
+              this.checkAddressDetailsEmpty(result.address.streetAddress,result.address.postalCode)
               localStorage.setItem('cii_organisation', JSON.stringify(result));
               this.countryDetails = await this.configurationCore
                 .getCountryDetails()
@@ -165,7 +166,13 @@ export class ManageOrgRegStep3Component
       this.topCountries = [];
     }
   }
-
+  checkAddressDetailsEmpty(streetAddress:string,postalCode:string)
+  {
+      if(!(streetAddress.trim() !== '' && postalCode.trim() !== ''))
+      {
+       this.router.navigateByUrl(`manage-org/register/error/address-details`);
+      }
+    }
   /**
    * Sets the initial value after the filteredCountryDetails are loaded initially
    */

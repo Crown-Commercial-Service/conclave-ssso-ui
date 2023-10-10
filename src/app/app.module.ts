@@ -208,7 +208,7 @@ import { EnvironmentBannerComponent } from './components/environment-banner/envi
 import { PermissionPipe } from './pipes/permission.pipe';
 import { SchemePipe } from './pipes/scheme.pipe';
 import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
-
+import { ManageOrgRegErrorAddressDetailsComponent } from './pages/manage-organisation/manage-organisation-registration-error-empty-address-details/manage-organisation-registration-error-empty-address-details.component'; 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -381,7 +381,8 @@ export function createTranslateLoader(http: HttpClient) {
     EnvironmentBannerComponent,
     PermissionPipe,
     SchemePipe,
-    ManageOrganisationRegisterationCiiComponent
+    ManageOrganisationRegisterationCiiComponent,
+    ManageOrgRegErrorAddressDetailsComponent
   ],
   imports: [
     // BrowserModule,
