@@ -17,6 +17,7 @@ export class DelegatedOrganisationComponent implements OnInit {
   private roleData:any;
   private roleInfo: any;
   private isDeleagation:boolean=environment.appSetting.hideDelegation
+  public isOrgAdmin: boolean = false; 
 
   constructor(
     private route: Router,
@@ -24,6 +25,7 @@ export class DelegatedOrganisationComponent implements OnInit {
     private delegatedService: WrapperUserDelegatedService,
     private DelegateService: ManageDelegateService,
   ) {
+     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     if(this.isDeleagation === true){
       this.route.navigateByUrl('/home');
       return
