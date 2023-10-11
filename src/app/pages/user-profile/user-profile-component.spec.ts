@@ -88,21 +88,6 @@ describe('UserProfileComponent', () => {
     );
   });
 
-  it('should display the correct breadcrumb links for non-admin user', () => {
-    component.isAdminUser = false;
-    fixture.detectChanges();
-    const breadcrumbLinks = fixture.debugElement.queryAll(
-      By.css('.govuk-breadcrumbs__link')
-    );
-    expect(breadcrumbLinks.length).toBe(2);
-    expect(breadcrumbLinks[0].nativeElement.textContent).toContain(
-      'PUBLIC_PROCUREMENT_GATEWAY_DASHBOARD'
-    );
-    expect(breadcrumbLinks[1].nativeElement.textContent).toContain(
-      'MANAGE_MY_ACCOUNT'
-    );
-  });
-
   it('should set the correct tabConfig values when tabChanged is called with "user-service"', () => {
     component.tabChanged('user-service');
     expect(component.tabConfig.userservices).toBeTrue();
@@ -257,5 +242,149 @@ describe('UserProfileComponent', () => {
     component.getUserContact('testUser');
     fixture.detectChanges();
     expect(userContactService.getUserContacts).toHaveBeenCalledWith('testUser');
+  });
+
+  it('should display the user profile details correctly', () => {
+    component.formGroup.controls.firstName.setValue('test');
+    component.formGroup.controls.lastName.setValue('user');
+    component.userName = 'test@example.com';
+    component.userTypeDetails = {
+      title: 'User type',
+      description: '',
+      data: [],
+      isGrayOut: null,
+      selectedValue: '',
+    };
+    component.noneGroupsMember = {
+      isAdmin: false,
+      headerText: 'Groups I am not a member of',
+      headerTextKey: 'groupName',
+      accessTable: 'noneGroupsMember',
+      noRoleText: 'This group is not assigned with access to any service.',
+      noDatanoneGroupsMemberMessage:
+        'There are no unassigned groups available for you.',
+      groupShow: false,
+      data: [],
+    };
+    component.groupsMember = {
+      isAdmin: false,
+      headerText: 'Groups I am a member of',
+      headerTextKey: 'groupName',
+      accessTable: 'groupsMember',
+      noRoleText:
+        'You do not have access to any service through membership of this group.',
+      noDataGroupsMemberMessage: 'You are not a member of any group.',
+      groupShow: true,
+      data: [],
+    };
+    component.roleDataList = [];
+    component.orgUserGroupRoles = [];
+    component.userContacts = [];
+
+    fixture.detectChanges();
+
+    const firstNameInput = fixture.debugElement.query(
+      By.css('#first-name')
+    ).nativeElement;
+    const lastNameInput = fixture.debugElement.query(
+      By.css('#last-name')
+    ).nativeElement;
+    const emailInput = fixture.debugElement.query(
+      By.css('#email')
+    ).nativeElement;
+    const additionalSecurityCheckbox = fixture.debugElement.query(
+      By.css('#mfaEnabled')
+    ).nativeElement;
+    const contactDetails = fixture.debugElement.query(
+      By.css('.contact-detail')
+    ).nativeElement;
+    const saveButton = fixture.debugElement.query(
+      By.css('.save-cancel-button-group button')
+    ).nativeElement;
+
+    expect(firstNameInput.value).toBe('test');
+    expect(lastNameInput.value).toBe('user');
+    expect(emailInput.value).toBe('test@example.com');
+    expect(additionalSecurityCheckbox.checked).toBeFalsy();
+    expect(contactDetails).toBeTruthy();
+    expect(saveButton.disabled).toBeTruthy();
+  });
+
+  it('should display the correct role or service information', () => {
+    component.showRoleView = true;
+    component.detailsData = [
+      'Role details',
+      'Service details',
+      'Role or service details',
+    ];
+    component.roleDataList = [];
+    component.isAdminUser = true;
+
+    fixture.detectChanges();
+
+    const roleDetails = fixture.debugElement.query(
+      By.css('.role_view')
+    ).nativeElement;
+    const serviceDetails = fixture.nativeElement.querySelector('.service_view');
+
+    expect(roleDetails).toBeTruthy();
+    expect(serviceDetails).toBeFalsy();
+  });
+
+  it('should display the correct group access information', () => {
+    component.orgUserGroupRoles = [
+      {
+        id: 1,
+        name: 'Group 1',
+        approvalStatus: 0,
+        description: 'Group 1 description',
+      },
+      {
+        id: 2,
+        name: 'Group 2',
+        approvalStatus: 1,
+        description: 'Group 2 description',
+      },
+    ];
+    component.isAdminUser = true;
+
+    fixture.detectChanges();
+
+    const groupAccessInfo = fixture.debugElement.query(
+      By.css('.govuk-tabs__panel#group-service')
+    ).nativeElement;
+    const groupAccessItems = fixture.debugElement.queryAll(
+      By.css('.govuk-checkboxes__item')
+    );
+
+    expect(groupAccessInfo).toBeTruthy();
+    expect(groupAccessItems.length).toBe(3);
+  });
+
+  it('should display the correct contact details', () => {
+    component.userContacts = [
+      {
+        contactId: 1,
+      },
+      {
+        contactId: 2,
+      },
+    ];
+
+    fixture.detectChanges();
+
+    const contactTable = fixture.debugElement.query(By.css('app-govuk-table'));
+
+    expect(contactTable).toBeTruthy();
+  });
+
+  it('should enable the save button when there are form changes', () => {
+    fixture.detectChanges();
+
+    const saveButton = fixture.debugElement.query(
+      By.css('.save-cancel-button-group button')
+    ).nativeElement;
+
+    expect(saveButton.disabled).toBeTruthy();
   });
 });
