@@ -37,7 +37,7 @@ export class HttpJwtAuthInterceptor implements HttpInterceptor {
             }
             var cookie = this.getXsrfCookie();
             if (cookie != '' && cookie != undefined) {
-                request = request.clone({ headers: request.headers.set('X-XSRF-TOKEN', cookie) });
+                request = request.clone({ headers: request.headers.set('X-XSRF-TOKEN-MS', cookie) });
             }
 
             return next.handle(request).pipe(
@@ -54,7 +54,7 @@ export class HttpJwtAuthInterceptor implements HttpInterceptor {
     }
 
     getXsrfCookie() {
-        var theName = "XSRF-TOKEN=";
+        var theName = "XSRF-TOKEN-MS=";
         var theCookie = document.cookie + ";";
         var start = theCookie.indexOf(theName);
         if (start != -1) {
