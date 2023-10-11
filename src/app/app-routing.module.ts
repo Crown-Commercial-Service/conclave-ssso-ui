@@ -151,6 +151,11 @@ import { DataMigrationErrorComponent } from './pages/data-migration/data-migrati
 import { DataMigrationSummaryComponent } from './pages/data-migration/data-migration-summary/data-migration-summary.component';
 import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
 import { UserProfileResolver } from './resolvers/user-profile.resolver';
+import { MfaSelectionComponent } from './pages/two-mfa/mfa-selection/mfa-selection.component';
+import { MfaInformationComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-information/mfa-authenticator-information.component';
+import { MfaAuthenticatorSetupComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-setup/mfa-authenticator-setup.component';
+import { MfaMessageStep1Component } from './pages/two-mfa/mfa-message/mfa-message-step-1/mfa-message-step-1.component';
+import { MfaMessageStep2Component } from './pages/two-mfa/mfa-message/mfa-message-step-2/mfa-message-step-2.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1231,6 +1236,38 @@ const routes: Routes = [
     pathMatch: 'full',
     component: TermsConditionsComponent,
   },
+  {
+    path: 'mfa-selection',
+    data: { title : 'MFA Selection'},
+    pathMatch: 'full',
+    component: MfaSelectionComponent, 
+  },
+ {
+   path : 'mfa-authenticator-information',
+   data : { title : 'Download an app'},
+   pathMatch : 'full',
+   component :MfaInformationComponent
+ },
+ {
+  path : 'mfa-authenticator-setup',
+  data : {title :'Set up an app'},
+  pathMatch : 'full',
+  component : MfaAuthenticatorSetupComponent
+ },
+ {
+  path : 'mfa-message-step-1',
+  data : {title : 'Enter your mobile number'},
+  pathMatch : 'full',
+  component : MfaMessageStep1Component
+ },
+
+ {
+  path : 'mfa-message-step-2',
+  data : {title : 'Check your phone'},
+  pathMatch : 'full',
+  component : MfaMessageStep2Component
+ },
+
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

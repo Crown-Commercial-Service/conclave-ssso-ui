@@ -208,6 +208,12 @@ import { EnvironmentBannerComponent } from './components/environment-banner/envi
 import { PermissionPipe } from './pipes/permission.pipe';
 import { SchemePipe } from './pipes/scheme.pipe';
 import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
+import { MfaSelectionComponent } from './pages/two-mfa/mfa-selection/mfa-selection.component';
+import { MfaInformationComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-information/mfa-authenticator-information.component';
+import { MfaAuthenticatorSetupComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-setup/mfa-authenticator-setup.component';
+import { QRCodeModule } from 'angularx-qrcode'; 
+import { MfaMessageStep1Component } from './pages/two-mfa/mfa-message/mfa-message-step-1/mfa-message-step-1.component';
+import { MfaMessageStep2Component } from './pages/two-mfa/mfa-message/mfa-message-step-2/mfa-message-step-2.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -381,7 +387,12 @@ export function createTranslateLoader(http: HttpClient) {
     EnvironmentBannerComponent,
     PermissionPipe,
     SchemePipe,
-    ManageOrganisationRegisterationCiiComponent
+    ManageOrganisationRegisterationCiiComponent,
+    MfaSelectionComponent,
+    MfaInformationComponent,
+    MfaAuthenticatorSetupComponent,
+    MfaMessageStep1Component,
+    MfaMessageStep2Component
   ],
   imports: [
     // BrowserModule,
@@ -424,7 +435,8 @@ export function createTranslateLoader(http: HttpClient) {
     NzLayoutModule,
     ComponentsModule,
     MatTableModule,
-    NgxIntlTelInputModule
+    NgxIntlTelInputModule,
+    QRCodeModule
   ],
   exports: [TranslateModule],
   providers: [
