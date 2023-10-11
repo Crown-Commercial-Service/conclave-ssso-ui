@@ -37,7 +37,7 @@ export class HttpJwtAuthInterceptor implements HttpInterceptor {
             }
             var cookie = this.getXsrfCookie();
             if (cookie != '' && cookie != undefined) {
-                request = request.clone({ headers: request.headers.set('X-XSRF-TOKEN-MS', cookie) });
+                request = request.clone({ headers: request.headers.set('X-XSRF-TOKEN', cookie) });
             }
 
             return next.handle(request).pipe(
