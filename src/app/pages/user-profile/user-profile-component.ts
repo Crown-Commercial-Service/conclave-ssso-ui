@@ -76,7 +76,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public selectedApproveRequiredRole: any = []
   public pendingRoledeleteDetails: any = []
   public organisationDetails: any = {}
-  private userRequest: any = {}
+  public userRequest: any = {}
   isInvalidDomain: boolean = false
   userContacts: ContactGridInfo[] = [];
   userName: string;
@@ -87,7 +87,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   assignedRoleDataList: any[] = [];
   routeStateData: any = {};
   isOrgAdmin: boolean = false;
-  private selectedRoleIds: number[] = [];
+  public selectedRoleIds: number[] = [];
   public groupHint: string = ''
   private adminRoleKey: string = 'ORG_ADMINISTRATOR';
   private userRoleKey: string = 'ORG_DEFAULT_USER';
@@ -125,19 +125,19 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
-    private userService: WrapperUserService,
+    public userService: WrapperUserService,
     private userContactService: WrapperUserContactService,
     private locationStrategy: LocationStrategy,
     protected uiStore: Store<UIState>,
     private formBuilder: FormBuilder,
-    private router: Router,
-    protected viewportScroller: ViewportScroller,
+    public router: Router,
+    public viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private orgGroupService: WrapperOrganisationGroupService,
+    public orgGroupService: WrapperOrganisationGroupService,
     private contactHelper: ContactHelper,
-    private authService: AuthService,
+    public authService: AuthService,
     private auditLogService: AuditLoggerService,
-    private organisationService: WrapperOrganisationService,
+    public organisationService: WrapperOrganisationService,
   ) {
     super(
       viewportScroller,
@@ -621,7 +621,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
 
-  private updateUser(): void {
+  public updateUser(): void {
     this.userService.updateUser(this.userName, this.userRequest).subscribe(
       (data) => {
         this.authService.renewAccessToken();

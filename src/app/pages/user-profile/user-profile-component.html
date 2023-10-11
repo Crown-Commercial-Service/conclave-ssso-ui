@@ -4,18 +4,18 @@
         <ol class="govuk-breadcrumbs__list">
             <li class="govuk-breadcrumbs__list-item">
                 <a *ngIf="this.isAdminUser" class="govuk-breadcrumbs__link" routerLink="/home">
-                    {{ 'ADMINISTRATOR_DASHBOARD' | translate }}
+                    {{'ADMINISTRATOR_DASHBOARD' | translate}}
                 </a>
                 <a *ngIf="!this.isAdminUser" class="govuk-breadcrumbs__link" routerLink="/home">
                     {{"PUBLIC_PROCUREMENT_GATEWAY_DASHBOARD" | translate}}
                 </a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
-                <span class="govuk-breadcrumbs__link"> {{ 'MANAGE_MY_ACCOUNT' | translate }}</span>
+                <span class="govuk-breadcrumbs__link"> {{'MANAGE_MY_ACCOUNT' | translate}}</span>
             </li>
         </ol>
     </div>
-    <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_MY_ACCOUNT' | translate }}</h1>
+    <h1 class="govuk-heading-xl page-title">{{'MANAGE_MY_ACCOUNT' | translate}}</h1>
     <div class="govuk-error-summary form-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
         id="error-summary" data-module="govuk-error-summary" *ngIf="submitted && ((formGroup.controls.firstName.invalid && formGroup.controls.firstName.touched) ||
             (formGroup.controls.lastName.invalid && formGroup.controls.lastName.touched))">
