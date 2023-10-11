@@ -54,7 +54,7 @@ export class HttpJwtAuthInterceptor implements HttpInterceptor {
     }
 
     getXsrfCookie() {
-        var theName = "XSRF-TOKEN=";
+        var theName = "XSRF-TOKEN-MS=";
         var theCookie = document.cookie + ";";
         var start = theCookie.indexOf(theName);
         if (start != -1) {
