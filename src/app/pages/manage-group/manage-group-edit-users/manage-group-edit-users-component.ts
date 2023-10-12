@@ -87,7 +87,7 @@ export class ManageGroupEditUsersComponent
 
   ngOnInit() {
     this.titleService.setTitle(
-      `${this.isEdit ? 'Add/Remove Users' : 'Add Users'}  - Manage Groups - CCS`
+      `${this.isEdit ? 'Add/Remove Users' : 'Add Users'} - Manage Groups - CCS`
     );
     this.getOrganisationUsers();
   }
