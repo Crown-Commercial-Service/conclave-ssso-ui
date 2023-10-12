@@ -81,6 +81,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   userContacts: ContactGridInfo[] = [];
   userName: string;
   organisationId: string;
+  buttonText : string | any;
   canChangePassword: boolean = false;
   identityProviderDisplayName: string = '';
   roleDataList: any[] = [];
@@ -417,6 +418,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           this.userContacts = this.contactHelper.getContactGridInfoList(
             userContactsInfo.contactPoints
           );
+        }
+        if (userContactsInfo.contactPoints && userContactsInfo.contactPoints.length > 0) {
+          this.buttonText = 'ADD_ANOTHER_CONTACT_BTN';
+        } else {
+          this.buttonText = 'ADD_CONTACT';
         }
       },
       error: (error: any) => { },

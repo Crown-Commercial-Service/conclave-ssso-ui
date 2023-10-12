@@ -102,9 +102,12 @@
                     </div>
                 </div>
                 <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupDelete" >{{ 'GROUP_DELETE_SUCCESS' | translate }} {{GroupName}}</p>
-                <button *ngIf="operation === operationEnum.GroupAdd" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onNavigateToGroupClick()">
+                <!-- <button *ngIf="operation === operationEnum.GroupAdd" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onNavigateToGroupClick()">
                     View new group
-                </button>
+                </button> -->
+                <a href="javascript:;"  class="navigation-text" (click)="onNavigateToGroupClick()">
+                    View new group</a>
+                <br>
                 <button *ngIf="isEdit" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onNavigateToGroupClick()">
                     View group
                 </button>

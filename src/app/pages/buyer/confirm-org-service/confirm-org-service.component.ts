@@ -115,7 +115,7 @@ export class ConfirmOrgServiceComponent  extends BaseComponent {
   }
 
   public onCancelClick() {
-    this.router.navigateByUrl('buyer/search');
+    this.router.navigateByUrl('buyer-supplier/search');
   }
 
   public onBackClick() {

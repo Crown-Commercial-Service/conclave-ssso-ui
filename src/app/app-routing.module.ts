@@ -744,8 +744,8 @@ const routes: Routes = [
     component: NominateSuccessComponent,
   },
   {
-    path: 'buyer/search',
-    data: { title: 'Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
+    path: 'buyer-supplier/search',
+    data: { title: 'Manage Buyers-Suppliers', roles: ['MANAGE_SUBSCRIPTIONS'] },
     pathMatch: 'full',
     canActivate: [AuthGuard, RoleGuard],
     component: BuyerSearchComponent,
