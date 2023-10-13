@@ -31,7 +31,7 @@ export class ManageOrganisationRegistryErrorComponent extends BaseComponent impl
   public organisationId!: number;
   ccsContactUrl : string = environment.uri.ccsContactUrl;
   
-  constructor(private dataService: dataService, private router: Router, private route: ActivatedRoute, private location: Location, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private dataService: dataService, public router: Router, private route: ActivatedRoute, private location: Location, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
     this.organisationId = JSON.parse(localStorage.getItem('organisation_id') + '');
     // this.organisationId = parseInt(this.route.snapshot.paramMap.get('organisationId') || '0');
