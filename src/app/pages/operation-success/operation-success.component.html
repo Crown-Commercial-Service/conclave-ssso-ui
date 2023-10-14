@@ -88,7 +88,8 @@
                 </a>
             </div>
             <div *ngIf="operation === operationEnum.PasswordChanged">
-                <p class="govuk-body-l">{{ 'PASSWORD_CHANGE_SUCCESS' | translate }}</p>
+                <p class="govuk-body-l"><strong>{{ 'PASSWORD_CHANGE_SUCCESS' | translate }}</strong></p>
+                <p class ="govuk-body-l">{{'SIGN_IN_AGAIN' | translate}}</p>
                 <p> {{ 'YOU_CAN_NOW' | translate }} <a href="javascript:;" class="navigation-text"
                         (click)="onNavigateToSignInClick()">
                         {{'SING_IN_TO_YOUR_ACCOUNT' | translate }} </a> </p>

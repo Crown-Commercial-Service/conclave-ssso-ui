@@ -48,7 +48,7 @@
                         <div class="user-table">
                             <app-govuk-table [headerTextKeys]="organisationAdministrator.usersTableHeaders"
                                 [data]="organisationAdministrator.userListResponse.userList"
-                                [dataKeys]="organisationAdministrator.usersColumnsToDisplay" [isHyperLinkVisible]="true"
+                                [dataKeys]="organisationAdministrator.usersColumnsToDisplay" [isHyperLinkVisible]="true" [hyperLinkText]="'.'"
                                 (hyperLinkClickEvent)="openEmailWindow($event)" [useServerPagination]="true"
                                 [serverPageCount]="organisationAdministrator.pageCount"
                                 [serverPageCurrentPage]="organisationAdministrator.currentPage"
