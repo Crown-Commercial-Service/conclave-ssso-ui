@@ -53,10 +53,9 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   }
 
   ngOnInit() {
-    let ciiOrganisationInfoString = localStorage.getItem('cii_organisation') || "";
-    this.ciiOrganisationInfo = JSON.parse(ciiOrganisationInfoString);
-    let orgreginfo = JSON.parse(sessionStorage.getItem('orgreginfo') ?? '');
-    if (orgreginfo != '') {
+    this.ciiOrganisationInfo = localStorage.getItem('cii_organisation') ? JSON.parse(localStorage.getItem('cii_organisation')!) : {};
+    let orgreginfo = sessionStorage.getItem('orgreginfo') ? JSON.parse(sessionStorage.getItem('orgreginfo')!) : null;
+    if (orgreginfo) {
       this.formGroup.controls['firstName'].setValue(orgreginfo.adminUserFirstName);
       this.formGroup.controls['lastName'].setValue(orgreginfo.adminUserLastName);
       this.formGroup.controls['email'].setValue(orgreginfo.adminEmail);

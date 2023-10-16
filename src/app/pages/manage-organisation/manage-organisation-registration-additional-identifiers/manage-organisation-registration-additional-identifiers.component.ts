@@ -34,7 +34,7 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
   public organisation!:any;
   public buyerFlow:any
 
-  constructor(private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private ciiService: ciiService, public router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
     this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
 
