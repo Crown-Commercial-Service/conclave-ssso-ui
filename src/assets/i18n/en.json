@@ -426,6 +426,9 @@
   "SEND_CODE" : "We will send you a 6 digit security code.",
   "CHECK_YOUR_PHONE" : "Check your phone",
   "ENTER_THE_CODE" : "Enter the code:",
-  "PROBLEMS_WITH_CODE" : "Problems with the code?"
+  "PROBLEMS_WITH_CODE" : "Problems with the code?",
+  "ARE_YOU_SURE" : "Are you sure?",
+  "GO_BACK_MESSAGE" : "Go back",
+  "DO_NOT_TURN_ON" : "Do not turn on "
 
 }

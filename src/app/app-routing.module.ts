@@ -156,6 +156,7 @@ import { MfaInformationComponent } from './pages/two-mfa/mfa-authenticator/mfa-a
 import { MfaAuthenticatorSetupComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-setup/mfa-authenticator-setup.component';
 import { MfaMessageStep1Component } from './pages/two-mfa/mfa-message/mfa-message-step-1/mfa-message-step-1.component';
 import { MfaMessageStep2Component } from './pages/two-mfa/mfa-message/mfa-message-step-2/mfa-message-step-2.component';
+import { NoMfaConfiramtionComponent } from './pages/two-mfa/no-mfa-confirmation/no-mfa-confirmation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1267,6 +1268,13 @@ const routes: Routes = [
   pathMatch : 'full',
   component : MfaMessageStep2Component
  },
+ {
+  path : 'no-mfa-confirmation',
+  data : {title : 'Are you sure'},
+  pathMatch : 'full',
+  component : NoMfaConfiramtionComponent
+ },
+
 
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];

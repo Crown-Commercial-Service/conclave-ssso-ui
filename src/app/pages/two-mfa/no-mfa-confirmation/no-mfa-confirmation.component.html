@@ -1,0 +1,28 @@
+<div class="content flex">
+    <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+
+                {{'ARE_YOU_SURE' | translate}}<br>
+                <p class="govuk-mfa-label-text ">Two-factor authentication helps to keep your account secure and protect
+                    the data stored in it.<br> It is easy to set up two-factor authentication using an authenticator app
+                    or text message.</p>
+                <p class="govuk-mfa-label-text "><strong>We strongly recommend that two-factor authentication is turned
+                        on for your account.</strong></p>
+
+            </legend>
+        </fieldset>
+
+    </div>
+    <div class="govuk-button-group">
+        <button type="button" class="govuk-button" (click)="onGoBackClick()" data-module="govuk-button">
+            {{ 'GO_BACK_MESSAGE' | translate }}
+        </button>
+        <button type="button" (click)="onDontTurnOnClick()" class="govuk-button govuk-button--warning"
+            data-module="govuk-button">
+            {{ 'DO_NOT_TURN_ON' | translate }}
+        </button>
+    </div>
+
+</div>
