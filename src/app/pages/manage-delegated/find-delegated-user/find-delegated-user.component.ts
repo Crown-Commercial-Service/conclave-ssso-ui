@@ -17,10 +17,10 @@ export class FindDelegatedUserComponent implements OnInit {
   public organisationId: string = ''
   public error: string = ''
   constructor(
-    private route: Router,
+    public route: Router,
     private formBuilder: FormBuilder,
     private PatternService: PatternService,
-    private WrapperUserDelegatedService: WrapperUserDelegatedService,
+    public WrapperUserDelegatedService: WrapperUserDelegatedService,
     protected scrollHelper: ScrollHelper,
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';

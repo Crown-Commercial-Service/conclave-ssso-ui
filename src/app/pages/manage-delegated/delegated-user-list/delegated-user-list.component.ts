@@ -150,6 +150,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
       block: 'start',
       inline: 'nearest',
     });
+   
     if (activetab === 'currentusers') {
       this.tabConfig.currentusers = true
       this.tabConfig.expiredusers = false

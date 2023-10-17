@@ -1,6 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { RegistrationSuccessComponent} from './registration-success.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { RegistrationSuccessComponent } from './registration-success.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  Store,
+  StateObservable,
+  ActionsSubject,
+  ReducerManager,
+  ReducerManagerDispatcher,
+  INITIAL_STATE,
+  INITIAL_REDUCERS,
+  REDUCER_FACTORY,
+} from '@ngrx/store';
 
 describe('RegistrationSuccessComponent', () => {
   let component: RegistrationSuccessComponent;
@@ -8,9 +19,19 @@ describe('RegistrationSuccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RegistrationSuccessComponent ]
-    })
-    .compileComponents();
+      imports: [RouterTestingModule, HttpClientTestingModule],
+      declarations: [RegistrationSuccessComponent],
+      providers: [
+        Store,
+        StateObservable,
+        ActionsSubject,
+        ReducerManager,
+        ReducerManagerDispatcher,
+        { provide: INITIAL_STATE, useValue: {} },
+        { provide: INITIAL_REDUCERS, useValue: {} },
+        { provide: REDUCER_FACTORY, useValue: () => {} },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +40,23 @@ describe('RegistrationSuccessComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display the success message', () => {
+    const successMessage = fixture.nativeElement.querySelector('.govuk-body-l');
+    expect(successMessage.textContent).toContain(
+      'You have successfully created an account.'
+    );
+  });
+
+  it('should contain a link to the homepage', () => {
+    const homepageLink = fixture.nativeElement.querySelector('a');
+    expect(homepageLink).toBeTruthy();
+    expect(homepageLink.href).toContain('/');
+    expect(homepageLink.textContent).toContain(
+      'Return to the Crown Commercial Services homepage'
+    );
   });
 });

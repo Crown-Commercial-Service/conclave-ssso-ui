@@ -1,60 +1,67 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { inject, TestBed } from '@angular/core/testing';
-import { Observable } from 'rxjs';
-import 'rxjs/add/observable/of';
-
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from './auth.service';
+import { TokenService } from './token.service';
+import { WorkerService } from '../worker.service';
+import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
+import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
 
 describe('AuthService', () => {
+  let authService: AuthService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [
         AuthService,
-      ]
+        TokenService,
+        WorkerService,
+        RollbarErrorService,
+        { provide: RollbarService, useValue: rollbarFactory() },
+      ],
     });
+    authService = TestBed.inject(AuthService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
-  it('should be created', inject([AuthService], (service: AuthService) => {
-    expect(service).toBeTruthy();
-  }));
+  afterEach(() => {
+    httpMock.verify();
+  });
 
-  /* describe('isAuthenticated', () => {
-    it('should make a call to check authentication', inject([HttpTestingController, AuthService], (httpMock: HttpTestingController, service: AuthService) => {
-      service.isAuthenticated().subscribe( response => {
-        expect(JSON.parse(String(response))).toBeFalsy();
-      });
+  it('should be created', () => {
+    expect(authService).toBeTruthy();
+  });
 
-      const req = httpMock.expectOne('/auth/isAuthenticated');
-      expect(req.request.method).toEqual('GET');
-      req.flush('false');
-    }));
+  it('should login and redirect', () => {
+    const username = 'testuser';
+    const password = 'testpassword';
+    const redirectUrl = 'http://example.com/authsuccess?code=testuser';
 
-  }); */
+    authService.login(username, password);
 
-  // describe('logOut', () => {
-  //   it('should make a call to logOut', inject([HttpTestingController, AuthService], (httpMock: HttpTestingController, service: AuthService) => {
-  //     service.logOut().subscribe( response => {
-  //       expect(response).toBeNull();
-  //     });
+    expect(window.location.href).toHaveBeenCalledWith(redirectUrl);
+  });
 
-  //     const req = httpMock.expectOne('/auth/logout?noredirect=true');
-  //     expect(req.request.method).toEqual('GET');
-  //     req.flush(null);
-  //   }));
+  it('should check if user is authenticated', () => {
+    localStorage.setItem('user_name', 'testuser');
 
-  // });
+    const isAuthenticated = authService.isUserAuthenticated();
 
-  // describe('logOutAndRedirect', () => {
-  //   it('should work', inject([AuthService], async (service: AuthService) => {
-  //     const spyOnSetWindowLocation = spyOn(service, 'setWindowLocationHref');
-  //     spyOn(service, 'logOut').and.returnValue(Observable.of(false));
-  //     await service.logOutAndRedirect();
-  //     expect(spyOnSetWindowLocation).toHaveBeenCalledWith('/idle-sign-out');
-  //   }));
-  // });
+    expect(isAuthenticated).toBeTrue();
+  });
 
+  it('should check if in-memory token exists', async () => {
+    spyOn(authService.workerService, 'checkAccessToken').and.returnValue(
+      Promise.resolve(true)
+    );
+
+    const inMemoryTokenExists = await authService.isInMemoryTokenExists();
+
+    expect(inMemoryTokenExists).toBeTrue();
+  });
 });

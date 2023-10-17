@@ -25,7 +25,7 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
 
   defaultChoice: string = "supplier";
 
-  constructor(private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
+  constructor(public router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
   }

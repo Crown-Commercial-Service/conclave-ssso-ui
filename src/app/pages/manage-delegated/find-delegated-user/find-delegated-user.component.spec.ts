@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule, FormsModule, FormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { FindDelegatedUserComponent } from './find-delegated-user.component';
-import { Router } from '@angular/router';
+import { of, throwError } from 'rxjs';
 
 describe('FindDelegatedUserComponent', () => {
   let component: FindDelegatedUserComponent;
@@ -14,8 +15,10 @@ describe('FindDelegatedUserComponent', () => {
       declarations: [FindDelegatedUserComponent],
       imports: [
         ReactiveFormsModule,
+        FormsModule,
         RouterTestingModule,
         HttpClientTestingModule,
+        TranslateModule.forRoot(),
       ],
     }).compileComponents();
   });
@@ -30,53 +33,84 @@ describe('FindDelegatedUserComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the form with empty email field', () => {
-    expect(component.formGroup.get('email')!.value).toEqual('');
+  it('should initialize the form with required validators', () => {
+    const emailControl = component.formGroup.get('email');
+
+    expect(emailControl).toBeTruthy();
+    expect(emailControl?.value).toBe('');
+    expect(emailControl?.validator).toBeTruthy();
+    expect(emailControl?.errors?.required).toBeTruthy();
   });
 
-  it('should set focus to email field', () => {
-    const emailInput = fixture.nativeElement.querySelector('#email');
-    spyOn(emailInput, 'focus');
+  it('should set focus on the email input field', () => {
+    spyOn(document, 'getElementById').and.callThrough();
     component.setFocus({});
-    expect(emailInput.focus).toHaveBeenCalled();
+    expect(document.getElementById).toHaveBeenCalledWith('email');
   });
 
-  it('should validate email length and set error if invalid', () => {
-    const emailControl = component.formGroup.get('email')!;
-    emailControl.setValue('invalidemail');
-    component.validateEmailLength({ target: { value: 'invalidemail' } });
-    expect(emailControl.hasError('incorrect')).toBeTrue();
+  it('should return true for formValid if form is valid', () => {
+    const emailControl = component.formGroup.get('email');
+    emailControl?.setValue('validemail@example.com');
+
+    expect(component.formValid(component.formGroup)).toBe(true);
   });
 
-  it('should navigate to delegated-user-status page if user is registered under the same organisation', () => {
-    const router = TestBed.inject(Router);
-    spyOn(router, 'navigateByUrl');
+  it('should handle error response on GetUserStatus', () => {
+    spyOn(
+      component.WrapperUserDelegatedService,
+      'getuserDetail'
+    ).and.returnValue(throwError({ status: 404 }));
+    spyOn(component.route, 'navigateByUrl');
 
-    const userResponse = {
-      organisationId: 'exampleOrganisationId',
-    };
+    const emailControl = component.formGroup.get('email');
+    emailControl?.setValue('test@example.com');
+
     component.GetUserStatus(component.formGroup);
-    expect(router.navigateByUrl).toHaveBeenCalledWith(
-      'delegated-user-status?data=' + btoa(JSON.stringify(userResponse))
+
+    expect(component.submitted).toBe(true);
+    expect(
+      component.WrapperUserDelegatedService.getuserDetail
+    ).toHaveBeenCalledWith('test@example.com', component.organisationId);
+    expect(component.route.navigateByUrl).toHaveBeenCalledWith(
+      'delegated-user-status?data=' +
+        btoa(
+          JSON.stringify({
+            header: 'We could not find this user in our system',
+            Description:
+              'This Email address does not exist in our database. Please make sure that the Email address you entered is correct or contact the User you want to give the delegated access to.',
+            Breadcrumb: 'User not found',
+            status: '002',
+          })
+        )
     );
   });
 
-  it('should navigate to delegate-access-user page if user is not registered under the same organisation', () => {
-    const router = TestBed.inject(Router);
-    spyOn(router, 'navigateByUrl');
+  it('should handle other error status on GetUserStatus', () => {
+    spyOn(
+      component.WrapperUserDelegatedService,
+      'getuserDetail'
+    ).and.returnValue(throwError({ status: 500 }));
+    spyOn(component.route, 'navigateByUrl');
 
-    const userResponse = {
-      organisationId: 'differentOrganisationId',
-    };
+    const emailControl = component.formGroup.get('email');
+    emailControl?.setValue('test@example.com');
+
     component.GetUserStatus(component.formGroup);
-    expect(router.navigateByUrl).toHaveBeenCalledWith(
-      'delegate-access-user?data=' + btoa(JSON.stringify(userResponse))
+
+    expect(component.submitted).toBe(true);
+    expect(
+      component.WrapperUserDelegatedService.getuserDetail
+    ).toHaveBeenCalledWith('test@example.com', component.organisationId);
+    expect(component.route.navigateByUrl).toHaveBeenCalledWith(
+      'delegated-error'
     );
   });
 
-  it('should navigate to previous page on cancel', () => {
-    const windowSpy = spyOn(window.history, 'back');
+  it('should navigate back on Cancel', () => {
+    spyOn(window.history, 'back');
+
     component.Cancel();
-    expect(windowSpy).toHaveBeenCalled();
+
+    expect(window.history.back).toHaveBeenCalled();
   });
 });

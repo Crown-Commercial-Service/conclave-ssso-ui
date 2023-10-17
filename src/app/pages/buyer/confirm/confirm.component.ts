@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,14 +27,13 @@ import { ViewportScroller } from '@angular/common';
   styleUrls: ['./confirm.component.scss'],
   animations: [
     slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
+      close: { transform: 'translateX(12.5rem)' },
+      open: { left: '-12.5rem' },
+    }),
   ],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class BuyerConfirmComponent extends BaseComponent implements OnInit {
-
   public organisation: any;
   public org$!: Observable<any>;
   public verified: boolean = false;
@@ -44,11 +49,18 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
   @ViewChild('isBuyerTrue') isBuyerTrue!: ElementRef;
   @ViewChild('isBuyerFalse') isBuyerFalse!: ElementRef;
 
-  constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService, 
-    private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
-    protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService, 
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
-    super(uiStore,viewportScroller,scrollHelper);
+  constructor(
+    private formBuilder: FormBuilder,
+    private organisationService: OrganisationService,
+    private wrapperConfigService: WrapperConfigurationService,
+    public router: Router,
+    private route: ActivatedRoute,
+    protected uiStore: Store<UIState>,
+    private organisationGroupService: WrapperOrganisationGroupService,
+    protected viewportScroller: ViewportScroller,
+    protected scrollHelper: ScrollHelper
+  ) {
+    super(uiStore, viewportScroller, scrollHelper);
     this.orgRoles = [];
     this.eRoles = [];
     this.roles = [];
@@ -60,15 +72,15 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       if (params.id) {
         this.org$ = this.organisationService.getById(params.id).pipe(share());
         this.org$.subscribe({
-          next: data => {
+          next: (data) => {
             this.organisation = data;
             this.verified = data.rightToBuy;
             this.getOrgRoles();
-          }
+          },
         });
       }
     });
@@ -88,8 +100,20 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
     }
 
     if (verified && !this.organisation.rightToBuy) {
-      const currentRoles = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 0 && x.tradeEligibility !== 0 && x.orgTypeEligibility !== 0);
-      const previousRoles = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 0 && x.tradeEligibility !== 1 && x.orgTypeEligibility !== 0);
+      const currentRoles = this.roles.filter(
+        (x) =>
+          x.enabled &&
+          x.subscriptionTypeEligibility === 0 &&
+          x.tradeEligibility !== 0 &&
+          x.orgTypeEligibility !== 0
+      );
+      const previousRoles = this.roles.filter(
+        (x) =>
+          x.enabled &&
+          x.subscriptionTypeEligibility === 0 &&
+          x.tradeEligibility !== 1 &&
+          x.orgTypeEligibility !== 0
+      );
       previousRoles.forEach((r) => {
         const match = currentRoles.includes(r);
         if (!match) {
@@ -102,8 +126,20 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
           this.rolesToAdd.push(r);
         }
       });
-      const currentRoles2 = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 1 && x.tradeEligibility !== 0 && x.orgTypeEligibility !== 0);
-      const previousRoles2 = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 1 && x.tradeEligibility !== 1 && x.orgTypeEligibility !== 0);
+      const currentRoles2 = this.roles.filter(
+        (x) =>
+          x.enabled &&
+          x.subscriptionTypeEligibility === 1 &&
+          x.tradeEligibility !== 0 &&
+          x.orgTypeEligibility !== 0
+      );
+      const previousRoles2 = this.roles.filter(
+        (x) =>
+          x.enabled &&
+          x.subscriptionTypeEligibility === 1 &&
+          x.tradeEligibility !== 1 &&
+          x.orgTypeEligibility !== 0
+      );
       previousRoles2.forEach((r) => {
         const match = currentRoles2.includes(r);
         if (!match) {
@@ -121,8 +157,20 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
       console.log('to remove:');
       console.log(this.rolesToDelete);
     } else if (!verified && this.organisation.rightToBuy) {
-      const currentRoles = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 0 && x.tradeEligibility !== 1 && x.orgTypeEligibility !== 0);
-      const previousRoles = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 0 && x.tradeEligibility !== 0 && x.orgTypeEligibility !== 0);
+      const currentRoles = this.roles.filter(
+        (x) =>
+          x.enabled &&
+          x.subscriptionTypeEligibility === 0 &&
+          x.tradeEligibility !== 1 &&
+          x.orgTypeEligibility !== 0
+      );
+      const previousRoles = this.roles.filter(
+        (x) =>
+          x.enabled &&
+          x.subscriptionTypeEligibility === 0 &&
+          x.tradeEligibility !== 0 &&
+          x.orgTypeEligibility !== 0
+      );
       currentRoles.forEach((r) => {
         const match = previousRoles.includes(r);
         if (!match) {
@@ -135,8 +183,20 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
           this.rolesToDelete.push(r);
         }
       });
-      const currentRoles2 = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 1 && x.tradeEligibility !== 1 && x.orgTypeEligibility !== 0);
-      const previousRoles2 = this.roles.filter(x => x.enabled && x.subscriptionTypeEligibility === 1 && x.tradeEligibility !== 0 && x.orgTypeEligibility !== 0);
+      const currentRoles2 = this.roles.filter(
+        (x) =>
+          x.enabled &&
+          x.subscriptionTypeEligibility === 1 &&
+          x.tradeEligibility !== 1 &&
+          x.orgTypeEligibility !== 0
+      );
+      const previousRoles2 = this.roles.filter(
+        (x) =>
+          x.enabled &&
+          x.subscriptionTypeEligibility === 1 &&
+          x.tradeEligibility !== 0 &&
+          x.orgTypeEligibility !== 0
+      );
       currentRoles2.forEach((r) => {
         const match = previousRoles2.includes(r);
         if (!match) {
@@ -159,8 +219,7 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
   onChange(event: any, defaultValue: any, role: any) {
     if (defaultValue === true && !event.target.checked) {
       this.rolesToDelete.push(role);
-    }
-    else if (defaultValue == true && event.target.checked) {
+    } else if (defaultValue == true && event.target.checked) {
       const index = this.rolesToDelete.indexOf(role);
       if (index > -1) {
         this.rolesToDelete.splice(index, 1);
@@ -168,8 +227,7 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
     }
     if (defaultValue === false && event.target.checked) {
       this.rolesToAdd.push(role);
-    }
-    else if (defaultValue == false && !event.target.checked) {
+    } else if (defaultValue == false && !event.target.checked) {
       const index = this.rolesToAdd.indexOf(role);
       if (index > -1) {
         this.rolesToAdd.splice(index, 1);
@@ -183,10 +241,20 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
       toDelete: this.rolesToDelete,
       toAdd: this.rolesToAdd,
       rightToBuy: this.verified,
-      hasChanges: (this.organisation.rightToBuy === this.verified && this.rolesToAdd.length === 0 && this.rolesToDelete.length === 0) ? false : true
+      hasChanges:
+        this.organisation.rightToBuy === this.verified &&
+        this.rolesToAdd.length === 0 &&
+        this.rolesToDelete.length === 0
+          ? false
+          : true,
     };
-    localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
-    this.router.navigateByUrl(`buyer/confirm-changes/${this.organisation.ciiOrganisationId}`);
+    localStorage.setItem(
+      `mse_org_${this.organisation.ciiOrganisationId}`,
+      JSON.stringify(selection)
+    );
+    this.router.navigateByUrl(
+      `buyer/confirm-changes/${this.organisation.ciiOrganisationId}`
+    );
   }
 
   public onCancelClick() {
@@ -194,29 +262,33 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl('buyer/search');
   }
 
-  getOrgRoles(){
+  getOrgRoles() {
     this.orgRoles$ = this.wrapperConfigService.getRoles().pipe(share());
     this.orgRoles$.subscribe({
       next: (orgRoles: Role[]) => {
         this.roles = orgRoles;
-        this.orgEligableRoles$ = this.organisationGroupService.getGroupOrganisationRoles(this.organisation.ciiOrganisationId).pipe(share());
+        this.orgEligableRoles$ = this.organisationGroupService
+          .getGroupOrganisationRoles(this.organisation.ciiOrganisationId)
+          .pipe(share());
         this.orgEligableRoles$.subscribe({
           next: (eRoles: Role[]) => {
             this.roles.forEach((r) => {
-              r.enabled = eRoles.some(x => x.roleName == r.roleName && x.serviceName == r.serviceName);
+              r.enabled = eRoles.some(
+                (x) =>
+                  x.roleName == r.roleName && x.serviceName == r.serviceName
+              );
             });
             this.eRoles = eRoles;
-            setTimeout(() => {
-            }, 100);
+            setTimeout(() => {}, 100);
           },
           error: (err: any) => {
-            console.log(err)
-          }
+            console.log(err);
+          },
         });
       },
       error: (err: any) => {
-        console.log(err)
-      }
+        console.log(err);
+      },
     });
   }
 }

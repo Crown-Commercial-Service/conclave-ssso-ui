@@ -43,7 +43,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
   @ViewChild('resetPassword') resetPassword!: ElementRef;
 
   constructor(private organisationGroupService: WrapperOrganisationGroupService, private wrapperUserService: WrapperUserService,
-    private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
+    public router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
     this.user = {

@@ -1,171 +1,186 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { ActivatedRoute, Router } from '@angular/router';
-// import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
-// import { ManageDelegateService } from '../../service/manage-delegate.service';
-// import { DelegatedOrganisationComponent } from './delegated-organisation.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DelegatedOrganisationComponent } from './delegated-organisation.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { ManageDelegateService } from '../../service/manage-delegate.service';
+import { of } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
-// describe('DelegatedOrganisationComponent', () => {
-//   let component: DelegatedOrganisationComponent;
-//   let fixture: ComponentFixture<DelegatedOrganisationComponent>;
-//   let routerSpy: jest.SpyInstance;
-//   let activatedRouteSpy: jest.SpyInstance;
-//   let delegatedServiceSpy: jest.SpyInstance;
-//   let delegateServiceSpy: jest.SpyInstance;
+describe('DelegatedOrganisationComponent', () => {
+  let component: DelegatedOrganisationComponent;
+  let fixture: ComponentFixture<DelegatedOrganisationComponent>;
+  let routerSpy: jasmine.SpyObj<Router>;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let delegatedServiceSpy: jasmine.SpyObj<WrapperUserDelegatedService>;
+  let delegateServiceSpy: jasmine.SpyObj<ManageDelegateService>;
 
-//   beforeEach(async () => {
-//     const routerSpyObj = jest.spyOn(Router.prototype, 'navigateByUrl');
-//     const activatedRouteSpyObj = jest.spyOn(
-//       ActivatedRoute.prototype,
-//       'queryParams',
-//       'get'
-//     );
-//     const delegatedServiceSpyObj = jest.spyOn(
-//       WrapperUserDelegatedService.prototype,
-//       'getDeligatedOrg'
-//     );
-//     const delegateServiceSpyObj = jest.spyOn(
-//       ManageDelegateService.prototype,
-//       'setDelegatedOrg'
-//     );
+  beforeEach(async () => {
+    const routerSpyObj = jasmine.createSpyObj('Router', ['navigateByUrl']);
+    const delegatedServiceSpyObj = jasmine.createSpyObj(
+      'WrapperUserDelegatedService',
+      ['getDeligatedOrg']
+    );
+    const delegateServiceSpyObj = jasmine.createSpyObj(
+      'ManageDelegateService',
+      ['setDelegatedOrg']
+    );
+    const activatedRouteStub = () => ({
+      queryParams: { subscribe: (f: any) => f({}) },
+    });
 
-//     await TestBed.configureTestingModule({
-//       declarations: [DelegatedOrganisationComponent],
-//       providers: [
-//         { provide: Router, useValue: { navigateByUrl: routerSpyObj } },
-//         {
-//           provide: ActivatedRoute,
-//           useValue: { queryParams: activatedRouteSpyObj },
-//         },
-//         {
-//           provide: WrapperUserDelegatedService,
-//           useValue: { getDeligatedOrg: delegatedServiceSpyObj },
-//         },
-//         {
-//           provide: ManageDelegateService,
-//           useValue: { setDelegatedOrg: delegateServiceSpyObj },
-//         },
-//       ],
-//     }).compileComponents();
-//   });
+    await TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
+      declarations: [DelegatedOrganisationComponent],
+      providers: [
+        { provide: Router, useValue: routerSpyObj },
+        { provide: ActivatedRoute, useFactory: activatedRouteStub },
+        {
+          provide: WrapperUserDelegatedService,
+          useValue: delegatedServiceSpyObj,
+        },
+        { provide: ManageDelegateService, useValue: delegateServiceSpyObj },
+      ],
+    }).compileComponents();
+  });
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(DelegatedOrganisationComponent);
-//     component = fixture.componentInstance;
-//     routerSpy = jest.spyOn(Router.prototype, 'navigateByUrl');
-//     activatedRouteSpy = jest.spyOn(
-//       ActivatedRoute.prototype,
-//       'queryParams',
-//       'get'
-//     );
-//     delegatedServiceSpy = jest.spyOn(
-//       WrapperUserDelegatedService.prototype,
-//       'getDeligatedOrg'
-//     );
-//     delegateServiceSpy = jest.spyOn(
-//       ManageDelegateService.prototype,
-//       'setDelegatedOrg'
-//     );
-//   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(DelegatedOrganisationComponent);
+    component = fixture.componentInstance;
+    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+    activatedRouteSpy = TestBed.inject(
+      ActivatedRoute
+    ) as jasmine.SpyObj<ActivatedRoute>;
+    delegatedServiceSpy = TestBed.inject(
+      WrapperUserDelegatedService
+    ) as jasmine.SpyObj<WrapperUserDelegatedService>;
+    delegateServiceSpy = TestBed.inject(
+      ManageDelegateService
+    ) as jasmine.SpyObj<ManageDelegateService>;
+  });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
 
-//   it('should navigate to home if delegation is disabled', () => {
-//     component.ngOnInit();
-//     expect(routerSpy).toHaveBeenCalledWith('/home');
-//   });
+  describe('ngOnInit', () => {
+    it('should call getDelegatedOrganisation', () => {
+      spyOn(component, 'getDelegatedOrganisation');
+      component.ngOnInit();
 
-//   it('should set primaryRoleSelected and roleData to 0 when queryParams data is "reload"', () => {
-//     activatedRouteSpy.mockReturnValue({ data: 'reload' });
-//     component.ngOnInit();
-//     expect(component.primaryRoleSelected).toBe('primaryselected');
-//     expect(component.roleData).toBe(0);
-//   });
+      expect(component.getDelegatedOrganisation).toHaveBeenCalled();
+    });
+  });
 
-//   it('should set primaryRoleSelected and roleData to 0 if DelegateService.getDelegatedOrg is null', () => {
-//     delegateServiceSpy.mockReturnValue(null);
-//     component.ngOnInit();
-//     expect(component.primaryRoleSelected).toBe('primaryselected');
-//     expect(component.roleData).toBe(0);
-//   });
+  describe('getDelegatedOrganisation', () => {
+    it('should retrieve delegated organizations and set userDetails and organisationList', () => {
+      delegatedServiceSpy.getDeligatedOrg.and.returnValue(
+        of({
+          detail: {
+            delegatedOrgs: [
+              { delegatedOrgId: 'org1' },
+              { delegatedOrgId: 'org2' },
+            ],
+          },
+        })
+      );
 
-//   it('should set secondaryRoleSelected, roleInfo, and roleData to DelegateService.getDelegatedOrg', () => {
-//     const delegatedOrg = 'delegatedOrgId';
-//     delegateServiceSpy.mockReturnValue(delegatedOrg);
-//     component.ngOnInit();
-//     expect(component.secondaryRoleSelected).toBe(delegatedOrg);
-//     expect(component.roleInfo).toBe(delegatedOrg);
-//     expect(component.roleData).toBe(delegatedOrg);
-//   });
+      component.getDelegatedOrganisation();
+      expect(component.userDetails).toBeDefined();
+      expect(component.organisationList.length).toBe(2);
+    });
 
-//   it('should call getDelegatedOrganisation method on ngOnInit', () => {
-//     jest.spyOn(component, 'getDelegatedOrganisation');
-//     component.ngOnInit();
-//     expect(component.getDelegatedOrganisation).toHaveBeenCalled();
-//   });
+    it('should set delegated organization to 0 and navigate to reload page if orgDetails is undefined', () => {
+      delegatedServiceSpy.getDeligatedOrg.and.returnValue(
+        of({
+          detail: {
+            delegatedOrgs: [
+              { delegatedOrgId: 'org1' },
+              { delegatedOrgId: 'org2' },
+            ],
+          },
+        })
+      );
+      component.roleData = 'org1';
+      component.roleInfo = 'org1';
+      component.getDelegatedOrganisation();
+      expect(delegateServiceSpy.setDelegatedOrg).toHaveBeenCalledWith(
+        0,
+        'delegated-organisation?data=reload'
+      );
+    });
 
-//   it('should disable the submit button if roleData is equal to roleInfo', () => {
-//     component.roleData = 'roleData';
-//     component.roleInfo = 'roleData';
-//     expect(component.isDisabled).toBe(true);
-//   });
+    it('should not set delegated organization to 0 if orgDetails is undefined but roleData is already 0', () => {
+      delegatedServiceSpy.getDeligatedOrg.and.returnValue(
+        of({
+          detail: {
+            delegatedOrgs: [
+              { delegatedOrgId: 'org1' },
+              { delegatedOrgId: 'org2' },
+            ],
+          },
+        })
+      );
+      component.roleData = 0;
+      component.roleInfo = 'org1';
+      component.getDelegatedOrganisation();
+      expect(delegateServiceSpy.setDelegatedOrg).not.toHaveBeenCalled();
+    });
 
-//   it('should enable the submit button if roleData is not equal to roleInfo', () => {
-//     component.roleData = 'roleData';
-//     component.roleInfo = 'otherRoleData';
-//     expect(component.isDisabled).toBe(false);
-//   });
+    it('should retrieve delegated organizations and set userDetails and organisationList', () => {
+      delegatedServiceSpy.getDeligatedOrg.and.returnValue(
+        of({
+          detail: {
+            delegatedOrgs: [
+              { delegatedOrgId: 'org1' },
+              { delegatedOrgId: 'org2' },
+            ],
+          },
+        })
+      );
 
-//   it('should call getDeligatedOrg method from delegatedService on getDelegatedOrganisation', () => {
-//     delegatedServiceSpy.mockReturnValue({ detail: { delegatedOrgs: [] } });
-//     component.getDelegatedOrganisation();
-//     expect(delegatedServiceSpy).toHaveBeenCalled();
-//   });
+      component.getDelegatedOrganisation();
+      expect(component.userDetails).toBeDefined();
+      expect(component.organisationList.length).toBe(2);
+    });
+  });
 
-//   it('should set delegatedOrg to 0 and navigate to "delegated-organisation?data=reload" if orgDetails is undefined and roleData is not 0', () => {
-//     const orgDetails = undefined;
-//     component.roleData = 'roleData';
-//     component.getDelegatedOrganisation();
-//     expect(delegateServiceSpy).toHaveBeenCalledWith(
-//       0,
-//       'delegated-organisation?data=reload'
-//     );
-//   });
+  describe('setPrimaryOrg', () => {
+    it('should reset secondaryRoleSelected and set roleInfo to 0', () => {
+      component.secondaryRoleSelected = 'org2';
+      component.roleInfo = 'org2';
+      component.setPrimaryOrg();
+      expect(component.secondaryRoleSelected).toBeNull();
+      expect(component.roleInfo).toBe(0);
+    });
+  });
 
-//   it('should set userDetails and organisationList from the response data', () => {
-//     const data = { detail: { delegatedOrgs: [{ delegatedOrgId: 'orgId' }] } };
-//     delegatedServiceSpy.mockReturnValue(data);
-//     component.getDelegatedOrganisation();
-//     expect(component.userDetails).toBe(data);
-//     expect(component.organisationList).toBe(data.detail.delegatedOrgs);
-//   });
+  describe('setSecondaryOrg', () => {
+    it('should reset primaryRoleSelected and set roleInfo to orgDetails.delegatedOrgId', () => {
+      const orgDetails = { delegatedOrgId: 'org2' };
+      component.primaryRoleSelected = 'primaryselected';
+      component.roleInfo = 0;
+      component.setSecondaryOrg(orgDetails);
+      expect(component.primaryRoleSelected).toBeNull();
+      expect(component.roleInfo).toBe(orgDetails.delegatedOrgId);
+    });
+  });
 
-//   it('should set secondaryRoleSelected to null and roleInfo to 0 on setPrimaryOrg method', () => {
-//     component.secondaryRoleSelected = 'secondaryRoleSelected';
-//     component.setPrimaryOrg();
-//     expect(component.secondaryRoleSelected).toBeNull();
-//     expect(component.roleInfo).toBe(0);
-//   });
+  describe('onSubmit', () => {
+    it('should call setDelegatedOrg with roleInfo and navigate to home', () => {
+      component.roleInfo = 'org1';
+      component.onSubmit();
+      expect(delegateServiceSpy.setDelegatedOrg).toHaveBeenCalledWith(
+        'org1',
+        'home'
+      );
+    });
+  });
 
-//   it('should set primaryRoleSelected to null and roleInfo to orgDetails.delegatedOrgId on setSecondaryOrg method', () => {
-//     const orgDetails = { delegatedOrgId: 'orgId' };
-//     component.primaryRoleSelected = 'primaryRoleSelected';
-//     component.setSecondaryOrg(orgDetails);
-//     expect(component.primaryRoleSelected).toBeNull();
-//     expect(component.roleInfo).toBe(orgDetails.delegatedOrgId);
-//   });
-
-//   it('should call setDelegatedOrg method from DelegateService on onSubmit', () => {
-//     const roleInfo = 'roleInfo';
-//     component.roleInfo = roleInfo;
-//     component.onSubmit();
-//     expect(delegateServiceSpy).toHaveBeenCalledWith(roleInfo, 'home');
-//   });
-
-//   it('should call window.history.back on Cancel', () => {
-//     jest.spyOn(window.history, 'back');
-//     component.Cancel();
-//     expect(window.history.back).toHaveBeenCalled();
-//   });
-// });
+  describe('Cancel', () => {
+    it('should navigate back in history', () => {
+      spyOn(window.history, 'back');
+      component.Cancel();
+      expect(window.history.back).toHaveBeenCalled();
+    });
+  });
+});
