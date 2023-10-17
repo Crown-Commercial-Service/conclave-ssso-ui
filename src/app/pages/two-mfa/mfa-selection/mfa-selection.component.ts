@@ -48,7 +48,7 @@ constructor(private activatedRoute: ActivatedRoute,private router:Router, privat
 
     public onContinueClick(event :string | null)
     {
-        console.log(event);
+        //console.log(event);
         if (event == "QR")
         {
             this.router.navigateByUrl('mfa-authenticator-information');
@@ -59,7 +59,7 @@ constructor(private activatedRoute: ActivatedRoute,private router:Router, privat
         }
         else if (event == "NOAUTH")
         {
-            //redirect to no auth flow 
+            this.router.navigateByUrl('no-mfa-confirmation');
         }
 
     }

@@ -429,6 +429,11 @@
   "PROBLEMS_WITH_CODE" : "Problems with the code?",
   "ARE_YOU_SURE" : "Are you sure?",
   "GO_BACK_MESSAGE" : "Go back",
-  "DO_NOT_TURN_ON" : "Do not turn on "
+  "DO_NOT_TURN_ON" : "Do not turn on ",
+  "CHANGES_SAVED" : "Changes Saved",
+  "RETURN_TO_EDIT_USER" : "Return to edit user",
+  "RETURN_TO_DASHBOARD" : "Return to dashboard",
+  "TWO_FACTOR_AUTHENTICATION_SETUP_YES" : "You have set up two-factor authentication",
+  "TWO_FACTOR_AUTHENTICATION_SETUP_NO"  : "You have not set up two-factor authentication"
 
 }

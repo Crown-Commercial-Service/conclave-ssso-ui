@@ -215,6 +215,9 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { MfaMessageStep1Component } from './pages/two-mfa/mfa-message/mfa-message-step-1/mfa-message-step-1.component';
 import { MfaMessageStep2Component } from './pages/two-mfa/mfa-message/mfa-message-step-2/mfa-message-step-2.component';
 import { NoMfaConfiramtionComponent } from './pages/two-mfa/no-mfa-confirmation/no-mfa-confirmation.component';
+import { MfaOffSaveSuccessComponent } from './pages/two-mfa/deactivate-two-mfa-success/mfa-off-save-success.component';
+import { MfaAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-authentication-setup-success/mfa-authentication-setup-sucess.component';
+import { MfaNoAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-no-authentication-setup-success/mfa-no-authentication-setup-success.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -394,7 +397,10 @@ export function createTranslateLoader(http: HttpClient) {
     MfaAuthenticatorSetupComponent,
     MfaMessageStep1Component,
     MfaMessageStep2Component,
-    NoMfaConfiramtionComponent
+    NoMfaConfiramtionComponent,
+    MfaOffSaveSuccessComponent,
+    MfaAuthenticationSetupSuccessComponent,
+    MfaNoAuthenticationSetupSuccessComponent
   ],
   imports: [
     // BrowserModule,
