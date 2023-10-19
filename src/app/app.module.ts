@@ -218,6 +218,7 @@ import { NoMfaConfiramtionComponent } from './pages/two-mfa/no-mfa-confirmation/
 import { MfaOffSaveSuccessComponent } from './pages/two-mfa/deactivate-two-mfa-success/mfa-off-save-success.component';
 import { MfaAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-authentication-setup-success/mfa-authentication-setup-sucess.component';
 import { MfaNoAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-no-authentication-setup-success/mfa-no-authentication-setup-success.component';
+import { ManageOrgRegMfaComponent } from './pages/two-mfa/manage-reg-organisation-mfa/manage-reg-organisation-mfa.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -400,7 +401,8 @@ export function createTranslateLoader(http: HttpClient) {
     NoMfaConfiramtionComponent,
     MfaOffSaveSuccessComponent,
     MfaAuthenticationSetupSuccessComponent,
-    MfaNoAuthenticationSetupSuccessComponent
+    MfaNoAuthenticationSetupSuccessComponent,
+    ManageOrgRegMfaComponent
   ],
   imports: [
     // BrowserModule,

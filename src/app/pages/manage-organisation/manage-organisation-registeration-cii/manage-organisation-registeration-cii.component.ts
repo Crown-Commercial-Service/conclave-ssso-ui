@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: 'app-manage-organisation-registeration-cii',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageOrganisationRegisterationCiiComponent implements OnInit {
   public buyerFlow:any
-
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled
   constructor() {
    this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
    }

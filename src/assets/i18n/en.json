@@ -434,6 +434,13 @@
   "RETURN_TO_EDIT_USER" : "Return to edit user",
   "RETURN_TO_DASHBOARD" : "Return to dashboard",
   "TWO_FACTOR_AUTHENTICATION_SETUP_YES" : "You have set up two-factor authentication",
-  "TWO_FACTOR_AUTHENTICATION_SETUP_NO"  : "You have not set up two-factor authentication"
-
+  "TWO_FACTOR_AUTHENTICATION_SETUP_NO"  : "You have not set up two-factor authentication",
+  "TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION" : "Two-factor authentication (2FA)",
+  "MFA_HELP_TEXT":"Choose whether to require two-factor authentication for all of your user's accounts.",
+  "OPTIONAL":"Optional",
+  "OPTIONAL_INFO":"Users can choose to activate 2FA for their account.",
+  "REQUIRED":"Required",
+  "REQUIRED_INFO":"Users must have 2FA enabled on their accounts.",
+  "2FA_SETUP": "2FA setup",
+  "2FA_HELPTEXT":"Two-factor authentication (2FA) helps keep your account secure by adding an extra layer of security. With 2FA turned on, you'll need to enter a code from an app or text message each time you log in."
 }
