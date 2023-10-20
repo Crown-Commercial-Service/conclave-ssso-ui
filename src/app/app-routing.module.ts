@@ -152,8 +152,8 @@ import { DataMigrationSummaryComponent } from './pages/data-migration/data-migra
 import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
 import { UserProfileResolver } from './resolvers/user-profile.resolver';
 import { ManageOrgRegErrorAddressDetailsComponent } from './pages/manage-organisation/manage-organisation-registration-error-empty-address-details/manage-organisation-registration-error-empty-address-details.component';
-import { MaintenanceComponent } from './pages/maintenance/maintenance-component';
-import { MaintenanceCheck } from './services/helper/maintenance-check.';
+import { MaintenanceComponent } from './pages/maintenance/maintenance.component';
+import { MaintenanceCheck } from './services/helper/maintenance-check';
 import { MfaSelectionComponent } from './pages/two-mfa/mfa-selection/mfa-selection.component';
 import { MfaInformationComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-information/mfa-authenticator-information.component';
 import { MfaAuthenticatorSetupComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-setup/mfa-authenticator-setup.component';
