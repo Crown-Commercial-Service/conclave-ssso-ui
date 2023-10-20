@@ -1,11 +1,11 @@
 <div class="content-flex-a">
     <div class="content-left">
-        <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+    <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                 <h1 class="govuk-fieldset__heading">
                     {{'CHECK_YOUR_PHONE' | translate}}
                 </h1>
-            </legend>
+        </legend>
             <p class="govuk-body-l govuk-margin-custom"> We have sent a code to
                 <span><strong>{{phonenumber}}</strong></span>
             </p>
@@ -20,38 +20,38 @@
                    <input class="govuk-input govuk-input govuk-input--width-20" maxlength="6" id="width-20" name="otp"
                        type="text" formControlName="otp" #otp
                        [class.govuk-input--error]="submitted &&formGroup.controls.otp.invalid">
-               </div>
+        </div>
 
             </form>
-            <details class="govuk-details" data-module="govuk-details">
-                <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text">
+        <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
                         {{'PROBLEMS_WITH_CODE' | translate}}
-                    </span>
-                </summary>
-                <div class="govuk-details__text">
+                </span>
+            </summary>
+            <div class="govuk-details__text">
                     <p> We can <a href="javascript:;" class="navigation-text" (click)="onResendOtpLinkClick()">send the
                             code again</a> or you can use a <a href="javascript:;" class="navigation-text"
                             (click)="onReEnterPhoneNumberClick()"> different phone number.</a></p>
-                </div>
-            </details>
-        </fieldset>
-        <div class="govuk-button-group">
+            </div>
+        </details>
+    </fieldset>
+    <div class="govuk-button-group">
             <button type="button" class="govuk-button" (click)="onContinueBtnClick(otp.value)"
                 [disabled]="formGroup.controls.otp.invalid" data-module="govuk-button">
-                {{ 'CONTINUE_BTN' | translate }}
-            </button>
-            <button type="button" class="govuk-button govuk-button--secondary" (click)="onBackBtnClick()"
-                data-module="govuk-button">
-                {{ 'BACK' | translate }}
-            </button>
-        </div>
-        <div class="govuk-2mfa-link">
-            <a href="javascript:;" class="navigation-text" (click)="onNavigateToMFAClick()">
-                {{'BACK_TO_2MFA' | translate }}
-            </a>
-        </div>
+            {{ 'CONTINUE_BTN' | translate }}
+        </button>
+        <button type="button" class="govuk-button govuk-button--secondary" (click)="onBackBtnClick()"
+            data-module="govuk-button">
+            {{ 'BACK' | translate }}
+        </button>
     </div>
+    <div class="govuk-2mfa-link">
+        <a href="javascript:;" class="navigation-text" (click)="onNavigateToMFAClick()">
+            {{'BACK_TO_2MFA' | translate }}
+        </a>
+    </div>
+</div>
     <div class="content-right">
         <div class="govuk-custom-grid">
             <div class="card card-help">

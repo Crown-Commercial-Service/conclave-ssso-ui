@@ -1,11 +1,11 @@
 <div class="content flex">
-  <div class="govuk-form-group">
+    <div class="govuk-form-group">
     <fieldset class="govuk-fieldset" aria-describedby="signIn-hint">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
         <h1 class="govuk-fieldset__heading">
           {{'TWO_FACTOR_AUTHENTICATION' | translate}}
         </h1>
-      </legend>
+        </legend>
       <p class="govuk-body-l">
         {{'CHOOSE_MFA_TYPE' | translate}}
       </p>
@@ -15,7 +15,7 @@
             [(ngModel)]="selectedOption">
           <label class="govuk-label govuk-radios__label" for="auth_app">
             {{'AUTHENTICATOR_APP' | translate}}
-          </label>
+            </label>
           <div id="auth_app-item-hint" class="govuk-hint govuk-radios__hint">
             {{'AUTHENTICATOR_APP_INFO' | translate}}
           </div>
@@ -25,32 +25,36 @@
             [(ngModel)]="selectedOption">
           <label class="govuk-label govuk-radios__label" for="auth_text">
             {{'TEXT_MESSAGE' | translate}}
-          </label>
+            </label>
           <div id="auth_text-item-hint" class="govuk-hint govuk-radios__hint">
             {{'TEXT_MESSAGE_INFO' | translate}}
           </div>
-        </div>
+          </div>
         <div class="govuk-radios__item">
           <input class="govuk-radios__input" type="radio" name="no_auth_text" id="no_auth_text" value="NOAUTH"
             [(ngModel)]="selectedOption">
           <label class="govuk-label govuk-radios__label" for="no_auth_text">
             {{'DONT_TURN_ON' | translate}}
-          </label>
+            </label>
           <div id="no_auth_text-item-hint" class="govuk-hint govuk-radios__hint">
             {{'DONT_TURN_ON_INFO' | translate}}
           </div>
+          </div>
+    
         </div>
-      </div>
-    </fieldset>
-  </div>
-  <div class="govuk-button-group">
+  
+      </fieldset>
+  
+    </div>
+  
+    <div class="govuk-button-group">
     <button type="button" class="govuk-button" (click)="onContinueClick(selectedOption)" data-module="govuk-button"
       [disabled]=!selectedOption>
-      {{ 'CONTINUE_BTN' | translate }}
-    </button>
-    <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
-      data-module="govuk-button">
-      {{ 'BACK_TO_LOGIN' | translate }}
-    </button>
+          {{ 'CONTINUE_BTN' | translate }}
+      </button>
+      <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+          data-module="govuk-button">
+          {{ 'BACK_TO_LOGIN' | translate }}
+      </button>
   </div>
-</div>
+  </div>

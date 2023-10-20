@@ -38,7 +38,7 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
       this.router.navigateByUrl('mfa-selection');
     }
     public onContinueBtnClick()
-    { 
+    {
       this.getQRCode();
      // this.router.navigateByUrl('mfa-authenticator-setup');
     }

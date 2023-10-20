@@ -28,7 +28,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     public mfaQrCode: any = localStorage.getItem('qr_code');
     authcode: string = "";
     auth0token: string = "";
-    oob_code: any;
+    oob_code: any;    
     qrCodeStr: string = "";
     showError: boolean = false;
     submitted: boolean = false;
@@ -37,7 +37,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
         super(uiStore, viewportScroller, scrollHelper);
         this.formGroup = this.formBuilder.group({
             otp: [, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6)])],
-        });
+          });
     }
 
     ngOnInit() {
@@ -60,11 +60,11 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
                 const authsuccessSetupUrl = environment.uri.web.dashboard + '/mfa-authentication-setup-sucess';
                 window.location.href = authsuccessSetupUrl;
             },
-
+        
             error: (err) => {
                 // this.showError = true;
                 this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
-            }
+    }
 
         });
     }
@@ -76,4 +76,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     public onNavigateToMFAClick() {
         this.router.navigateByUrl('mfa-selection');
     }
+
+    
+
 }

@@ -3,7 +3,7 @@
         <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                 <h1 class="govuk-fieldset__heading">
-                    {{'SET_UP_APP' | translate}}
+                {{'SET_UP_APP' | translate}}
                 </h1>
             </legend>
             <p class="govuk-body-l">
@@ -35,7 +35,7 @@
                     <input class="govuk-input govuk-input govuk-input--width-20" maxlength="6" id="width-20" name="otp"
                         type="text" formControlName="otp" #otp (input)="clearError()"
                         [class.govuk-input--error]="submitted &&formGroup.controls.otp.invalid">
-                </div>
+            </div>
             </form>
 
         </fieldset>

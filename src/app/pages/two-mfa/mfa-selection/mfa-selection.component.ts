@@ -26,18 +26,18 @@ import { HelperService } from "src/app/shared/helper.service";
 })
 export class MfaSelectionComponent extends BaseComponent implements OnInit {
     public formValue: string = 'SMS'
-    public orgGroup: string = 'SMS';
+public orgGroup: string = 'SMS';    
     authcode: string = "";
-    auth0token: string = "";
-    oob_code: any;
-    qrCodeStr: string = "";
-    public selectedOption: string | null = null;
+auth0token: string = "";
+oob_code: any;    
+qrCodeStr: string = "";
+public selectedOption: string | null = null;
     public orgMfaOptional: boolean = true;//need to set this from the api 
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService,private helperService : HelperService,
-        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
-    }
+}
 
     ngOnInit() {
         this.selectedOption = this.helperService.getSelectedOption();
@@ -59,9 +59,9 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
                     else {
                         this.authService.logOutAndRedirect();
                     }
-
+        
                 });
-            }
+    }
             else if (params['error']) {
                 let error = params['error'];
                 if (error == 'login_required') {

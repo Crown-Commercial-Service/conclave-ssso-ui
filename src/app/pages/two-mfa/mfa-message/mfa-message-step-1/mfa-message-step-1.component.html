@@ -10,14 +10,14 @@
                 {{'SEND_CODE' | translate}}
             </p>
             <form [formGroup]="formGroup">
-                <label class="mfa-message-label-text">Phone number<br></label>
-                <ngx-intl-tel-input [cssClass]="'govuk-input'" [preferredCountries]="preferredCountries"
-                    [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+            <label class="mfa-message-label-text">Phone number<br></label>
+            <ngx-intl-tel-input [cssClass]="'govuk-input'" [preferredCountries]="preferredCountries"
+                [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
                     [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
                     [selectFirstCountry]="false" [phoneValidation]="true" [separateDialCode]="separateDialCode"
                     [maxLength]="'15'" [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'"
                     name="mobile" formControlName="mobile">
-                </ngx-intl-tel-input>
+            </ngx-intl-tel-input>
             </form>
         </fieldset>
     </div>

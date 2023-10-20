@@ -25,10 +25,10 @@ import { environment } from "src/environments/environment";
 export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     formGroup: FormGroup;
     public phonenumber: string = localStorage.getItem('phonenumber') ?? '';
-
+   
     authcode: string = "";
     auth0token: string = "";
-    oob_code: any;
+    oob_code: any;    
     qrCodeStr: string = "";
     submitted: boolean = false;
     constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private authService: AuthService,
@@ -36,7 +36,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
         super(uiStore, viewportScroller, scrollHelper);
         this.formGroup = this.formBuilder.group({
             otp: [, Validators.compose([Validators.required, Validators.minLength(6)])],
-        });
+          });
     }
     ngOnInit() {
         this.sendSmsOtp(this.phonenumber);
@@ -56,7 +56,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
             error: () => {
                 this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
             },
-
+        
         });
     }
     public onBackBtnClick() {
@@ -64,7 +64,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     }
     public onNavigateToMFAClick() {
         this.router.navigateByUrl('mfa-selection');
-    }
+    }  
     onResendOtpLinkClick() {
         this.sendSmsOtp(this.phonenumber);
     }

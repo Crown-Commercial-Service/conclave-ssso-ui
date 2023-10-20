@@ -37,7 +37,8 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
     public onDontTurnOnClick()
     {
         this.router.navigateByUrl('mfa-no-authentication-setup-success');
-
+        
+     // need to add no auth flow
     }
 
 }
