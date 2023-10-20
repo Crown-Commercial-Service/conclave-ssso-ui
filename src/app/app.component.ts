@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class') className = '';
   public sideNavVisible$: Observable<boolean>;
   public IsActivePage:string=''
-  nonce: string | undefined;
+  nonce: any;
   isAuthenticated: boolean = false;
   toggleControl = new FormControl(false);
   opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/sessions/?origin=' + environment.uri.web.dashboard);
