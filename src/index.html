@@ -34,31 +34,7 @@
       })(window, document, 'script', 'dataLayer', 'GTM-TZCX5VP');
   </script>
   <!-- End Google Tag Manager -->
-  <script nonce="randomvalue">
-     function generateRandomNonce() {
-            const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let result = '';
-            for (let i = 0; i < 16; i++) {
-                result += charset.charAt(Math.floor(Math.random() * charset.length));
-            }
-            return result;
-        }
-
-
-    function addNonceAttribute() {
-        const scripts = document.querySelectorAll('script');
-
-        const nonceValue = generateRandomNonce();
-
-        scripts.forEach((script) => {
-            script.setAttribute('nonce', nonceValue);
-        });
-    }
-
-    // Call the function to add the nonce attribute with the value
-    addNonceAttribute();
-
-</script>
+ 
 
 
 </head>
@@ -69,6 +45,11 @@
         style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <app-root></app-root>
+  <script nonce="{{nonce}}" src="runtime.js" defer></script>
+  <script nonce="{{nonce}}" src="polyfills.js" defer></script>
+  <script nonce="{{nonce}}" src="styles.js" defer></script>
+  <script nonce="{{nonce}}" src="vendor.js" defer></script>
+  <script nonce="{{nonce}}" src="main.js" defer></script
   <style nonce="gds-override">
     @import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500);
 
