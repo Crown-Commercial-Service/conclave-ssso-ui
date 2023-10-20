@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class') className = '';
   public sideNavVisible$: Observable<boolean>;
   public IsActivePage:string=''
+  nonce: string | undefined;
   isAuthenticated: boolean = false;
   toggleControl = new FormControl(false);
   opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/sessions/?origin=' + environment.uri.web.dashboard);
@@ -66,6 +67,7 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.nonce = this.sanitizer.bypassSecurityTrustResourceUrl('RANDOMLY_GENERATED_NONCE_VALUE');
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
         if(localStorage.getItem('user_name') === null){
