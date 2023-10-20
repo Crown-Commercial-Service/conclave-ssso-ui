@@ -5,6 +5,7 @@ import { Store } from "@ngrx/store";
 import { BaseComponent } from "src/app/components/base/base.component";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { UIState } from "src/app/store/ui.states";
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-manage-org-notify-admin',
@@ -16,6 +17,7 @@ export class ManageOrgRegNotifyAdminComponent implements OnInit {
 
     orgName: string = '';
     public pageAccessMode:any;
+    public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
 
     constructor(protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private ActivatedRoute: ActivatedRoute) {

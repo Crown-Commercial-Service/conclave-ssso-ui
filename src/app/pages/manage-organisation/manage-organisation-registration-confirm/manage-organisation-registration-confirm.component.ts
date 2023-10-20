@@ -11,6 +11,7 @@ import { dataService } from 'src/app/services/data/data.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UserService } from 'src/app/services/postgres/user.service';
 import { UIState } from 'src/app/store/ui.states';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-organisation-registration-confirm',
@@ -21,7 +22,8 @@ export class ManageOrgRegConfirmComponent extends BaseComponent implements OnIni
   public pageAccessMode:any;
   public emailAddress: string = '';
   public resendActivationEmailMode: boolean = false;
-  public buyerFlow:any
+  public buyerFlow:any;
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
   constructor(private userService: UserService, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,

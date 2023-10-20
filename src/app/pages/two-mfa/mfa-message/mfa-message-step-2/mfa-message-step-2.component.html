@@ -1,0 +1,43 @@
+<form [formGroup]="formGroup">
+<div class="content flex">
+
+    <fieldset class="govuk-fieldset">
+
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+
+            {{'ENTER_MOBILE_NUMBER' | translate}}<br>
+            <label class="govuk-mfa-label-text">We have sent a code to <strong>{{phonenumber}}.<br></strong></label>
+            <label class="govuk-mfa-label-text"> It might take a few minutes to arrive.</label>
+        </legend>
+        <div class = "govuk-text-input-group">
+        <label class="mfa-message-label-text">{{'ENTER_THE_CODE' | translate}}<br></label>
+        <input class="govuk-input govuk-input--width-20" id="width-20" name="otp" type="text" formControlName="otp"
+            #otp>
+        </div>
+        <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    {{'WHAT_IS_AUTHENTICATOR' | translate}}
+                </span>
+            </summary>
+            <div class="govuk-details__text">
+               <p> We can <a href="javascript:;" class="navigation-text" (click)="onResendOtpLinkClick()">send the code again</a> or you can use a <a href="javascript:;" class="navigation-text" (click)="onReEnterPhoneNumberClick()"> different phone number.</a></p>
+            </div>
+        </details>
+    </fieldset>
+    <div class="govuk-button-group">
+        <button type="button" class="govuk-button" (click)="onContinueBtnClick()" [disabled]="formGroup.controls.otp.invalid" data-module="govuk-button">
+            {{ 'CONTINUE_BTN' | translate }}
+        </button>
+        <button type="button" class="govuk-button govuk-button--secondary" (click)="onBackBtnClick()"
+            data-module="govuk-button">
+            {{ 'BACK' | translate }}
+        </button>
+    </div>
+    <div class="govuk-2mfa-link">
+        <a href="javascript:;" class="navigation-text" (click)="onNavigateToMFAClick()">
+            {{'BACK_TO_2MFA' | translate }}
+        </a>
+    </div>
+</div>
+</form>

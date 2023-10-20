@@ -10,6 +10,7 @@ import { Data } from 'src/app/models/data';
 import { dataService } from 'src/app/services/data/data.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-organisation-registration-error-not-my-organisation',
@@ -26,6 +27,8 @@ import { UIState } from 'src/app/store/ui.states';
 })
 export class ManageOrgRegOrgNotFoundComponent extends BaseComponent implements OnInit {
   public buyerFlow:any
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
+  
   constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
     this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
