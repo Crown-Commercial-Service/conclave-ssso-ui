@@ -262,14 +262,14 @@ export class HomeComponent extends BaseComponent implements OnInit {
           this.otherModules.push({
             name: 'Manage service eligibility',
             description: 'Manage services and roles for organisations',
-            route: '/buyer/search',
+            route: '/buyer-supplier/search',
             orderId : 2
           });
         } else {
           this.otherModules.push({
             name: 'Manage service eligibility',
             description: 'Manage organisations’ type and services',
-            route: '/buyer/search',
+            route: '/buyer-supplier/search',
             orderId : 2
           });
         }

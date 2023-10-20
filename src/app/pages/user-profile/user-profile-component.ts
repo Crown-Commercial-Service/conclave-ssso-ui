@@ -81,6 +81,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   userContacts: ContactGridInfo[] = [];
   userName: string;
   organisationId: string;
+  buttonText : string | any;
+  isEditContact : boolean = false;
   canChangePassword: boolean = false;
   identityProviderDisplayName: string = '';
   roleDataList: any[] = [];
@@ -418,6 +420,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             userContactsInfo.contactPoints
           );
         }
+        if (userContactsInfo.contactPoints && userContactsInfo.contactPoints.length > 0) {
+          this.buttonText = 'ADD_ANOTHER_CONTACT_BTN';
+          this.isEditContact = false;
+        } else {
+          this.buttonText = 'ADD_CONTACT';
+          this.isEditContact = true;
+        }
       },
       error: (error: any) => { },
     });
@@ -447,6 +456,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     let data = {
       isEdit: false,
       contactId: 0,
+      isEditContact: this.isEditContact,
     };
     sessionStorage.setItem(
       SessionStorageKey.UserContactUsername,

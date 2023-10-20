@@ -208,6 +208,7 @@ import { EnvironmentBannerComponent } from './components/environment-banner/envi
 import { PermissionPipe } from './pipes/permission.pipe';
 import { SchemePipe } from './pipes/scheme.pipe';
 import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
+import { ManageOrgRegErrorAddressDetailsComponent } from './pages/manage-organisation/manage-organisation-registration-error-empty-address-details/manage-organisation-registration-error-empty-address-details.component'; 
 import { MfaSelectionComponent } from './pages/two-mfa/mfa-selection/mfa-selection.component';
 import { MfaInformationComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-information/mfa-authenticator-information.component';
 import { MfaAuthenticatorSetupComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-setup/mfa-authenticator-setup.component';
@@ -392,6 +393,8 @@ export function createTranslateLoader(http: HttpClient) {
     EnvironmentBannerComponent,
     PermissionPipe,
     SchemePipe,
+    ManageOrganisationRegisterationCiiComponent,
+    ManageOrgRegErrorAddressDetailsComponent
     ManageOrganisationRegisterationCiiComponent,
     MfaSelectionComponent,
     MfaInformationComponent,

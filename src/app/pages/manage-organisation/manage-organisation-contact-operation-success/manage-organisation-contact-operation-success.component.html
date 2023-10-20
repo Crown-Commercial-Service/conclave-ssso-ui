@@ -24,7 +24,7 @@
                         <span class="govuk-breadcrumbs__link">Contact created successfully</span>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateSiteContact && siteCreate">
-                        <span class="govuk-breadcrumbs__link" >Site {{siteInfo.siteName}} successfully created</span>
+                        <span class="govuk-breadcrumbs__link" >Success</span>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateSite">
                         <span class="govuk-breadcrumbs__link" >Site {{siteInfo.siteName}} successfully created</span>
@@ -66,7 +66,7 @@
             <a href="javascript:;"  class="navigation-text" (click)="onNavigateToProfileClick()"> {{
                 'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a> &nbsp;&nbsp;&nbsp;&nbsp;
             <a href="javascript:;" *ngIf="siteId != 0" class="navigation-text" (click)="onNavigateToSiteClick()">
-                Return to {{siteInfo.siteName}} details </a>
+                Return to details </a>
             <br>
         </div>
     </div>
