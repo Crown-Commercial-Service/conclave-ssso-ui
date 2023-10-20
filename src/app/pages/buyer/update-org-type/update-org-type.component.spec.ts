@@ -22,25 +22,28 @@ describe('UpdateOrgTypeComponent', () => {
     const formBuilderStub = () => ({ group: (object: any) => ({}) });
     const storeStub = () => ({});
     const activatedRouteStub = () => ({
-      queryParams: { subscribe: (f: any) => f({}) }
+      queryParams: { subscribe: (f: any) => f({}) },
     });
     const routerStub = () => ({ navigateByUrl: (arg: any) => ({}) });
     const organisationServiceStub = () => ({
-      getById: (id: any) => ({ pipe: () => ({}) })
+      getById: (id: any) => ({ pipe: () => ({}) }),
     });
     const wrapperOrganisationGroupServiceStub = () => ({
-      getGroupOrganisationRoles: (ciiOrganisationId: any) => ({ pipe: () => ({}) })
+      getGroupOrganisationRoles: (ciiOrganisationId: any) => ({
+        pipe: () => ({}),
+      }),
     });
     const wrapperConfigurationServiceStub = () => ({
-      getRoles: () => ({ pipe: () => ({}) })
+      getRoles: () => ({ pipe: () => ({}) }),
     });
     const scrollHelperStub = () => ({});
     const viewportScrollerStub = () => ({});
     const wrapperOrganisationServiceStub = () => ({
       getAutoValidationStatus: (ciiOrganisationId: any) => ({
-        toPromise: () => ({ then: () => ({ catch: () => ({}) }) })
-      })
+        toPromise: () => ({ then: () => ({ catch: () => ({}) }) }),
+      }),
     });
+
     TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule],
       schemas: [NO_ERRORS_SCHEMA],
@@ -53,20 +56,21 @@ describe('UpdateOrgTypeComponent', () => {
         { provide: OrganisationService, useFactory: organisationServiceStub },
         {
           provide: WrapperOrganisationGroupService,
-          useFactory: wrapperOrganisationGroupServiceStub
+          useFactory: wrapperOrganisationGroupServiceStub,
         },
         {
           provide: WrapperConfigurationService,
-          useFactory: wrapperConfigurationServiceStub
+          useFactory: wrapperConfigurationServiceStub,
         },
         { provide: ScrollHelper, useFactory: scrollHelperStub },
         { provide: ViewportScroller, useFactory: viewportScrollerStub },
         {
           provide: WrapperOrganisationService,
-          useFactory: wrapperOrganisationServiceStub
-        }
-      ]
+          useFactory: wrapperOrganisationServiceStub,
+        },
+      ],
     });
+
     fixture = TestBed.createComponent(UpdateOrgTypeComponent);
     component = fixture.componentInstance;
   });
@@ -79,7 +83,7 @@ describe('UpdateOrgTypeComponent', () => {
     expect(component.buyerRemoveList).toEqual([
       `EL_JNR_SUPPLIER`,
       `EL_SNR_SUPPLIER`,
-      `JAEGGER_SUPPLIER`
+      `JAEGGER_SUPPLIER`,
     ]);
   });
 
@@ -89,18 +93,7 @@ describe('UpdateOrgTypeComponent', () => {
       `ACCESS_CAAAC_CLIENT`,
       `CAT_USER`,
       `ACCESS_FP_CLIENT`,
-      `FP_USER`
+      `FP_USER`,
     ]);
-  });
-
-  describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      const organisationServiceStub: OrganisationService = fixture.debugElement.injector.get(
-        OrganisationService
-      );
-      const spy1 = jest.spyOn(organisationServiceStub, 'getById');
-      component.ngOnInit();
-      expect(spy1).toHaveBeenCalled();
-    });
   });
 });

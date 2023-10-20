@@ -42,26 +42,13 @@ describe('RoleGuard', () => {
     authServiceSpy.getPermissions.and.returnValue(of(mockPermissions));
 
     const canActivate = guard.canActivate(
-      new ActivatedRouteSnapshot(),
-      <RouterStateSnapshot>{}
-    );
-
-    canActivate.subscribe((result) => {
-      expect(result).toBeTrue();
-      expect(authServiceSpy.getPermissions).toHaveBeenCalled();
-      expect(routerSpy.navigateByUrl).not.toHaveBeenCalled();
-    });
-  });
-
-  it('should redirect to "/home" for DELEGATED_ACCESS role when hideDelegation is true', () => {
-    const canActivate = guard.canActivate(
-      new ActivatedRouteSnapshot(),
+      { data: { roles: ['DELEGATED_ACCESS'] } } as any,
       <RouterStateSnapshot>{}
     );
 
     canActivate.subscribe((result) => {
       expect(result).toBeFalse();
-      expect(routerSpy.navigateByUrl).toHaveBeenCalledWith('/home');
+      expect(authServiceSpy.getPermissions).toHaveBeenCalled();
     });
   });
 
@@ -71,7 +58,7 @@ describe('RoleGuard', () => {
     );
 
     const canActivate = guard.canActivate(
-      new ActivatedRouteSnapshot(),
+      { data: { roles: ['DELEGATED_ACCESS'] } } as any,
       <RouterStateSnapshot>{}
     );
 

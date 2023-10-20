@@ -16,9 +16,11 @@ describe('AuthErrorComponent', () => {
     const activatedRouteStub = () => ({});
     const storeStub = () => ({});
     const authServiceStub = () => ({ renewAccessToken: (arg: any) => ({}) });
-    const viewportScrollerStub = () => ({});
-    const scrollHelperStub = () => ({});
     const globalRouteServiceStub = () => ({ globalRoute: { length: {} } });
+    const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
+      'setOffset',
+    ]);
+
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [AuthErrorComponent],
@@ -26,11 +28,12 @@ describe('AuthErrorComponent', () => {
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
         { provide: Store, useFactory: storeStub },
         { provide: AuthService, useFactory: authServiceStub },
-        { provide: ViewportScroller, useFactory: viewportScrollerStub },
-        { provide: ScrollHelper, useFactory: scrollHelperStub },
-        { provide: GlobalRouteService, useFactory: globalRouteServiceStub }
-      ]
+        { provide: ViewportScroller, useValue: viewportScrollerSpy },
+        { provide: ScrollHelper, useValue: {} },
+        { provide: GlobalRouteService, useFactory: globalRouteServiceStub },
+      ],
     });
+
     fixture = TestBed.createComponent(AuthErrorComponent);
     component = fixture.componentInstance;
   });
@@ -41,12 +44,11 @@ describe('AuthErrorComponent', () => {
 
   describe('ngOnInit', () => {
     it('makes expected calls', () => {
-      const authServiceStub: AuthService = fixture.debugElement.injector.get(
-        AuthService
-      );
-      const spy1 = jest.spyOn(authServiceStub, 'renewAccessToken');
+      const authServiceStub: AuthService =
+        fixture.debugElement.injector.get(AuthService);
+      spyOn(authServiceStub, 'renewAccessToken');
       component.ngOnInit();
-      expect(spy1).toHaveBeenCalled();
+      expect(authServiceStub.renewAccessToken).toHaveBeenCalled();
     });
   });
 });

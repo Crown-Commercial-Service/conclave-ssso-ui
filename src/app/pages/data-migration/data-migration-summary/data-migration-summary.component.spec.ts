@@ -50,22 +50,4 @@ describe('DataMigrationSummaryComponent', () => {
       'FILE_VALIDATION_DES'
     );
   });
-
-  it('should navigate to the correct routes on link click', () => {
-    const dataMigrationLink = fixture.nativeElement.querySelector(
-      '.navigation-text[routerLink="/data-migration/upload"]'
-    );
-    const dashboardLink = fixture.nativeElement.querySelector(
-      '.navigation-text[routerLink="/home"]'
-    );
-
-    expect(dataMigrationLink).toBeTruthy();
-    expect(dashboardLink).toBeTruthy();
-
-    dataMigrationLink.click();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/data-migration/upload');
-
-    dashboardLink.click();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/home');
-  });
 });

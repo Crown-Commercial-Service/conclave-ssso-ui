@@ -169,7 +169,7 @@ export class ManageOrgRegStep3Component
   /**
    * Sets the initial value after the filteredCountryDetails are loaded initially
    */
-  protected setInitialValue() {
+  public setInitialValue() {
     this.filteredCountryDetails
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
@@ -185,7 +185,7 @@ export class ManageOrgRegStep3Component
       });
   }
 
-  protected filtercountryDetails() {
+  public filtercountryDetails() {
     if (!this.countryDetails) {
       return;
     }
