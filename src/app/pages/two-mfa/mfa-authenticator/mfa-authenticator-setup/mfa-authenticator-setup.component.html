@@ -1,11 +1,12 @@
-<form [formGroup]="formGroup">
 <div class="content-flex">
     <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                {{'SET_UP_APP' | translate}}
+                <h1 class="govuk-fieldset__heading">
+                    {{'SET_UP_APP' | translate}}
+                </h1>
             </legend>
-            <p class="govuk-mfa-hints">
+            <p class="govuk-body-l">
                 {{'USE_AUTHENTICATOR_DESC' | translate }}
 
             </p>
@@ -16,19 +17,32 @@
                     </span>
                 </summary>
                 <div class="govuk-details__text">
-                    You can enter the secret key into your authenticator app instead.
+                    You can enter the secret key into your authenticator app instead.Secret key: F4FM SP3T VJ93 WOS2
                 </div>
             </details>
-            <qrcode [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'M'" [allowEmptyString]="true">
+            <qrcode [qrdata]="mfaQrCode" [width]="256" [errorCorrectionLevel]="'M'" [allowEmptyString]="true">
             </qrcode>
-            <div class="govuk-grid-column-two-thirds">
-                <label class="govuk-mfa-hints"> Enter the 6-digit security code shown in the authenticator app.</label>
-                <input class="govuk-input govuk-input--width-20" id="width-20" name="otp" type="text"  formControlName="otp" #otp>
-            </div>
+            <form [formGroup]="formGroup">
+                <div class="govuk-text-input-group" id="otp-form-group"
+                    [class.govuk-form-group--error]="submitted &&formGroup.controls.otp.invalid">
+                    <span id="invalid-otp-error" class="govuk-error-message"
+                        *ngIf="submitted && formGroup.controls.otp.invalid">
+                        <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>Please provide valid
+                        code
+                    </span>
+                    <label class="govuk-label"> Enter the 6-digit security code shown in the authenticator
+                        app.</label>
+                    <input class="govuk-input govuk-input govuk-input--width-20" maxlength="6" id="width-20" name="otp"
+                        type="text" formControlName="otp" #otp (input)="clearError()"
+                        [class.govuk-input--error]="submitted &&formGroup.controls.otp.invalid">
+                </div>
+            </form>
+
         </fieldset>
     </div>
     <div class="govuk-button-group">
-        <button  type="submit" class="govuk-button" (click)="onContinueBtnClick()" [disabled] ="formGroup.controls.otp.invalid"  data-module="govuk-button">
+        <button type="submit" class="govuk-button" (click)="onContinueBtnClick(otp.value)"
+            [disabled]="formGroup.controls.otp.invalid" data-module="govuk-button">
             {{ 'CONTINUE_BTN' | translate }}
         </button>
         <button type="button" class="govuk-button govuk-button--secondary" (click)="onBackBtnClick()"
@@ -41,5 +55,5 @@
             {{'BACK_TO_2MFA' | translate }}
         </a>
     </div>
+
 </div>
-</form>

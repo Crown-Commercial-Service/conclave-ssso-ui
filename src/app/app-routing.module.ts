@@ -164,6 +164,7 @@ import { MfaOffSaveSuccessComponent } from './pages/two-mfa/deactivate-two-mfa-s
 import { MfaAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-authentication-setup-success/mfa-authentication-setup-sucess.component';
 import { MfaNoAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-no-authentication-setup-success/mfa-no-authentication-setup-success.component';
 import { ManageOrgRegMfaComponent } from './pages/two-mfa/manage-reg-organisation-mfa/manage-reg-organisation-mfa.component';
+import { MfaGuard } from './services/auth/mfa.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1312,24 +1313,28 @@ const routes: Routes = [
     path: 'mfa-selection',
     data: { title : 'MFA Selection'},
     pathMatch: 'full',
+     canActivate: [AuthGuard,MfaGuard],
     component: MfaSelectionComponent, 
   },
  {
    path : 'mfa-authenticator-information',
    data : { title : 'Download an app'},
    pathMatch : 'full',
+   canActivate: [AuthGuard,MfaGuard],
    component :MfaInformationComponent
  },
  {
   path : 'mfa-authenticator-setup',
   data : {title :'Set up an app'},
   pathMatch : 'full',
+  canActivate: [AuthGuard,MfaGuard],
   component : MfaAuthenticatorSetupComponent
  },
  {
   path : 'mfa-message-step-1',
   data : {title : 'Enter your mobile number'},
   pathMatch : 'full',
+  canActivate: [AuthGuard,MfaGuard],
   component : MfaMessageStep1Component
  },
 
@@ -1337,30 +1342,35 @@ const routes: Routes = [
   path : 'mfa-message-step-2',
   data : {title : 'Check your phone'},
   pathMatch : 'full',
+  canActivate: [AuthGuard,MfaGuard],
   component : MfaMessageStep2Component
  },
  {
   path : 'no-mfa-confirmation',
   data : {title : 'Are you sure'},
   pathMatch : 'full',
+  canActivate: [AuthGuard,MfaGuard],
   component : NoMfaConfiramtionComponent
  },
  {
   path : 'mfa-off-save-success',
   data : {title : 'Changes saved'},
   pathMatch : 'full',
+  canActivate: [AuthGuard,MfaGuard],
   component : MfaOffSaveSuccessComponent
  },
  {
   path: 'mfa-authentication-setup-sucess',
   data :{title : 'Authentication save success'},
   pathMatch : 'full',
+  canActivate: [AuthGuard,MfaGuard],
   component : MfaAuthenticationSetupSuccessComponent
  },
  {
   path :'mfa-no-authentication-setup-success',
   data :{title : 'No authentication save success'},
   pathMatch : 'full',
+  canActivate: [AuthGuard,MfaGuard],
   component : MfaNoAuthenticationSetupSuccessComponent
  },
  {
