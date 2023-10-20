@@ -394,8 +394,7 @@ export function createTranslateLoader(http: HttpClient) {
     PermissionPipe,
     SchemePipe,
     ManageOrganisationRegisterationCiiComponent,
-    ManageOrgRegErrorAddressDetailsComponent
-    ManageOrganisationRegisterationCiiComponent,
+    ManageOrgRegErrorAddressDetailsComponent,
     MfaSelectionComponent,
     MfaInformationComponent,
     MfaAuthenticatorSetupComponent,
