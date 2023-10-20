@@ -19,9 +19,10 @@ import { UIState } from "src/app/store/ui.states";
         })
     ],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MfaInformationComponent extends BaseComponent implements OnInit{
+    auth0token: string = "";
+    qrCodeStr: string = "";
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router,private authService: AuthService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
@@ -38,11 +39,23 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
     }
     public onContinueBtnClick()
     {
-      this.router.navigateByUrl('mfa-authenticator-setup');
+      this.getQRCode();
+     // this.router.navigateByUrl('mfa-authenticator-setup');
     }
     public onBackBtnClick()
     {
       this.router.navigateByUrl('mfa-selection');
     }
+    getQRCode () : any {
+      this.auth0token = localStorage.getItem('auth0_token') ?? '';
+      this.authService.Associate(this.auth0token,"",false).subscribe({
+          next : (response) => {
+            localStorage.setItem('qr_code',response.barcode_Uri);
+            this.router.navigateByUrl('mfa-authenticator-setup');
+
+          }, error : () => {}//console.log("Error"),       
+
+      });
+  }
 
 }

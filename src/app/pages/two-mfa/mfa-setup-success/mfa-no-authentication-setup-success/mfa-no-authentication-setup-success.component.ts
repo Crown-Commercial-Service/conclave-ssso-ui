@@ -7,6 +7,7 @@ import { BaseComponent } from "src/app/components/base/base.component";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { UIState } from "src/app/store/ui.states";
+import { environment } from "src/environments/environment";
 
 @Component({
     selector: 'app-mfa-no-authentication-setup-success',
@@ -19,7 +20,6 @@ import { UIState } from "src/app/store/ui.states";
         })
     ],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MfaNoAuthenticationSetupSuccessComponent extends BaseComponent implements OnInit {
     constructor(private activatedRoute: ActivatedRoute,private router:Router, private authService: AuthService,
@@ -27,11 +27,15 @@ export class MfaNoAuthenticationSetupSuccessComponent extends BaseComponent impl
         super(uiStore,viewportScroller,scrollHelper);
     }
     ngOnInit() {
+        const homeUrl = environment.uri.web.dashboard +'/home';
+                  setTimeout(() => {
+                    window.location.href = homeUrl;
+                  }, 5000);
         
     }
     onLogOutClick()
     {
-        
+        this.authService.logOutAndRedirect();
     }
 
 }

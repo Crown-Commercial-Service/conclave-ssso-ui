@@ -18,7 +18,6 @@ export class ManageDelegateService {
     ResendActivationLink: null,
     ExpiryOfDelegationAccess: null,
     TerminationOfDelegatedAccess: null,
-    RemoveAccess: null,
   }).map(([key, value]) => ({ key, value }));
 
   public DelegationEventLogTableData: any = [];
@@ -172,12 +171,6 @@ export class ManageDelegateService {
         };
         return f;
         break;
-        case this.delegationEventTypeTable[10].key:
-          f.eventLog = {
-            name: 'Remove Access',
-          };
-          return f;
-          break;
       default:
         return;
     }
