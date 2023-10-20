@@ -83,8 +83,11 @@
   </div>
   <div class="govuk-form-group govuk-button-group">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onContactAddClick()">{{
+    *ngIf="contactAddAnother" (click)="onContactAddClick()">{{
       'ADD_ANOTHER_CONTACT_BTN' | translate }}</button>
+      <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+    *ngIf="!contactAddAnother" (click)="onContactAddClick()">{{
+      'ADD_NEW_CONTACT' | translate }}</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
       (click)="onContactAssignClick()">
       {{ 'FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
