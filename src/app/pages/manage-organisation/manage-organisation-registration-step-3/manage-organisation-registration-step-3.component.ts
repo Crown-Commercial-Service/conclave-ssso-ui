@@ -179,9 +179,11 @@ export class ManageOrgRegStep3Component
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filtercountryDetails are loaded initially
         // and after the mat-option elements are available
-        this.singleSelect.compareWith = (a: ContryDetails, b: ContryDetails) =>
+        if(this.singleSelect){
+          this.singleSelect.compareWith = (a: ContryDetails, b: ContryDetails) =>
           a && b && a.id === b.id;
-        console.log('setInitialValue2');
+          console.log('setInitialValue2');
+        }
       });
   }
 
