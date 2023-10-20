@@ -55,6 +55,7 @@ export class UserContactEditComponent
   default: string = '';
   contactReasons: ContactReason[] = [];
   isEdit: boolean = false;
+  isEditContact: boolean = true;
   contactId: number = 0;
   separateDialCode = false;
   SearchCountryField = SearchCountryField;
@@ -147,6 +148,7 @@ export class UserContactEditComponent
       this.userName =
         sessionStorage.getItem(SessionStorageKey.UserContactUsername) ?? '';
       this.contactId = routeData['contactId'];
+      this.isEditContact = routeData['isEditContact'];
     }
     this.formGroup.setValidators(this.validateForSufficientDetails());
     this.formGroup.controls['contactReason'].setValue(this.default, {
