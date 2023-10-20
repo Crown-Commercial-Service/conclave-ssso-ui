@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { OrganisationService } from "src/app/services/postgres/organisation.service";
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-manage-reg-organisation-status-exists',
@@ -12,7 +13,8 @@ export class ManageOrgRegSearchStatusExistsComponent implements OnInit{
 
     orgreginfo: any;
     public pageAccessMode:any;
-    public buyerFlow:any
+    public buyerFlow:any;
+    public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
 
     
     constructor(private organisationService: OrganisationService, private router: Router,private ActivatedRoute: ActivatedRoute) {

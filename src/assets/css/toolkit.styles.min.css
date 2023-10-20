@@ -8590,3 +8590,32 @@ h4 {
    background: #d4351c;
    left: -15px;
 }
+.govuk-mfa-label-text 
+{
+font-family: Source Sans Pro;
+font-size: 19px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0px;
+text-align: left;
+}
+.govuk-mfa-hints
+{
+font-family: Source Sans Pro;
+font-size: 24px;
+font-weight: 400;
+line-height: 30px;
+letter-spacing: 0px;
+text-align: left;
+
+}
+.mfa-message-label-text
+{
+font-family: Source Sans Pro;
+font-size: 24px;
+font-weight: 300;
+line-height: 32px;
+letter-spacing: 0px;
+text-align: left;
+
+}

@@ -183,6 +183,7 @@ export class ManageUserAddSingleUserDetailComponent
       title: 'undefined',
       userName: '',
       mfaEnabled: false,
+      mfaOpted:false,
       isAdminUser: false,
       detail: {
         id: 0,
@@ -195,6 +196,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.userProfileResponseInfo = {
       userName: '',
       mfaEnabled: false,
+      mfaOpted:false,
       isAdminUser: false,
       detail: {
         id: 0,

@@ -152,8 +152,18 @@ import { DataMigrationSummaryComponent } from './pages/data-migration/data-migra
 import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
 import { UserProfileResolver } from './resolvers/user-profile.resolver';
 import { ManageOrgRegErrorAddressDetailsComponent } from './pages/manage-organisation/manage-organisation-registration-error-empty-address-details/manage-organisation-registration-error-empty-address-details.component';
-import { MaintenanceComponent } from './pages/maintenance/maintenance-component';
-import { MaintenanceCheck } from './services/helper/maintenance-check.';
+import { MaintenanceComponent } from './pages/maintenance/maintenance.component';
+import { MaintenanceCheck } from './services/helper/maintenance-check';
+import { MfaSelectionComponent } from './pages/two-mfa/mfa-selection/mfa-selection.component';
+import { MfaInformationComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-information/mfa-authenticator-information.component';
+import { MfaAuthenticatorSetupComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-setup/mfa-authenticator-setup.component';
+import { MfaMessageStep1Component } from './pages/two-mfa/mfa-message/mfa-message-step-1/mfa-message-step-1.component';
+import { MfaMessageStep2Component } from './pages/two-mfa/mfa-message/mfa-message-step-2/mfa-message-step-2.component';
+import { NoMfaConfiramtionComponent } from './pages/two-mfa/no-mfa-confirmation/no-mfa-confirmation.component';
+import { MfaOffSaveSuccessComponent } from './pages/two-mfa/deactivate-two-mfa-success/mfa-off-save-success.component';
+import { MfaAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-authentication-setup-success/mfa-authentication-setup-sucess.component';
+import { MfaNoAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-no-authentication-setup-success/mfa-no-authentication-setup-success.component';
+import { ManageOrgRegMfaComponent } from './pages/two-mfa/manage-reg-organisation-mfa/manage-reg-organisation-mfa.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1298,6 +1308,68 @@ const routes: Routes = [
     pathMatch: 'full',
     component: MaintenanceComponent,
   },
+  {
+    path: 'mfa-selection',
+    data: { title : 'MFA Selection'},
+    pathMatch: 'full',
+    component: MfaSelectionComponent, 
+  },
+ {
+   path : 'mfa-authenticator-information',
+   data : { title : 'Download an app'},
+   pathMatch : 'full',
+   component :MfaInformationComponent
+ },
+ {
+  path : 'mfa-authenticator-setup',
+  data : {title :'Set up an app'},
+  pathMatch : 'full',
+  component : MfaAuthenticatorSetupComponent
+ },
+ {
+  path : 'mfa-message-step-1',
+  data : {title : 'Enter your mobile number'},
+  pathMatch : 'full',
+  component : MfaMessageStep1Component
+ },
+
+ {
+  path : 'mfa-message-step-2',
+  data : {title : 'Check your phone'},
+  pathMatch : 'full',
+  component : MfaMessageStep2Component
+ },
+ {
+  path : 'no-mfa-confirmation',
+  data : {title : 'Are you sure'},
+  pathMatch : 'full',
+  component : NoMfaConfiramtionComponent
+ },
+ {
+  path : 'mfa-off-save-success',
+  data : {title : 'Changes saved'},
+  pathMatch : 'full',
+  component : MfaOffSaveSuccessComponent
+ },
+ {
+  path: 'mfa-authentication-setup-sucess',
+  data :{title : 'Authentication save success'},
+  pathMatch : 'full',
+  component : MfaAuthenticationSetupSuccessComponent
+ },
+ {
+  path :'mfa-no-authentication-setup-success',
+  data :{title : 'No authentication save success'},
+  pathMatch : 'full',
+  component : MfaNoAuthenticationSetupSuccessComponent
+ },
+ {
+  path :'manage-reg-organisation-mfa',
+  data: { title: '2FA selection - Registration' },
+  pathMatch : 'full',
+  component : ManageOrgRegMfaComponent
+ },
+ 
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

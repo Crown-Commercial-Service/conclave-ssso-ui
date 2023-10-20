@@ -477,6 +477,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         title: '',
         organisationId: this.organisationId,
         userName: this.userName,
+        mfaOpted:false,
         mfaEnabled: form.get('mfaEnabled')?.value,
         isAdminUser: this.isAdminUser,
         detail: {

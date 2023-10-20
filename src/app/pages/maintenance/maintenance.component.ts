@@ -8,9 +8,9 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 
 @Component({
-  selector: 'app-maintenance-component',
-  templateUrl: './maintenance-component.html',
-  styleUrls: ['./maintenance-component.scss'],
+  selector: 'app-maintenance.component',
+  templateUrl: './maintenance.component.html',
+  styleUrls: ['./maintenance.component.scss'],
   animations: [
     slideAnimation({
       close: { 'transform': 'translateX(12.5rem)' },

@@ -7,6 +7,7 @@ import { slideAnimation } from 'src/app/animations/slide.animation';
 import { UIState } from 'src/app/store/ui.states';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-organisation-registration-rightToBuy',
@@ -22,7 +23,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ManageOrgRegRightToBuyComponent extends BaseComponent {
-
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
   defaultChoice: string = "supplier";
 
   constructor(private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,

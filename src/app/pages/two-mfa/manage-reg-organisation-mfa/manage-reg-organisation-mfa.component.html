@@ -1,0 +1,80 @@
+
+<div class="content flex">
+ 
+    <div class="govuk-breadcrumbs">
+      <ol class="govuk-breadcrumbs__list">
+          <li class="govuk-breadcrumbs__list-item">
+              <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'REGITERATION_HOME' | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+              <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register">{{ 'CREATE_ACC' | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+              <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search">{{ 'ENTER_DETAIL' | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+              <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/initial-search-status/new">{{ 'REG_ORG' | translate }}</a>
+          </li>
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate }}</a>
+        </li>
+          <li class="govuk-breadcrumbs__list-item">
+              <span class="govuk-breadcrumbs__link"> {{ '2FA_SETUP' | translate }}</span>
+          </li>
+      </ol>
+    </div>
+    <div class="govuk-form-group">
+  
+      <fieldset class="govuk-fieldset">
+        <div class="header-bread-align">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" >
+          {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}</legend></div>
+          <p class="govuk-mfa-label-text ">{{'MFA_HELP_TEXT' | translate}}</p>
+        
+        <div class="govuk-grid-column-two-thirds">
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                  What is 2FA?
+              </span>
+          </summary>
+          <div class="govuk-details__text">
+              <p>
+                {{'2FA_HELPTEXT' | translate}}
+              </p>
+          </div>
+      </details>
+    </div>
+        <div class="govuk-radios">
+  
+          <div class="govuk-radios__item" id="optionalRadioSelection">
+            <input class="govuk-radios__input" type="radio" name="mfa_optional" value="optional" id="mfa_optional" [(ngModel)]="selectedOption">
+            <label class="govuk-label govuk-radios__label" for="mfa_optional">
+             <strong>{{'OPTIONAL' | translate}} </strong>  </label>
+             <div class="govuk-hint govuk-radios__hint">
+           {{'OPTIONAL_INFO' | translate}}
+            </div>
+          </div>
+  
+          <div class="govuk-radios__item" id="requiredRadioSelection">
+  
+            <input class="govuk-radios__input" type="radio" name="mfa_required" id="mfa_required" value="required" [(ngModel)]="selectedOption">
+  
+            <label class="govuk-label govuk-radios__label" for="mfa_required">
+              <strong> {{'REQUIRED' | translate}} </strong> </label>
+              <div class="govuk-hint govuk-radios__hint">
+              {{'REQUIRED_INFO' | translate}}
+          </div>
+          </div>
+        </div>
+  
+      </fieldset>
+  
+    </div>
+  
+    <div class="govuk-button-group">
+      <button type="button"  class="govuk-button"  (click)="onContinueClick(selectedOption)" data-module="govuk-button" [disabled] = !selectedOption>
+          {{ 'CONTINUE_BTN' | translate }}
+      </button>
+  </div>
+  </div>

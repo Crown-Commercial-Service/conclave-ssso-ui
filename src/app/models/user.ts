@@ -24,6 +24,7 @@ export interface UserDetail {
     lastName: string;
     mfaEnabled: boolean;
     isAdminUser: boolean;
+    mfaOpted: boolean;
 }
 
 export interface UserRequestDetail {
