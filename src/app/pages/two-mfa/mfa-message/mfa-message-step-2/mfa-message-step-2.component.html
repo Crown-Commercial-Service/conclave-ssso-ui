@@ -1,32 +1,44 @@
-<form [formGroup]="formGroup">
-<div class="content flex">
-
+<div class="content-flex-a">
+    <div class="content-left">
     <fieldset class="govuk-fieldset">
-
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-
-            {{'ENTER_MOBILE_NUMBER' | translate}}<br>
-            <label class="govuk-mfa-label-text">We have sent a code to <strong>{{phonenumber}}.<br></strong></label>
-            <label class="govuk-mfa-label-text"> It might take a few minutes to arrive.</label>
+                <h1 class="govuk-fieldset__heading">
+                    {{'CHECK_YOUR_PHONE' | translate}}
+                </h1>
         </legend>
-        <div class = "govuk-text-input-group">
-        <label class="mfa-message-label-text">{{'ENTER_THE_CODE' | translate}}<br></label>
-        <input class="govuk-input govuk-input--width-20" id="width-20" name="otp" type="text" formControlName="otp"
-            #otp>
+            <p class="govuk-body-l govuk-margin-custom"> We have sent a code to
+                <span><strong>{{phonenumber}}</strong></span>
+            </p>
+            <p class="govuk-body-l"> It might take a few minutes to arrive.</p>
+            <form [formGroup]="formGroup">
+                <div class="govuk-text-input-group" id="otp-form-group" [class.govuk-form-group--error]="submitted &&formGroup.controls.otp.invalid">
+                    <span id="invalid-otp-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls.otp.invalid">
+                       <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>Please provide valid
+                       code
+                   </span>
+                   <label class="govuk-label"> Enter the code:</label>
+                   <input class="govuk-input govuk-input govuk-input--width-20" maxlength="6" id="width-20" name="otp"
+                       type="text" formControlName="otp" #otp
+                       [class.govuk-input--error]="submitted &&formGroup.controls.otp.invalid">
         </div>
+
+            </form>
         <details class="govuk-details" data-module="govuk-details">
             <summary class="govuk-details__summary">
                 <span class="govuk-details__summary-text">
-                    {{'WHAT_IS_AUTHENTICATOR' | translate}}
+                        {{'PROBLEMS_WITH_CODE' | translate}}
                 </span>
             </summary>
             <div class="govuk-details__text">
-               <p> We can <a href="javascript:;" class="navigation-text" (click)="onResendOtpLinkClick()">send the code again</a> or you can use a <a href="javascript:;" class="navigation-text" (click)="onReEnterPhoneNumberClick()"> different phone number.</a></p>
+                    <p> We can <a href="javascript:;" class="navigation-text" (click)="onResendOtpLinkClick()">send the
+                            code again</a> or you can use a <a href="javascript:;" class="navigation-text"
+                            (click)="onReEnterPhoneNumberClick()"> different phone number.</a></p>
             </div>
         </details>
     </fieldset>
     <div class="govuk-button-group">
-        <button type="button" class="govuk-button" (click)="onContinueBtnClick()" [disabled]="formGroup.controls.otp.invalid" data-module="govuk-button">
+            <button type="button" class="govuk-button" (click)="onContinueBtnClick(otp.value)"
+                [disabled]="formGroup.controls.otp.invalid" data-module="govuk-button">
             {{ 'CONTINUE_BTN' | translate }}
         </button>
         <button type="button" class="govuk-button govuk-button--secondary" (click)="onBackBtnClick()"
@@ -40,4 +52,19 @@
         </a>
     </div>
 </div>
-</form>
+    <div class="content-right">
+        <div class="govuk-custom-grid">
+            <div class="card card-help">
+                <h2 class="card-title">Need Help?</h2>
+                <p class="govuk-body-s">If you are unsuccessful at signing in then please contact your<br> Organisation
+                    administrator.</p>
+            </div>
+            <div class="card card-help">
+                <h2 class="card-title">SMS service not working?</h2>
+                <p class="govuk-body-s">If the SMS service not working for you, please contact us so we can set you back
+                    up.</p>
+            </div>
+
+        </div>
+    </div>
+</div>

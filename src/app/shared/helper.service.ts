@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class HelperService {
-
+  private selectedOption: string | null = null;
   constructor() { }
-  
+ 
   public convertToLocalDateTime(eventDateTime:Date){
     const stringInput = eventDateTime +"+00:00" ;
     let timeZone = "Europe/London";
@@ -17,4 +17,14 @@ export class HelperService {
     const ukTimezone=new Date(year+'-'+month+'-'+day+'T'+d[1]);
     return ukTimezone;
   }
+ 
+
+  getSelectedOption(): string | null {
+    return this.selectedOption;
+  }
+
+  setSelectedOption(option: string | null) {
+    this.selectedOption = option;
+  }
+
 }
