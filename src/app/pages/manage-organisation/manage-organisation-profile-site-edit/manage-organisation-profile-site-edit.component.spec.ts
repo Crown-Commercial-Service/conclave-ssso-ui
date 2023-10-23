@@ -55,56 +55,11 @@ describe('ManageOrganisationSiteEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  //   it('should initialize the form with correct values when isEdit is true', () => {
-  //     const mockSiteInfo = {
-  //       siteName: 'Test Site',
-  //       address: {
-  //         streetAddress: '123 Test Street',
-  //         locality: 'Test Locality',
-  //         region: 'Test Region',
-  //         postalCode: '12345',
-  //         countryCode: 'US',
-  //       },
-  //     };
-  //     spyOn(component.orgSiteService, 'getOrganisationSite').and.returnValue(
-  //       of(mockSiteInfo)
-  //     );
+  it('should navigate to the correct URL when onCancelClick is called', () => {
+    spyOn(router, 'navigateByUrl');
 
-  //     component.ngOnInit();
+    component.onCancelClick();
 
-  //     expect(component.formGroup.value.name).toEqual(mockSiteInfo.siteName);
-  //     expect(component.formGroup.value.streetAddress).toEqual(
-  //       mockSiteInfo.address.streetAddress
-  //     );
-  //     expect(component.formGroup.value.locality).toEqual(
-  //       mockSiteInfo.address.locality
-  //     );
-  //     expect(component.formGroup.value.region).toEqual(
-  //       mockSiteInfo.address.region
-  //     );
-  //     expect(component.formGroup.value.postalCode).toEqual(
-  //       mockSiteInfo.address.postalCode
-  //     );
-  //     expect(component.formGroup.value.countryCode).toEqual(
-  //       mockSiteInfo.address.countryCode
-  //     );
-  //   });
-
-  //   it('should navigate to the correct URL when onSubmit is called', () => {
-  //     spyOn(router, 'navigateByUrl');
-
-  //     component.onSubmit(component.formGroup);
-
-  //     expect(router.navigateByUrl).toHaveBeenCalledWith(
-  //       'manage-org/profile/contact-operation-success/UpdateSite'
-  //     );
-  //   });
-
-  //   it('should navigate to the correct URL when onCancelClick is called', () => {
-  //     spyOn(router, 'navigateByUrl');
-
-  //     component.onCancelClick();
-
-  //     expect(router.navigateByUrl).toHaveBeenCalledWith('manage-org/profile');
-  //   });
+    expect(router.navigateByUrl).toHaveBeenCalledWith('manage-org/profile');
+  });
 });
