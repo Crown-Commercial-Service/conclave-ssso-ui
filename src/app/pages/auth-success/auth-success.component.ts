@@ -63,14 +63,14 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                     this.authService.createSession(tokenInfo.refresh_token).toPromise().then(() => {
                     const  previousGlobalRoute =  localStorage.getItem('routeRecords') ||'home'
                     this.authService.registerTokenRenewal();
-                    if (!this.isTwoMfaEnabled)
-                    {
+                    // if (!this.isTwoMfaEnabled)
+                    // {
                     this.router.navigateByUrl(previousGlobalRoute);  
-                    }      
-                    else 
-                    {
-                       window.location.href = this.authService.getMfaAuthorizationEndpoint();
-                    }                
+                    // }      
+                    // else 
+                    // {
+                    //    window.location.href = this.authService.getMfaAuthorizationEndpoint();
+                    // }                
                     });
                 }, (err) => {
                     if (err.status == 404) {
