@@ -1,35 +1,41 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { NO_ERRORS_SCHEMA } from '@angular/core';
-// import { ViewportScroller } from '@angular/common';
-// import { Router } from '@angular/router';
-// import { RouterTestingModule } from '@angular/router/testing';
-// import { TermsConditionsComponent } from './terms-conditions.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ViewportScroller } from '@angular/common';
+import { TermsConditionsComponent } from './terms-conditions.component';
+import { TranslateModule } from '@ngx-translate/core';
 
-// describe('TermsConditionsComponent', () => {
-//   let component: TermsConditionsComponent;
-//   let fixture: ComponentFixture<TermsConditionsComponent>;
+describe('TermsConditionsComponent', () => {
+  let component: TermsConditionsComponent;
+  let fixture: ComponentFixture<TermsConditionsComponent>;
+  let localStore: any = {
+    user_name: 'test name',
+    isOrgAdmin: JSON.stringify(true),
+  };
 
-//   beforeEach(() => {
-//     const viewportScrollerStub = () => ({});
-//     const routerStub = () => ({});
-//     TestBed.configureTestingModule({
-//       imports: [RouterTestingModule],
-//       schemas: [NO_ERRORS_SCHEMA],
-//       declarations: [TermsConditionsComponent],
-//       providers: [
-//         { provide: ViewportScroller, useFactory: viewportScrollerStub },
-//         { provide: Router, useFactory: routerStub }
-//       ]
-//     });
-//     fixture = TestBed.createComponent(TermsConditionsComponent);
-//     component = fixture.componentInstance;
-//   });
+  beforeEach(async () => {
+    spyOn(localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      declarations: [TermsConditionsComponent],
+      providers: [ViewportScroller],
+    }).compileComponents();
+  });
 
-//   it(`isOrgAdmin has default value`, () => {
-//     expect(component.isOrgAdmin).toEqual(false);
-//   });
-// });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TermsConditionsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should initialize component properties', () => {
+    expect(component.userName).toEqual('test name');
+    expect(component.isOrgAdmin).toBeTrue();
+  });
+});

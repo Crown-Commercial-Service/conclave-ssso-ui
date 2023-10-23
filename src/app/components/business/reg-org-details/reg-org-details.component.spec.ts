@@ -1,43 +1,65 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { NO_ERRORS_SCHEMA } from '@angular/core';
-// import { ViewportScroller } from '@angular/common';
-// import { Store } from '@ngrx/store';
-// import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-// import { ciiService } from 'src/app/services/cii/cii.service';
-// import { OrgRegDetails } from './reg-org-details.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ViewportScroller } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+import { OrgRegDetails } from './reg-org-details.component';
+import { ciiService } from 'src/app/services/cii/cii.service';
 
-// describe('OrgRegDetails', () => {
-//   let component: OrgRegDetails;
-//   let fixture: ComponentFixture<OrgRegDetails>;
+describe('OrgRegDetailsComponent', () => {
+  let component: OrgRegDetails;
+  let fixture: ComponentFixture<OrgRegDetails>;
+  let ciiServiceMock: jasmine.SpyObj<ciiService>;
+  let storeMock: jasmine.SpyObj<Store<any>>;
 
-//   beforeEach(() => {
-//     const viewportScrollerStub = () => ({});
-//     const storeStub = () => ({});
-//     const scrollHelperStub = () => ({});
-//     const ciiServiceStub = () => ({
-//       getIdentifierDetails: (scheme: any, ciiRegNumber: any) => ({}),
-//       getOrgDetails: (ciiOrgId: any) => ({ toPromise: () => ({ then: () => ({}) }) }),
-//       getSchemaName: (scheme: any) => ({})
-//     });
-//     TestBed.configureTestingModule({
-//       schemas: [NO_ERRORS_SCHEMA],
-//       declarations: [OrgRegDetails],
-//       providers: [
-//         { provide: ViewportScroller, useFactory: viewportScrollerStub },
-//         { provide: Store, useFactory: storeStub },
-//         { provide: ScrollHelper, useFactory: scrollHelperStub },
-//         { provide: ciiService, useFactory: ciiServiceStub }
-//       ]
-//     });
-//     fixture = TestBed.createComponent(OrgRegDetails);
-//     component = fixture.componentInstance;
-//   });
+  beforeEach(async () => {
+    const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
+      'setOffset',
+    ]);
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
+    ciiServiceMock = jasmine.createSpyObj('ciiService', [
+      'getIdentifierDetails',
+      'getOrgDetails',
+    ]);
+    storeMock = jasmine.createSpyObj('Store', ['select']);
 
-//   it(`orgGroup has default value`, () => {
-//     expect(component.orgGroup).toEqual(`manage-org/register/user`);
-//   });
-// });
+    await TestBed.configureTestingModule({
+      declarations: [OrgRegDetails],
+      providers: [
+        { provide: ciiService, useValue: ciiServiceMock },
+        { provide: Store, useValue: storeMock },
+        {
+          provide: ViewportScroller,
+          useValue: viewportScrollerSpy,
+        },
+      ],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(OrgRegDetails);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should load data on ngOnChanges', async () => {
+    component.ciiOrgId = '123';
+    component.ciiRegNumber = '';
+    spyOn(component, 'loadData');
+
+    component.ngOnChanges();
+
+    expect(component.loadData).toHaveBeenCalled();
+  });
+
+  it('should load data on ngOnInit', async () => {
+    spyOn(component, 'loadData');
+
+    component.ngOnInit();
+
+    expect(component.loadData).toHaveBeenCalled();
+  });
+});

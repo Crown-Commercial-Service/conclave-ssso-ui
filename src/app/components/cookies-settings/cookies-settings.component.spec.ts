@@ -1,132 +1,93 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { NO_ERRORS_SCHEMA } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { CookiesService } from 'src/app/shared/cookies.service';
-// import { FormsModule } from '@angular/forms';
-// import { RouterTestingModule } from '@angular/router/testing';
-// import { CookiesSettingsComponent } from './cookies-settings.component';
-// import { environment } from 'src/environments/environment';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CookiesSettingsComponent } from './cookies-settings.component';
+import { CookiesService } from 'src/app/shared/cookies.service';
+import { TranslateModule } from '@ngx-translate/core';
 
-// describe('CookiesSettingsComponent', () => {
-//   let component: CookiesSettingsComponent;
-//   let fixture: ComponentFixture<CookiesSettingsComponent>;
+describe('CookiesSettingsComponent', () => {
+  let component: CookiesSettingsComponent;
+  let fixture: ComponentFixture<CookiesSettingsComponent>;
+  let cookiesService: CookiesService;
+  let cookieStore: any = {
+    ppg_cookies_policy: JSON.stringify({
+      additional: 'additional',
+      glassbox: 'glassbox',
+    }),
+  };
 
-//   beforeEach(() => {
-//     const routerStub = () => ({});
-//     const cookiesServiceStub = () => ({
-//       setCookie: (
-//         string: any,
-//         cookies_prefernace: any,
-//         cookieExpirationTimeInMinutes: any
-//       ) => ({}),
-//       deleteAdditionalCookies: () => ({}),
-//       deleteGlassBoxCookies: () => ({})
-//     });
-//     TestBed.configureTestingModule({
-//       imports: [FormsModule, RouterTestingModule],
-//       schemas: [NO_ERRORS_SCHEMA],
-//       declarations: [CookiesSettingsComponent],
-//       providers: [
-//         { provide: Router, useFactory: routerStub },
-//         { provide: CookiesService, useFactory: cookiesServiceStub }
-//       ]
-//     });
-//     fixture = TestBed.createComponent(CookiesSettingsComponent);
-//     component = fixture.componentInstance;
-//   });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [CookiesSettingsComponent],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      providers: [CookiesService],
+    }).compileComponents();
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
+    cookiesService = TestBed.inject(CookiesService);
 
-//   it(`cookiesUpdated has default value`, () => {
-//     expect(component.cookiesUpdated).toEqual(false);
-//   });
+    spyOn(cookiesService, 'getCookie').and.callFake((key) =>
+      key in cookieStore ? cookieStore[key] : null
+    );
+  });
 
-//   it(`notify_admin_session has default value`, () => {
-//     expect(component.notify_admin_session).toEqual(
-//       environment.cookies_policy.essentialcookies.notify_admin_session
-//     );
-//   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CookiesSettingsComponent);
+    component = fixture.componentInstance;
 
-//   it(`cookie_policy has default value`, () => {
-//     expect(component.cookie_policy).toEqual(
-//       environment.cookies_policy.essentialcookies.cookie_policy
-//     );
-//   });
+    fixture.detectChanges();
+  });
 
-//   it(`ccs_sso_visitedsites has default value`, () => {
-//     expect(component.ccs_sso_visitedsites).toEqual(
-//       environment.cookies_policy.essentialcookies.ccs_sso_visitedsites
-//     );
-//   });
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
 
-//   it(`opbs has default value`, () => {
-//     expect(component.opbs).toEqual(
-//       environment.cookies_policy.essentialcookies.opbs
-//     );
-//   });
+  it('should initialize component properties and retrieve user information', () => {
+    expect(component.cookiesUpdated).toBeFalsy();
+    expect(component.notify_admin_session).toBeDefined();
+    expect(component.cookie_policy).toBeDefined();
+    expect(component.ccs_sso_visitedsites).toBeDefined();
+    expect(component.opbs).toBeDefined();
+    expect(component.ccs_sso).toBeDefined();
+    expect(component.conclave).toBeDefined();
+    expect(component.XSRF_TOKEN).toBeDefined();
+    expect(component.XSRF_TOKEN_SVR).toBeDefined();
+    expect(component.AspNetCore_Antiforgery_GWNWkbbyKbw).toBeDefined();
+    expect(component.auth0_compat).toBeDefined();
+    expect(component.did_compat).toBeDefined();
+    expect(component.did).toBeDefined();
+    expect(component.auth0).toBeDefined();
+    expect(component._cf_bm).toBeDefined();
+    expect(component.cookieExpirationTimeInMinutes).toBeDefined();
+  });
 
-//   it(`ccs_sso has default value`, () => {
-//     expect(component.ccs_sso).toEqual(
-//       environment.cookies_policy.essentialcookies.ccs_sso
-//     );
-//   });
+  it('should delete additional cookies if additional preference is set to false', () => {
+    spyOn(cookiesService, 'deleteAdditionalCookies');
 
-//   it(`conclave has default value`, () => {
-//     expect(component.conclave).toEqual(
-//       environment.cookies_policy.essentialcookies.conclave
-//     );
-//   });
+    component.checkCompination({
+      essential: true,
+      additional: false,
+      glassbox: true,
+    });
 
-//   it(`XSRF_TOKEN has default value`, () => {
-//     expect(component.XSRF_TOKEN).toEqual(
-//       environment.cookies_policy.essentialcookies.XSRF_TOKEN
-//     );
-//   });
+    expect(cookiesService.deleteAdditionalCookies).toHaveBeenCalled();
+  });
 
-//   it(`XSRF_TOKEN_SVR has default value`, () => {
-//     expect(component.XSRF_TOKEN_SVR).toEqual(
-//       environment.cookies_policy.essentialcookies.XSRF_TOKEN_SVR
-//     );
-//   });
+  it('should delete GlassBox cookies if glassbox preference is set to false', () => {
+    spyOn(cookiesService, 'deleteGlassBoxCookies');
 
-//   it(`AspNetCore_Antiforgery_GWNWkbbyKbw has default value`, () => {
-//     expect(component.AspNetCore_Antiforgery_GWNWkbbyKbw).toEqual(
-//       environment.cookies_policy.essentialcookies
-//         .AspNetCore_Antiforgery_GWNWkbbyKbw
-//     );
-//   });
+    component.checkCompination({
+      essential: true,
+      additional: true,
+      glassbox: false,
+    });
 
-//   it(`auth0_compat has default value`, () => {
-//     expect(component.auth0_compat).toEqual(
-//       environment.cookies_policy.Auth0cookies.auth0_compat
-//     );
-//   });
+    expect(cookiesService.deleteGlassBoxCookies).toHaveBeenCalled();
+  });
 
-//   it(`did_compat has default value`, () => {
-//     expect(component.did_compat).toEqual(
-//       environment.cookies_policy.Auth0cookies.did_compat
-//     );
-//   });
+  it('should navigate back to the previous page', () => {
+    spyOn(window.history, 'back');
 
-//   it(`did has default value`, () => {
-//     expect(component.did).toEqual(environment.cookies_policy.Auth0cookies.did);
-//   });
+    component.onback();
 
-//   it(`auth0 has default value`, () => {
-//     expect(component.auth0).toEqual(
-//       environment.cookies_policy.Auth0cookies.auth0
-//     );
-//   });
-
-//   it(`_cf_bm has default value`, () => {
-//     expect(component._cf_bm).toEqual(
-//       environment.cookies_policy.Auth0cookies.__cf_bm
-//     );
-//   });
-
-//   it(`isOrgAdmin has default value`, () => {
-//     expect(component.isOrgAdmin).toEqual(false);
-//   });
-// });
+    expect(window.history.back).toHaveBeenCalled();
+  });
+});

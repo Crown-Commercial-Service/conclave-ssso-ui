@@ -54,7 +54,7 @@ export class CIIOptions extends BaseComponent implements OnInit {
     private router: Router,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper
+    public scrollHelper: ScrollHelper
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.txtValue = '';
