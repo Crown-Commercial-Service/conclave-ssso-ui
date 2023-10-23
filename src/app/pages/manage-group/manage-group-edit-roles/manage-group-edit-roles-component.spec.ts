@@ -17,6 +17,9 @@ describe('ManageGroupEditRolesComponent', () => {
   let mockOrgGroupService: jasmine.SpyObj<WrapperOrganisationGroupService>;
   let mockSharedDataService: jasmine.SpyObj<SharedDataService>;
   let routerStub: Partial<Router>;
+  let localStore: any = {
+    cii_organisation_id: 'test-org-id',
+  };
 
   const mockRoleListResponse = [
     {
@@ -51,6 +54,10 @@ describe('ManageGroupEditRolesComponent', () => {
     routerStub = {
       navigateByUrl: jasmine.createSpy('navigateByUrl'),
     };
+
+    spyOn(localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
 
     await TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot()],
@@ -114,15 +121,11 @@ describe('ManageGroupEditRolesComponent', () => {
     ];
     component.userCount = 10;
 
-    const organisationId = '123';
-
-    localStorage.setItem('cii_organisation_id', organisationId);
-
     component.ngOnInit();
 
     fixture.detectChanges();
 
-    expect(component.organisationId).toBe(organisationId);
+    expect(component.organisationId).toBe('test-org-id');
     expect(component.titleService.getTitle()).toBe(
       'Add or remove services - Manage Groups - CCS'
     );

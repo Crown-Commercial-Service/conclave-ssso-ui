@@ -14,8 +14,16 @@ describe('ManageOrgRegStep3Component', () => {
   let mockRouter: any;
   let mockActivatedRoute: any;
   let mockStore: any;
+  let localStore: any = {
+    scheme_name: 'test-scheme-name',
+    organisation_type: 'test-org-type',
+  };
 
   beforeEach(async () => {
+    spyOn(localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
+
     mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl']);
     mockActivatedRoute = {
       snapshot: {
@@ -52,7 +60,7 @@ describe('ManageOrgRegStep3Component', () => {
   });
 
   it('should initialize the component correctly', () => {
-    expect(component.schemeName).toEqual('');
+    expect(component.schemeName).toEqual('test-scheme-name');
     expect(component.selectedIdentifiers).toEqual([]);
     expect(component.routeParams).toBeDefined();
     expect(component.ciiOrgId).toEqual('');
@@ -62,7 +70,7 @@ describe('ManageOrgRegStep3Component', () => {
     expect(component.countryCodeCtrl).toBeDefined();
     expect(component.countryCode).toEqual('');
     expect(component.isInvalid).toBeFalsy();
-    expect(component.pageAccessMode).toEqual('');
+    expect(component.pageAccessMode).toEqual('test-org-type');
   });
 
   it('should filter country details correctly', () => {

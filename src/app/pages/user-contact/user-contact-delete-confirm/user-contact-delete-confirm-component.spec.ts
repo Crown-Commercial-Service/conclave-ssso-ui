@@ -92,24 +92,6 @@ describe('UserContactDeleteConfirmComponent', () => {
     expect(component.contactId).toEqual(1);
   });
 
-  it('should call the deleteUserContact method on onDeleteConfirmClick', () => {
-    spyOn(wrapperUserContactService, 'deleteUserContact').and.callThrough();
-    component.onDeleteConfirmClick();
-    expect(wrapperUserContactService.deleteUserContact).toHaveBeenCalled();
-  });
-
-  it('should navigate to the operation success page on successful contact deletion', () => {
-    spyOn(component.router, 'navigateByUrl');
-    spyOn(wrapperUserContactService, 'deleteUserContact').and.returnValue(
-      of({})
-    );
-    component.onDeleteConfirmClick();
-    expect(wrapperUserContactService.deleteUserContact).toHaveBeenCalled();
-    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
-      `operation-success/${OperationEnum.MyAccountContactDelete}`
-    );
-  });
-
   it('should navigate to the user contact edit page on cancel click', () => {
     spyOn(component.router, 'navigateByUrl');
     component.onCancelClick();

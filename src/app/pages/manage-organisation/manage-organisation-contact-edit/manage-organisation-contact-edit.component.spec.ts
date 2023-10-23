@@ -10,8 +10,15 @@ import { TranslateModule } from '@ngx-translate/core';
 describe('ManageOrganisationContactEditComponent', () => {
   let component: ManageOrganisationContactEditComponent;
   let fixture: ComponentFixture<ManageOrganisationContactEditComponent>;
+  let localStore: any = {
+    cii_organisation_id: 'test-org-id',
+  };
 
   beforeEach(async () => {
+    spyOn(localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
+
     await TestBed.configureTestingModule({
       declarations: [ManageOrganisationContactEditComponent],
       imports: [
@@ -35,7 +42,7 @@ describe('ManageOrganisationContactEditComponent', () => {
   });
 
   it('should initialize the component correctly', () => {
-    expect(component.organisationId).toBe('');
+    expect(component.organisationId).toBe('test-org-id');
     expect(component.submitted).toBeFalsy();
     expect(component.contactReasonLabel).toBe('CONTACT_REASON');
     expect(component.default).toBe('');
@@ -101,9 +108,7 @@ describe('ManageOrganisationContactEditComponent', () => {
 
     component.ContactAdd = true;
     fixture.detectChanges();
-    expect(breadcrumbLinks[3].textContent.trim()).toBe(
-      'ADD_ANOTHER_CONTACT'
-    );
+    expect(breadcrumbLinks[3].textContent.trim()).toBe('ADD_ANOTHER_CONTACT');
   });
 
   it('should render the form correctly with the appropriate form controls and labels', () => {
@@ -127,7 +132,9 @@ describe('ManageOrganisationContactEditComponent', () => {
     component.submitted = true;
     fixture.detectChanges();
     const nameError = fixture.nativeElement.querySelector('#name-error');
-    expect(nameError.textContent.trim()).toBe('ERROR_PREFIXEnter a contact name');
+    expect(nameError.textContent.trim()).toBe(
+      'ERROR_PREFIXEnter a contact name'
+    );
   });
 
   it('should display the error summary section correctly when form validation fails', () => {

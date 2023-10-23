@@ -8,8 +8,15 @@ import { TranslateModule } from '@ngx-translate/core';
 describe('ManageOrganisationSiteDeleteComponent', () => {
   let component: ManageOrganisationSiteDeleteComponent;
   let fixture: ComponentFixture<ManageOrganisationSiteDeleteComponent>;
+  let localStore: any = {
+    cii_organisation_id: 'test-org-id',
+  };
 
   beforeEach(async () => {
+    spyOn(localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
+
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -32,7 +39,7 @@ describe('ManageOrganisationSiteDeleteComponent', () => {
   });
 
   it('should initialize component properties correctly', () => {
-    expect(component.organisationId).toEqual('');
+    expect(component.organisationId).toEqual('test-org-id');
     expect(component.siteId).toEqual(0);
   });
 

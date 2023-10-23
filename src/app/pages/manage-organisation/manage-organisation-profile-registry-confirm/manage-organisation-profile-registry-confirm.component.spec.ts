@@ -12,12 +12,20 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
   let fixture: ComponentFixture<ManageOrganisationRegistryConfirmComponent>;
   let router: Router;
   let activatedRouteStub: Partial<ActivatedRoute>;
+  let localStore: any = {
+    scheme_name: 'test-scheme-name',
+    cii_organisation_id: 'test-org-id',
+  };
 
   beforeEach(async () => {
     activatedRouteStub = jasmine.createSpyObj('ActivatedRoute', [], {
       snapshot: { queryParams: { id: '123' } },
       params: of({ scheme: 'GB-COH' }),
     });
+
+    spyOn(localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
 
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],
@@ -37,9 +45,6 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
 
-    localStorage.setItem('cii_organisation_id', 'some_value');
-    localStorage.setItem('scheme_name', 'some_value');
-
     spyOn(
       component.ciiService,
       'getOrganisationIdentifierDetails'
@@ -54,9 +59,9 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
   });
 
   it('should initialize the component', () => {
-    expect(component.organisationId).toBe('some_value');
+    expect(component.organisationId).toBe('test-org-id');
     expect(component.id).toBe('123');
-    expect(component.schemeName).toBe('some_value');
+    expect(component.schemeName).toBe('test-scheme-name');
   });
 
   it('should handle form submission correctly', () => {
@@ -66,13 +71,13 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
     component.onSubmit();
 
     expect(component.ciiService.addRegistry).toHaveBeenCalledWith(
-      'some_value',
+      'test-org-id',
       'GB-COH',
       '123'
     );
 
     expect(router.navigateByUrl).toHaveBeenCalledWith(
-      'manage-org/profile/some_value/registry/confirmation/GB-COH/123'
+      'manage-org/profile/test-org-id/registry/confirmation/GB-COH/123'
     );
   });
 });
