@@ -15,6 +15,9 @@ import {
   REDUCER_FACTORY,
 } from '@ngrx/store';
 import { AuthService } from '../../../services/auth/auth.service';
+import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
+import { TokenService } from 'src/app/services/auth/token.service';
+import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
 
 describe('ManageUserAddSingleUserDetailComponent', () => {
   let component: ManageUserAddSingleUserDetailComponent;
@@ -42,6 +45,9 @@ describe('ManageUserAddSingleUserDetailComponent', () => {
         { provide: INITIAL_REDUCERS, useValue: initialReducers },
         { provide: REDUCER_FACTORY, useValue: reducerFactory },
         AuthService,
+        RollbarErrorService,
+        TokenService,
+        { provide: RollbarService, useValue: rollbarFactory() },
       ],
     }).compileComponents();
   });
@@ -73,19 +79,16 @@ describe('ManageUserAddSingleUserDetailComponent', () => {
 
   it('should render the form inputs correctly', () => {
     const formInputs = fixture.nativeElement.querySelectorAll('.govuk-input');
-    expect(formInputs.length).toBe(4);
+    expect(formInputs.length).toBe(3);
 
-    expect(formInputs[0].id).toBe('userTitle');
-    expect(formInputs[0].name).toBe('userTitle');
+    expect(formInputs[0].id).toBe('first-name');
+    expect(formInputs[0].name).toBe('first-name');
 
-    expect(formInputs[1].id).toBe('first-name');
-    expect(formInputs[1].name).toBe('first-name');
+    expect(formInputs[1].id).toBe('last-name');
+    expect(formInputs[1].name).toBe('last-name');
 
-    expect(formInputs[2].id).toBe('last-name');
-    expect(formInputs[2].name).toBe('last-name');
-
-    expect(formInputs[3].id).toBe('email');
-    expect(formInputs[3].name).toBe('email');
+    expect(formInputs[2].id).toBe('email');
+    expect(formInputs[2].name).toBe('email');
   });
 
   it('should call onSubmit method when the form is submitted', () => {

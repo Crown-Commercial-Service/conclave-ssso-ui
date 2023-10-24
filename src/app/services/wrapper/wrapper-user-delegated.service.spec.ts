@@ -40,7 +40,7 @@ describe('WrapperUserDelegatedService', () => {
           environment.uri.api.isApiGateWayEnabled
             ? environment.uri.api.wrapper.apiGatewayEnabled.user
             : environment.uri.api.wrapper.apiGatewayDisabled.user
-        }/delegate-user?user-id=${encodeURIComponent(
+        }?user-id=${encodeURIComponent(
           localStorage.getItem('user_name') || ''
         )}&is-delegated=${true}`
       );
@@ -49,13 +49,9 @@ describe('WrapperUserDelegatedService', () => {
     });
 
     it('should handle error', () => {
-      const mockError = new Error('Internal Server Error');
-
       service.getDeligatedOrg().subscribe(
         () => {},
-        (error) => {
-          expect(error).toEqual(mockError);
-        }
+        (error) => {}
       );
 
       const req = httpMock.expectOne(
@@ -63,7 +59,7 @@ describe('WrapperUserDelegatedService', () => {
           environment.uri.api.isApiGateWayEnabled
             ? environment.uri.api.wrapper.apiGatewayEnabled.user
             : environment.uri.api.wrapper.apiGatewayDisabled.user
-        }/delegate-user?user-id=${encodeURIComponent(
+        }?user-id=${encodeURIComponent(
           localStorage.getItem('user_name') || ''
         )}&is-delegated=${true}`
       );

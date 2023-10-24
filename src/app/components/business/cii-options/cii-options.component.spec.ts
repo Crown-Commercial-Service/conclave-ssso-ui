@@ -1,80 +1,200 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ViewportScroller } from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-import { ciiService } from 'src/app/services/cii/cii.service';
-import { FormBuilder } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
+import { Observable, of } from 'rxjs';
 import { CIIOptions } from './cii-options.component';
+import { ciiService } from 'src/app/services/cii/cii.service';
+import { TranslateModule } from '@ngx-translate/core';
 
-describe('CIIOptions', () => {
+describe('CIIOptionsComponent', () => {
   let component: CIIOptions;
   let fixture: ComponentFixture<CIIOptions>;
+  let mockCiiService: jasmine.SpyObj<ciiService>;
+  let mockStore: jasmine.SpyObj<Store<any>>;
+
+  beforeEach(async () => {
+    mockCiiService = jasmine.createSpyObj('ciiService', ['getSchemes']);
+    mockStore = jasmine.createSpyObj('Store', ['dispatch']);
+
+    await TestBed.configureTestingModule({
+      declarations: [CIIOptions],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        FormsModule,
+        TranslateModule.forRoot(),
+      ],
+      providers: [
+        { provide: ciiService, useValue: mockCiiService },
+        { provide: Store, useValue: mockStore },
+      ],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
-    const viewportScrollerStub = () => ({});
-    const changeDetectorRefStub = () => ({});
-    const routerStub = () => ({});
-    const storeStub = () => ({});
-    const scrollHelperStub = () => ({
-      doScroll: () => ({}),
-      scrollToFirst: (string: string) => ({})
-    });
-    const ciiServiceStub = () => ({ getSchemes: () => ({ pipe: () => ({}) }) });
-    const formBuilderStub = () => ({ group: (object: any) => ({}) });
-    TestBed.configureTestingModule({
-      imports: [FormsModule],
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [CIIOptions],
-      providers: [
-        { provide: ViewportScroller, useFactory: viewportScrollerStub },
-        { provide: ChangeDetectorRef, useFactory: changeDetectorRefStub },
-        { provide: Router, useFactory: routerStub },
-        { provide: Store, useFactory: storeStub },
-        { provide: ScrollHelper, useFactory: scrollHelperStub },
-        { provide: ciiService, useFactory: ciiServiceStub },
-        { provide: FormBuilder, useFactory: formBuilderStub }
-      ]
-    });
     fixture = TestBed.createComponent(CIIOptions);
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`submitted has default value`, () => {
-    expect(component.submitted).toEqual(false);
-  });
-
   describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      const ciiServiceStub: ciiService = fixture.debugElement.injector.get(
-        ciiService
-      );
-      const formBuilderStub: FormBuilder = fixture.debugElement.injector.get(
-        FormBuilder
-      );
-      spyOn(ciiServiceStub, 'getSchemes').and.callThrough();
-      spyOn(formBuilderStub, 'group').and.callThrough();
+    it('should set up the form and fetch schemes', () => {
+      const mockSchemes = [
+        { scheme: 'GB-COH', schemeName: 'Companies House' },
+        {
+          scheme: 'GB-CHC',
+          schemeName: 'Charity Commission for England and Wales',
+        },
+      ];
+      mockCiiService.getSchemes.and.returnValue(of(mockSchemes));
+
       component.ngOnInit();
-      expect(ciiServiceStub.getSchemes).toHaveBeenCalled();
-      expect(formBuilderStub.group).toHaveBeenCalled();
+
+      expect(component.dunNumber).toBeDefined();
+      expect(component.items$).toBeDefined();
+      expect(mockCiiService.getSchemes).toHaveBeenCalled();
+      expect(component.scheme).toEqual(mockSchemes[0].scheme);
+      expect(component.schemeName).toEqual(mockSchemes[0].schemeName);
     });
   });
 
-  describe('ngAfterViewChecked', () => {
-    it('makes expected calls', () => {
-      const scrollHelperStub: ScrollHelper = fixture.debugElement.injector.get(
-        ScrollHelper
+  describe('onSubmit', () => {
+    it('should emit the selected organization when txtValue is not empty', () => {
+      const mockOrgValue = '123456789';
+      component.txtValue = mockOrgValue;
+      spyOn(component.onOrgSeleceted, 'emit');
+
+      component.onSubmit();
+
+      expect(component.onOrgSeleceted.emit).toHaveBeenCalledWith(mockOrgValue);
+    });
+
+    it('should scroll to error-summary when txtValue is empty', () => {
+      component.txtValue = '';
+      spyOn(component.scrollHelper, 'scrollToFirst');
+
+      component.onSubmit();
+
+      expect(component.scrollHelper.scrollToFirst).toHaveBeenCalledWith(
+        'error-summary'
       );
-      spyOn(scrollHelperStub, 'doScroll').and.callThrough();
-      component.ngAfterViewChecked();
-      expect(scrollHelperStub.doScroll).toHaveBeenCalled();
+    });
+  });
+
+  describe('Template', () => {
+    beforeEach(() => {
+      const mockSchemes = [
+        { scheme: 'GB-COH', schemeName: 'Companies House' },
+        {
+          scheme: 'GB-CHC',
+          schemeName: 'Charity Commission for England and Wales',
+        },
+      ];
+      mockCiiService.getSchemes.and.returnValue(of(mockSchemes));
+
+      fixture.detectChanges();
+    });
+
+    it('should display the error summary when submitted and txtValue is empty', () => {
+      component.submitted = true;
+      component.txtValue = '';
+      fixture.detectChanges();
+
+      const errorSummary = fixture.debugElement.query(
+        By.css('.govuk-error-summary')
+      );
+      expect(errorSummary).toBeTruthy();
+    });
+
+    it('should display the error message for entering a registry number when activeElement is not US-DUN', () => {
+      component.submitted = true;
+      component.txtValue = '';
+      component.validationObj.activeElement = 'GB-COH';
+      fixture.detectChanges();
+
+      const errorMessage = fixture.debugElement.query(
+        By.css('.govuk-error-summary__body ul li a')
+      );
+      expect(errorMessage.nativeElement.textContent).toContain(
+        'ERROR_ENTER_REGISTRY_NUMBER'
+      );
+    });
+
+    it('should display the error message for entering a valid identifier number when activeElement is US-DUN and isDunlength is true', () => {
+      component.submitted = true;
+      component.validationObj.activeElement = 'US-DUN';
+      component.validationObj.isDunlength = true;
+      fixture.detectChanges();
+
+      const errorMessage = fixture.debugElement.query(
+        By.css('.govuk-error-summary__body ul li a')
+      );
+      expect(errorMessage.nativeElement.textContent).toContain(
+        'ERROR_ENTER_REGISTRY_NUMBER'
+      );
+    });
+
+    it('should display the error message for entering a valid identifier number when activeElement is US-DUN, DunData is not empty, and stringIdentifier is true', () => {
+      component.submitted = true;
+      component.validationObj.activeElement = 'US-DUN';
+      component.validationObj.DunData = '123456789@';
+      component.validationObj.stringIdentifier = true;
+      fixture.detectChanges();
+
+      const errorMessage = fixture.debugElement.query(
+        By.css('.govuk-error-summary__body ul li a')
+      );
+      expect(errorMessage.nativeElement.textContent).toContain(
+        'Enter a valid identifier number'
+      );
+    });
+
+    it('should display the form fields and buttons correctly', () => {
+      const formFields = fixture.debugElement.queryAll(
+        By.css('.govuk-form-group')
+      );
+      const radioButtons = fixture.debugElement.queryAll(
+        By.css('.govuk-radios__input')
+      );
+      const continueButton = fixture.debugElement.query(
+        By.css('#continueButton')
+      );
+
+      expect(formFields.length).toBe(1);
+      expect(radioButtons.length).toBe(2);
+      expect(continueButton.nativeElement.textContent).toContain('Continue');
+    });
+
+    it('should emit the selected organization when continue button is clicked and txtValue is not empty', () => {
+      const mockOrgValue = '123456789';
+      component.txtValue = mockOrgValue;
+      spyOn(component.onOrgSeleceted, 'emit');
+
+      const continueButton = fixture.debugElement.query(
+        By.css('#continueButton')
+      );
+      continueButton.triggerEventHandler('click', null);
+
+      expect(component.onOrgSeleceted.emit).toHaveBeenCalledWith(mockOrgValue);
+    });
+
+    it('should scroll to error-summary when continue button is clicked and txtValue is empty', () => {
+      component.txtValue = '';
+      spyOn(component.scrollHelper, 'scrollToFirst');
+
+      const continueButton = fixture.debugElement.query(
+        By.css('#continueButton')
+      );
+      continueButton.triggerEventHandler('click', null);
+
+      expect(component.scrollHelper.scrollToFirst).toHaveBeenCalledWith(
+        'error-summary'
+      );
     });
   });
 });

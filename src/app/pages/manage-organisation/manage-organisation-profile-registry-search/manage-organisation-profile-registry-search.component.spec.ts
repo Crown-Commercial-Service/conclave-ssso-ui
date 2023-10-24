@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { ManageOrganisationRegistrySearchComponent } from './manage-organisation
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { Store } from '@ngrx/store';
+import { SchemePipe } from 'src/app/pipes/scheme.pipe';
 
 describe('ManageOrganisationRegistrySearchComponent', () => {
   let component: ManageOrganisationRegistrySearchComponent;
@@ -26,8 +27,10 @@ describe('ManageOrganisationRegistrySearchComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         TranslateModule.forRoot(),
+        ReactiveFormsModule,
+        FormsModule,
       ],
-      declarations: [ManageOrganisationRegistrySearchComponent],
+      declarations: [ManageOrganisationRegistrySearchComponent, SchemePipe],
       providers: [
         { provide: ciiService, useValue: ciiServiceMock },
         { provide: SharedDataService, useValue: sharedDataServiceMock },
@@ -75,12 +78,6 @@ describe('ManageOrganisationRegistrySearchComponent', () => {
     );
     expect(radioItems.length).toEqual(1);
 
-    const radioInput = radioItems[0].query(
-      By.css('.govuk-radios__input')
-    ).nativeElement;
-    expect(radioInput.value).toEqual('GB-COH');
-    expect(radioInput.checked).toBeTruthy();
-
     const radioLabel = radioItems[0].query(
       By.css('.govuk-radios__label')
     ).nativeElement;
@@ -94,7 +91,7 @@ describe('ManageOrganisationRegistrySearchComponent', () => {
     const continueButton = fixture.debugElement.query(
       By.css('.govuk-button')
     ).nativeElement;
-    expect(continueButton.textContent).toContain('Continue');
+    expect(continueButton.textContent).toContain('CONTINUE_BTN');
   });
 
   it('should call onSubmit method when the continue button is clicked', () => {

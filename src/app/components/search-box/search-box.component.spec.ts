@@ -1,34 +1,51 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ViewportScroller } from '@angular/common';
-import { Store } from '@ngrx/store';
-import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
+import { StoreModule } from '@ngrx/store';
+import { ViewportScroller } from '@angular/common';
 import { SearchBoxComponent } from './search-box.component';
+import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 
 describe('SearchBoxComponent', () => {
   let component: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
 
-  beforeEach(() => {
-    const viewportScrollerStub = () => ({});
-    const storeStub = () => ({});
-    const scrollHelperStub = () => ({});
-    TestBed.configureTestingModule({
-      imports: [FormsModule],
-      schemas: [NO_ERRORS_SCHEMA],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [SearchBoxComponent],
-      providers: [
-        { provide: ViewportScroller, useFactory: viewportScrollerStub },
-        { provide: Store, useFactory: storeStub },
-        { provide: ScrollHelper, useFactory: scrollHelperStub }
-      ]
-    });
+      imports: [
+        FormsModule,
+        TranslateModule.forRoot(),
+        StoreModule.forRoot({}),
+      ],
+      providers: [ViewportScroller, ScrollHelper],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(SearchBoxComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit searchTextChange event on searchText change', () => {
+    spyOn(component.searchTextChange, 'emit');
+    const inputElement = fixture.debugElement.query(By.css('input'));
+    inputElement.nativeElement.value = 'test';
+    inputElement.nativeElement.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(component.searchTextChange.emit).toHaveBeenCalledWith('test');
+  });
+
+  it('should emit onSearchClickEvent event on search button click', () => {
+    spyOn(component.onSearchClickEvent, 'emit');
+    const buttonElement = fixture.debugElement.query(By.css('button'));
+    buttonElement.triggerEventHandler('mousedown', null);
+    expect(component.onSearchClickEvent.emit).toHaveBeenCalled();
   });
 });

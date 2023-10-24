@@ -1,98 +1,74 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-import { ViewportScroller } from '@angular/common';
-import { PatternService } from 'src/app/shared/pattern.service';
-import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+
 import { NominateComponent } from './nominate.component';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
+import { TokenService } from 'src/app/services/auth/token.service';
+import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Store } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('NominateComponent', () => {
   let component: NominateComponent;
   let fixture: ComponentFixture<NominateComponent>;
 
-  beforeEach(() => {
-    const formBuilderStub = () => ({ group: (object: any) => ({}) });
-    const storeStub = () => ({});
-    const activatedRouteStub = () => ({
-      queryParams: { subscribe: (f: any) => f({}) }
-    });
-    const routerStub = () => ({ navigateByUrl: (arg: any) => ({}) });
-    const authServiceStub = () => ({
-      nominate: (uname: any) => ({ toPromise: () => ({ then: () => ({}) }) })
-    });
-    const scrollHelperStub = () => ({});
-    const viewportScrollerStub = () => ({});
-    const patternServiceStub = () => ({
-      NameValidator: {},
-      emailPattern: {},
-      emailValidator: (value: any) => ({})
-    });
-    const sharedDataServiceStub = () => ({ NominiData: { next: () => ({}) } });
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      schemas: [NO_ERRORS_SCHEMA],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [NominateComponent],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+      ],
       providers: [
-        { provide: FormBuilder, useFactory: formBuilderStub },
-        { provide: Store, useFactory: storeStub },
-        { provide: ActivatedRoute, useFactory: activatedRouteStub },
-        { provide: Router, useFactory: routerStub },
-        { provide: AuthService, useFactory: authServiceStub },
-        { provide: ScrollHelper, useFactory: scrollHelperStub },
-        { provide: ViewportScroller, useFactory: viewportScrollerStub },
-        { provide: PatternService, useFactory: patternServiceStub },
-        { provide: SharedDataService, useFactory: sharedDataServiceStub }
-      ]
-    });
-    fixture = TestBed.createComponent(NominateComponent);
-    component = fixture.componentInstance;
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({ data: 'example-data' }),
+          },
+        },
+        AuthService,
+        RollbarErrorService,
+        TokenService,
+        { provide: RollbarService, useValue: rollbarFactory() },
+        { provide: Store, useFactory: () => ({}) },
+      ],
+    }).compileComponents();
   });
 
-  it('can load instance', () => {
+  beforeEach(() => {
+    fixture = TestBed.createComponent(NominateComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`submitted has default value`, () => {
-    expect(component.submitted).toEqual(false);
+  it('should initialize the form group', () => {
+    expect(component.formGroup).toBeDefined();
+    expect(component.formGroup.controls.firstName).toBeDefined();
+    expect(component.formGroup.controls.lastName).toBeDefined();
+    expect(component.formGroup.controls.email).toBeDefined();
   });
 
-  describe('onSubmit', () => {
-    it('makes expected calls', () => {
-      const formGroupStub: FormGroup = <any>{};
-      const routerStub: Router = fixture.debugElement.injector.get(Router);
-      const authServiceStub: AuthService = fixture.debugElement.injector.get(
-        AuthService
-      );
-      const patternServiceStub: PatternService = fixture.debugElement.injector.get(
-        PatternService
-      );
-      const spy1 = jest.spyOn(component, 'formValid');
-      const spy2 = jest.spyOn(formGroupStub, 'get');
-      const spy3 = jest.spyOn(routerStub, 'navigateByUrl');
-      const spy4 = jest.spyOn(authServiceStub, 'nominate');
-      const spy5 = jest.spyOn(patternServiceStub, 'emailValidator');
-      component.onSubmit(formGroupStub);
-      expect(spy1).toHaveBeenCalled();
-      expect(spy2).toHaveBeenCalled();
-      expect(spy3).toHaveBeenCalled();
-      expect(spy4).toHaveBeenCalled();
-      expect(spy5).toHaveBeenCalled();
-    });
+  it('should navigate to success page on form submission', () => {
+    spyOn(component.router, 'navigateByUrl');
+    component.onSubmit(component.formGroup);
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
+      `nominate/success?data=${btoa(JSON.stringify(component.pageAccessMode))}`
+    );
   });
 
-  describe('goConfirmOrgPage', () => {
-    it('makes expected calls', () => {
-      const routerStub: Router = fixture.debugElement.injector.get(Router);
-      const spy1 = jest.spyOn(routerStub, 'navigateByUrl');
-      component.goConfirmOrgPage();
-      expect(spy1).toHaveBeenCalled();
-    });
+  it('should set submitted to true on form submission', () => {
+    component.onSubmit(component.formGroup);
+    expect(component.submitted).toBeTrue();
   });
 });

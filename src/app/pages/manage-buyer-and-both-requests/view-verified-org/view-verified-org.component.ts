@@ -23,7 +23,9 @@ export class ViewVerifiedOrgComponent implements OnInit {
   private organisationId: string = '';
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   pageName = 'Contactadmin';
-  public routeDetails: any;
+  public routeDetails: any = {
+    event: {}
+  };
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   public schemeData: any[] = [];

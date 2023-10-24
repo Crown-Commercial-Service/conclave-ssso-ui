@@ -1,51 +1,71 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { SimpleChanges } from '@angular/core';
 import { JwPaginationComponent } from './pagination';
 
 describe('JwPaginationComponent', () => {
   let component: JwPaginationComponent;
   let fixture: ComponentFixture<JwPaginationComponent>;
 
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [JwPaginationComponent],
+    }).compileComponents();
+  });
+
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [JwPaginationComponent]
-    });
     fixture = TestBed.createComponent(JwPaginationComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`initialPage has default value`, () => {
-    expect(component.initialPage).toEqual(1);
+  it('should initialize pager when items array is not empty', () => {
+    const items = [1, 2, 3, 4, 5];
+    component.items = items;
+    component.ngOnInit();
+    expect(component.pager).toBeDefined();
   });
 
-  it(`pageSize has default value`, () => {
-    expect(component.pageSize).toEqual(10);
+  it('should not initialize pager when items array is empty', () => {
+    const items: any[] = [];
+    component.items = items;
+    component.ngOnInit();
+    expect(component.pager).toEqual({});
   });
 
-  it(`maxPages has default value`, () => {
-    expect(component.maxPages).toEqual(10);
+  it('should set the correct page when setPage method is called', () => {
+    const items = [1, 2, 3, 4, 5];
+    component.items = items;
+    component.pageSize = 2;
+    component.setPage(2);
+    expect(component.pager.currentPage).toBe(2);
   });
 
-  describe('ngOnChanges', () => {
-    it('makes expected calls', () => {
-      const simpleChangesStub: SimpleChanges = <any>{};
-      const spy1 = jest.spyOn(component, 'setPage');
-      component.ngOnChanges(simpleChangesStub);
-      expect(spy1).toHaveBeenCalled();
-    });
+  it('should emit the correct pageOfItems when setPage method is called', () => {
+    const items = [1, 2, 3, 4, 5];
+    component.items = items;
+    component.pageSize = 2;
+    spyOn(component.changePage, 'emit');
+    component.setPage(2);
+    expect(component.changePage.emit).toHaveBeenCalledWith([3, 4]);
   });
 
-  describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      const spy1 = jest.spyOn(component, 'setPage');
-      component.ngOnInit();
-      expect(spy1).toHaveBeenCalled();
-    });
+  it('should calculate the correct pager properties', () => {
+    const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    component.items = items;
+    component.pageSize = 3;
+    component.maxPages = 5;
+    const pager = component.paginate(items.length, 2, 3, 5);
+    expect(pager.totalItems).toBe(10);
+    expect(pager.currentPage).toBe(2);
+    expect(pager.pageSize).toBe(3);
+    expect(pager.totalPages).toBe(4);
+    expect(pager.startPage).toBe(1);
+    expect(pager.endPage).toBe(4);
+    expect(pager.startIndex).toBe(3);
+    expect(pager.endIndex).toBe(5);
+    expect(pager.pages).toEqual([1, 2, 3, 4]);
   });
 });

@@ -18,11 +18,18 @@ describe('ManageGroupErrorComponent', () => {
   let router: Router;
   let activatedRoute: ActivatedRoute;
   let translateService: TranslateService;
+  let sessionStore: any = {
+    Gname: 'test-name',
+  };
 
   beforeEach(async () => {
     const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
       'setOffset',
     ]);
+
+    spyOn(sessionStorage, 'getItem').and.callFake((key) =>
+      key in sessionStore ? sessionStore[key] : null
+    );
 
     await TestBed.configureTestingModule({
       imports: [
@@ -78,7 +85,7 @@ describe('ManageGroupErrorComponent', () => {
     expect(component.editingGroupId).toBe(1);
     expect(component.routeData).toEqual({ groupId: 1 });
     expect(component.showRoleView).toBeFalsy();
-    expect(component.groupName).toBe('');
+    expect(component.groupName).toBe('test-name');
   });
 
   it('should navigate back to manage-groups view with correct data', () => {

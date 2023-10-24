@@ -7,8 +7,15 @@ describe('SuccessUserMfaComponent', () => {
   let component: SuccessUserMfaComponent;
   let fixture: ComponentFixture<SuccessUserMfaComponent>;
   let mockActivatedRoute: any;
+  let localStore: any = {
+    isOrgAdmin: 'true',
+  };
 
   beforeEach(async () => {
+    spyOn(localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
+
     mockActivatedRoute = {
       queryParams: {
         subscribe: (callback: (params: any) => void) => {
@@ -39,7 +46,7 @@ describe('SuccessUserMfaComponent', () => {
   });
 
   it('should set isOrgAdmin to false by default', () => {
-    expect(component.isOrgAdmin).toBeFalse();
+    expect(component.isOrgAdmin).toBeTrue();
   });
 
   it('should set decodedData correctly when data is provided in the query params', () => {

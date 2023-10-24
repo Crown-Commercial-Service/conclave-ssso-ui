@@ -11,9 +11,7 @@
         <div class="govuk-error-summary__body" *ngIf="validationObj.activeElement != 'US-DUN'">
           <ul class="govuk-list govuk-error-summary__list">
             <li>
-              <a href="javascript:;" (click)="setFocus(0)">
-                {{ "ERROR_ENTER_REGISTRY_NUMBER" | translate }}
-              </a>
+              <a href="javascript:;" (click)="setFocus(0)">{{"ERROR_ENTER_REGISTRY_NUMBER" | translate}}</a>
             </li>
           </ul>
         </div>
@@ -21,9 +19,7 @@
           <ul class="govuk-list govuk-error-summary__list">
             <li>
               <a *ngIf="validationObj.isDunlength && validationObj.DunData == ''" href="javascript:;"
-                (click)="setDun_numberfocus()">
-                {{ "ERROR_ENTER_REGISTRY_NUMBER" | translate }}
-              </a>
+                (click)="setDun_numberfocus()">{{"ERROR_ENTER_REGISTRY_NUMBER" | translate}}</a>
               <a *ngIf="validationObj.DunData" href="javascript:;" (click)="setDun_numberfocus()">
                 Enter a valid identifier number
               </a>

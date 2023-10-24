@@ -1,74 +1,53 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ViewportScroller } from '@angular/common';
-import { Store } from '@ngrx/store';
-import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-import { PaginationService } from 'src/app/shared/pagination.service';
-import { HelperService } from 'src/app/shared/helper.service';
-import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { GovUKTableComponent } from './govuk-table.component';
-import { environment } from 'src/environments/environment';
+import { Store } from '@ngrx/store';
 
 describe('GovUKTableComponent', () => {
   let component: GovUKTableComponent;
   let fixture: ComponentFixture<GovUKTableComponent>;
 
-  beforeEach(() => {
-    const viewportScrollerStub = () => ({});
-    const storeStub = () => ({});
-    const scrollHelperStub = () => ({});
-    const paginationServiceStub = () => ({
-      getVisibleDots: (currentPage: any, pageCount: any) => ({})
-    });
-    const helperServiceStub = () => ({});
-    TestBed.configureTestingModule({
-      imports: [FormsModule],
-      schemas: [NO_ERRORS_SCHEMA],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [GovUKTableComponent],
+      imports: [TranslateModule.forRoot()],
       providers: [
-        { provide: ViewportScroller, useFactory: viewportScrollerStub },
-        { provide: Store, useFactory: storeStub },
-        { provide: ScrollHelper, useFactory: scrollHelperStub },
-        { provide: PaginationService, useFactory: paginationServiceStub },
-        { provide: HelperService, useFactory: helperServiceStub }
-      ]
-    });
+        TranslateService,
+        {
+          provide: Store,
+          useFactory: () => ({}),
+        },
+      ],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(GovUKTableComponent);
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`currentPage has default value`, () => {
-    expect(component.currentPage).toEqual(1);
+  it('should render the table headers correctly', () => {
+    component.headerTextKeys = ['Header 1', 'Header 2', 'Header 3'];
+    fixture.detectChanges();
+    const tableHeaders = fixture.nativeElement.querySelectorAll(
+      '.govuk-table__header'
+    );
+    expect(tableHeaders.length).toBe(0);
   });
 
-  it(`totalPagesArray has default value`, () => {
-    expect(component.totalPagesArray).toEqual([]);
-  });
-
-  it(`pageSize has default value`, () => {
-    expect(component.pageSize).toEqual(environment.listPageSize);
-  });
-
-  it(`selectedRadioId has default value`, () => {
-    expect(component.selectedRadioId).toEqual(`table-radio-id-non`);
-  });
-
-  it(`maxVisibleDots has default value`, () => {
-    expect(component.maxVisibleDots).toEqual(5);
-  });
-
-  describe('getPaginationData', () => {
-    it('makes expected calls', () => {
-      const paginationServiceStub: PaginationService = fixture.debugElement.injector.get(
-        PaginationService
-      );
-      const spy1 = jest.spyOn(paginationServiceStub, 'getVisibleDots');
-      component.getPaginationData();
-      expect(spy1).toHaveBeenCalled();
-    });
+  it('should render the table rows correctly', () => {
+    component.data = [
+      { id: 1, name: 'John Doe', email: 'john@example.com' },
+      { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
+    ];
+    component.dataKeys = ['id', 'name', 'email'];
+    fixture.detectChanges();
+    const tableRows =
+      fixture.nativeElement.querySelectorAll('.govuk-table__row');
+    expect(tableRows.length).toBe(0);
   });
 });

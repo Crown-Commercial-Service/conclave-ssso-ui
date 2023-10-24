@@ -10,8 +10,16 @@ describe('DelegatedUserListComponent', () => {
   let component: DelegatedUserListComponent;
   let fixture: ComponentFixture<DelegatedUserListComponent>;
   let wrapperUserDelegatedService: WrapperUserDelegatedService;
+  let localStore: any = {
+    cii_organisation_id: 'test-org-id',
+    activetab: 'test-active-tab',
+  };
 
   beforeEach(async () => {
+    spyOn(localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
+
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -39,7 +47,7 @@ describe('DelegatedUserListComponent', () => {
     expect(component.searchSumbited).toBeFalse();
     expect(component.tabConfig.currentusers).toBeTrue();
     expect(component.tabConfig.expiredusers).toBeFalse();
-    expect(component.organisationId).toEqual('');
+    expect(component.organisationId).toEqual('test-org-id');
     expect(component.currentUserstableConfig.currentPage).toEqual(1);
   });
 

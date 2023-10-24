@@ -1,42 +1,34 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { CommonAttributesService } from 'src/app/shared/common-attributes.service';
 import { DetailsComponent } from './details.component';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
   let fixture: ComponentFixture<DetailsComponent>;
 
-  beforeEach(() => {
-    const commonAttributesServiceStub = () => ({
-      DetailsAttributes: () => ({})
-    });
-    TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [DetailsComponent],
-      providers: [
-        {
-          provide: CommonAttributesService,
-          useFactory: commonAttributesServiceStub
-        }
-      ]
-    });
-    fixture = TestBed.createComponent(DetailsComponent);
-    component = fixture.componentInstance;
+    }).compileComponents();
   });
 
-  it('should create', () => {
+  beforeEach(() => {
+    fixture = TestBed.createComponent(DetailsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      const commonAttributesServiceStub: CommonAttributesService = fixture.debugElement.injector.get(
-        CommonAttributesService
-      );
-      const spy1 = jest.spyOn(commonAttributesServiceStub, 'DetailsAttributes');
-      component.ngOnInit();
-      expect(spy1).toHaveBeenCalled();
-    });
+  it('should display the detailsData in the template', () => {
+    component.detailsData = 'This is the details data';
+    fixture.detectChanges();
+    const detailsTextElement = fixture.nativeElement.querySelector(
+      '.govuk-details__text'
+    );
+    expect(detailsTextElement.textContent).toContain(
+      'This is the details data'
+    );
   });
 });

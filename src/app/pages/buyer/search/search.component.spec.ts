@@ -8,25 +8,32 @@ import { OrganisationService } from 'src/app/services/postgres/organisation.serv
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { BuyerSearchComponent } from './search.component';
 import { environment } from 'src/environments/environment';
+import { of } from 'rxjs';
 
 describe('BuyerSearchComponent', () => {
   let component: BuyerSearchComponent;
   let fixture: ComponentFixture<BuyerSearchComponent>;
 
   beforeEach(() => {
+    const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
+      'setOffset',
+    ]);
+
     const changeDetectorRefStub = () => ({});
     const formBuilderStub = () => ({ group: (object: any) => ({}) });
     const storeStub = () => ({});
     const routerStub = () => ({ navigateByUrl: (arg: any) => ({}) });
     const organisationServiceStub = () => ({
-      get: (searchText: any, currentPage: any, pageSize: any) => ({ toPromise: () => ({}) })
+      get: (searchText: any, currentPage: any, pageSize: any) => ({
+        toPromise: () => ({}),
+      }),
     });
-    const scrollHelperStub = () => ({});
-    const viewportScrollerStub = () => ({});
+
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [TranslateModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BuyerSearchComponent],
       providers: [
@@ -35,10 +42,11 @@ describe('BuyerSearchComponent', () => {
         { provide: Store, useFactory: storeStub },
         { provide: Router, useFactory: routerStub },
         { provide: OrganisationService, useFactory: organisationServiceStub },
-        { provide: ScrollHelper, useFactory: scrollHelperStub },
-        { provide: ViewportScroller, useFactory: viewportScrollerStub }
-      ]
+        { provide: ScrollHelper, useValue: {} },
+        { provide: ViewportScroller, useValue: viewportScrollerSpy },
+      ],
     });
+
     fixture = TestBed.createComponent(BuyerSearchComponent);
     component = fixture.componentInstance;
   });
@@ -73,16 +81,13 @@ describe('BuyerSearchComponent', () => {
     expect(component.tableColumnsToDisplay).toEqual([`legalName`]);
   });
 
-  it(`searchSumbited has default value`, () => {
-    expect(component.searchSumbited).toEqual(false);
-  });
-
   describe('onSearch', () => {
     it('makes expected calls', () => {
-      const organisationServiceStub: OrganisationService = fixture.debugElement.injector.get(
-        OrganisationService
+      const organisationServiceStub: OrganisationService =
+        TestBed.inject(OrganisationService);
+      const spy1 = spyOn(organisationServiceStub, 'get').and.returnValue(
+        of({})
       );
-      const spy1 = jest.spyOn(organisationServiceStub, 'get');
       component.onSearch();
       expect(spy1).toHaveBeenCalled();
     });
@@ -90,8 +95,8 @@ describe('BuyerSearchComponent', () => {
 
   describe('onContinueClick', () => {
     it('makes expected calls', () => {
-      const routerStub: Router = fixture.debugElement.injector.get(Router);
-      const spy1 = jest.spyOn(routerStub, 'navigateByUrl');
+      const routerStub: Router = TestBed.inject(Router);
+      const spy1 = spyOn(routerStub, 'navigateByUrl');
       component.onContinueClick();
       expect(spy1).toHaveBeenCalled();
     });
@@ -99,8 +104,8 @@ describe('BuyerSearchComponent', () => {
 
   describe('onCancelClick', () => {
     it('makes expected calls', () => {
-      const routerStub: Router = fixture.debugElement.injector.get(Router);
-      const spy1 = jest.spyOn(routerStub, 'navigateByUrl');
+      const routerStub: Router = TestBed.inject(Router);
+      const spy1 = spyOn(routerStub, 'navigateByUrl');
       component.onCancelClick();
       expect(spy1).toHaveBeenCalled();
     });

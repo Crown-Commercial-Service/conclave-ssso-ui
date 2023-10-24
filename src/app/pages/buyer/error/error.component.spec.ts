@@ -1,34 +1,53 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-import { ViewportScroller } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BuyerErrorComponent } from './error.component';
+import { Store } from '@ngrx/store';
 
 describe('BuyerErrorComponent', () => {
   let component: BuyerErrorComponent;
   let fixture: ComponentFixture<BuyerErrorComponent>;
 
-  beforeEach(() => {
-    const storeStub = () => ({});
-    const scrollHelperStub = () => ({});
-    const viewportScrollerStub = () => ({});
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      schemas: [NO_ERRORS_SCHEMA],
       declarations: [BuyerErrorComponent],
-      providers: [
-        { provide: Store, useFactory: storeStub },
-        { provide: ScrollHelper, useFactory: scrollHelperStub },
-        { provide: ViewportScroller, useFactory: viewportScrollerStub }
-      ]
-    });
-    fixture = TestBed.createComponent(BuyerErrorComponent);
-    component = fixture.componentInstance;
+      providers: [{ provide: Store, useFactory: () => ({}) }],
+    }).compileComponents();
   });
 
-  it('can load instance', () => {
+  beforeEach(() => {
+    fixture = TestBed.createComponent(BuyerErrorComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display the error message', () => {
+    const errorMessage = fixture.nativeElement.querySelector(
+      '.govuk-heading-xl.page-title'
+    );
+    expect(errorMessage.textContent).toContain(
+      'An unexpected error has occured. Please try again in a few minutes'
+    );
+  });
+
+  it('should have a link to contact CCS', () => {
+    const contactLink = fixture.nativeElement.querySelector(
+      'a[href="https://www.crowncommercial.gov.uk/contact"]'
+    );
+    expect(contactLink).toBeTruthy();
+    expect(contactLink.textContent).toContain('Contact CCS');
+    expect(contactLink.target).toBe('_blank');
+  });
+
+  it('should have a link to go back to the buyer search page', () => {
+    const backButton = fixture.nativeElement.querySelector(
+      'a[routerLink="/buyer/search"]'
+    );
+    expect(backButton).toBeTruthy();
+    expect(backButton.textContent).toContain('Back');
   });
 });

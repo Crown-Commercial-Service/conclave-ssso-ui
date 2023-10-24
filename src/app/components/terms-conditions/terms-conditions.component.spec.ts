@@ -1,35 +1,41 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ViewportScroller } from '@angular/common';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ViewportScroller } from '@angular/common';
 import { TermsConditionsComponent } from './terms-conditions.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('TermsConditionsComponent', () => {
   let component: TermsConditionsComponent;
   let fixture: ComponentFixture<TermsConditionsComponent>;
+  let localStore: any = {
+    user_name: 'test name',
+    isOrgAdmin: JSON.stringify(true),
+  };
 
-  beforeEach(() => {
-    const viewportScrollerStub = () => ({});
-    const routerStub = () => ({});
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      schemas: [NO_ERRORS_SCHEMA],
+  beforeEach(async () => {
+    spyOn(localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
+
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
       declarations: [TermsConditionsComponent],
-      providers: [
-        { provide: ViewportScroller, useFactory: viewportScrollerStub },
-        { provide: Router, useFactory: routerStub }
-      ]
-    });
-    fixture = TestBed.createComponent(TermsConditionsComponent);
-    component = fixture.componentInstance;
+      providers: [ViewportScroller],
+    }).compileComponents();
   });
 
-  it('should create', () => {
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TermsConditionsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`isOrgAdmin has default value`, () => {
-    expect(component.isOrgAdmin).toEqual(false);
+  it('should initialize component properties', () => {
+    expect(component.userName).toEqual('test name');
+    expect(component.isOrgAdmin).toBeTrue();
   });
 });

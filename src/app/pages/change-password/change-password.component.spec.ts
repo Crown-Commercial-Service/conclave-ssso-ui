@@ -1,126 +1,72 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { ChangePasswordComponent } from './change-password.component';
-// import { FormBuilder, FormGroup } from '@angular/forms';
-// import { Router } from '@angular/router';
-// import { Store } from '@ngrx/store';
-// import { ViewportScroller } from '@angular/common';
-// import { RouterTestingModule } from '@angular/router/testing';
-// import { NO_ERRORS_SCHEMA } from '@angular/core';
-// import { AuthService } from 'src/app/services/auth/auth.service';
-// import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-// import { environment } from 'src/environments/environment';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ChangePasswordComponent } from './change-password.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Location } from '@angular/common';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { of } from 'rxjs';
+import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
+import { TokenService } from 'src/app/services/auth/token.service';
+import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Store } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
 
-// describe('ChangePasswordComponent', () => {
-//   let component: ChangePasswordComponent;
-//   let fixture: ComponentFixture<ChangePasswordComponent>;
+describe('ChangePasswordComponent', () => {
+  let component: ChangePasswordComponent;
+  let fixture: ComponentFixture<ChangePasswordComponent>;
+  let authService: AuthService;
+  let location: Location;
+  let localStore: any = {
+    isOrgAdmin: JSON.stringify(true),
+  };
 
-//   beforeEach(async () => {
-//     const authServiceStub = () => ({
-//       changePassword: (contactData: any) => ({
-//         toPromise: () => ({ then: () => ({}) })
-//       }),
-//       signOut: () => ({})
-//     });
-//     const scrollHelperStub = () => ({
-//       doScroll: () => ({}),
-//       scrollToFirst: (string: string) => ({})
-//     });
+  beforeEach(async () => {
+    spyOn(localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
 
-//     await TestBed.configureTestingModule({
-//       imports: [RouterTestingModule],
-//       schemas: [NO_ERRORS_SCHEMA],
-//       declarations: [ChangePasswordComponent],
-//       providers: [
-//         { provide: FormBuilder },
-//         { provide: Router },
-//         { provide: Store },
-//         { provide: Location },
-//         { provide: ViewportScroller },
-//         { provide: AuthService, useFactory: authServiceStub },
-//         { provide: ScrollHelper, useFactory: scrollHelperStub }
-//       ]
-//     })
-//     .compileComponents();
-//   });
+    await TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+      ],
+      declarations: [ChangePasswordComponent],
+      providers: [
+        AuthService,
+        Location,
+        RollbarErrorService,
+        TokenService,
+        { provide: RollbarService, useValue: rollbarFactory() },
+        { provide: Store, useFactory: () => ({}) },
+      ],
+    }).compileComponents();
+  });
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(ChangePasswordComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ChangePasswordComponent);
+    component = fixture.componentInstance;
+    authService = TestBed.inject(AuthService);
+    location = TestBed.inject(Location);
+    fixture.detectChanges();
+  });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
 
-//   it(`submitted has default value`, () => {
-//     expect(component.submitted).toEqual(false);
-//   });
+  it('should initialize the form with required fields', () => {
+    const formGroup = component.formGroup;
+    expect(formGroup.get('currentPassword')).toBeTruthy();
+    expect(formGroup.get('newPassword')).toBeTruthy();
+    expect(formGroup.get('confirmPassword')).toBeTruthy();
+  });
 
-//   it(`usedPasswordThreshold has default value`, () => {
-//     expect(component.usedPasswordThreshold).toEqual(
-//       environment.usedPasswordThreshold
-//     );
-//   });
-
-//   it(`isOrgAdmin has default value`, () => {
-//     expect(component.isOrgAdmin).toEqual(false);
-//   });
-
-//   describe('checkPasswords', () => {
-//     it('makes expected calls', () => {
-//       const formGroupStub: FormGroup = <any>{};
-//       const spy1 = spyOn(formGroupStub, 'get');
-//       (<jasmine.Spy>component.checkPasswords).and.callThrough();
-//       component.checkPasswords(formGroupStub);
-//       expect(spy1).toHaveBeenCalled();
-//     });
-//   });
-
-//   describe('onSubmit', () => {
-//     it('makes expected calls', () => {
-//       const formGroupStub: FormGroup = <any>{};
-//       const routerStub: Router = fixture.debugElement.injector.get(Router);
-//       const authServiceStub: AuthService = fixture.debugElement.injector.get(
-//         AuthService
-//       );
-//       const scrollHelperStub: ScrollHelper = fixture.debugElement.injector.get(
-//         ScrollHelper
-//       );
-//       const spy1 = jest.spyOn(component, 'formValid');
-//       const spy2 = jest.spyOn(formGroupStub, 'get');
-//       const spy3 = jest.spyOn(routerStub, 'navigateByUrl');
-//       const spy4 = jest.spyOn(authServiceStub, 'changePassword');
-//       const spy5 = jest.spyOn(authServiceStub, 'signOut');
-//       const spy6 = jest.spyOn(scrollHelperStub, 'scrollToFirst');
-//       component.onSubmit(formGroupStub);
-//       expect(spy1).toHaveBeenCalled();
-//       expect(spy2).toHaveBeenCalled();
-//       expect(spy3).toHaveBeenCalled();
-//       expect(spy4).toHaveBeenCalled();
-//       expect(spy5).toHaveBeenCalled();
-//       expect(spy6).toHaveBeenCalled();
-//     });
-//   });
-
-//   describe('ngAfterViewChecked', () => {
-//     it('makes expected calls', () => {
-//       const scrollHelperStub: ScrollHelper = fixture.debugElement.injector.get(
-//         ScrollHelper
-//       );
-//       const spy1 = jest.spyOn(scrollHelperStub, 'doScroll');
-//       component.ngAfterViewChecked();
-//       expect(spy1).toHaveBeenCalled();
-//     });
-//   });
-
-//   describe('onCancelClick', () => {
-//     it('makes expected calls', () => {
-//       const locationStub = { back: () => ({}) };
-//       const spy1 = jest.spyOn(locationStub, 'back');
-//       component.onCancelClick();
-//       expect(spy1).toHaveBeenCalled();
-//     });
-//   });
-
-// });
+  it('should navigate to previous location on cancel button click', () => {
+    const locationSpy = spyOn(location, 'back');
+    component.onCancelClick();
+    expect(locationSpy).toHaveBeenCalled();
+  });
+});

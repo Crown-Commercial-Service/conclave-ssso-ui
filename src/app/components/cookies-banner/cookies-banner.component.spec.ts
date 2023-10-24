@@ -1,82 +1,84 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { CookiesService } from 'src/app/shared/cookies.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { CookiesBannerComponent } from './cookies-banner.component';
+import { CookiesService } from 'src/app/shared/cookies.service';
 
 describe('CookiesBannerComponent', () => {
   let component: CookiesBannerComponent;
   let fixture: ComponentFixture<CookiesBannerComponent>;
+  let cookiesService: CookiesService;
 
-  beforeEach(() => {
-    const cookiesServiceStub = () => ({
-      setSessionCookie: (f: any, string: any, cookieExpirationTimeInMinutes: any) => ({}),
-      deleteSessionCookie: (f: any, string: any) => ({}),
-      getCookie: (string: any) => ({}),
-      deleteAdditionalCookies: () => ({}),
-      deleteGlassBoxCookies: () => ({}),
-      setCookie: (string: any, string1: any, cookieExpirationTimeInMinutes: any) => ({})
-    });
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      schemas: [NO_ERRORS_SCHEMA],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [CookiesBannerComponent],
-      providers: [{ provide: CookiesService, useFactory: cookiesServiceStub }]
-    });
-    fixture = TestBed.createComponent(CookiesBannerComponent);
-    component = fixture.componentInstance;
+      providers: [CookiesService],
+    }).compileComponents();
   });
 
-  it('should create', () => {
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CookiesBannerComponent);
+    component = fixture.componentInstance;
+    cookiesService = TestBed.inject(CookiesService);
+    fixture.detectChanges();
+  });
+
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`initDeleteCookieeArray has default value`, () => {
-    expect(component.initDeleteCookieeArray).toEqual([
-      `_gid`,
-      `_ga`,
-      `_gat_UA`,
-      `_ga_624NHLKTKL`,
-      `_cls_v`,
-      `_cls_s`
-    ]);
+  it('should initialize cookies on ngOnInit', () => {
+    spyOn(cookiesService, 'setSessionCookie');
+    spyOn(cookiesService, 'deleteSessionCookie');
+    component.ngOnInit();
+    expect(cookiesService.setSessionCookie).toHaveBeenCalledTimes(
+      component.initDeleteCookieeArray.length
+    );
+    expect(cookiesService.deleteSessionCookie).toHaveBeenCalledTimes(
+      component.initDeleteCookieeArray.length
+    );
   });
 
-  describe('ngAfterViewInit', () => {
-    it('makes expected calls', () => {
-      const spy1 = jest.spyOn(component, 'initializerCookies');
-      component.ngAfterViewInit();
-      expect(spy1).toHaveBeenCalled();
-    });
+  it('should hide cookies on hideCookies', () => {
+    component.hideCookies();
+    expect(component.cookiesData.coockiebanner).toBeFalse();
+    expect(component.cookiesData.acceptAnalyticsCookies).toBeFalse();
+    expect(component.cookiesData.rejectAnalyticsCookies).toBeFalse();
   });
 
-  describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      const cookiesServiceStub: CookiesService = fixture.debugElement.injector.get(
-        CookiesService
-      );
-      const spy1 = jest.spyOn(cookiesServiceStub, 'setSessionCookie');
-      const spy2 = jest.spyOn(cookiesServiceStub, 'deleteSessionCookie');
-      component.ngOnInit();
-      expect(spy1).toHaveBeenCalled();
-      expect(spy2).toHaveBeenCalled();
-    });
+  it('should accept cookies on acceptCookies', () => {
+    spyOn(cookiesService, 'setCookie');
+    component.acceptCookies();
+    expect(component.cookiesData.coockiebanner).toBeFalse();
+    expect(component.cookiesData.acceptAnalyticsCookies).toBeTrue();
+    expect(component.cookiesData.rejectAnalyticsCookies).toBeFalse();
+    expect(cookiesService.setCookie).toHaveBeenCalledWith(
+      'ppg_cookies_policy',
+      '{"essential":true,"additional":true,"glassbox":true}',
+      component.cookieExpirationTimeInMinutes
+    );
+    expect(cookiesService.setCookie).toHaveBeenCalledWith(
+      'ppg_cookies_preferences_set',
+      'true',
+      component.cookieExpirationTimeInMinutes
+    );
   });
 
-  describe('initializerCookies', () => {
-    it('makes expected calls', () => {
-      const cookiesServiceStub: CookiesService = fixture.debugElement.injector.get(
-        CookiesService
-      );
-      const spy1 = jest.spyOn(cookiesServiceStub, 'getCookie');
-      const spy2 = jest.spyOn(cookiesServiceStub, 'deleteAdditionalCookies');
-      const spy3 = jest.spyOn(cookiesServiceStub, 'deleteGlassBoxCookies');
-      const spy4 = jest.spyOn(cookiesServiceStub, 'setCookie');
-      component.initializerCookies();
-      expect(spy1).toHaveBeenCalled();
-      expect(spy2).toHaveBeenCalled();
-      expect(spy3).toHaveBeenCalled();
-      expect(spy4).toHaveBeenCalled();
-    });
+  it('should reject cookies on rejectCookies', () => {
+    spyOn(cookiesService, 'setCookie');
+    spyOn(cookiesService, 'deleteAdditionalCookies');
+    component.rejectCookies();
+    expect(component.cookiesData.coockiebanner).toBeFalse();
+    expect(component.cookiesData.acceptAnalyticsCookies).toBeFalse();
+    expect(component.cookiesData.rejectAnalyticsCookies).toBeTrue();
+    expect(cookiesService.setCookie).toHaveBeenCalledWith(
+      'ppg_cookies_policy',
+      '{"essential":true,"additional":false,"glassbox":false}',
+      component.cookieExpirationTimeInMinutes
+    );
+    expect(cookiesService.setCookie).toHaveBeenCalledWith(
+      'ppg_cookies_preferences_set',
+      'true',
+      component.cookieExpirationTimeInMinutes
+    );
+    expect(cookiesService.deleteAdditionalCookies).toHaveBeenCalled();
   });
 });
