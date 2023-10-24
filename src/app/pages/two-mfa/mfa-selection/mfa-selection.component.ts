@@ -11,6 +11,8 @@ import { ViewportScroller } from "@angular/common";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { TokenInfo } from "src/app/models/auth";
 import { HelperService } from "src/app/shared/helper.service";
+import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
+
 
 @Component({
     selector: 'app-mfa-selection',
@@ -26,20 +28,23 @@ import { HelperService } from "src/app/shared/helper.service";
 })
 export class MfaSelectionComponent extends BaseComponent implements OnInit {
     public formValue: string = 'SMS'
-public orgGroup: string = 'SMS';    
+    public orgGroup: string = 'SMS';
     authcode: string = "";
-auth0token: string = "";
-oob_code: any;    
-qrCodeStr: string = "";
-public selectedOption: string | null = null;
-    public orgMfaOptional: boolean = true;//need to set this from the api 
+    auth0token: string = "";
+    oob_code: any;
+    qrCodeStr: string = "";
+    public selectedOption: string | null = null;
+    public orgMfaRequired: boolean = false;
+    ciiOrgId : string = "";
 
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService,private helperService : HelperService,
-    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, private helperService: HelperService,
+        private wrapperOrganisationService : WrapperOrganisationService, private tokenService : TokenService,
+        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
-}
+    }
 
-    ngOnInit() {
+    async ngOnInit() {
+       await this.GetOrganisationMfaSettings();
         this.selectedOption = this.helperService.getSelectedOption();
         this.activatedRoute.queryParams.subscribe(params => {
             if (params['code']) {
@@ -59,9 +64,9 @@ public selectedOption: string | null = null;
                     else {
                         this.authService.logOutAndRedirect();
                     }
-        
+
                 });
-    }
+            }
             else if (params['error']) {
                 let error = params['error'];
                 if (error == 'login_required') {
@@ -93,6 +98,19 @@ public selectedOption: string | null = null;
         else if (event == "NOAUTH") {
             this.router.navigateByUrl('no-mfa-confirmation');
         }
+
+    }
+    public async GetOrganisationMfaSettings() {
+
+        this.ciiOrgId = this.tokenService.getCiiOrgId();
+        await this.wrapperOrganisationService.getOrganisation(this.ciiOrgId).toPromise().then((data:any) =>{
+            this.orgMfaRequired = data.detail.isMfaRequired;
+
+        })
+        .catch((err) =>
+        {
+            console.log('error', err); 
+        });
 
     }
 

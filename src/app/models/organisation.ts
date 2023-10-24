@@ -66,6 +66,7 @@ export interface OrganisationDetails{
     rightToBuy: boolean;
     businessType: string;
     supplierBuyerType: number;
+    isMfaRequired:boolean;   
 }
 
 export interface OrganisationSearchDto{
