@@ -33,7 +33,9 @@ import { ManageDelegateService } from '../manage-delegated/service/manage-delega
 })
 export class HomeComponent extends BaseComponent implements OnInit {
   switchedOrgId = ''
-  isDelegation: boolean = !environment.appSetting.hideDelegation
+  isDelegation: boolean = !environment.appSetting.hideDelegation;
+  isTwoMfaEnabled: boolean = environment.appSetting.customMfaEnabled;
+  isMfaOpted: boolean = false;
   public orgDetails: any = ''
   systemModules: SystemModule[] = [];
   ccsModules: SystemModule[] = [];
@@ -77,8 +79,13 @@ export class HomeComponent extends BaseComponent implements OnInit {
       next: (data: any) => {
         let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; }) => element.delegatedOrgId == this.switchedOrgId)
         if (orgDetails === undefined) {
-          this.DelegateService.setDelegatedOrg(0, 'home');
-          this.initializer()
+          if (this.isTwoMfaEnabled && this.isMfaOpted == false) {
+            window.location.href = this.authService.getMfaAuthorizationEndpoint();
+          } else {
+            this.DelegateService.setDelegatedOrg(0, 'home');
+            this.initializer()
+
+          }
         } else {
           this.initializer()
         }
