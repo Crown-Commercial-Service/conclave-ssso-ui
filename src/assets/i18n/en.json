@@ -438,7 +438,7 @@
   "TWO_FACTOR_AUTHENTICATION_SETUP_YES" : "You have set up two-factor authentication",
   "TWO_FACTOR_AUTHENTICATION_SETUP_NO"  : "You have not set up two-factor authentication",
   "TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION" : "Two-factor authentication (2FA)",
-  "MFA_HELP_TEXT":"Choose whether to require two-factor authentication for all of your user's accounts.",
+  "MFA_HELP_TEXT":"Choose whether to require two-factor authentication for all of your users' accounts.",
   "OPTIONAL":"Optional",
   "OPTIONAL_INFO":"Users can choose to activate 2FA for their account.",
   "REQUIRED":"Required",
