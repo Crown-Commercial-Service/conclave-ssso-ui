@@ -5,7 +5,8 @@ import {
   ErrorHandler,
 } from '@angular/core';
 
-import Rollbar from 'rollbar';
+import * as Rollbar from 'rollbar';
+
 
 import { environment } from 'src/environments/environment';
 

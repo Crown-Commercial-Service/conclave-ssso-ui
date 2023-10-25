@@ -296,4 +296,17 @@ export class WrapperUserService {
       })
     );
   }
+  resetMfaopted(userName: string, mfaOpted: boolean): Observable<any> {
+    const url = `${this.url}/reset-mfa-opted?user-id=${encodeURIComponent(
+      userName
+    )}&ismfaopted=${mfaOpted}`;
+    return this.http.put(url, null).pipe(
+      map(() => {
+        return true;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
 }
