@@ -8,8 +8,18 @@ describe('ManageDelegateService', () => {
   let service: ManageDelegateService;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let routerSpy: jasmine.SpyObj<Router>;
+  const org = 'exampleOrg';
+  let localStore: any = {
+    delegatedOrg: org,
+    permission_organisation_id: org,
+    show_loading_indicator: 'true',
+  };
 
   beforeEach(() => {
+    spyOn(localStorage, 'getItem').and.callFake((key) =>
+      key in localStore ? localStore[key] : null
+    );
+
     const authServiceMock = jasmine.createSpyObj('AuthService', [
       'renewAccessToken',
     ]);
@@ -33,7 +43,6 @@ describe('ManageDelegateService', () => {
   });
 
   it('should set delegatedOrg and call renewAccessToken method', () => {
-    const org = 'exampleOrg';
     const page = 'examplePage';
 
     service.setDelegatedOrg(org, page);

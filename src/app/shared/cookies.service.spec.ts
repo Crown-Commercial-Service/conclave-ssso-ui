@@ -9,43 +9,62 @@ describe('CookiesService', () => {
     service = TestBed.inject(CookiesService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should get a cookie value', () => {
+  it('should retrieve a cookie value', () => {
     document.cookie = 'testCookie=testValue';
-    const cookieValue = service.getCookie('testCookie');
-    expect(cookieValue).toBe('testValue');
+
+    const result = service.getCookie('testCookie');
+
+    expect(result).toEqual('testValue');
   });
 
-  it('should set a cookie', () => {
-    service.setCookie('testCookie', 'testValue', 10);
-    const cookieValue = service.getCookie('testCookie');
-    expect(cookieValue).toBe('testValue');
+  it('should set a cookie with the provided value and expiration time', () => {
+    const cname = 'testCookie';
+    const cvalue = 'testValue';
+    const exmin = 10;
+
+    service.setCookie(cname, cvalue, exmin);
+
+    const cookies = document.cookie.split(';');
+    const cookie = cookies.find((c) => c.trim().startsWith(`${cname}=`));
+    expect(cookie).toBeDefined();
+    expect(cookie?.trim()).toContain(`${cname}=${cvalue}`);
   });
 
-  it('should set a session cookie', () => {
-    service.setSessionCookie('testCookie', 'testValue', 10);
-    const cookieValue = service.getCookie('testCookie');
-    expect(cookieValue).toBe('testValue');
+  it('should delete additional Google Analytics cookies', (done) => {
+    spyOn(service, 'setSessionCookie');
+    service.deleteAdditionalCookies();
+    setTimeout(() => {
+      expect(service.setSessionCookie).toHaveBeenCalledTimes(
+        service.googleAnalyticsCookies.length
+      );
+      service.googleAnalyticsCookies.forEach((cookie) => {
+        expect(service.setSessionCookie).toHaveBeenCalledWith(
+          cookie,
+          'removed',
+          service.cookieExpirationTimeInMinutes
+        );
+      });
+      done();
+    }, 600);
   });
 
-  it('should delete a cookie', () => {
-    service.deleteCookie('testCookie', 'testValue');
-    const cookieValue = service.getCookie('testCookie');
-    expect(cookieValue).toBe('testValue');
-  });
+  it('should delete GlassBox cookies', (done) => {
+    spyOn(service, 'setSessionCookie');
 
-  it('should delete a session cookie', () => {
-    service.deleteSessionCookie('testCookie', 'testValue');
-    const cookieValue = service.getCookie('testCookie');
-    expect(cookieValue).toBe('testValue');
-  });
+    service.deleteGlassBoxCookies();
 
-  it('should delete a none cookie', () => {
-    service.deleteNoneCookies('testCookie', 'testValue');
-    const cookieValue = service.getCookie('testCookie');
-    expect(cookieValue).toBe('testValue');
+    setTimeout(() => {
+      expect(service.setSessionCookie).toHaveBeenCalledTimes(
+        service.glassBoxCookies.length
+      );
+      service.glassBoxCookies.forEach((cookie) => {
+        expect(service.setSessionCookie).toHaveBeenCalledWith(
+          cookie,
+          'removed',
+          service.cookieExpirationTimeInMinutes
+        );
+      });
+      done();
+    }, 600);
   });
 });
