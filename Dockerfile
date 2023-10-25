@@ -7,7 +7,8 @@ COPY . ./
 RUN npm run build
 
 #Deploy the application to Nginx
-FROM nginx:latest  AS runtime
+FROM jammy  AS runtime
+RUN apt-get install nginx -y
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY --from=build /app/dist .
