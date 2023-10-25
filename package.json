@@ -27,7 +27,7 @@
     "angular-google-tag-manager": "^1.4.2",
     "bootstrap": "^4.6.0",
     "crypto": "^1.0.1",
-    "crypto-js": "^4.1.1",
+    "crypto-js": "^4.2.0",
     "google-libphonenumber": "^3.2.23",
     "govuk-frontend": "^3.13.1",
     "intl-tel-input": "^17.0.13",
