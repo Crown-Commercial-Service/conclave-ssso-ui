@@ -7,7 +7,7 @@ COPY . ./
 RUN npm run build
 
 #Deploy the application to Nginx
-FROM jammy  AS runtime
+FROM ubuntu:trusty  AS runtime
 RUN apt-get install nginx -y
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
