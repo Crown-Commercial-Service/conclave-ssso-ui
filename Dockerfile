@@ -6,7 +6,7 @@ RUN npm install --legacy-peer-deps
 COPY . ./
 RUN npm run build
 
-FROM nginx:latest AS runtime
+FROM nginx:1.23.1-alpine  AS runtime
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY --from=build /app/dist .
