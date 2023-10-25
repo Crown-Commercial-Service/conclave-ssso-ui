@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" title="Public Procurement Gateway">
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/assets/css/toolkit.styles.min.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/ie.override.css" />
     <!-- Google Tag Manager -->
-    <script>
+    <script nonce="random_value">
       (function (w, d, s, l, i) {
           w[l] = w[l] || [];
           w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
@@ -24,6 +24,11 @@
       })(window, document, 'script', 'dataLayer', 'GTM-TZCX5VP');
   </script>
   <!-- End Google Tag Manager -->
+  <script nonce="random_value" src="runtime.js" defer></script>
+  <script nonce="random_value" src="polyfills.js" defer></script>
+  <script nonce="random_value" src="styles.js" defer></script>
+  <script nonce="random_value" src="vendor.js" defer></script>
+  <script nonce="random_value" src="main.js" defer></script>
 </head>
 
 <body class="govuk-template__body show-flourishes pillar--none js-enabled">
@@ -32,11 +37,6 @@
         style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <app-root></app-root>
-  <script nonce="{{nonce}}" src="runtime.js" defer></script>
-  <script nonce="{{nonce}}" src="polyfills.js" defer></script>
-  <script nonce="{{nonce}}" src="styles.js" defer></script>
-  <script nonce="{{nonce}}" src="vendor.js" defer></script>
-  <script nonce="{{nonce}}" src="main.js" defer></script>
   <style nonce="gds-override">
     @import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500);
 
