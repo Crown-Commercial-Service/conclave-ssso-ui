@@ -20,9 +20,9 @@ import { HelperService } from 'src/app/shared/helper.service';
 })
 export class ViewPendingVerificationComponent implements OnInit {
   private organisationId: string = '';
-  private lastRoute:string=''
+  public lastRoute:string=''
   pageName = 'Contactadmin';
-  public routeDetails: any;
+  public routeDetails: any = {};
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   schemeData: any[] = [];

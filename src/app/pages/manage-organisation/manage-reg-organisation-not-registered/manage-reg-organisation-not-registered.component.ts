@@ -20,7 +20,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
     adminSelectionMode : string = 'useradmin';
     contactUrl = environment.uri.ccsContactUrl;
     
-    constructor(private router: Router, protected uiStore: Store<UIState>,
+    constructor(public router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
     }

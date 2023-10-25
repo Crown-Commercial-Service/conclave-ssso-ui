@@ -41,7 +41,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     siteColumnsToDisplay = ['siteName', 'streetAddress', 'postalCode', 'countryCode'];
     registriesTableDisplayedColumns: string[] = ['authority', 'id', 'type', 'actions'];
     organisation: any;
-    public idps: any;
+    public idps: any = [];
     public orgIdps: any[] = [];
     changedIdpList: { id: number, enabled: boolean, connectionName: string, name: string }[] = [];
     ccsContactUrl: string = environment.uri.ccsContactUrl;
