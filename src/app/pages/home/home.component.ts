@@ -77,7 +77,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
   public checkValidOrganisation() {
     this.delegatedApiService.getDeligatedOrg().subscribe({
       next: (data: any) => {
-        let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; }) => element.delegatedOrgId == this.switchedOrgId)
+        let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; }) => element.delegatedOrgId == this.switchedOrgId);
+        this.isMfaOpted = data.mfaOpted;
         if (orgDetails === undefined) {
           if (this.isTwoMfaEnabled && this.isMfaOpted == false) {
             window.location.href = this.authService.getMfaAuthorizationEndpoint();
