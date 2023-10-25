@@ -14,9 +14,10 @@ export class DelegatedOrganisationComponent implements OnInit {
   public userDetails: any = {};
   public primaryRoleSelected: any;
   public secondaryRoleSelected: any;
-  public roleData:any;
-  public roleInfo: any;
-  public isDeleagation:boolean=environment.appSetting.hideDelegation
+  private roleData:any;
+  private roleInfo: any;
+  private isDeleagation:boolean=environment.appSetting.hideDelegation
+  public isOrgAdmin: boolean = false; 
 
   constructor(
     private route: Router,
@@ -24,6 +25,7 @@ export class DelegatedOrganisationComponent implements OnInit {
     private delegatedService: WrapperUserDelegatedService,
     private DelegateService: ManageDelegateService,
   ) {
+     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     if(this.isDeleagation === true){
       this.route.navigateByUrl('/home');
       return
@@ -61,7 +63,7 @@ export class DelegatedOrganisationComponent implements OnInit {
       }
     }
 
-  public getDelegatedOrganisation(): void {
+  private getDelegatedOrganisation(): void {
     this.delegatedService.getDeligatedOrg().subscribe({
       next: (data: any) => {
         let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; })=> element.delegatedOrgId == localStorage.getItem('permission_organisation_id') || "" )

@@ -83,7 +83,8 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
       'isEdit': false,
       'contactId': 0,
       'siteId': this.siteId,
-      'siteCreate':true
+      'siteCreate':true,
+      'contactAddAnother': false
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
   }

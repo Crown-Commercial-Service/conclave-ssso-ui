@@ -32,7 +32,10 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
     onContinueClick(){
         switch (this.adminSelectionMode){
             case "useradmin":{
-                this.router.navigateByUrl(`manage-org/register/type`);
+                this.router.navigateByUrl(environment.appSetting.customMfaEnabled
+                    ? 'manage-reg-organisation-mfa'
+                    : 'manage-org/register/type'
+                  );
                 break
             }
             case "nominateadmin":{

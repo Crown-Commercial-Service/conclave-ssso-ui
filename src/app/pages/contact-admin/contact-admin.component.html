@@ -31,7 +31,7 @@
         <div class="govuk-grid-column-full">
             <div class="user-table">
                 <app-govuk-table [headerTextKeys]="usersTableHeaders" [data]="userListResponse.userList"
-                    [dataKeys]="usersColumnsToDisplay" [isHyperLinkVisible]="true" [pageName]="pageName"
+                    [dataKeys]="usersColumnsToDisplay" [isHyperLinkVisible]="true" [hyperLinkText]="'.'"  [pageName]="pageName"
                     (hyperLinkClickEvent)="openEmailWindow($event)" [useServerPagination]="true"
                     [serverPageCount]="pageCount" [serverPageCurrentPage]="currentPage"
                     (changeCurrentPageEvent)="setPage($event)"></app-govuk-table>

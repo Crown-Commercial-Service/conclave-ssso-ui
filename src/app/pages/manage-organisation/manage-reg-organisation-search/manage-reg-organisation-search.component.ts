@@ -138,7 +138,8 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 adminUserFirstName: form.get('firstName')?.value,
                 adminUserLastName: form.get('lastName')?.value,
                 orgName: form.get('organisation')?.value,
-                ciiOrgId: ''
+                ciiOrgId: '',
+                isMfaRequired:false
             };
             sessionStorage.setItem('orgreginfo', JSON.stringify(organisationRegisterDto));
             sessionStorage.setItem('RegExistsingOrgName', organisationRegisterDto.orgName);

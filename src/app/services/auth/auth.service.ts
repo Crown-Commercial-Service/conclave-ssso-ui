@@ -327,4 +327,75 @@ export class AuthService {
       })
     );
   }
+  getMfaAuthorizationEndpoint()
+  {
+
+    let url = environment.uri.api.security + '/security/mfa/authorize?scope=email profile openid offline_access&response_type=code&client_id='
+      + environment.idam_client_id
+      + '&redirect_uri=' + environment.uri.web.dashboard + '/mfa-selection'
+    return url;
+  }
+  mfatoken(code: string): Observable<any> {
+    const options = {
+      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    let body = `client_id=${environment.idam_client_id}&code=${code}&grant_type=authorization_code&code_verifier=${this.getCodeVerifier()}&redirect_uri=${environment.uri.web.dashboard + '/mfa-selection'}`;
+    this.RollbarErrorService.RollbarDebug('Token_req:'+ body)
+    return this.httpService.post(`${this.url}/security/mfa/token`, body, options).pipe(
+      map(data => {
+       this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data)) 
+        return data;
+      }),
+      catchError(error => {
+       this.RollbarErrorService.RollbarDebug('Token_error:' + JSON.stringify(error))
+        return throwError(error);
+      })
+    );
+  }
+  Associate(accessToken: string, phoneNumber: string, isSms: boolean = false): Observable<any> {
+
+    let tokenBody = {     
+      "authenticator_types": isSms ? ["oob"] : ["otp"],
+      "oob_channels":["sms"],
+      "phone_number": phoneNumber,
+      "access_token": accessToken
+    }
+    return this.httpService.post(`${this.url}/security/mfa/enrollment`, tokenBody).pipe(
+
+      map(data => {
+        
+        return data;
+
+      }),
+
+      catchError(error => {
+
+        return throwError(error);
+
+      })
+
+    );
+
+  }
+
+  VerifyOTP(otp: string, token:string, oob_code: string, auth_type: string): Observable<any> {
+
+    let tokenBody = {
+      "mfa_token": token,
+      "otp": otp,
+      "oob_code": oob_code  ,
+      "auth_type" : auth_type
+    }
+    return this.httpService.post(`${this.url}/security/mfa/verifyotp`, tokenBody).pipe(
+      map(data => {
+        return data;
+      }),
+
+      catchError(error => {
+        return throwError(error);
+      })
+
+    );
+
+  }
 }
