@@ -24,7 +24,7 @@ export class AuthService {
   servicePermission: ServicePermission[];
   ccsServices: CcsServiceInfo[] = [];
 
-  constructor(private readonly workerService: WorkerService, private router: Router, private location: Location,private RollbarErrorService:RollbarErrorService,
+  constructor(public readonly workerService: WorkerService, private router: Router, private location: Location,private RollbarErrorService:RollbarErrorService,
     private readonly httpService: HttpClient, private readonly tokenService: TokenService) {
     this.servicePermission = [];
   }

@@ -45,8 +45,8 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     public showRoleView: boolean = environment.appSetting.hideSimplifyRole
     public formGroup: FormGroup | any;
     public orgAdminRole: any[] = [];
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, private sharedDataService: SharedDataService) {
+    constructor(protected uiStore: Store<UIState>, public router: Router, private activatedRoute: ActivatedRoute, public titleService: Title,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, public sharedDataService: SharedDataService) {
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {

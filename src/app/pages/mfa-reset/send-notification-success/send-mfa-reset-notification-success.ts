@@ -19,7 +19,7 @@ export class SendMFAResetNotificationSuccessComponent extends BaseComponent impl
   userName: string = '';
 
   constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>,
-    private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    public authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 

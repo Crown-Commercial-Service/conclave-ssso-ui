@@ -23,7 +23,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
     data: '',
     pageName: 'Contactadmin',
   }
-  constructor(private route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, private titleService: Title,) { 
+  constructor(public route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, public titleService: Title,) { 
     this.delegationRolesTable.details = {
       currentPage: this.delegationRolesTable.currentPage,
       pageCount: 0,
@@ -42,11 +42,11 @@ export class DelegatedUserConfirmComponent implements OnInit {
     });
     if (this.pageAccessMode === "edit") {
       this.titleService.setTitle(
-        `${'Confirm Delegation'}  - CCS`
+        `Confirm Delegation - CCS`
       );
     } else {
       this.titleService.setTitle(
-        `${'Confirm Delegation'}  - CCS`
+        `Confirm Delegation - CCS`
       );
     }
    this.getSelectedRole()
@@ -149,7 +149,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
   }
 
 
-  private exchangeGroupAndRole() {
+  public exchangeGroupAndRole() {
     if (!environment.appSetting.hideSimplifyRole) {
       this.UserSelectedinfo.detail.serviceRoleGroupIds = this.UserSelectedinfo.detail.roleIds;
       delete this.UserSelectedinfo.detail.roleIds;

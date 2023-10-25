@@ -69,7 +69,7 @@ export class ManageGroupEditNameComponent
 
   ngOnInit() {
     this.titleService.setTitle(
-      `${this.isEdit ? 'Edit Name' : 'Create'}  - Manage Groups - CCS`
+      `${this.isEdit ? 'Edit Name' : 'Create'} - Manage Groups - CCS`
     );
     if(this.isEdit){
     this.groupName=sessionStorage.getItem('Gname') || ''
