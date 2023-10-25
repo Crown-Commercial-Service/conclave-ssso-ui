@@ -17,7 +17,7 @@ export class ManageOrgRegSearchStatusExistsComponent implements OnInit{
     public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
 
     
-    constructor(private organisationService: OrganisationService, private router: Router,private ActivatedRoute: ActivatedRoute) {
+    constructor(private organisationService: OrganisationService, public router: Router,private ActivatedRoute: ActivatedRoute) {
         this.ActivatedRoute.queryParams.subscribe((para: any) => {
             if(para.data != undefined){
                 this.pageAccessMode = JSON.parse(atob(para.data));

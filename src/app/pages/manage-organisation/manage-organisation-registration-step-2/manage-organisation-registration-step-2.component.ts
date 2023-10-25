@@ -64,7 +64,7 @@ export class ManageOrgRegStep2Component
     private router: Router,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper,
+    public scrollHelper: ScrollHelper,
     private formBuilder: FormBuilder,
     private ActivatedRoute: ActivatedRoute,
     private SharedDataService:SharedDataService

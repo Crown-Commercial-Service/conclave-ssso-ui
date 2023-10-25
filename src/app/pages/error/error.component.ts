@@ -59,7 +59,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
     private router: Router,
-    private formBuilder: FormBuilder,
+    public formBuilder: FormBuilder,
     private userService: UserService,
     private RollbarErrorService:RollbarErrorService
   ) {

@@ -55,7 +55,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
     }
 
     ngOnInit() {
-        this.titleService.setTitle(`Confirm - ${this.isEdit ? "Add/Remove Users" : "Add Users"}  - Manage Groups - CCS`);
+        this.titleService.setTitle(`Confirm - ${this.isEdit ? "Add/Remove Users" : "Add Users"} - Manage Groups - CCS`);
     }
 
     onConfirmClick() {
