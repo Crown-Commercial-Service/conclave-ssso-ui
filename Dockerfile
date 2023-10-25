@@ -7,7 +7,7 @@ COPY . ./
 RUN npm run build
 
 #Deploy the application to Nginx
-FROM ubuntu:trusty  AS runtime
+FROM ubuntu:14.04.6  AS runtime
 RUN apt-get install nginx -y
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
