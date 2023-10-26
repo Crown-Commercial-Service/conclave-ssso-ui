@@ -1057,6 +1057,9 @@
                 }, function (err) {
                     if (err.code === 'invalid_user_password') {
                         displayErrorSummary(false, false, "Invalid Email or Password");
+                    } 
+                    else if(err.code === 'access_denied'){
+                         displayErrorSummary(false, false, "There is a timeout issue. Please try to refresh the page and log in again.");
                     } else {
                         displayErrorSummary(false, false, err.description);
                     } button.disabled = false;
@@ -1190,4 +1193,3 @@
 
  
 
- 
