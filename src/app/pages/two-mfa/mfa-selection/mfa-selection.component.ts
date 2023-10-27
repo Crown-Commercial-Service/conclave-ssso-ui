@@ -34,8 +34,8 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
     oob_code: any;
     qrCodeStr: string = "";
     public selectedOption: string | null = null;
-    public orgMfaRequired: boolean = false;
-    ciiOrgId : string = "";
+    public orgMfaRequired: boolean = false
+
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, private helperService: HelperService,
         private wrapperOrganisationService : WrapperOrganisationService, private tokenService : TokenService,
@@ -43,8 +43,8 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
         super(uiStore, viewportScroller, scrollHelper);
     }
 
-    async ngOnInit() {
-       await this.GetOrganisationMfaSettings();
+     ngOnInit() {
+        this.orgMfaRequired = JSON.parse(localStorage.getItem('org_mfa_required') || 'false');
         this.selectedOption = this.helperService.getSelectedOption();
         this.activatedRoute.queryParams.subscribe(params => {
             if (params['code']) {
@@ -100,19 +100,4 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
         }
 
     }
-    public async GetOrganisationMfaSettings() {
-
-        this.ciiOrgId = this.tokenService.getCiiOrgId();
-        await this.wrapperOrganisationService.getOrganisation(this.ciiOrgId).toPromise().then((data:any) =>{
-            this.orgMfaRequired = data.detail.isMfaRequired;
-
-        })
-        .catch((err) =>
-        {
-            console.log('error', err); 
-        });
-
-    }
-
-
 }

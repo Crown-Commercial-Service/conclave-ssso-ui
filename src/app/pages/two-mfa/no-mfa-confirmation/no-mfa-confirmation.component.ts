@@ -20,7 +20,6 @@ import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.servic
         })
     ],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit {
     userName = localStorage.getItem('user_name') ?? ''
