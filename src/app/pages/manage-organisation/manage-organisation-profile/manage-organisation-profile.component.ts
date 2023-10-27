@@ -55,6 +55,10 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     submitted: boolean = false;
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     pponSchema: string = 'GB-PPG';
+    selectedOption:string = "";
+    originalSelectedOption : string = "";
+    isMfaOptionChanged : boolean = false;
+    
 
 
 
@@ -79,6 +83,15 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         });
         if (org) {
             this.org = org;
+            if (this.org.detail?.isMfaRequired)
+            {
+                this.selectedOption = "required"
+            }
+            else 
+            {
+                this.selectedOption = "optional"
+            }
+            this.originalSelectedOption = this.selectedOption;
             this.idps = await this.configWrapperService.getIdentityProviders().toPromise().catch();
             this.orgIdps = await this.organisationGroupService.getOrganisationIdentityProviders(ciiOrgId).toPromise().catch();
             this.idps = this.idps.filter((x : IdentityProvider) => x.connectionName != 'none');
@@ -204,26 +217,51 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     get isValid(): boolean {
         return this.idps.find((x: any) => x.enabled === true) ? true : false;
     }
+    public onRadioChange ()
+    {
+        this.isMfaOptionChanged = false;
+       if (this.selectedOption != this.originalSelectedOption)
+       {
+            this.isMfaOptionChanged = true;
+       }
+    }
 
     public onSaveChanges() {
         this.submitted = true;
-        if (!this.isIdpChanged || !this.isValid) {
+        const ciiOrgId = this.tokenService.getCiiOrgId();
+        var isMfaRequired = false;
+        let identityProviderSummary: IdentityProviderSummary = {
+            ciiOrganisationId: ciiOrgId,
+            changedOrgIdentityProviders: this.changedIdpList
+        }
+        if (this.selectedOption == "required")
+        {
+            isMfaRequired = true
+        }
+        if (!this.isIdpChanged && !this.isMfaOptionChanged || !this.isValid) {
             this.setFocus();
             return;
         }
-
-        if (this.changedIdpList.find(x => x.enabled === false)) {
-            this.router.navigateByUrl('manage-org/idp-confirm?data=' +btoa(JSON.stringify(this.changedIdpList)));
-
-        } else {
-            const ciiOrgId = this.tokenService.getCiiOrgId();
-            let identityProviderSummary: IdentityProviderSummary = {
-                ciiOrganisationId: ciiOrgId,
-                changedOrgIdentityProviders: this.changedIdpList
-            }
+        if (this.isIdpChanged && !this.isMfaOptionChanged)
+        {
+                  
             this.organisationGroupService.enableIdentityProvider(identityProviderSummary).subscribe(data => {
-                this.router.navigateByUrl(`manage-org/profile/success`);
+                        this.router.navigateByUrl(`manage-org/profile/success`);
+                    });
+
+        }
+        else if (!this.isIdpChanged && this.isMfaOptionChanged )
+        {
+            this.organisationService.updateOrganisationMfaSettings(ciiOrgId,isMfaRequired).subscribe(data =>{
+            this.router.navigateByUrl('manage-org-mfa-update-success?data='+JSON.stringify(this.selectedOption));
             });
+
+
+        }
+        else if (this.isIdpChanged && this.isMfaOptionChanged)
+        {
+            this.performApiCalls(identityProviderSummary,ciiOrgId,isMfaRequired);
+           
         }
 
     }
@@ -247,5 +285,20 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         };
         this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
     }
+  public  async  performApiCalls(identityProviderSummary:any,ciiOrgId:string,isMfaRequired:boolean) {
+        try {
+          const idpResponse = await this.organisationGroupService.enableIdentityProvider(identityProviderSummary).toPromise();
+          const mfaResponse = await this.organisationService.updateOrganisationMfaSettings(ciiOrgId, isMfaRequired).toPromise();
+      
+          if (idpResponse && mfaResponse) {
+            this.router.navigateByUrl('manage-org-mfa-update-success?data=' + JSON.stringify(this.selectedOption));
+          } else {
+            console.log('One or more API calls failed.');
+          }
+        } catch (error) {
+
+          console.log('An error occurred during API calls:', error);
+        }
+      }
 
 }

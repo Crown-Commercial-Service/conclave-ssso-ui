@@ -287,7 +287,7 @@ export class WrapperOrganisationGroupService {
   enableIdentityProvider(identityProviderSummary: IdentityProviderSummary): Observable<any> {
     return this.http.put<any>(`${this.url}/${identityProviderSummary.ciiOrganisationId}/identity-providers`, identityProviderSummary).pipe(
       map((data: any) => {
-        return data;
+        return true;
       }), catchError(error => {
         return throwError(error);
       })

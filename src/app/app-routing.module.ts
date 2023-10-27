@@ -165,6 +165,7 @@ import { MfaAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setu
 import { MfaNoAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-no-authentication-setup-success/mfa-no-authentication-setup-success.component';
 import { ManageOrgRegMfaComponent } from './pages/two-mfa/manage-reg-organisation-mfa/manage-reg-organisation-mfa.component';
 import { MfaGuard } from './services/auth/mfa.guard';
+import { ManageOrgMfaUpdateSuccessComponent } from './pages/two-mfa/manage-org-mfa-update-success/manage-org-mfa-update-success.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1379,6 +1380,13 @@ const routes: Routes = [
   pathMatch : 'full',
   component : ManageOrgRegMfaComponent
  },
+ {
+  path :'manage-org-mfa-update-success',
+  data: { title: 'Organisation Mfa Update' },
+  pathMatch : 'full',
+  component : ManageOrgMfaUpdateSuccessComponent
+ },
+
  
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
