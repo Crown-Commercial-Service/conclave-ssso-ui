@@ -47,7 +47,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
 
   constructor(private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
-    private orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
+    public orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
     private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService) {
     super(viewportScroller, formBuilder.group({                                        
       name: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],

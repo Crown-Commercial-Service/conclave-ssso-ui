@@ -142,7 +142,7 @@ export interface PendingApproveRoleDetail {
 }
 
 export interface acceptRejectRequestDetail {
-    pendingRoleIds: []
+    pendingRoleIds: number[];
     status: number
 }
 export interface userGroupTableDetail {
