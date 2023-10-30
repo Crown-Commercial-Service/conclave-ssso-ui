@@ -62,4 +62,15 @@ export class WrapperOrganisationService {
       })
     );
   }
+  getOrganisationMfaStatus(organisationId: string):Observable<any> {
+    const mfaRequired = true;
+    const url = `${this.url}/${organisationId}/details?is-mfa-required=${mfaRequired}`;
+    return this.http.get<string>(url).pipe(
+      map((data: any) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
 }
