@@ -36,7 +36,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
   isDelegation: boolean = !environment.appSetting.hideDelegation;
   isTwoMfaEnabled: boolean = environment.appSetting.customMfaEnabled;
   isMfaOpted: boolean = false;
-  organisationMfaRequired :boolean = false;
   public orgDetails: any = ''
   systemModules: SystemModule[] = [];
   ccsModules: SystemModule[] = [];
@@ -80,8 +79,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
       next: (data: any) => {
         let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; }) => element.delegatedOrgId == this.switchedOrgId);
         this.isMfaOpted = data.mfaOpted;
-        this.organisationMfaRequired = data.organisationMfaRequired;
-        localStorage.setItem('org_mfa_required',JSON.stringify(this.organisationMfaRequired))
         if (orgDetails === undefined) {
           if (this.isTwoMfaEnabled && this.isMfaOpted == false) {
             window.location.href = this.authService.getMfaAuthorizationEndpoint();

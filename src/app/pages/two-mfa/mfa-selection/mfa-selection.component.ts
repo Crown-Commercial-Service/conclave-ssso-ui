@@ -34,7 +34,8 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
     oob_code: any;
     qrCodeStr: string = "";
     public selectedOption: string | null = null;
-    public orgMfaRequired: boolean = false
+    public orgMfaRequired: boolean = false;
+    ciiOrgId : string = ""
 
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, private helperService: HelperService,
@@ -43,8 +44,9 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
         super(uiStore, viewportScroller, scrollHelper);
     }
 
-     ngOnInit() {
-        this.orgMfaRequired = JSON.parse(localStorage.getItem('org_mfa_required') || 'false');
+     async ngOnInit() {
+       // this.orgMfaRequired = JSON.parse(localStorage.getItem('org_mfa_required') || 'false');
+       await this.GetOrganisationMfaSettings();
         this.selectedOption = this.helperService.getSelectedOption();
         this.activatedRoute.queryParams.subscribe(params => {
             if (params['code']) {
@@ -98,6 +100,19 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
         else if (event == "NOAUTH") {
             this.router.navigateByUrl('no-mfa-confirmation');
         }
+
+    }
+    public async GetOrganisationMfaSettings() {
+        debugger;
+        this.ciiOrgId = this.tokenService.getCiiOrgId();
+        await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data:any) =>{
+            this.orgMfaRequired = data.toLowerCase() === 'true';
+
+        })
+        .catch((err) =>
+        {
+            console.log('error', err); 
+        });
 
     }
 }
