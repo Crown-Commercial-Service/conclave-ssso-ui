@@ -445,5 +445,7 @@
   "REQUIRED_INFO":"Users must have 2FA enabled on their accounts.",
   "2FA_SETUP": "2FA setup",
   "2FA_HELPTEXT":"Two-factor authentication (2FA) helps keep your account secure by adding an extra layer of security. With 2FA turned on, you'll need to enter a code from an app or text message each time you log in.",
-  "WHAT_IS_2FA" : "What is 2FA?"
+  "WHAT_IS_2FA" : "What is 2FA?",
+  "MFA_ON" : "On",
+  "MFA_OFF" : "Off"
 }
