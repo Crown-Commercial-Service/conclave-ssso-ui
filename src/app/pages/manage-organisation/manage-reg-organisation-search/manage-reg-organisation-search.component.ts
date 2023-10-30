@@ -12,6 +12,7 @@ import { UIState } from "src/app/store/ui.states";
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { PatternService } from "src/app/shared/pattern.service";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 
 @Component({
@@ -34,7 +35,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     searchOrgName: string = '';
 
     constructor(private organisationService: OrganisationService,private PatternService:PatternService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private dataLayerService:DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
 
         let orgInfoExists = sessionStorage.getItem('orgreginfo') != null;
@@ -128,6 +129,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
 
 
     async onSubmit(form: FormGroup) {
+        this.pushDataLayer()
         this.submitted = true;
         if(this.PatternService.emailValidator(form.get('email')?.value)){
             this.formGroup.controls['email'].setErrors({ 'incorrect': true})
@@ -161,6 +163,14 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 this.router.navigateByUrl(`manage-org/register/initial-search-status/duplicate`);
             }
         }
+    }
+
+    pushDataLayer(){
+        console.log("data layer pushed")
+        this.dataLayerService.pushEvent({
+            'event': 'form_start',
+            'form_id': 'Enter_detail _create_account'
+          });
     }
 
     goBack() {
