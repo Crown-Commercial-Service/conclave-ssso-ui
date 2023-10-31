@@ -41,7 +41,6 @@
     "ngx-bootstrap": "^7.1.0",
     "ngx-intl-tel-input": "^3.1.1",
     "ngx-mat-select-search": "^3.3.3",
-    "node-vault": "^0.5.10",
     "rollbar": "^2.24.0",
     "rxjs": "^6.6.7",
     "rxjs-compat": "^6.6.7",
