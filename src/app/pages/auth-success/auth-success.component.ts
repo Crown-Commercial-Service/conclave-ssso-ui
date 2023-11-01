@@ -17,6 +17,7 @@ import { TokenInfo } from 'src/app/models/auth';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WorkerService } from 'src/app/services/worker.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -47,6 +48,7 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             if (params['code']) {
+                debugger
                 this.authService.token(params['code']).toPromise().then((tokenInfo: TokenInfo) => {
                     let idToken = this.tokenService.getDecodedToken(tokenInfo.id_token);
                     localStorage.setItem('brickedon_user', idToken.email);
@@ -60,11 +62,16 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                     localStorage.setItem('session_state', tokenInfo.session_state);
                     this.authService.publishAuthStatus(true);
                     this.authService.createSession(tokenInfo.refresh_token).toPromise().then(() => {
-                    const  previousGlobalRoute =  localStorage.getItem('routeRecords') ||'home'
-                    this.authService.registerTokenRenewal();
-                    this.router.navigateByUrl(previousGlobalRoute);                        
+                     if(environment.appSetting.enableMockLogin){
+                        this.router.navigateByUrl("home")
+                     } else {
+                        const  previousGlobalRoute =  localStorage.getItem('routeRecords') ||'home'
+                        this.authService.registerTokenRenewal();
+                        this.router.navigateByUrl(previousGlobalRoute);   
+                     }
                     });
                 }, (err) => {
+                    debugger
                     if (err.status == 404) {
                         this.router.navigateByUrl('error?error_description=USER_NOT_FOUND');
                     }
@@ -80,6 +87,7 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                 });
             }
             else if (params['error']) {
+                debugger
                 let error = params['error'];
                 if (error == 'login_required') {
                     this.authService.logOutAndRedirect();
