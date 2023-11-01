@@ -167,7 +167,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   pushDataLayer(event:string){
     this.dataLayerService.pushEvent({
         'event': event,
-        'form_id': 'Create_administrator_account _Confirm_organisation_details'
+        'form_id': 'Additional_registries Create_administrator_account'
     });
   }
 }

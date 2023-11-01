@@ -52,7 +52,7 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
   pushDataLayer(event:string){
     this.dataLayerService.pushEvent({
         'event': event,
-        'form_id': ''
+        'form_id': 'Register_organisation Organisation_type'
     });
   }
 }

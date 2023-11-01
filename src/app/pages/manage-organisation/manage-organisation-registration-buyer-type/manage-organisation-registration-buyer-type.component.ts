@@ -52,7 +52,7 @@ export class ManageOrgRegBuyerTypeComponent extends BaseComponent implements OnI
   pushDataLayer(event:string){
     this.dataLayerService.pushEvent({
         'event': event,
-        'form_id': ''
+        'form_id': 'Register_organisation Buyer_type'
     });
   }
 }

@@ -83,7 +83,7 @@ export class CookiesSettingsComponent implements OnInit {
   pushDataLayer(event:string){
     this.dataLayerService.pushEvent({
         'event': event,
-        'form_id': ''
+        'form_id': 'cookies_settings'
     });
   }
 }
