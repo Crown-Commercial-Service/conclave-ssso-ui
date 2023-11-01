@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { slideAnimation } from 'src/app/animations/slide.animation';
 import { Router } from '@angular/router';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-user-add-selection-component',
@@ -34,7 +35,8 @@ export class ManageUserAddSelectionComponent
     public router: Router,
     private formBuilder: FormBuilder,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper
+    protected scrollHelper: ScrollHelper,
+    private dataLayerService: DataLayerService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.selectionForm = this.formBuilder.group({
@@ -55,6 +57,7 @@ export class ManageUserAddSelectionComponent
   public onSubmit(form: FormGroup) {
     this.submitted = true;
     if (this.formValid(form)) {
+      this.pushDataLayer("form_submit");
       this.submitted = false;
 
       let selection = form.get('selection')?.value;
@@ -64,6 +67,8 @@ export class ManageUserAddSelectionComponent
         console.log('Add Multiple Users Selected');
         this.router.navigateByUrl('manage-users/bulk-users');
       }
+    } else {
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -75,5 +80,12 @@ export class ManageUserAddSelectionComponent
 
   onCancelClick() {
     this.router.navigateByUrl('manage-users');
+  }
+
+  pushDataLayer(event: string){
+    this.dataLayerService.pushEvent({
+        'event': event,
+        'form_id': ''
+    });
   }
 }

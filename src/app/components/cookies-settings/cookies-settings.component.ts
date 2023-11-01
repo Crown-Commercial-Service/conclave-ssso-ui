@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookiesService } from 'src/app/shared/cookies.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -36,7 +37,7 @@ export class CookiesSettingsComponent implements OnInit {
   public isOrgAdmin: boolean = false;
 
 
-  constructor(private CookiesService: CookiesService,private router: Router) {
+  constructor(private CookiesService: CookiesService,private router: Router, private dataLayerService: DataLayerService) {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.userName = localStorage.getItem('user_name') || '';
    }
@@ -46,10 +47,12 @@ export class CookiesSettingsComponent implements OnInit {
     if (this.ppg_cookies_preferences_set == "true") {
       this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
     }
+    this.pushDataLayer("form_start");
   }
 
   public OnSubmit() {
     const cookies_prefernace = JSON.stringify(this.cookiesValue)
+    this.pushDataLayer("form_submit");
     this.CookiesService.setCookie('ppg_cookies_policy', cookies_prefernace, this.cookieExpirationTimeInMinutes);
     this.CookiesService.setCookie('ppg_cookies_preferences_set', 'true', this.cookieExpirationTimeInMinutes);
     this.cookiesUpdated = true;
@@ -77,4 +80,10 @@ export class CookiesSettingsComponent implements OnInit {
     element?.scrollIntoView();
   }
 
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+        'event': event,
+        'form_id': ''
+    });
+  }
 }

@@ -12,6 +12,7 @@ import { CiiOrganisationDto, OrganisationRegisterDto } from 'src/app/models/orga
 import { UserTitleEnum } from 'src/app/constants/enum';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-organisation-registration-add-user',
@@ -34,7 +35,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,
     private PatternService: PatternService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private ActivatedRoute: ActivatedRoute) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private ActivatedRoute: ActivatedRoute, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
 
     this.formGroup = this.formBuilder.group({
@@ -61,6 +62,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
       this.formGroup.controls['firstName'].setValue(orgreginfo.adminUserFirstName);
       this.formGroup.controls['lastName'].setValue(orgreginfo.adminUserLastName);
       this.formGroup.controls['email'].setValue(orgreginfo.adminEmail);
+      this.pushDataLayer("form_start");
     }
   }
 
@@ -90,6 +92,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
         adminUserTitle: "",
         isMfaRequired:orgreginfo.isMfaRequired
       };
+      this.pushDataLayer("form_submit");
       this.organisationService.registerOrganisation(organisationRegisterDto)
         .subscribe({
           next: () => {
@@ -113,6 +116,8 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
             }
           }
         });
+    } else {
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -159,4 +164,10 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
     window.history.back()
   }
 
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+        'event': event,
+        'form_id': 'Create_administrator_account _Confirm_organisation_details'
+    });
+  }
 }

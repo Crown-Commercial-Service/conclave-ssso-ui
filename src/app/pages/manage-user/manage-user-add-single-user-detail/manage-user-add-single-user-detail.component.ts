@@ -28,6 +28,7 @@ import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { Subscription } from 'rxjs';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-user-add-single-user-detail',
@@ -126,7 +127,8 @@ export class ManageUserAddSingleUserDetailComponent
     private authService: AuthService,
     private locationStrategy: LocationStrategy,
     private organisationService: WrapperOrganisationService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private dataLayerService: DataLayerService
   ) {
     super(
       viewportScroller,
@@ -510,6 +512,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
       this.formGroup.controls['userName'].setErrors({ incorrect: true });
     }
     if (this.formValid(form)) {
+      this.pushDataLayer("form_submit");
       this.userProfileRequestInfo.title = form.get('userTitle')?.value;
       this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
       this.userProfileRequestInfo.lastName = form.get('lastName')?.value;
@@ -528,6 +531,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         this.saveChanges("create", form)
       }
     } else {
+      this.pushDataLayer("form_error");
       this.scrollView();
     }
   }
@@ -1020,6 +1024,13 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     document.getElementById(id)?.scrollIntoView({
       block: 'start',
       inline: 'nearest',
+    });
+  }
+
+  pushDataLayer(event: string){
+    this.dataLayerService.pushEvent({
+        'event': event,
+        'form_id': ''
     });
   }
 }

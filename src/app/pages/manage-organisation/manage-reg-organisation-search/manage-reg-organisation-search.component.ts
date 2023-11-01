@@ -48,6 +48,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 organisation: [orgreginfo.orgName, Validators.compose([Validators.required])]
             });
             this.searchOrgName = orgreginfo.orgName;
+            this.pushDataLayer("form_start");
         }
         else {
             this.formGroup = this.formBuilder.group({
@@ -129,12 +130,12 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
 
 
     async onSubmit(form: FormGroup) {
-        this.pushDataLayer()
         this.submitted = true;
         if(this.PatternService.emailValidator(form.get('email')?.value)){
             this.formGroup.controls['email'].setErrors({ 'incorrect': true})
         }
         if (this.formValid(form)) {
+            this.pushDataLayer("form_submit");
             let organisationRegisterDto: OrganisationRegBasicInfo = {
                 adminEmail: form.get('email')?.value,
                 adminUserFirstName: form.get('firstName')?.value,
@@ -162,13 +163,14 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 //Multiple Orgs exists
                 this.router.navigateByUrl(`manage-org/register/initial-search-status/duplicate`);
             }
+        } else {
+            this.pushDataLayer("form_error");
         }
     }
 
-    pushDataLayer(){
-        console.log("data layer pushed")
+    pushDataLayer(event: string){
         this.dataLayerService.pushEvent({
-            'event': 'form_start',
+            'event': event,
             'form_id': 'Enter_detail _create_account'
           });
     }
