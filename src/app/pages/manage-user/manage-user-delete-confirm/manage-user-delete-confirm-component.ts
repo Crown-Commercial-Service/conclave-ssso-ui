@@ -28,6 +28,7 @@ export class ManageUserDeleteConfirmComponent extends BaseComponent implements O
         private wrapperUserService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
         this.userName = sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
+        this.userName = localStorage.getItem('ManageUserUserName') ?? '';
     }
 
     ngOnInit() {
@@ -37,6 +38,7 @@ export class ManageUserDeleteConfirmComponent extends BaseComponent implements O
         this.wrapperUserService.deleteUser(this.userName).subscribe({
             next: () => { 
                 sessionStorage.setItem(SessionStorageKey.OperationSuccessUserName, this.userName);
+                localStorage.setItem('OperationSuccessUserName', this.userName)
                 this.router.navigateByUrl(`operation-success/${OperationEnum.UserDelete}`);             
             },
             error: (error) => {

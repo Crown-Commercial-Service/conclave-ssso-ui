@@ -104,13 +104,13 @@
                 <p class="govuk-body-l" *ngIf="operation=== operationEnum.GroupDelete" >{{ 'GROUP_DELETE_SUCCESS' | translate }} {{GroupName}}</p>
 
                 <ng-container *ngIf="operation === operationEnum.GroupAdd || isEdit">
-                    <a href="javascript:;" class="navigation-text" (click)="onNavigateToGroupClick()">View {{ operation === operationEnum.GroupAdd ? 'new group' : 'group' }}</a><br><br>
+                    <a [routerLink]="['/manage-groups/view']"  [queryParams]="{ data: getQueryData() }"  class="navigation-text" (click)="onNavigateToGroupClick()">View {{ operation === operationEnum.GroupAdd ? 'new group' : 'group' }}</a><br><br>
                   </ng-container>
                
-                <a href="javascript:;"  class="navigation-text" (click)="onNavigateTomanageGroup()">
+                <a href="javascript:;"  class="navigation-text" routerLink="/manage-groups">
                     Return to Manage Groups homepage</a>
                     <br><br>
-                    <a href="javascript:;"  class="navigation-text" (click)="onNavigateTohome()">
+                    <a href="javascript:;"  class="navigation-text" routerLink="/home">
                         Return to dashboard</a>   
                 <!-- <a *ngIf="operation=== operationEnum.GroupDelete" class="navigation-text" routerLink="/manage-groups">
                     {{ 'RETURN_TO_MANAGE_GROUPS' | translate }}</a> -->

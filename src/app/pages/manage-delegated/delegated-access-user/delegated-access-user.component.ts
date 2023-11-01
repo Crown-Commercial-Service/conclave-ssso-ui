@@ -303,6 +303,12 @@ export class DelegatedAccessUserComponent implements OnInit {
     );
   }
 
+  getQueryData(): string {
+    this.userDetails.pageaccessmode = 'resent'
+    sessionStorage.removeItem('deleagted_user_details');
+    return btoa(JSON.stringify(this.userDetails));
+  }
+
   /**
    * form vlidation, core function
    * @param form 
