@@ -53,21 +53,21 @@ export class NominateComponent extends BaseComponent {
     super(uiStore, viewportScroller, scrollHelper);
     this.formGroup = this.formBuilder.group({
       firstName: [
-        ,
+        '',
         Validators.compose([
           Validators.required,
           Validators.pattern(this.PatternService.NameValidator),
         ]),
       ],
       lastName: [
-        ,
+        '',
         Validators.compose([
           Validators.required,
           Validators.pattern(this.PatternService.NameValidator),
         ]),
       ],
       email: [
-        ,
+        '',
         Validators.compose([
           Validators.required,
           Validators.pattern(this.PatternService.emailPattern),
@@ -85,7 +85,6 @@ export class NominateComponent extends BaseComponent {
     }
   }
   public onSubmit(form: FormGroup) {
-    this.router.navigateByUrl(`nominate/success?data=` + btoa(JSON.stringify(this.pageAccessMode)));
     this.submitted = true;
     if (this.PatternService.emailValidator(form.get('email')?.value)) {
       this.formGroup.controls['email'].setErrors({ incorrect: true });
