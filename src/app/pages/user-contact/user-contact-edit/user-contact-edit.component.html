@@ -252,8 +252,8 @@
                             data-module="govuk-button">
                             {{ 'CANCEL_BTN' | translate }}
                         </button>
-                    </div>
-                    <a href="javascript:;" *ngIf="isEdit==true" (click)="onDeleteClick()"
+                    </div>                   
+                    <a [routerLink]="['/user-contact-delete']"  [queryParams]="{ data: getQueryData() }" *ngIf="isEdit==true" (click)="onDeleteClick()"
                         class="navigation-text delete-link">
                         {{ 'DELETE_CONTACT' | translate }}</a>
                 </div>

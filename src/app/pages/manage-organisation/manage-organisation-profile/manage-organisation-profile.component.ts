@@ -11,9 +11,9 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { IdentityProvider, IdentityProviderSummary } from 'src/app/models/identityProvider';
 import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { WrapperOrganisationContactService } from 'src/app/services/wrapper/wrapper-org-contact-service';
-import { ContactGridInfo } from 'src/app/models/contactInfo';
+import { ContactGridInfo, ContactGridInfoWithLink } from 'src/app/models/contactInfo';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
-import { OrganisationSite, SiteGridInfo } from 'src/app/models/site';
+import { OrganisationSite, SiteGridInfo, SiteGridInfoWithLink } from 'src/app/models/site';
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
@@ -30,8 +30,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
     org: OrganisationDto;
     ciiOrganisationId: string;
-    contactData: ContactGridInfo[];
-    siteData: SiteGridInfo[];
+    contactData: ContactGridInfoWithLink[];
+    siteData: SiteGridInfoWithLink[];
     registries: CiiOrgIdentifiersDto;
     contactAddAnother: any;
     additionalIdentifiers: CiiAdditionalIdentifier[];
@@ -106,7 +106,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
             await this.orgContactService.getOrganisationContacts(this.ciiOrganisationId).toPromise().then(orgContactListInfo => {
                 if (orgContactListInfo != null) {
-                    this.contactData = this.contactHelper.getContactGridInfoList(orgContactListInfo.contactPoints);
+                    this.contactData = this.contactHelper.getContactGridInfoListWithLink(orgContactListInfo.contactPoints);
                 }
                 if (orgContactListInfo.contactPoints && orgContactListInfo.contactPoints.length > 0) {
                     this.contactAddAnother = true;
@@ -132,7 +132,14 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
                 if (orgContactListInfo != null) {
                     this.siteData = orgContactListInfo.sites.map((site: OrganisationSite) => {
-                        let siteGridInfo: SiteGridInfo = {
+                        let data = {
+                            'isEdit': true,
+                            'siteId': site.details.siteId
+                        };
+                        let queryParams =
+                            {data: JSON.stringify(data)}
+                    
+                        let siteGridInfo: SiteGridInfoWithLink = {
                             siteId: site.details.siteId,
                             siteName: site.siteName,
                             streetAddress: site.address.streetAddress,
@@ -141,6 +148,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                             countryName: site.address.countryName,
                             locality: site.address.locality,
                             region: site.address.region,
+                            routeLink : `/manage-org/profile/site/edit`,
+                            routeData: queryParams
                         };
                         return siteGridInfo;
                     });
@@ -194,6 +203,10 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     public onRegistryRemoveClick(row: any) {
         this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/delete/${row.scheme}/${row.id}`);
     }
+
+    public generateRegistryRemoveRoute(row: any): string {
+        return `/manage-org/profile/${this.ciiOrganisationId}/registry/delete/${row.scheme}/${row.id}`;
+      }
 
     public onIdentityProviderChange(e: any, row: any) {
         var selectedItem = this.idps.find((x: any) => x.id === row.id);

@@ -34,7 +34,7 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
             console.log(routeData);
-            this.userName = sessionStorage.getItem(SessionStorageKey.UserContactUsername) ?? '';
+            this.userName = localStorage.getItem('UserContactUsername') ?? '';
             this.contactId = routeData['contactId'];
         }
     }

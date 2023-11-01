@@ -164,6 +164,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.isAdminUser = this.route.snapshot.data.isAdmin;
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     sessionStorage.removeItem(SessionStorageKey.UserContactUsername);
+    localStorage.removeItem('UserContactUsername');
     await this.auditLogService
       .createLog({
         eventName: 'Access',
@@ -419,6 +420,17 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           this.userContacts = this.contactHelper.getContactGridInfoList(
             userContactsInfo.contactPoints
           );
+          this.userContacts.forEach((f)=>{
+            let data = {
+              'isEdit': true,
+              'contactId': f.contactId,
+            };
+          sessionStorage.setItem(SessionStorageKey.UserContactUsername, this.userName);
+          localStorage.setItem('UserContactUsername', this.userName);
+          let queryParams = {data: JSON.stringify(data)}
+          f.routeLink= `/user-contact-edit`
+          f.routeData = queryParams
+          })
         }
         if (userContactsInfo.contactPoints && userContactsInfo.contactPoints.length > 0) {
           this.buttonText = 'ADD_ANOTHER_CONTACT_BTN';

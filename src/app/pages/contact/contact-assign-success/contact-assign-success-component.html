@@ -32,10 +32,10 @@
                     {{ 'ASSIGN_TO_SITE_CONTACT_SUCCESS' | translate }}
                 </p>
             </div>
-            <a href="javascript:;" *ngIf="assigningOrgId != '' || assigningSiteId != 0" class="navigation-text"
-                (click)="onNavigateToProfileClick()">
+            <a [routerLink]="'/manage-org/profile'" *ngIf="assigningOrgId != '' || assigningSiteId != 0" class="navigation-text">
                 {{'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                      <a href="javascript:;" *ngIf="assigningSiteId != 0" class="navigation-text"
+
+            <a [routerLink]="['/manage-org/profile/site/edit']"  [queryParams]="{ data: getQueryData() }" *ngIf="assigningSiteId != 0" class="navigation-text"
                 (click)="onNavigateToSiteClick()">
                 Return to {{siteInfo.siteName}} details </a>
         </div>

@@ -439,11 +439,11 @@
                         Reset user’s additional security
                     </button>
                     <div *ngIf="isEdit==true">
-                        <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{
-                            'DELETE_USER'
-                            | translate }}</a>
+                        
+                        <a routerLink="/manage-users/confirm-user-delete" (click)="onDeleteClick()"  class="navigation-text delete-link">{{
+                                'DELETE_USER'
+                                | translate }}</a>
                     </div>
-
                 </div>
             </form>
         </div>

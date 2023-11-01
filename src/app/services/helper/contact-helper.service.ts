@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ContactDetail, ContactGridInfo, ContactPoint, VirtualContactType } from 'src/app/models/contactInfo';
+import { ContactDetail, ContactGridInfo, ContactGridInfoWithLink, ContactPoint, VirtualContactType, SiteContactInfoListWithLink } from 'src/app/models/contactInfo';
 
 @Injectable({
     providedIn: 'root'
@@ -64,4 +64,35 @@ export class ContactHelper {
 
         return contactGridInfoList;
     }
+
+    getContactGridInfoListWithLink(contactPoints: ContactPoint[]) {
+        let contactGridInfoList: ContactGridInfoWithLink[] = [];
+    
+        contactPoints.forEach(contactPoint => {
+            let data = {
+                'isEdit': true,
+                'contactId': contactPoint.contactPointId
+            };
+    
+            let queryParams = { data: JSON.stringify(data) };
+    
+            let contactGridInfo: ContactGridInfoWithLink = {
+                contactId: contactPoint.contactPointId,
+                contactReason: contactPoint.contactPointReason,
+                name: contactPoint.contactPointName,
+                email: this.getContactValueFromContactList(VirtualContactType.EMAIL, contactPoint.contacts) ?? '',
+                phoneNumber: this.getContactValueFromContactList(VirtualContactType.PHONE, contactPoint.contacts) ?? '',
+                fax: this.getContactValueFromContactList(VirtualContactType.FAX, contactPoint.contacts) ?? '',
+                webUrl: this.getContactValueFromContactList(VirtualContactType.URL, contactPoint.contacts) ?? '',
+                mobileNumber: this.getContactValueFromContactList(VirtualContactType.MOBILE, contactPoint.contacts) ?? '',
+                routeLink: `/manage-org/profile/contact-edit`,
+                routeData: queryParams
+            };
+    
+            contactGridInfoList.push(contactGridInfo);
+        });
+    
+        return contactGridInfoList;
+    }
+    
 }

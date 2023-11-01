@@ -9,7 +9,7 @@ import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper
 import { OrganisationSiteInfo, OrganisationSiteResponse } from 'src/app/models/site';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WrapperSiteContactService } from 'src/app/services/wrapper/wrapper-site-contact-service';
-import { ContactGridInfo, SiteContactInfoList } from 'src/app/models/contactInfo';
+import { ContactGridInfo, ContactGridInfoWithLink, SiteContactInfoList } from 'src/app/models/contactInfo';
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
@@ -164,6 +164,16 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       next: (siteContactListInfo: SiteContactInfoList) => {
         if (siteContactListInfo != null) {
           this.contactData = this.contactHelper.getContactGridInfoList(siteContactListInfo.contactPoints);
+          this.contactData.forEach((f)=>{
+            let data = {
+              'isEdit': true,
+              'contactId': f.contactId,
+              'siteId': this.siteId
+            };
+            let queryParams = {data: JSON.stringify(data)}
+            f.routeLink = `/manage-org/profile/site/contact-edit`,
+            f.routeData = queryParams
+          })
         }
         if (siteContactListInfo.contactPoints && siteContactListInfo.contactPoints.length > 0) {
           this.contactAddAnother = true;
@@ -278,6 +288,14 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     this.router.navigateByUrl('manage-org/profile/site/delete?data=' + JSON.stringify(data));
   }
 
+  getQueryData(): string {
+    const data = {
+      'organisationId': this.organisationId,
+      'siteId': this.siteId
+    };
+    return JSON.stringify(data);
+  }
+  
   public onContactAddClick() {
     let data = {
       'isEdit': false,
@@ -297,7 +315,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
   }
 
-  onContactEditClick(contactInfo: ContactGridInfo) {
+  onContactEditClick(contactInfo: ContactGridInfoWithLink) {
     let data = {
       'isEdit': true,
       'contactId': contactInfo.contactId,

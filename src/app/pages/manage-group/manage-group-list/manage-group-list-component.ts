@@ -49,6 +49,15 @@ export class ManageGroupListComponent extends BaseComponent implements OnInit {
             next: (userListResponse: GroupList) => {
                 if (userListResponse != null) {
                     this.groupList = userListResponse;
+                    this.groupList.groupList.forEach((f)=>{
+                        let data = {
+                            'isEdit': true,
+                            'groupId':f.groupId
+                        };
+                        let queryParams = {data: JSON.stringify(data)}
+                         f.routeLink= `/manage-groups/view`,
+                         f.routeData = queryParams
+                    })
                 }
             },
             error: (error: any) => {
