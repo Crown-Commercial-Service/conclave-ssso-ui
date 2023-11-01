@@ -123,8 +123,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     groupShow: false,
     data: []
   }
-  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
-  public selectedOption : string ="";
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 

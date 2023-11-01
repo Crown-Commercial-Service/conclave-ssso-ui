@@ -99,7 +99,7 @@
                                         (clickedData)="onUserTypeChanged($event)"></app-govuk-radio>
                                 </div>
 
-                                <div  *ngIf = "!isCustomMfaEnabled" class="govuk-form-group" id="user-mfa-form-group" >
+                                <div class="govuk-form-group" id="user-mfa-form-group" >
                                     <fieldset class="govuk-fieldset">
                                         <h2 class="govuk-heading-s">
                                             Additional security
@@ -114,47 +114,9 @@
                                         </div>
                                     </fieldset>
                                 </div>
-                                <button  *ngIf = "!isCustomMfaEnabled" type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                                <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
                                     [disabled]="!formGroup.controls.mfaEnabled.value"
                                     (click)="ResetAdditionalSecurity()">Reset my additional security</button>
-
-                                    <div class = "govuk-form-group" *ngIf = "isCustomMfaEnabled">
-                                        <fieldset class="govuk-fieldset">
-                                            <h2 class="govuk-heading-s">
-                                            {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}</h2>
-                                            <p class="govuk-hint" style="color: black;">Currently on for this account using the authenticator app.</p>
-                                            <div>
-                                              <details class="govuk-details" data-module="govuk-details">
-                                                <summary class="govuk-details__summary">
-                                                    <span class="govuk-details__summary-text">
-                                                        {{'WHAT_IS_2FA' | translate}}
-                                                    </span>
-                                                </summary>
-                                                <div class="govuk-details__text">
-                                                    <p>
-                                                      {{'2FA_HELPTEXT' | translate}}
-                                                    </p>
-                                                </div>
-                                            </details>
-                                          </div>
-                                              <div class="govuk-radios"> 
-                                                 
-                                                <div class="govuk-radios__item" id="onRadioSelection">
-                                                  <input class="govuk-radios__input" type="radio" name="mfa_on" value="on" id="mfa_on" [(ngModel)]="selectedOption">
-                                                  <label class="govuk-label govuk-radios__label" for="mfa_on">
-                                                   <strong>{{'MFA_ON' | translate}} </strong>  </label>
-                                                </div>
-                                        
-                                                <div class="govuk-radios__item" id="offRadioSelection">
-                                        
-                                                  <input class="govuk-radios__input" type="radio" name="mfa_off" id="mfa_off" value="off"  [(ngModel)]="selectedOption">
-                                        
-                                                  <label class="govuk-label govuk-radios__label" for="mfa_off">
-                                                    <strong> {{'MFA_OFF' | translate}} </strong> </label>
-                                                </div>
-                                              </div>
-                                        </fieldset>
-                                      </div>
 
                                 <div>
                                     <p class="govuk-body govuk-!-font-size-19">
