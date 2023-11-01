@@ -123,6 +123,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     groupShow: false,
     data: []
   }
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
+  public isMfaEnabledForUser = false;
+  public authenticationType : string = "Authenticator App";
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -174,6 +177,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     let user = await this.userService.getUser(this.userName).toPromise();
     if (user != null) {
       this.canChangePassword = user.detail.canChangePassword;
+      this.isMfaEnabledForUser = user.mfaEnabled;
       if (!environment.appSetting.hideIDP) {
         this.identityProviderDisplayName =
           user.detail.identityProviders
@@ -862,5 +866,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       block: 'start',
       inline: 'nearest',
     });
+  }
+  onResetMfaClick()
+  {
+
   }
 }
