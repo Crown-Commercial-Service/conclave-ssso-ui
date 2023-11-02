@@ -38,6 +38,7 @@ import { FormBaseComponent } from 'src/app/components/form-base/form-base.compon
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { duration } from 'moment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-user-contact-edit',
@@ -102,7 +103,8 @@ export class UserContactEditComponent
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
     public externalContactService: WrapperContactService,
-    private titleService: Title
+    private titleService: Title,
+    private dataLayerService: DataLayerService
   ) {
     super(
       viewportScroller,
@@ -154,6 +156,7 @@ export class UserContactEditComponent
     this.formGroup.controls['contactReason'].setValue(this.default, {
       onlySelf: true,
     });
+    this.pushDataLayer("form_start");
   }
 
   ngOnInit() {
@@ -277,7 +280,7 @@ export class UserContactEditComponent
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
         this.contactData.contactPointReason = form.get('contactReason')?.value;
-
+        this.pushDataLayer("form_submit");
         if (this.isEdit) {
           this.contactService
             .updateUserContact(this.userName, this.contactId, this.contactData)
@@ -329,9 +332,11 @@ export class UserContactEditComponent
         }
       } else {
         this.scrollHelper.scrollToFirst('error-summary-title');
+        this.pushDataLayer("form_error");
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -410,6 +415,13 @@ export class UserContactEditComponent
       return true
     } 
     return false
+  }
+
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+        'event': event,
+        'form_id': 'Manage_my_account Edit_contact_details'
+    });
   }
   
   // public get checkboxValidator() {

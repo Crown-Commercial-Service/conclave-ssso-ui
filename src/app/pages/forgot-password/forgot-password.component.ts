@@ -13,6 +13,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { ActivatedRoute } from '@angular/router';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
     selector: 'app-forgot-password',
@@ -33,7 +34,8 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         private PatternService:PatternService,
         protected uiStore: Store<UIState>, protected viewportScroller:
             ViewportScroller, protected scrollHelper: ScrollHelper,
-            private route : ActivatedRoute
+            private route : ActivatedRoute,
+        private dataLayerService: DataLayerService
     ) {
         super(uiStore, viewportScroller, scrollHelper);
         this.resetForm = this.formBuilder.group({
@@ -53,6 +55,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         this.translateService.get('RESET_PASSWORD_ERROR').subscribe((value) => {
             this.resetErrorString = value;
         });
+        this.pushDataLayer("form_start");
     }
 
 
@@ -74,6 +77,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
             this.resetForm.controls['userName'].setErrors({ 'incorrect': true})
    }
         if (this.formValid(form)) {
+            this.pushDataLayer("form_submit")
             this.authService.resetPassword(form.get('userName')?.value).toPromise()
             .then(() => {
                 sessionStorage.setItem(SessionStorageKey.ForgotPasswordUserName, form.get('userName')?.value);
@@ -83,6 +87,8 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
                     this.router.navigateByUrl(`forgot-password-error`);
                 }
         })
+        } else {
+            this.pushDataLayer("form_error");
         }
     }
 
@@ -98,5 +104,12 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
 
     public onCancelClick() {
         this.router.navigateByUrl('login');
+    }
+
+    pushDataLayer(event:string){
+        this.dataLayerService.pushEvent({
+            'event': event,
+            'form_id': 'forgot_password'
+        });
     }
 }

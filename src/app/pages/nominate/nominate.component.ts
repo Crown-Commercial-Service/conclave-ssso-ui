@@ -19,6 +19,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-nominate',
@@ -48,7 +49,8 @@ export class NominateComponent extends BaseComponent {
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private ActivatedRoute: ActivatedRoute
+    private ActivatedRoute: ActivatedRoute,
+    private dataLayerService: DataLayerService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.formGroup = this.formBuilder.group({
@@ -92,6 +94,7 @@ export class NominateComponent extends BaseComponent {
     }
     if (this.formValid(form)) {
       let uname = form.get('email')?.value;
+      this.pushDataLayer("form_submit");
       this.authService
         .nominate(uname)
         .toPromise()
@@ -100,6 +103,8 @@ export class NominateComponent extends BaseComponent {
           this.dataService.NominiData.next(uname);
           this.router.navigateByUrl(`nominate/success?data=` + btoa(JSON.stringify(this.pageAccessMode)));
         });
+    } else {
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -144,5 +149,12 @@ export class NominateComponent extends BaseComponent {
         schemeDetails.schemeID
       )}`
     );
+  }
+
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+        'event': event,
+        'form_id': 'Create_administrator_account Nominate'
+    });
   }
 }

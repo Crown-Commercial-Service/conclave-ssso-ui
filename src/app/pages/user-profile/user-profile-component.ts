@@ -24,6 +24,7 @@ import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -140,7 +141,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     private authService: AuthService,
     private auditLogService: AuditLoggerService,
     private organisationService: WrapperOrganisationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dataLayerService: DataLayerService
   ) {
     super(
       viewportScroller,
@@ -196,7 +198,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           lastName: user.lastName,
           mfaEnabled: user.mfaEnabled,
         });
-      }      
+      } 
+      this.pushDataLayer("form_start")     ;
     }
     await this.getApprovalRequriedRoles()
     await this.getPendingApprovalUserRole();
@@ -472,6 +475,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   onSubmit(form: FormGroup) {
     this.submitted = true;
     if (this.formValid(form)) {
+      this.pushDataLayer("form_submit");
       this.submitted = false;
       let userRequest: UserProfileRequestInfo = {
         title: '',
@@ -492,6 +496,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.checkApproveRolesSelected()
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -861,6 +866,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     document.getElementById(id)?.scrollIntoView({
       block: 'start',
       inline: 'nearest',
+    });
+  }
+
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+      'event': event,
+      'form_id': 'Manage_my_account'
     });
   }
 }

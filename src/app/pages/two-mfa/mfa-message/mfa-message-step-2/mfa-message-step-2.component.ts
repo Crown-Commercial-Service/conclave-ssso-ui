@@ -7,6 +7,7 @@ import { slideAnimation } from "src/app/animations/slide.animation";
 import { BaseComponent } from "src/app/components/base/base.component";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 import { UIState } from "src/app/store/ui.states";
 import { environment } from "src/environments/environment";
 
@@ -32,7 +33,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     qrCodeStr: string = "";
     submitted: boolean = false;
     constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private authService: AuthService,
-        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.formGroup = this.formBuilder.group({
             otp: [, Validators.compose([Validators.required, Validators.minLength(6)])],
@@ -44,6 +45,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     public onContinueBtnClick(otp: string) {
         this.submitted = true;
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
+        this.pushDataLayer("form_submit");
         this.authService.VerifyOTP(otp, this.auth0token, this.oob_code, "SMS").subscribe({
 
             next: (response) => {
@@ -73,6 +75,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     }
     sendSmsOtp(phone: string) {
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
+        this.pushDataLayer("form_start");
         this.authService.Associate(this.auth0token, phone, true).subscribe({
             next: (response) => {
                 this.oob_code = response.oob_Code;
@@ -82,5 +85,10 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
         });
     }
 
-
+    pushDataLayer(event:string){
+        this.dataLayerService.pushEvent({
+            'event': event,
+            'form_id': 'Check_your_phone'
+        });
+    }
 }

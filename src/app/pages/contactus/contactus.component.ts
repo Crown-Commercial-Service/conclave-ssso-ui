@@ -8,6 +8,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-contactus',
@@ -28,7 +29,7 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
   submitted: boolean = false;
 
   constructor(public formBuilder: FormBuilder,public PatternService:PatternService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper) {
+    protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
     this.formGroup = this.formBuilder.group({
       firstName: [, Validators.compose([Validators.required])],
@@ -47,6 +48,7 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
       this.formGroup.controls['email'].setErrors({ 'incorrect': true})
 }
     if (this.formValid(form)) {
+      this.pushDataLayer("form_submit");
       // this.authService.nominate(form.get('firstName')?.value, form.get('lastName')?.value, form.get('email')?.value).toPromise().then((response: any) => {
       //   console.log(response);
          this.submitted = false;
@@ -54,6 +56,8 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
       // }, (err) => {
       //   console.log(err);
       // });
+    } else {
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -69,4 +73,10 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
     // return array.length > 0;
   }
 
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+        'event': event,
+        'form_id': 'contact_us'
+    });
+  }
 }

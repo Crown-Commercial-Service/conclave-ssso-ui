@@ -6,6 +6,7 @@ import { dataMigrationReportDetailsResponce } from 'src/app/models/data-migratio
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { BulkUploadService } from 'src/app/services/postgres/bulk-upload.service';
 import { DataMigrationService } from 'src/app/services/postgres/data-migration.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
 @Component({
     selector: 'app-data-migration-upload',
@@ -32,7 +33,7 @@ export class DataMigrationUploadComponent implements OnInit {
         hyperTextrray: ['Download report', 'View summary']
     }
     constructor(private router: Router, private bulkUploadService: BulkUploadService,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private DataMigrationService: DataMigrationService) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private DataMigrationService: DataMigrationService, private dataLayerService: DataLayerService) {
         this.userUploadHistoryTable.userList = {
             currentPage: this.userUploadHistoryTable.currentPage,
             pageCount: 0,
@@ -103,6 +104,7 @@ export class DataMigrationUploadComponent implements OnInit {
         this.submitted = true;
         this.resetError();
         if (this.validateFile()) {
+            this.pushDataLayer("form_submit");
             this.DataMigrationService.uploadDataMigrationFile(this.file).subscribe({
                 next: (response: dataMigrationReportDetailsResponce) => {
                     this.router.navigateByUrl(
@@ -115,6 +117,8 @@ export class DataMigrationUploadComponent implements OnInit {
                     }
                 }
             });
+        } else {
+            this.pushDataLayer("form_error");
         }
     }
 
@@ -153,4 +157,11 @@ export class DataMigrationUploadComponent implements OnInit {
           }
         }
       }
+
+    pushDataLayer(event:string){
+        this.dataLayerService.pushEvent({
+            'event': event,
+            'form_id': 'Data_migration upload'
+        });
+    }
 }

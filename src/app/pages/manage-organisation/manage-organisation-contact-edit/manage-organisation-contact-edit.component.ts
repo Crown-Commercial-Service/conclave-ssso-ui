@@ -41,6 +41,7 @@ import { FormBaseComponent } from 'src/app/components/form-base/form-base.compon
 import { PatternService } from 'src/app/shared/pattern.service';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
 import { OrganisationSiteResponse } from 'src/app/models/site';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-organisation-contact-edit',
@@ -111,7 +112,8 @@ export class ManageOrganisationContactEditComponent
     private contactHelper: ContactHelper,
     private externalContactService: WrapperContactService,
     private siteContactService: WrapperSiteContactService,
-    private orgSiteService: WrapperOrganisationSiteService
+    private orgSiteService: WrapperOrganisationSiteService,
+    private dataLayerService: DataLayerService
   ) {
     super(
       viewportScroller,
@@ -195,6 +197,7 @@ export class ManageOrganisationContactEditComponent
         console.log(error);
       },
     });
+    this.pushDataLayer("form_start");
   }
 
   getOrganisationContact() {
@@ -358,6 +361,8 @@ export class ManageOrganisationContactEditComponent
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
 
+        this.pushDataLayer("form_submit");
+
         if (this.siteId == 0) {
           // If organisation contact
           if (this.isEdit) {
@@ -375,9 +380,11 @@ export class ManageOrganisationContactEditComponent
         }
       } else {
         this.scrollHelper.scrollToFirst('error-summary-title');
+        this.pushDataLayer("form_error");
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -605,5 +612,12 @@ export class ManageOrganisationContactEditComponent
       return true
     } 
     return false
+  }
+
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+      'event': event,
+      'form_id': 'Manage_your_organisation Edit_contact_details'
+    });
   }
 }

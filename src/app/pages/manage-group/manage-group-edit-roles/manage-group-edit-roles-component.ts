@@ -13,6 +13,7 @@ import { Title } from "@angular/platform-browser";
 import { environment } from "src/environments/environment";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { SharedDataService } from "src/app/shared/shared-data.service";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-manage-group-edit-roles',
@@ -46,7 +47,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     public formGroup: FormGroup | any;
     public orgAdminRole: any[] = [];
     constructor(protected uiStore: Store<UIState>, public router: Router, private activatedRoute: ActivatedRoute, public titleService: Title,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, public sharedDataService: SharedDataService) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, public sharedDataService: SharedDataService, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -188,6 +189,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
             'userCount': this.userCount,
             'groupName': this.groupName
         };
+        this.pushDataLayer("form_submit");
         this.sharedDataService.storeRoleForGroup(JSON.stringify(data))
         this.router.navigateByUrl('manage-groups/edit-roles-confirm?data=' + JSON.stringify({ 'isEdit': this.isEdit }));
     }
@@ -218,5 +220,12 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
                 CREATE_BTN: "Create group with no services"
             }
         }
+    }
+
+    pushDataLayer(event:string){
+        this.dataLayerService.pushEvent({
+            'event': event,
+            'form_id': 'Edit_groups roles'
+        });
     }
 }

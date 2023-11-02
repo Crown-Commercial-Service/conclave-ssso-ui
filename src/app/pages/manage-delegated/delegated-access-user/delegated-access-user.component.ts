@@ -9,6 +9,7 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { environment } from 'src/environments/environment';
 import { ManageDelegateService } from '../service/manage-delegate.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-delegated-access-user',
@@ -57,6 +58,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     private ActivatedRoute: ActivatedRoute,
     private titleService: Title,
     private DelegatedService: ManageDelegateService,
+    private dataLayerService: DataLayerService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userSelectedFormData = sessionStorage.getItem('deleagted_user_details')
@@ -350,12 +352,14 @@ export class DelegatedAccessUserComponent implements OnInit {
       data.userName = escape(encodeURIComponent(data.userName));
       data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
       let stringifyData = JSON.stringify(data)
+      this.pushDataLayer("form_submit");
       sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData));
       this.route.navigateByUrl(
         'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
       );
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -386,6 +390,7 @@ export class DelegatedAccessUserComponent implements OnInit {
       data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
       data.userName = escape(encodeURIComponent(data.userName));
       let stringifyData = JSON.stringify(data)
+      this.pushDataLayer("form_submit");
       sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData));
       this.route.navigateByUrl(
         'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
@@ -393,6 +398,7 @@ export class DelegatedAccessUserComponent implements OnInit {
 
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -578,5 +584,12 @@ export class DelegatedAccessUserComponent implements OnInit {
     this.eventLogForActiveUser.delegationAuditEventDetails.delegationAuditEventServiceRoleGroupList = this.DelegatedService.matchDelegatedDetailsOne(response.delegationAuditEventServiceRoleGroupList)
     this.eventLogForActiveUser.pageCount =  response.pageCount;
     })
+  }
+
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+      'event': event,
+      'form_id': 'delegated_access'
+    });
   }
 }
