@@ -449,5 +449,7 @@
   "MFA_ON" : "On",
   "MFA_OFF" : "Off",
   "RESET_MFA_HINT" : "If you cannot access your authenticator app or SMS (text messages) codes, please reset your 2FA",
-  "RESET_MFA_BTN" : "Reset my 2FA"
+  "RESET_MFA_BTN" : "Reset my 2FA",
+  "RESET_2FA_USER_BTN": "Reset user's 2FA",
+  "RESET_USER_MFA_HINT": "If the user cannot access the authenticator app or device, or if they want to receive codes by text message instead, then you can reset their 2FA."
 }

@@ -32,6 +32,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     qrCodeStr: string = "";
     showError: boolean = false;
     submitted: boolean = false;
+    otpValue: string = "";
     constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, public authService: AuthService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -50,8 +51,8 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
 
 
     public onContinueBtnClick(otp: string) {
-        this.submitted = true
-
+        this.submitted = true;
+        this.otpValue = otp;
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
         this.authService.VerifyOTP(otp, this.auth0token, this.qrCodeStr, "QR").subscribe({
 
@@ -62,11 +63,32 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
             },
         
             error: (err) => {
-                // this.showError = true;
-                this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
+                if(err.error.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
+                    this.RenewToken();
+                }
+                else{
+                    // this.showError = true;
+                    this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
+                }
+                
     }
 
         });
+    }
+
+    public async RenewToken(){
+        debugger;
+        var refreshtoken = localStorage.getItem('auth0_refresh_token')+'';
+        await this.authService.mfarenewtoken(refreshtoken).toPromise().then((tokeninfo) => {              
+            localStorage.setItem('auth0_token', tokeninfo.access_Token);
+            localStorage.setItem('auth0_refresh_token', tokeninfo.refresh_Token);     
+            this.onContinueBtnClick(this.otpValue);       
+        },
+        (err) => {
+            console.log(err);
+            this.authService.logOutAndRedirect();
+        });
+    
     }
 
     public onBackBtnClick() {
