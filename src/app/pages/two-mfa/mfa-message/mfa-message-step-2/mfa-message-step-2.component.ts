@@ -31,6 +31,8 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     oob_code: any;    
     qrCodeStr: string = "";
     submitted: boolean = false;
+    errorMsg: string = "";
+    isTooManySms: boolean = false;
     constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private authService: AuthService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -43,6 +45,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     }
     public onContinueBtnClick(otp: string) {
         this.submitted = true;
+        this.isTooManySms = false;
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
         this.otp = otp;
         this.authService.VerifyOTP(otp, this.auth0token, this.oob_code, "SMS").subscribe({
@@ -70,7 +73,11 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
         this.router.navigateByUrl('mfa-selection');
     }  
     onResendOtpLinkClick() {
+        if(this.isTooManySms){
+            return false;
+        }
         this.sendSmsOtp(this.phonenumber);
+        return true;
     }
     onReEnterPhoneNumberClick() {
         this.router.navigateByUrl('mfa-message-step-1');
@@ -85,6 +92,12 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
             error: (err) =>{
                 if(err.error.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
                     this.RenewToken('GETOTP');
+                }
+                else if(err.error.error_description == 'Too many SMS sent by the user. Wait for some minutes before retrying.'){
+                    
+                    this.errorMsg = 'You have generated too many text messages. Please try again later.';
+                    this.isTooManySms = true;
+                    this.submitted = false;                    
                 }
             } //console.log("Error"),
         });
