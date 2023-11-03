@@ -11,6 +11,7 @@ import { WrapperUserContactService } from "src/app/services/wrapper/wrapper-user
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { ViewportScroller } from "@angular/common";
 import { SessionStorageKey } from "src/app/constants/constant";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-user-contact-delete-confirm',
@@ -28,7 +29,7 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
     contactId: number = 0;
     isOrgAdmin: boolean = false;
     constructor(protected uiStore: Store<UIState>, public router: Router, private activatedRoute: ActivatedRoute,
-        private contactService: WrapperUserContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        private contactService: WrapperUserContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -40,6 +41,14 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
     }
 
     ngOnInit() {
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+             event: "page_view" ,
+             page_location: this.router.url.toString(),
+             user_name: localStorage.getItem("user_name"),
+             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+           });
+        })
         this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     }
 

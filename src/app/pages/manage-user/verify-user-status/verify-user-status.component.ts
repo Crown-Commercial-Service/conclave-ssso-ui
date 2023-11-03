@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-verify-user-status',
@@ -11,11 +12,19 @@ export class VerifyUserStatusComponent implements OnInit {
   public isOrgAdmin: boolean = false;
   public userInfo: any;
   public userStatus:number=0
-  constructor(private ActivatedRoute: ActivatedRoute, private titleService: Title) { 
+  constructor(private ActivatedRoute: ActivatedRoute, private titleService: Title, private router: Router, private dataLayerService: DataLayerService) { 
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
   }
 
   ngOnInit(): void {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data));
       console.log("this.userInfo",this.userInfo)

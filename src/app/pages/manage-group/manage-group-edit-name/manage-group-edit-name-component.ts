@@ -70,6 +70,14 @@ export class ManageGroupEditNameComponent
   }
 
   ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit Name' : 'Create'} - Manage Groups - CCS`
     );

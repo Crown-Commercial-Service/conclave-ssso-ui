@@ -37,6 +37,7 @@ import { Title } from '@angular/platform-browser';
 import { MatSelect } from '@angular/material/select';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-organisation-registration-step-3',
@@ -88,7 +89,8 @@ export class ManageOrgRegStep3Component
     protected scrollHelper: ScrollHelper,
     private configurationCore: ConfigurationCore,
     private titleService: Title,
-    private orgSiteService: WrapperOrganisationSiteService
+    private orgSiteService: WrapperOrganisationSiteService,
+    private dataLayerService: DataLayerService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     let queryParams = this.route.snapshot.queryParams;
@@ -144,6 +146,15 @@ export class ManageOrgRegStep3Component
         });
       }
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+       scheme: this.routeParams.scheme
+     });
+    })
   }
 
   ngAfterViewInit() {

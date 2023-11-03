@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-user-role',
@@ -12,7 +13,7 @@ public userDetails:any
 public errorResponce:boolean = false;
 public isOrgAdmin: boolean = false;
 public tokenPara : any=[];
-  constructor(private wrapperUserService: WrapperUserService,private router: Router,private route: ActivatedRoute) { 
+  constructor(private wrapperUserService: WrapperUserService,private router: Router,private route: ActivatedRoute, private dataLayerService: DataLayerService) { 
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
   }
 
@@ -21,6 +22,14 @@ public tokenPara : any=[];
       this.tokenPara = para.token;
       this.verifytoken(para.token)
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
   }
 
   public verifytoken(encryptedtoken:string):void {

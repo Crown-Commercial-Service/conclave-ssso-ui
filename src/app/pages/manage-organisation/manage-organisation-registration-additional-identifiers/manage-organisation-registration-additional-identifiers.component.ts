@@ -12,6 +12,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
     selector: 'app-manage-organisation-registration-additional-identifiers',
@@ -36,7 +37,7 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
   public buyerFlow:any;
   public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
 
-  constructor(private ciiService: ciiService, public router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private ciiService: ciiService, public router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
     this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
 
@@ -53,6 +54,16 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
         this.router.navigateByUrl(`manage-org/register/error/notfound`);
       }
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+       scheme: this.routeParams.scheme,
+       id: this.routeParams.id,
+     });
+    })
   }
 
   public goBack() {

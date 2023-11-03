@@ -13,6 +13,7 @@ import { Title } from '@angular/platform-browser';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
     selector: 'app-operation-success',
@@ -38,7 +39,7 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     public approveRequiredRole:any=[]
     public pendingRoleDetails: any = []
     constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
-        protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private wrapperUserService: WrapperUserService) {
+        protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private wrapperUserService: WrapperUserService, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
         this.userName = sessionStorage.getItem(SessionStorageKey.OperationSuccessUserName) ?? '';
@@ -65,6 +66,15 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
 
 
     ngOnInit() {
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+             event: "page_view" ,
+             page_location: this.router.url.toString(),
+             user_name: localStorage.getItem("user_name"),
+             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+             operation: this.operation
+           });
+        })
         this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
         let area: string = "";
         switch (this.operation) {

@@ -11,6 +11,7 @@ import { IdentityProviderSummary } from "src/app/models/identityProvider";
 import { TokenService } from "src/app/services/auth/token.service";
 import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrapper-org--group-service";
 import { OrganisationService } from "src/app/services/postgres/organisation.service";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-manage-user-delete-confirm',
@@ -31,7 +32,7 @@ export class ManageOrganisationRemoveIdpConfirmComponent extends BaseComponent i
 
     constructor(protected uiStore: Store<UIState>, public router: Router, public organisationGroupService: WrapperOrganisationGroupService,
         public organisationService: OrganisationService, private readonly tokenService: TokenService, private activatedRoute: ActivatedRoute,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
 
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
@@ -47,6 +48,14 @@ export class ManageOrganisationRemoveIdpConfirmComponent extends BaseComponent i
         this.organisationService.getUserAffectedByRemovedIdps(ciiOrgId, idpIds).subscribe(data => {
             this.affectedUsers = data;
         });
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+             event: "page_view" ,
+             page_location: this.router.url.toString(),
+             user_name: localStorage.getItem("user_name"),
+             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+           });
+        })
     }
 
     onRemoveIdpConfirmClick() {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -23,7 +24,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
     data: '',
     pageName: 'Contactadmin',
   }
-  constructor(public route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, public titleService: Title,) { 
+  constructor(public route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, public titleService: Title, private router: Router, private dataLayerService: DataLayerService) { 
     this.delegationRolesTable.details = {
       currentPage: this.delegationRolesTable.currentPage,
       pageCount: 0,
@@ -33,6 +34,14 @@ export class DelegatedUserConfirmComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data)).userDetails;
       this.userInfo.userName = decodeURIComponent(unescape(this.userInfo.userName));

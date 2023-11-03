@@ -13,6 +13,7 @@ import { UserProfileResponseInfo } from 'src/app/models/user';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-registry-delete',
@@ -35,7 +36,7 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
 
   constructor(private ciiService: ciiService, private wrapperService: WrapperUserService, private router: Router,
     private route: ActivatedRoute, protected uiStore: Store<UIState>, private readonly tokenService: TokenService,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.organisationId = JSON.parse(localStorage.getItem('organisation_id') + '');
   }
@@ -47,6 +48,17 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
         this.item$ = this.ciiService.getOrganisationIdentifierDetails(this.tokenService.getCiiOrgId(), params.scheme, params.id).pipe(share());
       }
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+       organisationId: this.routeParams.this.organisationId,
+       scheme: this.routeParams.this.scheme,
+       id: this.routeParams.this.id,
+     });
+    })
   }
 
   public onSubmit() {

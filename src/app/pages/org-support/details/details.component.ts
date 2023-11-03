@@ -15,6 +15,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-org-support-details',
@@ -47,7 +48,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
 
   constructor(private organisationGroupService: WrapperOrganisationGroupService, private wrapperUserService: WrapperUserService,
     public router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper) {
+    protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.user = {
       firstName: '',
@@ -67,6 +68,14 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
   }
 
   ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     let userName = sessionStorage.getItem(SessionStorageKey.OrgUserSupportUserName);
     if (userName) {
       this.user$ = this.wrapperUserService.getUser(userName).pipe(share());

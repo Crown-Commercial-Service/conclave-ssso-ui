@@ -9,6 +9,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contactus',
@@ -29,7 +30,7 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
   submitted: boolean = false;
 
   constructor(public formBuilder: FormBuilder,public PatternService:PatternService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+    protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService, private router: Router) {
     super(uiStore,viewportScroller,scrollHelper);
     this.formGroup = this.formBuilder.group({
       firstName: [, Validators.compose([Validators.required])],
@@ -39,7 +40,14 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+     });
+    })
   }
 
   public onSubmit(form: FormGroup) {

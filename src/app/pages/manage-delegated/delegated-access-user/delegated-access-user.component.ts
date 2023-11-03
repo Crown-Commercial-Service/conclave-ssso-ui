@@ -58,7 +58,8 @@ export class DelegatedAccessUserComponent implements OnInit {
     private ActivatedRoute: ActivatedRoute,
     private titleService: Title,
     private DelegatedService: ManageDelegateService,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private router: Router,
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userSelectedFormData = sessionStorage.getItem('deleagted_user_details')
@@ -72,6 +73,14 @@ export class DelegatedAccessUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.formGroup = this.formbuilder.group({
       startday: ['', [Validators.required]],
       startmonth: ['', [Validators.required]],

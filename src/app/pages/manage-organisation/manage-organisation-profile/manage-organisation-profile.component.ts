@@ -20,6 +20,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
 import { OrganisationDto } from 'src/app/models/organisation';
 import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
     selector: 'app-manage-organisation-profile',
@@ -62,7 +63,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
         protected uiStore: Store<UIState>, private readonly tokenService: TokenService, private organisationGroupService: WrapperOrganisationGroupService,
         private orgContactService: WrapperOrganisationContactService, private wrapperOrgSiteService: WrapperOrganisationSiteService,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.contactData = [];
         this.siteData = [];
@@ -135,6 +136,14 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             }).catch(e => {
             });
         }
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+             event: "page_view" ,
+             page_location: this.router.url.toString(),
+             user_name: localStorage.getItem("user_name"),
+             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+           });
+        })
     }
 
     public onContactAddClick() {

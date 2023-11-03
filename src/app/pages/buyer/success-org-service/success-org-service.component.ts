@@ -11,6 +11,7 @@ import { share } from 'rxjs/operators';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 @Component({
   selector: 'app-success-org-service',
   templateUrl: './success-org-service.component.html',
@@ -23,7 +24,7 @@ import { ViewportScroller } from '@angular/common';
   ],
 })
 export class SuccessOrgServiceComponent implements OnDestroy {
-
+  private id!: string;
   public org: any;
   public org$!: Observable<any>;
   public changes: any;
@@ -34,9 +35,10 @@ export class SuccessOrgServiceComponent implements OnDestroy {
   userServiceColumnsToDisplay = ['accessRoleName',]
   constructor(private cf: ChangeDetectorRef, private organisationService: OrganisationService, 
     private wrapperOrgService: WrapperOrganisationService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
-    protected scrollHelper: ScrollHelper) {
+    protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     this.route.params.subscribe(params => {
       if (params.id) {
+        this.id = params.id;
         this.org$ = this.organisationService.getById(params.id).pipe(share());
         this.org$.subscribe({
           next: data => {
@@ -51,6 +53,18 @@ export class SuccessOrgServiceComponent implements OnDestroy {
         });
       }
     });
+  }
+
+  ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+          id: this.id
+      });
+    })
   }
 
   public updateTableData(){

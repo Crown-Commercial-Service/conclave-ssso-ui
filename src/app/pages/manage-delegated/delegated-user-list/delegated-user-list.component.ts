@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserListResponse } from 'src/app/models/user';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -40,7 +41,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
     pageName: 'Delegatedaccess',
     hyperTextrray: ['View']
   }
-  constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService) {
+  constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService, private dataLayerService: DataLayerService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || ''
     this.currentUserstableConfig.userList = {
       currentPage: this.currentUserstableConfig.currentPage,
@@ -60,6 +61,14 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
 
   ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.tabChanged(sessionStorage.getItem('activetab') || 'currentusers')
     setTimeout(() => {
       this.getOrganisationExpiredUsers()

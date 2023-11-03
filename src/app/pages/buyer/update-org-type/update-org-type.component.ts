@@ -13,6 +13,7 @@ import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-co
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 @Component({
   selector: 'app-update-org-type',
   templateUrl: './update-org-type.component.html',
@@ -44,7 +45,7 @@ export class UpdateOrgTypeComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService, private WrapperOrganisationService: WrapperOrganisationService,
     private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     this.orgRoles = [];
     this.eRoles = [];
     this.roles = [];
@@ -78,6 +79,14 @@ export class UpdateOrgTypeComponent implements OnInit {
         });
       }
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
   }
 
   /**

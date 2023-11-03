@@ -31,6 +31,17 @@ export class LoginComponent extends BaseComponent {
     });
   }
 
+  ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+     });
+    })
+  }
+
   public onSubmit(form: FormGroup) {
     this.pushDataLayer("form_submit");
     this.authService.login(form.get('userName')?.value, form.get('password')?.value);

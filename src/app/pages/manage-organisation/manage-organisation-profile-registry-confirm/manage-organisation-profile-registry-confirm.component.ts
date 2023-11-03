@@ -13,6 +13,7 @@ import { TokenService } from 'src/app/services/auth/token.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { CiiOrgIdentifiersDto } from 'src/app/models/org';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-registry-confirm',
@@ -39,7 +40,7 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
   id!: string;
 
   constructor(public ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
-    private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     let queryParams = this.route.snapshot.queryParams;
@@ -74,6 +75,16 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
         });
       }
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+       scheme: this.routeParams.scheme,
+       organisationId: this.routeParams.this.organisationId,
+     });
+    })
   }
 
   public onSubmit() {

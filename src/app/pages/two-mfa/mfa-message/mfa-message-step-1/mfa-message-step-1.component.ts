@@ -14,6 +14,7 @@ import {
     SearchCountryField,
   } from 'ngx-intl-tel-input';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-mfa-message-step-1',
@@ -43,7 +44,7 @@ export class MfaMessageStep1Component extends BaseComponent implements OnInit {
     
     
     constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private PatternService: PatternService, private authService: AuthService,
-        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.formGroup = this.formBuilder.group({
             mobile: ['', [Validators.required]],
@@ -51,7 +52,14 @@ export class MfaMessageStep1Component extends BaseComponent implements OnInit {
     }
     
         ngOnInit() {
-            
+          this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+          })
         }
 
     onContinueBtnClick() {

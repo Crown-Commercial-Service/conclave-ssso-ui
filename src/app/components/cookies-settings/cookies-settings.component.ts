@@ -43,6 +43,14 @@ export class CookiesSettingsComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+     });
+    })
     this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
     if (this.ppg_cookies_preferences_set == "true") {
       this.cookiesValue = JSON.parse(this.ppg_cookies_policy)

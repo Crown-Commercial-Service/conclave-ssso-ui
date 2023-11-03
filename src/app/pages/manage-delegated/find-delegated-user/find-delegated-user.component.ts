@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserListResponse } from 'src/app/models/user';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { PatternService } from 'src/app/shared/pattern.service';
 
 @Component({
@@ -22,11 +23,21 @@ export class FindDelegatedUserComponent implements OnInit {
     private PatternService: PatternService,
     public WrapperUserDelegatedService: WrapperUserDelegatedService,
     protected scrollHelper: ScrollHelper,
+    private router: Router,
+    private dataLayerService: DataLayerService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
 
   ngOnInit(): void {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.formGroup = this.formBuilder.group({
       email: [
         '',
