@@ -37,6 +37,7 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     public showRole:boolean=false
     public approveRequiredRole:any=[]
     public pendingRoleDetails: any = []
+    public isCustomMfaEnabled : boolean = environment.appSetting.customMfaEnabled;
     constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private wrapperUserService: WrapperUserService) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -114,6 +115,9 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
 
     onNavigateToManageUserClick() {
         this.router.navigateByUrl("manage-users");
+    }
+    onNavigateToDashboardClick(){
+        this.router.navigateByUrl("/home")
     }
 
     async getPendingApprovalUserRole() {

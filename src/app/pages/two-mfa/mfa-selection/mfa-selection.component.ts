@@ -29,13 +29,14 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
 export class MfaSelectionComponent extends BaseComponent implements OnInit {
     public formValue: string = 'SMS'
     public orgGroup: string = 'SMS';
-    authcode: string = "";
-    auth0token: string = "";
-    oob_code: any;
-    qrCodeStr: string = "";
+    public authcode: string = "";
+    public auth0token: string = "";
+    public oob_code: any;
+    public qrCodeStr: string = "";
     public selectedOption: string | null = null;
     public orgMfaRequired: boolean = false;
-    ciiOrgId : string = "";
+    public ciiOrgId : string = "";
+    public isLoaded :boolean = false
 
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, private helperService: HelperService,
@@ -110,6 +111,7 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
         this.ciiOrgId = this.tokenService.getCiiOrgId();
         await this.wrapperOrganisationService.getOrganisation(this.ciiOrgId).toPromise().then((data:any) =>{
             this.orgMfaRequired = data.detail.isMfaRequired;
+            this.isLoaded = true;
 
         })
         .catch((err) =>

@@ -93,7 +93,6 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     }
 
     public async RenewToken(type:string){
-        debugger;
         var refreshtoken = localStorage.getItem('auth0_refresh_token')+'';
         await this.authService.mfarenewtoken(refreshtoken).toPromise().then((tokeninfo) => {              
             localStorage.setItem('auth0_token', tokeninfo.access_Token);

@@ -125,10 +125,10 @@
                                             {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}
                                         </h2>
                                         <p *ngIf="isMfaEnabledForUser" class="govuk-hint" style="color: black;">
-                                            Currently <strong>On</strong> this account using the
+                                            Currently <strong>On</strong> for this account using the
                                             <strong>{{authenticationType}}.</strong></p>
                                         <p *ngIf="!isMfaEnabledForUser" class="govuk-hint" style="color: black;">
-                                            Currently <strong>Off</strong>for this account</p>
+                                            Currently <strong>Off</strong> for this account</p>
                                         <div>
                                             <details class="govuk-details" data-module="govuk-details">
                                                 <summary class="govuk-details__summary">
@@ -143,19 +143,19 @@
                                                 </div>
                                             </details>
                                         </div>
-                                        <div class="govuk-radios" data-module="govuk-radios">
+                                        <div  class="govuk-radios" data-module="govuk-radios">
                                             <div class="govuk-radios__item">
-                                                <input class="govuk-radios__input" id="mfa-on" name="whereDoYouLive"
-                                                    type="radio" [value]="true" formControlName="mfaEnabled">
+                                                <input #input class="govuk-radios__input" id="mfa-on" name="mfaEnabled" [attr.disabled] ="orgMfaRequired?true:null"
+                                                    type="radio" [value]="true" formControlName="mfaEnabled"  (change)="onRadioChange(formGroup)" >
                                                 <label class="govuk-label govuk-radios__label" for="mfa-on">
-                                                    <strong> on</strong>
+                                                    <strong> {{'MFA_ON' | translate}}</strong>
                                                 </label>
                                             </div>
                                             <div class="govuk-radios__item">
-                                                <input class="govuk-radios__input" id="mfa-off" name="whereDoYouLive"
-                                                    type="radio" [value]="false" formControlName="mfaEnabled">
+                                                <input #input class="govuk-radios__input" id="mfa-off" name="mfaEnabled"[attr.disabled] ="orgMfaRequired?true:null"
+                                                    type="radio" [value]="false" formControlName="mfaEnabled" (change)="onRadioChange(formGroup)" >
                                                 <label class="govuk-label govuk-radios__label" for="mfa-off">
-                                                    <strong> off </strong>
+                                                    <strong> {{'MFA_OFF'| translate }} </strong>
                                                 </label>
                                             </div>
                                         </div>

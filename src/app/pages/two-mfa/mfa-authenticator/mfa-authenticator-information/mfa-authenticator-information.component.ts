@@ -55,7 +55,6 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
             this.router.navigateByUrl('mfa-authenticator-setup');
 
           }, error : (err) => {
-            debugger;
             console.log(err);
             if (err.status == 404) {
               this.router.navigateByUrl('error?error_description=USER_NOT_FOUND');
@@ -75,7 +74,6 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
   }
 
   public async RenewToken(){
-    debugger;
     this.refreshtoken = localStorage.getItem('auth0_refresh_token')+'';
     await this.authService.mfarenewtoken(this.refreshtoken).toPromise().then((tokeninfo) => {              
         localStorage.setItem('auth0_token', tokeninfo.access_Token);

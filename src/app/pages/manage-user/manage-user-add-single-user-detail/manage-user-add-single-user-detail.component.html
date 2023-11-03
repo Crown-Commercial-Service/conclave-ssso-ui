@@ -168,11 +168,11 @@
                                 {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}
                             </h2>
                             <p *ngIf="isMfaEnabledForUser && isUserMfaOpted" class="govuk-hint" style="color: black;">
-                                Currently <strong>On</strong> for this account.
+                                Currently <strong>{{'MFA_ON' | translate}}</strong> for this account.
                                  <!-- using the <strong>{{authenticationType}}.</strong> -->
                             </p>
                             <p *ngIf="!isMfaEnabledForUser && isUserMfaOpted" class="govuk-hint" style="color: black;">
-                                Currently <strong>Off</strong> for this account.</p>
+                                Currently <strong>{{'MFA_OFF | translate'}}</strong> for this account.</p>
                             <p *ngIf="!isUserMfaOpted" class="govuk-hint" style="color: black;">
                                 Waiting for user action.</p>
                             <div>
@@ -207,12 +207,12 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div *ngIf="isCustomMfaEnabled && isEdit">
+                    <div *ngIf="(isCustomMfaEnabled && isEdit && isMfaEnabledForUser) || (!isUserMfaOpted && isCustomMfaEnabled && isEdit)">
                         <div id="reset-mfa-hint" class="govuk-hint" style="margin-top: 15px;">
                             {{ 'RESET_USER_MFA_HINT' | translate }}
                         </div>
                         <button type="button" (click)="ResetAdditionalSecurity()" class="govuk-button"
-                            data-module="govuk-button" [disabled]="!MFA_Enabled">{{ 'RESET_2FA_USER_BTN' |
+                            data-module="govuk-button" [disabled]="!isUserMfaOpted">{{ 'RESET_2FA_USER_BTN' |
                             translate }}
                         </button>
                     </div>

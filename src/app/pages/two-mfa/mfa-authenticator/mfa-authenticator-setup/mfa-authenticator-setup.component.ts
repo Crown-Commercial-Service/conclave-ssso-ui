@@ -77,7 +77,6 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     }
 
     public async RenewToken(){
-        debugger;
         var refreshtoken = localStorage.getItem('auth0_refresh_token')+'';
         await this.authService.mfarenewtoken(refreshtoken).toPromise().then((tokeninfo) => {              
             localStorage.setItem('auth0_token', tokeninfo.access_Token);

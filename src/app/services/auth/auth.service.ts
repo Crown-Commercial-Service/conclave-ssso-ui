@@ -367,7 +367,6 @@ export class AuthService {
         return data;
       }),
       catchError(error => {
-        debugger;
        this.RollbarErrorService.RollbarDebug('Token_error:' + JSON.stringify(error))
         return throwError(error);
       })
@@ -418,5 +417,18 @@ export class AuthService {
 
     );
 
+  }
+  GetMfaAuthenticationType (userId:string) : Observable<any>
+  {
+   let UserEnrollmentDTO = {userId : userId}
+    return this.httpService.post(`${this.url}/security/mfa/user/enrollment`,UserEnrollmentDTO).pipe(
+      map(data =>{
+        return data;
+      }),
+      catchError(error =>{
+        console.log(error);
+        return throwError(error);
+      })
+    )
   }
 }
