@@ -352,6 +352,26 @@ export class AuthService {
       })
     );
   }
+
+  mfarenewtoken(refreshToken: string): Observable<any>{
+    const options = {
+      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    let tokenBody = {        
+      "auth0_refresh_token": refreshToken,
+      "clientid": environment.idam_client_id
+    }
+    return this.httpService.post(`${this.url}/security/mfa/verify`, tokenBody).pipe(
+      map(data => {
+      //  this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data)) 
+        return data;
+      }),
+      catchError(error => {
+       this.RollbarErrorService.RollbarDebug('Token_error:' + JSON.stringify(error))
+        return throwError(error);
+      })
+    );  
+  }
   Associate(accessToken: string, phoneNumber: string, isSms: boolean = false): Observable<any> {
 
     let tokenBody = {     
@@ -397,5 +417,18 @@ export class AuthService {
 
     );
 
+  }
+  GetMfaAuthenticationType (userId:string) : Observable<any>
+  {
+   let UserEnrollmentDTO = {userId : userId}
+    return this.httpService.post(`${this.url}/security/mfa/user/enrollment`,UserEnrollmentDTO).pipe(
+      map(data =>{
+        return data;
+      }),
+      catchError(error =>{
+        console.log(error);
+        return throwError(error);
+      })
+    )
   }
 }

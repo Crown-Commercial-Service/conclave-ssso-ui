@@ -141,7 +141,7 @@
                     <div class="govuk-radio">
                         <app-govuk-radio [details]="userTypeDetails" (clickedData)="onUserTypeChanged($event)"></app-govuk-radio>
                     </div>
-                    <div class="govuk-form-group" id="user-mfa-form-group"
+                    <!-- <div class="govuk-form-group" id="user-mfa-form-group"
                         [class.govuk-form-group--error]="submitted && (mfaAdminValidationError)">
                         <fieldset class="govuk-fieldset">
                             <h2 class="govuk-heading-s">
@@ -161,6 +161,60 @@
                                 </label>
                             </div>
                         </fieldset>
+                    </div> -->
+                    <div class="govuk-form-group" *ngIf="isCustomMfaEnabled && isEdit">
+                        <fieldset class="govuk-fieldset">
+                            <h2 class="govuk-heading-s">
+                                {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}
+                            </h2>
+                            <p *ngIf="isMfaEnabledForUser && isUserMfaOpted" class="govuk-hint" style="color: black;">
+                                Currently <strong>{{'MFA_ON' | translate}}</strong> for this account.
+                                 <!-- using the <strong>{{authenticationType}}.</strong> -->
+                            </p>
+                            <p *ngIf="!isMfaEnabledForUser && isUserMfaOpted" class="govuk-hint" style="color: black;">
+                                Currently <strong>{{'MFA_OFF | translate'}}</strong> for this account.</p>
+                            <p *ngIf="!isUserMfaOpted" class="govuk-hint" style="color: black;">
+                                Waiting for user action.</p>
+                            <div>
+                                <details class="govuk-details" data-module="govuk-details">
+                                    <summary class="govuk-details__summary">
+                                        <span class="govuk-details__summary-text">
+                                            {{'WHAT_IS_2FA' | translate}}
+                                        </span>
+                                    </summary>
+                                    <div class="govuk-details__text">
+                                        <p>
+                                            {{'2FA_HELPTEXT' | translate}}
+                                        </p>
+                                    </div>
+                                </details>
+                            </div>
+                            <div class="govuk-radios" data-module="govuk-radios">
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="mfa-on" name="whereDoYouLive"
+                                        type="radio" [value]="true" formControlName="mfaEnabled" [attr.disabled] = false>
+                                    <label class="govuk-label govuk-radios__label" for="mfa-on">
+                                        <strong> on</strong>
+                                    </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="mfa-off" name="whereDoYouLive"
+                                        type="radio" [value]="false" formControlName="mfaEnabled" [attr.disabled] = false>
+                                    <label class="govuk-label govuk-radios__label" for="mfa-off">
+                                        <strong> off </strong>
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div *ngIf="(isCustomMfaEnabled && isEdit && isMfaEnabledForUser) || (!isUserMfaOpted && isCustomMfaEnabled && isEdit)">
+                        <div id="reset-mfa-hint" class="govuk-hint" style="margin-top: 15px;">
+                            {{ 'RESET_USER_MFA_HINT' | translate }}
+                        </div>
+                        <button type="button" (click)="ResetAdditionalSecurity()" class="govuk-button"
+                            data-module="govuk-button" [disabled]="!isUserMfaOpted">{{ 'RESET_2FA_USER_BTN' |
+                            translate }}
+                        </button>
                     </div>
                     <fieldset class="govuk-fieldset">
                         <h2 class="govuk-heading-s" id="GROUPS">
@@ -434,7 +488,7 @@
                         {{ 'RESET_USER_PASSWORD_BTN' | translate }}
                     </button>
                     <br>
-                    <button *ngIf="isEdit" (click)="ResetAdditionalSecurity()" type="button" class="govuk-button govuk-button--secondary"
+                    <button *ngIf="isEdit && !isCustomMfaEnabled" (click)="ResetAdditionalSecurity()" type="button" class="govuk-button govuk-button--secondary"
                         data-module="govuk-button" [disabled]="!MFA_Enabled">
                         Reset user’s additional security
                     </button>

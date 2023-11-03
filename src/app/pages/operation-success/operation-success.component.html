@@ -14,11 +14,11 @@
                     <li *ngIf="operation === operationEnum.MyAccountUpdate || operation === operationEnum.MyAccountContactCreate
                         || operation === operationEnum.MyAccountContactUpdate || operation === operationEnum.MyAccountContactDelete
                         || operation === operationEnum.PasswordChanged" class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" routerLink="/profile">{{
-                            'MANAGE_MY_ACCOUNT' | translate
-                            }}</a>
-                    </li>
-                    <li *ngIf="operation === operationEnum.UserCreateWithIdamRegister || operation === operationEnum.UserCreate
+            <a href="javascript:;" class="govuk-breadcrumbs__link" routerLink="/profile">{{
+              'MANAGE_MY_ACCOUNT' | translate
+              }}</a>
+          </li>
+          <li *ngIf="operation === operationEnum.UserCreateWithIdamRegister || operation === operationEnum.UserCreate
                         || operation === operationEnum.UserUpdate || operation === operationEnum.UserUpdateWithIdamRegister
                         || operation === operationEnum.UserPasswordChange || operation === operationEnum.UserDelete"
                         class="govuk-breadcrumbs__list-item">
@@ -39,6 +39,11 @@
                 </ol>
             </div>
             <div *ngIf="operation === operationEnum.MyAccountUpdate">
+              <legend  *ngIf = "isCustomMfaEnabled"class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                <h1 class="govuk-fieldset__heading">
+                {{'CHANGES_SAVED' | translate}}
+                </h1>
+               </legend>
                 <p class="govuk-body-l">{{ 'MY_ACCOUNT_UPDATE_SUCCESS' | translate }}</p>
                 <div class="govuk-form-group" *ngIf="approveRequiredRole != 'null' && showRole">
                     <fieldset class="govuk-fieldset">
@@ -73,7 +78,9 @@
                   </div>
                 
                   <a [routerLink]="'/profile'" class="navigation-text">
-                      {{ 'RETURN_TO_MANAGE_MY_ACCOUNT' | translate }}</a> 
+                      {{ 'RETURN_TO_MANAGE_MY_ACCOUNT' | translate }} <br></a> 
+                      <a [routerLink]="'/home'" class="navigation-text">
+                        {{ 'RETURN_TO_DASHBOARD' | translate }}</a>
             </div>
             <div
                 *ngIf="operation === operationEnum.MyAccountContactCreate || operation === operationEnum.MyAccountContactUpdate">

@@ -25,7 +25,7 @@ import { environment } from "src/environments/environment";
 export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     formGroup: FormGroup;
     public phonenumber: string = localStorage.getItem('phonenumber') ?? '';
-   
+    otp: string = "";
     authcode: string = "";
     auth0token: string = "";
     oob_code: any;    
@@ -44,6 +44,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     public onContinueBtnClick(otp: string) {
         this.submitted = true;
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
+        this.otp = otp;
         this.authService.VerifyOTP(otp, this.auth0token, this.oob_code, "SMS").subscribe({
 
             next: (response) => {
@@ -53,8 +54,13 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
                 window.location.href = authsuccessSetupUrl;
             },
 
-            error: () => {
-                this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
+            error: (err) => {
+                if(err.error.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
+                    this.RenewToken('VERIFYOTP');
+                }
+                else{
+                    this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
+                }                
             },
         
         });
@@ -78,8 +84,31 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
                 this.oob_code = response.oob_Code;
                 localStorage.setItem('oob_code', this.oob_code)
             },
-            error: () =>{} //console.log("Error"),
+            error: (err) =>{
+                if(err.error.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
+                    this.RenewToken('GETOTP');
+                }
+            } //console.log("Error"),
         });
+    }
+
+    public async RenewToken(type:string){
+        var refreshtoken = localStorage.getItem('auth0_refresh_token')+'';
+        await this.authService.mfarenewtoken(refreshtoken).toPromise().then((tokeninfo) => {              
+            localStorage.setItem('auth0_token', tokeninfo.access_Token);
+            localStorage.setItem('auth0_refresh_token', tokeninfo.refresh_Token);
+            if(type == 'GETOTP'){
+                this.sendSmsOtp(this.phonenumber);
+            }
+            else{
+                this.onContinueBtnClick(this.otp);
+            }            
+        },
+        (err) => {
+            console.log(err);
+            this.authService.logOutAndRedirect();
+        });
+    
     }
 
 

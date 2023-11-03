@@ -208,7 +208,7 @@ export class UserContactEditComponent
                     )
                   );
                   this.formGroup.controls['contactReason'].setValue(
-                    contactInfo.contactPointReason
+			contactInfo.contactPointReason == "" ? "NONE" : contactInfo.contactPointReason
                   );
                   this.onFormValueChange();
                   this.EditCheckbox();

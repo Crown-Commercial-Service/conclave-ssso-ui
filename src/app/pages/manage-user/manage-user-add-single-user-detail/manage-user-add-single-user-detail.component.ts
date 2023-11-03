@@ -62,6 +62,10 @@ export class ManageUserAddSingleUserDetailComponent
   public pendingRoledeleteDetails: any = []
   public selectedGroupCheckboxes: any[] = [];
   public orgUserGroupRoles: any[] = [];
+  public isCustomMfaEnabled = environment.appSetting.customMfaEnabled;
+  public isMfaEnabledForUser = false;
+  public isUserMfaOpted = false;
+  public authenticationType : string = "Authenticator App";
   public userTypeDetails:userTypeDetails = {
     title:'User type',
     description:'',
@@ -246,6 +250,8 @@ export class ManageUserAddSingleUserDetailComponent
       this.formGroup.controls['mfaEnabled'].setValue(
         this.userProfileResponseInfo.mfaEnabled
       );
+      this.isMfaEnabledForUser = this.userProfileResponseInfo.mfaEnabled;
+      this.isUserMfaOpted = this.userProfileResponseInfo.mfaOpted;
       await this.getApprovalRequriedRoles()
       await this.getPendingApprovalUserRole();
       await this.getOrgDetails()
@@ -515,7 +521,9 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
       this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
       this.userProfileRequestInfo.lastName = form.get('lastName')?.value;
       this.userProfileRequestInfo.userName = form.get('userName')?.value;
-      this.userProfileRequestInfo.mfaEnabled = form.get('mfaEnabled')?.value;
+      // this.userProfileRequestInfo.mfaEnabled = form.get('mfaEnabled')?.value;
+      this.userProfileRequestInfo.mfaEnabled = this.isEdit ? this.isMfaEnabledForUser: false;
+      this.userProfileResponseInfo.mfaOpted = this.isEdit ? this.userProfileResponseInfo.mfaOpted: false;
       this.userProfileRequestInfo.detail.identityProviderIds =
         this.getSelectedIdpIds(form);
       // this.userProfileRequestInfo.detail.groupIds =

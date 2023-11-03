@@ -28,7 +28,6 @@ export class SendMFAResetNotificationSuccessComponent extends BaseComponent impl
   }
 
   ngOnInit() {
-    debugger;
     this.userName = sessionStorage.getItem(SessionStorageKey.MFAResetUserName) ?? '';
   }
 
