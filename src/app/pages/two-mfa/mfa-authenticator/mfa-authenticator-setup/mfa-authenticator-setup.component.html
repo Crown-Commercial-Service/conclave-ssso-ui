@@ -17,7 +17,7 @@
                     </span>
                 </summary>
                 <div class="govuk-details__text">
-                    You can enter the secret key into your authenticator app instead.Secret key: F4FM SP3T VJ93 WOS2
+                    You can enter the secret key into your authenticator app instead.Secret key: {{secretCode}}
                 </div>
             </details>
             <qrcode [qrdata]="mfaQrCode" [width]="256" [errorCorrectionLevel]="'M'" [allowEmptyString]="true">
