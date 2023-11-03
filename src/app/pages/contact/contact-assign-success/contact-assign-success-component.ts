@@ -72,4 +72,12 @@ export class ContactAssignSuccessComponent extends BaseComponent implements OnIn
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
+
+    getQueryData(): string {
+        let data = {
+            'isEdit': true,
+            'siteId': this.assigningSiteId
+        };
+        return JSON.stringify(data);
+      }
 }

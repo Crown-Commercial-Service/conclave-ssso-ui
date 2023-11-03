@@ -63,9 +63,11 @@
             <p class="govuk-body-l" *ngIf="operation === operationEnum.DeleteSiteContact">
                 {{ 'DELETE_SITE_CONTACT_SUCCESS' | translate }}
             </p>
-            <a href="javascript:;"  class="navigation-text" (click)="onNavigateToProfileClick()"> {{
-                'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a> &nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="javascript:;" *ngIf="siteId != 0" class="navigation-text" (click)="onNavigateToSiteClick()">
+           
+            <a [routerLink]="'/manage-org/profile'"  class="navigation-text"> {{
+                    'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>  &nbsp;&nbsp;&nbsp;&nbsp;
+            
+            <a [routerLink]="['/manage-org/profile/site/edit']"  [queryParams]="{ data: getQueryData() }" *ngIf="siteId != 0" class="navigation-text" (click)="onNavigateToSiteClick()">
                 Return to details </a>
             <br>
         </div>

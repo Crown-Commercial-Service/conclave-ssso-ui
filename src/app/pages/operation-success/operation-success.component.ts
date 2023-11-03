@@ -43,6 +43,7 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
         super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
         this.userName = sessionStorage.getItem(SessionStorageKey.OperationSuccessUserName) ?? '';
+        this.userName = localStorage.getItem('OperationSuccessUserName')?? '';
         this.approveRequiredRole = this.getSelectedRole(JSON.parse(localStorage.getItem('user_approved_role') || 'null' ))
         this.selectedUserName = localStorage.getItem('user_access_name') || '';
     }
