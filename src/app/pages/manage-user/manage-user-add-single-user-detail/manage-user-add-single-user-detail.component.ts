@@ -62,6 +62,10 @@ export class ManageUserAddSingleUserDetailComponent
   public pendingRoledeleteDetails: any = []
   public selectedGroupCheckboxes: any[] = [];
   public orgUserGroupRoles: any[] = [];
+  public isCustomMfaEnabled = environment.appSetting.customMfaEnabled;
+  public isMfaEnabledForUser = false;
+  public isUserMfaOpted = false;
+  public authenticationType : string = "Authenticator App";
   public userTypeDetails:userTypeDetails = {
     title:'User type',
     description:'',
@@ -163,11 +167,12 @@ export class ManageUserAddSingleUserDetailComponent
     this.ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
     localStorage.removeItem('user_approved_role');
     localStorage.removeItem('user_access_name');
+    localStorage.getItem('ManageUserUserName');
     if (queryParams.data) {
       this.subscription = this.sharedDataService.userEditDetails.subscribe((data) => {
         this.routeData = JSON.parse(atob(queryParams.data));
         this.isEdit = this.routeData['isEdit'];
-        this.editingUserName = sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
+        this.editingUserName = localStorage.getItem('ManageUserUserName')??'';
         this.editingUserName = data.rowData;
       })
     }
@@ -245,6 +250,8 @@ export class ManageUserAddSingleUserDetailComponent
       this.formGroup.controls['mfaEnabled'].setValue(
         this.userProfileResponseInfo.mfaEnabled
       );
+      this.isMfaEnabledForUser = this.userProfileResponseInfo.mfaEnabled;
+      this.isUserMfaOpted = this.userProfileResponseInfo.mfaOpted;
       await this.getApprovalRequriedRoles()
       await this.getPendingApprovalUserRole();
       await this.getOrgDetails()
@@ -514,7 +521,9 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
       this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
       this.userProfileRequestInfo.lastName = form.get('lastName')?.value;
       this.userProfileRequestInfo.userName = form.get('userName')?.value;
-      this.userProfileRequestInfo.mfaEnabled = form.get('mfaEnabled')?.value;
+      // this.userProfileRequestInfo.mfaEnabled = form.get('mfaEnabled')?.value;
+      this.userProfileRequestInfo.mfaEnabled = this.isEdit ? this.isMfaEnabledForUser: false;
+      this.userProfileResponseInfo.mfaOpted = this.isEdit ? this.userProfileResponseInfo.mfaOpted: false;
       this.userProfileRequestInfo.detail.identityProviderIds =
         this.getSelectedIdpIds(form);
       // this.userProfileRequestInfo.detail.groupIds =
@@ -775,8 +784,8 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     if (form.controls == null) return false;
     if (
       this.identityProviders != null &&
-      this.identityProviders != undefined &&
-      this.identityProviders != []
+      this.identityProviders != undefined 
+      //&& this.identityProviders != []
     ) {
       let isIdpSelected = this.identityProviders.some(
         (idp) => form.get('signInProviderControl_' + idp.id)?.value === true
@@ -794,6 +803,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
 
   onCancelClick() {
     sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
+    localStorage.removeItem('ManageUserUserName');
     this.router.navigateByUrl('manage-users');
   }
 

@@ -84,6 +84,8 @@ export interface OrganisationAuditList
     organisationTypeName: string;
     dateOfRegistration: Date;
     rightToBuy: boolean;
+    routeLink?:string;
+    routeData?:any;
 }
 
 export interface OrganisationAuditListResponse extends PaginationInfo {

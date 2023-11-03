@@ -23,8 +23,7 @@
             <p class="govuk-body-l">
                 {{ errorCode | translate }}
             </p>
-            <a href="javascript:;" *ngIf="assigningSiteId == 0" class="navigation-text"
-                (click)="onNavigateToProfileClick()">
+            <a [routerLink]="'/manage-org/profile'" *ngIf="assigningSiteId == 0" class="navigation-text">
                 {{'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>
             <a href="javascript:;" *ngIf="assigningSiteId != 0" class="navigation-text"
                 (click)="onNavigateToSiteClick()">
