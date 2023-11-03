@@ -47,6 +47,9 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.dataLayerService.pushEvent({
+            event: "login",
+        });
         this.router.events.subscribe(value => {
             this.dataLayerService.pushEvent({ 
              event: "page_view" ,

@@ -32,6 +32,10 @@ export class ManageOrgRegSuccessComponent extends BaseComponent implements OnIni
   }
 
   ngOnInit() {
+    this.dataLayerService.pushEvent({
+      event: "sign_up"
+    });
+
     this.router.events.subscribe(value => {
       this.dataLayerService.pushEvent({ 
        event: "page_view" ,
