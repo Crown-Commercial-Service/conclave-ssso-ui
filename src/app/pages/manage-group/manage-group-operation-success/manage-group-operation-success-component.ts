@@ -222,6 +222,11 @@ export class ManageGroupOperationSuccessComponent
   }
 
   public toggleAccordion(accordin: string): void {
+    this.dataLayerService.pushEvent({
+      event: "accordion_use",
+      interaction_type: accordin === 'accordin1' ? (this.accordinData.showAccordin1 ? "close": "open") : (this.accordinData.showAccordin2 ? "close": "open"),
+      link_text: accordin === "accordin1" ? "List of users who were given access to Fleet Portal" : "List of users who require additional verification for Fleet Portal access"
+    });
     if (accordin === 'accordin1') {
       this.accordinData.showAccordin1 = !this.accordinData.showAccordin1;
     } else if (accordin === 'accordin2') {
