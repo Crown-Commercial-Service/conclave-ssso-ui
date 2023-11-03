@@ -66,7 +66,6 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                     this.authService.createSession(tokenInfo.refresh_token).toPromise().then(() => {
                     const  previousGlobalRoute =  localStorage.getItem('routeRecords') ||'home'
                     this.authService.registerTokenRenewal();
-                    debugger;
                     this.delegatedApiService.getDeligatedOrg().subscribe({
                         next:(data:any) =>{
                             this.isMfaOpted = data.mfaOpted;
