@@ -109,8 +109,8 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
     }
     public async GetOrganisationMfaSettings() {
         this.ciiOrgId = this.tokenService.getCiiOrgId();
-        await this.wrapperOrganisationService.getOrganisation(this.ciiOrgId).toPromise().then((data:any) =>{
-            this.orgMfaRequired = data.detail.isMfaRequired;
+        await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data: any) => {
+            this.orgMfaRequired = data.toLowerCase() === 'true';
             this.isLoaded = true;
 
         })
