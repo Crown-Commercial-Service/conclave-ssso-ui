@@ -181,6 +181,10 @@ export class BuyerBothRequestsComponent implements OnInit {
       this.tabConfig.pendingOrg = true;
       this.tabConfig.verifiedOrg = false;
     }
+    this.dataLayerService.pushEvent({
+      event: "tab_navigation",
+      link_text: activetab === 'verifiedOrg' ? "Approved / declined Buyer status requests": "Buyer status pending"
+    })
   }
 
   private assignOrgTypeName(orgListResponse: OrganisationAuditListResponse): void{

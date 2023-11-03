@@ -167,6 +167,11 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
       this.tabConfig.expiredusers = true
       this.tabConfig.currentusers = false
     }
+
+    this.dataLayerService.pushEvent({
+      event: "tab_navigation",
+      link_text: activetab === 'currentusers' ? "Current users with delegated access to your Organisation": "Users with expired delegated access to your Organisation"
+    })
   }
 
   ngOnDestroy(): void {
