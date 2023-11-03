@@ -49,9 +49,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
 
             next: (response) => {
                 this.submitted = false;
-                console.log(response);
-                const authsuccessSetupUrl = environment.uri.web.dashboard + '/mfa-authentication-setup-sucess';
-                window.location.href = authsuccessSetupUrl;
+                this.router.navigateByUrl('/home');
             },
 
             error: (err) => {

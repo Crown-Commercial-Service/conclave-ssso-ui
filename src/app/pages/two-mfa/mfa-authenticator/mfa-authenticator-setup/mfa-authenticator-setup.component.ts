@@ -26,6 +26,7 @@ import { environment } from "src/environments/environment";
 export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnInit {
     formGroup: FormGroup;
     public mfaQrCode: any = localStorage.getItem('qr_code');
+    public secretCode : string | null = localStorage.getItem('secret_code');
     authcode: string = "";
     auth0token: string = "";
     oob_code: any;    
@@ -43,6 +44,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
 
     ngOnInit() {
         this.mfaQrCode = localStorage.getItem('qr_code');
+        this.secretCode = localStorage.getItem('secret_code');
 
     }
     clearError() {
@@ -58,8 +60,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
 
             next: (response) => {
                 this.submitted = false;
-                const authsuccessSetupUrl = environment.uri.web.dashboard + '/mfa-authentication-setup-sucess';
-                window.location.href = authsuccessSetupUrl;
+                this.router.navigateByUrl('/home');
             },
         
             error: (err) => {
