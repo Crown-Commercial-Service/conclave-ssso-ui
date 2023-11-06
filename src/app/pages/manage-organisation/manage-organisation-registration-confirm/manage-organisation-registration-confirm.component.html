@@ -67,7 +67,7 @@
   </div>
   <br>
   <p><strong>The link in the email will become invalid after 36 hours and can only be clicked on once</strong></p>
-  <p *ngIf="!resendActivationEmailMode"><a id="resendLink" class="navigation-text" href="javascript:;" (click)="resendActivationLink()">If you have not received
+  <p *ngIf="!resendActivationEmailMode"><a  [routerLink]="['/manage-org/register/confirm']" [queryParams]="{ rs: true }"  id="resendLink" class="navigation-text" (click)="resendActivationLink()">If you have not received
       an email, please
       click here to resend</a></p>
   <p><a id="homeLink" class="navigation-text" href="https://www.crowncommercial.gov.uk">Return to Crown Commercial Service homepage</a></p>
