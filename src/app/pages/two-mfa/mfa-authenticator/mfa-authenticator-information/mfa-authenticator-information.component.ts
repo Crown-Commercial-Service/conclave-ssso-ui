@@ -52,6 +52,7 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
       this.authService.Associate(this.auth0token,"",false).subscribe({
           next : (response) => {
             localStorage.setItem('qr_code',response.barcode_Uri);
+            localStorage.setItem('secret_code',response.secret);
             this.router.navigateByUrl('mfa-authenticator-setup');
 
           }, error : (err) => {

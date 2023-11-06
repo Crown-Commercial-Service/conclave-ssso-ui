@@ -13,9 +13,13 @@
             <form [formGroup]="formGroup">
                 <div class="govuk-text-input-group" id="otp-form-group" [class.govuk-form-group--error]="submitted &&formGroup.controls.otp.invalid">
                     <span id="invalid-otp-error" class="govuk-error-message" *ngIf="submitted && formGroup.controls.otp.invalid">
-                       <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>Please provide valid
-                       code
+                       <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                       Please provide valid code.
                    </span>
+                   <span id="invalid-sms-error" class="govuk-error-message" *ngIf="isTooManySms">
+                    <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
+                    {{errorMsg}}
+                </span>
                    <label class="govuk-label"> Enter the code:</label>
                    <input class="govuk-input govuk-input govuk-input--width-20" maxlength="6" id="width-20" name="otp"
                        type="text" formControlName="otp" #otp
