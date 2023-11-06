@@ -507,6 +507,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       SessionStorageKey.UserContactUsername,
       this.userName
     );
+    localStorage.setItem('UserContactUsername',this.userName);
     this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
   }
 
