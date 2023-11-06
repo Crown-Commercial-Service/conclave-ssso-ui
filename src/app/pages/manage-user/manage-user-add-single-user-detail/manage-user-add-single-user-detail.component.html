@@ -172,7 +172,7 @@
                                  <!-- using the <strong>{{authenticationType}}.</strong> -->
                             </p>
                             <p *ngIf="!isMfaEnabledForUser && isUserMfaOpted" class="govuk-hint" style="color: black;">
-                                Currently <strong>{{'MFA_OFF | translate'}}</strong> for this account.</p>
+                                Currently <strong> {{'MFA_OFF'| translate }} </strong> for this account.</p>
                             <p *ngIf="!isUserMfaOpted" class="govuk-hint" style="color: black;">
                                 Waiting for user action.</p>
                             <div>
@@ -194,14 +194,14 @@
                                     <input class="govuk-radios__input" id="mfa-on" name="whereDoYouLive"
                                         type="radio" [value]="true" formControlName="mfaEnabled" [attr.disabled] = false>
                                     <label class="govuk-label govuk-radios__label" for="mfa-on">
-                                        <strong> on</strong>
+                                        <strong> {{'MFA_ON' | translate}} </strong>
                                     </label>
                                 </div>
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input" id="mfa-off" name="whereDoYouLive"
                                         type="radio" [value]="false" formControlName="mfaEnabled" [attr.disabled] = false>
                                     <label class="govuk-label govuk-radios__label" for="mfa-off">
-                                        <strong> off </strong>
+                                        <strong> {{'MFA_OFF'| translate }} </strong>
                                     </label>
                                 </div>
                             </div>
