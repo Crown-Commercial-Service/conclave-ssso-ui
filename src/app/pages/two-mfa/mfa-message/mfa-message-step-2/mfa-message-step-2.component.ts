@@ -43,6 +43,10 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     ngOnInit() {
         this.sendSmsOtp(this.phonenumber);
     }
+    ngAfterViewInit()
+    {
+        document.getElementById('message-otp')?.focus();
+    }
     public onContinueBtnClick(otp: string) {
         this.submitted = true;
         this.isTooManySms = false;
