@@ -9,31 +9,32 @@
             <p class="govuk-body-l">
                 {{'SEND_CODE' | translate}}
             </p>
-            <form [formGroup]="formGroup">
+            <form [formGroup]="formGroup" (ngSubmit)="onContinueBtnClick()">
             <label class="mfa-message-label-text">Phone number<br></label>
             <ngx-intl-tel-input [cssClass]="'govuk-input'" [preferredCountries]="preferredCountries"
                 [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
-                    [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                    [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"autofocus
                     [selectFirstCountry]="false" [phoneValidation]="true" [separateDialCode]="separateDialCode"
                     [maxLength]="'15'" [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'"
-                    name="mobile" formControlName="mobile">
+                    name="mobile" id ="mobile-input" formControlName="mobile">
             </ngx-intl-tel-input>
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button"
+                    [disabled]="formGroup.controls.mobile.invalid" data-module="govuk-button">
+                    {{ 'CONTINUE_BTN' | translate }}
+                </button>
+                <button type="button" class="govuk-button govuk-button--secondary" (click)="onBackBtnClick()"
+                    data-module="govuk-button">
+                    {{ 'BACK' | translate }}
+                </button>
+            </div>
+            <div class="govuk-2mfa-link">
+                <a href="javascript:;" class="navigation-text" (click)="onNavigateToMFAClick()">
+                    {{'BACK_TO_2MFA' | translate }}
+                </a>
+            </div>
             </form>
         </fieldset>
     </div>
-    <div class="govuk-button-group">
-        <button type="button" class="govuk-button" (click)="onContinueBtnClick()"
-            [disabled]="formGroup.controls.mobile.invalid" data-module="govuk-button">
-            {{ 'CONTINUE_BTN' | translate }}
-        </button>
-        <button type="button" class="govuk-button govuk-button--secondary" (click)="onBackBtnClick()"
-            data-module="govuk-button">
-            {{ 'BACK' | translate }}
-        </button>
-    </div>
-    <div class="govuk-2mfa-link">
-        <a href="javascript:;" class="navigation-text" (click)="onNavigateToMFAClick()">
-            {{'BACK_TO_2MFA' | translate }}
-        </a>
-    </div>
+   
 </div>

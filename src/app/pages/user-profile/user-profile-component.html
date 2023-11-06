@@ -166,6 +166,7 @@
                                         {{ 'RESET_MFA_HINT' | translate }}
                                     </div>
                                     <button type="button" (click)="onResetMfaClick()" class="govuk-button"
+                                    [disabled] = "!formGroup.controls.mfaEnabled.value"
                                         data-module="govuk-button">{{ 'RESET_MFA_BTN' |
                                         translate }}
                                     </button>

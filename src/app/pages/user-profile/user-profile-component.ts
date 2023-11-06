@@ -545,7 +545,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         }
         if (this.isMfaEnabledForUser && !this. mfaRadioButtonValue) {
           this.userRequest.mfaEnabled = false;
-          this.userRequest.mfaopted = true;
+          this.userRequest.mfaOpted = true;
         }
 
       }

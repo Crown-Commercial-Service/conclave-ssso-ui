@@ -141,7 +141,7 @@
                     <div class="govuk-radio">
                         <app-govuk-radio [details]="userTypeDetails" (clickedData)="onUserTypeChanged($event)"></app-govuk-radio>
                     </div>
-                    <!-- <div class="govuk-form-group" id="user-mfa-form-group"
+                    <div class="govuk-form-group" *ngIf="!isCustomMfaEnabled"  id="user-mfa-form-group"
                         [class.govuk-form-group--error]="submitted && (mfaAdminValidationError)">
                         <fieldset class="govuk-fieldset">
                             <h2 class="govuk-heading-s">
@@ -161,7 +161,7 @@
                                 </label>
                             </div>
                         </fieldset>
-                    </div> -->
+                    </div>
                     <div class="govuk-form-group" *ngIf="isCustomMfaEnabled && isEdit">
                         <fieldset class="govuk-fieldset">
                             <h2 class="govuk-heading-s">
