@@ -45,7 +45,12 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     ngOnInit() {
         this.mfaQrCode = localStorage.getItem('qr_code');
         this.secretCode = localStorage.getItem('secret_code');
+        
 
+    }
+    ngAfterViewInit()
+    {
+        document.getElementById('authenticator-otp')?.focus();
     }
     clearError() {
         this.showError = false;

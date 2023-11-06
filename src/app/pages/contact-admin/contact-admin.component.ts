@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AdminUserListResponse, UserListResponse } from 'src/app/models/user';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { environment } from 'src/environments/environment';
@@ -20,7 +21,8 @@ export class ContactAdminComponent implements OnInit {
   isOrgAdmin: boolean = false;
   
   constructor(
-    private WrapperOrganisationGroupService: WrapperOrganisationGroupService
+    private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
+    private router:Router
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userListResponse = {
@@ -68,6 +70,6 @@ export class ContactAdminComponent implements OnInit {
     this.getOrganisationUsers();
   }
   goBack() {
-    window.history.back();
+    this.router.navigateByUrl('profile');
   }
 }
