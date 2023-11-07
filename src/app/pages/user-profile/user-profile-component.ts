@@ -126,7 +126,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     data: []
   }
   public isCustomMfaEnabled = environment.appSetting.customMfaEnabled;
-  public isMfaEnabledForUser = false;
+  public isMfaEnabledForUser: boolean = false;
   public authenticationType: string = "";
   public orgMfaRequired: boolean = false;
   public ciiOrgId: string = "";
@@ -159,7 +159,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       formBuilder.group({
         firstName: ['', Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z][a-z A-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
         lastName: ['', Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z][a-z A-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
-        mfaEnabled: [false]
+        mfaEnabled: [null]
       })
     );
     this.userName = localStorage.getItem('user_name') || '';
@@ -936,8 +936,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.ciiOrgId = this.tokenService.getCiiOrgId();
     await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data: any) => {
       this.orgMfaRequired = data.toLowerCase() === 'true';
-      console.log(this.orgMfaRequired);
-
     })
       .catch((err) => {
         console.log('error', err);
