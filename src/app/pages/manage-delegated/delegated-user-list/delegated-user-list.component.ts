@@ -5,6 +5,7 @@ import { UserListResponse } from 'src/app/models/user';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { environment } from 'src/environments/environment';
+import { AuthService } from "src/app/services/auth/auth.service";
 
 @Component({
   selector: 'app-delegated-user-list',
@@ -40,7 +41,8 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
     pageName: 'Delegatedaccess',
     hyperTextrray: ['View']
   }
-  constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService) {
+  constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService,
+              private authService: AuthService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || ''
     this.currentUserstableConfig.userList = {
       currentPage: this.currentUserstableConfig.currentPage,
@@ -123,7 +125,12 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
         }
       },
       error: (error: any) => {
-        this.router.navigateByUrl('delegated-error')
+        if (error?.status == 401) {
+          this.authService.logOutAndRedirect();
+        }
+        else{
+          this.router.navigateByUrl('delegated-error')
+        }
       }
     });
   }
@@ -138,7 +145,12 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
         }
       },
       error: (error: any) => {
+        if (error?.status == 401) {
+          this.authService.logOutAndRedirect();
+        }
+        else{
         this.router.navigateByUrl('delegated-error')
+        }
       }
     });
   }
