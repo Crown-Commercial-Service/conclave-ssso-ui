@@ -521,9 +521,15 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
       this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
       this.userProfileRequestInfo.lastName = form.get('lastName')?.value;
       this.userProfileRequestInfo.userName = form.get('userName')?.value;
-      // this.userProfileRequestInfo.mfaEnabled = form.get('mfaEnabled')?.value;
+      if (!this.isCustomMfaEnabled)
+      {
+        this.userProfileRequestInfo.mfaEnabled = form.get('mfaEnabled')?.value;
+      }
+      else 
+      {
       this.userProfileRequestInfo.mfaEnabled = this.isEdit ? this.isMfaEnabledForUser: false;
-      this.userProfileResponseInfo.mfaOpted = this.isEdit ? this.userProfileResponseInfo.mfaOpted: false;
+      this.userProfileRequestInfo.mfaOpted = this.isEdit ? this.isUserMfaOpted: false;
+      }
       this.userProfileRequestInfo.detail.identityProviderIds =
         this.getSelectedIdpIds(form);
       // this.userProfileRequestInfo.detail.groupIds =
