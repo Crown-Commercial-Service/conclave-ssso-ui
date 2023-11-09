@@ -110,7 +110,8 @@ export class ManageOrgRegStep3Component
               this.countryCode = result.address.countryCode;
               this.selectedIdentifiers = result.additionalIdentifiers;
               this.orgDetails=result
-              this.checkAddressDetailsEmpty(result.address.streetAddress,result.address.postalCode)
+              //Commented the code to revert changes for the Bug-6757(PPG-711)
+              //this.checkAddressDetailsEmpty(result.address.streetAddress,result.address.postalCode)
               localStorage.setItem('cii_organisation', JSON.stringify(result));
               this.countryDetails = await this.configurationCore
                 .getCountryDetails()
