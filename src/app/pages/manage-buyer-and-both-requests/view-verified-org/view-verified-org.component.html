@@ -34,11 +34,6 @@
                         (routeDetails.event.organisationType == 1 ? 'Buyer' : 'Both')}}</strong>
                 </p>
                 <p class="govuk-body">
-                    Date of registration:<strong
-                        class="govuk-!-margin-left-2 govuk-!-display-inline-block govuk-valign-top">{{helperService.convertToLocalDateTime(routeDetails.event.dateOfRegistration)
-                        | date: 'dd/MM/yyyy'}} <br>{{helperService.convertToLocalDateTime(routeDetails.event.dateOfRegistration) | date: 'HH:mm'}}</strong>
-                </p>
-                <p class="govuk-body">
                     Right to buy status&nbsp;:<strong class="govuk-!-margin-left-2">{{routeDetails.event.auditStatus==5?
                         'Not Applicable' : routeDetails.event.rightToBuy ?
                         'Approved' : 'Declined'}}</strong>
@@ -121,8 +116,8 @@
                 <div *ngIf="routeDetails.event.rightToBuy != true">
                     <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
                         (click)="goBack()">Back</button>
-                    <p *ngIf="!isDeletedOrg" class="govuk-body"><a target="_blank" class="govuk-link navigation-text"
-                            (click)="nevigateViewEdit()">View / edit organisations’ right to buy status</a></p>
+                    <p *ngIf="!isDeletedOrg" class="govuk-body"><a class="govuk-link navigation-text"
+                        [routerLink]="['/update-org-services/confirm']"  [queryParams]="{ data: getQueryData() }">View / edit organisations’ right to buy status</a></p>
                 </div>
             </div>
         </div>

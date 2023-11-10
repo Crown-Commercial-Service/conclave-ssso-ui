@@ -24,6 +24,7 @@ export interface UserDetail {
     lastName: string;
     mfaEnabled: boolean;
     isAdminUser: boolean;
+    mfaOpted: boolean;
 }
 
 export interface UserRequestDetail {
@@ -90,6 +91,8 @@ export interface UserListInfo {
     name: string;
     userName: string;
     isAdmin: boolean;
+    routeLink?: string,
+    routeData?: any
 }
 
 export interface AdminUserListInfo extends UserListInfo {
@@ -100,6 +103,11 @@ export interface AdminUserListInfo extends UserListInfo {
 export interface UserListResponse extends PaginationInfo {
     organisationId: string;
     userList: UserListInfo[];
+}
+
+export interface UserListResponseWithLink extends UserListResponse{
+    routeLink: string,
+    routeData: any
 }
 
 export interface AdminUserListResponse extends PaginationInfo {
@@ -141,7 +149,7 @@ export interface PendingApproveRoleDetail {
 }
 
 export interface acceptRejectRequestDetail {
-    pendingRoleIds: []
+    pendingRoleIds: number[];
     status: number
 }
 export interface userGroupTableDetail {

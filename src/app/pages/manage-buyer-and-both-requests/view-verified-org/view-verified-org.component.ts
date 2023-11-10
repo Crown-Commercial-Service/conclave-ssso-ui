@@ -23,7 +23,9 @@ export class ViewVerifiedOrgComponent implements OnInit {
   private organisationId: string = '';
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   pageName = 'Contactadmin';
-  public routeDetails: any;
+  public routeDetails: any = {
+    event: {}
+  };
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   public schemeData: any[] = [];
@@ -263,17 +265,25 @@ export class ViewVerifiedOrgComponent implements OnInit {
   }
 
 
-  public nevigateViewEdit() {
+   public nevigateViewEdit() {
+     let data = {
+       companyHouseId: this.registries.identifier?.id,
+       Id: this.routeDetails.event.organisationId,
+     };
+     window.open(
+       environment.uri.web.dashboard +
+       '/update-org-services/confirm?data=' +
+       btoa(JSON.stringify(data)),
+       '_blank'
+     );
+   }
+
+  getQueryData(): string {
     let data = {
       companyHouseId: this.registries.identifier?.id,
       Id: this.routeDetails.event.organisationId,
     };
-    window.open(
-      environment.uri.web.dashboard +
-      '/update-org-services/confirm?data=' +
-      btoa(JSON.stringify(data)),
-      '_blank'
-    );
+    return btoa(JSON.stringify(data));
   }
 
   getPendingVerificationOrg() {

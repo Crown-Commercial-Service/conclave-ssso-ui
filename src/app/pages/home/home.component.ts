@@ -33,7 +33,7 @@ import { ManageDelegateService } from '../manage-delegated/service/manage-delega
 })
 export class HomeComponent extends BaseComponent implements OnInit {
   switchedOrgId = ''
-  isDelegation: boolean = !environment.appSetting.hideDelegation
+  isDelegation: boolean = !environment.appSetting.hideDelegation;
   public orgDetails: any = ''
   systemModules: SystemModule[] = [];
   ccsModules: SystemModule[] = [];
@@ -75,7 +75,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   public checkValidOrganisation() {
     this.delegatedApiService.getDeligatedOrg().subscribe({
       next: (data: any) => {
-        let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; }) => element.delegatedOrgId == this.switchedOrgId)
+        let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; }) => element.delegatedOrgId == this.switchedOrgId);
         if (orgDetails === undefined) {
           this.DelegateService.setDelegatedOrg(0, 'home');
           this.initializer()
@@ -262,14 +262,14 @@ export class HomeComponent extends BaseComponent implements OnInit {
           this.otherModules.push({
             name: 'Manage service eligibility',
             description: 'Manage services and roles for organisations',
-            route: '/buyer/search',
+            route: '/buyer-supplier/search',
             orderId : 2
           });
         } else {
           this.otherModules.push({
             name: 'Manage service eligibility',
             description: 'Manage organisations’ type and services',
-            route: '/buyer/search',
+            route: '/buyer-supplier/search',
             orderId : 2
           });
         }

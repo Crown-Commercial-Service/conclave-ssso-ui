@@ -352,7 +352,7 @@
                                 </div>
                             </div>
                             <br>
-                            <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" href="javascript:;"
+                            <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" [routerLink]="['/delegated-remove-confirm']"  [queryParams]="{ data: getQueryData() }"
                                 class="navigation-text" (click)="Resentactivation()"> Resend activation link </a>
                                 <br>
                                 <br> 

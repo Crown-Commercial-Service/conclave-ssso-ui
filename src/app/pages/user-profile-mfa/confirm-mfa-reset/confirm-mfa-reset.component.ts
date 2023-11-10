@@ -36,9 +36,11 @@ export class ConfirmMfaResetComponent implements OnInit {
         );
       })
       .catch((error: any) => {
-        this.router.navigateByUrl(
-          'user-mfa-reset-success?error=' + +btoa(JSON.stringify(this.decodedData))
-        );
+        if (error?.status != 401) {
+            this.router.navigateByUrl(
+              'user-mfa-reset-success?error=' + +btoa(JSON.stringify(this.decodedData))
+            );
+          }
       });
   }
 

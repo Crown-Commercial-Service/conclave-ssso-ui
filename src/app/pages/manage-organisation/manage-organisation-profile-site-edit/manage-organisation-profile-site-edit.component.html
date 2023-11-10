@@ -219,10 +219,13 @@
               (hyperLinkClickEvent)="onContactEditClick($event)" [useClientPagination]="true">
             </app-govuk-table>
           </div>
-          <div class="govuk-form-group govuk-button-group">
-            <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-              (click)="onContactAddClick()">
-              {{ 'ADD_ANOTHER_CONTACT_BTN' | translate }}</button>
+          <div class="govuk-form-group govuk-button-group">        
+              <button type="button" (click)="onContactAddClick()" class="govuk-button govuk-button--secondary" data-module="govuk-button" *ngIf="contactAddAnother">
+                {{ 'ADD_ANOTHER_CONTACT_BTN' | translate }}
+              </button>
+              <button type="button" (click)="onContactAddClick()" class="govuk-button govuk-button--secondary" data-module="govuk-button" *ngIf="!contactAddAnother">
+                {{ 'ADD_NEW_CONTACT' | translate }}
+              </button>
             <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
               (click)="onContactAssignClick()">
               {{ 'FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
@@ -241,9 +244,13 @@
               {{ 'CANCEL_BTN' | translate }}
             </button>
           </div>
-          <a href="javascript:;" *ngIf="isEdit==true" (click)="onDeleteClick()" class="navigation-text delete-link">{{
+          <!-- <a href="javascript:;" *ngIf="isEdit==true" (click)="onDeleteClick()" class="navigation-text delete-link">{{
             'DELETE_SITE'
-            | translate }}</a>
+            | translate }}</a>   
+           -->
+          <a [routerLink]="['/manage-org/profile/site/delete']"  [queryParams]="{ data: getQueryData() }" class="navigation-text delete-link">
+              {{ 'DELETE_SITE' | translate }}
+          </a>      
         </div>
       </div>
     </div>

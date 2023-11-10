@@ -27,14 +27,14 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
     userName: string = '';
     contactId: number = 0;
     isOrgAdmin: boolean = false;
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
+    constructor(protected uiStore: Store<UIState>, public router: Router, private activatedRoute: ActivatedRoute,
         private contactService: WrapperUserContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
             console.log(routeData);
-            this.userName = sessionStorage.getItem(SessionStorageKey.UserContactUsername) ?? '';
+            this.userName = localStorage.getItem('UserContactUsername') ?? '';
             this.contactId = routeData['contactId'];
         }
     }

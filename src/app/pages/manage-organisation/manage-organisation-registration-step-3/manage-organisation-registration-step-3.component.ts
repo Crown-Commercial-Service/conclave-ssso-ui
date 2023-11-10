@@ -36,6 +36,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { MatSelect } from '@angular/material/select';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-organisation-registration-step-3',
@@ -61,6 +62,7 @@ export class ManageOrgRegStep3Component
   public routeParams!: any;
   id!: string;
   ciiOrgId: string = '';
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
 
   countryDetails: ContryDetails[] = [];
   topCountries: ContryDetails[] = [];
@@ -108,6 +110,8 @@ export class ManageOrgRegStep3Component
               this.countryCode = result.address.countryCode;
               this.selectedIdentifiers = result.additionalIdentifiers;
               this.orgDetails=result
+              //Commented the code to revert changes for the Bug-6757(PPG-711)
+              //this.checkAddressDetailsEmpty(result.address.streetAddress,result.address.postalCode)
               localStorage.setItem('cii_organisation', JSON.stringify(result));
               this.countryDetails = await this.configurationCore
                 .getCountryDetails()
@@ -165,11 +169,17 @@ export class ManageOrgRegStep3Component
       this.topCountries = [];
     }
   }
-
+  checkAddressDetailsEmpty(streetAddress:string,postalCode:string)
+  {
+      if(streetAddress.trim() == '' || postalCode.trim() == '')
+      {
+       this.router.navigateByUrl(`manage-org/register/error/address-details`);
+      }
+    }
   /**
    * Sets the initial value after the filteredCountryDetails are loaded initially
    */
-  protected setInitialValue() {
+  public setInitialValue() {
     this.filteredCountryDetails
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
@@ -179,13 +189,15 @@ export class ManageOrgRegStep3Component
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filtercountryDetails are loaded initially
         // and after the mat-option elements are available
-        this.singleSelect.compareWith = (a: ContryDetails, b: ContryDetails) =>
+        if(this.singleSelect){
+          this.singleSelect.compareWith = (a: ContryDetails, b: ContryDetails) =>
           a && b && a.id === b.id;
-        console.log('setInitialValue2');
+          console.log('setInitialValue2');
+        }
       });
   }
 
-  protected filtercountryDetails() {
+  public filtercountryDetails() {
     if (!this.countryDetails) {
       return;
     }

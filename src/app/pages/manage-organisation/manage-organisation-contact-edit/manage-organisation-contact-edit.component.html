@@ -16,21 +16,32 @@
             }}</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
-          <span *ngIf="isEdit!=true && !siteCreate && !ContactAdd" class="govuk-breadcrumbs__link">{{
+          <span *ngIf="isEdit!=true && !siteCreate && !ContactAdd && contactAddAnother==true " class="govuk-breadcrumbs__link">{{
             'ADD_ANOTHER_CONTACT' | translate
+            }}</span>
+          <span *ngIf="isEdit!=true && !siteCreate && !ContactAdd && contactAddAnother!=true " class="govuk-breadcrumbs__link">{{
+            'ADD_NEW_CONTACT' | translate
             }}</span>
           <span *ngIf="isEdit==true" class="govuk-breadcrumbs__link">{{ 'EDIT_CONTACT_DETAILS' | translate
             }}</span>
-          <span *ngIf="siteCreate || ContactAdd" class="govuk-breadcrumbs__link">Add new contact
-            {{siteInfo.siteName}}</span>
+          <span *ngIf="!siteCreate && ContactAdd && !contactAddAnother" class="govuk-breadcrumbs__link">
+            Add new contact {{siteInfo.siteName}}</span>
+          <span *ngIf="!siteCreate && ContactAdd && contactAddAnother" class="govuk-breadcrumbs__link">
+            Add another contact {{siteInfo.siteName}}</span>
+          <span *ngIf="siteCreate && !contactAddAnother" class="govuk-breadcrumbs__link">
+              Add new contact {{siteInfo.siteName}}</span>
         </li>
       </ol>
     </div>
-    <h1 *ngIf="isEdit!=true  && !siteCreate && !ContactAdd" class="govuk-heading-xl page-title">{{ 'ADD_ANOTHER_CONTACT'
+    <h1 *ngIf="isEdit!=true  && !siteCreate && !ContactAdd && contactAddAnother==true" class="govuk-heading-xl page-title">{{ 'ADD_ANOTHER_CONTACT'
+      | translate }}</h1>
+    <h1 *ngIf="isEdit!=true  && !siteCreate && !ContactAdd && contactAddAnother!=true" class="govuk-heading-xl page-title">{{ 'ADD_NEW_CONTACT'
       | translate }}</h1>
     <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">{{ 'EDIT_CONTACT_DETAILS' | translate }}</h1>
-    <h1 *ngIf="siteCreate || ContactAdd" class="govuk-heading-xl page-title">Add new contact {{siteInfo.siteName}}</h1>
-    <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+    <h1 *ngIf="!siteCreate && ContactAdd && !contactAddAnother" class="govuk-heading-xl page-title">Add new contact {{siteInfo.siteName}}</h1>
+   <h1 *ngIf="!siteCreate && ContactAdd && contactAddAnother" class="govuk-heading-xl page-title">Add another contact {{siteInfo.siteName}}</h1>
+   <h1 *ngIf="siteCreate && !contactAddAnother" class="govuk-heading-xl page-title">Add new contact {{siteInfo.siteName}}</h1>
+   <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
       id="error-summary" data-module="govuk-error-summary"
       *ngIf="!formValid(formGroup) && submitted || validator && submitted">
       <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -244,14 +255,15 @@
               {{ 'CANCEL_BTN' | translate }}
             </button>
           </div>
-          <a href="javascript:;" *ngIf="isEdit==true && !isAssignedContact" (click)="onDeleteClick()"
-            class="navigation-text delete-link">{{
-            'DELETE_CONTACT'
-            | translate }}</a>
-          <a href="javascript:;" *ngIf="isEdit==true && isAssignedContact" (click)="onUnassignClick()"
-            class="navigation-text delete-link">{{
-            'UNASSIGN_CONTACT'
-            | translate }}</a>
+          
+          <a [routerLink]="generateDeleteClickRoute()" [queryParams]="{ data: getQueryData() }"
+            *ngIf="isEdit == true && !isAssignedContact" class="navigation-text delete-link">
+            {{ 'DELETE_CONTACT' | translate }}</a>       
+         
+            <a [routerLink]="['/contact-unassign/confirm']" [queryParams]="{ data: getUnassignQueryData() }"
+              *ngIf="isEdit==true && isAssignedContact" class="navigation-text delete-link">
+              {{'UNASSIGN_CONTACT' | translate }}
+            </a>            
         </div>
       </form>
     </div>

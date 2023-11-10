@@ -58,6 +58,7 @@ export class ManageOrganisationContactEditComponent
   default: string = '';
   contactReasons: ContactReason[] = [];
   isEdit: boolean = false;
+  contactAddAnother :boolean = false;
   isAssignedContact: boolean = false;
   contactId: number = 0;
   siteId: number = 0;
@@ -157,6 +158,7 @@ export class ManageOrganisationContactEditComponent
       this.siteId = routeData['siteId'] || 0;
       this.siteCreate = routeData['siteCreate'] || false;
       this.ContactAdd = routeData['ContactAdd'] || false;
+      this.contactAddAnother = routeData['contactAddAnother'] ; 
     }
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.formGroup.setValidators(this.validateForSufficientDetails());
@@ -531,6 +533,21 @@ export class ManageOrganisationContactEditComponent
     );
   }
 
+  public generateDeleteClickRoute(): string {
+    return `/manage-org/profile/${
+      this.siteId == 0 ? '' : 'site/'
+    }contact-delete`
+  }
+
+  getQueryData(): string {
+    const data = {
+      organisationId: this.organisationId,
+      contactId: this.contactId,
+      siteId: this.siteId,
+    };
+    return JSON.stringify(data);
+  }
+
   onUnassignClick() {
     let data = {
       unassignOrgId: this.organisationId,
@@ -540,6 +557,15 @@ export class ManageOrganisationContactEditComponent
     this.router.navigateByUrl(
       'contact-unassign/confirm?data=' + JSON.stringify(data)
     );
+  }
+
+  getUnassignQueryData(): string {
+    let data = {
+      unassignOrgId: this.organisationId,
+      unassignSiteId: this.siteId,
+      contactId: this.contactId,
+    };
+    return JSON.stringify(data);
   }
 
   public checkBoxClick(checkboxData: string): void {

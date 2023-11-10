@@ -140,6 +140,14 @@ export class ManageGroupOperationSuccessComponent
       'manage-groups/view?data=' + JSON.stringify(data)
     );
   }
+  getQueryData(): string {
+    const data = {
+      isEdit: true,
+      groupId: this.groupId,
+    };
+    return JSON.stringify(data);
+  }
+  
   public onNavigateTohome() {
     this.router.navigateByUrl('/home');
   }
@@ -158,7 +166,7 @@ export class ManageGroupOperationSuccessComponent
     this.getListOfUsersGivenAccess();
   }
 
-  private getListOfUserRequiredAccess(): void {
+  public getListOfUserRequiredAccess(): void {
     this.orgGroupService
       .getPendingApproveOrganisationGroup(
         this.organisationId,
@@ -179,7 +187,7 @@ export class ManageGroupOperationSuccessComponent
       );
   }
 
-  private getListOfUsersGivenAccess(): void {
+  public getListOfUsersGivenAccess(): void {
     this.orgGroupService
       .getPendingApproveOrganisationGroup(
         this.organisationId,
@@ -206,7 +214,7 @@ export class ManageGroupOperationSuccessComponent
     this.accordionStatus = isGroupOperation && hasUsers;
   }
 
-  private isGroupOperation(){
+  public isGroupOperation(){
     return [this.operationEnum.GroupRoleUpdate, this.operationEnum.GroupAdd,this.operationEnum.GroupUserUpdate].includes(this.operation);
   }
 

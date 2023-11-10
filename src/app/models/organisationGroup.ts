@@ -1,10 +1,12 @@
 export interface Group {
   serviceRoleGroups: any;
-  checked ?: boolean;
+  checked?: boolean;
   groupId: number;
   mfaEnabled: boolean;
   groupName: string;
   createdDate?: string;
+  routeLink?: string;
+  routeData?: any;
 }
 
 export interface GroupList {

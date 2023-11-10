@@ -69,7 +69,7 @@ export class DataMigrationUploadComponent implements OnInit {
                         }
                         case 4: {
                             f.status = 'Completed'
-                            // f.link = ['Download report','View summary']
+                            //f.link = ['Download report','View summary']
                             break;
                         }
                         default: {

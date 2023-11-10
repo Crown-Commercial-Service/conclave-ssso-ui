@@ -55,6 +55,7 @@ export class UserContactEditComponent
   default: string = '';
   contactReasons: ContactReason[] = [];
   isEdit: boolean = false;
+  isEditContact: boolean = true;
   contactId: number = 0;
   separateDialCode = false;
   SearchCountryField = SearchCountryField;
@@ -91,16 +92,16 @@ export class UserContactEditComponent
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
-    private contactService: WrapperUserContactService,
+    public contactService: WrapperUserContactService,
     private formBuilder: FormBuilder,
-    private router: Router,
+    public router: Router,
     private PatternService: PatternService,
     private activatedRoute: ActivatedRoute,
     protected uiStore: Store<UIState>,
     private contactHelper: ContactHelper,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private externalContactService: WrapperContactService,
+    public externalContactService: WrapperContactService,
     private titleService: Title
   ) {
     super(
@@ -140,13 +141,14 @@ export class UserContactEditComponent
     this.contactData = {
       contacts: [],
     };
+    this.userName = localStorage.getItem('UserContactUsername') ?? '';
     let queryParams = this.activatedRoute.snapshot.queryParams;
     if (queryParams.data) {
       let routeData = JSON.parse(queryParams.data);
       this.isEdit = routeData['isEdit'];
-      this.userName =
-        sessionStorage.getItem(SessionStorageKey.UserContactUsername) ?? '';
+      this.userName = localStorage.getItem('UserContactUsername') ?? '';
       this.contactId = routeData['contactId'];
+      this.isEditContact = routeData['isEditContact'];
     }
     this.formGroup.setValidators(this.validateForSufficientDetails());
     this.formGroup.controls['contactReason'].setValue(this.default, {
@@ -159,6 +161,7 @@ export class UserContactEditComponent
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} - User Contact - CCS`
     );
+    sessionStorage.getItem(SessionStorageKey.UserContactUsername);
     this.externalContactService.getContactReasons().subscribe({
       next: (contactReasons: ContactReason[]) => {
         if (contactReasons != null) {
@@ -205,7 +208,7 @@ export class UserContactEditComponent
                     )
                   );
                   this.formGroup.controls['contactReason'].setValue(
-                    contactInfo.contactPointReason
+			contactInfo.contactPointReason == "" ? "NONE" : contactInfo.contactPointReason
                   );
                   this.onFormValueChange();
                   this.EditCheckbox();
@@ -358,6 +361,13 @@ export class UserContactEditComponent
     this.router.navigateByUrl(
       'user-contact-delete?data=' + JSON.stringify(data)
     );
+  }
+
+  getQueryData(): string {
+    const data = {
+      contactId: this.contactId,
+    };
+    return JSON.stringify(data);
   }
 
   public checkBoxClick(checkboxData: string): void {

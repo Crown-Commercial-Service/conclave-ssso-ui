@@ -11,6 +11,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-manage-organisation-registration-additional-identifiers',
@@ -32,9 +33,10 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
   public additionalIdentifiers: any[] = new Array();
   public routeParams!: any;
   public organisation!:any;
-  public buyerFlow:any
+  public buyerFlow:any;
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
 
-  constructor(private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private ciiService: ciiService, public router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
     this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
 

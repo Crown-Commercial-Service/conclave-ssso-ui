@@ -22,7 +22,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class HelpAndSupportComponent extends BaseComponent implements OnInit {
   isAuthenticated: boolean = false;
   constructor(protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
-    private authService: AuthService) {
+    public authService: AuthService) {
     super(uiStore,viewportScroller,scrollHelper);
   }
 

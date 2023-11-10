@@ -1,0 +1,45 @@
+<div class="content-flex">
+
+    <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                <h1 class="govuk-fieldset__heading">
+                {{'DOWNLOAD_AN_APP' | translate}}
+                </h1>
+            </legend>
+            <p class="govuk-body-l"> Download an authenticator app for your phone or tablet from your app store,<br>then
+                continue.</p>
+            <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                        {{'WHAT_IS_AUTHENTICATOR' | translate}}
+                    </span>
+                </summary>
+                <div class="govuk-details__text">
+                    {{ 'AUTHENTICATOR_MESSAGE' | translate}}
+                </div>
+            </details>
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon govuk-warning-text__icon_custome" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                  <span class="govuk-warning-text__assistive">Warning</span>
+                  Please make sure you downloaded an app before going to the next step.
+                </strong>
+              </div>
+        </fieldset>
+    </div>
+    <div class="govuk-button-group">
+        <button type="button" class="govuk-button" (click)="onContinueBtnClick()" data-module="govuk-button">
+            {{ 'CONTINUE_BTN' | translate }}
+        </button>
+        <button type="button" class="govuk-button govuk-button--secondary" (click)="onBackBtnClick()"
+            data-module="govuk-button">
+            {{ 'BACK' | translate }}
+        </button>
+    </div>
+    <div class="govuk-2mfa-link">
+        <a href="javascript:;" class="navigation-text" (click)="onNavigateToMFAClick()">
+            {{'BACK_TO_2MFA' | translate }}
+        </a>
+    </div>
+</div>

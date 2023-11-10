@@ -13,8 +13,8 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
 
  public contactSelectedOption='addnewcontact'
  public siteInfo:any={}
- private siteId: any;
- private organisationId: string;
+ public siteId: any;
+ public organisationId: string;
  public isEdit:boolean =false;
   constructor(private router: Router,private activatedRoute: ActivatedRoute,private orgSiteService: WrapperOrganisationSiteService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
@@ -30,7 +30,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
     this.getSiteDetails()
   }
 
- private getSiteDetails():void{
+ public getSiteDetails():void{
   this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
     {
       next: (siteInfo: OrganisationSiteResponse) => {
@@ -83,7 +83,8 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
       'isEdit': false,
       'contactId': 0,
       'siteId': this.siteId,
-      'siteCreate':true
+      'siteCreate':true,
+      'contactAddAnother': false
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
   }

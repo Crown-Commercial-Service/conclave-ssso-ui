@@ -24,7 +24,7 @@
                         <span class="govuk-breadcrumbs__link">Contact created successfully</span>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateSiteContact && siteCreate">
-                        <span class="govuk-breadcrumbs__link" >Site {{siteInfo.siteName}} successfully created</span>
+                        <span class="govuk-breadcrumbs__link" >Success</span>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateSite">
                         <span class="govuk-breadcrumbs__link" >Site {{siteInfo.siteName}} successfully created</span>
@@ -40,7 +40,7 @@
                 {{ 'UPDATE_ORG_CONTACT_SUCCESS' | translate }}
             </p>
             <p class="govuk-body-l" *ngIf="operation === operationEnum.DeleteOrgContact">
-                {{ 'DELETE_ORG_CONTACT_SUCCESS' | translate }}
+                {{'DELETE_ORG_CONTACT_SUCCESS' | translate}}
             </p>
             <!-- <p class="govuk-body-l" *ngIf="operation === operationEnum.CreateSite">
                 {{ 'ADD_SITE_SUCCESS' | translate }}
@@ -63,10 +63,12 @@
             <p class="govuk-body-l" *ngIf="operation === operationEnum.DeleteSiteContact">
                 {{ 'DELETE_SITE_CONTACT_SUCCESS' | translate }}
             </p>
-            <a href="javascript:;"  class="navigation-text" (click)="onNavigateToProfileClick()"> {{
-                'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a> &nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="javascript:;" *ngIf="siteId != 0" class="navigation-text" (click)="onNavigateToSiteClick()">
-                Return to {{siteInfo.siteName}} details </a>
+           
+            <a [routerLink]="'/manage-org/profile'"  class="navigation-text"> {{
+                    'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>  &nbsp;&nbsp;&nbsp;&nbsp;
+            
+            <a [routerLink]="['/manage-org/profile/site/edit']"  [queryParams]="{ data: getQueryData() }" *ngIf="siteId != 0" class="navigation-text" (click)="onNavigateToSiteClick()">
+                Return to details </a>
             <br>
         </div>
     </div>

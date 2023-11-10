@@ -32,7 +32,7 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
     private organisationId: string;
     siteCreate: any;
    
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private titleService: Title,private orgSiteService: WrapperOrganisationSiteService,
+    constructor(private activatedRoute: ActivatedRoute, public router: Router, private titleService: Title,private orgSiteService: WrapperOrganisationSiteService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
@@ -95,6 +95,14 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
+
+    getQueryData(): string {
+        const data = {
+            'isEdit': true,
+            'siteId': this.siteId
+        };
+        return JSON.stringify(data);
+      }
 
     private getSiteDetails():void{
         this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
