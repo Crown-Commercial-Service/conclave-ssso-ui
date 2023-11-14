@@ -91,6 +91,14 @@
         </details>
       </div>
           <div class="govuk-radios"> 
+            <div class="govuk-radios__item" id="requiredRadioSelection">
+              <input class="govuk-radios__input" type="radio" name="mfa_required" id="mfa_required" value="required" (change)="onRadioChange()" [(ngModel)]="selectedOption">
+              <label class="govuk-label govuk-radios__label" for="mfa_required">
+                <strong> {{'REQUIRED' | translate}} </strong> </label>
+                <div class="govuk-hint govuk-radios__hint">
+                {{'REQUIRED_INFO' | translate}}
+            </div>
+            </div>
              
             <div class="govuk-radios__item" id="optionalRadioSelection">
               <input class="govuk-radios__input" type="radio" name="mfa_optional" value="optional" id="mfa_optional"  (change)="onRadioChange()"[(ngModel)]="selectedOption">
@@ -99,17 +107,6 @@
                <div class="govuk-hint govuk-radios__hint">
              {{'OPTIONAL_INFO' | translate}}
               </div>
-            </div>
-    
-            <div class="govuk-radios__item" id="requiredRadioSelection">
-    
-              <input class="govuk-radios__input" type="radio" name="mfa_required" id="mfa_required" value="required" (change)="onRadioChange()" [(ngModel)]="selectedOption">
-    
-              <label class="govuk-label govuk-radios__label" for="mfa_required">
-                <strong> {{'REQUIRED' | translate}} </strong> </label>
-                <div class="govuk-hint govuk-radios__hint">
-                {{'REQUIRED_INFO' | translate}}
-            </div>
             </div>
           </div>
     </fieldset>

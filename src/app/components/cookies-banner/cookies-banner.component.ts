@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 export class CookiesBannerComponent implements OnInit , AfterViewInit {
   public  cookieExpirationTimeInMinutes = environment.cookieExpirationTimeInMinutes
   public cookiesData:any = {
-    coockiebanner: true,
+    coockiebanner: false,
     acceptAnalyticsCookies: false,
     rejectAnalyticsCookies: false,
   };
@@ -49,6 +49,7 @@ export class CookiesBannerComponent implements OnInit , AfterViewInit {
         this.CookiesService.deleteGlassBoxCookies();  
       }
     } else {
+      this.cookiesData.coockiebanner = true;
       this.CookiesService.deleteAdditionalCookies();
       this.CookiesService.deleteGlassBoxCookies(); 
       this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false,"glassbox":false}', this.cookieExpirationTimeInMinutes);
