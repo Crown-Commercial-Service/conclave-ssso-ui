@@ -25,7 +25,7 @@
     </div>
           <h1 class="govuk-heading-xl page-title">
           {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}</h1>
-          <p >{{'MFA_HELP_TEXT' | translate}}</p>
+          <p >{{'REGISTERATION_MFA_TEXT' | translate}}</p>
        
         <details class="govuk-details" data-module="govuk-details">
           <summary class="govuk-details__summary">
@@ -41,7 +41,14 @@
       </details>
       <div class="govuk-form-group">
         <div class="govuk-radios">
-  
+          <div class="govuk-radios__item" id="requiredRadioSelection">
+            <input class="govuk-radios__input" type="radio" name="mfa_required" id="mfa_required" value="required" [(ngModel)]="selectedOption">
+            <label class="govuk-label govuk-radios__label" for="mfa_required">
+              <strong> {{'REQUIRED' | translate}} </strong> </label>
+              <div class="govuk-hint govuk-radios__hint">
+              {{'REQUIRED_INFO' | translate}}
+          </div>
+          </div>
           <div class="govuk-radios__item" id="optionalRadioSelection">
             <input class="govuk-radios__input" type="radio" name="mfa_optional" value="optional" id="mfa_optional" [(ngModel)]="selectedOption">
             <label class="govuk-label govuk-radios__label" for="mfa_optional">
@@ -49,17 +56,6 @@
              <div class="govuk-hint govuk-radios__hint">
            {{'OPTIONAL_INFO' | translate}}
             </div>
-          </div>
-  
-          <div class="govuk-radios__item" id="requiredRadioSelection">
-  
-            <input class="govuk-radios__input" type="radio" name="mfa_required" id="mfa_required" value="required" [(ngModel)]="selectedOption">
-  
-            <label class="govuk-label govuk-radios__label" for="mfa_required">
-              <strong> {{'REQUIRED' | translate}} </strong> </label>
-              <div class="govuk-hint govuk-radios__hint">
-              {{'REQUIRED_INFO' | translate}}
-          </div>
           </div>
         </div>
   <br>
