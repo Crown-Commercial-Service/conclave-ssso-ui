@@ -74,7 +74,7 @@
                     'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>  &nbsp;&nbsp;&nbsp;&nbsp;
             
             <a [routerLink]="['/manage-org/profile/site/edit']"  [queryParams]="{ data: getQueryData() }" *ngIf="siteId != 0" class="navigation-text" (click)="onNavigateToSiteClick()">
-                Return to details </a>
+                Return to {{siteInfo.siteName}} details </a>
             <br>
         </div>
     </div>
