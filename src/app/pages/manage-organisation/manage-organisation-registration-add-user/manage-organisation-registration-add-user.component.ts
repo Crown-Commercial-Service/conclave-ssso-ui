@@ -8,7 +8,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-import { CiiOrganisationDto, OrganisationRegisterDto } from 'src/app/models/organisation';
+import { CiiOrganisationDto, OrganisationRegBasicInfo, OrganisationRegisterDto } from 'src/app/models/organisation';
 import { UserTitleEnum } from 'src/app/constants/enum';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { environment } from 'src/environments/environment';
@@ -90,6 +90,15 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
         adminUserTitle: "",
         isMfaRequired:orgreginfo.isMfaRequired
       };
+      let updatedOrgRegInfo: OrganisationRegBasicInfo = {
+        adminEmail: form.get('email')?.value,
+        adminUserFirstName: form.get('firstName')?.value,
+        adminUserLastName: form.get('lastName')?.value,
+        orgName: '',
+        ciiOrgId: '',
+        isMfaRequired:false
+    };
+    sessionStorage.setItem('orgreginfo', JSON.stringify(updatedOrgRegInfo));
       this.organisationService.registerOrganisation(organisationRegisterDto)
         .subscribe({
           next: () => {
