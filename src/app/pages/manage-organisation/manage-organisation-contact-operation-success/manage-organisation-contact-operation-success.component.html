@@ -17,14 +17,20 @@
                             translate
                             }}</a>
                     </li>
-                    <li class="govuk-breadcrumbs__list-item" *ngIf="operation != operationEnum.CreateOrgContact && !siteCreate">
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="operation != operationEnum.CreateOrgContact && !siteCreate && operation != operationEnum.CreateSiteContact && operation != operationEnum.DeleteSiteContact">
                         <span class="govuk-breadcrumbs__link" >Success</span>
+                    </li>
+                    <li class="govuk-breadcrumbs__list-item" *ngIf="operation == operationEnum.CreateSiteContact && !siteCreate">
+                        <span class="govuk-breadcrumbs__link" >Site contact successfully added</span>
+                    </li>
+                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation == operationEnum.DeleteSiteContact && !siteCreate">
+                        <span class="govuk-breadcrumbs__link" >Site contact successfully deleted</span>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateOrgContact">
                         <span class="govuk-breadcrumbs__link">Contact created successfully</span>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateSiteContact && siteCreate">
-                        <span class="govuk-breadcrumbs__link" >Success</span>
+                        <span class="govuk-breadcrumbs__link" >Site {{siteInfo.siteName}} successfully created</span>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="operation === operationEnum.CreateSite">
                         <span class="govuk-breadcrumbs__link" >Site {{siteInfo.siteName}} successfully created</span>
@@ -68,7 +74,7 @@
                     'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>  &nbsp;&nbsp;&nbsp;&nbsp;
             
             <a [routerLink]="['/manage-org/profile/site/edit']"  [queryParams]="{ data: getQueryData() }" *ngIf="siteId != 0" class="navigation-text" (click)="onNavigateToSiteClick()">
-                Return to details </a>
+                Return to {{siteInfo.siteName}} details </a>
             <br>
         </div>
     </div>
