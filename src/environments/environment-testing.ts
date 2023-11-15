@@ -73,7 +73,7 @@ export const environment = {
    hideAutoValidation:false,
    hideSimplifyRole:false,
    blockedScheme: ["GB-PPG"],
-   isMaintenance: true,    
+   isMaintenance: false,    
    customMfaEnabled : true,
   },
 };
