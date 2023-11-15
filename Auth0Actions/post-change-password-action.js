@@ -12,8 +12,8 @@ exports.onExecutePostChangePassword = async (event, api) => {
       const options =
       {
         method: 'POST',
-        url: event.secrets.EXT_API_URL +'organisation-profiles/activation-by-user/' + event.user.email,
-        headers: { 'content-type': 'application/json', 'x-api-key': event.secrets.EXT_API_KEY },
+        url: event.secrets.ORG_API_URL +'organisation-profile/activation-by-user/' + event.user.email,
+        headers: { 'content-type': 'application/json', 'x-api-key': event.secrets.ORG_API_KEY },
         // data:
         // {
         //   'userId': event.user.email,
