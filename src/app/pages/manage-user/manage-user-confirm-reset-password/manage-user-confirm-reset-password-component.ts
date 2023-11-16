@@ -52,9 +52,18 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
                 console.log(error);
             }
         });
+        this.pushDataLayerEvent();
     }
 
     onCancelClick(){
         window.history.back();
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Reset Password - Manage Users"
+		});
+	  }
 }

@@ -77,11 +77,20 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     }
 
         });
+        this.pushDataLayerEvent();
     }
 
     public onBackBtnClick() {
         this.router.navigateByUrl('mfa-authenticator-information');
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Set up an app"
+		});
+	  }
 
     public onNavigateToMFAClick() {
         this.router.navigateByUrl('mfa-selection');

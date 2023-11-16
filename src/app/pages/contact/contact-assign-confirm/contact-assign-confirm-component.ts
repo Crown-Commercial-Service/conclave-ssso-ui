@@ -77,6 +77,7 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         else {
             this.assignToOrgContacts()
         }
+        this.pushDataLayerEvent();
     }
 
     assignToSiteContacts() {
@@ -137,6 +138,7 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
 
     onCancelClick() {
         window.history.back();
+        this.pushDataLayerEvent();
     }
 
     onNavigateToHomeClick() {
@@ -159,5 +161,12 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
+
+    pushDataLayerEvent() {
+        this.dataLayerService.pushEvent({ 
+          event: "cta_button_click" ,
+          page_location: "Confirm - Assign Contacts"
+        });
+      }
 
 }

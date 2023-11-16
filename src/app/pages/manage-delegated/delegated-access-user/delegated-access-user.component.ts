@@ -300,6 +300,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     this.route.navigateByUrl(
       'delegated-remove-confirm?data=' + btoa(JSON.stringify(this.userDetails))
     );
+    this.pushDataLayerEvent();
   }
 
   /**
@@ -336,6 +337,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     } else {
       this.createuserdetails(form)
     }
+    this.pushDataLayerEvent();
   }
 
   /**
@@ -572,6 +574,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   public Cancel() {
     sessionStorage.removeItem('deleagted_user_details')
     window.history.back();
+    this.pushDataLayerEvent();
   }
 
   /**
@@ -599,6 +602,13 @@ export class DelegatedAccessUserComponent implements OnInit {
     this.dataLayerService.pushEvent({
       'event': event,
       'form_id': 'delegated_access'
+    });
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Delegate access to a user"
     });
   }
 }

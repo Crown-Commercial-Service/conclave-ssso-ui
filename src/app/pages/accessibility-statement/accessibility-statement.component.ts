@@ -36,6 +36,10 @@ public isOrgAdmin: boolean = false;
 
   public print():void{
     window.print()
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Accessibility statement"
+    });
   }
 
 }

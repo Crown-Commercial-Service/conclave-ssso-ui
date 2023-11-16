@@ -115,6 +115,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
             };
             this.router.navigateByUrl('contact-assign?data=' + JSON.stringify(data));
         }
+        this.pushDataLayerEvent();
     }
 
     onNavigateToSiteClick(){
@@ -127,6 +128,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
 
     onCancelClick(){
         window.history.back();
+        this.pushDataLayerEvent();
         // let data = {
         //     'assigningSiteId': this.assigningSiteId,
         //     'assigningOrgId': this.assigningOrgId,
@@ -134,4 +136,11 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
         // };
         // this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
     }
+
+    pushDataLayerEvent() {
+        this.dataLayerService.pushEvent({ 
+          event: "cta_button_click" ,
+          page_location: "Assign a user's contacts to your organisation account"
+        });
+      }
 }

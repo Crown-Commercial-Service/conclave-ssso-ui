@@ -59,6 +59,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
       'siteId': this.siteId
   };
   this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
+  this.pushDataLayerEvent();
 }
 
 
@@ -82,6 +83,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
           break
       }
   }
+  this.pushDataLayerEvent();
   }
   
 /**
@@ -110,5 +112,10 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
     this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
   }
 
-
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Add/Edit - Site"
+		});
+	  }
 }

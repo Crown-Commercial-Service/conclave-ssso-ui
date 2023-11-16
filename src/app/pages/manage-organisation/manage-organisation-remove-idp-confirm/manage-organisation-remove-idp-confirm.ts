@@ -68,9 +68,18 @@ export class ManageOrganisationRemoveIdpConfirmComponent extends BaseComponent i
         this.organisationGroupService.enableIdentityProvider(identityProviderSummary).subscribe(data => {
             this.router.navigateByUrl(`manage-org/profile/success`);
         });
+        this.pushDataLayerEvent();
     }
 
     onCancelClick() {
         this.router.navigateByUrl('/manage-org/profile');
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "removing a sign in provider"
+		});
+	  }
 }

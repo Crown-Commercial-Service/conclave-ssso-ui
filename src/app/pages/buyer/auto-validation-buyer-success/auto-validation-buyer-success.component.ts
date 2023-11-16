@@ -92,5 +92,9 @@ export class AutoValidationBuyerSuccessComponent implements OnDestroy {
     this.router.navigateByUrl(
       'update-org-type/confirm/' + this.org.ciiOrganisationId
     );
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Review - Manage Buyers"
+    });
   }
 }

@@ -111,10 +111,18 @@ export class FindDelegatedUserComponent implements OnInit {
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
     }
-
+    this.pushDataLayerEvent();
   }
 
   public Cancel() {
     window.history.back();
+    this.pushDataLayerEvent();
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Find a user"
+    });
   }
 }

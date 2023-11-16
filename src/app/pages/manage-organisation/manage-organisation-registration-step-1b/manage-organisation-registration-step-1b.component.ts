@@ -42,6 +42,10 @@ export class ManageOrgRegStep1BComponent extends BaseComponent implements OnInit
 
   public onClick() {
     this.router.navigateByUrl(`manage-org/register/search`);
+    this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Start - Registration"
+		});
   }
 
   public onBackClick() {

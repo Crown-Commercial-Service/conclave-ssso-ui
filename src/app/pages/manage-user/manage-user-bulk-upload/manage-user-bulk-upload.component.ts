@@ -60,11 +60,16 @@ export class ManageUserBulkUploadComponent {
     onContinueClick() {
         this.submitted = true;
         this.resetError();
+        let uploadStartTime = performance.now();
         if (this.validateFile()) {
             this.pushDataLayer("form_submit");
             // this.submitted = false;
             this.bulkUploadService.uploadFile(this.organisationId, this.file).subscribe({
                 next: (response: BulkUploadResponse) => {
+                    let uploadEndTime = performance.now();
+                    let timeElapsedInSeconds = (uploadEndTime - uploadStartTime) / 1000;
+
+                    this.sendAnalyticsData(timeElapsedInSeconds);
                     this.router.navigateByUrl(`manage-users/bulk-users/status/${response.id}`);
                 },
                 error: (err) => {
@@ -76,6 +81,15 @@ export class ManageUserBulkUploadComponent {
         } else {
             this.pushDataLayer("form_error");
         }
+        this.pushDataLayerEvent();
+    }
+
+    sendAnalyticsData(timeElapsedInSeconds: number) {
+        this.dataLayerService.pushEvent({ 
+            event: "document_upload" ,
+            interaction_type: "Bulk Upload - Manage Users",
+            time_elapsed: timeElapsedInSeconds.toFixed(3) + "seconds"
+          });
     }
 
     validateFile() {
@@ -91,6 +105,13 @@ export class ManageUserBulkUploadComponent {
         return true;
     }
 
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Bulk Upload - Manage Users"
+		});
+	}
+
     resetError() {
         this.errorInvalidFileFormat = false;
         this.errorServer = false;
@@ -100,6 +121,7 @@ export class ManageUserBulkUploadComponent {
 
     onCancelClick() {
         this.router.navigateByUrl('manage-users/add-user-selection');
+        this.pushDataLayerEvent();
     }
 
     pushDataLayer(event:string){

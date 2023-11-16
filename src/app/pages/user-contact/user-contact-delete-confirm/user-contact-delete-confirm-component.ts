@@ -61,6 +61,7 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
                 console.log(error);
             }
         });
+        this.pushDataLayerEvent();
     }
 
     onCancelClick(){
@@ -69,5 +70,13 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
             'contactId': this.contactId
         };
         this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Delete - User Contact"
+		});
+	  }
 }

@@ -807,10 +807,12 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   onCancelClick() {
     sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
     this.router.navigateByUrl('manage-users');
+    this.pushDataLayerEvent();
   }
 
   onResetPasswordClick() {
     this.router.navigateByUrl('manage-users/confirm-reset-password');
+    this.pushDataLayerEvent();
   }
 
   onDeleteClick() {
@@ -882,6 +884,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         'confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data))
       );
     }
+    this.pushDataLayerEvent();
   }
 
   ngOnDestroy() {
@@ -982,6 +985,12 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     this.updateFormUserTypeChanged(event);
   }
 
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Add/Edit - Manage Users"
+		});
+	  }
   
   private setMfaandAdminGroup(){
   const matchedObject = this.noneGroupsMember.data.find(obj => obj.groupType === 1);

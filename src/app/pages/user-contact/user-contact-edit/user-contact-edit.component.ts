@@ -276,6 +276,13 @@ export class UserContactEditComponent
     }
   }
 
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Add/Edit - User Contact"
+    });
+  }
+
   public onSubmit(form: FormGroup) {
     this.submitted = true;
     this.whiteSpaceValidator
@@ -363,6 +370,7 @@ export class UserContactEditComponent
 
   onCancelClick() {
     this.router.navigateByUrl('profile');
+    this.pushDataLayerEvent();
   }
 
   onDeleteClick() {
@@ -431,7 +439,7 @@ export class UserContactEditComponent
         'form_id': 'Manage_my_account Edit_contact_details'
     });
   }
-  
+
   // public get checkboxValidator() {
   //   let returnValue=false
   //   this.toggleInput.forEach((f: any) => {

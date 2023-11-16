@@ -77,6 +77,13 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
     })
   }
 
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Review - Manage Buyers"
+    });
+  }
+
   public onSubmitClick() {
     const model = {
       orgType: parseInt(this.changes.orgType),
@@ -98,6 +105,7 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
         console.log(error);
         this.router.navigateByUrl(`buyer/error`);
       });
+      this.pushDataLayerEvent();
   }
 
   public onCancelClick() {
@@ -107,5 +115,6 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
   public onBackClick() {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
     this.router.navigateByUrl('buyer/confirm/' + this.org.ciiOrganisationId);
+    this.pushDataLayerEvent();
   }
 }

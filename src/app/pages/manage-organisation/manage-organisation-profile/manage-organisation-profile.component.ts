@@ -153,6 +153,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             'contactAddAnother': this.contactAddAnother
         };
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent();
     }
 
     public onContactEditClick(contactDetail: ContactGridInfo) {
@@ -169,6 +170,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             'siteId': 0
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent();
     }
 
     public onSiteEditClick(orgSite: SiteGridInfo) {
@@ -181,6 +183,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
     public onRegistryAddClick() {
         this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/search`);
+        this.pushDataLayerEvent();
     }
 
     public onRegistryEditClick(row: any) {
@@ -234,7 +237,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                 this.router.navigateByUrl(`manage-org/profile/success`);
             });
         }
-
+        this.pushDataLayerEvent();
     }
 
     setFocus() {
@@ -243,6 +246,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
     public onCancel() {
         this.router.navigateByUrl(`home`);
+        this.pushDataLayerEvent();
     }
 
     public getSchemaName(schema: string): string {
@@ -255,6 +259,14 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             'assigningOrgId': this.ciiOrganisationId
         };
         this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent();
     }
 
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Manage your organisation"
+		});
+	  }
+  
 }

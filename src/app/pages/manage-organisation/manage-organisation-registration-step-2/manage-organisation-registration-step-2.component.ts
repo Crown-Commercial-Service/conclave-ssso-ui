@@ -129,6 +129,10 @@ export class ManageOrgRegStep2Component
       } else {
         this.scrollHelper.scrollToFirst('error-summary');
       }
+      this.dataLayerService.pushEvent({ 
+        event: "cta_button_click" ,
+        page_location: "Enter Details - Registration"
+      });
   }
 
   public onBackClick() {

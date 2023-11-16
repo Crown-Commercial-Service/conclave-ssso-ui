@@ -75,9 +75,19 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
                 console.log(error);
             }
         });
+        this.pushDataLayerEvent();
     }
 
     onCancelClick(){
         this.router.navigateByUrl('manage-groups/view?data=' + JSON.stringify(this.routeData));
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Delete - Manage Groups"
+		});
+	  }
+  
 }

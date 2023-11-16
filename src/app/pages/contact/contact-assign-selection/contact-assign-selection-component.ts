@@ -64,6 +64,13 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
         this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
 
+    pushDataLayerEvent() {
+        this.dataLayerService.pushEvent({ 
+          event: "cta_button_click" ,
+          page_location: "Select Contact Type - Assign Contacts"
+        });
+      }
+    
     public onSubmit(form: FormGroup) {
         this.submitted = true;
         if (this.formValid(form)) {
@@ -106,6 +113,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
 
     onCancelClick() {
       window.history.back();
+      this.pushDataLayerEvent();
         // if (this.assigningSiteId != 0){
         //     this.onNavigateToSiteClick();
         // }

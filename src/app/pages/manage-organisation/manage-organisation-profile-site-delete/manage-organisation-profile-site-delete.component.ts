@@ -60,6 +60,7 @@ export class ManageOrganisationSiteDeleteComponent extends BaseComponent impleme
                 console.log(error);
             }
         });
+        this.pushDataLayerEvent();
     }
 
     onCancelClick(){
@@ -68,6 +69,13 @@ export class ManageOrganisationSiteDeleteComponent extends BaseComponent impleme
             'siteId': this.siteId
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent();
     }
 
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Delete - Site"
+		});
+	  }
 }

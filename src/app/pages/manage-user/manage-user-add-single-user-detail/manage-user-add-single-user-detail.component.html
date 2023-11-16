@@ -419,7 +419,7 @@
                     </div>
 
                     <div class="govuk-button-group save-cancel-button-group">
-                        <button type="submit" class="govuk-button" [disabled]="!isFormChanges" data-module="govuk-button">
+                        <button type="submit" class="govuk-button" (click)="pushDataLayerEvent()" [disabled]="!isFormChanges" data-module="govuk-button">
                             {{ 'SAVE_BTN' | translate }}
                         </button>
                         <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"

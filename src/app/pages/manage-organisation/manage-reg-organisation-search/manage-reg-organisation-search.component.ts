@@ -101,6 +101,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         this.panelShowTimeout = setTimeout(() => {
             this.autocomplete.openPanel();
         }, 30);
+        this.pushDataLayerEvent();
     }
 
 
@@ -174,6 +175,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         } else {
             this.pushDataLayer("form_error");
         }
+        this.pushDataLayerEvent();
     }
 
     pushDataLayer(event: string){
@@ -192,4 +194,11 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             clearTimeout(this.panelShowTimeout);
         }
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Search Organisation - Registration"
+		});
+	  }
 }

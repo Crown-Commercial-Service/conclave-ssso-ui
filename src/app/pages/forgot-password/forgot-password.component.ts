@@ -98,7 +98,15 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         } else {
             this.pushDataLayer("form_error");
         }
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+        this.dataLayerService.pushEvent({ 
+          event: "cta_button_click" ,
+          page_location: "Reset your password"
+        });
+      }
 
     setFocus(inputIndex: number) {
         this.inputs.toArray()[inputIndex].nativeElement.focus();
@@ -112,6 +120,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
 
     public onCancelClick() {
         this.router.navigateByUrl('login');
+        this.pushDataLayerEvent();
     }
 
     pushDataLayer(event:string){

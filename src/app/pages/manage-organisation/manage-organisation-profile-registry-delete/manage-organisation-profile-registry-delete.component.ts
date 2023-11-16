@@ -68,10 +68,18 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
       }, (error) => {
         console.log(error);
       });
+      this.pushDataLayerEvent();
   }
 
   public goBack() {
     this.router.navigateByUrl('manage-org/profile');
+    this.pushDataLayerEvent();
   }
 
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Remove Registry - Manage Organisation"
+		});
+	  }
 }

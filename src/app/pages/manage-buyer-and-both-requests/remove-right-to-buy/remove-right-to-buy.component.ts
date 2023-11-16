@@ -30,7 +30,9 @@ export class RemoveRightToBuyComponent implements OnInit {
 
  public Back():void {
     window.history.back();
+    this.pushDataLayerEvent();
   }
+
   public confirm(){
     let data = {
       status: 'remove',
@@ -46,6 +48,13 @@ export class RemoveRightToBuyComponent implements OnInit {
         this.router.navigateByUrl('buyer-and-both-fail');
       },
     });
- 
+    this.pushDataLayerEvent();
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Remove right to buy status"
+    });
   }
 }

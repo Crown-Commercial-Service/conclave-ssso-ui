@@ -40,6 +40,7 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
     }
     public onGoBackClick() {
         this.router.navigateByUrl('mfa-selection');
+        this.pushDataLayerEvent();
     }
 
     public onDontTurnOnClick() {
@@ -52,6 +53,13 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
                 console.log(err)
             },
         })
+        this.pushDataLayerEvent();
     }
 
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "no-mfa-confirmation"
+		});
+	  }
 }

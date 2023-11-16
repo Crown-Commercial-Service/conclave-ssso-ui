@@ -236,7 +236,7 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <div class="govuk-button-group save-cancel-button-group">
-            <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
+            <button type="submit" class="govuk-button" (click)="pushDataLayerEvent()" [disabled]="!formChanged" data-module="govuk-button">
               {{ isEdit === false ? 'Save and Continue' : ' Save changes'}}
             </button>
             <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"

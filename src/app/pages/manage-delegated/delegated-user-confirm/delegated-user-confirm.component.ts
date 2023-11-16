@@ -69,6 +69,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
     } else {
       this.createDelegateUser()
     }
+    this.pushDataLayerEvent();
   }
 
   public createDelegateUser(): void {
@@ -172,5 +173,13 @@ export class DelegatedUserConfirmComponent implements OnInit {
 
   public Cancel() {
     window.history.back();
+    this.pushDataLayerEvent();
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "delegate-user-confirm"
+    });
   }
 }

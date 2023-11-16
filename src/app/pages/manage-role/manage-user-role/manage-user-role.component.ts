@@ -65,5 +65,9 @@ public tokenPara : any=[];
   },(err)=>{
     this.errorResponce = true
   })
+  this.dataLayerService.pushEvent({ 
+    event: "cta_button_click" ,
+    page_location: "Fleet Portal access verification"
+  });
   }
 }

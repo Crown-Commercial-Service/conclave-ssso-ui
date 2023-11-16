@@ -27,7 +27,7 @@
                 *ngIf="searchSumbited && searchText ===''">
                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a user's name, organisation name or email address
               </span>
-                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
+                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()" [pageName]="'Delegated access'">
                 </app-search-box>
             </div>
         </div>

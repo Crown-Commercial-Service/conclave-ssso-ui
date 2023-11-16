@@ -103,10 +103,18 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
         console.log(error);
         this.router.navigateByUrl(`buyer/error`);
       });
+      this.pushDataLayerEvent();
   }
 
   public onCancelClick() {
     this.router.navigateByUrl('buyer-supplier/search');
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Review - Manage Buyers"
+    });
   }
 
   public onBackClick() {
@@ -120,5 +128,6 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
         'update-org-type/confirm?data=' + btoa(JSON.stringify(data))
       );
     }
+    this.pushDataLayerEvent();
   }
 }

@@ -30,7 +30,7 @@
                 *ngIf="searchSumbited && searchSiteName ===''">
                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a site name
               </span>
-                <app-search-box [(searchText)]="searchSiteName" (onSearchClickEvent)="onSearchClick()">
+                <app-search-box [(searchText)]="searchSiteName" (onSearchClickEvent)="onSearchClick()" [pageName]="'Assign a site s contacts to your organisation account'">
                 </app-search-box>
             </div>
         </div>

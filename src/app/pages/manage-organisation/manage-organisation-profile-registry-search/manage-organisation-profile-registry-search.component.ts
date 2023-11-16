@@ -101,6 +101,10 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
       } else {
         this.scrollHelper.scrollToFirst('error-summary');
       }
+    this.dataLayerService.pushEvent({ 
+        event: "cta_button_click" ,
+        page_location: "Add Registry - Manage Organisation"
+      });
   }
 
  

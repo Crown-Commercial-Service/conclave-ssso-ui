@@ -376,6 +376,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     })
   }
 
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "My Profile"
+    });
+  }
 
   ngAfterViewChecked() {
     this.scrollHelper.doScroll();
@@ -445,6 +451,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   onChangePasswordClick() {
     this.router.navigateByUrl('change-password');
+    this.pushDataLayerEvent();
   }
 
   onRequestRoleChangeClick() {
@@ -474,6 +481,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.userName
     );
     this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
+    this.pushDataLayerEvent();
   }
 
   onContactAssignRemoveClick() {
@@ -516,6 +524,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   onCancelClick() {
     this.router.navigateByUrl('home');
+    this.pushDataLayerEvent();
   }
 
 
@@ -711,6 +720,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
       this.router.navigateByUrl('confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data)))
     }
+    this.pushDataLayerEvent();
   }
 
   async getOrgGroups() {

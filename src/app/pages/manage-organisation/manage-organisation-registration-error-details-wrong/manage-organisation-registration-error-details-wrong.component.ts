@@ -47,6 +47,10 @@ export class ManageOrgRegDetailsWrongComponent extends BaseComponent {
 
   onContinueClick() {
     this.router.navigateByUrl(`/manage-org/register/user?data=` + btoa(JSON.stringify(0)));
+    this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Wrong Company Details - Registration"
+		});
   }
 
   goBack() {

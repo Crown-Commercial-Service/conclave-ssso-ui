@@ -78,7 +78,7 @@ export class ContactUnassignConfirmComponent extends BaseComponent implements On
                 }
             });
         }
-        
+        this.pushDataLayerEvent(); 
     }
 
     onCancelClick(){
@@ -88,5 +88,13 @@ export class ContactUnassignConfirmComponent extends BaseComponent implements On
             'siteId': this.unassignSiteId
         };
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+        this.dataLayerService.pushEvent({ 
+          event: "cta_button_click" ,
+          page_location: "Confirm - Unassign Contact"
+        });
+      }
 }

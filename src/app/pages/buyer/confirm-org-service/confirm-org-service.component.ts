@@ -141,6 +141,7 @@ export class ConfirmOrgServiceComponent extends BaseComponent {
         console.log(error);
         this.router.navigateByUrl(`buyer/error`);
       });
+      this.pushDataLayerEvent();
   }
 
   public filterRoleId(roleArray: any) {
@@ -170,5 +171,13 @@ export class ConfirmOrgServiceComponent extends BaseComponent {
         'update-org-services/confirm?data=' + btoa(JSON.stringify(data))
       );
     }
+    this.pushDataLayerEvent()
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Review - Manage Buyers"
+    });
   }
 }

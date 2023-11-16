@@ -58,6 +58,10 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
       //this.router.navigateByUrl(`manage-org/register/start`);
       this.router.navigateByUrl(`manage-org/register/search`);
     }
+    this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Organisation type"
+		});
   }
 
   pushDataLayer(event:string){
