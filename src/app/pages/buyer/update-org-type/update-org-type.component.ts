@@ -436,6 +436,7 @@ export class UpdateOrgTypeComponent implements OnInit {
       localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
       this.router.navigateByUrl(`update-org-type/confirm-changes?data=` + btoa(JSON.stringify(data)))
     }
+    this.pushDataLayerEvent();
   }
 
 
@@ -445,6 +446,7 @@ export class UpdateOrgTypeComponent implements OnInit {
   public onCancelClick() {
     localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
     this.router.navigateByUrl('buyer-supplier/search');
+    this.pushDataLayerEvent();
   }
 
 
@@ -476,6 +478,13 @@ export class UpdateOrgTypeComponent implements OnInit {
       error: (err: any) => {
         console.log(err)
       }
+    });
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Review - Manage Buyers"
     });
   }
 }

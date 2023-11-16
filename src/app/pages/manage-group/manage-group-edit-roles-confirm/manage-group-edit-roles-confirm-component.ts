@@ -137,6 +137,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
                         this.router.navigateByUrl(`manage-groups/error?data=` + JSON.stringify(data));
                     }
                 });
+        this.pushDataLayerEvent();
     }
 
     onGoToEditGroupClick() {
@@ -146,6 +147,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
 
     onCancelClick() {
         this.router.navigateByUrl("manage-groups/edit-roles?data=" + JSON.stringify(this.routeData));
+        this.pushDataLayerEvent();
     }
 
     private initialteServiceRoleGroups(){
@@ -169,4 +171,11 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
                 }
            }
         } 
+
+        pushDataLayerEvent() {
+            this.dataLayerService.pushEvent({ 
+              event: "cta_button_click" ,
+              page_location: "Confirm - Add/Edit Roles - Manage Groups"
+            });
+          }    
 }

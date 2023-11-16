@@ -81,5 +81,9 @@ export class ContactAdminComponent implements OnInit {
   }
   goBack() {
     window.history.back();
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Contact my administrator"
+    });
   }
 }

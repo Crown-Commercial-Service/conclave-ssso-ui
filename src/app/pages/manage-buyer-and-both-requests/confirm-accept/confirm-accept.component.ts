@@ -50,10 +50,19 @@ export class ConfirmAcceptComponent implements OnInit {
     this.router.navigateByUrl(
       'buyer-and-both-success?data=' + btoa(JSON.stringify(data))
     );
+    this.pushDataLayerEvent();
   }
 
   public Back(): void {
     window.history.back();
+    this.pushDataLayerEvent();
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Approve right to buy status"
+    });
   }
 
 }

@@ -87,10 +87,19 @@ export class BuyerSearchComponent extends BaseComponent implements OnInit {
 
   public onContinueClick() {
     this.router.navigateByUrl(`buyer/details/${this.selectedOrgId}`);
+    this.pushDataLayerEvent();
   }
 
   public onCancelClick() {
     this.router.navigateByUrl('home');
+    this.pushDataLayerEvent();
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Review - Manage Buyers"
+    });
   }
 
   onSelectRow(dataRow: any) {

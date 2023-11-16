@@ -96,9 +96,18 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
       }
       this.router.navigateByUrl('update-org-services/confirm?data=' + btoa(JSON.stringify(data)));
     }
+    this.pushDataLayerEvent();
   }
 
   public onCancelClick() {
     this.router.navigateByUrl('buyer-supplier/search');
+    this.pushDataLayerEvent();
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Review - Manage Buyers"
+    });
   }
 }

@@ -44,6 +44,7 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
       this.router.navigateByUrl('delegated-error')
       }
     });
+    this.pushDataLayerEvent();
   }
 
 
@@ -61,9 +62,18 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
       this.router.navigateByUrl('delegated-error')
       }
     });
+    this.pushDataLayerEvent();
   }
 
   public Cancel():void{
     window.history.back();
+    this.pushDataLayerEvent();
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "delegated-remove-confirm"
+    });
   }
 }

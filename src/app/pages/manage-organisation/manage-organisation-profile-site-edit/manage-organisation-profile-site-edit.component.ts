@@ -280,6 +280,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
 
   onCancelClick() {
     this.router.navigateByUrl('manage-org/profile');
+    this.pushDataLayerEvent();
   }
 
   onDeleteClick() {
@@ -300,6 +301,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       'contactAddAnother':this.contactAddAnother,
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
+    this.pushDataLayerEvent();
   }
 
   public onContactAssignClick() {
@@ -307,6 +309,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       'assigningSiteId': this.siteId
     };
     this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
+    this.pushDataLayerEvent();
   }
 
   onContactEditClick(contactInfo: ContactGridInfo) {
@@ -328,4 +331,11 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
         'form_id': 'Manage_organisation Edit_site'
     });
   }
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Add/Edit - Site"
+		});
+	  }
 }

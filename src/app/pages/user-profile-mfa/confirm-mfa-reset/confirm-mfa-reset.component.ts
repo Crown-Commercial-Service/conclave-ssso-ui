@@ -50,9 +50,18 @@ export class ConfirmMfaResetComponent implements OnInit {
           'user-mfa-reset-success?error=' + +btoa(JSON.stringify(this.decodedData))
         );
       });
+      this.pushDataLayerEvent();
   }
 
   public OnCancel():void {
     window.history.back();
+    this.pushDataLayerEvent();
   }
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Additional security Reset"
+		});
+	  }
 }

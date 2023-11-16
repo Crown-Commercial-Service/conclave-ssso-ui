@@ -47,8 +47,16 @@ export class LoginComponent extends BaseComponent {
     this.authService.login(form.get('userName')?.value, form.get('password')?.value);
   }
 
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Login"
+    });
+  }
+
   public onCancelClick() {
     this.location.back();
+    this.pushDataLayerEvent();
   }
 
   pushDataLayer(event:string){

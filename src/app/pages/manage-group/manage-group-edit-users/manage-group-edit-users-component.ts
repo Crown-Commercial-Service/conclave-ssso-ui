@@ -221,7 +221,16 @@ export class ManageGroupEditUsersComponent
     this.router.navigateByUrl(
       'manage-groups/edit-users-confirm?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent();
   }
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Add/Edit Users - Manage Groups"
+		});
+	  }
+  
 
   onCancelClick() {
     let data = {
@@ -234,6 +243,7 @@ export class ManageGroupEditUsersComponent
     this.router.navigateByUrl(
       'manage-groups/view?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent();
   }
 
   public isAdminGroupAndUser(totalUserName:string){

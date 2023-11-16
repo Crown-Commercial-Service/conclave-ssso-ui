@@ -77,7 +77,7 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
                 }
             });
         }
-        
+        this.pushDataLayerEvent();
     }
 
     onCancelClick(){
@@ -91,5 +91,13 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
 
     public onBack():void{
         window.history.back()
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Delete Organisation Contact"
+		});
+	  }
 }

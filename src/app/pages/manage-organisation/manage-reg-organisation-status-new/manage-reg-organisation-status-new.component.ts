@@ -15,6 +15,10 @@ export class ManageOrgRegSearchStatusNewComponent {
 
     public onContinueNotRegistered() {
         this.router.navigateByUrl(`manage-org/register/newreg`);
+        this.dataLayerService.pushEvent({ 
+            event: "cta_button_click" ,
+            page_location: "Search Organisation - Registration"
+          });
     }
 
     goBack() {

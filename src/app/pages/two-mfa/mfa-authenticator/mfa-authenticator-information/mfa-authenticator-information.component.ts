@@ -49,10 +49,12 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
     {
       this.getQRCode();
      // this.router.navigateByUrl('mfa-authenticator-setup');
+     this.pushDataLayerEvent();
     }
     public onBackBtnClick()
     {
       this.router.navigateByUrl('mfa-selection');
+      this.pushDataLayerEvent();
     }
     getQRCode () : any {
       this.auth0token = localStorage.getItem('auth0_token') ?? '';
@@ -65,5 +67,12 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
 
       });
   }
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Download an app"
+		});
+	  }
 
 }

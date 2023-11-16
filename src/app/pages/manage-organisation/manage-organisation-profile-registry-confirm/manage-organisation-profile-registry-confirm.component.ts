@@ -100,6 +100,10 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
     } else {
       this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/search/not-my-org`);
     }
+    this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Confirm Registry - Add Registry - Manage Organisation"
+		});
   }
 
   public onChange(event: any, additionalIdentifier: any) {

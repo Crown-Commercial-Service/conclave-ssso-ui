@@ -248,6 +248,13 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
     }
   }
 
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Review - Manage Buyers"
+    });
+  }
+
   public onSubmitClick() {
     let selection = {
       org: this.organisation,
@@ -268,11 +275,13 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       `buyer/confirm-changes/${this.organisation.ciiOrganisationId}`
     );
+    this.pushDataLayerEvent();
   }
 
   public onCancelClick() {
     localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
     this.router.navigateByUrl('buyer-supplier/search');
+    this.pushDataLayerEvent();
   }
 
   getOrgRoles() {

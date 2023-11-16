@@ -132,6 +132,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       'manage-groups/edit-name?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent();
   }
 
   onRoleEditClick() {
@@ -146,6 +147,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       'manage-groups/edit-roles?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent();
   }
 
   onUserEditClick() {
@@ -160,6 +162,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       'manage-groups/edit-users?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent();
   }
 
   onDeleteClick() {
@@ -207,4 +210,12 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       this.router.navigateByUrl('manage-users/add-user/details');
     }
   }
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Manage Groups"
+		});
+	  }
+  
 }

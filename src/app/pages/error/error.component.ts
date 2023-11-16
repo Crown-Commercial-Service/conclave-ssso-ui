@@ -150,6 +150,10 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     } else {
       this.pushDataLayer("form_error");
     }
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Error"
+    });
   }
 
   setFocus(inputIndex: number) {

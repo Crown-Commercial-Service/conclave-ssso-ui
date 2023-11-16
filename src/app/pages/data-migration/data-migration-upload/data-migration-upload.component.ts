@@ -111,10 +111,15 @@ export class DataMigrationUploadComponent implements OnInit {
     public onContinueClick() {
         this.submitted = true;
         this.resetError();
+        let uploadStartTime = performance.now();
         if (this.validateFile()) {
             this.pushDataLayer("form_submit");
             this.DataMigrationService.uploadDataMigrationFile(this.file).subscribe({
                 next: (response: dataMigrationReportDetailsResponce) => {
+                    let uploadEndTime = performance.now();
+                    let timeElapsedInSeconds = (uploadEndTime - uploadStartTime) / 1000;
+
+                    this.sendAnalyticsData(timeElapsedInSeconds);
                     this.router.navigateByUrl(
                         'data-migration/status?data=' + response.id
                       );
@@ -128,6 +133,15 @@ export class DataMigrationUploadComponent implements OnInit {
         } else {
             this.pushDataLayer("form_error");
         }
+       this.pushDataLayerEvent();
+    }
+
+    sendAnalyticsData(timeElapsedInSeconds: number) {
+        this.dataLayerService.pushEvent({ 
+            event: "document_upload" ,
+            interaction_type: "Data migration",
+            time_elapsed: timeElapsedInSeconds.toFixed(3) + "seconds"
+          });
     }
 
     public validateFile() {
@@ -143,6 +157,14 @@ export class DataMigrationUploadComponent implements OnInit {
         return true;
     }
 
+    pushDataLayerEvent() {
+        this.dataLayerService.pushEvent({ 
+          event: "cta_button_click" ,
+          page_location: "Data migration"
+        });
+      }
+      
+
     public resetError() {
         this.errorInvalidFileFormat = false;
         this.errorServer = false;
@@ -152,6 +174,7 @@ export class DataMigrationUploadComponent implements OnInit {
 
     public onCancelClick() {
         this.router.navigateByUrl('home');
+        this.pushDataLayerEvent();
     }
 
     public onLinkClick(data: any): void {

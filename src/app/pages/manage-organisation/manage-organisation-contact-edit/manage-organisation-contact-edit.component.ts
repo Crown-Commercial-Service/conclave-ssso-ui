@@ -521,6 +521,7 @@ export class ManageOrganisationContactEditComponent
       );
     } else {
       window.history.back();
+      this.pushDataLayerEvent();
     }
     // if (this.siteId == 0) {
     //   this.router.navigateByUrl('manage-org/profile');
@@ -599,6 +600,13 @@ export class ManageOrganisationContactEditComponent
     this.contact_error = true;
     return true;
   }
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Add/Edit - Organisation Contact"
+		});
+	  }
 
   private getSiteDetails(): void {
     this.orgSiteService

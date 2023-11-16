@@ -54,9 +54,18 @@ export class ConfirmDeclineComponent implements OnInit {
     this.router.navigateByUrl(
       'decline-success?data=' + btoa(JSON.stringify(data))
     );
+    this.pushDataLayerEvent();
   }
 
   public Back(): void {
     window.history.back();
+    this.pushDataLayerEvent();
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Decline right to buy status"
+    });
   }
 }

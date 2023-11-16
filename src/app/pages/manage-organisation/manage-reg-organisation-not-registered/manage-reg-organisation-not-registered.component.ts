@@ -59,6 +59,11 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
                 break
             }
         }
+
+        this.dataLayerService.pushEvent({ 
+            event: "cta_button_click" ,
+            page_location: "Admin Details - Registration"
+        });
     }
 
     goBack() {

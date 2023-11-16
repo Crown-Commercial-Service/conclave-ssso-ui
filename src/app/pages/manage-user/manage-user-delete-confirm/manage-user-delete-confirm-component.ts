@@ -52,9 +52,18 @@ export class ManageUserDeleteConfirmComponent extends BaseComponent implements O
                 console.log(error);
             }
         });
+        this.pushDataLayerEvent();
     }
 
     onCancelClick(){
         window.history.back();
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Delete - Manage Users"
+		});
+	  }
 }

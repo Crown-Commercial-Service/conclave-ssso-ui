@@ -165,15 +165,27 @@ export class DelegatedUserStatusComponent implements OnInit {
     this.getEventLogDetails();
   }
 
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "delegated-user-status"
+    });
+  }
+
   public BackToDelegated(): void {
     window.history.back();
+    this.pushDataLayerEvent();
   }
+
   public BackToDashboard(): void {
     this.router.navigateByUrl('home');
+    this.pushDataLayerEvent();
   }
+  
   public Back(): void {
     sessionStorage.setItem('activetab', 'expiredusers');
     window.history.back();
+    this.pushDataLayerEvent();
   }
   public goToDelegatedAccessPage() {
     sessionStorage.setItem('activetab', 'expiredusers');

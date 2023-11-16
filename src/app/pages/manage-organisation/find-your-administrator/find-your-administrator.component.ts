@@ -24,5 +24,9 @@ export class FindyouradministratorComponent implements OnInit {
 
   goBack() {
     window.history.back();
+    this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "How to find your administrator"
+		});
   }
 }

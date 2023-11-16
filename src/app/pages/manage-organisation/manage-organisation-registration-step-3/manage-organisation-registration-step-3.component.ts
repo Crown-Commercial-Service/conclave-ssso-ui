@@ -273,6 +273,10 @@ export class ManageOrgRegStep3Component
     }else{
       this.isInvalid=true
     }
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Confirm Organisation Details - Registration"
+    });
   }
 
   public onChange(event: any, additionalIdentifier: any) {

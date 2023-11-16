@@ -101,7 +101,13 @@ export class ManageGroupEditNameComponent
     }
 
 
- 
+ 	 pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Add/Edit Name - Manage Groups"
+		});
+	  }
+  
 
   ngAfterViewChecked() {
     this.scrollHelper.doScroll();
@@ -214,10 +220,12 @@ export class ManageGroupEditNameComponent
         'manage-groups/view?data=' + JSON.stringify(this.routeData)
       );
     }
+    this.pushDataLayerEvent();
   }
 
   onCancelClick() {
     this.router.navigateByUrl('manage-groups');
+    this.pushDataLayerEvent();
   }
 
   pushDataLayer(event:string){

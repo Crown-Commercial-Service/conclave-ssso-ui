@@ -127,6 +127,10 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
     } else {
       this.pushDataLayer("form_error");
     }
+    this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Admin Details - Registration"
+		});
   }
 
   setFocus(inputIndex: number) {

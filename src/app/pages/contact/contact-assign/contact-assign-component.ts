@@ -135,6 +135,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
             'siteCreate':this.siteCreate
         };
         this.router.navigateByUrl('contact-assign/confirm?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent();
     }
 
     onNavigateToHomeClick() {
@@ -162,6 +163,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
     onCancelClick() {
         sessionStorage.removeItem("assigning-contact-list");
         window.history.back();
+        this.pushDataLayerEvent();
         // let data = {
         //     'assigningSiteId': this.assigningSiteId,
         //     'assigningOrgId': this.assigningOrgId,
@@ -174,4 +176,11 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
         //     this.router.navigateByUrl('contact-assign/user- ?data=' + JSON.stringify(data));
         // }
     }
+
+    pushDataLayerEvent() {
+        this.dataLayerService.pushEvent({ 
+          event: "cta_button_click" ,
+          page_location: "Assign Contacts"
+        });
+      }
 }

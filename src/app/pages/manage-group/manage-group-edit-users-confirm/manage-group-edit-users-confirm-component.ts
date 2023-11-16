@@ -107,6 +107,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
                         this.router.navigateByUrl(`manage-groups/error?data=` + JSON.stringify(data));
                     }
                 });
+        this.pushDataLayerEvent();
     }
 
     onGoToEditGroupClick() {
@@ -117,6 +118,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
 
     onCancelClick() {
         this.router.navigateByUrl("manage-groups/edit-users?data=" + JSON.stringify(this.routeData));
+        this.pushDataLayerEvent();
     }
 
     clearSessionStorageGroupUserData() {
@@ -124,4 +126,12 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
         sessionStorage.removeItem("group_added_users");
         sessionStorage.removeItem("group_removed_users");
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Confirm - Add/Edit Users - Manage Groups"
+		});
+	  }
+  
 }

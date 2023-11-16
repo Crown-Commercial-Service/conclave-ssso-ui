@@ -222,12 +222,20 @@ export class ViewPendingVerificationComponent implements OnInit {
       });
   }
 
+  private pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Manage Buyer status requests - View request"
+    });
+  }
+
   goBack() {
     if (this.lastRoute == "view-verified") {
       this.router.navigateByUrl('manage-buyer-both');
     } else {
       window.history.back();
     }
+     this.pushDataLayerEvent();
   }
 
   public acceptRightToBuy() {
@@ -238,6 +246,7 @@ export class ViewPendingVerificationComponent implements OnInit {
     this.router.navigateByUrl(
       'confirm-accept?data=' + btoa(JSON.stringify(data))
     );
+    this.pushDataLayerEvent();
   }
   public declineRightToBuy() {
     let data = {
@@ -247,6 +256,7 @@ export class ViewPendingVerificationComponent implements OnInit {
     this.router.navigateByUrl(
       'confirm-decline?data=' + btoa(JSON.stringify(data))
     );
+    this.pushDataLayerEvent();
   }
 
   public getSchemaName(schema: string): string {

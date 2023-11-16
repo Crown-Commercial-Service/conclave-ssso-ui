@@ -107,6 +107,7 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
 
   public goBack() {
     this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/search/' + this.routeParams.scheme + '/' + this.routeParams.id);
+    this.pushDataLayerEvent();
   }
 
   public onSubmit() {
@@ -119,7 +120,15 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
       (error) => {
         console.log(error);
       });
+      this.pushDataLayerEvent();
   }
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Confirm Additional Identifiers - Add Registry - Manage Organisation"
+		});
+	  }
 
   public onChange(event: any, additionalIdentifier: any) {
     if (event.currentTarget.checked) {

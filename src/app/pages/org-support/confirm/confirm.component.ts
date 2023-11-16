@@ -113,10 +113,20 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
     catch (err: any) {
       this.router.navigateByUrl(`org-support/error?errCode=${err.error}`);
     }
+    this.pushDataLayerEvent(); 
   }
 
   public onCancelClick() {
     this.router.navigateByUrl(`org-support/details?rpwd=` + this.changePassword + `&rmfa=` + this.resetMfa +
       `&chrole=` + this.changeRoleType);
+      this.pushDataLayerEvent();
   }
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Confirm - Update User - Organisation Support"
+		});
+	  }
+  
 }

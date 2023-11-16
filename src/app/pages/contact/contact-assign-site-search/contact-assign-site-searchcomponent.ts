@@ -96,6 +96,7 @@ export class ContactAssignSiteSearchComponent extends BaseComponent implements O
             };
             this.router.navigateByUrl('contact-assign?data=' + JSON.stringify(data));
         }
+        this.pushDataLayerEvent();
     }
 
     onCancelClick() {
@@ -108,5 +109,13 @@ export class ContactAssignSiteSearchComponent extends BaseComponent implements O
 
     public onBack(){
       window.history.back();
+      this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+        this.dataLayerService.pushEvent({ 
+          event: "cta_button_click" ,
+          page_location: "Assign a site's contacts to your organisation account"
+        });
+      }
 }
