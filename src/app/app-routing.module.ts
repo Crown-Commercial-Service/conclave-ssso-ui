@@ -166,6 +166,7 @@ import { MfaNoAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-se
 import { ManageOrgRegMfaComponent } from './pages/two-mfa/manage-reg-organisation-mfa/manage-reg-organisation-mfa.component';
 import { MfaGuard } from './services/auth/mfa.guard';
 import { ManageOrgMfaUpdateSuccessComponent } from './pages/two-mfa/manage-org-mfa-update-success/manage-org-mfa-update-success.component';
+import { DormancyMessageComponent } from './pages/dormancy-message/dormancy-message.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1386,6 +1387,13 @@ const routes: Routes = [
   pathMatch : 'full',
   component : ManageOrgMfaUpdateSuccessComponent
  },
+ {
+  path :'dormancy-message',
+  data: { title: 'Dormant User Message' },
+  pathMatch : 'full',
+  component : DormancyMessageComponent
+ },
+
 
  
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
