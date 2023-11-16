@@ -153,7 +153,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     private auditLogService: AuditLoggerService,
     private organisationService: WrapperOrganisationService,
     private route: ActivatedRoute,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
     private tokenService: TokenService,
     private wrapperOrganisationService: WrapperOrganisationService
 
@@ -969,6 +969,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       'event': event,
       'form_id': 'Manage_my_account'
     });
+  }
 
   public async GetOrganisationMfaSettings() {
     this.ciiOrgId = this.tokenService.getCiiOrgId();
