@@ -13,6 +13,7 @@ import { PasswordChangeDetail } from 'src/app/models/passwordChangeDetail';
 import { OperationEnum } from 'src/app/constants/enum';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-change-password',
@@ -36,7 +37,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
     public router: Router, protected uiStore: Store<UIState>, private location: Location,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
     this.formGroup = this.formBuilder.group({
       currentPassword: ['', Validators.compose([Validators.required])],
@@ -47,7 +48,14 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
-
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+     });
+    })
   }
 
   ngAfterViewChecked() {
@@ -95,6 +103,8 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
         userName: userName
       };
 
+      this.pushDataLayer("form_submit");
+
       this.authService.changePassword(contactData).toPromise()
         .then((response) => {
           console.log(response);
@@ -118,6 +128,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
     }
     else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -129,5 +140,20 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
 
   public onCancelClick() {
     this.location.back();
+    this.pushDataLayerEvent();
+  }
+
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+        'event': event,
+        'form_id': 'Manage_my_account Change_password'
+    });
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Change Password"
+    });
   }
 }

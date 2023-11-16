@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { slideAnimation } from "src/app/animations/slide.animation";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-contact-assign-selection-component',
@@ -30,7 +31,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
     siteCreate: any;
 
     constructor(protected uiStore: Store<UIState>, public router: Router, private formBuilder: FormBuilder,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private activatedRoute: ActivatedRoute) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private activatedRoute: ActivatedRoute, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.selectionForm = this.formBuilder.group({
             selection: ['', Validators.compose([Validators.required])],
@@ -45,6 +46,14 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
     }
 
     ngOnInit() {
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+        })
     }
 
     ngAfterViewChecked() {
@@ -55,6 +64,13 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
         this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
 
+    pushDataLayerEvent() {
+        this.dataLayerService.pushEvent({ 
+          event: "cta_button_click" ,
+          page_location: "Select Contact Type - Assign Contacts"
+        });
+      }
+    
     public onSubmit(form: FormGroup) {
         this.submitted = true;
         if (this.formValid(form)) {
@@ -65,6 +81,8 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
                 'siteCreate':this.siteCreate
             };
 
+            this.pushDataLayer("form_submit");
+
             let selection = form.get('selection')?.value;
             if (selection === "userContact"){
                 console.log("userContact");
@@ -74,6 +92,8 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
             else{
                 this.router.navigateByUrl("contact-assign/site-search?data=" + JSON.stringify(data));
             }
+        } else {
+            this.pushDataLayer("form_error");
         }
     }
 
@@ -93,11 +113,19 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
 
     onCancelClick() {
       window.history.back();
+      this.pushDataLayerEvent();
         // if (this.assigningSiteId != 0){
         //     this.onNavigateToSiteClick();
         // }
         // else{
         //     this.router.navigateByUrl('manage-org/profile');
         // }
+    }
+
+    pushDataLayer(event:string){
+        this.dataLayerService.pushEvent({
+            'event': event,
+            'form_id': 'Manage_my_account Change_password'
+        });
     }
 }

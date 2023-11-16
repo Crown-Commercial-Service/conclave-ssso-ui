@@ -41,6 +41,7 @@ import { FormBaseComponent } from 'src/app/components/form-base/form-base.compon
 import { PatternService } from 'src/app/shared/pattern.service';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
 import { OrganisationSiteResponse } from 'src/app/models/site';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-organisation-contact-edit',
@@ -111,7 +112,8 @@ export class ManageOrganisationContactEditComponent
     private contactHelper: ContactHelper,
     private externalContactService: WrapperContactService,
     private siteContactService: WrapperSiteContactService,
-    private orgSiteService: WrapperOrganisationSiteService
+    private orgSiteService: WrapperOrganisationSiteService,
+    private dataLayerService: DataLayerService
   ) {
     super(
       viewportScroller,
@@ -168,6 +170,14 @@ export class ManageOrganisationContactEditComponent
   }
 
   ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+     });
+    })
     if (this.siteCreate) {
       this.getSiteDetails();
     }
@@ -195,6 +205,7 @@ export class ManageOrganisationContactEditComponent
         console.log(error);
       },
     });
+    this.pushDataLayer("form_start");
   }
 
   getOrganisationContact() {
@@ -358,6 +369,8 @@ export class ManageOrganisationContactEditComponent
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
 
+        this.pushDataLayer("form_submit");
+
         if (this.siteId == 0) {
           // If organisation contact
           if (this.isEdit) {
@@ -375,9 +388,11 @@ export class ManageOrganisationContactEditComponent
         }
       } else {
         this.scrollHelper.scrollToFirst('error-summary-title');
+        this.pushDataLayer("form_error");
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -506,6 +521,7 @@ export class ManageOrganisationContactEditComponent
       );
     } else {
       window.history.back();
+      this.pushDataLayerEvent();
     }
     // if (this.siteId == 0) {
     //   this.router.navigateByUrl('manage-org/profile');
@@ -609,6 +625,13 @@ export class ManageOrganisationContactEditComponent
     return true;
   }
 
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Add/Edit - Organisation Contact"
+		});
+	  }
+
   private getSiteDetails(): void {
     this.orgSiteService
       .getOrganisationSite(this.organisationId, this.siteId)
@@ -629,5 +652,12 @@ export class ManageOrganisationContactEditComponent
       return true
     } 
     return false
+  }
+
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+      'event': event,
+      'form_id': 'Manage_your_organisation Edit_contact_details'
+    });
   }
 }

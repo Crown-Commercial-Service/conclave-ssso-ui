@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class SendMFAResetNotificationComponent extends BaseComponent implements 
   protected mailDecryptKey = environment.mailDecryptKey
   constructor(private route: ActivatedRoute, public router: Router, protected uiStore: Store<UIState>,
     private mfaService: MFAService, private authService: AuthService,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
@@ -31,6 +32,14 @@ export class SendMFAResetNotificationComponent extends BaseComponent implements 
   }
 
   ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.route.queryParams.subscribe(para => {
       if (para.u && para.u !== '') {
         var decryptedValue = CryptoJS.AES.decrypt(decodeURIComponent(para.u), this.mailDecryptKey);

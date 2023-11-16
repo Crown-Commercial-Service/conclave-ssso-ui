@@ -8,7 +8,9 @@ import { AuthService } from "src/app/services/auth/auth.service";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { UIState } from "src/app/store/ui.states";
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
+import { DataLayerService } from "src/app/shared/data-layer.service";
 import { environment } from "src/environments/environment";
+
 
 @Component({
     selector: 'app-no-mfa-confirmation',
@@ -25,14 +27,22 @@ import { environment } from "src/environments/environment";
 export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit {
     userName = localStorage.getItem('user_name') ?? ''
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, private wrapperUserService: WrapperUserService,
-        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
     }
     ngOnInit() {
-
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+        })
     }
     public onGoBackClick() {
         this.router.navigateByUrl('mfa-selection');
+        this.pushDataLayerEvent();
     }
 
     public onDontTurnOnClick() {
@@ -45,6 +55,13 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
                 console.log(err)
             },
         })
+        this.pushDataLayerEvent();
     }
 
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "no-mfa-confirmation"
+		});
+	  }
 }

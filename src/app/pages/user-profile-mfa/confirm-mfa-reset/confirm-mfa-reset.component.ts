@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { MFAService } from 'src/app/services/auth/mfa.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-confirm-mfa-reset',
@@ -12,7 +13,8 @@ export class ConfirmMfaResetComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private mfaService: MFAService
+    private mfaService: MFAService,
+    private dataLayerService: DataLayerService
   ) {}
 
   public decodedData: any = { };
@@ -24,6 +26,14 @@ export class ConfirmMfaResetComponent implements OnInit {
       let RouteData = JSON.parse(atob(para.data));
       this.decodedData = RouteData;
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+     });
+    })
   }
 
   public navigateTosuccess(): void {
@@ -42,9 +52,18 @@ export class ConfirmMfaResetComponent implements OnInit {
             );
           }
       });
+      this.pushDataLayerEvent();
   }
 
   public OnCancel():void {
     window.history.back();
+    this.pushDataLayerEvent();
   }
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Additional security Reset"
+		});
+	  }
 }

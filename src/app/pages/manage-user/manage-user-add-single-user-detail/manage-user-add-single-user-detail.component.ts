@@ -28,6 +28,7 @@ import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { Subscription } from 'rxjs';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-user-add-single-user-detail',
@@ -130,7 +131,8 @@ export class ManageUserAddSingleUserDetailComponent
     private authService: AuthService,
     private locationStrategy: LocationStrategy,
     private organisationService: WrapperOrganisationService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private dataLayerService: DataLayerService
   ) {
     super(
       viewportScroller,
@@ -215,6 +217,14 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   async ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} - Manage Users - CCS`
     );
@@ -517,6 +527,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
       this.formGroup.controls['userName'].setErrors({ incorrect: true });
     }
     if (this.formValid(form)) {
+      this.pushDataLayer("form_submit");
       this.userProfileRequestInfo.title = form.get('userTitle')?.value;
       this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
       this.userProfileRequestInfo.lastName = form.get('lastName')?.value;
@@ -543,6 +554,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         this.saveChanges("create", form)
       }
     } else {
+      this.pushDataLayer("form_error");
       this.scrollView();
     }
   }
@@ -811,10 +823,12 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
     localStorage.removeItem('ManageUserUserName');
     this.router.navigateByUrl('manage-users');
+    this.pushDataLayerEvent();
   }
 
   onResetPasswordClick() {
     this.router.navigateByUrl('manage-users/confirm-reset-password');
+    this.pushDataLayerEvent();
   }
 
   onDeleteClick() {
@@ -886,6 +900,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         'confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data))
       );
     }
+    this.pushDataLayerEvent();
   }
 
   ngOnDestroy() {
@@ -956,6 +971,11 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
       this.tabConfig.groupservices = true
       this.tabConfig.userservices = false
     }
+
+    this.dataLayerService.pushEvent({
+      event: "tab_navigation",
+      link_text: activetab === 'user-service' ? "Individual access": "Group access"
+    })
   }
 
 
@@ -981,6 +1001,12 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     this.updateFormUserTypeChanged(event);
   }
 
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Add/Edit - Manage Users"
+		});
+	  }
   
   private setMfaandAdminGroup(){
   const matchedObject = this.noneGroupsMember.data.find(obj => obj.groupType === 1);
@@ -1036,6 +1062,13 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     document.getElementById(id)?.scrollIntoView({
       block: 'start',
       inline: 'nearest',
+    });
+  }
+
+  pushDataLayer(event: string){
+    this.dataLayerService.pushEvent({
+        'event': event,
+        'form_id': 'Manage_user_accounts Create_new_user_account'
     });
   }
 }

@@ -9,6 +9,7 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { Data } from 'src/app/models/data';
 import { dataService } from 'src/app/services/data/data.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { UIState } from 'src/app/store/ui.states';
 
 @Component({
@@ -28,12 +29,28 @@ export class ManageOrganisationRegistryAddConfirmationComponent extends BaseComp
 
   public organisationId!: number;
   public orgId!: string;
+  public routeParams!: any;
 
-  constructor(private dataService: dataService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private dataService: dataService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
     this.organisationId = parseInt(this.route.snapshot.paramMap.get('organisationId') || '0');
     this.orgId = JSON.parse(localStorage.getItem('organisation_id') + '');
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.routeParams = params;
+    });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+       scheme: this.routeParams.scheme,
+       id: this.routeParams.id,
+       organisationId: this.routeParams.this.organisationId,
+     });
+    })
+   }
 }
