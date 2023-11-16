@@ -101,6 +101,11 @@ export class DelegatedUserStatusComponent implements OnInit {
           //statements;
           break;
         }
+        case '004': {
+          this.UserStatus = RouteData;
+          this.titleService.setTitle(`${'Inactive User'}  - CCS`);
+          break;
+        }
         default: {
           //statements;
           break;
