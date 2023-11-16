@@ -27,12 +27,14 @@ import { environment } from "src/environments/environment";
 export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnInit {
     formGroup: FormGroup;
     public mfaQrCode: any = localStorage.getItem('qr_code');
+    public secretCode : string | null = localStorage.getItem('secret_code');
     authcode: string = "";
     auth0token: string = "";
     oob_code: any;    
     qrCodeStr: string = "";
     showError: boolean = false;
     submitted: boolean = false;
+    otpValue: string = "";
     constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, public authService: AuthService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -43,6 +45,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
 
     ngOnInit() {
         this.mfaQrCode = localStorage.getItem('qr_code');
+        this.secretCode = localStorage.getItem('secret_code');
         this.pushDataLayer("form_start");
         this.router.events.subscribe(value => {
             this.dataLayerService.pushEvent({ 
@@ -53,31 +56,54 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
             });
         })
     }
+    ngAfterViewInit()
+    {
+        document.getElementById('authenticator-otp')?.focus();
+    }
     clearError() {
         this.showError = false;
     }
 
 
     public onContinueBtnClick(otp: string) {
-        this.submitted = true
-
+        this.submitted = true;
+        this.otpValue = otp;
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
         this.pushDataLayer("form_submit");
         this.authService.VerifyOTP(otp, this.auth0token, this.qrCodeStr, "QR").subscribe({
 
             next: (response) => {
                 this.submitted = false;
-                const authsuccessSetupUrl = environment.uri.web.dashboard + '/mfa-authentication-setup-sucess';
-                window.location.href = authsuccessSetupUrl;
+                this.router.navigateByUrl('/home');
             },
         
             error: (err) => {
-                // this.showError = true;
-                this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
+                if(err.error.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
+                    this.RenewToken();
+                }
+                else{
+                    // this.showError = true;
+                    this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
+                }
+                
     }
 
         });
         this.pushDataLayerEvent();
+    }
+
+    public async RenewToken(){
+        var refreshtoken = localStorage.getItem('auth0_refresh_token')+'';
+        await this.authService.mfarenewtoken(refreshtoken).toPromise().then((tokeninfo) => {              
+            localStorage.setItem('auth0_token', tokeninfo.access_Token);
+            localStorage.setItem('auth0_refresh_token', tokeninfo.refresh_Token);     
+            this.onContinueBtnClick(this.otpValue);       
+        },
+        (err) => {
+            console.log(err);
+            this.authService.logOutAndRedirect();
+        });
+    
     }
 
     public onBackBtnClick() {

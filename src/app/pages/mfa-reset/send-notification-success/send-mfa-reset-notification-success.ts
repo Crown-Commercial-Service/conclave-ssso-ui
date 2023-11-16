@@ -29,6 +29,7 @@ export class SendMFAResetNotificationSuccessComponent extends BaseComponent impl
   }
 
   ngOnInit() {
+
     this.router.events.subscribe(value => {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
@@ -37,7 +38,6 @@ export class SendMFAResetNotificationSuccessComponent extends BaseComponent impl
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })
-    debugger;
     this.userName = sessionStorage.getItem(SessionStorageKey.MFAResetUserName) ?? '';
   }
 

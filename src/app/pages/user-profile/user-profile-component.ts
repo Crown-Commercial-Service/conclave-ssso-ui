@@ -25,6 +25,9 @@ import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { TokenService } from 'src/app/services/auth/token.service';
+
+
 
 @Component({
   selector: 'app-user-profile',
@@ -33,7 +36,7 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 })
 export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public showRoleView: boolean = environment.appSetting.hideSimplifyRole
-  public isFormGroupChanges:boolean = false
+  public isFormGroupChanges: boolean = false
   submitted!: boolean;
   formGroup!: FormGroup;
   userServiceTableHeaders = ['NAME'];
@@ -82,8 +85,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   userContacts: ContactGridInfo[] = [];
   userName: string;
   organisationId: string;
-  buttonText : string | any;
-  isEditContact : boolean = false;
+  buttonText: string | any;
+  isEditContact: boolean = false;
   canChangePassword: boolean = false;
   identityProviderDisplayName: string = '';
   roleDataList: any[] = [];
@@ -97,12 +100,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public selectedGroupCheckboxes: any[] = [];
   public orgGroups: Group[] = [];
   public orgUserGroupRoles: any[] = [];
-  public userTypeDetails:userTypeDetails = {
-    title:'User type',
-    description:'',
+  public userTypeDetails: userTypeDetails = {
+    title: 'User type',
+    description: '',
     data: [],
-    isGrayOut:null, // if want to gray out pass true otherwise null
-    selectedValue:""
+    isGrayOut: null, // if want to gray out pass true otherwise null
+    selectedValue: ""
   }
   public groupsMember: userGroupTableDetail = {
     isAdmin: false,
@@ -124,6 +127,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     groupShow: false,
     data: []
   }
+  public isCustomMfaEnabled = environment.appSetting.customMfaEnabled;
+  public isMfaEnabledForUser: boolean = false;
+  public authenticationType: string = "";
+  public orgMfaRequired: boolean = false;
+  public ciiOrgId: string = "";
+  public mfaOpted: boolean = false;
+  public mfaRadioButtonValue : boolean = false;
+  public isMfaRadioChange : boolean = false;
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -143,13 +154,16 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     private organisationService: WrapperOrganisationService,
     private route: ActivatedRoute,
     private dataLayerService: DataLayerService
+    private tokenService: TokenService,
+    private wrapperOrganisationService: WrapperOrganisationService
+
   ) {
     super(
       viewportScroller,
       formBuilder.group({
         firstName: ['', Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z][a-z A-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
         lastName: ['', Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z][a-z A-Z,.'-]*(?:\s+[a-zA-Z]+)?$")])],
-        mfaEnabled: [false],
+        mfaEnabled: [null]
       })
     );
     this.userName = localStorage.getItem('user_name') || '';
@@ -163,9 +177,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+    if (this.isCustomMfaEnabled) {
+      await this.GetOrganisationMfaSettings();
+    }
     this.isAdminUser = this.route.snapshot.data.isAdmin;
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     sessionStorage.removeItem(SessionStorageKey.UserContactUsername);
+    localStorage.removeItem('UserContactUsername');
     await this.auditLogService
       .createLog({
         eventName: 'Access',
@@ -176,6 +194,23 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     let user = await this.userService.getUser(this.userName).toPromise();
     if (user != null) {
       this.canChangePassword = user.detail.canChangePassword;
+      this.isMfaEnabledForUser = user.mfaEnabled;
+      this.mfaOpted = user.mfaOpted;
+      if (this.isMfaEnabledForUser && this.isCustomMfaEnabled) {
+        await this.authService.GetMfaAuthenticationType(this.userName).toPromise().then((data: any) => {
+          if (data) {
+            if (data.authMethod === "QRCODE") {
+              this.authenticationType = "authentication app"
+            }
+            else if (data.authMethod === "SMS") {
+              this.authenticationType = "text messages"
+            }
+          }
+        }).catch((error) => {
+          console.log('Error', error)
+        });
+
+      }
       if (!environment.appSetting.hideIDP) {
         this.identityProviderDisplayName =
           user.detail.identityProviders
@@ -190,16 +225,17 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         this.formGroup.setValue({
           firstName: this.routeStateData.firstName,
           lastName: this.routeStateData.lastName,
-          mfaEnabled: user.mfaEnabled,
+          mfaEnabled: user.mfaEnabled
+
         });
       } else {
         this.formGroup.setValue({
           firstName: user.firstName,
           lastName: user.lastName,
-          mfaEnabled: user.mfaEnabled,
+          mfaEnabled: user.mfaEnabled
         });
       } 
-      this.pushDataLayer("form_start")     ;
+      this.pushDataLayer("form_start");
     }
     await this.getApprovalRequriedRoles()
     await this.getPendingApprovalUserRole();
@@ -214,7 +250,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             user.detail.rolePermissionInfo &&
             user.detail.rolePermissionInfo.some(
               (rp) => rp.roleId == r.roleId
-            );          
+            );
           if (userRole) {
             this.formGroup.addControl(
               'orgRoleControl_' + r.roleId,
@@ -233,19 +269,19 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             }
           }
         });
-        
+
         orgRoles.forEach((role: any) => {
           if (role.roleKey === this.userRoleKey || role.roleKey === this.adminRoleKey) {
             this.userTypeDetails.data.push({
-                id: role.roleId,
-                key: role.roleKey,
-                name: role.roleName,
-                description: role.description
+              id: role.roleId,
+              key: role.roleKey,
+              name: role.roleName,
+              description: role.description
             });
           }
         })
-        
-        this.userTypeDetails.isGrayOut = true;        
+
+        this.userTypeDetails.isGrayOut = true;
         this.userTypeDetails.selectedValue = this.isAdminUser ? this.adminRoleKey : this.userRoleKey;
         this.userTypeDetails.description = this.isAdminUser ? 'Only another administrator can change your user type.' : 'Only an administrator can change your user type.';
 
@@ -257,7 +293,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               roleKey: element.roleKey,
               accessRoleName: element.roleName,
               serviceName: element.serviceName,
-              description: element.description,              
+              description: element.description,
               displayOrder: element.displayOrder
             });
             this.formGroup.addControl(
@@ -341,7 +377,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           this.groupHint = "These are the services that you have access to."
         }
       });
-    
+
     await this.getOrgDetails();
     await this.getOrgGroups();
 
@@ -391,11 +427,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.viewportScroller.scrollToAnchor(elementId);
   }
 
-  private setAccordinoForUser(){
-    if(!this.isAdminUser){
+  private setAccordinoForUser() {
+    if (!this.isAdminUser) {
       this.groupsMember.noRoleText = "You do not have access to any service through membership of this group."
     }
-   }
+  }
 
   public checkIsPendingRole(role: Role) {
     let filterRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
@@ -436,6 +472,17 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           this.userContacts = this.contactHelper.getContactGridInfoList(
             userContactsInfo.contactPoints
           );
+          this.userContacts.forEach((f)=>{
+            let data = {
+              'isEdit': true,
+              'contactId': f.contactId,
+            };
+          sessionStorage.setItem(SessionStorageKey.UserContactUsername, this.userName);
+          localStorage.setItem('UserContactUsername', this.userName);
+          let queryParams = {data: JSON.stringify(data)}
+          f.routeLink= `/user-contact-edit`
+          f.routeData = queryParams
+          })
         }
         if (userContactsInfo.contactPoints && userContactsInfo.contactPoints.length > 0) {
           this.buttonText = 'ADD_ANOTHER_CONTACT_BTN';
@@ -480,6 +527,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       SessionStorageKey.UserContactUsername,
       this.userName
     );
+    localStorage.setItem('UserContactUsername',this.userName);
     this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
     this.pushDataLayerEvent();
   }
@@ -497,7 +545,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         title: '',
         organisationId: this.organisationId,
         userName: this.userName,
-        mfaOpted:false,
+        mfaOpted: this.mfaOpted,
         mfaEnabled: form.get('mfaEnabled')?.value,
         isAdminUser: this.isAdminUser,
         detail: {
@@ -508,7 +556,23 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         firstName: form.get('firstName')?.value,
         lastName: form.get('lastName')?.value,
       };
+
       this.userRequest = userRequest
+      if (this.isCustomMfaEnabled) {
+        this.mfaRadioButtonValue = form.get('mfaEnabled')?.value;
+
+        if (!this.isMfaEnabledForUser && this.mfaRadioButtonValue) {
+          this.userRequest.mfaEnabled = false;
+          this.userRequest.mfaOpted = false;
+        }
+        if (this.isMfaEnabledForUser && !this. mfaRadioButtonValue) {
+          this.userRequest.mfaEnabled = false;
+          this.userRequest.mfaOpted = true;
+        }
+
+      }
+
+
       this.checkApproveRolesSelected()
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
@@ -651,7 +715,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   private updateUser(): void {
     this.userService.updateUser(this.userName, this.userRequest).subscribe(
       (data) => {
-        this.authService.renewAccessToken();
+        if(this.isCustomMfaEnabled && !this.isMfaEnabledForUser && this.mfaRadioButtonValue &&this.isMfaRadioChange)
+        {
+          // To skip renewAccessToken
+        } 
+        else
+        {
+           this.authService.renewAccessToken();
+        }
         this.router.navigateByUrl(
           `operation-success/${OperationEnum.MyAccountUpdate}`
         );
@@ -732,14 +803,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
 
-  private getGroupDetails(){
+  private getGroupDetails() {
     for (const group of this.orgGroups) {
       const isGroupOfUser: any = this.userGroups?.find((ug) => ug.groupId === group.groupId);
-      this.matchGroupIds(isGroupOfUser,group)
+      this.matchGroupIds(isGroupOfUser, group)
     }
   }
 
-  private matchGroupIds(isGroupOfUser:any,group:any){
+  private matchGroupIds(isGroupOfUser: any, group: any) {
     group.disabled = (group.groupType === 1) ? true : null;
     if (isGroupOfUser) {
       this.setPendingApproveForGroup(group)
@@ -753,15 +824,15 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         this.noneGroupsMember.data.push(group)
       }
     }
-  } 
+  }
 
 
- private setPendingApproveForGroup(group:any){
-  group.serviceRoleGroups.map((fc: any) => {
-    var serviceGroupApprovalDetails: any = this.userGroups?.find((ug: any) => ug.groupId === group.groupId && ug.accessServiceRoleGroupId === fc.id);
-    fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
-  });
- }
+  private setPendingApproveForGroup(group: any) {
+    group.serviceRoleGroups.map((fc: any) => {
+      var serviceGroupApprovalDetails: any = this.userGroups?.find((ug: any) => ug.groupId === group.groupId && ug.accessServiceRoleGroupId === fc.id);
+      fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
+    });
+  }
 
 
   private setPendingApprovalStatus(group: any) {
@@ -769,7 +840,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       const hasMatchingRole = this.orgUserGroupRoles.some(role => role.id === element.id);
       if (!hasMatchingRole && (element.approvalStatus === 0 || element.approvalStatus === 1)) {
         element.serviceView = true;
-        if(element.name != "Organisation Administrator"){
+        if (element.name != "Organisation Administrator") {
           this.orgUserGroupRoles.push(element);
         }
       }
@@ -777,14 +848,14 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.setGroupAdmin()
   }
 
-  private setGroupAdmin(){
-    if(this.orgUserGroupRoles.length > 0){
+  private setGroupAdmin() {
+    if (this.orgUserGroupRoles.length > 0) {
       this.sortGroupDisplayOrder()
-    }    
+    }
   }
-  
-  private sortGroupDisplayOrder(){
-    this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function(c,d){ return c.displayOrder - d.displayOrder});
+
+  private sortGroupDisplayOrder() {
+    this.orgUserGroupRoles = this.orgUserGroupRoles.sort(function (c, d) { return c.displayOrder - d.displayOrder });
   }
 
 
@@ -858,23 +929,23 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
   }
 
-  public get isFormChanges(){
+  public get isFormChanges() {
     return this.formChanged || this.isFormGroupChanges;
   }
 
   private sortIndividualServices() {
     if (this.roleDataList.length > 0) {
-        this.roleDataList = this.roleDataList.sort(function (c, d) {
-            return c.displayOrder - d.displayOrder
-        });
+      this.roleDataList = this.roleDataList.sort(function (c, d) {
+        return c.displayOrder - d.displayOrder
+      });
     }
   }
 
-  public onUserTypeChanged(event:any){
+  public onUserTypeChanged(event: any) {
     console.log("disable event")
   }
 
-  private removeDefaultUserRoleFromServiceRole(){
+  private removeDefaultUserRoleFromServiceRole() {
     let defaultUserRoleId = this.userTypeDetails.data.filter(x => x.key === 'ORG_DEFAULT_USER')[0].id;
     this.groupsMember.data.forEach(grp => {
       grp.serviceRoleGroups = grp.serviceRoleGroups.filter((item: any) => item.id !== defaultUserRoleId);
@@ -892,10 +963,40 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     });
   }
 
+
   pushDataLayer(event:string){
     this.dataLayerService.pushEvent({
       'event': event,
       'form_id': 'Manage_my_account'
     });
+
+  public async GetOrganisationMfaSettings() {
+    this.ciiOrgId = this.tokenService.getCiiOrgId();
+    await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data: any) => {
+      this.orgMfaRequired = data.toLowerCase() === 'true';
+    })
+      .catch((err) => {
+        console.log('error', err);
+      });
+
+  }
+  onResetMfaClick() {
+    if (this.formGroup.controls.mfaEnabled.value) {
+      let data = {
+        data: this.userName,
+        IsUser: false,
+      }
+      this.router.navigateByUrl('confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data)))
+    }
+
+  }
+  onRadioChange(form: FormGroup)
+  {
+    this.isMfaRadioChange = false;
+    this.mfaRadioButtonValue = form.get('mfaEnabled')?.value;
+    if (this.isMfaEnabledForUser !=this.mfaRadioButtonValue )
+    {
+      this.isMfaRadioChange  = true;
+    }
   }
 }

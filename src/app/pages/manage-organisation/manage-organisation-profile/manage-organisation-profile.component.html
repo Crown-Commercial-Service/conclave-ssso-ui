@@ -70,6 +70,48 @@
       </div>
     </fieldset>
   </div>
+
+  <div class = "govuk-form-group">
+    <fieldset class="govuk-fieldset">
+        <h2 class="govuk-heading-s">
+        {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}</h2>
+        <p class="govuk-hint" style="color: black;">{{'MFA_HELP_TEXT' | translate}}</p>
+        <div>
+          <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    {{'WHAT_IS_2FA' | translate}}
+                </span>
+            </summary>
+            <div class="govuk-details__text">
+                <p>
+                  {{'2FA_HELPTEXT' | translate}}
+                </p>
+            </div>
+        </details>
+      </div>
+          <div class="govuk-radios"> 
+            <div class="govuk-radios__item" id="requiredRadioSelection">
+              <input class="govuk-radios__input" type="radio" name="mfa_required" id="mfa_required" value="required" (change)="onRadioChange()" [(ngModel)]="selectedOption">
+              <label class="govuk-label govuk-radios__label" for="mfa_required">
+                <strong> {{'REQUIRED' | translate}} </strong> </label>
+                <div class="govuk-hint govuk-radios__hint">
+                {{'REQUIRED_INFO' | translate}}
+            </div>
+            </div>
+             
+            <div class="govuk-radios__item" id="optionalRadioSelection">
+              <input class="govuk-radios__input" type="radio" name="mfa_optional" value="optional" id="mfa_optional"  (change)="onRadioChange()"[(ngModel)]="selectedOption">
+              <label class="govuk-label govuk-radios__label" for="mfa_optional">
+               <strong>{{'OPTIONAL' | translate}} </strong>  </label>
+               <div class="govuk-hint govuk-radios__hint">
+             {{'OPTIONAL_INFO' | translate}}
+              </div>
+            </div>
+          </div>
+    </fieldset>
+  </div>
+
   <h2 class="govuk-heading-s"> {{ 'CONTACT_DETAILS' | translate }}</h2>
   <app-details [detailsData]="detailsData[0]"></app-details>
   <div class="govuk-grid-row">
@@ -135,7 +177,8 @@
         <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
         <td class="govuk-table__cell">{{ row.id }}</td>
         <td class="govuk-table__cell">{{ row.legalName}}</td>
-        <td class="govuk-table__cell"><a href="javascript:;" (click)="onRegistryRemoveClick(row)">Remove</a></td>
+        <!-- <td class="govuk-table__cell"><a href="javascript:;" (click)="onRegistryRemoveClick(row)">Remove</a></td> -->
+        <td class="govuk-table__cell"><a [routerLink]="generateRegistryRemoveRoute(row)">Remove</a></td>
       </tr>
     </tbody>
   </table>
@@ -146,7 +189,7 @@
   </div>
   <div class="govuk-button-group">
     <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button"
-      (click)="onSaveChanges()" [disabled]="changedIdpList.length ==0">Save changes</button>
+      (click)="onSaveChanges()" [disabled]="changedIdpList.length ==0 && !isMfaOptionChanged">Save changes</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
       (click)="onCancel()">Cancel</button>
   </div>

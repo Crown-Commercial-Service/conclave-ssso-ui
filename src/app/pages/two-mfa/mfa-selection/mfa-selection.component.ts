@@ -30,13 +30,14 @@ import { DataLayerService } from "src/app/shared/data-layer.service";
 export class MfaSelectionComponent extends BaseComponent implements OnInit {
     public formValue: string = 'SMS'
     public orgGroup: string = 'SMS';
-    authcode: string = "";
-    auth0token: string = "";
-    oob_code: any;
-    qrCodeStr: string = "";
+    public authcode: string = "";
+    public auth0token: string = "";
+    public oob_code: any;
+    public qrCodeStr: string = "";
     public selectedOption: string | null = null;
     public orgMfaRequired: boolean = false;
-    ciiOrgId : string = ""
+    public ciiOrgId : string = "";
+    public isLoaded :boolean = false
 
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, private helperService: HelperService,
@@ -62,6 +63,7 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
                 this.authService.mfatoken(params['code']).toPromise().then((tokeninfo: TokenInfo) => {
                     this.auth0token = tokeninfo.auth0_access_token;
                     localStorage.setItem('auth0_token', this.auth0token);
+                    localStorage.setItem('auth0_refresh_token', tokeninfo.auth0_refresh_token);
                 }, (err) => {
                     if (err.status == 404) {
                         this.router.navigateByUrl('error?error_description=USER_NOT_FOUND');
@@ -71,6 +73,9 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
                     }
                     else if (err.error == 'MFA_NOT_VERIFIED') {
                         this.router.navigateByUrl('error?error_description=PENDING_MFA_VERIFICATION');
+                    }
+                    else if(err.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
+                        this.RenewToken();
                     }
                     else {
                         this.authService.logOutAndRedirect();
@@ -121,10 +126,10 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
 	}
 
     public async GetOrganisationMfaSettings() {
-        debugger;
         this.ciiOrgId = this.tokenService.getCiiOrgId();
-        await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data:any) =>{
+        await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data: any) => {
             this.orgMfaRequired = data.toLowerCase() === 'true';
+            this.isLoaded = true;
 
         })
         .catch((err) =>
@@ -133,4 +138,19 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
         });
 
     }
+
+    public async RenewToken(){
+        let token = localStorage.getItem('auth0_refresh_token')+'';
+        await this.authService.mfarenewtoken(token).toPromise().then((tokeninfo) => {            
+            localStorage.setItem('auth0_token', tokeninfo.access_Token);
+            localStorage.setItem('auth0_refresh_token', tokeninfo.refresh_Token);
+        },
+        (err) => {
+            console.log(err);
+            this.authService.logOutAndRedirect();
+        });
+
+    }
+
+
 }

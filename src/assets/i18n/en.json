@@ -439,10 +439,18 @@
   "TWO_FACTOR_AUTHENTICATION_SETUP_NO"  : "You have not set up two-factor authentication",
   "TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION" : "Two-factor authentication (2FA)",
   "MFA_HELP_TEXT":"Choose whether to require two-factor authentication for all of your users' accounts.",
+  "REGISTERATION_MFA_TEXT" : "Choose whether two-factor authentication is required for you and your organisation. An organisation administrator can amend this option once registration is complete via 'Manage Organisation'.",
   "OPTIONAL":"Optional",
   "OPTIONAL_INFO":"Users can choose to activate 2FA for their account.",
-  "REQUIRED":"Required",
+  "REQUIRED":"Required (recommended)",
   "REQUIRED_INFO":"Users must have 2FA enabled on their accounts.",
   "2FA_SETUP": "2FA setup",
-  "2FA_HELPTEXT":"Two-factor authentication (2FA) helps keep your account secure by adding an extra layer of security. With 2FA turned on, you'll need to enter a code from an app or text message each time you log in."
+  "2FA_HELPTEXT":"Two-factor authentication (2FA) helps keep your account secure by adding an extra layer of security. With 2FA turned on, you'll need to enter a code from an app or text message each time you log in.",
+  "WHAT_IS_2FA" : "What is 2FA?",
+  "MFA_ON" : "On (recommended)",
+  "MFA_OFF" : "Off",
+  "RESET_MFA_HINT" : "If you cannot access your authenticator app or SMS (text messages) codes, please reset your 2FA",
+  "RESET_MFA_BTN" : "Reset my 2FA",
+  "RESET_2FA_USER_BTN": "Reset user's 2FA",
+  "RESET_USER_MFA_HINT": "If the user cannot access the authenticator app or device, or if they want to receive codes by text message instead, then you can reset their 2FA."
 }

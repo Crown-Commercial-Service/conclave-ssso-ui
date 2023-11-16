@@ -255,14 +255,15 @@
               {{ 'CANCEL_BTN' | translate }}
             </button>
           </div>
-          <a href="javascript:;" *ngIf="isEdit==true && !isAssignedContact" (click)="onDeleteClick()"
-            class="navigation-text delete-link">{{
-            'DELETE_CONTACT'
-            | translate }}</a>
-          <a href="javascript:;" *ngIf="isEdit==true && isAssignedContact" (click)="onUnassignClick()"
-            class="navigation-text delete-link">{{
-            'UNASSIGN_CONTACT'
-            | translate }}</a>
+          
+          <a [routerLink]="generateDeleteClickRoute()" [queryParams]="{ data: getQueryData() }"
+            *ngIf="isEdit == true && !isAssignedContact" class="navigation-text delete-link">
+            {{ 'DELETE_CONTACT' | translate }}</a>       
+         
+            <a [routerLink]="['/contact-unassign/confirm']" [queryParams]="{ data: getUnassignQueryData() }"
+              *ngIf="isEdit==true && isAssignedContact" class="navigation-text delete-link">
+              {{'UNASSIGN_CONTACT' | translate }}
+            </a>            
         </div>
       </form>
     </div>

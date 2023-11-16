@@ -98,7 +98,8 @@
                                     <app-govuk-radio [details]="userTypeDetails"
                                         (clickedData)="onUserTypeChanged($event)"></app-govuk-radio>
                                 </div>
-                                <div class="govuk-form-group" id="user-mfa-form-group">
+
+                                <div *ngIf="!isCustomMfaEnabled" class="govuk-form-group" id="user-mfa-form-group">
                                     <fieldset class="govuk-fieldset">
                                         <h2 class="govuk-heading-s">
                                             Additional security
@@ -113,9 +114,63 @@
                                         </div>
                                     </fieldset>
                                 </div>
-                                <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                                <button *ngIf="!isCustomMfaEnabled" type="button"
+                                    class="govuk-button govuk-button--secondary" data-module="govuk-button"
                                     [disabled]="!formGroup.controls.mfaEnabled.value"
                                     (click)="ResetAdditionalSecurity()">Reset my additional security</button>
+
+                                <div class="govuk-form-group" *ngIf="isCustomMfaEnabled">
+                                    <fieldset class="govuk-fieldset">
+                                        <h2 class="govuk-heading-s">
+                                            {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}
+                                        </h2>
+                                        <p *ngIf="isMfaEnabledForUser" class="govuk-hint" style="color: black;">
+                                            Currently <strong>On</strong> for this account using the
+                                            <strong>{{authenticationType}}.</strong></p>
+                                        <p *ngIf="!isMfaEnabledForUser" class="govuk-hint" style="color: black;">
+                                            Currently <strong>Off</strong> for this account</p>
+                                        <div>
+                                            <details class="govuk-details" data-module="govuk-details">
+                                                <summary class="govuk-details__summary">
+                                                    <span class="govuk-details__summary-text">
+                                                        {{'WHAT_IS_2FA' | translate}}
+                                                    </span>
+                                                </summary>
+                                                <div class="govuk-details__text">
+                                                    <p>
+                                                        {{'2FA_HELPTEXT' | translate}}
+                                                    </p>
+                                                </div>
+                                            </details>
+                                        </div>
+                                        <div  class="govuk-radios" data-module="govuk-radios">
+                                            <div class="govuk-radios__item">
+                                                <input #input class="govuk-radios__input" id="mfa-on" name="mfaEnabled" [attr.disabled] ="orgMfaRequired?true:null"
+                                                    type="radio" [value]="true" formControlName="mfaEnabled"  (change)="onRadioChange(formGroup)" >
+                                                <label class="govuk-label govuk-radios__label" for="mfa-on">
+                                                    <strong> {{'MFA_ON' | translate}}</strong>
+                                                </label>
+                                            </div>
+                                            <div class="govuk-radios__item">
+                                                <input #input class="govuk-radios__input" id="mfa-off" name="mfaEnabled"[attr.disabled] ="orgMfaRequired?true:null"
+                                                    type="radio" [value]="false" formControlName="mfaEnabled" (change)="onRadioChange(formGroup)" >
+                                                <label class="govuk-label govuk-radios__label" for="mfa-off">
+                                                    <strong> {{'MFA_OFF'| translate }} </strong>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div *ngIf="isCustomMfaEnabled && isMfaEnabledForUser">
+                                    <div id="reset-mfa-hint" class="govuk-hint" style="margin-top: 15px;">
+                                        {{ 'RESET_MFA_HINT' | translate }}
+                                    </div>
+                                    <button type="button" (click)="onResetMfaClick()" class="govuk-button"
+                                    [disabled] = "!formGroup.controls.mfaEnabled.value"
+                                        data-module="govuk-button">{{ 'RESET_MFA_BTN' |
+                                        translate }}
+                                    </button>
+                                </div>
 
                                 <div>
                                     <p class="govuk-body govuk-!-font-size-19">
@@ -343,12 +398,16 @@
                         [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.groupservices}">
                         <h2 class="govuk-heading-m">Group access</h2>
                         <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 && isAdminUser == true">{{
-                            'ORG_ADMIN_GROUP_ACCESS'| translate }} <a class="navigation-text" (click)="scrollContent('GROUPS')">manage group membership</a> {{'ORG_ADMIN_GROUP_MEMBER' | translate}}</p>
+                            'ORG_ADMIN_GROUP_ACCESS'| translate }} <a class="navigation-text"
+                                (click)="scrollContent('GROUPS')">manage group membership</a> {{'ORG_ADMIN_GROUP_MEMBER'
+                            | translate}}</p>
                         <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 && isAdminUser == false ">{{
                             'ORG_USER_GROUP_ACCESS'| translate }}</p>
 
                         <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 && isAdminUser == true">{{
-                            'ORG_ADMIN_GROUP_ACCESS_NONE'| translate }} <a  class="navigation-text" (click)="scrollContent('GROUPS')">manage group membership</a> {{'ORG_ADMIN_GROUP_ACCESS_NONE_CTN'| translate}}</p>
+                            'ORG_ADMIN_GROUP_ACCESS_NONE'| translate }} <a class="navigation-text"
+                                (click)="scrollContent('GROUPS')">manage group membership</a>
+                            {{'ORG_ADMIN_GROUP_ACCESS_NONE_CTN'| translate}}</p>
                         <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 && isAdminUser == false">{{
                             'ORG_USER_GROUP_ACCESS_NONE'| translate }}</p>
 

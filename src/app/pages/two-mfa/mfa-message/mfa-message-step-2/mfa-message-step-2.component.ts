@@ -26,12 +26,14 @@ import { environment } from "src/environments/environment";
 export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     formGroup: FormGroup;
     public phonenumber: string = localStorage.getItem('phonenumber') ?? '';
-   
+    otp: string = "";
     authcode: string = "";
     auth0token: string = "";
     oob_code: any;    
     qrCodeStr: string = "";
     submitted: boolean = false;
+    errorMsg: string = "";
+    isTooManySms: boolean = false;
     constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private authService: AuthService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -50,21 +52,31 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
             });
         })
     }
+    ngAfterViewInit()
+    {
+        document.getElementById('message-otp')?.focus();
+    }
     public onContinueBtnClick(otp: string) {
         this.submitted = true;
+        this.isTooManySms = false;
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
         this.pushDataLayer("form_submit");
+        this.otp = otp;
+
         this.authService.VerifyOTP(otp, this.auth0token, this.oob_code, "SMS").subscribe({
 
             next: (response) => {
                 this.submitted = false;
-                console.log(response);
-                const authsuccessSetupUrl = environment.uri.web.dashboard + '/mfa-authentication-setup-sucess';
-                window.location.href = authsuccessSetupUrl;
+                this.router.navigateByUrl('/home');
             },
 
-            error: () => {
-                this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
+            error: (err) => {
+                if(err.error.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
+                    this.RenewToken('VERIFYOTP');
+                }
+                else{
+                    this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
+                }                
             },
         
         });
@@ -87,7 +99,11 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
         this.router.navigateByUrl('mfa-selection');
     }  
     onResendOtpLinkClick() {
+        if(this.isTooManySms){
+            return false;
+        }
         this.sendSmsOtp(this.phonenumber);
+        return true;
     }
     onReEnterPhoneNumberClick() {
         this.router.navigateByUrl('mfa-message-step-1');
@@ -100,8 +116,37 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
                 this.oob_code = response.oob_Code;
                 localStorage.setItem('oob_code', this.oob_code)
             },
-            error: () =>{} //console.log("Error"),
+            error: (err) =>{
+                if(err.error.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
+                    this.RenewToken('GETOTP');
+                }
+                else if(err.error.error_description == 'Too many SMS sent by the user. Wait for some minutes before retrying.'){
+                    
+                    this.errorMsg = 'You have generated too many text messages. Please try again later.';
+                    this.isTooManySms = true;
+                    this.submitted = false;                    
+                }
+            } //console.log("Error"),
         });
+    }
+
+    public async RenewToken(type:string){
+        var refreshtoken = localStorage.getItem('auth0_refresh_token')+'';
+        await this.authService.mfarenewtoken(refreshtoken).toPromise().then((tokeninfo) => {              
+            localStorage.setItem('auth0_token', tokeninfo.access_Token);
+            localStorage.setItem('auth0_refresh_token', tokeninfo.refresh_Token);
+            if(type == 'GETOTP'){
+                this.sendSmsOtp(this.phonenumber);
+            }
+            else{
+                this.onContinueBtnClick(this.otp);
+            }            
+        },
+        (err) => {
+            console.log(err);
+            this.authService.logOutAndRedirect();
+        });
+    
     }
 
     pushDataLayer(event:string){

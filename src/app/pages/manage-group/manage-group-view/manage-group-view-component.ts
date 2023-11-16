@@ -176,6 +176,16 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     );
   }
 
+  getQueryData(): string {
+    const data = {
+      isEdit: true,
+      organisationId: this.organisationId,
+      groupId: this.editingGroupId,
+    };
+    return JSON.stringify(data);
+  }
+  
+
   onGoBackClick() {
     let stateString = sessionStorage.getItem('groupReadonlyViewState') || '';
     sessionStorage.removeItem('groupReadonlyViewState');

@@ -19,6 +19,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WorkerService } from 'src/app/services/worker.service';
 import { environment } from 'src/environments/environment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 
 
 @Component({
@@ -35,13 +36,17 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthSuccessComponent extends BaseComponent implements OnInit {
-    public isTwoMfaEnabled : boolean = environment.appSetting.customMfaEnabled
+    public isTwoMfaEnabled : boolean = environment.appSetting.customMfaEnabled;
+    public isMfaOpted : boolean = false ;
     constructor(private router: Router,
         private route: ActivatedRoute,
         private authService: AuthService,
         protected uiStore: Store<UIState>,
         private workerService : WorkerService,
-        private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService
+        private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, 
+        protected scrollHelper: ScrollHelper,private delegatedApiService: WrapperUserDelegatedService,
+        private dataLayerService: DataLayerService
+
     ) {
         super(uiStore, viewportScroller, scrollHelper);
     }
@@ -75,14 +80,34 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                     this.authService.createSession(tokenInfo.refresh_token).toPromise().then(() => {
                     const  previousGlobalRoute =  localStorage.getItem('routeRecords') ||'home'
                     this.authService.registerTokenRenewal();
-                    // if (!this.isTwoMfaEnabled)
-                    // {
-                    this.router.navigateByUrl(previousGlobalRoute);  
-                    // }      
-                    // else 
-                    // {
-                    //    window.location.href = this.authService.getMfaAuthorizationEndpoint();
-                    // }                
+                    this.delegatedApiService.getDeligatedOrg().subscribe({
+                        next:(data:any) =>{
+                            this.isMfaOpted = data.mfaOpted;
+                            if (this.isTwoMfaEnabled && !this.isMfaOpted)
+                            {
+                                window.location.href = this.authService.getMfaAuthorizationEndpoint();
+                            }
+                            else{
+                                this.router.navigateByUrl(previousGlobalRoute)
+                            }
+                        },
+                        error: (err:any) =>{
+                            if (err.status == 404) {
+                                this.router.navigateByUrl('error?error_description=USER_NOT_FOUND');
+                            }
+                            else if (err.error == 'INVALID_CONNECTION') {
+                                this.router.navigateByUrl('error?error_description=INVALID_CONNECTION');
+                            }
+                            else if (err.error == 'MFA_NOT_VERIFIED') {
+                                this.router.navigateByUrl('error?error_description=PENDING_MFA_VERIFICATION');
+                            }
+                            else {
+                                this.authService.logOutAndRedirect();
+                            }
+                        }
+
+                    });
+                                     
                     });
                 }, (err) => {
                     if (err.status == 404) {

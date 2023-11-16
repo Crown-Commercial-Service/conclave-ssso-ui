@@ -87,4 +87,22 @@ export class AccordionComponent implements OnInit, OnChanges {
     };
     window.open('manage-groups/view?data=' + JSON.stringify(data));
   }
+
+  getQueryData(groupId: any): string {
+    let isFromManageMyAccount = this.router.url === '/profile';
+    let queryParams = this.activatedRoute.snapshot.queryParams;
+    if(queryParams.data)
+    {
+      this.routeData = JSON.parse(atob(queryParams.data));
+      this.isEdit = this.routeData['isEdit'];
+    }
+    let data = {
+      isEdit: true,
+      groupId: groupId,
+      accessFrom: isFromManageMyAccount ? "profile" : "users",
+      isUserAccess: true,
+      userEditStatus: this.isEdit
+    };
+    return JSON.stringify(data);
+  }
 }

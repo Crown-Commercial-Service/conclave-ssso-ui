@@ -105,6 +105,14 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
+    getQueryData(): string {
+        const data = {
+            'isEdit': true,
+            'siteId': this.siteId
+        };
+        return JSON.stringify(data);
+      }
+
     private getSiteDetails():void{
         this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
           {

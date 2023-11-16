@@ -549,6 +549,21 @@ export class ManageOrganisationContactEditComponent
     );
   }
 
+  public generateDeleteClickRoute(): string {
+    return `/manage-org/profile/${
+      this.siteId == 0 ? '' : 'site/'
+    }contact-delete`
+  }
+
+  getQueryData(): string {
+    const data = {
+      organisationId: this.organisationId,
+      contactId: this.contactId,
+      siteId: this.siteId,
+    };
+    return JSON.stringify(data);
+  }
+
   onUnassignClick() {
     let data = {
       unassignOrgId: this.organisationId,
@@ -558,6 +573,15 @@ export class ManageOrganisationContactEditComponent
     this.router.navigateByUrl(
       'contact-unassign/confirm?data=' + JSON.stringify(data)
     );
+  }
+
+  getUnassignQueryData(): string {
+    let data = {
+      unassignOrgId: this.organisationId,
+      unassignSiteId: this.siteId,
+      contactId: this.contactId,
+    };
+    return JSON.stringify(data);
   }
 
   public checkBoxClick(checkboxData: string): void {

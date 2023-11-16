@@ -6,7 +6,7 @@ import { BaseComponent } from "src/app/components/base/base.component";
 import { UIState } from "src/app/store/ui.states";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { slideAnimation } from "src/app/animations/slide.animation";
-import { User, UserGroup, UserListInfo, UserListResponse, UserProfileRequestInfo } from "src/app/models/user";
+import { User, UserGroup, UserListInfo, UserListResponse, UserProfileRequestInfo,UserListResponseWithLink } from "src/app/models/user";
 import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.service";
 import { WrapperUserContactService } from "src/app/services/wrapper/wrapper-user-contact.service";
 import { ContactPoint, UserContactInfoList } from "src/app/models/contactInfo";
@@ -19,6 +19,7 @@ import { AuditLoggerService } from "src/app/services/postgres/logger.service";
 import { SessionStorageKey } from "src/app/constants/constant";
 import { SharedDataService } from "src/app/shared/shared-data.service";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+
 
 @Component({
     selector: 'app-manage-user-profiles',
@@ -54,8 +55,10 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
             organisationId: this.organisationId,
             userList: []
         }
-        sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
+        sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);     
+        localStorage.removeItem('ManageUserUserName');
         sessionStorage.removeItem(SessionStorageKey.OperationSuccessUserName);
+        localStorage.removeItem('OperationSuccessUserName');
     }
 
     async ngOnInit() {
@@ -80,10 +83,21 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
                 if (userListResponse != null) {
                     this.userList = userListResponse;
                     this.pageCount = this.userList.pageCount;
+                    this.userList.userList.forEach((f)=>{
+                        let  data = {
+                            'rowData':f.userName
+                    };
+                    this.sharedDataService.storeUserDetails(JSON.stringify(data))
+                    sessionStorage.setItem(SessionStorageKey.ManageUserUserName, f.userName);
+                    localStorage.setItem('ManageUserUserName', f.userName);
+                    let queryParams = {data: btoa(JSON.stringify({'isEdit': true}))}
+                    f.routeLink=`/manage-users/add-user/details`
+                    f.routeData = queryParams
+                    })
                 }
             },
             error: (error: any) => {
-            }
+            }       
         });
     }
 

@@ -5,6 +5,8 @@ export interface Group {
   mfaEnabled: boolean;
   groupName: string;
   createdDate?: string;
+  routeLink?: string;
+  routeData?: any;
 }
 
 export interface GroupList {

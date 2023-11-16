@@ -196,7 +196,9 @@
                 </button>
             </div>
             <div *ngIf="!isAdminGroup">
-                <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{ 'DELETE_GROUP' |
+                <!-- <a href="javascript:;" (click)="onDeleteClick()" class="navigation-text delete-link">{{ 'DELETE_GROUP' |
+                    translate }}</a> -->
+                <a [routerLink]="['/manage-groups/delete-group-confirm']"  [queryParams]="{ data: getQueryData() }" (click)="onDeleteClick()" class="navigation-text delete-link">{{ 'DELETE_GROUP' |
                     translate }}</a>
             </div>
         </div>

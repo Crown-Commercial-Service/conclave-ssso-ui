@@ -25,6 +25,7 @@ export class ContactAdminComponent implements OnInit {
     private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
     private router: Router,
     private dataLayerService: DataLayerService
+
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userListResponse = {
@@ -80,7 +81,7 @@ export class ContactAdminComponent implements OnInit {
     this.getOrganisationUsers();
   }
   goBack() {
-    window.history.back();
+    this.router.navigateByUrl('profile');
     this.dataLayerService.pushEvent({ 
       event: "cta_button_click" ,
       page_location: "Contact my administrator"

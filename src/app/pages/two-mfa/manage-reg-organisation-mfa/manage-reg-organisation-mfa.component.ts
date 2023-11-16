@@ -30,7 +30,7 @@ constructor(private activatedRoute: ActivatedRoute,private router:Router, privat
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
 }
-   selectedOption: string = "optional";
+   selectedOption: string = "required";
     ngOnInit() {
         this.router.events.subscribe(value => {
             this.dataLayerService.pushEvent({ 

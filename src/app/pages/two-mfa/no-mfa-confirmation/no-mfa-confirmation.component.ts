@@ -9,6 +9,8 @@ import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { UIState } from "src/app/store/ui.states";
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { environment } from "src/environments/environment";
+
 
 @Component({
     selector: 'app-no-mfa-confirmation',
@@ -46,7 +48,7 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
     public onDontTurnOnClick() {
         this.wrapperUserService.resetMfaopted(this.userName, true).subscribe({
             next: (response) => {
-                this.router.navigateByUrl('mfa-no-authentication-setup-success');
+                this.router.navigateByUrl('/home');
 
             },
             error: (err) => {

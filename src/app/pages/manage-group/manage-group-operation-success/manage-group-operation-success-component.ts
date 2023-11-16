@@ -151,6 +151,14 @@ export class ManageGroupOperationSuccessComponent
       'manage-groups/view?data=' + JSON.stringify(data)
     );
   }
+  getQueryData(): string {
+    const data = {
+      isEdit: true,
+      groupId: this.groupId,
+    };
+    return JSON.stringify(data);
+  }
+  
   public onNavigateTohome() {
     this.router.navigateByUrl('/home');
   }
