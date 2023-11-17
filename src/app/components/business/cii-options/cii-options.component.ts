@@ -18,6 +18,7 @@ import { share } from 'rxjs/operators';
 import { BaseComponent } from '../../base/base.component';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-cii-options',
@@ -43,6 +44,7 @@ export class CIIOptions extends BaseComponent implements OnInit {
     isDunlength: false,
     DunData: '',
   };
+  public newScheme: any = [];
 
   @Output() onOrgSeleceted = new EventEmitter<string>();
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
@@ -54,7 +56,8 @@ export class CIIOptions extends BaseComponent implements OnInit {
     private router: Router,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper
+    protected scrollHelper: ScrollHelper,
+    private SharedDataService:SharedDataService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.txtValue = '';
@@ -78,6 +81,7 @@ export class CIIOptions extends BaseComponent implements OnInit {
     this.items$ = this.ciiService.getSchemes().pipe(share());
     this.items$.subscribe({
       next: (result) => {
+        this.newScheme = result
         this.scheme = result[0].scheme;
         this.schemeName = result[0].schemeName;
         localStorage.setItem('scheme_name', this.schemeName);
@@ -197,4 +201,12 @@ export class CIIOptions extends BaseComponent implements OnInit {
     localStorage.setItem('scheme', this.scheme);
     localStorage.setItem('scheme_name', item.schemeName);
   }
+   /**
+   * checking whether scheme should show or not
+   * @param item getting scheme from html
+   * @returns returning boolean true or false
+   */
+   public checkShowStatus(item:any){
+    return this.SharedDataService.checkBlockedScheme(item)
+   }
 }
