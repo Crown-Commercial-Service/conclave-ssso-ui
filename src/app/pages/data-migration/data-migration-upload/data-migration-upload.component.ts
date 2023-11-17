@@ -6,6 +6,7 @@ import { dataMigrationReportDetailsResponce } from 'src/app/models/data-migratio
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { BulkUploadService } from 'src/app/services/postgres/bulk-upload.service';
 import { DataMigrationService } from 'src/app/services/postgres/data-migration.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
 @Component({
     selector: 'app-data-migration-upload',
@@ -32,7 +33,7 @@ export class DataMigrationUploadComponent implements OnInit {
         hyperTextrray: ['Download report', 'View summary']
     }
     constructor(private router: Router, private bulkUploadService: BulkUploadService,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private DataMigrationService: DataMigrationService) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private DataMigrationService: DataMigrationService, private dataLayerService: DataLayerService) {
         this.userUploadHistoryTable.userList = {
             currentPage: this.userUploadHistoryTable.currentPage,
             pageCount: 0,
@@ -42,6 +43,14 @@ export class DataMigrationUploadComponent implements OnInit {
     }
     ngOnInit(): void {
         this.getUploadedFilesDetails()
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+        })
     }
 
     public getUploadedFilesDetails() {
@@ -102,9 +111,15 @@ export class DataMigrationUploadComponent implements OnInit {
     public onContinueClick() {
         this.submitted = true;
         this.resetError();
+        let uploadStartTime = performance.now();
         if (this.validateFile()) {
+            this.pushDataLayer("form_submit");
             this.DataMigrationService.uploadDataMigrationFile(this.file).subscribe({
                 next: (response: dataMigrationReportDetailsResponce) => {
+                    let uploadEndTime = performance.now();
+                    let timeElapsedInSeconds = (uploadEndTime - uploadStartTime) / 1000;
+
+                    this.sendAnalyticsData(timeElapsedInSeconds);
                     this.router.navigateByUrl(
                         'data-migration/status?data=' + response.id
                       );
@@ -115,7 +130,18 @@ export class DataMigrationUploadComponent implements OnInit {
                     }
                 }
             });
+        } else {
+            this.pushDataLayer("form_error");
         }
+       this.pushDataLayerEvent();
+    }
+
+    sendAnalyticsData(timeElapsedInSeconds: number) {
+        this.dataLayerService.pushEvent({ 
+            event: "document_upload" ,
+            interaction_type: "Data migration",
+            time_elapsed: timeElapsedInSeconds.toFixed(3) + "seconds"
+          });
     }
 
     public validateFile() {
@@ -131,6 +157,14 @@ export class DataMigrationUploadComponent implements OnInit {
         return true;
     }
 
+    pushDataLayerEvent() {
+        this.dataLayerService.pushEvent({ 
+          event: "cta_button_click" ,
+          page_location: "Data migration"
+        });
+      }
+      
+
     public resetError() {
         this.errorInvalidFileFormat = false;
         this.errorServer = false;
@@ -140,6 +174,7 @@ export class DataMigrationUploadComponent implements OnInit {
 
     public onCancelClick() {
         this.router.navigateByUrl('home');
+        this.pushDataLayerEvent();
     }
 
     public onLinkClick(data: any): void {
@@ -153,4 +188,12 @@ export class DataMigrationUploadComponent implements OnInit {
           }
         }
       }
+
+    pushDataLayer(event:string){
+        this.dataLayerService.pushEvent({
+            'event': event,
+            'form_id': 'Data_migration upload'
+        });
+    }
 }
+

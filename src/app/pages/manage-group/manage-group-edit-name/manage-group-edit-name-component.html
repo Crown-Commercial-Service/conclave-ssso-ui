@@ -114,11 +114,11 @@
                     </div>
                 </div>
                 <div class="govuk-button-group save-cancel-button-group">
-                    <button *ngIf="isEdit!=true" type="submit" [disabled]="!formChanged" class="govuk-button"
+                    <button *ngIf="isEdit!=true" type="submit" (click)="pushDataLayerEvent()" [disabled]="!formChanged" class="govuk-button"
                         data-module="govuk-button">
                         {{ 'SAVE_CONTINUE_BTN' | translate }}
                     </button>
-                    <button *ngIf="isEdit==true" type="submit" [disabled]="!formChanged" class="govuk-button"
+                    <button *ngIf="isEdit==true" type="submit" (click)="pushDataLayerEvent()" [disabled]="!formChanged" class="govuk-button"
                         data-module="govuk-button">
                         {{ 'SAVE_BTN' | translate }}
                     </button>

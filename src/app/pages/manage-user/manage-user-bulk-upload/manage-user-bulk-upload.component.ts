@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BulkUploadResponse } from 'src/app/models/bulkUploadResponse';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { BulkUploadService } from 'src/app/services/postgres/bulk-upload.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -25,13 +26,24 @@ export class ManageUserBulkUploadComponent {
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     isBulkUpload = environment.appSetting.hideBulkupload
     constructor(private router: Router, private bulkUploadService: BulkUploadService,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.bulkUploadTemplateUrl = environment.bulkUploadTemplateFileUrl;
         if(this.isBulkUpload){
             this.router.navigateByUrl('home');
             return
          }  
+    }
+
+    ngOnInit() {
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+        })
     }
 
     setFocus(inputIndex: number) {
@@ -48,10 +60,16 @@ export class ManageUserBulkUploadComponent {
     onContinueClick() {
         this.submitted = true;
         this.resetError();
+        let uploadStartTime = performance.now();
         if (this.validateFile()) {
+            this.pushDataLayer("form_submit");
             // this.submitted = false;
             this.bulkUploadService.uploadFile(this.organisationId, this.file).subscribe({
                 next: (response: BulkUploadResponse) => {
+                    let uploadEndTime = performance.now();
+                    let timeElapsedInSeconds = (uploadEndTime - uploadStartTime) / 1000;
+
+                    this.sendAnalyticsData(timeElapsedInSeconds);
                     this.router.navigateByUrl(`manage-users/bulk-users/status/${response.id}`);
                 },
                 error: (err) => {
@@ -60,7 +78,18 @@ export class ManageUserBulkUploadComponent {
                     }
                 }
             });
+        } else {
+            this.pushDataLayer("form_error");
         }
+        this.pushDataLayerEvent();
+    }
+
+    sendAnalyticsData(timeElapsedInSeconds: number) {
+        this.dataLayerService.pushEvent({ 
+            event: "document_upload" ,
+            interaction_type: "Bulk Upload - Manage Users",
+            time_elapsed: timeElapsedInSeconds.toFixed(3) + "seconds"
+          });
     }
 
     validateFile() {
@@ -76,6 +105,13 @@ export class ManageUserBulkUploadComponent {
         return true;
     }
 
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Bulk Upload - Manage Users"
+		});
+	}
+
     resetError() {
         this.errorInvalidFileFormat = false;
         this.errorServer = false;
@@ -85,6 +121,13 @@ export class ManageUserBulkUploadComponent {
 
     onCancelClick() {
         this.router.navigateByUrl('manage-users/add-user-selection');
+        this.pushDataLayerEvent();
     }
 
+    pushDataLayer(event:string){
+        this.dataLayerService.pushEvent({
+            'event': event,
+            'form_id': 'Add_multiple_user Add_multiple_users_by_uploading_a_csv_file'
+        });
+    }
 }

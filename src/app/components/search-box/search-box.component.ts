@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { BaseComponent } from '../base/base.component';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-search-box',
@@ -13,6 +14,7 @@ import { BaseComponent } from '../base/base.component';
 export class SearchBoxComponent extends BaseComponent implements OnInit {
 
   searchTextValue: string = "";
+  @Input() pageName: string = "";
 
   @Input()
   get searchText() {
@@ -28,7 +30,7 @@ export class SearchBoxComponent extends BaseComponent implements OnInit {
   @Output() onSearchClickEvent = new EventEmitter<any>();
 
   constructor(
-    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,public dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
@@ -37,5 +39,9 @@ export class SearchBoxComponent extends BaseComponent implements OnInit {
 
   onSearchClick() {
     this.onSearchClickEvent.emit();
+    this.dataLayerService.pushEvent({ 
+		  event: "search_filter" ,
+		  interaction_detail: this.pageName
+		});
   }
 }

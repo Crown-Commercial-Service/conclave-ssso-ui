@@ -25,6 +25,8 @@ import { ServicePermission } from 'src/app/models/servicePermission';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { ManageDelegateService } from '../manage-delegated/service/manage-delegate.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -62,13 +64,23 @@ export class HomeComponent extends BaseComponent implements OnInit {
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
     private delegatedApiService: WrapperUserDelegatedService,
-    private DelegateService: ManageDelegateService
+    private DelegateService: ManageDelegateService,
+    private router: Router,
+    private dataLayerService: DataLayerService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.switchedOrgId = localStorage.getItem('permission_organisation_id') || ""
   }
 
   ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+     });
+    })
     this.checkValidOrganisation()
   }
 

@@ -23,7 +23,7 @@
                 *ngIf="searchSumbited && searchText ===''">
                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a organisation name
               </span>
-                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
+                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()" [pageName]="'Manage Buyer status Requests'">
                 </app-search-box>
             </div>
         </div>

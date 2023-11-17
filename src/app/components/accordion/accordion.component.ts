@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-accordion',
@@ -27,7 +28,7 @@ export class AccordionComponent implements OnInit, OnChanges {
 
 
   // public groupShow: boolean = false;
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private dataLayerService: DataLayerService) { }
 
   ngOnChanges(): void {
   }
@@ -36,12 +37,22 @@ export class AccordionComponent implements OnInit, OnChanges {
   }
 
   public onTopToggle(): void {
+    this.dataLayerService.pushEvent({
+      event: "accordion_use",
+      interaction_type: this.groupShow ? "close": "open",
+      link_text: this.headerText
+    })
     this.groupShow = !this.groupShow
   }
 
   public onBottomToggle(id: string): void {
     const el: any = document.getElementById(id);
     el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    this.dataLayerService.pushEvent({
+      event: "accordion_use",
+      interaction_type: (el.style.display === 'block') ? 'close' : 'open',
+      link_text: this.headerText
+    })
   }
 
   public getElementStatus(id: string) {

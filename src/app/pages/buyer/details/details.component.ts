@@ -11,6 +11,7 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
 import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
 import { environment } from 'src/environments/environment';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-buyer-details',
@@ -27,7 +28,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
 
   constructor(private ciiService: ciiService, private organisationService: WrapperOrganisationService,private SharedDataService:SharedDataService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper) {
+    protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.registries = {};
   }
@@ -45,6 +46,15 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
         }
       }
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+          id: this.selectedOrgId
+      });
+    })
   }
 
   public getSchemaName(schema: string): string {
@@ -86,9 +96,18 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
       }
       this.router.navigateByUrl('update-org-services/confirm?data=' + btoa(JSON.stringify(data)));
     }
+    this.pushDataLayerEvent();
   }
 
   public onCancelClick() {
     this.router.navigateByUrl('buyer-supplier/search');
+    this.pushDataLayerEvent();
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Review - Manage Buyers"
+    });
   }
 }

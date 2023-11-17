@@ -12,6 +12,7 @@ import { OrganisationGroupRequestInfo } from "src/app/models/organisationGroup";
 import { UserListInfo } from "src/app/models/user";
 import { OperationEnum } from "src/app/constants/enum";
 import { Title } from "@angular/platform-browser";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-manage-group-edit-users-confirm',
@@ -36,7 +37,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
     usersColumnsToDisplay = ['name', 'userName'];
     groupName:string=''
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -56,6 +57,14 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
 
     ngOnInit() {
         this.titleService.setTitle(`Confirm - ${this.isEdit ? "Add/Remove Users" : "Add Users"} - Manage Groups - CCS`);
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+        })
     }
 
     onConfirmClick() {
@@ -98,6 +107,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
                         this.router.navigateByUrl(`manage-groups/error?data=` + JSON.stringify(data));
                     }
                 });
+        this.pushDataLayerEvent();
     }
 
     onGoToEditGroupClick() {
@@ -108,6 +118,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
 
     onCancelClick() {
         this.router.navigateByUrl("manage-groups/edit-users?data=" + JSON.stringify(this.routeData));
+        this.pushDataLayerEvent();
     }
 
     clearSessionStorageGroupUserData() {
@@ -115,4 +126,12 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
         sessionStorage.removeItem("group_added_users");
         sessionStorage.removeItem("group_removed_users");
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Confirm - Add/Edit Users - Manage Groups"
+		});
+	  }
+  
 }

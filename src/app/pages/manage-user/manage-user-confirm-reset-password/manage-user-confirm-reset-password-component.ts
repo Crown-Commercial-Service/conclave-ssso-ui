@@ -10,6 +10,7 @@ import { ViewportScroller } from "@angular/common";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.service";
 import { SessionStorageKey } from "src/app/constants/constant";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-manage-user-confirm-reset-password',
@@ -25,12 +26,20 @@ import { SessionStorageKey } from "src/app/constants/constant";
 export class ManageUserConfirmResetPasswordComponent extends BaseComponent implements OnInit {
     userName: string = '';
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        private userService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        private userService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.userName = sessionStorage.getItem("manage_user_username") ?? '';
     }
 
     ngOnInit() {
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+        })
     }
 
     onConfirmClick() {
@@ -43,9 +52,18 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
                 console.log(error);
             }
         });
+        this.pushDataLayerEvent();
     }
 
     onCancelClick(){
         window.history.back();
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Reset Password - Manage Users"
+		});
+	  }
 }

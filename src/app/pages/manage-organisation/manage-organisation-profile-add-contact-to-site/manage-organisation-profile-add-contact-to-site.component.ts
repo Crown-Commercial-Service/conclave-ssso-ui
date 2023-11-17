@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OperationEnum } from 'src/app/constants/enum';
 import { OrganisationSiteResponse } from 'src/app/models/site';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-add-contact-to-site',
@@ -16,7 +17,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
  public siteId: any;
  public organisationId: string;
  public isEdit:boolean =false;
-  constructor(private router: Router,private activatedRoute: ActivatedRoute,private orgSiteService: WrapperOrganisationSiteService) {
+  constructor(private router: Router,private activatedRoute: ActivatedRoute,private orgSiteService: WrapperOrganisationSiteService, private dataLayerService: DataLayerService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     let queryParams = this.activatedRoute.snapshot.queryParams;
     if (queryParams.data) {
@@ -27,6 +28,14 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
    }
 
   ngOnInit(): void {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.getSiteDetails()
   }
 
@@ -50,6 +59,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
       'siteId': this.siteId
   };
   this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
+  this.pushDataLayerEvent();
 }
 
 
@@ -73,6 +83,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
           break
       }
   }
+  this.pushDataLayerEvent();
   }
   
 /**
@@ -101,5 +112,10 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
     this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
   }
 
-
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Add/Edit - Site"
+		});
+	  }
 }

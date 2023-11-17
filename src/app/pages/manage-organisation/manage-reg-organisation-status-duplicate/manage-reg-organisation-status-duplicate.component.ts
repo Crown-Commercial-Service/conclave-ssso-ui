@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { ciiService } from "src/app/services/cii/cii.service";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-manage-reg-organisation-status-duplicate',
@@ -16,7 +17,18 @@ export class ManageOrgRegSearchStatusDuplicateComponent {
     ciiOrgId: string = '';
     schemeName: string = '';
 
-    constructor(public ciiService: ciiService, public router: Router,) {
+    constructor(public ciiService: ciiService, public router: Router, private dataLayerService: DataLayerService) {
+    }
+
+    ngOnInit() {
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+             event: "page_view" ,
+             page_location: this.router.url.toString(),
+             user_name: localStorage.getItem("user_name"),
+             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+           });
+        })
     }
 
     public onOrgSelected(event: string) {

@@ -20,6 +20,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
 import { OrganisationDto } from 'src/app/models/organisation';
 import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
     selector: 'app-manage-organisation-profile',
@@ -66,7 +67,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
         protected uiStore: Store<UIState>, private readonly tokenService: TokenService, private organisationGroupService: WrapperOrganisationGroupService,
         private orgContactService: WrapperOrganisationContactService, private wrapperOrgSiteService: WrapperOrganisationSiteService,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.contactData = [];
         this.siteData = [];
@@ -157,6 +158,14 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             }).catch(e => {
             });
         }
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+             event: "page_view" ,
+             page_location: this.router.url.toString(),
+             user_name: localStorage.getItem("user_name"),
+             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+           });
+        })
     }
 
     public onContactAddClick() {
@@ -166,6 +175,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             'contactAddAnother': this.contactAddAnother
         };
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent();
     }
 
     public onContactEditClick(contactDetail: ContactGridInfo) {
@@ -182,6 +192,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             'siteId': 0
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent();
     }
 
     public onSiteEditClick(orgSite: SiteGridInfo) {
@@ -194,6 +205,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
     public onRegistryAddClick() {
         this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/search`);
+        this.pushDataLayerEvent();
     }
 
     public onRegistryEditClick(row: any) {
@@ -276,7 +288,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             this.performApiCalls(identityProviderSummary,ciiOrgId,isMfaRequired);
            
         }
-
+        this.pushDataLayerEvent();
     }
 
     setFocus() {
@@ -285,6 +297,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
     public onCancel() {
         this.router.navigateByUrl(`home`);
+        this.pushDataLayerEvent();
     }
 
     public getSchemaName(schema: string): string {
@@ -297,6 +310,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             'assigningOrgId': this.ciiOrganisationId
         };
         this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent();
     }
   public  async  performApiCalls(identityProviderSummary:any,ciiOrgId:string,isMfaRequired:boolean) {
         try {
@@ -314,4 +328,11 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         }
       }
 
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Manage your organisation"
+		});
+	  }
+  
 }

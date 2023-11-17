@@ -12,6 +12,7 @@ import { OrganisationGroupResponseInfo } from 'src/app/models/organisationGroup'
 import { Title } from '@angular/platform-browser';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-group-view',
@@ -50,7 +51,8 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     private orgGroupService: WrapperOrganisationGroupService,
     private locationStrategy: LocationStrategy,
     private titleService: Title,
-    private SharedDataService: SharedDataService
+    private SharedDataService: SharedDataService,
+    private dataLayerService: DataLayerService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.group = {
@@ -83,6 +85,14 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'View'} - Manage Groups - CCS`
     );
@@ -122,6 +132,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       'manage-groups/edit-name?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent();
   }
 
   onRoleEditClick() {
@@ -136,6 +147,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       'manage-groups/edit-roles?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent();
   }
 
   onUserEditClick() {
@@ -150,6 +162,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       'manage-groups/edit-users?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent();
   }
 
   onDeleteClick() {
@@ -207,4 +220,12 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       this.router.navigateByUrl('manage-users/add-user/details');
     }
   }
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Manage Groups"
+		});
+	  }
+  
 }

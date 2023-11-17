@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { slideAnimation } from 'src/app/animations/slide.animation';
@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-org-support-success',
@@ -29,11 +30,19 @@ export class OrgSupportSuccessComponent extends BaseComponent implements OnInit 
   displayMessage: string = '';
 
   constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper) {
+    protected scrollHelper: ScrollHelper, private router: Router, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
   ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     let userName = sessionStorage.getItem(SessionStorageKey.OrgUserSupportUserName) ?? '';
     let changePassword = false;
     let resetMfa = false;
