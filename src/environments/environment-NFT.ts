@@ -10,7 +10,7 @@ export const environment = {
 
       isApiGateWayEnabled: true,
 
-      security: 'https://nft.api.crowncommercial.gov.uk/aws',
+      security: 'https://nft.api.crowncommercial.gov.uk',
 
       postgres: 'https://nft.api.crowncommercial.gov.uk/dashboard-wrapper',
 
@@ -37,7 +37,7 @@ export const environment = {
 
     web: {
 
-      dashboard: 'https://nft-ppg-sso.crowncommercial.gov.uk',
+      dashboard: 'https://nft.identify.crowncommercial.gov.uk',
       name: "NFT"
 
     },
@@ -55,7 +55,7 @@ export const environment = {
 
   bulkUploadMaxFileSizeInBytes:1048576,
 
-  bulkUploadTemplateFileUrl: 'https://uat.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
+  bulkUploadTemplateFileUrl: 'https://nft.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
 
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
 
@@ -71,7 +71,7 @@ export const environment = {
 
     security_log: false,
     
-    environment: 'uat-ccs-sso'
+    environment: 'nft-ccs-sso'
 
   },
   cookies_policy: {
