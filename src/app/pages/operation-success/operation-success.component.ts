@@ -99,6 +99,12 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
             case this.operationEnum.UserDelete:
                 area = 'Delete - Manage Users'
                 break;
+            case this.operationEnum.UserDeactivate:
+                area = 'Deactivate - Manage Users'
+                break;
+            case this.operationEnum.UserReactivate:
+                area = 'Reactivate - Manage Users'
+                break;
             default:
                 break
         }

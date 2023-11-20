@@ -62,7 +62,8 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
         id: 0,
         canChangePassword: false
 
-      }
+      },
+      isDormant:false
     }
   }
 

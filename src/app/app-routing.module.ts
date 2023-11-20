@@ -167,6 +167,8 @@ import { ManageOrgRegMfaComponent } from './pages/two-mfa/manage-reg-organisatio
 import { MfaGuard } from './services/auth/mfa.guard';
 import { ManageOrgMfaUpdateSuccessComponent } from './pages/two-mfa/manage-org-mfa-update-success/manage-org-mfa-update-success.component';
 import { DormancyMessageComponent } from './pages/dormancy-message/dormancy-message.component';
+import { ManageUserDeactivateConfirmComponent } from './pages/manage-user/manage-user-deactivate-confirm/manage-user-deactivate-confirm.component';
+import { ManageUserReactivateConfirmComponent } from './pages/manage-user/manage-user-reactivate-confirm/manage-user-reactivate-confirm.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1393,6 +1395,20 @@ const routes: Routes = [
   pathMatch : 'full',
   component : DormancyMessageComponent
  },
+ {
+  path: 'manage-users/confirm-user-deactivate',
+  data: { title: 'Deactivate - Manage Users', roles: ['MANAGE_USERS'] },
+  pathMatch: 'full',
+  canActivate: [MaintenanceCheck, AuthGuard, RoleGuard],
+  component: ManageUserDeactivateConfirmComponent,
+},
+{
+  path: 'manage-users/confirm-user-reactivate',
+  data: { title: 'Reactivate - Manage Users', roles: ['MANAGE_USERS'] },
+  pathMatch: 'full',
+  canActivate: [MaintenanceCheck, AuthGuard, RoleGuard],
+  component: ManageUserReactivateConfirmComponent,
+},
 
 
  

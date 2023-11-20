@@ -25,6 +25,7 @@ export interface UserDetail {
     mfaEnabled: boolean;
     isAdminUser: boolean;
     mfaOpted: boolean;
+    isDormant : boolean;
 }
 
 export interface UserRequestDetail {

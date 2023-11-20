@@ -454,5 +454,17 @@
   "RESET_2FA_USER_BTN": "Reset user's 2FA",
   "RESET_USER_MFA_HINT": "If the user cannot access the authenticator app or device, or if they want to receive codes by text message instead, then you can reset their 2FA.",
   "ACCOUNT_DORMANT_MESSAGE" :"Your account has been deactivated",
-  "CONTACT_ADMIN_MESSAGE" : "Please contact your organisation administrator"
+  "CONTACT_ADMIN_MESSAGE" : "Please contact your organisation administrator",
+  "DORMANT_STATE_HEADING" : "Account is in dormant state",
+  "DORMANT_STATE_MESSAGE" : "This account is in dormant state.",
+  "REACTIVATE_ACCOUNT" : "Reactivate this account.",
+  "DEACTIVATE_USER" : "Deactive user",
+  "REACTIVATE_USER" : "Reactivate user",
+  "CONFIRM_USER_DEACTIVATE": "Confirm you want to deactivate the user account",
+  "CONFIRM_USER_REACTIVATE" : "Confirm you want to reactivate the user account",
+  "CONFIRM_DEACTIVATE_BTN" : "Confirm and deactivate",
+  "CONFIRM_REACTIVATE_BTN" : "Confirm and reactivate",
+  "USER_DEACTIVATE_SUCCESS" : "You have successfully deactivated the user account",
+  "USER_REACTIVATE_SUCCESS" : "You have successfully deactivated the user account"
+
 }

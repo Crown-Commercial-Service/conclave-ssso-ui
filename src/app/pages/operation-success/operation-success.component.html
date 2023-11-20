@@ -195,6 +195,16 @@
                 <a routerLink="/manage-users" class="navigation-text" (click)="onNavigateToManageUserClick()">
                       {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a> 
             </div>
+            <div *ngIf="operation === operationEnum.UserDeactivate">
+              <p class="govuk-body-l">{{ 'USER_DEACTIVATE_SUCCESS' | translate }}</p>
+              <a routerLink="/manage-users" class="navigation-text" (click)="onNavigateToManageUserClick()">
+                {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
+            </div>
+            <div *ngIf="operation === operationEnum.UserReactivate">
+              <p class="govuk-body-l">{{ 'USER_REACTIVATE_SUCCESS' | translate }}</p>
+              <a routerLink="/manage-users" class="navigation-text" (click)="onNavigateToManageUserClick()">
+                {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
+            </div>
             <br>
         </div>
     </div>
