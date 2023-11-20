@@ -48,6 +48,10 @@
             (dataKey === 'userId' && dataRow['isAdmin'])">
               Admin
             </strong>
+            <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'userName' && dataRow['isDormant']) ||
+            (dataKey === 'userId' && dataRow['isDormant'])">
+              INACTIVE
+            </strong>
             <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'groupName' && dataRow['groupType'] == '1') ">
               Default Group
             </strong>
