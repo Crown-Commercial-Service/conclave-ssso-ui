@@ -22,7 +22,7 @@
                         <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span>
                         {{errorMsg}}
                     </span>
-                    <label class="govuk-label"> Enter the code:</label>
+                    <label class="govuk-label" for ="message-otp"> Enter the code:</label>
                     <input class="govuk-input govuk-input govuk-input--width-20" maxlength="6" id="message-otp" name="otp"
                         type="text" formControlName="otp" #otp
                         [class.govuk-input--error]="submitted &&formGroup.controls.otp.invalid">
