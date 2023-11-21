@@ -168,7 +168,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
     localStorage.removeItem('user_approved_role');
     localStorage.removeItem('user_access_name');
-    localStorage.getItem('ManageUserUserName');
+    //localStorage.getItem('ManageUserUserName');
     if (queryParams.data) {
       this.subscription = this.sharedDataService.userEditDetails.subscribe((data) => {
         this.routeData = JSON.parse(atob(queryParams.data));
@@ -392,14 +392,14 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
       fc.approvalStatus = serviceGroupApprovalDetails?.approvalStatus;
     });
     
-    group.disabled = this.isDormantUser;
+    group.disabled =  (this.isDormantUser) ? true : null;
     group.checked = true
     group.serviceRoleGroups = group.serviceRoleGroups.filter((item: any) => item.approvalStatus === 0 || item.approvalStatus === 1);
     this.groupsMember.data.push(group)
     this.selectedGroupCheckboxes.push(group.groupId)
     this.setOrgUserRole(group)
   } else {
-    group.disabled = this.isDormantUser;
+    group.disabled = (this.isDormantUser) ? true : null;
     this.noneGroupsMember.data.push(group)
   }
   this.setDisplayOrder()
@@ -816,6 +816,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
 
   onCancelClick() {
+    debugger;
     sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
     localStorage.removeItem('ManageUserUserName');
     this.router.navigateByUrl('manage-users');
@@ -1048,12 +1049,12 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
   public onReactivateUserClick()
   {
-    this.router.navigateByUrl('manage-users/manage-user-reactivate-confirm');
+    this.router.navigateByUrl('manage-users/confirm-user-reactivate');
   
   }
   public onDeactivateClick()
   {
-    this.router.navigateByUrl('manage-users/confirm-user-reactivate');
+    this.router.navigateByUrl('manage-users/confirm-user-deactivate');
 
   }
 

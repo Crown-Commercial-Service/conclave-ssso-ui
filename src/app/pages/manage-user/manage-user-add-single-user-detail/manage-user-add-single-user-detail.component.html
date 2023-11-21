@@ -209,15 +209,15 @@
                             </div>
                             <div class="govuk-radios" data-module="govuk-radios">
                                 <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" id="mfa-on" name="whereDoYouLive" type="radio"
-                                        [value]="true" formControlName="mfaEnabled" [attr.disabled]=false>
+                                    <input class="govuk-radios__input" id="mfa-on" name="mfaEnabled" type="radio"
+                                        [value]="true" formControlName="mfaEnabled" [attr.disabled]="true">
                                     <label class="govuk-label govuk-radios__label" for="mfa-on">
                                         <strong> {{'MFA_ON' | translate}} </strong>
                                     </label>
                                 </div>
                                 <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" id="mfa-off" name="whereDoYouLive" type="radio"
-                                        [value]="false" formControlName="mfaEnabled" [attr.disabled]=false>
+                                    <input class="govuk-radios__input" id="mfa-off" name="mfaEnabled" type="radio"
+                                        [value]="false" formControlName="mfaEnabled" [attr.disabled]="true">
                                     <label class="govuk-label govuk-radios__label" for="mfa-off">
                                         <strong> {{'MFA_OFF'| translate }} </strong>
                                     </label>

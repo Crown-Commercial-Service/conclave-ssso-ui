@@ -17,15 +17,14 @@ import { UIState } from 'src/app/store/ui.states';
 export class ManageUserDeactivateConfirmComponent extends BaseComponent implements OnInit {
   userName: string = '';
   dormantBy : string ='Manual';
-  fromPage:string ='edit-user'
+  fromPage:string ='edit_user'
   constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
       private wrapperUserService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
       super(uiStore,viewportScroller,scrollHelper);
       this.userName = sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
       this.userName = localStorage.getItem('ManageUserUserName') ?? '';
-      this.dormantBy = localStorage.getItem('user_name') ?? '';
-      const previousRoute = this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
-    console.log('Previous Route:', previousRoute);
+    //   const previousRoute = this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
+    // console.log('Previous Route:', previousRoute);
   }
 
   ngOnInit() {

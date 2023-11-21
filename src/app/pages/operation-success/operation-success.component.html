@@ -20,7 +20,8 @@
           </li>
           <li *ngIf="operation === operationEnum.UserCreateWithIdamRegister || operation === operationEnum.UserCreate
                         || operation === operationEnum.UserUpdate || operation === operationEnum.UserUpdateWithIdamRegister
-                        || operation === operationEnum.UserPasswordChange || operation === operationEnum.UserDelete"
+                        || operation === operationEnum.UserPasswordChange || operation === operationEnum.UserDelete
+                        || operation === operationEnum.UserDeactivate || operation === operationEnum.UserReactivate"
                         class="govuk-breadcrumbs__list-item">
                         <a href="javascript:;" class="govuk-breadcrumbs__link" routerLink="/manage-users">{{
                             'MANAGE_YOUR_USER_ACCOUNTS' |
