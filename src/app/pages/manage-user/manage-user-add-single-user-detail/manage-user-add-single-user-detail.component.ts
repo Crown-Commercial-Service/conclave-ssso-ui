@@ -816,7 +816,6 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
 
   onCancelClick() {
-    debugger;
     sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
     localStorage.removeItem('ManageUserUserName');
     this.router.navigateByUrl('manage-users');

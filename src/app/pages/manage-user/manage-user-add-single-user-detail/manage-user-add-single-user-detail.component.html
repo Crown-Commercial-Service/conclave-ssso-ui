@@ -32,8 +32,8 @@
             <div class="govuk-notification-banner__content">
                 <p class="govuk-notification-banner__heading">
                     {{'DORMANT_STATE_MESSAGE' | translate}} <br>
-                    <a class="govuk-notification-banner__link" href="javascript:;" (click)="onReactivateUserClick()">{{
-                        'REACTIVATE_ACCOUNT' | translate}}</a>
+                    <a class="govuk-notification-banner__link" href="javascript:;" (click)="onReactivateUserClick()">
+                        {{'REACTIVATE_ACCOUNT' | translate}}</a>
                 </p>
             </div>
         </div>
@@ -173,7 +173,7 @@
                             </span>
                             <div class="govuk-checkboxes__item label-detail-text-gap">
                                 <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"
-                                    [attr.disabled]="isAutoDisableMFA == true ? true : null" type="checkbox">
+                                    [attr.disabled]="(isAutoDisableMFA == true || isDormantUser ==true) ? true : null" type="checkbox">
                                 <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
                                     Additional security using digital device
                                 </label>
@@ -534,8 +534,8 @@
                     </div>
 
                     <button *ngIf="isEdit == true && userProfileResponseInfo.detail.canChangePassword" type="button"
-                        (click)="onResetPasswordClick()" class="govuk-button govuk-button--secondary" [disabled] ="isDormantUser"
-                        data-module="govuk-button">
+                        (click)="onResetPasswordClick()" class="govuk-button govuk-button--secondary"
+                        [disabled]="isDormantUser" data-module="govuk-button">
                         {{ 'RESET_USER_PASSWORD_BTN' | translate }}
                     </button>
                     <br>

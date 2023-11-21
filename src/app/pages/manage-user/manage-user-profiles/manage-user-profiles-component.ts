@@ -69,7 +69,6 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     }
 
     getOrganisationUsers() {
-        debugger;
         this.wrapperOrganisationService.getUsers(this.organisationId, this.searchingUserName, this.currentPage, this.pageSize).subscribe({
             next: (userListResponse: UserListResponse) => {
                 if (userListResponse != null) {
@@ -80,8 +79,8 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
                             'rowData':f.userName
                     };
                     this.sharedDataService.storeUserDetails(JSON.stringify(data))
-                    // sessionStorage.setItem(SessionStorageKey.ManageUserUserName, f.userName);
-                    // localStorage.setItem('ManageUserUserName', f.userName);
+                    sessionStorage.setItem(SessionStorageKey.ManageUserUserName, f.userName);
+                    localStorage.setItem('ManageUserUserName', f.userName);
                     let queryParams = {data: btoa(JSON.stringify({'isEdit': true}))}
                     f.routeLink=`/manage-users/add-user/details`
                     f.routeData = queryParams
