@@ -48,10 +48,10 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
         
 
     }
-    ngAfterViewInit()
-    {
-        document.getElementById('authenticator-otp')?.focus();
-    }
+    // ngAfterViewInit()
+    // {
+    //     document.getElementById('authenticator-otp')?.focus();
+    // }
     clearError() {
         this.showError = false;
     }
