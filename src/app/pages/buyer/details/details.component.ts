@@ -24,8 +24,16 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   public selectedOrgId: string = '';
-  schemeData: any[] = [];
-
+  public schemeData: any[] = [];
+  public registriesTableDetails = {
+    headerText : ["Registry","ID",""],
+    data : [{
+      name:'',
+      id:'',
+      legalName:'',
+      type:''
+    } ]
+  }
   constructor(private ciiService: ciiService, private organisationService: WrapperOrganisationService,private SharedDataService:SharedDataService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
@@ -44,6 +52,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
         if (this.registries != undefined) {
           this.additionalIdentifiers = this.registries?.additionalIdentifiers;
         }
+        this.setRegistriesTableDetails()
       }
     });
     this.router.events.subscribe(value => {
@@ -57,7 +66,26 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
     })
   }
 
-  public getSchemaName(schema: string): string {
+ public setRegistriesTableDetails(){
+  this.registriesTableDetails.data.forEach((f)=>{
+    f.name = this.getSchemaName(this.registries.identifier?.scheme)
+    f.id = this.registries.identifier?.id
+    f.type = 'Primary',
+    f.legalName = ''
+  })
+
+  this.additionalIdentifiers?.forEach(((f)=>{
+    let data = {
+      name : this.getSchemaName(f.scheme),
+      id : this.getId(f.id, f.scheme),
+      type : '',
+      legalName : '',
+    }
+    this.registriesTableDetails.data.push(data)
+  }))
+ }
+
+  public getSchemaName(schema: any): string {
     let selecedScheme = this.schemeData.find(s => s.scheme === schema);    
     if (schema === 'GB-CCS') {
       return 'Internal Identifier';

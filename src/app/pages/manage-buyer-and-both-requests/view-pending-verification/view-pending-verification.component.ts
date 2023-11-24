@@ -86,7 +86,15 @@ export class ViewPendingVerificationComponent implements OnInit {
     };
     this.registries = {};
   }
-
+  public registriesTableDetails = {
+    headerText : ["Registry","ID",""],
+    data : [{
+      name:'',
+      id:'',
+      legalName:'',
+      type:''
+    } ]
+  }
   async ngOnInit() {
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
@@ -108,6 +116,24 @@ export class ViewPendingVerificationComponent implements OnInit {
     window.location.href = AdminEmail;
   }
 
+  public setRegistriesTableDetails(){
+    this.registriesTableDetails.data.forEach((f)=>{
+      f.name = this.getSchemaName(this.registries.identifier?.scheme)
+      f.id = this.registries.identifier?.id
+      f.type = 'Primary'
+      f.legalName =''
+    })
+    this.additionalIdentifiers?.forEach(((f)=>{
+      let data = {
+        name : this.getSchemaName(f.scheme),
+        id : this.getId(f.id, f.scheme),
+        type : '',
+        legalName:''
+      }
+      this.registriesTableDetails.data.push(data)
+    }))
+  }
+  
   public getOrganisationUsers() {
     this.WrapperOrganisationGroupService.getUsersAdmin(
       this.routeDetails.organisationId,
@@ -356,6 +382,7 @@ export class ViewPendingVerificationComponent implements OnInit {
       if (this.registries != undefined) {
         this.additionalIdentifiers = this.registries?.additionalIdentifiers;
       }
+      this.setRegistriesTableDetails()
     })
     .catch((err) => {
       this.additionalIdentifiers = undefined

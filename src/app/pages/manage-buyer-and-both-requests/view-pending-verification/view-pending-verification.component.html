@@ -88,6 +88,8 @@
                         </div>
                     </div>
                 </div>
+  <app-registry-govuk-table [headerText]="registriesTableDetails.headerText" [data]="registriesTableDetails.data"></app-registry-govuk-table>
+
                 <p class="govuk-body govuk-!-font-weight-bold" *ngIf="additionalIdentifiers == undefined">
                     There are no matching results.
                 </p>

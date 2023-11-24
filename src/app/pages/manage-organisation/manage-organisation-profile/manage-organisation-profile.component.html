@@ -177,12 +177,13 @@
         <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
         <td class="govuk-table__cell">{{ row.id }}</td>
         <td class="govuk-table__cell">{{ row.legalName}}</td>
-        <!-- <td class="govuk-table__cell"><a href="javascript:;" (click)="onRegistryRemoveClick(row)">Remove</a></td> -->
-        <td class="govuk-table__cell"><a [routerLink]="generateRegistryRemoveRoute(row)">Remove</a></td>
+        <td class="govuk-table__cell"><a (click)="generateRegistryRemoveRoute(row)">Remove</a></td>
       </tr>
     </tbody>
   </table>
 </div>
+<app-registry-govuk-table [headerText]="registriesTableDetails.headerText" [data]="registriesTableDetails.data" (hyperLinkClickEvent)="generateRegistryRemoveRoute($event)" ></app-registry-govuk-table>
+
   <div class="govuk-form-group govuk-button-group" *ngIf="registries != null">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
       (click)="onRegistryAddClick()">Add new registry</button>
