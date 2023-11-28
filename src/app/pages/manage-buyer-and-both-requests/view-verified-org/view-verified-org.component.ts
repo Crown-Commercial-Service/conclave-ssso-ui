@@ -59,6 +59,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
       organisationAuditEventList: [],
     },
   };
+
   public isDeletedOrg: boolean = false
   constructor(
     private route: ActivatedRoute,
@@ -92,7 +93,9 @@ export class ViewVerifiedOrgComponent implements OnInit {
   async ngOnInit() {
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
-      this.getPendingVerificationOrg()
+      setTimeout(() => {
+        this.getPendingVerificationOrg()
+       }, 500);
     });
     this.router.events.subscribe(value => {
       this.dataLayerService.pushEvent({ 
@@ -365,4 +368,5 @@ export class ViewVerifiedOrgComponent implements OnInit {
       },
     });
   }
+  
 }

@@ -123,7 +123,8 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
          let  data = {
                 'rowData':dataRow.userName
         };
-        this.sharedDataService.storeUserDetails(JSON.stringify(data))
+        this.sharedDataService.storeUserDetails(JSON.stringify(data));
+        localStorage.setItem('ManageUserUserName',dataRow.userName);
         sessionStorage.setItem(SessionStorageKey.ManageUserUserName, dataRow.userName);
         localStorage.setItem('ManageUserUserName', dataRow.userName);
         this.router.navigateByUrl('manage-users/add-user/details?data=' + btoa(JSON.stringify({'isEdit': true})));

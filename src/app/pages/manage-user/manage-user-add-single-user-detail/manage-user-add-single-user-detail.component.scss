@@ -19,6 +19,9 @@ a {
   font-size: 19px;
 }
 
+h1 {
+  margin-top: 38px;
+}
 
 .disabled {
   background: #dfe0e2;
@@ -159,4 +162,7 @@ table {
 .govuk-heading-xl {
   margin-top: 30px !important;
   margin-bottom: 30px !important;
+}
+.govuk-notification-banner__heading {
+    max-width: 100%;
 }

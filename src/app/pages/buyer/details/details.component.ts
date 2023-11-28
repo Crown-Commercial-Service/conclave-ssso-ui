@@ -24,7 +24,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   public selectedOrgId: string = '';
-  schemeData: any[] = [];
+  public schemeData: any[] = [];
 
   constructor(private ciiService: ciiService, private organisationService: WrapperOrganisationService,private SharedDataService:SharedDataService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
@@ -37,13 +37,9 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
     this.route.params.subscribe(async params => {
       if (params.id) {
         this.selectedOrgId = params.id;
-        this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
-        this.org = await this.organisationService.getOrganisation(params.id).toPromise();
-        // Passing true to get hidden identifier for manage services eligibility page
-        this.registries = await this.ciiService.getOrgDetails(params.id, true).toPromise();
-        if (this.registries != undefined) {
-          this.additionalIdentifiers = this.registries?.additionalIdentifiers;
-        }
+        setTimeout(() => {
+        this.getOrgDetails(params.id)
+        }, 500);
       }
     });
     this.router.events.subscribe(value => {
@@ -57,22 +53,10 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
     })
   }
 
-  public getSchemaName(schema: string): string {
-    let selecedScheme = this.schemeData.find(s => s.scheme === schema);    
-    if (schema === 'GB-CCS') {
-      return 'Internal Identifier';
-    }
-    else if(selecedScheme?.schemeName) {
-      return selecedScheme?.schemeName;
-    }
-    else {
-      return '';
-    }
-  }
+  public async getOrgDetails(id:any){
+    this.org = await this.organisationService.getOrganisation(id).toPromise();
 
-  public getId(id:string, schema: string): string {
-    return this.SharedDataService.getId(id,schema)
-   }
+  }
 
   public convertIdToHyphenId(id:string): string {    
   return this.SharedDataService.convertIdToHyphenId(id)

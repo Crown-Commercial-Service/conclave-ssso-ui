@@ -25,6 +25,7 @@ export interface UserDetail {
     mfaEnabled: boolean;
     isAdminUser: boolean;
     mfaOpted: boolean;
+    isDormant : boolean;
 }
 
 export interface UserRequestDetail {
@@ -91,6 +92,7 @@ export interface UserListInfo {
     name: string;
     userName: string;
     isAdmin: boolean;
+    isDormant :boolean;
     routeLink?: string,
     routeData?: any
 }
@@ -123,7 +125,8 @@ export interface UserEditResponseInfo {
 export interface CheckBoxUserListGridSource extends UserListInfo {
     isChecked?: boolean;
     isAdmin: boolean;
-    isDisable:boolean
+    isDisable:boolean;
+    isDormant: boolean;
 }
 
 export interface OrganisationUserDto {

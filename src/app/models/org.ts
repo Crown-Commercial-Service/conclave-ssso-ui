@@ -26,9 +26,9 @@ export interface CiiContactPoint {
 }
 
 export interface CiiIdentifier {
-    id: string;
-    legalName: string;
-    scheme: string;
+    id: string | any;
+    legalName: string | any;
+    scheme: string | any;
     uri: string;
 }
 
@@ -44,4 +44,5 @@ export interface CiiAdditionalIdentifier {
     id: string;
     legalName: string;
     scheme: string;
+    primary?:boolean;
 }

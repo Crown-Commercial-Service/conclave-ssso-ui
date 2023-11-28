@@ -91,7 +91,9 @@ export class ViewPendingVerificationComponent implements OnInit {
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
       this.lastRoute = this.routeDetails.lastRoute
-      await this.getPendingVerificationOrg()
+      setTimeout(() => {
+       this.getPendingVerificationOrg()
+      }, 500);
     });
     this.router.events.subscribe(value => {
       this.dataLayerService.pushEvent({ 
@@ -309,6 +311,7 @@ export class ViewPendingVerificationComponent implements OnInit {
       this.getSchemesDetails()
     }
   }
+
 
   getVerifiedOrg() {
     this.wrapperBuyerAndBothService.getVerifiedOrg(

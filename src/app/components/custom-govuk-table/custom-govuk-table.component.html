@@ -37,12 +37,15 @@
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row" *ngFor="let dataRow of tableVisibleData; let index = index">
                 <td class="govuk-table__cell">
-                    <div *ngIf="dataRow.actionedBy === 'Admin'">
+                    <div *ngIf="dataRow.actionedBy === 'Admin' && dataRow.eventType != 'DelegationTerminationByDormancy'">
                         <span>{{dataRow.actionedByFirstName}} {{dataRow.actionedByLastName}}</span><br>
                         <span>{{dataRow.actionedByUserName}}</span>
                     </div>
-                    <div *ngIf="dataRow.actionedBy != 'Admin'">
+                    <div *ngIf="dataRow.actionedBy != 'Admin' && dataRow.eventType != 'DelegationTerminationByDormancy'">
                         <span>Automatic</span>
+                    </div>
+                    <div *ngIf="dataRow.eventType === 'DelegationTerminationByDormancy'">
+                        <span>Automated dormancy action</span>
                     </div>
                     </td>
                 <td class="govuk-table__cell">
