@@ -24,7 +24,9 @@ import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { TokenService } from 'src/app/services/auth/token.service';
+
 
 
 @Component({
@@ -151,8 +153,10 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     private auditLogService: AuditLoggerService,
     private organisationService: WrapperOrganisationService,
     private route: ActivatedRoute,
+    private dataLayerService: DataLayerService,
     private tokenService: TokenService,
     private wrapperOrganisationService: WrapperOrganisationService
+
   ) {
     super(
       viewportScroller,
@@ -230,7 +234,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           lastName: user.lastName,
           mfaEnabled: user.mfaEnabled
         });
-      }
+      } 
+      this.pushDataLayer("form_start");
     }
     await this.getApprovalRequriedRoles()
     await this.getPendingApprovalUserRole();
@@ -397,8 +402,22 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
     this.removeDefaultUserRoleFromServiceRole();
     this.setAccordinoForUser()
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+     });
+    })
   }
 
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "My Profile"
+    });
+  }
 
   ngAfterViewChecked() {
     this.scrollHelper.doScroll();
@@ -479,6 +498,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   onChangePasswordClick() {
     this.router.navigateByUrl('change-password');
+    this.pushDataLayerEvent();
   }
 
   onRequestRoleChangeClick() {
@@ -509,6 +529,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     );
     localStorage.setItem('UserContactUsername',this.userName);
     this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
+    this.pushDataLayerEvent();
   }
 
   onContactAssignRemoveClick() {
@@ -518,6 +539,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   onSubmit(form: FormGroup) {
     this.submitted = true;
     if (this.formValid(form)) {
+      this.pushDataLayer("form_submit");
       this.submitted = false;
       let userRequest: UserProfileRequestInfo = {
         title: '',
@@ -555,6 +577,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.checkApproveRolesSelected()
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -566,6 +589,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
 
   onCancelClick() {
     this.router.navigateByUrl('home');
+    this.pushDataLayerEvent();
   }
 
 
@@ -768,6 +792,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
       this.router.navigateByUrl('confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data)))
     }
+    this.pushDataLayerEvent();
   }
 
   async getOrgGroups() {
@@ -887,6 +912,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.tabConfig.groupservices = true
       this.tabConfig.userservices = false
     }
+
+    this.dataLayerService.pushEvent({
+      event: "tab_navigation",
+      link_text: activetab === 'user-service' ? "Individual access": "Group access"
+    })
   }
 
   public IsChangeInGroupAdminSelection(responseGroups: any): void {
@@ -933,6 +963,15 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       inline: 'nearest',
     });
   }
+
+
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+      'event': event,
+      'form_id': 'Manage_my_account'
+    });
+  }
+
   public async GetOrganisationMfaSettings() {
     this.ciiOrgId = this.tokenService.getCiiOrgId();
     await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data: any) => {

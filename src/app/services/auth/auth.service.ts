@@ -174,13 +174,16 @@ export class AuthService {
     
   }
 
-
-  createSession(refreshToken: string) {
+// The "isLogin" flag is added to prevent force logout from occurring during the user's first login. 
+  createSession(refreshToken: string, isLogin: boolean = false) {
+    var options = {
+      headers: new HttpHeaders().append('x-is-login', isLogin ? 'true' : 'false')
+    }
     let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/sessions`;
     const body = {
       'refreshToken': refreshToken
     }
-    return this.httpService.post(coreDataUrl, body).pipe(
+    return this.httpService.post(coreDataUrl, body, options).pipe(
       map(data => {
         return data;
       }),

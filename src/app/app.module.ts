@@ -224,6 +224,7 @@ import { ManageOrgMfaUpdateSuccessComponent } from './pages/two-mfa/manage-org-m
 import { DormancyMessageComponent } from './pages/dormancy-message/dormancy-message.component';
 import { ManageUserDeactivateConfirmComponent } from './pages/manage-user/manage-user-deactivate-confirm/manage-user-deactivate-confirm.component';
 import { ManageUserReactivateConfirmComponent } from './pages/manage-user/manage-user-reactivate-confirm/manage-user-reactivate-confirm.component';
+import { ForceLogoutComponent } from './pages/force-logout/force-logout.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -412,7 +413,8 @@ export function createTranslateLoader(http: HttpClient) {
     ManageOrgMfaUpdateSuccessComponent,
     DormancyMessageComponent,
     ManageUserDeactivateConfirmComponent,
-    ManageUserReactivateConfirmComponent
+    ManageUserReactivateConfirmComponent,    
+    ForceLogoutComponent
   ],
   imports: [
     // BrowserModule,

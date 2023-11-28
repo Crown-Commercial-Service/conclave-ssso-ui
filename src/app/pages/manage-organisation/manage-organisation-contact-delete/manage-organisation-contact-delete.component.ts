@@ -12,6 +12,7 @@ import { WrapperOrganisationContactService } from "src/app/services/wrapper/wrap
 import { WrapperSiteContactService } from "src/app/services/wrapper/wrapper-site-contact-service";
 import { ViewportScroller } from "@angular/common";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-manage-organisation-contact-delete',
@@ -29,7 +30,7 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
     contactId: number = 0;
     siteId: number = 0;
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        private contactService: WrapperOrganisationContactService, private siteContactService: WrapperSiteContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        private contactService: WrapperOrganisationContactService, private siteContactService: WrapperSiteContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         let queryParams = this.activatedRoute.snapshot.queryParams;
@@ -42,6 +43,14 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
     }
 
     ngOnInit() {
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+             event: "page_view" ,
+             page_location: this.router.url.toString(),
+             user_name: localStorage.getItem("user_name"),
+             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+           });
+        })
     }
 
     onDeleteConfirmClick() {
@@ -68,7 +77,7 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
                 }
             });
         }
-        
+        this.pushDataLayerEvent();
     }
 
     onCancelClick(){
@@ -82,5 +91,13 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
 
     public onBack():void{
         window.history.back()
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Delete Organisation Contact"
+		});
+	  }
 }

@@ -15,6 +15,7 @@ import {
   pendingApprovalResponce,
 } from 'src/app/models/organisationGroup';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-group-operation-success',
@@ -59,7 +60,8 @@ export class ManageGroupOperationSuccessComponent
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private orgGroupService: WrapperOrganisationGroupService
+    private orgGroupService: WrapperOrganisationGroupService,
+    private dataLayerService: DataLayerService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.operation = parseInt(
@@ -92,6 +94,15 @@ export class ManageGroupOperationSuccessComponent
   }
 
   ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+          operation: this.operation
+      });
+    })
     let area: string = '';
     switch (this.operation) {
       case this.operationEnum.GroupAdd:
@@ -219,6 +230,11 @@ export class ManageGroupOperationSuccessComponent
   }
 
   public toggleAccordion(accordin: string): void {
+    this.dataLayerService.pushEvent({
+      event: "accordion_use",
+      interaction_type: accordin === 'accordin1' ? (this.accordinData.showAccordin1 ? "close": "open") : (this.accordinData.showAccordin2 ? "close": "open"),
+      link_text: accordin === "accordin1" ? "List of users who were given access to Fleet Portal" : "List of users who require additional verification for Fleet Portal access"
+    });
     if (accordin === 'accordin1') {
       this.accordinData.showAccordin1 = !this.accordinData.showAccordin1;
     } else if (accordin === 'accordin2') {

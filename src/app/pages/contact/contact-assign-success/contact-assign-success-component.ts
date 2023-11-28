@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperOrganisationSiteService } from "src/app/services/wrapper/wrapper-org-site-service";
 import { OrganisationSiteResponse } from "src/app/models/site";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-contact-assign-success-component',
@@ -30,7 +31,7 @@ export class ContactAssignSuccessComponent extends BaseComponent implements OnIn
     siteCreate: any;
     
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        protected viewportScroller: ViewportScroller,private orgSiteService: WrapperOrganisationSiteService, protected scrollHelper: ScrollHelper) {
+        protected viewportScroller: ViewportScroller,private orgSiteService: WrapperOrganisationSiteService, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -47,6 +48,14 @@ export class ContactAssignSuccessComponent extends BaseComponent implements OnIn
         if(this.assigningSiteId!=0){
             this.getSiteDetails()
         }
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+        })
     }
 
     private getSiteDetails():void{

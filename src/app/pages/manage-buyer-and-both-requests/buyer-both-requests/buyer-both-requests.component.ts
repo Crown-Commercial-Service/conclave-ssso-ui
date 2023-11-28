@@ -4,6 +4,7 @@ import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-buyer-both-requests',
@@ -50,7 +51,8 @@ export class BuyerBothRequestsComponent implements OnInit {
   constructor(
     private router: Router,
     private wrapperBuyerAndBothService:WrapperBuyerBothService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private dataLayerService: DataLayerService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.pendingVerificationBuyerAndBoth.organisationAuditList = {
@@ -72,6 +74,14 @@ export class BuyerBothRequestsComponent implements OnInit {
   ngOnInit() {
     this.tabChanged(sessionStorage.getItem('activetab') || 'pendingOrg');
     this.getPendingVerificationOrg();
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
   }
 
   public onSearchClick(): void {
@@ -171,6 +181,10 @@ export class BuyerBothRequestsComponent implements OnInit {
       this.tabConfig.pendingOrg = true;
       this.tabConfig.verifiedOrg = false;
     }
+    this.dataLayerService.pushEvent({
+      event: "tab_navigation",
+      link_text: activetab === 'verifiedOrg' ? "Approved / declined Buyer status requests": "Buyer status pending"
+    })
   }
 
   private assignOrgTypeName(orgListResponse: OrganisationAuditListResponse): void{

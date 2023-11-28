@@ -169,6 +169,7 @@ import { ManageOrgMfaUpdateSuccessComponent } from './pages/two-mfa/manage-org-m
 import { DormancyMessageComponent } from './pages/dormancy-message/dormancy-message.component';
 import { ManageUserDeactivateConfirmComponent } from './pages/manage-user/manage-user-deactivate-confirm/manage-user-deactivate-confirm.component';
 import { ManageUserReactivateConfirmComponent } from './pages/manage-user/manage-user-reactivate-confirm/manage-user-reactivate-confirm.component';
+import { ForceLogoutComponent } from './pages/force-logout/force-logout.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -1317,28 +1318,28 @@ const routes: Routes = [
     path: 'mfa-selection',
     data: { title : 'MFA Selection'},
     pathMatch: 'full',
-     canActivate: [AuthGuard,MfaGuard],
+     canActivate: [MfaGuard],
     component: MfaSelectionComponent, 
   },
  {
    path : 'mfa-authenticator-information',
    data : { title : 'Download an app'},
    pathMatch : 'full',
-   canActivate: [AuthGuard,MfaGuard],
+   canActivate: [MfaGuard],
    component :MfaInformationComponent
  },
  {
   path : 'mfa-authenticator-setup',
   data : {title :'Set up an app'},
   pathMatch : 'full',
-  canActivate: [AuthGuard,MfaGuard],
+  canActivate: [MfaGuard],
   component : MfaAuthenticatorSetupComponent
  },
  {
   path : 'mfa-message-step-1',
   data : {title : 'Enter your mobile number'},
   pathMatch : 'full',
-  canActivate: [AuthGuard,MfaGuard],
+  canActivate: [MfaGuard],
   component : MfaMessageStep1Component
  },
 
@@ -1346,35 +1347,35 @@ const routes: Routes = [
   path : 'mfa-message-step-2',
   data : {title : 'Check your phone'},
   pathMatch : 'full',
-  canActivate: [AuthGuard,MfaGuard],
+  canActivate: [MfaGuard],
   component : MfaMessageStep2Component
  },
  {
   path : 'no-mfa-confirmation',
   data : {title : 'Are you sure'},
   pathMatch : 'full',
-  canActivate: [AuthGuard,MfaGuard],
+  canActivate: [MfaGuard],
   component : NoMfaConfiramtionComponent
  },
  {
   path : 'mfa-off-save-success',
   data : {title : 'Changes saved'},
   pathMatch : 'full',
-  canActivate: [AuthGuard,MfaGuard],
+  canActivate: [MfaGuard],
   component : MfaOffSaveSuccessComponent
  },
  {
   path: 'mfa-authentication-setup-sucess',
   data :{title : 'Authentication save success'},
   pathMatch : 'full',
-  canActivate: [AuthGuard,MfaGuard],
+  canActivate: [MfaGuard],
   component : MfaAuthenticationSetupSuccessComponent
  },
  {
   path :'mfa-no-authentication-setup-success',
   data :{title : 'No authentication save success'},
   pathMatch : 'full',
-  canActivate: [AuthGuard,MfaGuard],
+  canActivate: [MfaGuard],
   component : MfaNoAuthenticationSetupSuccessComponent
  },
  {
@@ -1387,6 +1388,7 @@ const routes: Routes = [
   path :'manage-org-mfa-update-success',
   data: { title: 'Organisation Mfa Update' },
   pathMatch : 'full',
+  canActivate: [MfaGuard],
   component : ManageOrgMfaUpdateSuccessComponent
  },
  {
@@ -1408,10 +1410,12 @@ const routes: Routes = [
   pathMatch: 'full',
   canActivate: [MaintenanceCheck, AuthGuard, RoleGuard],
   component: ManageUserReactivateConfirmComponent,
-},
-
-
- 
+}, 
+ {
+  path :'force-logout',
+  pathMatch : 'full',
+  component : ForceLogoutComponent
+ }, 
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

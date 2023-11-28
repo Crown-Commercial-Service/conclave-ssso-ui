@@ -10,6 +10,7 @@ import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.servic
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { ViewportScroller } from "@angular/common";
 import { SessionStorageKey } from "src/app/constants/constant";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-manage-user-delete-confirm',
@@ -25,13 +26,21 @@ import { SessionStorageKey } from "src/app/constants/constant";
 export class ManageUserDeleteConfirmComponent extends BaseComponent implements OnInit {
     userName: string = '';
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        private wrapperUserService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        private wrapperUserService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.userName = sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
         this.userName = localStorage.getItem('ManageUserUserName') ?? '';
     }
 
     ngOnInit() {
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+        })
     }
 
     onDeleteConfirmClick() {
@@ -45,9 +54,18 @@ export class ManageUserDeleteConfirmComponent extends BaseComponent implements O
                 console.log(error);
             }
         });
+        this.pushDataLayerEvent();
     }
 
     onCancelClick(){
         window.history.back();
+        this.pushDataLayerEvent();
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Delete - Manage Users"
+		});
+	  }
 }

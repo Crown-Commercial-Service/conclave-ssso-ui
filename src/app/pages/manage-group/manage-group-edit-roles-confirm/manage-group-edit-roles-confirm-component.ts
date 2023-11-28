@@ -15,6 +15,7 @@ import { OperationEnum } from "src/app/constants/enum";
 import { Title } from "@angular/platform-browser";
 import { environment } from "src/environments/environment";
 import { SharedDataService } from "src/app/shared/shared-data.service";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-manage-group-edit-roles-confirm',
@@ -45,7 +46,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
     public serviceRoleGroup:any={}
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService,
-        private wrapperOrganisationService: WrapperOrganisationService,private sharedDataService:SharedDataService) {
+        private wrapperOrganisationService: WrapperOrganisationService,private sharedDataService:SharedDataService, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -65,6 +66,14 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
     }
 
     ngOnInit() {
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+        })
         if(this.showRoleView){
             this.titleService.setTitle(`Confirm - ${"Group - Roles"}`);
         } else {
@@ -128,6 +137,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
                         this.router.navigateByUrl(`manage-groups/error?data=` + JSON.stringify(data));
                     }
                 });
+        this.pushDataLayerEvent();
     }
 
     onGoToEditGroupClick() {
@@ -137,6 +147,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
 
     onCancelClick() {
         this.router.navigateByUrl("manage-groups/edit-roles?data=" + JSON.stringify(this.routeData));
+        this.pushDataLayerEvent();
     }
 
     private initialteServiceRoleGroups(){
@@ -160,4 +171,11 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
                 }
            }
         } 
+
+        pushDataLayerEvent() {
+            this.dataLayerService.pushEvent({ 
+              event: "cta_button_click" ,
+              page_location: "Confirm - Add/Edit Roles - Manage Groups"
+            });
+          }    
 }

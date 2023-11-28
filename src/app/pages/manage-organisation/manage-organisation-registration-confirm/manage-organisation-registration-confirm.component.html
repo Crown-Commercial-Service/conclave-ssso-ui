@@ -47,8 +47,11 @@
         </li>
     </ol>
   </div>
-  <h1 class="govuk-heading-xl page-title">
-    <div *ngIf="!resendActivationEmailMode; else elseBlock">Confirm your email address</div>
+  <h1 class="govuk-heading-xl page-title" style="
+  margin-top: 30px;
+  margin-bottom: 30px;
+">
+    <div class="govuk-heading-xl-custom" *ngIf="!resendActivationEmailMode; else elseBlock">Confirm your email address</div>
     <ng-template #elseBlock>
       Email resend confirmation
     </ng-template>

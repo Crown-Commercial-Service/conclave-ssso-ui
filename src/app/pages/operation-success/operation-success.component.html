@@ -41,7 +41,7 @@
             </div>
             <div *ngIf="operation === operationEnum.MyAccountUpdate">
               <legend  *ngIf = "isCustomMfaEnabled"class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                <h1 class="govuk-fieldset__heading">
+                <h1 class="govuk-heading-xl govuk-fieldset__heading">
                 {{'CHANGES_SAVED' | translate}}
                 </h1>
                </legend>
@@ -180,7 +180,7 @@
                     {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
             </div>
             <div *ngIf="operation === operationEnum.UserPasswordChange">
-                <h1>Password reset link sent</h1>
+                <h1 class="govuk-heading-xl">Password reset link sent</h1>
                 <p class="govuk-body-l">{{ 'RESET_EMAIL_HAS_BEEN_SENT_TO' | translate }}{{ userName }}</p>
                 <a routerLink="/manage-users" class="navigation-text" (click)="onNavigateToManageUserClick()">
                     {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate}}</a>

@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { HelperService } from 'src/app/shared/helper.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-view-pending-verification',
@@ -65,7 +66,8 @@ export class ViewPendingVerificationComponent implements OnInit {
     private router: Router,
     private ciiService: ciiService,
     private translate: TranslateService,
-    public helperService:HelperService
+    public helperService:HelperService,
+    private dataLayerService: DataLayerService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -91,6 +93,14 @@ export class ViewPendingVerificationComponent implements OnInit {
       this.lastRoute = this.routeDetails.lastRoute
       await this.getPendingVerificationOrg()
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
   }
 
   public openEmailWindow(data: any): void {
@@ -212,12 +222,20 @@ export class ViewPendingVerificationComponent implements OnInit {
       });
   }
 
+  private pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Manage Buyer status requests - View request"
+    });
+  }
+
   goBack() {
     if (this.lastRoute == "view-verified") {
       this.router.navigateByUrl('manage-buyer-both');
     } else {
       window.history.back();
     }
+     this.pushDataLayerEvent();
   }
 
   public acceptRightToBuy() {
@@ -228,6 +246,7 @@ export class ViewPendingVerificationComponent implements OnInit {
     this.router.navigateByUrl(
       'confirm-accept?data=' + btoa(JSON.stringify(data))
     );
+    this.pushDataLayerEvent();
   }
   public declineRightToBuy() {
     let data = {
@@ -237,6 +256,7 @@ export class ViewPendingVerificationComponent implements OnInit {
     this.router.navigateByUrl(
       'confirm-decline?data=' + btoa(JSON.stringify(data))
     );
+    this.pushDataLayerEvent();
   }
 
   public getSchemaName(schema: string): string {

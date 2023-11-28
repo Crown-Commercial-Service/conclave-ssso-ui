@@ -26,7 +26,7 @@
                 *ngIf="searchSumbited && searchingUserName ===''">
                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a user’s name or email address
               </span>
-                <app-search-box [(searchText)]="searchingUserName" (onSearchClickEvent)="onSearchClick()">
+                <app-search-box [(searchText)]="searchingUserName" (onSearchClickEvent)="onSearchClick()" [pageName]="'Manage User Accounts'">
                 </app-search-box>
             </div>
         </div>

@@ -18,6 +18,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WorkerService } from 'src/app/services/worker.service';
 import { GlobalRouteService } from 'src/app/services/helper/global-route.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 
 @Component({
@@ -30,12 +31,22 @@ export class AuthErrorComponent extends BaseComponent implements OnInit {
         private route: ActivatedRoute,
         private authService: AuthService,
         protected uiStore: Store<UIState>,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
+        private router: Router,
+        private dataLayerService: DataLayerService
     ) {
         super(uiStore, viewportScroller, scrollHelper);
     }
 
     ngOnInit() {
+        this.router.events.subscribe(value => {
+           this.dataLayerService.pushEvent({ 
+            event: "page_view" ,
+            page_location: this.router.url.toString(),
+            user_name: localStorage.getItem("user_name"),
+            cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+        });
+        });
         this.authService.renewAccessToken(this.globalRouteService.globalRoute.length > 0 ?
             this.globalRouteService.globalRoute : 'home');
         // window.location.href = this.authService.getAuthorizedEndpoint();

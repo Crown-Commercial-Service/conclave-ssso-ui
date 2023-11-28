@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserListResponse } from 'src/app/models/user';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from "src/app/services/auth/auth.service";
 
@@ -41,8 +42,10 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
     pageName: 'Delegatedaccess',
     hyperTextrray: ['View']
   }
-  constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService,
-              private authService: AuthService) {
+
+  constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService, 
+               private dataLayerService: DataLayerService, private authService: AuthService) {
+
     this.organisationId = localStorage.getItem('cii_organisation_id') || ''
     this.currentUserstableConfig.userList = {
       currentPage: this.currentUserstableConfig.currentPage,
@@ -62,6 +65,14 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
 
   ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.tabChanged(sessionStorage.getItem('activetab') || 'currentusers')
     setTimeout(() => {
       this.getOrganisationExpiredUsers()
@@ -114,6 +125,10 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
   public FindDelegateUser(): void {
     this.router.navigateByUrl('find-delegated-user');
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Delegated access"
+    });
   }
 
   getOrganisationCurrentUsers() {
@@ -170,6 +185,11 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
       this.tabConfig.expiredusers = true
       this.tabConfig.currentusers = false
     }
+
+    this.dataLayerService.pushEvent({
+      event: "tab_navigation",
+      link_text: activetab === 'currentusers' ? "Current users with delegated access to your Organisation": "Users with expired delegated access to your Organisation"
+    })
   }
 
   ngOnDestroy(): void {
