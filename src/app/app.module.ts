@@ -413,7 +413,7 @@ export function createTranslateLoader(http: HttpClient) {
     MfaNoAuthenticationSetupSuccessComponent,
     ManageOrgRegMfaComponent,
     ManageOrgMfaUpdateSuccessComponent,
-    RegistryGovukTableComponent
+    RegistryGovukTableComponent,
     DormancyMessageComponent,
     ManageUserDeactivateConfirmComponent,
     ManageUserReactivateConfirmComponent,    
