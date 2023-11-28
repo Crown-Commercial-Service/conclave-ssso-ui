@@ -863,14 +863,16 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
 
   private setMfaStatus(roleKey: any, status: boolean) {
-    if (roleKey == 'ORG_ADMINISTRATOR' && this.selectedUserType.key !== 'ORG_DEFAULT_USER') {
-      this.formGroup.controls['mfaEnabled'].setValue(status);
-      this.isAutoDisableMFA = status;
-    } else {
-      this.formGroup.controls['mfaEnabled'].setValue(
-        this.userProfileResponseInfo.mfaEnabled
-      );
-      this.isAutoDisableMFA = false;
+    if (!this.isCustomMfaEnabled) {
+      if (roleKey == 'ORG_ADMINISTRATOR' && this.selectedUserType.key !== 'ORG_DEFAULT_USER') {
+        this.formGroup.controls['mfaEnabled'].setValue(status);
+        this.isAutoDisableMFA = status;
+      } else {
+        this.formGroup.controls['mfaEnabled'].setValue(
+          this.userProfileResponseInfo.mfaEnabled
+        );
+        this.isAutoDisableMFA = false;
+      }
     }
   }
 
@@ -1020,7 +1022,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
       this.selectedGroupCheckboxes.push(matchedObject.groupId);
      } 
    }
-    this.setMfaStatus('ORG_ADMINISTRATOR', true);
+    this.setMfaStatus('ORG_ADMINISTRATOR', true);     
   }
 
   private removeMfaandAdminGroup(){
@@ -1034,8 +1036,8 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         matchedObject.checked = false;
         this.selectedGroupCheckboxes = this.removeObjectById(this.selectedGroupCheckboxes, matchedObject.groupId);
       }
-    }
-  this.setMfaStatus('ORG_ADMINISTRATOR', false);
+    } 
+    this.setMfaStatus('ORG_ADMINISTRATOR', false);  
   }
 
   public updateFormUserTypeChanged(event:any){

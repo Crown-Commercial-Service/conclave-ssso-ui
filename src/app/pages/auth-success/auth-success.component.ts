@@ -83,6 +83,7 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                     this.delegatedApiService.getDeligatedOrg().subscribe({
                         next:(data:any) =>{
                             this.isMfaOpted = data.mfaOpted;
+                            localStorage.setItem('mfa_opted',JSON.stringify(this.isMfaOpted));
                             if (this.isTwoMfaEnabled && !this.isMfaOpted)
                             {
                                 window.location.href = this.authService.getMfaAuthorizationEndpoint();
