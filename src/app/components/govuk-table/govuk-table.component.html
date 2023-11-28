@@ -78,7 +78,7 @@
           <div class="govuk-checkboxes" data-module="govuk-checkboxes">
             <div class="govuk-checkboxes__item">
               <input class="govuk-checkboxes__input" id="{{ 'table-chk-id-' + index }}" type="checkbox"
-                [checked]="dataRow['isChecked'] == true" />
+                [checked]="dataRow['isChecked'] == true" [disabled]="dataRow['isDisable'] == true" />
               <label class="govuk-label govuk-checkboxes__label" title="select one option"
                 for="{{ 'table-chk-id-' + index }}">
                 <span style="display: none; visibility: hidden">Select the option</span>
