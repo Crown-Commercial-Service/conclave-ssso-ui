@@ -59,7 +59,9 @@ export class ContactAdminComponent implements OnInit {
     this.WrapperOrganisationGroupService.getUsersAdmin(
       this.organisationId,
       this.currentPage,
-      this.pageSize
+      this.pageSize,
+      false,
+      true
     ).subscribe({
       next: (response: any) => {
         if (response != null) {

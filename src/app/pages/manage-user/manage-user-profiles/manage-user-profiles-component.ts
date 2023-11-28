@@ -83,17 +83,6 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
                 if (userListResponse != null) {
                     this.userList = userListResponse;
                     this.pageCount = this.userList.pageCount;
-                    this.userList.userList.forEach((f)=>{
-                        let  data = {
-                            'rowData':f.userName
-                    };
-                    this.sharedDataService.storeUserDetails(JSON.stringify(data))
-                    sessionStorage.setItem(SessionStorageKey.ManageUserUserName, f.userName);
-                    localStorage.setItem('ManageUserUserName', f.userName);
-                    let queryParams = {data: btoa(JSON.stringify({'isEdit': true}))}
-                    f.routeLink=`/manage-users/add-user/details`
-                    f.routeData = queryParams
-                    })
                 }
             },
             error: (error: any) => {
@@ -134,8 +123,10 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
          let  data = {
                 'rowData':dataRow.userName
         };
-        this.sharedDataService.storeUserDetails(JSON.stringify(data))
+        this.sharedDataService.storeUserDetails(JSON.stringify(data));
+        localStorage.setItem('ManageUserUserName',dataRow.userName);
         sessionStorage.setItem(SessionStorageKey.ManageUserUserName, dataRow.userName);
+        localStorage.setItem('ManageUserUserName', dataRow.userName);
         this.router.navigateByUrl('manage-users/add-user/details?data=' + btoa(JSON.stringify({'isEdit': true})));
     }
 }

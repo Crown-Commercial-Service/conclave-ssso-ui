@@ -309,4 +309,26 @@ export class WrapperUserService {
       })
     );
   }
+  deActivateUser(userName: string,dormantBy:string,fromPage:string): Observable<any> {
+    const url = `${this.url}/deactivation?user-id=${encodeURIComponent(userName)}&dormant-by=${dormantBy}&from-page=${fromPage}`;
+    return this.http.put(url, this.options).pipe(
+      map(() => {
+        return true;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+  reActivateUser(userName:string,fromPage:string): Observable<any> {
+    const url = `${this.url}/activation?user-id=${encodeURIComponent(userName)}&from-page=${fromPage}`;
+    return this.http.put(url, this.options).pipe(
+      map(() => {
+        return true;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
 }

@@ -222,6 +222,11 @@ import { MfaNoAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-se
 import { ManageOrgRegMfaComponent } from './pages/two-mfa/manage-reg-organisation-mfa/manage-reg-organisation-mfa.component';
 import { ManageOrgMfaUpdateSuccessComponent } from './pages/two-mfa/manage-org-mfa-update-success/manage-org-mfa-update-success.component';
 import { RegistryGovukTableComponent } from './components/registry-govuk-table/registry-govuk-table.component';
+import { DormancyMessageComponent } from './pages/dormancy-message/dormancy-message.component';
+import { ManageUserDeactivateConfirmComponent } from './pages/manage-user/manage-user-deactivate-confirm/manage-user-deactivate-confirm.component';
+import { ManageUserReactivateConfirmComponent } from './pages/manage-user/manage-user-reactivate-confirm/manage-user-reactivate-confirm.component';
+import { ForceLogoutComponent } from './pages/force-logout/force-logout.component';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -409,6 +414,10 @@ export function createTranslateLoader(http: HttpClient) {
     ManageOrgRegMfaComponent,
     ManageOrgMfaUpdateSuccessComponent,
     RegistryGovukTableComponent
+    DormancyMessageComponent,
+    ManageUserDeactivateConfirmComponent,
+    ManageUserReactivateConfirmComponent,    
+    ForceLogoutComponent
   ],
   imports: [
     // BrowserModule,

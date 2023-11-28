@@ -30,7 +30,7 @@
                                     class="govuk-label govuk-checkboxes__label govuk-!-margin-bottom-2 govuk-!-margin-left-4"
                                     for="{{'orgGroupControl_' + groupdata.groupId}}">
                                     <span>
-                                        <a [routerLink]="['/manage-groups/view']"  [queryParams]="{ data: getQueryData(groupdata.groupId) }" class="govuk-link" 
+                                        <a [routerLink]="['/manage-groups/view']" [queryParams]="{ data: getQueryData(groupdata.groupId) }" class="govuk-link" 
                                         href="javascript:void(0)">{{groupdata[headerTextKeys]}}</a>
                                         <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleData">
                                             <ul class="govuk-list govuk-list--bullet govuk-!-padding-top-4 govuk-!-padding-left-3"

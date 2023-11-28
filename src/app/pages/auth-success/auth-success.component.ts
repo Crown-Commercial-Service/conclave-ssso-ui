@@ -38,6 +38,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 export class AuthSuccessComponent extends BaseComponent implements OnInit {
     public isTwoMfaEnabled : boolean = environment.appSetting.customMfaEnabled;
     public isMfaOpted : boolean = false ;
+    public isDormantUser : boolean = false;
     constructor(private router: Router,
         private route: ActivatedRoute,
         private authService: AuthService,
@@ -77,19 +78,27 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                     localStorage.setItem('at_exp', accessToken.exp);
                     localStorage.setItem('session_state', tokenInfo.session_state);
                     this.authService.publishAuthStatus(true);
-                    this.authService.createSession(tokenInfo.refresh_token).toPromise().then(() => {
+                    this.authService.createSession(tokenInfo.refresh_token, true).toPromise().then(() => {
                     const  previousGlobalRoute =  localStorage.getItem('routeRecords') ||'home'
                     this.authService.registerTokenRenewal();
                     this.delegatedApiService.getDeligatedOrg().subscribe({
                         next:(data:any) =>{
                             this.isMfaOpted = data.mfaOpted;
-                            if (this.isTwoMfaEnabled && !this.isMfaOpted)
-                            {
-                                window.location.href = this.authService.getMfaAuthorizationEndpoint();
+                            localStorage.setItem('mfa_opted', JSON.stringify(this.isMfaOpted));
+                            this.isDormantUser = data.isDormant;
+                            if (this.isDormantUser) {
+                                this.router.navigateByUrl('dormancy-message');
                             }
-                            else{
-                                this.router.navigateByUrl(previousGlobalRoute)
+                            else {
+                                if (this.isTwoMfaEnabled && !this.isMfaOpted) {
+                                    window.location.href = this.authService.getMfaAuthorizationEndpoint();
+                                }
+                                else {
+                                    this.router.navigateByUrl(previousGlobalRoute)
+                                }
+
                             }
+                            
                         },
                         error: (err:any) =>{
                             if (err.status == 404) {
