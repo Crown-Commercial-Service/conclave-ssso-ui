@@ -294,11 +294,15 @@ export class WrapperOrganisationGroupService {
     );
   }
 
-  getUsersAdmin(organisationId: string, currentPage: number, pageSize: number, includeUnverifiedAdmin: boolean = false): Observable<any> {
+  getUsersAdmin(organisationId: string, currentPage: number, pageSize: number, includeUnverifiedAdmin: boolean = false,excludeInactiveUser: boolean = false): Observable<any> {
     pageSize = pageSize <= 0 ? 10 : pageSize;
     let url = `${this.url}/${organisationId}/users?currentPage=${currentPage}&pageSize=${pageSize}&isAdmin=true&include-self=true`;
     if (includeUnverifiedAdmin) {
       url += "&include-unverified-admin=true";
+    }
+    if(excludeInactiveUser)
+    {
+      url+="&exclude-inactive=true"
     }
     return this.http.get<UserListResponse>(url).pipe(
       map((data: UserListResponse) => {
