@@ -25,29 +25,8 @@
     </p>
   </div>
   <h2 class="govuk-heading-s">Registries</h2>
-  <table class="govuk-table">
-    <h2 class="govuk-table__caption govuk-table__caption--m">Below are all the registries currently linked to this
-      organisation</h2>
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header">Registry</th>
-        <th scope="col" class="govuk-table__header">ID</th>
-        <th scope="col" class="govuk-table__header remove_element">.</th>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
-        <td scope="row" class="govuk-table__header">{{ getSchemaName(registries.identifier?.scheme||'') }}</td>
-        <td class="govuk-table__cell">{{ registries.identifier?.id}}</td>
-        <td class="govuk-table__cell">Primary</td>
-      </tr>
-      <tr class="govuk-table__row" *ngFor="let row of additionalIdentifiers">
-        <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
-        <td class="govuk-table__cell">{{ getId(row.id, row.scheme) }}</td>
-        <td class="govuk-table__cell"></td>
-      </tr>
-    </tbody>
-  </table>
+  <h2 class="govuk-heading-s">Below are all the registries currently linked to this organisation</h2>
+  <app-registry-govuk-table [pageName]="'MSE'" [orgId]="selectedOrgId"></app-registry-govuk-table>
   <div class="govuk-button-group">
     <button type="button" class="govuk-button" data-module="govuk-button"
       (click)="onContinueClick()">Continue</button>
