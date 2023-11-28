@@ -555,6 +555,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         },
         firstName: form.get('firstName')?.value,
         lastName: form.get('lastName')?.value,
+        isDormant:false
       };
 
       this.userRequest = userRequest

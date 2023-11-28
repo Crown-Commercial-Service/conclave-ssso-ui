@@ -83,7 +83,18 @@ export class FindDelegatedUserComponent implements OnInit {
               status: '001'
             }
             this.route.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
-          } else {
+          }
+          else if(userResponse.isDormant) 
+          {
+            let data = {
+              header: 'User is in dormant state',
+              Description: 'This user is in dormant state.\ You can\'t get delegated access to users who are in dormant state.',
+              Breadcrumb: 'User inactive',
+              status: '004'
+            }
+            this.route.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
+          }
+          else {
             userResponse.pageaccessmode = "add";
             userResponse.userName = escape(encodeURIComponent(userResponse.userName));
             this.route.navigateByUrl('delegate-access-user?data=' + btoa(JSON.stringify(userResponse)))

@@ -57,39 +57,8 @@
                     </div>
                 </div>
                 <div class="span-group govuk-!-margin-top-4">
-                    <h2 class="govuk-heading-m">Organisation registries</h2>
-                    <div class="govuk-grid-row" *ngIf="additionalIdentifiers != undefined">
-                        <div class="govuk-grid-column-full">
-                            <div class="user-table">
-                                <table class="govuk-table">
-                                    <thead class="govuk-table__head">
-                                        <tr class="govuk-table__row">
-                                            <th scope="row" class="govuk-table__header">Registry</th>
-                                            <th scope="col" class="govuk-table__header">ID</th>
-                                            <th scope="col" class="govuk-table__header remove_element">.</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="govuk-table__body">
-                                        <tr class="govuk-table__row">
-                                            <th scope="row" class="govuk-table__header">{{
-                                                getSchemaName(registries.identifier?.scheme||'') }}</th>
-                                            <td class="govuk-table__cell">{{ registries.identifier?.id}}</td>
-                                            <td class="govuk-table__cell">Primary</td>
-                                        </tr>
-                                        <tr class="govuk-table__row" *ngFor="let row of additionalIdentifiers">
-                                            <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}
-                                            </th>
-                                            <td class="govuk-table__cell">{{ getId(row.id, row.scheme) }}</td>
-                                            <td class="govuk-table__cell"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="govuk-body govuk-!-font-weight-bold" *ngIf="additionalIdentifiers == undefined">
-                        There are no matching results.
-                    </p>
+                <h2 class="govuk-heading-m">Organisation registries</h2>
+                    <app-registry-govuk-table [pageName]="'MBSR'" [orgId]="routeDetails.event.organisationId"></app-registry-govuk-table>
                 </div>
                 <div class="span-group govuk-!-margin-top-4">
                     <h2 class="govuk-heading-m">Event log</h2>
