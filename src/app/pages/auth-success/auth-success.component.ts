@@ -38,6 +38,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 export class AuthSuccessComponent extends BaseComponent implements OnInit {
     public isTwoMfaEnabled : boolean = environment.appSetting.customMfaEnabled;
     public isMfaOpted : boolean = false ;
+    public isDormantUser : boolean = false;
     constructor(private router: Router,
         private route: ActivatedRoute,
         private authService: AuthService,
@@ -83,14 +84,21 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                     this.delegatedApiService.getDeligatedOrg().subscribe({
                         next:(data:any) =>{
                             this.isMfaOpted = data.mfaOpted;
-                            localStorage.setItem('mfa_opted',JSON.stringify(this.isMfaOpted));
-                            if (this.isTwoMfaEnabled && !this.isMfaOpted)
-                            {
-                                window.location.href = this.authService.getMfaAuthorizationEndpoint();
+                            localStorage.setItem('mfa_opted', JSON.stringify(this.isMfaOpted));
+                            this.isDormantUser = data.isDormant;
+                            if (this.isDormantUser) {
+                                this.router.navigateByUrl('dormancy-message');
                             }
-                            else{
-                                this.router.navigateByUrl(previousGlobalRoute)
+                            else {
+                                if (this.isTwoMfaEnabled && !this.isMfaOpted) {
+                                    window.location.href = this.authService.getMfaAuthorizationEndpoint();
+                                }
+                                else {
+                                    this.router.navigateByUrl(previousGlobalRoute)
+                                }
+
                             }
+                            
                         },
                         error: (err:any) =>{
                             if (err.status == 404) {

@@ -128,12 +128,14 @@ export class ManageGroupEditUsersComponent
                   (user) => user.userName == orgUser.userName
                 ) == -1;
 
+              let isDisabledForAdding =  orgUser.isDormant; 
               let userGridSourceObject: CheckBoxUserListGridSource = {
                 name: orgUser.name,
                 userName: orgUser.userName,
                 isChecked: isChecked,
                 isAdmin: orgUser.isAdmin,
-                isDisable: this.isAdminGroupAndUser(orgUser.userName)
+                isDormant: orgUser.isDormant,
+                isDisable: this.isAdminGroupAndUser(orgUser.userName) || isDisabledForAdding,
               };
               this.userGridSource.push(userGridSourceObject);
             });
@@ -178,7 +180,8 @@ export class ManageGroupEditUsersComponent
         let userInfo: UserListInfo = {
           name: dataRow.name,
           userName: dataRow.userName,
-          isAdmin: dataRow.isAdmin
+          isAdmin: dataRow.isAdmin,
+          isDormant: dataRow.isDormant
         };
         this.addingUsers.push(userInfo);
       }
@@ -193,7 +196,8 @@ export class ManageGroupEditUsersComponent
         let userInfo: UserListInfo = {
           name: dataRow.name,
           userName: dataRow.userName,
-          isAdmin: dataRow.isAdmin
+          isAdmin: dataRow.isAdmin,
+          isDormant: dataRow.isDormant
         };
         this.removingUsers.push(userInfo);
       }

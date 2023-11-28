@@ -22,10 +22,23 @@
 
         <h1 *ngIf="isEdit != true" class="govuk-heading-xl page-title">{{ 'CREATE_NEW_USER_ACCOUNT' | translate }}</h1>
         <h1 *ngIf="isEdit == true" class="govuk-heading-xl page-title">{{ 'EDIT_USER_ACCOUNTS' | translate }}</h1>
-
+        <div *ngIf="isEdit && isDormantUser" class="govuk-notification-banner" role="region"
+            aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    {{'DORMANT_STATE_HEADING' | translate}}
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <p class="govuk-notification-banner__heading">
+                    {{'DORMANT_STATE_MESSAGE' | translate}} <br>
+                    <a class="govuk-notification-banner__link" href="javascript:;" (click)="onReactivateUserClick()">
+                        {{'REACTIVATE_ACCOUNT' | translate}}</a>
+                </p>
+            </div>
+        </div>
         <h2 *ngIf="isEdit == true" class="govuk-heading-m page-title">{{ 'RESET_PASSWORD_OR_DELETE_USER_ACCOUNTS' |
             translate }}</h2>
-
         <div class="govuk-error-summary user-profile-form-error" aria-labelledby="error-summary-title" role="alert"
             tabindex="-1" id="error-summary" data-module="govuk-error-summary"
             *ngIf="(formValid(formGroup) == false || mfaAdminValidationError || formGroup.hasError('identityProviderRequired')) && submitted">
@@ -76,7 +89,9 @@
                 <div class="ui segment">
                     <div class="govuk-form-group" id="user-title-form-group">
                         <label class="govuk-label" for="userTitle">{{ 'TITLE' | translate }} (Optional)</label>
-                        <select class="govuk-select" id="userTitle" name="userTitle" formControlName="userTitle">
+                        <select [class.disabled]="isEdit && isDormantUser"
+                            [attr.disabled]="isEdit && isDormantUser ? 'disabled' : null" class="govuk-select"
+                            id="userTitle" name="userTitle" formControlName="userTitle">
                             <option hidden disabled selected value style="display:none" [ngValue]='null'></option>
                             <option *ngFor="let item of userTitleArray" [ngValue]="item">{{item}}</option>
                         </select>
@@ -94,7 +109,8 @@
                             <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' |
                             translate }}
                         </span>
-                        <input #input formControlName="firstName" class="govuk-input" id="first-name" name="first-name"
+                        <input #input [readonly]="isEdit && isDormantUser" [class.disabled]="isEdit && isDormantUser"
+                            formControlName="firstName" class="govuk-input" id="first-name" name="first-name"
                             type="text" [class.govuk-input--error]="submitted && formGroup.controls.firstName.invalid">
                     </div>
                     <div class="govuk-form-group" id="last-name-form-group"
@@ -111,8 +127,9 @@
                             <span class="govuk-visually-hidden">Error:</span>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' |
                             translate }}
                         </span>
-                        <input #input formControlName="lastName" class="govuk-input" id="last-name" name="last-name"
-                            type="text" [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid">
+                        <input #input [readonly]="isEdit && isDormantUser" [class.disabled]="isEdit && isDormantUser"
+                            formControlName="lastName" class="govuk-input" id="last-name" name="last-name" type="text"
+                            [class.govuk-input--error]="submitted && formGroup.controls.lastName.invalid">
                     </div>
                     <div class="govuk-form-group" id="user-name-form-group" [class.govuk-form-group--error]="submitted && (formGroup.controls.userName.invalid
                         || formGroup.controls.userName.hasError('alreadyExists'))">
@@ -139,9 +156,10 @@
                             || formGroup.controls.userName.hasError('alreadyExists')">
                     </div>
                     <div class="govuk-radio">
-                        <app-govuk-radio [details]="userTypeDetails" (clickedData)="onUserTypeChanged($event)"></app-govuk-radio>
+                        <app-govuk-radio [details]="userTypeDetails"
+                            (clickedData)="onUserTypeChanged($event)"></app-govuk-radio>
                     </div>
-                    <div class="govuk-form-group" *ngIf="!isCustomMfaEnabled"  id="user-mfa-form-group"
+                    <div class="govuk-form-group" *ngIf="!isCustomMfaEnabled" id="user-mfa-form-group"
                         [class.govuk-form-group--error]="submitted && (mfaAdminValidationError)">
                         <fieldset class="govuk-fieldset">
                             <h2 class="govuk-heading-s">
@@ -155,7 +173,7 @@
                             </span>
                             <div class="govuk-checkboxes__item label-detail-text-gap">
                                 <input class="govuk-checkboxes__input" id="mfachkBox" formControlName="mfaEnabled"
-                                    [attr.disabled]="isAutoDisableMFA == true ? true : null" type="checkbox">
+                                    [attr.disabled]="(isAutoDisableMFA == true || isDormantUser ==true) ? true : null" type="checkbox">
                                 <label class="govuk-label govuk-checkboxes__label" for="mfachkBox">
                                     Additional security using digital device
                                 </label>
@@ -191,15 +209,15 @@
                             </div>
                             <div class="govuk-radios" data-module="govuk-radios">
                                 <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" id="mfa-on" name="whereDoYouLive"
-                                        type="radio" [value]="true" formControlName="mfaEnabled" [attr.disabled] = false>
+                                    <input class="govuk-radios__input" id="mfa-on" name="mfaEnabled" type="radio"
+                                        [value]="true" formControlName="mfaEnabled" [attr.disabled]="true">
                                     <label class="govuk-label govuk-radios__label" for="mfa-on">
                                         <strong> {{'MFA_ON' | translate}} </strong>
                                     </label>
                                 </div>
                                 <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" id="mfa-off" name="whereDoYouLive"
-                                        type="radio" [value]="false" formControlName="mfaEnabled" [attr.disabled] = false>
+                                    <input class="govuk-radios__input" id="mfa-off" name="mfaEnabled" type="radio"
+                                        [value]="false" formControlName="mfaEnabled" [attr.disabled]="true">
                                     <label class="govuk-label govuk-radios__label" for="mfa-off">
                                         <strong> {{'MFA_OFF'| translate }} </strong>
                                     </label>
@@ -207,12 +225,14 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div *ngIf="(isCustomMfaEnabled && isEdit && isMfaEnabledForUser) || (!isUserMfaOpted && isCustomMfaEnabled && isEdit)">
+                    <div
+                        *ngIf="(isCustomMfaEnabled && isEdit && isMfaEnabledForUser) || (!isUserMfaOpted && isCustomMfaEnabled && isEdit)">
                         <div id="reset-mfa-hint" class="govuk-hint" style="margin-top: 15px;">
                             {{ 'RESET_USER_MFA_HINT' | translate }}
                         </div>
                         <button type="button" (click)="ResetAdditionalSecurity()" class="govuk-button"
-                            data-module="govuk-button" [disabled]="!isUserMfaOpted">{{ 'RESET_2FA_USER_BTN' |
+                            data-module="govuk-button" [disabled]="!isUserMfaOpted || isDormantUser">{{
+                            'RESET_2FA_USER_BTN' |
                             translate }}
                         </button>
                     </div>
@@ -223,14 +243,20 @@
                         <app-details [detailsData]="detailsData[1]"></app-details>
                     </fieldset>
                     <div *ngIf="isEdit">
-                        <app-accordion [headerTextKeys]="groupsMember.headerTextKey" [headerText]="groupsMember.headerText" [accessTable]="groupsMember.accessTable" [data]="groupsMember.data"
-                        [isAdmin]="groupsMember.isAdmin" [groupShow]="groupsMember.groupShow" [noRoleText]="groupsMember.noRoleText"
-                       (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)" ></app-accordion>
+                        <app-accordion [headerTextKeys]="groupsMember.headerTextKey"
+                            [headerText]="groupsMember.headerText" [accessTable]="groupsMember.accessTable"
+                            [data]="groupsMember.data" [isAdmin]="groupsMember.isAdmin"
+                            [groupShow]="groupsMember.groupShow" [noRoleText]="groupsMember.noRoleText"
+                            (checkBoxAddRoles)="groupsMemberCheckBoxAddRoles($event)"
+                            (checkBoxRemoveRoles)="groupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
                     </div>
                     <div>
-                        <app-accordion [headerTextKeys]="noneGroupsMember.headerTextKey" [headerText]="noneGroupsMember.headerText"  [accessTable]="noneGroupsMember.accessTable" [data]="noneGroupsMember.data" 
-                        [isAdmin]="noneGroupsMember.isAdmin" [groupShow]="noneGroupsMember.groupShow" [noRoleText]="noneGroupsMember.noRoleText"
-                        (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)" (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
+                        <app-accordion [headerTextKeys]="noneGroupsMember.headerTextKey"
+                            [headerText]="noneGroupsMember.headerText" [accessTable]="noneGroupsMember.accessTable"
+                            [data]="noneGroupsMember.data" [isAdmin]="noneGroupsMember.isAdmin"
+                            [groupShow]="noneGroupsMember.groupShow" [noRoleText]="noneGroupsMember.noRoleText"
+                            (checkBoxAddRoles)="noneGroupsMemberCheckBoxAddRoles($event)"
+                            (checkBoxRemoveRoles)="noneGroupsMemberCheckBoxRemoveRoles($event)"></app-accordion>
                     </div>
                     <!-- <div class="govuk-form-group" id="user-group-form-group">
                         <fieldset class="govuk-fieldset">
@@ -268,7 +294,8 @@
                             </legend>
                             <app-details [detailsData]="detailsData[2]"></app-details>
                             <div>
-                                <span class="table_caption">To help you choose the correct roles use the table below:</span>
+                                <span class="table_caption">To help you choose the correct roles use the table
+                                    below:</span>
                                 <table style="width:100%">
                                     <tr>
                                         <th>For whom</th>
@@ -354,7 +381,7 @@
                                     </label>
                                     <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.pendingStatus">
                                         Pending Approval
-                                      </strong>
+                                    </strong>
                                 </div>
                             </div>
 
@@ -369,74 +396,94 @@
 
                             <div class="govuk-tabs" data-module="govuk-tabs">
                                 <ul class="govuk-tabs__list">
-                                  <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.userservices}" (click)="tabChanged('user-service')">
-                                    <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;" >
-                                        Individual access
-                                    </a>
-                                  </li>
-                                  <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.groupservices}" (click)="tabChanged('group-service')">
-                                    <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;" >
-                                        Group access
-                                    </a>
-                                  </li>
+                                    <li class="govuk-tabs__list-item"
+                                        [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.userservices}"
+                                        (click)="tabChanged('user-service')">
+                                        <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+                                            Individual access
+                                        </a>
+                                    </li>
+                                    <li class="govuk-tabs__list-item"
+                                        [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.groupservices}"
+                                        (click)="tabChanged('group-service')">
+                                        <a class="govuk-tabs__tab" href="javascript:;" onClick="return false;">
+                                            Group access
+                                        </a>
+                                    </li>
                                 </ul>
-                                <div class="govuk-tabs__panel" id="user-service" [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.userservices}">
-                            <div class="govuk-grid-row">
-                                <div class="govuk-grid-column-full">
-                                    <h2 class="govuk-heading-m">Individual access</h2>
-                                    <p class="govuk-hints">{{ 'ACCESS_TO_USER_SERVICE'| translate }}</p>
-                                    <div class="govuk-checkboxes">
-                                        <ng-container *ngFor="let orgRole of orgRoles; let i=index">
-                                            <div class="govuk-checkboxes__item govuk-item-custom" *ngIf="orgRole.roleKey != 'ORG_DEFAULT_USER' && orgRole.roleKey != 'ORG_ADMINISTRATOR'">
-                                                <input class="govuk-checkboxes__input" id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                                    [attr.disabled]="isEdit && getDisbleRoleForService(orgRole.roleKey) ? true : null"
-                                                    [formControlName]="'orgRoleControl_' + orgRole.roleId" type="checkbox"
-                                                    (ngModelChange)="onUserRoleChecked(orgRole, $event)" value="hmrc">
-                                                <label
-                                                    class="govuk-label govuk-checkboxes__label role_lable" [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
-                                                    for="{{'orgRoleControl_' + orgRole.roleId}}">
-                                                    {{orgRole.roleName}}
-                                                </label>
-                                                <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.pendingStatus">
-                                                    Pending Approval
-                                                </strong>
-                                                <p class="govuk-body description_para govuk-!-padding-top-0">{{orgRole.description}} </p>
+                                <div class="govuk-tabs__panel" id="user-service"
+                                    [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.userservices}">
+                                    <div class="govuk-grid-row">
+                                        <div class="govuk-grid-column-full">
+                                            <h2 class="govuk-heading-m">Individual access</h2>
+                                            <p class="govuk-hints">{{ 'ACCESS_TO_USER_SERVICE'| translate }}</p>
+                                            <div class="govuk-checkboxes">
+                                                <ng-container *ngFor="let orgRole of orgRoles; let i=index">
+                                                    <div class="govuk-checkboxes__item govuk-item-custom"
+                                                        *ngIf="orgRole.roleKey != 'ORG_DEFAULT_USER' && orgRole.roleKey != 'ORG_ADMINISTRATOR'">
+                                                        <input class="govuk-checkboxes__input"
+                                                            id="{{'orgRoleControl_' + orgRole.roleId}}"
+                                                            [attr.disabled]="(isEdit && isDormantUser )||  (isEdit && getDisbleRoleForService(orgRole.roleKey)) ? true : null"
+                                                            [formControlName]="'orgRoleControl_' + orgRole.roleId"
+                                                            type="checkbox"
+                                                            (ngModelChange)="onUserRoleChecked(orgRole, $event)"
+                                                            value="hmrc">
+                                                        <label class="govuk-label govuk-checkboxes__label role_lable"
+                                                            [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
+                                                            for="{{'orgRoleControl_' + orgRole.roleId}}">
+                                                            {{orgRole.roleName}}
+                                                        </label>
+                                                        <strong class="govuk-tag govuk-tag--grey"
+                                                            *ngIf="orgRole.pendingStatus">
+                                                            Pending Approval
+                                                        </strong>
+                                                        <p class="govuk-body description_para govuk-!-padding-top-0">
+                                                            {{orgRole.description}} </p>
+                                                    </div>
+                                                </ng-container>
                                             </div>
-                                        </ng-container>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="govuk-tabs__panel" id="group-service"
+                                    [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.groupservices}">
+                                    <h2 class="govuk-heading-m">Group access</h2>
+                                    <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 ? true : false">{{
+                                        'ACCESS_TO_GROUP_SEVICE'| translate }}
+                                        <a class="navigation-text" (click)="scrollContent('GROUPS')">manage group
+                                            membership</a> {{ 'ORG_ADMIN_GROUP_MEMBER'| translate }}
+                                    </p>
+                                    <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 ? true : false">{{
+                                        'NO_GROUP_ROLE_ACCESS_ADDUSER'| translate }}
+                                        <a class="navigation-text" (click)="scrollContent('GROUPS')">manage group
+                                            membership</a> {{'NO_GROUP_ROLE_ACCESS_ADDUSER_END' | translate}}
+                                    </p>
+                                    <div class="govuk-checkboxes govuk-checkboxes-custom-input">
+                                        <div class="govuk-checkboxes__item govuk-item-custom"
+                                            *ngFor="let orgRole of orgUserGroupRoles; let i=index">
+                                            <input class="govuk-checkboxes__input"
+                                                id="{{'orgRoleControlGroup_' + orgRole.id}}" [attr.disabled]="true"
+                                                [attr.checked]="true"
+                                                [formControlName]="'orgRoleControlGroup_' + orgRole.id" type="checkbox"
+                                                value="hmrc">
+                                            <label class="govuk-label govuk-checkboxes__label role_lable"
+                                                [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
+                                                for="{{'orgRoleControlGroup_' + orgRole.id}}">
+                                                {{orgRole.name}}
+                                            </label>
+                                            <strong class="govuk-tag govuk-tag--grey"
+                                                *ngIf="orgRole.approvalStatus == 0 ? true : false">
+                                                Pending Approval
+                                            </strong>
+                                            <p class="govuk-body description_para govuk-!-padding-top-0">
+                                                {{orgRole.description}} </p>
+                                        </div>
                                     </div>
 
                                 </div>
                             </div>
-                                </div>
-                                <div class="govuk-tabs__panel" id="group-service" [ngClass]="{'govuk-tabs__panel--hidden' : !tabConfig.groupservices}">
-                                    <h2 class="govuk-heading-m">Group access</h2>
-                                    <p class="govuk-hints" *ngIf="orgUserGroupRoles.length > 0 ? true : false">{{ 'ACCESS_TO_GROUP_SEVICE'| translate }}
-                                        <a class="navigation-text" (click)="scrollContent('GROUPS')">manage group membership</a> {{ 'ORG_ADMIN_GROUP_MEMBER'| translate }}
-                                    </p>
-                                    <p class="govuk-hints" *ngIf="orgUserGroupRoles.length <= 0 ? true : false">{{ 'NO_GROUP_ROLE_ACCESS_ADDUSER'| translate }} 
-                                        <a class="navigation-text" (click)="scrollContent('GROUPS')">manage group membership</a> {{'NO_GROUP_ROLE_ACCESS_ADDUSER_END' | translate}}
-                                    </p>
-                                    <div class="govuk-checkboxes govuk-checkboxes-custom-input">
-                                        <div class="govuk-checkboxes__item govuk-item-custom" *ngFor="let orgRole of orgUserGroupRoles; let i=index">
-                                            <input class="govuk-checkboxes__input" id="{{'orgRoleControlGroup_' + orgRole.id}}"
-                                                [attr.disabled]="true" [attr.checked]="true"
-                                                [formControlName]="'orgRoleControlGroup_' + orgRole.id" type="checkbox"
-                                                value="hmrc">
-                                            <label
-                                                class="govuk-label govuk-checkboxes__label role_lable" [ngClass]="{'govuk-!-padding-top-0': orgRole.description != ''}"
-                                                for="{{'orgRoleControlGroup_' + orgRole.id}}">
-                                                {{orgRole.name}}
-                                            </label>
-                                            <strong class="govuk-tag govuk-tag--grey" *ngIf="orgRole.approvalStatus == 0 ? true : false">
-                                                Pending Approval
-                                              </strong>
-                                              <p class="govuk-body description_para govuk-!-padding-top-0">{{orgRole.description}} </p>
-                                        </div>
-                                    </div>
-                                  
-                                </div>
-                              </div>
-                            
+
                         </fieldset>
                     </div>
                     <div class="govuk-form-group" id="signin-provider-form-group"
@@ -446,9 +493,12 @@
                                 {{ 'SIGN_IN_PROVIDER'| translate }}
                             </h2>
                             <span class="sign_in_prov">
-                                {{ idpStatus == false ? 'A sign in provider gives users the option to use a different service to sign in. Sign in
+                                {{ idpStatus == false ? 'A sign in provider gives users the option to use a different
+                                service to sign in. Sign in
                                 providers are set at an organisational level. To update the sign in providers for your
-                                Organisation’s users please go to Manage organisations' : (idpStatus == true ? 'You can only use a User ID and password to sign in. You may be able to use additional sign-in methods in the future.' : '')}}
+                                Organisation’s users please go to Manage organisations' : (idpStatus == true ? 'You can
+                                only use a User ID and password to sign in. You may be able to use additional sign-in
+                                methods in the future.' : '')}}
                             </span>
                             <span id="group-error" class="govuk-error-message label-detail-text-gap"
                                 *ngIf="submitted && formGroup.hasError('identityProviderRequired')">
@@ -473,7 +523,8 @@
                     </div>
 
                     <div class="govuk-button-group save-cancel-button-group">
-                        <button type="submit" class="govuk-button" (click)="pushDataLayerEvent()" [disabled]="!isFormChanges" data-module="govuk-button">
+                        <button type="submit" class="govuk-button" [disabled]="!isFormChanges || isDormantUser"
+                            data-module="govuk-button">
                             {{ 'SAVE_BTN' | translate }}
                         </button>
                         <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
@@ -484,20 +535,31 @@
 
                     <button *ngIf="isEdit == true && userProfileResponseInfo.detail.canChangePassword" type="button"
                         (click)="onResetPasswordClick()" class="govuk-button govuk-button--secondary"
-                        data-module="govuk-button">
+                        [disabled]="isDormantUser" data-module="govuk-button">
                         {{ 'RESET_USER_PASSWORD_BTN' | translate }}
                     </button>
                     <br>
-                    <button *ngIf="isEdit && !isCustomMfaEnabled" (click)="ResetAdditionalSecurity()" type="button" class="govuk-button govuk-button--secondary"
-                        data-module="govuk-button" [disabled]="!MFA_Enabled">
+                    <button *ngIf="isEdit && !isCustomMfaEnabled" (click)="ResetAdditionalSecurity()" type="button"
+                        class="govuk-button govuk-button--secondary" data-module="govuk-button"
+                        [disabled]="!MFA_Enabled || isDormantUser">
                         Reset user’s additional security
                     </button>
+                    <!-- <div *ngIf="isEdit==true">
+
+                        <a routerLink="/manage-users/confirm-user-delete" (click)="onDeleteClick()"
+                            class="navigation-text delete-link">{{
+                            'DELETE_USER'
+                            | translate }}</a>
+                    </div> -->
                     <div *ngIf="isEdit==true">
-                        
-                        <a routerLink="/manage-users/confirm-user-delete" (click)="onDeleteClick()"  class="navigation-text delete-link">{{
-                                'DELETE_USER'
-                                | translate }}</a>
+                        <a *ngIf="isEdit && !isDormantUser" routerLink="/manage-users/confirm-user-deactivate"
+                            (click)="onDeactivateClick()" class="navigation-text delete-link">
+                            {{'DEACTIVATE_USER' | translate }}</a>
+                        <a *ngIf="isEdit && isDormantUser" routerLink="/manage-users/confirm-user-reactivate"
+                            (click)="onReactivateUserClick()" class="navigation-text delete-link">
+                            {{'REACTIVATE_USER' | translate}}</a>
                     </div>
+
                 </div>
             </form>
         </div>
