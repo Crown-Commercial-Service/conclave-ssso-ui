@@ -1,23 +1,33 @@
-<table class="govuk-table">
+<div class="table-scrolls">
+  <table class="govuk-table" *ngIf="registries">
+    
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-half" *ngFor="let header of headerText">{{header}}</th>
+        <th scope="row" class="govuk-table__header">Registry</th>
+        <th scope="col" class="govuk-table__header">ID</th>
+        <th scope="col" class="govuk-table__header" *ngIf="pageName != 'MSE' && pageName != 'MBSR'">Legal name</th>
+        <td scope="col" class="govuk-table__header"></td>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      <tr class="govuk-table__row" *ngFor="let tableinfo of data">
-        <th scope="row" class="govuk-table__header" >{{tableinfo.name}}</th>
-        <td class="govuk-table__cell">{{tableinfo.id}}</td>
-        <td class="govuk-table__cell" *ngIf="tableinfo.legalName != ''">{{tableinfo.legalName}}</td>
-        <td class="govuk-table__cell" *ngIf="tableinfo.type !=  'Link'">{{tableinfo.type}}</td>
-        <td class="govuk-table__cell" *ngIf="tableinfo.type === 'Link'" (click)="onRowClick(tableinfo)"><a>Remove</a></td>
+      <tr class="govuk-table__row" *ngFor="let row of tableVisibleData;">
+        <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
+        <td class="govuk-table__cell">{{ row.id }}</td>
+        <td class="govuk-table__cell" *ngIf="pageName == 'MO'">{{ row.legalName}}</td>
+        <td class="govuk-table__cell" *ngIf="row.primary === false && pageName != 'MSE' && pageName != 'MBSR'" (click)="onRowClick(row)"><a >Remove</a></td>
+        <td class="govuk-table__cell" *ngIf="row.primary === true && pageName != 'MO'">Primary</td>
+        <td class="govuk-table__cell" *ngIf="row.primary === true"><a></a></td>
+        <td class="govuk-table__cell" *ngIf="row.primary === false"><a></a></td>
       </tr>
     </tbody>
   </table>
-  <p class="govuk-body govuk-!-font-weight-bold" *ngIf="data == undefined">
+  <p class="govuk-body govuk-!-font-weight-bold" *ngIf="tableVisibleData == undefined">
     There are no matching results.
 </p>
+</div>
 <div *ngIf="
+    (useServerPagination == true || useClientPagination == true) &&
+    pageCount &&
     pageCount > 1 &&
     tableVisibleData.length != 0
   " class="pagination-area" aria-label="Pagination">

@@ -59,15 +59,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
       organisationAuditEventList: [],
     },
   };
-  public registriesTableDetails = {
-    headerText : ["Registry","ID",""],
-    data : [{
-      name:'',
-      id:'',
-      legalName:'',
-      type:''
-    } ]
-  }
+
   public isDeletedOrg: boolean = false
   constructor(
     private route: ActivatedRoute,
@@ -101,7 +93,9 @@ export class ViewVerifiedOrgComponent implements OnInit {
   async ngOnInit() {
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
-      this.getPendingVerificationOrg()
+      setTimeout(() => {
+        this.getPendingVerificationOrg()
+       }, 500);
     });
     this.router.events.subscribe(value => {
       this.dataLayerService.pushEvent({ 
@@ -130,7 +124,6 @@ export class ViewVerifiedOrgComponent implements OnInit {
         if (this.registries != undefined) {
           this.additionalIdentifiers = this.registries?.additionalIdentifiers;
         }
-        this.setRegistriesTableDetails()
       })
       .catch((err) => {
         this.additionalIdentifiers = undefined
@@ -374,24 +367,6 @@ export class ViewVerifiedOrgComponent implements OnInit {
         this.router.navigateByUrl('delegated-error');
       },
     });
-  }
-
-  public setRegistriesTableDetails(){
-    this.registriesTableDetails.data.forEach((f)=>{
-      f.name = this.getSchemaName(this.registries.identifier?.scheme)
-      f.id = this.registries.identifier?.id
-      f.type = 'Primary'
-      f.legalName = ''
-    })
-    this.additionalIdentifiers?.forEach(((f)=>{
-      let data = {
-        name : this.getSchemaName(f.scheme),
-        id : this.getId(f.id, f.scheme),
-        type : '',
-        legalName : ''
-      }
-      this.registriesTableDetails.data.push(data)
-    }))
   }
   
 }

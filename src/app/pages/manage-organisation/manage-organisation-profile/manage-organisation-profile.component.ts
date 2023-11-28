@@ -59,15 +59,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     selectedOption:string = "";
     originalSelectedOption : string = "";
     isMfaOptionChanged : boolean = false;
-    public registriesTableDetails = {
-        headerText : ["Registry","ID","Legal name",""],
-        data : [{
-          name:'',
-          id:'',
-          legalName:'',
-          type:''
-        } ]
-      }
+  
 
     constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
@@ -84,6 +76,13 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     }
 
     async ngOnInit() {
+     setTimeout(() => {
+        this.initialization()
+     }, 500);
+    }
+
+
+    public async initialization(){
         const ciiOrgId = this.tokenService.getCiiOrgId();
         this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
         var org = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
@@ -130,8 +129,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                 data.additionalIdentifiers.forEach((Identifier:any)=>{
                  if(Identifier.scheme != this.pponSchema){
                     this.additionalIdentifiers.push(Identifier)
-                  }   
-                  this.setRegistriesTableDetails()
+                  }
                 })
             }).catch(e => {
             });
@@ -174,7 +172,6 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
            });
         })
     }
-
     public onContactAddClick() {
         let data = {
             'isEdit': false,
@@ -224,7 +221,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     }
 
     public generateRegistryRemoveRoute(row: any): any {
-        this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/delete/${this.getSchema(row.name)}/${row.id}`);
+        this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/delete/${row.scheme}/${row.id}`);
       }
 
     public onIdentityProviderChange(e: any, row: any) {
@@ -348,28 +345,5 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 		});
 	  }
 
-      public setRegistriesTableDetails(){
-        this.registriesTableDetails.data.forEach((f)=>{
-          f.name = this.getSchemaName(this.registries.identifier?.scheme)
-          f.id = this.registries.identifier?.id
-          f.type = ''
-          f.legalName = this.registries.identifier?.legalName
-        })
-        this.additionalIdentifiers?.forEach(((f)=>{
-          let data = {
-            name : this.getSchemaName(f.scheme),
-            id : f.id,
-            type : 'Link',
-            legalName : f.legalName
-          }
-          this.registriesTableDetails.data.push(data)
-          for (let i = 0; i < 10; i++) {
-            // Your code to repeat goes here
-            this.registriesTableDetails.data.push(data)
-          }
-        }))
-
-    
-      }
   
 }

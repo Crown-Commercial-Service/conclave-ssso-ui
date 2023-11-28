@@ -154,35 +154,9 @@
 
   <h2 class="govuk-heading-s" *ngIf="registries">Registries</h2>
   <app-details [detailsData]="detailsData[2]"></app-details>
-  <div class="table-scrolls">
-  <table class="govuk-table" *ngIf="registries">
-    <h2 class="govuk-table__caption govuk-table__caption--m govuk-heading-s">Below are the registries currently linked to your
-      organisation</h2>
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header">Registry</th>
-        <th scope="col" class="govuk-table__header">ID</th>
-        <th scope="col" class="govuk-table__header">Legal name</th>
-        <td scope="col" class="govuk-table__header"></td>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header">{{ getSchemaName(registries.identifier?.scheme || '') }}</th>
-        <td class="govuk-table__cell">{{ registries.identifier?.id}}</td>
-        <td class="govuk-table__cell">{{ registries.identifier?.legalName}}</td>
-        <td class="govuk-table__cell"></td>
-      </tr>
-      <tr class="govuk-table__row" *ngFor="let row of additionalIdentifiers;">
-        <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
-        <td class="govuk-table__cell">{{ row.id }}</td>
-        <td class="govuk-table__cell">{{ row.legalName}}</td>
-        <td class="govuk-table__cell"><a (click)="generateRegistryRemoveRoute(row)">Remove</a></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<app-registry-govuk-table [headerText]="registriesTableDetails.headerText" [data]="registriesTableDetails.data" (hyperLinkClickEvent)="generateRegistryRemoveRoute($event)" ></app-registry-govuk-table>
+  <h2 class="govuk-heading-s">Below are the registries currently linked to your
+    organisation</h2>
+ <app-registry-govuk-table  [pageName]="'MO'" (hyperLinkClickEvent)="generateRegistryRemoveRoute($event)" ></app-registry-govuk-table>
 
   <div class="govuk-form-group govuk-button-group" *ngIf="registries != null">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"

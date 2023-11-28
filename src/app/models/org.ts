@@ -44,4 +44,5 @@ export interface CiiAdditionalIdentifier {
     id: string;
     legalName: string;
     scheme: string;
+    primary?:boolean;
 }

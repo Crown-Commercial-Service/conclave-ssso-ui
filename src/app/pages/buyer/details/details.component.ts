@@ -25,15 +25,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   public selectedOrgId: string = '';
   public schemeData: any[] = [];
-  public registriesTableDetails = {
-    headerText : ["Registry","ID",""],
-    data : [{
-      name:'',
-      id:'',
-      legalName:'',
-      type:''
-    } ]
-  }
+
   constructor(private ciiService: ciiService, private organisationService: WrapperOrganisationService,private SharedDataService:SharedDataService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
@@ -45,14 +37,9 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
     this.route.params.subscribe(async params => {
       if (params.id) {
         this.selectedOrgId = params.id;
-        this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
-        this.org = await this.organisationService.getOrganisation(params.id).toPromise();
-        // Passing true to get hidden identifier for manage services eligibility page
-        this.registries = await this.ciiService.getOrgDetails(params.id, true).toPromise();
-        if (this.registries != undefined) {
-          this.additionalIdentifiers = this.registries?.additionalIdentifiers;
-        }
-        this.setRegistriesTableDetails()
+        setTimeout(() => {
+        this.getOrgDetails(params.id)
+        }, 500);
       }
     });
     this.router.events.subscribe(value => {
@@ -66,41 +53,10 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
     })
   }
 
- public setRegistriesTableDetails(){
-  this.registriesTableDetails.data.forEach((f)=>{
-    f.name = this.getSchemaName(this.registries.identifier?.scheme)
-    f.id = this.registries.identifier?.id
-    f.type = 'Primary',
-    f.legalName = ''
-  })
+  public async getOrgDetails(id:any){
+    this.org = await this.organisationService.getOrganisation(id).toPromise();
 
-  this.additionalIdentifiers?.forEach(((f)=>{
-    let data = {
-      name : this.getSchemaName(f.scheme),
-      id : this.getId(f.id, f.scheme),
-      type : '',
-      legalName : '',
-    }
-    this.registriesTableDetails.data.push(data)
-  }))
- }
-
-  public getSchemaName(schema: any): string {
-    let selecedScheme = this.schemeData.find(s => s.scheme === schema);    
-    if (schema === 'GB-CCS') {
-      return 'Internal Identifier';
-    }
-    else if(selecedScheme?.schemeName) {
-      return selecedScheme?.schemeName;
-    }
-    else {
-      return '';
-    }
   }
-
-  public getId(id:string, schema: string): string {
-    return this.SharedDataService.getId(id,schema)
-   }
 
   public convertIdToHyphenId(id:string): string {    
   return this.SharedDataService.convertIdToHyphenId(id)
