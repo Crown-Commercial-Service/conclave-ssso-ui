@@ -20,6 +20,7 @@ import { WorkerService } from 'src/app/services/worker.service';
 import { environment } from 'src/environments/environment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 
 @Component({
@@ -45,7 +46,8 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
         private workerService : WorkerService,
         private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, 
         protected scrollHelper: ScrollHelper,private delegatedApiService: WrapperUserDelegatedService,
-        private dataLayerService: DataLayerService
+        private dataLayerService: DataLayerService,
+        private sessionService: SessionService
 
     ) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -73,6 +75,7 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                     localStorage.setItem('permission_organisation_id', accessToken.ciiOrgId);
                     localStorage.setItem('delegatedOrg', '');
                     this.workerService.storeTokenInWorker(tokenInfo);
+                    this.sessionService.encrypt_user_name(idToken.email)
                     localStorage.setItem('user_name', idToken.email);
                     localStorage.setItem('at_exp', accessToken.exp);
                     localStorage.setItem('session_state', tokenInfo.session_state);
