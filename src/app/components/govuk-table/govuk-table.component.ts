@@ -34,6 +34,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Output() checkBoxClickEvent = new EventEmitter<any>();
   @Output() radioClickEvent = new EventEmitter<any>();
   @Output() changeCurrentPageEvent = new EventEmitter<number>();
+  @Input() isRadioDisabled?: (dataRow: any) => boolean;
 
   pageCount?: number | any;
   currentPage: number = 1;
@@ -78,8 +79,10 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
       this.checkBoxClickEvent.emit(dataRow);
     }
     else if (this.isRadioVisible) {
-      this.selectedRadioId = 'table-radio-id-' + index;
-      this.radioClickEvent.emit(dataRow);
+      if (!dataRow.isDormant) {
+        this.selectedRadioId = 'table-radio-id-' + index;
+        this.radioClickEvent.emit(dataRow);
+      }
     }
     else if (this.isHyperLinkVisible || this.hyperArrayVisible) {
       if(this.hyperArrayVisible){

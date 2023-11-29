@@ -143,4 +143,8 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
           page_location: "Assign a user's contacts to your organisation account"
         });
       }
+
+      isRadioDisabled(dataRow: any): boolean {
+        return dataRow['isDormant'] === true;
+      }
 }

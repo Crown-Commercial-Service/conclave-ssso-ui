@@ -138,6 +138,10 @@ export class ViewVerifiedOrgComponent implements OnInit {
     window.location.href = AdminEmail;
   }
 
+  filterDormantUsers(users: any[]): any[] {
+    return users.filter(user => !user.isDormant);
+  }
+
   public getOrganisationUsers() {
     this.WrapperOrganisationGroupService.getUsersAdmin(
       this.routeDetails.event.organisationId,
@@ -147,7 +151,11 @@ export class ViewVerifiedOrgComponent implements OnInit {
     ).subscribe({
       next: (response: any) => {
         if (response != null) {
-          this.organisationAdministrator.userListResponse = response;
+          const filteredUsers = this.filterDormantUsers(response.userList);
+          this.organisationAdministrator.userListResponse = {
+            ...response,
+            userList: filteredUsers,
+          };
           this.organisationAdministrator.userListResponse.userList.forEach(
             (f: any) => {
               f.role = 'Admin';

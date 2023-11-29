@@ -86,7 +86,8 @@
             </div>
           </div>
         </td>
-        <td class="govuk-table__cell" *ngIf="isRadioVisible == true">
+        <td class="govuk-table__cell" *ngIf="isRadioVisible == true"
+          [ngClass]="{'isDisabled': isRadioDisabled && isRadioDisabled(dataRow)}">
           <fieldset class="govuk-fieldset">
             <legend style="display: none; visibility: hidden" class="govuk-fieldset__legend"></legend>
             <div class="govuk-radios">

@@ -45,7 +45,8 @@
         <div class="govuk-grid-column-full">
             <div class="user-table">
                 <app-govuk-table [headerTextKeys]="usersTableHeaders" [data]="userList.userList"
-                    [dataKeys]="usersColumnsToDisplay" [isRadioVisible]="true" (radioClickEvent)="onSelectRow($event)"
+                    [dataKeys]="usersColumnsToDisplay" [isRadioVisible]="true" [isRadioDisabled]="isRadioDisabled" 
+                    (radioClickEvent)="onSelectRow($event)"
                     [useServerPagination]="true" [serverPageCount]="pageCount" [serverPageCurrentPage]="currentPage"
                     (changeCurrentPageEvent)="setPage($event)"></app-govuk-table>
             </div>
