@@ -1388,7 +1388,7 @@ const routes: Routes = [
   path :'manage-org-mfa-update-success',
   data: { title: 'Organisation Mfa Update' },
   pathMatch : 'full',
-  canActivate: [MfaGuard],
+  canActivate: [AuthGuard],
   component : ManageOrgMfaUpdateSuccessComponent
  },
  {
