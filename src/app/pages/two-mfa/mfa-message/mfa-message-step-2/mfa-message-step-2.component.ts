@@ -25,6 +25,7 @@ import { environment } from "src/environments/environment";
 export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     formGroup: FormGroup;
     public phonenumber: string = localStorage.getItem('phonenumber') ?? '';
+    public isMfaOpted : boolean = false;
     otp: string = "";
     authcode: string = "";
     auth0token: string = "";
@@ -56,6 +57,8 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
 
             next: (response) => {
                 this.submitted = false;
+                this.isMfaOpted = true;
+                localStorage.setItem('mfa_opted',JSON.stringify(this.isMfaOpted));
                 this.router.navigateByUrl('/home');
             },
 

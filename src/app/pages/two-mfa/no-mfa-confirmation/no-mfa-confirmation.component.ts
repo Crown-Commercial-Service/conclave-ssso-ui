@@ -24,6 +24,7 @@ import { environment } from "src/environments/environment";
 })
 export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit {
     userName = localStorage.getItem('user_name') ?? ''
+    public isMfaOpted : boolean = false;
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, private wrapperUserService: WrapperUserService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -38,6 +39,8 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
     public onDontTurnOnClick() {
         this.wrapperUserService.resetMfaopted(this.userName, true).subscribe({
             next: (response) => {
+                this.isMfaOpted = true;
+                localStorage.setItem('mfa_opted',JSON.stringify(this.isMfaOpted));
                 this.router.navigateByUrl('/home');
 
             },
