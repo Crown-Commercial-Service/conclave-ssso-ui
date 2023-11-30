@@ -13,6 +13,7 @@ import { UserListInfo } from "src/app/models/user";
 import { OperationEnum } from "src/app/constants/enum";
 import { Title } from "@angular/platform-browser";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-manage-group-edit-users-confirm',
@@ -36,7 +37,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
     usersTableHeaders = ['NAME', 'EMAIL'];
     usersColumnsToDisplay = ['name', 'userName'];
     groupName:string=''
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
+    constructor(protected uiStore: Store<UIState>,private sessionService:SessionService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
@@ -61,7 +62,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })

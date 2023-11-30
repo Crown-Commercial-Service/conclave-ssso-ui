@@ -15,6 +15,7 @@ import { TokenService } from 'src/app/services/auth/token.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-registry-confirm-additional-identifiers',
@@ -40,7 +41,7 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
   public user!: User;
   public orgId!: string;
 
-  constructor(private ciiService: ciiService, private wrapperService: WrapperUserService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+  constructor(private ciiService: ciiService,private sessionService:SessionService, private wrapperService: WrapperUserService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.organisationId = JSON.parse(localStorage.getItem('organisation_id') + '');
     this.orgId = JSON.parse(localStorage.getItem('organisation_id') + '');
@@ -96,7 +97,7 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
       this.dataLayerService.pushEvent({ 
        event: "page_view" ,
        page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
+       user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
        scheme: this.routeParams.scheme,
        id: this.routeParams.id,

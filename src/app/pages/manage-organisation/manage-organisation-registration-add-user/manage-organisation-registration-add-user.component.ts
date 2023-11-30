@@ -13,6 +13,7 @@ import { UserTitleEnum } from 'src/app/constants/enum';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { environment } from 'src/environments/environment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-organisation-registration-add-user',
@@ -33,7 +34,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,
-    private PatternService: PatternService,
+    private PatternService: PatternService,private sessionService:SessionService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private ActivatedRoute: ActivatedRoute, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
@@ -68,7 +69,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
       this.dataLayerService.pushEvent({ 
        event: "page_view" ,
        page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
+       user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
     })

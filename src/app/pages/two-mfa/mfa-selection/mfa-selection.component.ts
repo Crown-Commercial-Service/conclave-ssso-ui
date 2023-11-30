@@ -13,6 +13,7 @@ import { TokenInfo } from "src/app/models/auth";
 import { HelperService } from "src/app/shared/helper.service";
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 
 @Component({
@@ -41,7 +42,7 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
 
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, private helperService: HelperService,
-        private wrapperOrganisationService : WrapperOrganisationService, private tokenService : TokenService,
+        private wrapperOrganisationService : WrapperOrganisationService,private sessionService:SessionService, private tokenService : TokenService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
     }
@@ -51,7 +52,7 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })

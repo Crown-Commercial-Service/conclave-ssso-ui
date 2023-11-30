@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-buyer-both-requests-success',
@@ -14,7 +15,8 @@ export class BuyerBothRequestsSuccessComponent implements OnInit {
     public route: ActivatedRoute,
     private router: Router,
     private titleService: Title,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     this.route.queryParams.subscribe((para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
@@ -44,7 +46,7 @@ export class BuyerBothRequestsSuccessComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

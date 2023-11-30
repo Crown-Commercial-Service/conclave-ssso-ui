@@ -12,6 +12,7 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 @Component({
   selector: 'app-success-org-service',
   templateUrl: './success-org-service.component.html',
@@ -34,7 +35,7 @@ export class SuccessOrgServiceComponent implements OnDestroy {
   userServiceTableHeaders = ['NAME'];
   userServiceColumnsToDisplay = ['accessRoleName',]
   constructor(private cf: ChangeDetectorRef, private organisationService: OrganisationService, 
-    private wrapperOrgService: WrapperOrganisationService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
+    private wrapperOrgService: WrapperOrganisationService,private sessionService:SessionService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
     protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     this.route.params.subscribe(params => {
       if (params.id) {
@@ -60,7 +61,7 @@ export class SuccessOrgServiceComponent implements OnDestroy {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
           id: this.id
       });

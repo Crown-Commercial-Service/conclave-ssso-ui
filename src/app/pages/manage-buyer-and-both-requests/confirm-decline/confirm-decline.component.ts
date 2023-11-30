@@ -8,6 +8,7 @@ import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-confirm-decline',
@@ -19,7 +20,7 @@ export class ConfirmDeclineComponent implements OnInit {
   public routeDetails:any;
 
   constructor(private route: ActivatedRoute, private router: Router,
-    private wrapperBuyerAndBothService:WrapperBuyerBothService, private dataLayerService: DataLayerService) {
+    private wrapperBuyerAndBothService:WrapperBuyerBothService, private dataLayerService: DataLayerService,private sessionService:SessionService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
 
@@ -31,7 +32,7 @@ export class ConfirmDeclineComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

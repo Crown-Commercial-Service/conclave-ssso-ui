@@ -14,6 +14,7 @@ import { environment } from "src/environments/environment";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { SharedDataService } from "src/app/shared/shared-data.service";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-manage-group-edit-roles',
@@ -46,7 +47,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     public showRoleView: boolean = environment.appSetting.hideSimplifyRole
     public formGroup: FormGroup | any;
     public orgAdminRole: any[] = [];
-    constructor(protected uiStore: Store<UIState>, public router: Router, private activatedRoute: ActivatedRoute, public titleService: Title,
+    constructor(protected uiStore: Store<UIState>,private sessionService:SessionService, public router: Router, private activatedRoute: ActivatedRoute, public titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, public sharedDataService: SharedDataService, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
@@ -69,7 +70,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })

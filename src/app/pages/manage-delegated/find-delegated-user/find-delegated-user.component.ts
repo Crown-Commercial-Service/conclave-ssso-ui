@@ -6,6 +6,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-find-delegated-user',
@@ -24,7 +25,8 @@ export class FindDelegatedUserComponent implements OnInit {
     public WrapperUserDelegatedService: WrapperUserDelegatedService,
     protected scrollHelper: ScrollHelper,
     private router: Router,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
@@ -34,7 +36,7 @@ export class FindDelegatedUserComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

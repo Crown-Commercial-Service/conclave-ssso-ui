@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
@@ -29,7 +30,8 @@ export class NominateSuccessComponent extends BaseComponent implements OnDestroy
     protected scrollHelper: ScrollHelper,
     private ActivatedRoute: ActivatedRoute,
     private router: Router,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.dataService.NominiData.subscribe((data) => {
@@ -50,7 +52,7 @@ export class NominateSuccessComponent extends BaseComponent implements OnDestroy
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

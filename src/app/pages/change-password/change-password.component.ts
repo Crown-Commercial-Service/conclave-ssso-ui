@@ -14,6 +14,7 @@ import { OperationEnum } from 'src/app/constants/enum';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-change-password',
@@ -37,7 +38,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
     public router: Router, protected uiStore: Store<UIState>, private location: Location,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService, private sessionService:SessionService) {
     super(uiStore,viewportScroller,scrollHelper);
     this.formGroup = this.formBuilder.group({
       currentPassword: ['', Validators.compose([Validators.required])],
@@ -52,7 +53,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
        event: "page_view" ,
        page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
+       user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
     })
@@ -96,7 +97,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
 
     this.submitted = true;
     if (this.formValid(form)) {
-      let userName = localStorage.getItem('user_name') || '';
+      let userName = this.sessionService.decrypt('user_name')
       let contactData: PasswordChangeDetail = {
         oldPassword: form.get('currentPassword')?.value,
         newPassword: form.get('newPassword')?.value,

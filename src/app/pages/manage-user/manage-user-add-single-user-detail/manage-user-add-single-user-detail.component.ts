@@ -29,6 +29,7 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { Subscription } from 'rxjs';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-user-add-single-user-detail',
@@ -133,7 +134,8 @@ export class ManageUserAddSingleUserDetailComponent
     private locationStrategy: LocationStrategy,
     private organisationService: WrapperOrganisationService,
     private sharedDataService: SharedDataService,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     super(
       viewportScroller,
@@ -224,7 +226,7 @@ export class ManageUserAddSingleUserDetailComponent
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

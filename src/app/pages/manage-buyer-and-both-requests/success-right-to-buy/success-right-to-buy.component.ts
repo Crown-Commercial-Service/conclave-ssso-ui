@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-success-right-to-buy',
@@ -9,7 +10,7 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 })
 export class SuccessRightToBuyComponent implements OnInit {
 
-  constructor(private router:Router,private route: ActivatedRoute, private dataLayerService: DataLayerService) { }
+  constructor(private sessionService:SessionService,private router:Router,private route: ActivatedRoute, private dataLayerService: DataLayerService) { }
   
   public routeDetails:any = {}
   ngOnInit(): void {
@@ -20,7 +21,7 @@ export class SuccessRightToBuyComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

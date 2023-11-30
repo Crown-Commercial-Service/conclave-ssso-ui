@@ -4,10 +4,7 @@
         <ol class="govuk-breadcrumbs__list">
             <li class="govuk-breadcrumbs__list-item">
                 <a *ngIf="this.isAdminUser" class="govuk-breadcrumbs__link" routerLink="/home">
-                    {{'ADMINISTRATOR_DASHBOARD' | translate}}
-                </a>
-                <a *ngIf="!this.isAdminUser" class="govuk-breadcrumbs__link" routerLink="/home">
-                    {{"PUBLIC_PROCUREMENT_GATEWAY_DASHBOARD" | translate}}
+                    {{isAdminUser == true ? 'Administrator dashboard' : (isAdminUser == false ? 'Public Procurement Gateway dashboard' : '')}}
                 </a>
             </li>
             <li class="govuk-breadcrumbs__list-item">

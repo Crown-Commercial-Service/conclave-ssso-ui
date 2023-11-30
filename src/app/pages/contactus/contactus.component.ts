@@ -10,6 +10,7 @@ import { ViewportScroller } from '@angular/common';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { Router } from '@angular/router';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-contactus',
@@ -29,7 +30,7 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
   formGroup: FormGroup;
   submitted: boolean = false;
 
-  constructor(public formBuilder: FormBuilder,public PatternService:PatternService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
+  constructor(public formBuilder: FormBuilder,private sessionService:SessionService,public PatternService:PatternService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService, private router: Router) {
     super(uiStore,viewportScroller,scrollHelper);
     this.formGroup = this.formBuilder.group({
@@ -44,7 +45,7 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
        event: "page_view" ,
        page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
+       user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
     })

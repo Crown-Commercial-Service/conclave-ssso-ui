@@ -13,6 +13,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'r
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { PatternService } from "src/app/shared/pattern.service";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 
 @Component({
@@ -34,7 +35,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     panelShowTimeout: any;
     searchOrgName: string = '';
 
-    constructor(private organisationService: OrganisationService,private PatternService:PatternService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
+    constructor(private sessionService:SessionService,private organisationService: OrganisationService,private PatternService:PatternService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private dataLayerService:DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
 
@@ -65,7 +66,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             this.dataLayerService.pushEvent({ 
              event: "page_view" ,
              page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
+             user_name: this.sessionService.decrypt('user_name'),
              cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
            });
         })
