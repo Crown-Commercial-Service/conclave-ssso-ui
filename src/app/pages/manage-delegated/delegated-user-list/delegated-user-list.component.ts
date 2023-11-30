@@ -66,6 +66,10 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
 
   ngOnInit() {
+    document.getElementById("totop")?.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+     });
     this.router.events.subscribe(value => {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
@@ -174,11 +178,6 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
 
   public tabChanged(activetab: string): void {
-    document.getElementById(activetab)?.scrollIntoView({
-      block: 'start',
-      inline: 'nearest',
-    });
-   
     if (activetab === 'currentusers') {
       this.tabConfig.currentusers = true
       this.tabConfig.expiredusers = false
@@ -186,7 +185,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
       this.tabConfig.expiredusers = true
       this.tabConfig.currentusers = false
     }
-
+ 
     this.dataLayerService.pushEvent({
       event: "tab_navigation",
       link_text: activetab === 'currentusers' ? "Current users with delegated access to your Organisation": "Users with expired delegated access to your Organisation"
