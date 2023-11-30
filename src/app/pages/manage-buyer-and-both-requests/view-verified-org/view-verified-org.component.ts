@@ -14,6 +14,7 @@ import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { HelperService } from 'src/app/shared/helper.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-view-verified-org',
@@ -70,7 +71,8 @@ export class ViewVerifiedOrgComponent implements OnInit {
     private ciiService: ciiService,
     private translate: TranslateService,
     public helperService:HelperService,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -101,7 +103,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

@@ -20,6 +20,7 @@ import { WorkerService } from 'src/app/services/worker.service';
 import { environment } from 'src/environments/environment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 
 @Component({
@@ -46,7 +47,8 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
         private workerService : WorkerService,
         private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, 
         protected scrollHelper: ScrollHelper,private delegatedApiService: WrapperUserDelegatedService,
-        private dataLayerService: DataLayerService
+        private dataLayerService: DataLayerService,
+        private sessionService: SessionService
 
     ) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -60,7 +62,7 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
             this.dataLayerService.pushEvent({ 
              event: "page_view" ,
              page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
+             user_name: this.sessionService.decrypt('user_name'),
              cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
            });
         })
@@ -68,13 +70,14 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
             if (params['code']) {
                 this.authService.token(params['code']).toPromise().then((tokenInfo: TokenInfo) => {
                     let idToken = this.tokenService.getDecodedToken(tokenInfo.id_token);
-                    localStorage.setItem('brickedon_user', idToken.email);
                     let accessToken = this.tokenService.getDecodedToken(tokenInfo.access_token);
                     localStorage.setItem('cii_organisation_id', accessToken.ciiOrgId);
                     localStorage.setItem('permission_organisation_id', accessToken.ciiOrgId);
                     localStorage.setItem('delegatedOrg', '');
                     this.workerService.storeTokenInWorker(tokenInfo);
-                    localStorage.setItem('user_name', idToken.email);
+                    this.sessionService.encrypt('user_name',idToken.email)
+                    // this.sessionService.encrypt('user_name',idToken.email)
+                    // localStorage.setItem('user_name', idToken.email);
                     localStorage.setItem('at_exp', accessToken.exp);
                     localStorage.setItem('session_state', tokenInfo.session_state);
                     this.authService.publishAuthStatus(true);

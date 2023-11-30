@@ -14,6 +14,7 @@ import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { ActivatedRoute } from '@angular/router';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
     selector: 'app-forgot-password',
@@ -32,6 +33,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         private router: Router,
         private authService: AuthService,
         private PatternService:PatternService,
+        private sessionService:SessionService,
         protected uiStore: Store<UIState>, protected viewportScroller:
             ViewportScroller, protected scrollHelper: ScrollHelper,
             private route : ActivatedRoute,
@@ -60,7 +62,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
             this.dataLayerService.pushEvent({ 
              event: "page_view" ,
              page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
+             user_name: this.sessionService.decrypt('user_name'),
              cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
            });
         })

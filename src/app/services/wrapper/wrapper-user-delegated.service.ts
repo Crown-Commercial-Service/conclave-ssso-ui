@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { delegateduser, rolePermissionInfo } from 'src/app/models/delegated.model';
 import { UserListResponse } from 'src/app/models/user';
+import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -23,12 +24,12 @@ export class WrapperUserDelegatedService {
     headers: new HttpHeaders()
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private sessionService :SessionService) {
   }
 
 
   getDeligatedOrg(): Observable<any> {
-    const url = `${this.Usersurl}?user-id=${encodeURIComponent(localStorage.getItem('user_name') || '')}&is-delegated=${true}`;
+    const url = `${this.Usersurl}?user-id=${encodeURIComponent(this.sessionService.decrypt('user_name'))}&is-delegated=${true}`;
     return this.http.get<delegateduser>(url).pipe(
       map((data: delegateduser) => {
         return data;

@@ -16,6 +16,7 @@ import {
 } from 'src/app/models/organisationGroup';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-group-operation-success',
@@ -61,7 +62,8 @@ export class ManageGroupOperationSuccessComponent
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
     private orgGroupService: WrapperOrganisationGroupService,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.operation = parseInt(
@@ -98,7 +100,7 @@ export class ManageGroupOperationSuccessComponent
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
           operation: this.operation
       });

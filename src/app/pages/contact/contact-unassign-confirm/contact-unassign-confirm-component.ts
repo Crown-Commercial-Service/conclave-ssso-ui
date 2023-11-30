@@ -10,6 +10,7 @@ import { WrapperSiteContactService } from "src/app/services/wrapper/wrapper-site
 import { ViewportScroller } from "@angular/common";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-contact-unassign-confirm-component',
@@ -27,7 +28,7 @@ export class ContactUnassignConfirmComponent extends BaseComponent implements On
     unassignOrgId: string = "";
     unassignSiteId: number = 0;
     contactId: number = 0;
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
+    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,private sessionService:SessionService,
         public contactService: WrapperOrganisationContactService, public siteContactService: WrapperSiteContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
@@ -45,7 +46,7 @@ export class ContactUnassignConfirmComponent extends BaseComponent implements On
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })

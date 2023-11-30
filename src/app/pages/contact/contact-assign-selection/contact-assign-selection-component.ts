@@ -9,6 +9,7 @@ import { slideAnimation } from "src/app/animations/slide.animation";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-contact-assign-selection-component',
@@ -30,7 +31,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     siteCreate: any;
 
-    constructor(protected uiStore: Store<UIState>, public router: Router, private formBuilder: FormBuilder,
+    constructor(protected uiStore: Store<UIState>, public router: Router, private formBuilder: FormBuilder,private sessionService:SessionService,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private activatedRoute: ActivatedRoute, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.selectionForm = this.formBuilder.group({
@@ -50,7 +51,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })

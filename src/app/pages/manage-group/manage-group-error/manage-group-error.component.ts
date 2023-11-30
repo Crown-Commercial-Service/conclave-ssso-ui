@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
     templateUrl: './manage-group-error.component.html',
@@ -30,7 +31,7 @@ export class ManageGroupErrorComponent extends BaseComponent {
     public showRoleView:boolean = environment.appSetting.hideSimplifyRole
     groupName: string;
 
-    constructor(private activatedRoute: ActivatedRoute,private router: Router, protected uiStore: Store<UIState>,private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+    constructor(private activatedRoute: ActivatedRoute,private router: Router,private sessionService:SessionService, protected uiStore: Store<UIState>,private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -45,7 +46,7 @@ export class ManageGroupErrorComponent extends BaseComponent {
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })

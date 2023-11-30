@@ -39,6 +39,7 @@ import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { duration } from 'moment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-user-contact-edit',
@@ -104,7 +105,8 @@ export class UserContactEditComponent
     protected scrollHelper: ScrollHelper,
     public externalContactService: WrapperContactService,
     private titleService: Title,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     super(
       viewportScroller,
@@ -143,12 +145,12 @@ export class UserContactEditComponent
     this.contactData = {
       contacts: [],
     };
-    this.userName = localStorage.getItem('UserContactUsername') ?? '';
+    this.userName = this.userName = this.sessionService.decrypt('UserContactUsername');
     let queryParams = this.activatedRoute.snapshot.queryParams;
     if (queryParams.data) {
       let routeData = JSON.parse(queryParams.data);
       this.isEdit = routeData['isEdit'];
-      this.userName = localStorage.getItem('UserContactUsername') ?? '';
+      this.userName = this.userName = this.sessionService.decrypt('UserContactUsername');
       this.contactId = routeData['contactId'];
       this.isEditContact = routeData['isEditContact'];
     }
@@ -164,7 +166,7 @@ export class UserContactEditComponent
       this.dataLayerService.pushEvent({ 
        event: "page_view" ,
        page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
+       user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
     })
@@ -172,7 +174,7 @@ export class UserContactEditComponent
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} - User Contact - CCS`
     );
-    sessionStorage.getItem(SessionStorageKey.UserContactUsername);
+    this.sessionService.decrypt(SessionStorageKey.UserContactUsername)
     this.externalContactService.getContactReasons().subscribe({
       next: (contactReasons: ContactReason[]) => {
         if (contactReasons != null) {

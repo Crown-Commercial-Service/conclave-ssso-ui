@@ -7,6 +7,7 @@ import { BaseComponent } from "src/app/components/base/base.component";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { OrganisationService } from "src/app/services/postgres/organisation.service";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 import { UIState } from "src/app/store/ui.states";
 import { environment } from "src/environments/environment";
 
@@ -22,7 +23,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
     contactUrl = environment.uri.ccsContactUrl;
     
     constructor(public router: Router, protected uiStore: Store<UIState>,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+        protected viewportScroller: ViewportScroller,private sessionService:SessionService, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
     }
 
@@ -31,7 +32,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
             this.dataLayerService.pushEvent({ 
              event: "page_view" ,
              page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
+             user_name: this.sessionService.decrypt('user_name'),
              cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
            });
         })
