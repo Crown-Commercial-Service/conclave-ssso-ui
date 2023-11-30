@@ -21,28 +21,38 @@
   </h2>
   <div class="govuk-checkboxes" data-module="govuk-checkboxes">
     <div *ngIf="hasAdminRole()" class="govuk-checkboxes__item" >
-      <input class="govuk-checkboxes__input" id="chkUnassign" type="checkbox" name="changeRole"
+      <input class="govuk-checkboxes__input" id="chkUnassign" type="checkbox"[disabled] ="isDormantUser"  name="changeRole"
         [(ngModel)]="changeRoleEnabled" #assignChk (click)="onSelect($event, false)" /><label
         class="govuk-label govuk-checkboxes__label"  for="chkUnassign">Unassign
         organisation administrator role</label>
     </div>
     <div class="govuk-checkboxes__item" *ngIf="!hasAdminRole()">
-      <input class="govuk-checkboxes__input" id="chkChangeRole" name="changeRole" type="checkbox" [(ngModel)]="changeRoleEnabled" #assignChk  (click)="onSelect($event, true)">
+      <input class="govuk-checkboxes__input" id="chkChangeRole" type="checkbox" [disabled] ="isDormantUser" name="changeRole"  [(ngModel)]="changeRoleEnabled" #assignChk  (click)="onSelect($event, true)">
       <label class="govuk-label govuk-checkboxes__label" for="chkChangeRole" >
         Assign organisation administrator role
       </label>
     </div>
     <div class="govuk-checkboxes__item">
-      <input class="govuk-checkboxes__input" type="checkbox" [disabled]="!isUserPasswordIdentifier()"
+      <input class="govuk-checkboxes__input" type="checkbox" [disabled]="!isUserPasswordIdentifier() || isDormantUser"
         name="resetPassword" #resetPassword [(ngModel)]="resetPasswordEnabled" id="chkresetPwd" (click)="onResetSelect($event)" /><label
          for="chkresetPwd" class="govuk-label govuk-checkboxes__label">Reset user's
         password</label>
     </div>
     <div class="govuk-checkboxes__item">
-      <input class="govuk-checkboxes__input" type="checkbox" id="chkResetMFA" [disabled]="!isResetSecurityEnable()"
+      <input class="govuk-checkboxes__input" type="checkbox" id="chkResetMFA" [disabled]="!isResetSecurityEnable() || isDormantUser"
         name="resetMfa" [(ngModel)]="resetMfaEnabled" (click)="onMfaResetSelect($event)" />
       <label  for="chkResetMFA" class="govuk-label govuk-checkboxes__label">Reset
         user's additional security</label>
+    </div>
+    <div class="govuk-checkboxes__item" *ngIf ="!isDormantUser">
+      <input class="govuk-checkboxes__input" type="checkbox" id="chkDeactivateUser" 
+        name="deactivateUser" [(ngModel)]="deactivateEnabled" />
+      <label  for="chkDeactivateUser" class="govuk-label govuk-checkboxes__label">Deactivate User</label>
+    </div>
+    <div class="govuk-checkboxes__item" *ngIf ="isDormantUser">
+      <input class="govuk-checkboxes__input" type="checkbox" id="chkReactivateUser" 
+        name="reactivateUser" [(ngModel)]="reactivateEnabled" />
+      <label  for="chkReactivateUser" class="govuk-label govuk-checkboxes__label">Reactivate User</label>
     </div>
   </div>
   <div class="govuk-button-group" style="margin-top: 40px">

@@ -39,10 +39,13 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
   public changeRoleEnabled: boolean = false;
   public resetPasswordEnabled: boolean = false;
   public resetMfaEnabled: boolean = false;
+  public deactivateEnabled : boolean = false;
+  public reactivateEnabled : boolean = false; 
   public orgGroups!: Group[];
   public roles$!: Observable<any>;
   public roles!: [];
   public customMfaEnabled = environment.appSetting.customMfaEnabled;
+  public isDormantUser : boolean = false;
   
   @ViewChild('assignChk') assignChk!: ElementRef;
   @ViewChild('resetPassword') resetPassword!: ElementRef;
@@ -84,6 +87,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
       this.user$.subscribe({
         next: (result: UserProfileResponseInfo) => {
           this.user = result;
+          this.isDormantUser = this.user.isDormant;
           this.getOrgGroups();
         }
       });
@@ -99,6 +103,14 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
 
       if (para.chrole != undefined) {
         this.changeRoleEnabled = para.chrole != "noChange";
+      }
+      if (para.deuser != undefined)
+      {
+        this.deactivateEnabled = JSON.parse(para.deuser);
+      }
+      if (para.reuser != undefined)
+      {
+        this.reactivateEnabled = JSON.parse(para.reuser);
       }
     });
   }
@@ -129,7 +141,8 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
   public onContinueClick() {
     let hasAdminRole = this.hasAdminRole();
     this.router.navigateByUrl(`org-support/confirm?rpwd=` + this.resetPasswordEnabled + `&rmfa=` + this.resetMfaEnabled +
-      `&chrole=${this.changeRoleEnabled ? (hasAdminRole ? "unassign" : "assign") : "noChange"}`);
+      `&chrole=${this.changeRoleEnabled ? (hasAdminRole ? "unassign" : "assign") : "noChange"}` + `&deuser=` + this.deactivateEnabled
+      + `&reuser=` + this.reactivateEnabled );
     this.pushDataLayerEvent();
   }
 
