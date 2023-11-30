@@ -5,6 +5,7 @@ import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-buyer-both-requests',
@@ -52,7 +53,8 @@ export class BuyerBothRequestsComponent implements OnInit {
     private router: Router,
     private wrapperBuyerAndBothService:WrapperBuyerBothService,
     private translate: TranslateService,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.pendingVerificationBuyerAndBoth.organisationAuditList = {
@@ -78,7 +80,7 @@ export class BuyerBothRequestsComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

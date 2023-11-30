@@ -7,6 +7,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from "src/app/services/auth/auth.service";
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-delegated-user-list',
@@ -43,7 +44,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
     hyperTextrray: ['View']
   }
 
-  constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService, 
+  constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService, private sessionService:SessionService,
                private dataLayerService: DataLayerService, private authService: AuthService) {
 
     this.organisationId = localStorage.getItem('cii_organisation_id') || ''
@@ -69,7 +70,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

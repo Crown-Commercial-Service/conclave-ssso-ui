@@ -3,26 +3,53 @@ import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SessionService {
+  private readonly shift = 3;
 
-  public secretKey = environment.mailDecryptKey
-  constructor() { }
+  public secretKey = environment.mailDecryptKey;
+  constructor() {}
 
-  public encrypt_user_name(name:string){
-    const encrypted = CryptoJS.AES.encrypt(name, this.secretKey);
-    console.log("test_user_namejson", JSON.stringify(encrypted))
-    
-    // localStorage.setItem('test_user_name', JSON.stringify(encrypted))
-    // console.log("test_user_name", localStorage.getItem('test_user_name') || '')
+  public encrypt(key:string,text: string): string {
+    let encryptedText = '';
+
+    for (let i = 0; i < text.length; i++) {
+      let charCode = text.charCodeAt(i);
+      if (charCode >= 65 && charCode <= 90) {
+        encryptedText += String.fromCharCode(
+          ((charCode - 65 + this.shift) % 26) + 65
+        );
+      } else if (charCode >= 97 && charCode <= 122) {
+        encryptedText += String.fromCharCode(
+          ((charCode - 97 + this.shift) % 26) + 97
+        );
+      } else {
+        encryptedText += text[i];
+      }
+    }
+    localStorage.setItem(key, encryptedText);
+    this.decrypt(key);
+    return encryptedText;
   }
 
-  public decrypt_user_name(){
-    const encrypted = localStorage.getItem('test_user_name') || '';
-    console.log("encrypted",encrypted)
-    const decrypted = CryptoJS.AES.decrypt(encrypted, this.secretKey);
-    console.log("decryptedText",decrypted.toString(CryptoJS.enc.Utf8))
-    return  decrypted.toString(CryptoJS.enc.Utf8)
+  public decrypt(key: string): string {
+    let encryptedText = localStorage.getItem(key) ?? ''
+    let decryptedText = '';
+    for (let i = 0; i < encryptedText.length; i++) {
+      let charCode = encryptedText.charCodeAt(i);
+      if (charCode >= 65 && charCode <= 90) {
+        decryptedText += String.fromCharCode(
+          ((charCode - 65 - this.shift + 26) % 26) + 65
+        );
+      } else if (charCode >= 97 && charCode <= 122) {
+        decryptedText += String.fromCharCode(
+          ((charCode - 97 - this.shift + 26) % 26) + 97
+        );
+      } else {
+        decryptedText += encryptedText[i];
+      }
+    }
+    return decryptedText;
   }
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AdminUserListResponse, UserListResponse } from 'src/app/models/user';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -24,7 +25,8 @@ export class ContactAdminComponent implements OnInit {
   constructor(
     private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
     private router: Router,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
 
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
@@ -44,7 +46,7 @@ export class ContactAdminComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
        event: "page_view" ,
        page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
+       user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
     })

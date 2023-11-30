@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-confirm-mfa-reset',
@@ -14,7 +15,8 @@ export class ConfirmMfaResetComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private mfaService: MFAService,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {}
 
   public decodedData: any = { };
@@ -30,7 +32,7 @@ export class ConfirmMfaResetComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
        event: "page_view" ,
        page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
+       user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
     })

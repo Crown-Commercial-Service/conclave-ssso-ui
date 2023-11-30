@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-verify-user-status',
@@ -12,7 +13,7 @@ export class VerifyUserStatusComponent implements OnInit {
   public isOrgAdmin: boolean = false;
   public userInfo: any;
   public userStatus:number=0
-  constructor(private ActivatedRoute: ActivatedRoute, private titleService: Title, private router: Router, private dataLayerService: DataLayerService) { 
+  constructor(private ActivatedRoute: ActivatedRoute,private sessionService:SessionService, private titleService: Title, private router: Router, private dataLayerService: DataLayerService) { 
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
   }
 
@@ -21,7 +22,7 @@ export class VerifyUserStatusComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

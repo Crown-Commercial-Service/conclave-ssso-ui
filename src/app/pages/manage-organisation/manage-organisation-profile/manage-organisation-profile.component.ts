@@ -21,6 +21,7 @@ import { environment } from 'src/environments/environment';
 import { OrganisationDto } from 'src/app/models/organisation';
 import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
     selector: 'app-manage-organisation-profile',
@@ -61,7 +62,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     isMfaOptionChanged : boolean = false;
   
 
-    constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
+    constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,private sessionService:SessionService,
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
         protected uiStore: Store<UIState>, private readonly tokenService: TokenService, private organisationGroupService: WrapperOrganisationGroupService,
         private orgContactService: WrapperOrganisationContactService, private wrapperOrgSiteService: WrapperOrganisationSiteService,
@@ -167,7 +168,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             this.dataLayerService.pushEvent({ 
              event: "page_view" ,
              page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
+             user_name: this.sessionService.decrypt('user_name'),
              cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
            });
         })

@@ -16,6 +16,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-org-support-details',
@@ -46,7 +47,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
   @ViewChild('assignChk') assignChk!: ElementRef;
   @ViewChild('resetPassword') resetPassword!: ElementRef;
 
-  constructor(private organisationGroupService: WrapperOrganisationGroupService, private wrapperUserService: WrapperUserService,
+  constructor(private  sessionService:SessionService,private organisationGroupService: WrapperOrganisationGroupService, private wrapperUserService: WrapperUserService,
     public router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
@@ -73,7 +74,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

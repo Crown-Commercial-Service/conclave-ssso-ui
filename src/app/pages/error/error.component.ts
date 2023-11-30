@@ -37,6 +37,7 @@ import { UserService } from 'src/app/services/postgres/user.service';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   templateUrl: './error.component.html',
@@ -63,7 +64,8 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     public formBuilder: FormBuilder,
     private userService: UserService,
     private RollbarErrorService:RollbarErrorService,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.route.queryParams.subscribe((params) => {
@@ -80,7 +82,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
         });
       }
     });
-    this.userName = localStorage.getItem('user_name') || '';
+    this.userName = this.sessionService.decrypt('user_name')
     this.pushDataLayer("form_start");
   }
   ngOnInit(): void {
@@ -90,7 +92,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
        event: "page_view" ,
        page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
+       user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
     })

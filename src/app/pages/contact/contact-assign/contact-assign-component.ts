@@ -14,6 +14,7 @@ import { WrapperSiteContactService } from "src/app/services/wrapper/wrapper-site
 import { ContactAssignedStatus } from "src/app/constants/enum";
 import { SessionStorageKey } from "src/app/constants/constant";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-contact-assign-component',
@@ -38,7 +39,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
     selectedContacts: ContactGridInfo[] = [];
     siteCreate: any;
 
-    constructor(public userContactService: WrapperUserContactService, public siteContactService: WrapperSiteContactService,
+    constructor(public userContactService: WrapperUserContactService,private sessionService:SessionService, public siteContactService: WrapperSiteContactService,
         private contactHelper: ContactHelper,
         protected uiStore: Store<UIState>, public router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
@@ -64,7 +65,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })
