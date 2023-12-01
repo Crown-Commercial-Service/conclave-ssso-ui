@@ -36,8 +36,8 @@ export class AuthService {
   }
 
   public isUserAuthenticated() {
-    const tokens = this.sessionService.decrypt('user_name')
-    return tokens != null;
+    const tokens = this.sessionService.decrypt('user_name')    
+    return tokens != null && tokens != '';
   }
 
   public async isInMemoryTokenExists(): Promise<boolean> {
