@@ -338,6 +338,10 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
           console.log('An error occurred during API calls:', error);
         }
       }
+      
+      isHyperLinkRowVisible(dataRow: any): boolean {
+        return dataRow.contactReason=='REGISTRY'?false:true;
+      }
 
     pushDataLayerEvent() {
 		this.dataLayerService.pushEvent({ 

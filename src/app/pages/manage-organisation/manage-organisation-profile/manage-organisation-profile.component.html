@@ -118,7 +118,7 @@
     <div class="govuk-grid-column-full">
       <div>
         <app-govuk-table [headerTextKeys]="contactTableHeaders" [data]="contactData"
-          [dataKeys]="contactColumnsToDisplay" [isHyperLinkVisible]="true" [hyperLinkText]="'EDIT'"
+          [dataKeys]="contactColumnsToDisplay" [isHyperLinkVisible]="true" [isHyperLinkRowVisible]="isHyperLinkRowVisible" [hyperLinkText]="'EDIT'"
           (hyperLinkClickEvent)="onContactEditClick($event)" [useClientPagination]="true">
         </app-govuk-table>
       </div>
