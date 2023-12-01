@@ -35,6 +35,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Output() radioClickEvent = new EventEmitter<any>();
   @Output() changeCurrentPageEvent = new EventEmitter<number>();
   @Input() isRadioDisabled?: (dataRow: any) => boolean;
+  @Input() isHyperLinkRowVisible?: (dataRow: any) => boolean;
 
   pageCount?: number | any;
   currentPage: number = 1;
@@ -85,13 +86,15 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
       }
     }
     else if (this.isHyperLinkVisible || this.hyperArrayVisible) {
+      if(dataRow.contactReason!='REGISTRY')
+      {
       if(this.hyperArrayVisible){
         dataRow.event=event
         this.hyperLinkClickEvent.emit(dataRow);
       }else{
         this.hyperLinkClickEvent.emit(dataRow);
-
       }
+    }
     }
     else {
     }

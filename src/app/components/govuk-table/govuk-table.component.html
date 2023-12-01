@@ -13,7 +13,7 @@
     </thead>
     <tbody class="govuk-table__body">
       <tr (click)="onRowClick(dataRow, index,$event)" class="govuk-table__row" [class.clickable]="
-          isCheckBoxVisible || isHyperLinkVisible || isRadioVisible || hyperArrayVisible
+        isCheckBoxVisible || (isHyperLinkVisible && isHyperLinkRowVisible? isHyperLinkRowVisible(dataRow):true )|| isRadioVisible || hyperArrayVisible 
         " *ngFor="let dataRow of tableVisibleData; let index = index">
         <td class="govuk-table__cell" *ngFor="let dataKey of dataKeys" [ngClass]="[
             pageName === 'Contactadmin' && dataKey ==='email'
@@ -60,7 +60,7 @@
         </td>      
         <td class="govuk-table__cell" *ngIf="isHyperLinkVisible == true">
           <a class="navigation-text" [routerLink] = "dataRow.routeLink" [queryParams] ="dataRow.routeData"
-          [ngClass]="{'navigation-text-empty':hyperLinkText==='.'}">
+          [ngClass]="{'navigation-text-empty':hyperLinkText==='.'}" *ngIf="isHyperLinkRowVisible? isHyperLinkRowVisible(dataRow):true">
             {{ hyperLinkText || "" | translate }}</a>
         </td>
         <td *ngIf="hyperArrayVisible == true" class="govuk-table__cell">
