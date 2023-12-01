@@ -8,6 +8,7 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from "src/app/services/auth/auth.service";
 import { SessionService } from 'src/app/shared/session.service';
+import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 
 @Component({
   selector: 'app-delegated-user-list',
@@ -45,7 +46,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
   }
 
   constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService, private sessionService:SessionService,
-               private dataLayerService: DataLayerService, private authService: AuthService) {
+               private dataLayerService: DataLayerService, private authService: AuthService, protected scrollHelper: ScrollHelper,) {
 
     this.organisationId = localStorage.getItem('cii_organisation_id') || ''
     this.currentUserstableConfig.userList = {
@@ -66,10 +67,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
 
   ngOnInit() {
-    document.getElementById("totop")?.scrollIntoView({
-      block: 'start',
-      inline: 'nearest',
-     });
+    
     this.router.events.subscribe(value => {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
@@ -194,5 +192,9 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
   ngOnDestroy(): void {
     sessionStorage.removeItem('activetab')
+  }
+
+  ngAfterViewChecked() {
+    this.scrollHelper.doScroll();
   }
 }
