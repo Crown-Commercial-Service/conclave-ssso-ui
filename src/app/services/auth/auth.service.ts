@@ -36,8 +36,8 @@ export class AuthService {
   }
 
   public isUserAuthenticated() {
-    const tokens = this.sessionService.decrypt('user_name')
-    return tokens != null;
+    const tokens = this.sessionService.decrypt('user_name')    
+    return tokens != null && tokens != '';
   }
 
   public async isInMemoryTokenExists(): Promise<boolean> {
@@ -436,7 +436,7 @@ export class AuthService {
       })
     )
   }
-
+  
   useTokenFromStorage(){
     var token = localStorage.getItem('STORE_TOKEN_ACCESS_TOKEN');
     var refreshToken = localStorage.getItem('STORE_TOKEN_ACCESS_TOKEN');
