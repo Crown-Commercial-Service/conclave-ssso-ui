@@ -90,7 +90,7 @@ export class FindDelegatedUserComponent implements OnInit {
           {
             let data = {
               header: 'User is in dormant state',
-              Description: 'This user is in dormant state.\ You can\'t get delegated access to users who are in dormant state.',
+              Description: 'This user is in dormant state.\ You can\'t delegate access to users who are in dormant state.',
               Breadcrumb: 'User inactive',
               status: '004'
             }
