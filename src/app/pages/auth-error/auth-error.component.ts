@@ -49,9 +49,15 @@ export class AuthErrorComponent extends BaseComponent implements OnInit {
             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
         });
         });
-        this.authService.renewAccessToken(this.globalRouteService.globalRoute.length > 0 ?
-            this.globalRouteService.globalRoute : 'home');
-        // window.location.href = this.authService.getAuthorizedEndpoint();
-        // return false;
+        
+        if(this.globalRouteService.globalRoute.indexOf("isEdit") < 0){
+            this.authService.renewAccessToken(this.globalRouteService.globalRoute.length > 0 ?
+                this.globalRouteService.globalRoute : 'home');
+        }
+        else{
+            this.authService.useTokenFromStorage();
+            let url = this.globalRouteService.globalRoute.length > 0 ? this.globalRouteService.globalRoute : 'home';
+            this.router.navigateByUrl(url, { replaceUrl: true });
+        }
     }
 }
