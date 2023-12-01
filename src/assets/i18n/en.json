@@ -458,7 +458,7 @@
   "DORMANT_STATE_HEADING": "Account is in dormant state",
   "DORMANT_STATE_MESSAGE": "This account is in dormant state.",
   "REACTIVATE_ACCOUNT": "Reactivate this account.",
-  "DEACTIVATE_USER": "Deactive user",
+  "DEACTIVATE_USER": "Deactivate user",
   "REACTIVATE_USER": "Reactivate user",
   "CONFIRM_USER_DEACTIVATE": "Confirm you want to deactivate the user account",
   "CONFIRM_USER_REACTIVATE": "Confirm you want to reactivate the user account",
