@@ -436,4 +436,24 @@ export class AuthService {
       })
     )
   }
+  
+  useTokenFromStorage(){
+    var token = localStorage.getItem('STORE_TOKEN_ACCESS_TOKEN');
+    var refreshToken = localStorage.getItem('STORE_TOKEN_ACCESS_TOKEN');
+    if(token != undefined && token != '')
+    {
+        let tokeInfor : TokenInfo = {
+            access_token : token || '',
+            refresh_token: refreshToken || '',
+            auth0_access_token : '',
+            auth0_refresh_token : '',
+            challengeName : '',
+            challengeRequired : false,
+            id_token: '',
+            session_state: '',
+            sessionId: ''
+        };
+        this.workerService.storeTokenInWorker(tokeInfor);
+    }
+  }
 }
