@@ -1,8 +1,7 @@
 ---
 applications:
 - name: CF_SPACE-ccs-sso
+  memory: 512M
+  disk_quota: 1024M
   instances: 1
-  memory: 1G
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack
-  routes:
-    - route: CF_SPACE-ccs-sso.london.cloudapps.digital
