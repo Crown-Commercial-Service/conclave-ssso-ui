@@ -9,16 +9,13 @@
             </legend>
             <p class="govuk-body-l"> Download an authenticator app for your phone or tablet from your app store,<br>then
                 continue.</p>
-            <details class="govuk-details" data-module="govuk-details">
-                <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text">
-                        {{'WHAT_IS_AUTHENTICATOR' | translate}}
-                    </span>
-                </summary>
-                <div class="govuk-details__text">
-                    {{ 'AUTHENTICATOR_MESSAGE' | translate}}
-                </div>
-            </details>
+            <div>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>{{ 'AUTHENTICATOR_MESSAGE_POINT_1' | translate}}</li>
+                    <li>{{ 'AUTHENTICATOR_MESSAGE_POINT_2' | translate}}</li>
+                    <li>{{ 'AUTHENTICATOR_MESSAGE_POINT_3' | translate}}</li>
+                </ul>
+            </div>
             <div class="govuk-warning-text">
                 <span class="govuk-warning-text__icon govuk-warning-text__icon_custome" aria-hidden="true">!</span>
                 <strong class="govuk-warning-text__text">
