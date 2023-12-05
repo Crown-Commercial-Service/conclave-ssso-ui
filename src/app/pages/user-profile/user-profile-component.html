@@ -3,8 +3,8 @@
     <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
             <li class="govuk-breadcrumbs__list-item">
-                <a *ngIf="this.isAdminUser" class="govuk-breadcrumbs__link" routerLink="/home">
-                    {{isAdminUser == true ? 'Administrator dashboard' : (isAdminUser == false ? 'Public Procurement Gateway dashboard' : '')}}
+                <a class="govuk-breadcrumbs__link" routerLink="/home">
+                    {{isOrgAdmin == true ? 'Administrator dashboard' : (isOrgAdmin == false ? 'Public Procurement Gateway dashboard' : '')}}
                 </a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
