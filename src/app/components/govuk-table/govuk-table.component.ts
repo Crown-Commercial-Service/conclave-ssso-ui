@@ -84,6 +84,11 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
         this.selectedRadioId = 'table-radio-id-' + index;
         this.radioClickEvent.emit(dataRow);
       }
+      else if (this.pageName ==='OUS')
+      {
+        this.selectedRadioId = 'table-radio-id-' + index;
+        this.radioClickEvent.emit(dataRow);
+      }
     }
     else if (this.isHyperLinkVisible || this.hyperArrayVisible) {
       if(dataRow.contactReason!='REGISTRY')

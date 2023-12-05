@@ -37,6 +37,7 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
   currentPage: number = 1;
   pageCount: number = 0;
   pageSize: number = environment.listPageSize;
+  pageName : string ='OUS';
   tableHeaders = ['NAME', 'ORGANISATION', 'USER_EMAIL'];
   tableColumnsToDisplay = ['name', 'organisationLegalName', 'userName'];
   searchSumbited:boolean=false;
