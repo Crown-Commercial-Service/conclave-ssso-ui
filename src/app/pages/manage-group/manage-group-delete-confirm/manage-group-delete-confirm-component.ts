@@ -24,7 +24,7 @@ import { SharedDataService } from "src/app/shared/shared-data.service";
     ]
 })
 export class ManageGroupDeleteConfirmComponent extends BaseComponent implements OnInit {
-    public GroupDetails:any = {};
+    public GroupDetails:any;
     isEdit: boolean = false;
     groupId: number = 0;
     organisationId: string = '';

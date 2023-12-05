@@ -26,7 +26,7 @@ import { UIState } from 'src/app/store/ui.states';
 })
 export class ManageOrganisationProfileSuccessComponent extends BaseComponent implements OnInit {
 
-  constructor(private dataService: dataService, public router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
   }
 

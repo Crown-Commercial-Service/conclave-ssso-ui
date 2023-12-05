@@ -16,7 +16,7 @@
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align" *ngIf="routeDetails.status === 'decline'">You have declined the right to buy status for the organisation {{routeDetails.organisationName}}</h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align" *ngIf="routeDetails.status === 'decline'">You have declined the right to buy status for organisation {{routeDetails.organisationName}}</h1>
             <h1 class="govuk-heading-xl page-title header-bread-align" *ngIf="routeDetails.status === 'accept'">You have accepted the right to buy status for the organisation {{routeDetails.organisationName}}</h1>
             <div>
                 <a  (click)="returnToRequests()" class="navigation-text">Return to Manage Buyer status requests</a>

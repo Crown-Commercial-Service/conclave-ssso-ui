@@ -18,7 +18,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
     currentusers: true,
     expiredusers: false
   }
-  public organisationId: string = '';
+  private organisationId: string = '';
   public currentUserstableConfig: any = {
     currentPage: 1,
     pageCount: 0,
@@ -40,7 +40,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
     pageName: 'Delegatedaccess',
     hyperTextrray: ['View']
   }
-  constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService) {
+  constructor(private router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || ''
     this.currentUserstableConfig.userList = {
       currentPage: this.currentUserstableConfig.currentPage,
@@ -150,7 +150,6 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
       block: 'start',
       inline: 'nearest',
     });
-   
     if (activetab === 'currentusers') {
       this.tabConfig.currentusers = true
       this.tabConfig.expiredusers = false

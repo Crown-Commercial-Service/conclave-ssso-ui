@@ -17,7 +17,6 @@ import { TokenInfo } from 'src/app/models/auth';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WorkerService } from 'src/app/services/worker.service';
-import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -34,7 +33,7 @@ import { environment } from 'src/environments/environment';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthSuccessComponent extends BaseComponent implements OnInit {
-    public isTwoMfaEnabled : boolean = environment.appSetting.customMfaEnabled
+
     constructor(private router: Router,
         private route: ActivatedRoute,
         private authService: AuthService,
@@ -63,14 +62,7 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                     this.authService.createSession(tokenInfo.refresh_token).toPromise().then(() => {
                     const  previousGlobalRoute =  localStorage.getItem('routeRecords') ||'home'
                     this.authService.registerTokenRenewal();
-                    // if (!this.isTwoMfaEnabled)
-                    // {
-                    this.router.navigateByUrl(previousGlobalRoute);  
-                    // }      
-                    // else 
-                    // {
-                    //    window.location.href = this.authService.getMfaAuthorizationEndpoint();
-                    // }                
+                    this.router.navigateByUrl(previousGlobalRoute);                        
                     });
                 }, (err) => {
                     if (err.status == 404) {

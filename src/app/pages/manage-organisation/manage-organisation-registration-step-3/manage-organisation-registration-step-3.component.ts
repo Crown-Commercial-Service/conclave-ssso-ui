@@ -36,7 +36,6 @@ import { take, takeUntil } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { MatSelect } from '@angular/material/select';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-organisation-registration-step-3',
@@ -62,7 +61,6 @@ export class ManageOrgRegStep3Component
   public routeParams!: any;
   id!: string;
   ciiOrgId: string = '';
-  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
 
   countryDetails: ContryDetails[] = [];
   topCountries: ContryDetails[] = [];
@@ -110,7 +108,6 @@ export class ManageOrgRegStep3Component
               this.countryCode = result.address.countryCode;
               this.selectedIdentifiers = result.additionalIdentifiers;
               this.orgDetails=result
-              this.checkAddressDetailsEmpty(result.address.streetAddress,result.address.postalCode)
               localStorage.setItem('cii_organisation', JSON.stringify(result));
               this.countryDetails = await this.configurationCore
                 .getCountryDetails()
@@ -168,17 +165,11 @@ export class ManageOrgRegStep3Component
       this.topCountries = [];
     }
   }
-  checkAddressDetailsEmpty(streetAddress:string,postalCode:string)
-  {
-      if(streetAddress.trim() == '' || postalCode.trim() == '')
-      {
-       this.router.navigateByUrl(`manage-org/register/error/address-details`);
-      }
-    }
+
   /**
    * Sets the initial value after the filteredCountryDetails are loaded initially
    */
-  public setInitialValue() {
+  protected setInitialValue() {
     this.filteredCountryDetails
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
@@ -188,15 +179,13 @@ export class ManageOrgRegStep3Component
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filtercountryDetails are loaded initially
         // and after the mat-option elements are available
-        if(this.singleSelect){
-          this.singleSelect.compareWith = (a: ContryDetails, b: ContryDetails) =>
+        this.singleSelect.compareWith = (a: ContryDetails, b: ContryDetails) =>
           a && b && a.id === b.id;
-          console.log('setInitialValue2');
-        }
+        console.log('setInitialValue2');
       });
   }
 
-  public filtercountryDetails() {
+  protected filtercountryDetails() {
     if (!this.countryDetails) {
       return;
     }
@@ -234,8 +223,6 @@ export class ManageOrgRegStep3Component
 
   public onSubmit() {
     if(this.countryCode){
-      this.orgDetails.address.countryCode=this.countryCode
-      localStorage.setItem('cii_organisation', JSON.stringify(this.orgDetails));
       if (this.orgGroup === 'manage-org/register/user') {
         let organisation = JSON.parse(
           localStorage.getItem('cii_organisation') + ''
@@ -253,6 +240,8 @@ export class ManageOrgRegStep3Component
             scheme:this.routeParams.scheme,
             id:this.id
           }
+          this.orgDetails.address.countryCode=this.countryCode
+          localStorage.setItem('cii_organisation', JSON.stringify(this.orgDetails));
           localStorage.setItem('cii_scheme', JSON.stringify(cii_scheme));
           this.router.navigateByUrl(this.orgGroup);
         }

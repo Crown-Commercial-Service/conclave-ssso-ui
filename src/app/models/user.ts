@@ -24,7 +24,6 @@ export interface UserDetail {
     lastName: string;
     mfaEnabled: boolean;
     isAdminUser: boolean;
-    mfaOpted: boolean;
 }
 
 export interface UserRequestDetail {
@@ -142,7 +141,7 @@ export interface PendingApproveRoleDetail {
 }
 
 export interface acceptRejectRequestDetail {
-    pendingRoleIds: number[];
+    pendingRoleIds: []
     status: number
 }
 export interface userGroupTableDetail {

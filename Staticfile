@@ -1,3 +1,5 @@
-pushstate: enabled
 root: dist
+status_codes:
+  404: /index.html
 location_include: includes/*.conf
+pushstate: enabled

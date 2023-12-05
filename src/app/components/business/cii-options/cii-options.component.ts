@@ -18,7 +18,6 @@ import { share } from 'rxjs/operators';
 import { BaseComponent } from '../../base/base.component';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
   selector: 'app-cii-options',
@@ -27,13 +26,14 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 })
 export class CIIOptions extends BaseComponent implements OnInit {
   private specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  public dunNumber: FormGroup | any;
   public items$!: Observable<any>;
   public scheme!: string;
   public schemeSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
     'GB-COH'
   );
   public schemeSubjectObs: Observable<string> =
-  this.schemeSubject.asObservable();
+    this.schemeSubject.asObservable();
   public schemeName!: string;
   public txtValue!: string;
   submitted: boolean = false;
@@ -43,7 +43,7 @@ export class CIIOptions extends BaseComponent implements OnInit {
     isDunlength: false,
     DunData: '',
   };
-  public newScheme:any = []
+
   @Output() onOrgSeleceted = new EventEmitter<string>();
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -54,18 +54,30 @@ export class CIIOptions extends BaseComponent implements OnInit {
     private router: Router,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper,
-    private SharedDataService:SharedDataService
+    protected scrollHelper: ScrollHelper
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.txtValue = '';
   }
 
   ngOnInit() {
+    this.dunNumber = this.formBuilder.group({
+      data1: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(3)],
+      ],
+      data2: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(3)],
+      ],
+      data3: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(3)],
+      ],
+    });
     this.items$ = this.ciiService.getSchemes().pipe(share());
     this.items$.subscribe({
       next: (result) => {
-        this.newScheme = result
         this.scheme = result[0].scheme;
         this.schemeName = result[0].schemeName;
         localStorage.setItem('scheme_name', this.schemeName);
@@ -94,10 +106,29 @@ export class CIIOptions extends BaseComponent implements OnInit {
 
   public onSubmit() {
     this.submitted = true;
-    if (this.txtValue && this.txtValue.length > 0) {
-      this.onOrgSeleceted.emit(this.txtValue);
-    } else {
-      this.scrollHelper.scrollToFirst('error-summary');
+    this.validationObj.isDunlength = false;
+    if (this.validationObj.activeElement == 'US-DUN') {
+      this.validationObj.DunData =
+       this.dunNumber.get('data1').value +
+       this.dunNumber.get('data2').value +
+       this.dunNumber.get('data3').value;
+     if (this.validationObj.DunData.length >= 9) {
+       this.validationObj.isDunlength = false;
+       if (isNaN(this.validationObj.DunData) || this.specialChars.test(this.validationObj.DunData)) {
+         this.validationObj.stringIdentifier = true;
+       } else {
+         this.validationObj.stringIdentifier = false;
+         this.onOrgSeleceted.emit(this.validationObj.DunData);
+       }
+     } else {
+       this.validationObj.isDunlength=true
+     }
+   }  else {
+      if (this.txtValue && this.txtValue.length > 0) {
+        this.onOrgSeleceted.emit(this.txtValue);
+      } else {
+        this.scrollHelper.scrollToFirst('error-summary');
+      }
     }
   }
 
@@ -133,10 +164,28 @@ export class CIIOptions extends BaseComponent implements OnInit {
     }
   }
 
-
+  /**
+   * Focus dun nummber dynamically
+   */
+   public setDun_numberfocus() {
+    let Controls = [
+      { data: 'data3', key: 'input3' },
+      { data: 'data2', key: 'input2' },
+      { data: 'data1', key: 'input1' },
+    ];
+    Controls.forEach((f) => {
+      if (!this.dunNumber.get(f.data).value || this.dunNumber.get(f.data).value.length < 3) {
+        document.getElementById(f.key)?.focus();
+      }
+      if(isNaN(this.dunNumber.get(f.data).value) || this.specialChars.test(this.dunNumber.get(f.data).value)){
+        document.getElementById(f.key)?.focus();
+      }
+    });
+  }
 
   public onSelect(item: any) {
     this.schemeSubject.next(item.scheme);
+    this.dunNumber.reset()
     this.validationObj.activeElement = item.scheme;
     var el = document.getElementById(item.scheme) as HTMLInputElement;
     if (el) {
@@ -148,13 +197,4 @@ export class CIIOptions extends BaseComponent implements OnInit {
     localStorage.setItem('scheme', this.scheme);
     localStorage.setItem('scheme_name', item.schemeName);
   }
-
-     /**
-   * checking whether scheme should show or not
-   * @param item getting scheme from html
-   * @returns returning boolean true or false
-   */
-     public checkShowStatus(item:any){
-      return this.SharedDataService.checkBlockedScheme(item)
-     }
 }

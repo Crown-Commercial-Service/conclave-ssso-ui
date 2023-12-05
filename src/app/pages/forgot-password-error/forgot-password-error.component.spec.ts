@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { ForgotPasswordErrorComponent } from './forgot-password-error.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('ForgotPasswordErrorComponent', () => {
   let component: ForgotPasswordErrorComponent;
@@ -8,9 +8,9 @@ describe('ForgotPasswordErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [ForgotPasswordErrorComponent],
-    }).compileComponents();
+      declarations: [ ForgotPasswordErrorComponent ]
+    })
+    .compileComponents();
   });
 
   beforeEach(() => {
@@ -19,21 +19,7 @@ describe('ForgotPasswordErrorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the component', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should go back in history when onBack is called', () => {
-    spyOn(window.history, 'back');
-    component.onBack();
-    expect(window.history.back).toHaveBeenCalled();
-  });
-
-  it('should render the error message', () => {
-    const errorMessage =
-      'Due to suspicious activity on your account your password cannot be reset at this time please contact your Organisation Administrator';
-    const anchorElement: HTMLAnchorElement =
-      fixture.nativeElement.querySelector('.govuk-error-summary__body a');
-    expect(anchorElement.textContent).toContain(errorMessage);
   });
 });

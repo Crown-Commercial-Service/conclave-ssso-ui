@@ -7,7 +7,6 @@ import { slideAnimation } from 'src/app/animations/slide.animation';
 import { UIState } from 'src/app/store/ui.states';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-organisation-registration-buyer-type',
@@ -23,8 +22,7 @@ import { environment } from 'src/environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ManageOrgRegBuyerTypeComponent extends BaseComponent implements OnInit {
-  
-  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
+
   defaultChoice: string = "Central Government";
 
   constructor(private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,

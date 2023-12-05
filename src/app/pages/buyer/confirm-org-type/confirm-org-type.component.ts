@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -23,43 +18,32 @@ import { ViewportScroller } from '@angular/common';
   styleUrls: ['./confirm-org-type.component.scss'],
   animations: [
     slideAnimation({
-      close: { transform: 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' },
-    }),
+      close: { 'transform': 'translateX(12.5rem)' },
+      open: { left: '-12.5rem' }
+    })
   ],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfirmOrgTypeComponent extends BaseComponent {
+export class ConfirmOrgTypeComponent  extends BaseComponent {
   public org: any;
   public org$!: Observable<any>;
   public changes: any;
-  public routeData: any = {};
-  constructor(
-    private cf: ChangeDetectorRef,
-    private organisationService: OrganisationService,
-    private wrapperOrgService: WrapperOrganisationService,
-    private router: Router,
-    private route: ActivatedRoute,
-    protected uiStore: Store<UIState>,
-    protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper
-  ) {
-    super(uiStore, viewportScroller, scrollHelper);
-    this.route.queryParams.subscribe((params) => {
-      this.routeData = JSON.parse(atob(params.data));
+  private routeData:any = {}
+  constructor(private cf: ChangeDetectorRef, private organisationService: OrganisationService, 
+    private wrapperOrgService: WrapperOrganisationService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    super(uiStore,viewportScroller,scrollHelper);
+    this.route.queryParams.subscribe(params => {
+      this.routeData = JSON.parse(atob(params.data))
       if (this.routeData.ciiOrganisationId) {
-        this.org$ = this.organisationService
-          .getById(this.routeData.ciiOrganisationId)
-          .pipe(share());
+        this.org$ = this.organisationService.getById(this.routeData.ciiOrganisationId).pipe(share());
         this.org$.subscribe({
-          next: (data) => {
+          next: data => {
             this.org = data;
-            this.changes = JSON.parse(
-              localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`) + ''
-            );
-            console.log('this.changes', this.changes);
-          },
+            this.changes = JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
+            console.log("this.changes",this.changes)
+          }
         });
       }
     });
@@ -67,45 +51,31 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
 
   public onSubmitClick() {
     const model = {
-      orgType: parseInt(this.changes.orgType),
+      orgType:parseInt(this.changes.orgType),
       rolesToDelete: this.changes.toDelete,
       rolesToAdd: this.changes.toAdd,
       rolesToAutoValid: this.changes.toAutoValid,
-      companyHouseId: this.routeData.companyHouseId,
+      companyHouseId:this.routeData.companyHouseId
     };
 
-    this.wrapperOrgService
-      .updateOrgRoles(
-        this.org.ciiOrganisationId,
-        JSON.stringify(model),
-        'validation/auto/switch'
-      )
-      .toPromise()
-      .then(() => {
-        this.router.navigateByUrl(
-          `update-org-type/buyer-success/${this.org.ciiOrganisationId}`
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-        this.router.navigateByUrl(`buyer/error`);
-      });
+    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'switch').toPromise().then(() => {
+      this.router.navigateByUrl(`update-org-type/buyer-success/${this.org.ciiOrganisationId}`);
+    }).catch(error => {
+      console.log(error);
+      this.router.navigateByUrl(`buyer/error`);
+    });
   }
 
   public onCancelClick() {
-    this.router.navigateByUrl('buyer-supplier/search');
+    this.router.navigateByUrl('buyer/search');
   }
 
   public onBackClick() {
-    if (this.org && this.org.ciiOrganisationId) {
-      localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
-      let data = {
-        companyHouseId: this.routeData.companyHouseId,
-        Id: this.org.ciiOrganisationId,
-      };
-      this.router.navigateByUrl(
-        'update-org-type/confirm?data=' + btoa(JSON.stringify(data))
-      );
+    localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
+    let data = {
+      companyHouseId:this.routeData.companyHouseId,
+      Id:this.org.ciiOrganisationId
     }
+    this.router.navigateByUrl('update-org-type/confirm?data=' + btoa(JSON.stringify(data)));
   }
 }

@@ -160,7 +160,7 @@ export class BuyerBothRequestsComponent implements OnInit {
   }
 
   public tabChanged(activetab: string): void {
-    document.getElementById(activetab)!.scrollIntoView({
+    document.getElementById(activetab)?.scrollIntoView({
       block: 'start',
       inline: 'nearest',
     });

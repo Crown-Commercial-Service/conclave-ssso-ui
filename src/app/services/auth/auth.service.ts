@@ -24,7 +24,7 @@ export class AuthService {
   servicePermission: ServicePermission[];
   ccsServices: CcsServiceInfo[] = [];
 
-  constructor(public readonly workerService: WorkerService, private router: Router, private location: Location,private RollbarErrorService:RollbarErrorService,
+  constructor(private readonly workerService: WorkerService, private router: Router, private location: Location,private RollbarErrorService:RollbarErrorService,
     private readonly httpService: HttpClient, private readonly tokenService: TokenService) {
     this.servicePermission = [];
   }
@@ -129,7 +129,7 @@ export class AuthService {
   }
 
   changePassword(passwordChangeDetail: PasswordChangeDetail): Observable<any> {
-    return this.httpService.post(`${environment.uri.api.postgres}/authorization/passwords`, passwordChangeDetail).pipe(
+    return this.httpService.post(`${environment.uri.api.postgres}/auth/passwords`, passwordChangeDetail).pipe(
       map(data => {
         return data;
       }),
@@ -141,7 +141,7 @@ export class AuthService {
 
   resetPassword(userName: string): Observable<any> {
     var changepwd = { "userName": userName }
-    return this.httpService.post(`${this.url}/security/users/reset`, changepwd);
+    return this.httpService.post(`${this.url}/security/password-reset-requests`, changepwd);
   }
 
   token(code: string): Observable<any> {
@@ -176,7 +176,7 @@ export class AuthService {
 
 
   createSession(refreshToken: string) {
-    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/sessions`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/sessions`;
     const body = {
       'refreshToken': refreshToken
     }
@@ -194,7 +194,7 @@ export class AuthService {
     const options = {
       headers: new HttpHeaders().append('responseType', 'text')
     }
-    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/refresh-tokens`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/refresh-tokens`;
     return this.httpService.get(coreDataUrl, { responseType: 'text' });
   }
 
@@ -273,7 +273,7 @@ export class AuthService {
   }
 
   clearRefreshToken() {
-    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/sign-out`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/sign-out`;
     return this.httpService.post(coreDataUrl, null);
   }
 
@@ -318,7 +318,7 @@ export class AuthService {
       headers: new HttpHeaders().append('Content-Type', 'application/json')
     }
     const body = { email }
-    return this.httpService.post(`${environment.uri.api.postgres}/users/nomination`, JSON.stringify(email), options).pipe(
+    return this.httpService.post(`${environment.uri.api.postgres}/users/nominees`, JSON.stringify(email), options).pipe(
       map(data => {
         return data;
       }),
@@ -326,76 +326,5 @@ export class AuthService {
         return throwError(error);
       })
     );
-  }
-  getMfaAuthorizationEndpoint()
-  {
-
-    let url = environment.uri.api.security + '/security/mfa/authorize?scope=email profile openid offline_access&response_type=code&client_id='
-      + environment.idam_client_id
-      + '&redirect_uri=' + environment.uri.web.dashboard + '/mfa-selection'
-    return url;
-  }
-  mfatoken(code: string): Observable<any> {
-    const options = {
-      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-    }
-    let body = `client_id=${environment.idam_client_id}&code=${code}&grant_type=authorization_code&code_verifier=${this.getCodeVerifier()}&redirect_uri=${environment.uri.web.dashboard + '/mfa-selection'}`;
-    this.RollbarErrorService.RollbarDebug('Token_req:'+ body)
-    return this.httpService.post(`${this.url}/security/mfa/token`, body, options).pipe(
-      map(data => {
-       this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data)) 
-        return data;
-      }),
-      catchError(error => {
-       this.RollbarErrorService.RollbarDebug('Token_error:' + JSON.stringify(error))
-        return throwError(error);
-      })
-    );
-  }
-  Associate(accessToken: string, phoneNumber: string, isSms: boolean = false): Observable<any> {
-
-    let tokenBody = {     
-      "authenticator_types": isSms ? ["oob"] : ["otp"],
-      "oob_channels":["sms"],
-      "phone_number": phoneNumber,
-      "access_token": accessToken
-    }
-    return this.httpService.post(`${this.url}/security/mfa/enrollment`, tokenBody).pipe(
-
-      map(data => {
-        
-        return data;
-
-      }),
-
-      catchError(error => {
-
-        return throwError(error);
-
-      })
-
-    );
-
-  }
-
-  VerifyOTP(otp: string, token:string, oob_code: string, auth_type: string): Observable<any> {
-
-    let tokenBody = {
-      "mfa_token": token,
-      "otp": otp,
-      "oob_code": oob_code  ,
-      "auth_type" : auth_type
-    }
-    return this.httpService.post(`${this.url}/security/mfa/verifyotp`, tokenBody).pipe(
-      map(data => {
-        return data;
-      }),
-
-      catchError(error => {
-        return throwError(error);
-      })
-
-    );
-
   }
 }

@@ -1,5 +1,4 @@
-<!-- <div class="content flex" [@slide]="(sideNavVisible$ | async) ? 'close' : 'open'"> -->
-<div class="user-profile-container">
+<div class="content flex" [@slide]="(sideNavVisible$ | async) ? 'close' : 'open'">
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
       <li class="govuk-breadcrumbs__list-item">
@@ -84,11 +83,8 @@
   </div>
   <div class="govuk-form-group govuk-button-group">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-    *ngIf="contactAddAnother" (click)="onContactAddClick()">{{
+      (click)="onContactAddClick()">{{
       'ADD_ANOTHER_CONTACT_BTN' | translate }}</button>
-      <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-    *ngIf="!contactAddAnother" (click)="onContactAddClick()">{{
-      'ADD_CONTACT' | translate }}</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
       (click)="onContactAssignClick()">
       {{ 'FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>

@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class AccordionComponent implements OnInit, OnChanges {
 
-  @Input() data: any[] = [];
+  @Input() data!: any[];
   @Input() headerText!: string
   @Input() headerTextKeys!: string
   @Input() isAdmin!: boolean

@@ -14,7 +14,6 @@ import { UserProfileResponseInfo } from 'src/app/models/user';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-org-support-details',
@@ -40,13 +39,11 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
   public orgGroups!: Group[];
   public roles$!: Observable<any>;
   public roles!: [];
-  public customMfaEnabled = environment.appSetting.customMfaEnabled;
-  
   @ViewChild('assignChk') assignChk!: ElementRef;
   @ViewChild('resetPassword') resetPassword!: ElementRef;
 
   constructor(private organisationGroupService: WrapperOrganisationGroupService, private wrapperUserService: WrapperUserService,
-    public router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
+    private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
     this.user = {
@@ -56,7 +53,6 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
       title: '',
       userName: '',
       mfaEnabled: false,
-      mfaOpted:false,
       isAdminUser:false,
       detail: {
         id: 0,
@@ -139,11 +135,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
       }
     });
   }
-  isResetSecurityEnable():boolean {
-    return this.customMfaEnabled
-    ? this.user.mfaOpted && this.user.mfaEnabled
-    : this.user.mfaEnabled;
-  }
+
   hasAdminRole(): boolean {
     const adminName = 'ORG_ADMINISTRATOR';
     if (this.user.detail.rolePermissionInfo && this.user.detail.rolePermissionInfo.some(rp => rp.roleKey == adminName)) {

@@ -11,7 +11,7 @@ export class ManageUserRoleComponent implements OnInit {
 public userDetails:any
 public errorResponce:boolean = false;
 public isOrgAdmin: boolean = false;
-public tokenPara : any=[];
+private tokenPara : any=[];
   constructor(private wrapperUserService: WrapperUserService,private router: Router,private route: ActivatedRoute) { 
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
   }
@@ -23,7 +23,7 @@ public tokenPara : any=[];
     });
   }
 
-  public verifytoken(encryptedtoken:string):void {
+  private verifytoken(encryptedtoken:string):void {
     this.wrapperUserService.userTokenVerify(encryptedtoken).subscribe((data)=>{
       this.userDetails = data
     },(err)=>{

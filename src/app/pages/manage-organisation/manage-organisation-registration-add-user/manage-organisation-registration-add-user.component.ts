@@ -11,7 +11,6 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { CiiOrganisationDto, OrganisationRegisterDto } from 'src/app/models/organisation';
 import { UserTitleEnum } from 'src/app/constants/enum';
 import { PatternService } from 'src/app/shared/pattern.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-organisation-registration-add-user',
@@ -27,7 +26,6 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   public pageAccessMode: any;
   public buyerFlow: any;
   legalName: string = '';
-  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -55,9 +53,10 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   }
 
   ngOnInit() {
-    this.ciiOrganisationInfo = localStorage.getItem('cii_organisation') ? JSON.parse(localStorage.getItem('cii_organisation')!) : {};
-    let orgreginfo = sessionStorage.getItem('orgreginfo') ? JSON.parse(sessionStorage.getItem('orgreginfo')!) : null;
-    if (orgreginfo) {
+    let ciiOrganisationInfoString = localStorage.getItem('cii_organisation') || "";
+    this.ciiOrganisationInfo = JSON.parse(ciiOrganisationInfoString);
+    let orgreginfo = JSON.parse(sessionStorage.getItem('orgreginfo') ?? '');
+    if (orgreginfo != '') {
       this.formGroup.controls['firstName'].setValue(orgreginfo.adminUserFirstName);
       this.formGroup.controls['lastName'].setValue(orgreginfo.adminUserLastName);
       this.formGroup.controls['email'].setValue(orgreginfo.adminEmail);
@@ -78,7 +77,6 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
     }
     if (this.formValid(form)) {
       const regType = localStorage.getItem("manage-org_reg_type") || "";
-      let orgreginfo = JSON.parse(sessionStorage.getItem('orgreginfo') ?? '');
       let organisationRegisterDto: OrganisationRegisterDto = {
         ciiDetails: this.ciiOrganisationInfo,
         businessType: localStorage.getItem("manage-org_buyer_type") || "",
@@ -88,7 +86,6 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
         adminUserFirstName: form.get('firstName')?.value,
         adminUserLastName: form.get('lastName')?.value,
         adminUserTitle: "",
-        isMfaRequired:orgreginfo.isMfaRequired
       };
       this.organisationService.registerOrganisation(organisationRegisterDto)
         .subscribe({

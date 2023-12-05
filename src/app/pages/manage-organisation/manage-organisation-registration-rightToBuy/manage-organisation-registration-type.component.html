@@ -17,9 +17,6 @@
         <li class="govuk-breadcrumbs__list-item">
           <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate }}</a>
       </li>
-      <li class="govuk-breadcrumbs__list-item" [hidden]="!isCustomMfaEnabled">
-        <a class="govuk-breadcrumbs__link" routerLink="/manage-reg-organisation-mfa">{{ '2FA_SETUP' | translate }}</a>
-    </li>
         <li class="govuk-breadcrumbs__list-item">
             <span class="govuk-breadcrumbs__link"> {{ 'ORG_TYPE' | translate }}</span>
         </li>

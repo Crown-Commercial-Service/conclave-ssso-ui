@@ -15,7 +15,7 @@ export class BulkUploadService {
     }
 
     uploadFile(organisationId: string, fileToUpload: File) {
-        const url = `${this.url}/${organisationId}/upload`;
+        const url = `${this.url}/${organisationId}/bulk-users`;
         const formData: FormData = new FormData();
         formData.append('file', fileToUpload, fileToUpload.name);
 
@@ -32,7 +32,7 @@ export class BulkUploadService {
     }
 
     checkBulkUploadStatus(organisationId: string, id: string){
-        const url = `${this.url}/${organisationId}/upload-status?id=${id}`;
+        const url = `${this.url}/${organisationId}/bulk-users/status?id=${id}`;
         return this.http.get<BulkUploadResponse>(url).pipe(
             map((data: BulkUploadResponse) => {
                 return data;

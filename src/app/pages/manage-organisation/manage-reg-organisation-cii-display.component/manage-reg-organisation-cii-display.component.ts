@@ -25,7 +25,7 @@ export class ManageOrgRegCIIOrgDisplayComponent extends BaseComponent implements
         super(uiStore, viewportScroller, scrollHelper);
     }
     async ngOnInit() {
-        let orgreginfo = sessionStorage.getItem('orgreginfo') ? JSON.parse(sessionStorage.getItem('orgreginfo')!) : {};
+        let orgreginfo = JSON.parse(sessionStorage.getItem('orgreginfo') ?? '');
         let data = await this.organisationService.getByName(orgreginfo.orgName).toPromise();
         if (data.length == 0) {
             //Org does not exists

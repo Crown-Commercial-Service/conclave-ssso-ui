@@ -208,18 +208,6 @@ import { EnvironmentBannerComponent } from './components/environment-banner/envi
 import { PermissionPipe } from './pipes/permission.pipe';
 import { SchemePipe } from './pipes/scheme.pipe';
 import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
-import { ManageOrgRegErrorAddressDetailsComponent } from './pages/manage-organisation/manage-organisation-registration-error-empty-address-details/manage-organisation-registration-error-empty-address-details.component'; 
-import { MfaSelectionComponent } from './pages/two-mfa/mfa-selection/mfa-selection.component';
-import { MfaInformationComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-information/mfa-authenticator-information.component';
-import { MfaAuthenticatorSetupComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-setup/mfa-authenticator-setup.component';
-import { QRCodeModule } from 'angularx-qrcode'; 
-import { MfaMessageStep1Component } from './pages/two-mfa/mfa-message/mfa-message-step-1/mfa-message-step-1.component';
-import { MfaMessageStep2Component } from './pages/two-mfa/mfa-message/mfa-message-step-2/mfa-message-step-2.component';
-import { NoMfaConfiramtionComponent } from './pages/two-mfa/no-mfa-confirmation/no-mfa-confirmation.component';
-import { MfaOffSaveSuccessComponent } from './pages/two-mfa/deactivate-two-mfa-success/mfa-off-save-success.component';
-import { MfaAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-authentication-setup-success/mfa-authentication-setup-sucess.component';
-import { MfaNoAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-no-authentication-setup-success/mfa-no-authentication-setup-success.component';
-import { ManageOrgRegMfaComponent } from './pages/two-mfa/manage-reg-organisation-mfa/manage-reg-organisation-mfa.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -393,18 +381,7 @@ export function createTranslateLoader(http: HttpClient) {
     EnvironmentBannerComponent,
     PermissionPipe,
     SchemePipe,
-    ManageOrganisationRegisterationCiiComponent,
-    ManageOrgRegErrorAddressDetailsComponent,
-    MfaSelectionComponent,
-    MfaInformationComponent,
-    MfaAuthenticatorSetupComponent,
-    MfaMessageStep1Component,
-    MfaMessageStep2Component,
-    NoMfaConfiramtionComponent,
-    MfaOffSaveSuccessComponent,
-    MfaAuthenticationSetupSuccessComponent,
-    MfaNoAuthenticationSetupSuccessComponent,
-    ManageOrgRegMfaComponent
+    ManageOrganisationRegisterationCiiComponent
   ],
   imports: [
     // BrowserModule,
@@ -447,8 +424,7 @@ export function createTranslateLoader(http: HttpClient) {
     NzLayoutModule,
     ComponentsModule,
     MatTableModule,
-    NgxIntlTelInputModule,
-    QRCodeModule
+    NgxIntlTelInputModule
   ],
   exports: [TranslateModule],
   providers: [

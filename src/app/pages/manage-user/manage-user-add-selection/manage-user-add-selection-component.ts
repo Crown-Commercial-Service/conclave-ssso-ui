@@ -31,7 +31,7 @@ export class ManageUserAddSelectionComponent
 
   constructor(
     protected uiStore: Store<UIState>,
-    public router: Router,
+    private router: Router,
     private formBuilder: FormBuilder,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper

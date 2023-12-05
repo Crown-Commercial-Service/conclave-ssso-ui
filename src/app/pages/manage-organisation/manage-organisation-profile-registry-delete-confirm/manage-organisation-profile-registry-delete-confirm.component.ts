@@ -29,7 +29,7 @@ export class ManageOrganisationRegistryDeleteConfirmationComponent extends BaseC
   public organisationId!: number;
   public orgId!: string;
 
-  constructor(private dataService: dataService, public router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private dataService: dataService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
     this.organisationId = parseInt(this.route.snapshot.paramMap.get('organisationId') || '0');
     this.orgId = JSON.parse(localStorage.getItem('organisation_id') + '');

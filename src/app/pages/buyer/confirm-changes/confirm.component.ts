@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -23,39 +18,31 @@ import { ViewportScroller } from '@angular/common';
   styleUrls: ['./confirm.component.scss'],
   animations: [
     slideAnimation({
-      close: { transform: 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' },
-    }),
+      close: { 'transform': 'translateX(12.5rem)' },
+      open: { left: '-12.5rem' }
+    })
   ],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BuyerConfirmChangesComponent extends BaseComponent {
+
   public org: any;
   public org$!: Observable<any>;
   public changes: any;
-
-  constructor(
-    private cf: ChangeDetectorRef,
-    private organisationService: OrganisationService,
-    private wrapperOrgService: WrapperOrganisationService,
-    public router: Router,
-    private route: ActivatedRoute,
-    protected uiStore: Store<UIState>,
-    protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper
-  ) {
-    super(uiStore, viewportScroller, scrollHelper);
-    this.route.params.subscribe((params) => {
+  
+  constructor(private cf: ChangeDetectorRef, private organisationService: OrganisationService, 
+    private wrapperOrgService: WrapperOrganisationService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    super(uiStore,viewportScroller,scrollHelper);
+    this.route.params.subscribe(params => {
       if (params.id) {
         this.org$ = this.organisationService.getById(params.id).pipe(share());
         this.org$.subscribe({
-          next: (data) => {
+          next: data => {
             this.org = data;
-            this.changes = JSON.parse(
-              localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`) + ''
-            );
-          },
+            this.changes = JSON.parse(localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`)+'');
+          }
         });
       }
     });
@@ -63,29 +50,21 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
 
   public onSubmitClick() {
     const model = {
-      orgType: parseInt(this.changes.orgType),
+      orgType:parseInt(this.changes.orgType),
       rolesToDelete: this.changes.toDelete,
       rolesToAdd: this.changes.toAdd,
     };
-    this.wrapperOrgService
-      .updateOrgRoles(
-        this.org.ciiOrganisationId,
-        JSON.stringify(model),
-        'roles'
-      )
-      .toPromise()
-      .then(() => {
-        localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
-        this.router.navigateByUrl(`buyer/success`);
-      })
-      .catch((error) => {
-        console.log(error);
-        this.router.navigateByUrl(`buyer/error`);
-      });
+    this.wrapperOrgService.updateOrgRoles(this.org.ciiOrganisationId, JSON.stringify(model),'roles').toPromise().then(() => {
+    localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
+      this.router.navigateByUrl(`buyer/success`);
+    }).catch(error => {
+      console.log(error);
+      this.router.navigateByUrl(`buyer/error`);
+    });
   }
 
   public onCancelClick() {
-    this.router.navigateByUrl('buyer-supplier/search');
+    this.router.navigateByUrl('buyer/search');
   }
 
   public onBackClick() {

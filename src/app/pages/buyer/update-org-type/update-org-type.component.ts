@@ -435,7 +435,7 @@ export class UpdateOrgTypeComponent implements OnInit {
    */
   public onCancelClick() {
     localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
-    this.router.navigateByUrl('buyer-supplier/search');
+    this.router.navigateByUrl('buyer/search');
   }
 
 

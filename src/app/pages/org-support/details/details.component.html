@@ -39,7 +39,7 @@
         password</label>
     </div>
     <div class="govuk-checkboxes__item">
-      <input class="govuk-checkboxes__input" type="checkbox" id="chkResetMFA" [disabled]="!isResetSecurityEnable()"
+      <input class="govuk-checkboxes__input" type="checkbox" id="chkResetMFA" [disabled]="!this.user.mfaEnabled"
         name="resetMfa" [(ngModel)]="resetMfaEnabled" (click)="onMfaResetSelect($event)" />
       <label  for="chkResetMFA" class="govuk-label govuk-checkboxes__label">Reset
         user's additional security</label>

@@ -72,7 +72,7 @@ export class OrganisationService {
 
 
   requestOrgAdminToJoinOrg(orgId: string, firstName: string, lastName: string, email: string): Observable<any> {
-    const url = `${this.url}/admin/join-notification`;
+    const url = `${this.url}/org-admin-join-notification`;
     return this.http.post(url, { 'firstName': firstName, 'lastName': lastName, 'email': email, 'ciiOrgId': orgId }).pipe(
       map(() => {
         return true;

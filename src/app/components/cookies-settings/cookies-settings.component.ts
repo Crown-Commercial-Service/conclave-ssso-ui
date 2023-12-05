@@ -24,14 +24,14 @@ export class CookiesSettingsComponent implements OnInit {
   public did = environment.cookies_policy.Auth0cookies.did;
   public auth0 = environment.cookies_policy.Auth0cookies.auth0;
   public _cf_bm = environment.cookies_policy.Auth0cookies.__cf_bm;
-  public cookieExpirationTimeInMinutes =environment.cookieExpirationTimeInMinutes;
+  private cookieExpirationTimeInMinutes =environment.cookieExpirationTimeInMinutes;
   public cookiesValue = {
     essential: true,
     additional: false,
     glassbox: false
   }
-  public ppg_cookies_preferences_set: string = this.CookiesService.getCookie('ppg_cookies_preferences_set');
-  public ppg_cookies_policy: string = this.CookiesService.getCookie('ppg_cookies_policy');
+  private ppg_cookies_preferences_set: string = this.CookiesService.getCookie('ppg_cookies_preferences_set');
+  private ppg_cookies_policy: string = this.CookiesService.getCookie('ppg_cookies_policy');
   public userName =  '';
   public isOrgAdmin: boolean = false;
 
@@ -72,7 +72,7 @@ export class CookiesSettingsComponent implements OnInit {
     window.history.back();
   }
 
-  public scrollView(): void {
+  private scrollView(): void {
     const element = document.getElementById("govuk-notification-banner-title");
     element?.scrollIntoView();
   }

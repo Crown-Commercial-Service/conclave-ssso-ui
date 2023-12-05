@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./cookies-banner.component.scss'],
 })
 export class CookiesBannerComponent implements OnInit , AfterViewInit {
-  public  cookieExpirationTimeInMinutes = environment.cookieExpirationTimeInMinutes
+  private  cookieExpirationTimeInMinutes = environment.cookieExpirationTimeInMinutes
   public cookiesData:any = {
     coockiebanner: true,
     acceptAnalyticsCookies: false,

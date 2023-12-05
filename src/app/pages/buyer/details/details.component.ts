@@ -89,6 +89,6 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   }
 
   public onCancelClick() {
-    this.router.navigateByUrl('buyer-supplier/search');
+    this.router.navigateByUrl('buyer/search');
   }
 }

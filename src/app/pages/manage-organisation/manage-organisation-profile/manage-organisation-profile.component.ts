@@ -33,7 +33,6 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     contactData: ContactGridInfo[];
     siteData: SiteGridInfo[];
     registries: CiiOrgIdentifiersDto;
-    contactAddAnother: any;
     additionalIdentifiers: CiiAdditionalIdentifier[];
     contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'MOBILE_NUMBER', 'FAX', 'WEB_URL'];
     contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'mobileNumber', 'fax', 'webUrl'];
@@ -41,7 +40,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     siteColumnsToDisplay = ['siteName', 'streetAddress', 'postalCode', 'countryCode'];
     registriesTableDisplayedColumns: string[] = ['authority', 'id', 'type', 'actions'];
     organisation: any;
-    public idps: any = [];
+    public idps: any;
     public orgIdps: any[] = [];
     changedIdpList: { id: number, enabled: boolean, connectionName: string, name: string }[] = [];
     ccsContactUrl: string = environment.uri.ccsContactUrl;
@@ -95,11 +94,6 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                 if (orgContactListInfo != null) {
                     this.contactData = this.contactHelper.getContactGridInfoList(orgContactListInfo.contactPoints);
                 }
-                if (orgContactListInfo.contactPoints && orgContactListInfo.contactPoints.length > 0) {
-                    this.contactAddAnother = true;
-                  } else {
-                    this.contactAddAnother = false;
-                  }
             }).catch(e => {
             });
 
@@ -140,8 +134,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     public onContactAddClick() {
         let data = {
             'isEdit': false,
-            'contactId': 0,
-            'contactAddAnother': this.contactAddAnother
+            'contactId': 0
         };
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
     }

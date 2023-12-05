@@ -57,9 +57,11 @@ export class ManageUserBulkUploadMigrationStatusComponent implements OnInit {
         let startDate: Date = bulkUploadResponse.bulkUploadMigrationReportDetails.migrationStartedTime;
         let endDate: Date = bulkUploadResponse.bulkUploadMigrationReportDetails.migrationEndTime;
 
-        let bulkUploadSummaryGridInfo: any = {
+        let bulkUploadSummaryGridInfo: BulkUploadSummaryGridInfo = {
             totalOrganisations: bulkUploadResponse.bulkUploadMigrationReportDetails.totalOrganisationCount,
             totalUsers: bulkUploadResponse.bulkUploadMigrationReportDetails.totalUserCount,
+            startTime: moment(startDate).format("DD/MM/YYYY HH:mm:ss"),
+            endTime: moment(endDate).format("DD/MM/YYYY HH:mm:ss"),
             duration: this.getDurationDifferenceString(startDate, endDate),
             status: bulkUploadResponse.bulkUploadMigrationReportDetails.failedUserCount == 0 ? 'Completed with no errors' : "Completed with errors",
             processedUsers: bulkUploadResponse.bulkUploadMigrationReportDetails.processedUserCount,
@@ -68,25 +70,22 @@ export class ManageUserBulkUploadMigrationStatusComponent implements OnInit {
         this.summaryGridInfoList.push(bulkUploadSummaryGridInfo);
     }
 
-
-      
-
     getDurationDifferenceString(startDate: Date, endDate: Date) {
-        // let startMoment = moment(startDate);
-        // let endMoment = moment(endDate);
-        // var differenceSeconds = moment.duration(endMoment.diff(startMoment)).asSeconds();
+        let startMoment = moment(startDate);
+        let endMoment = moment(endDate);
+        var differenceSeconds = moment.duration(endMoment.diff(startMoment)).asSeconds();
 
-        // var hours = Math.floor(differenceSeconds / 3600);
-        // differenceSeconds -= hours * 3600;
-        // var minutes = Math.floor(differenceSeconds / 60);
-        // differenceSeconds -= minutes * 60;
-        // var seconds = Math.floor(differenceSeconds);
+        var hours = Math.floor(differenceSeconds / 3600);
+        differenceSeconds -= hours * 3600;
+        var minutes = Math.floor(differenceSeconds / 60);
+        differenceSeconds -= minutes * 60;
+        var seconds = Math.floor(differenceSeconds);
 
-        // var differenceString = hours > 0 ? hours + `${hours == 1 ? ' hr ' : ' hrs '}` : '';
-        // differenceString += minutes > 0 ? minutes + `${minutes == 1 ? ' min ' : ' mins '}` : '';
-        // differenceString += seconds > 0 ? seconds + ' s' : '';
+        var differenceString = hours > 0 ? hours + `${hours == 1 ? ' hr ' : ' hrs '}` : '';
+        differenceString += minutes > 0 ? minutes + `${minutes == 1 ? ' min ' : ' mins '}` : '';
+        differenceString += seconds > 0 ? seconds + ' s' : '';
 
-        // return differenceString;
+        return differenceString;
     }
 
     setDatailGridInfo(bulkUploadResponse: BulkUploadResponse) {

@@ -45,7 +45,7 @@ export class WrapperBuyerBothService {
   getOrgEventLogs(organisationId: string, currentPage: number, pageSize: number): Observable<any> {
     pageSize = pageSize <= 0 ? 10 : pageSize;
     if(!environment.appSetting.hideSimplifyRole){
-      const url = `${this.org}/${organisationId}/audit-events/service-role-groups?currentPage=${currentPage}&pageSize=${pageSize}`;
+      const url = `${this.org}/${organisationId}/servicerolegroups/auditevents?currentPage=${currentPage}&pageSize=${pageSize}`;
       return this.http.get<OrganisationAuditEventListResponse>(url).pipe(
         map((data: OrganisationAuditEventListResponse) => {
           console.log("data.organisationAuditEventList",data)
@@ -56,7 +56,7 @@ export class WrapperBuyerBothService {
         })
       );
     } else {
-      const url = `${this.org}/${organisationId}/audit-events?currentPage=${currentPage}&pageSize=${pageSize}`;
+      const url = `${this.org}/${organisationId}/auditevents?currentPage=${currentPage}&pageSize=${pageSize}`;
       return this.http.get<OrganisationAuditEventListResponse>(url).pipe(
         map((data: OrganisationAuditEventListResponse) => {
           console.log("data",data)
@@ -69,7 +69,7 @@ export class WrapperBuyerBothService {
   }
 
   manualValidation(ciiOrgId: string, status:number): Observable<any> {
-    return this.http.put<any>(`${this.org}/${ciiOrgId}/validation/manual?status=${status}`, '').pipe(
+    return this.http.put<any>(`${this.org}/${ciiOrgId}/manualvalidate?status=${status}`, '').pipe(
       map((data: any) => {
         return data;
       }), catchError(error => {

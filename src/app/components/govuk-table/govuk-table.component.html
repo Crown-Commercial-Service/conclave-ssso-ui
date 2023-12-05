@@ -55,8 +55,7 @@
           <br>
         </td>
         <td class="govuk-table__cell" *ngIf="isHyperLinkVisible == true">
-          <a class="navigation-text" href="javascript:;"
-          [ngClass]="{'navigation-text-empty':hyperLinkText==='.'}">
+          <a class="navigation-text" href="javascript:;">
             {{ hyperLinkText || "" | translate }}</a>
         </td>
         <td *ngIf="hyperArrayVisible == true" class="govuk-table__cell">

@@ -53,7 +53,7 @@ export class SuccessOrgServiceComponent implements OnDestroy {
     });
   }
 
-  public updateTableData(){
+  private updateTableData(){
     if(this.changes.toAdd.length > 0){
       this.changes.toAdd.forEach((addRole:any)=>{
         this.toAdd.push({

@@ -20,7 +20,7 @@ export class SendMFAResetNotificationComponent extends BaseComponent implements 
   sendError: boolean = false;
   userName: string = '';
   protected mailDecryptKey = environment.mailDecryptKey
-  constructor(private route: ActivatedRoute, public router: Router, protected uiStore: Store<UIState>,
+  constructor(private route: ActivatedRoute, private router: Router, protected uiStore: Store<UIState>,
     private mfaService: MFAService, private authService: AuthService,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);

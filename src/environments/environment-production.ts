@@ -7,7 +7,7 @@ export const environment = {
       //security: 'https://dev.security.conclave.crowncommercial.gov.uk',
       security: 'https://api.crowncommercial.gov.uk',
       //postgres: 'https://dev.core.conclave.crowncommercial.gov.uk',
-      postgres: 'https://api.crowncommercial.gov.uk/dashboard-wrapper',
+      postgres: 'https://api.crowncommercial.gov.uk/core',
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
@@ -15,12 +15,14 @@ export const environment = {
           organisation: 'https://api.crowncommercial.gov.uk/organisation-profiles',
           contact: 'https://api.crowncommercial.gov.uk/contacts',
           configuration: 'https://api.crowncommercial.gov.uk/configurations',
+          dataMigration: 'https://api.crowncommercial.gov.uk/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://prod-api-wrapper.london.cloudapps.digital/users',
           organisation: 'https://prod-api-wrapper.london.cloudapps.digital/organisations',
           contact: 'https://prod-api-wrapper.london.cloudapps.digital/contacts',
           configuration: 'https://prod-api-wrapper.london.cloudapps.digital/configurations',
+          dataMigration: 'https://prod-api-wrapper.london.cloudapps.digital/datamigration',
         }
       }
     },

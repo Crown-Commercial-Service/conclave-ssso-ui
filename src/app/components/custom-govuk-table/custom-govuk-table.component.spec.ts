@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { Component, EventEmitter } from '@angular/core';
+
 import { CustomGovukTableComponent } from './custom-govuk-table.component';
-import { Store } from '@ngrx/store';
 
 describe('CustomGovukTableComponent', () => {
   let component: CustomGovukTableComponent;
@@ -10,9 +8,9 @@ describe('CustomGovukTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CustomGovukTableComponent],
-      providers: [{ provide: Store, useFactory: () => ({}) }],
-    }).compileComponents();
+      declarations: [ CustomGovukTableComponent ]
+    })
+    .compileComponents();
   });
 
   beforeEach(() => {
@@ -21,7 +19,7 @@ describe('CustomGovukTableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the component', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  async ngOnInit() {        
+  async ngOnInit() {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
         if(localStorage.getItem('user_name') === null){

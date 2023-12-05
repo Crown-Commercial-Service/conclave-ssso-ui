@@ -6,7 +6,7 @@
         <a class="govuk-breadcrumbs__link" routerLink="/home">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
-        <a class="govuk-breadcrumbs__link" routerLink="/buyer-supplier/search">Manage service eligibility</a>
+        <a class="govuk-breadcrumbs__link" routerLink="/buyer/search">Manage service eligibility</a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
         <span class="govuk-breadcrumbs__link">Confirm your organisation selection</span>
@@ -37,7 +37,7 @@
     </thead>
     <tbody class="govuk-table__body">
       <tr class="govuk-table__row">
-        <td scope="row" class="govuk-table__header">{{ getSchemaName(registries.identifier?.scheme||'') }}</td>
+        <th scope="row" class="govuk-table__header">{{ getSchemaName(registries.identifier?.scheme||'') }}</th>
         <td class="govuk-table__cell">{{ registries.identifier?.id}}</td>
         <td class="govuk-table__cell">Primary</td>
       </tr>

@@ -4,23 +4,23 @@ export const environment = {
     uri: {
       api: {
         isApiGateWayEnabled: true,
-        security: 'https://dev.ppg-sso-service.crowncommercial.gov.uk',
-        postgres: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/dashboard-wrapper',
+        security: 'https://dev.api.crowncommercial.gov.uk/aws',
+        postgres: 'https://dev.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
         cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
-            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/users',
-            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/organisations',
-            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/contacts',
-            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/configurations',
-            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/datamigration',
+            user: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/users',
+            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/organisations',
+            contact: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/contacts',
+            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/configurations',
+            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/datamigration',
           },
           apiGatewayDisabled: {
-            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/users',
-            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/organisations',
-            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/contacts',
-            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/configurations',
-            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/datamigration',
+            user: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/users',
+            organisation: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/organisations',
+            contact: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/contacts',
+            configuration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/configurations',
+            dataMigration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/datamigration',
           }
         }
       },

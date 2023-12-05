@@ -7,7 +7,6 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { UIState } from 'src/app/store/ui.states';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-nominate-success',
@@ -19,7 +18,6 @@ export class NominateSuccessComponent extends BaseComponent implements OnDestroy
   private subscription: Subscription | undefined;
   public emailAddress: any;
   public pageAccessMode:any;
-  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
   constructor(
     private route: ActivatedRoute,
     private dataService: SharedDataService,

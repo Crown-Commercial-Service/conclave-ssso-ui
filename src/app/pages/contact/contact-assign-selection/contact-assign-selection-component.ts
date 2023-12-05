@@ -29,7 +29,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     siteCreate: any;
 
-    constructor(protected uiStore: Store<UIState>, public router: Router, private formBuilder: FormBuilder,
+    constructor(protected uiStore: Store<UIState>, private router: Router, private formBuilder: FormBuilder,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private activatedRoute: ActivatedRoute) {
         super(uiStore,viewportScroller,scrollHelper);
         this.selectionForm = this.formBuilder.group({

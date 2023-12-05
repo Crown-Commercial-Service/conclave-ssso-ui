@@ -39,7 +39,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   currentPage: number = 1;
   totalPagesArray: number[] = [];
   pageSize: number = environment.listPageSize;
-  tableVisibleData: any[] = [];
+  tableVisibleData!: any[];
   selectedRadioId: string = 'table-radio-id-non';
   public maxVisibleDots = 5
    constructor(

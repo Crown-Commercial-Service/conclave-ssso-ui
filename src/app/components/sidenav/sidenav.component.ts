@@ -1,8 +1,8 @@
 import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { slideAnimation } from '../../animations/slide.animation';
-import { AuthService } from '../../services/auth/auth.service';
+import { slideAnimation } from 'src/app/animations/slide.animation';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
     selector: 'app-sidenav',

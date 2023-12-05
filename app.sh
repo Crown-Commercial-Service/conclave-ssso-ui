@@ -53,7 +53,6 @@ cf target -o "$CF_ORG" -s "$CF_ENV"
 ls -l
 mkdir deploy 
 cp -rf dist ./deploy/
-cp -rf nginx ./deploy/
 cp -rf Staticfile ./deploy/
 cp -rf nginx.conf ./deploy/
 cp -rf manifest.yml ./deploy/

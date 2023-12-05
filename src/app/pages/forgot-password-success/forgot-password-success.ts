@@ -21,7 +21,7 @@ export class ForgotPasswordSuccessComponent extends BaseComponent implements OnI
 
     public userName: string = '';
 
-    constructor(private activatedRoute: ActivatedRoute, public authService: AuthService,
+    constructor(private activatedRoute: ActivatedRoute, private authService: AuthService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
         this.userName = sessionStorage.getItem(SessionStorageKey.ForgotPasswordUserName) ?? "";

@@ -16,7 +16,7 @@ export class ManageOrgRegSearchStatusDuplicateComponent {
     ciiOrgId: string = '';
     schemeName: string = '';
 
-    constructor(public ciiService: ciiService, public router: Router,) {
+    constructor(private ciiService: ciiService, private router: Router,) {
     }
 
     public onOrgSelected(event: string) {

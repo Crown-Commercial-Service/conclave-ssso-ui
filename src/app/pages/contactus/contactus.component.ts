@@ -27,7 +27,7 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
   formGroup: FormGroup;
   submitted: boolean = false;
 
-  constructor(public formBuilder: FormBuilder,public PatternService:PatternService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
+  constructor(private formBuilder: FormBuilder,private PatternService:PatternService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
     this.formGroup = this.formBuilder.group({

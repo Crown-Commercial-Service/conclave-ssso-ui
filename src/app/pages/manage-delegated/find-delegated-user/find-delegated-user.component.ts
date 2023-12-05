@@ -14,13 +14,13 @@ import { PatternService } from 'src/app/shared/pattern.service';
 export class FindDelegatedUserComponent implements OnInit {
   public formGroup!: FormGroup;
   public submitted: boolean = false;
-  public organisationId: string = ''
+  private organisationId: string = ''
   public error: string = ''
   constructor(
-    public route: Router,
+    private route: Router,
     private formBuilder: FormBuilder,
     private PatternService: PatternService,
-    public WrapperUserDelegatedService: WrapperUserDelegatedService,
+    private WrapperUserDelegatedService: WrapperUserDelegatedService,
     protected scrollHelper: ScrollHelper,
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';

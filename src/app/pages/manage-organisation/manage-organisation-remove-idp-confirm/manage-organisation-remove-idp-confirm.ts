@@ -29,8 +29,8 @@ export class ManageOrganisationRemoveIdpConfirmComponent extends BaseComponent i
     idpNames: string = '';
     affectedUsers: number = 0;
 
-    constructor(protected uiStore: Store<UIState>, public router: Router, public organisationGroupService: WrapperOrganisationGroupService,
-        public organisationService: OrganisationService, private readonly tokenService: TokenService, private activatedRoute: ActivatedRoute,
+    constructor(protected uiStore: Store<UIState>, private router: Router, private organisationGroupService: WrapperOrganisationGroupService,
+        private organisationService: OrganisationService, private readonly tokenService: TokenService, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
 
         super(uiStore, viewportScroller, scrollHelper);

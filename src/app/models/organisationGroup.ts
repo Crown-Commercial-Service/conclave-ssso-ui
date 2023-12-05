@@ -1,6 +1,6 @@
 export interface Group {
   serviceRoleGroups: any;
-  checked?: boolean;
+  checked ?: boolean;
   groupId: number;
   mfaEnabled: boolean;
   groupName: string;

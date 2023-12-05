@@ -158,7 +158,7 @@ export class ManageGroupOperationSuccessComponent
     this.getListOfUsersGivenAccess();
   }
 
-  public getListOfUserRequiredAccess(): void {
+  private getListOfUserRequiredAccess(): void {
     this.orgGroupService
       .getPendingApproveOrganisationGroup(
         this.organisationId,
@@ -179,7 +179,7 @@ export class ManageGroupOperationSuccessComponent
       );
   }
 
-  public getListOfUsersGivenAccess(): void {
+  private getListOfUsersGivenAccess(): void {
     this.orgGroupService
       .getPendingApproveOrganisationGroup(
         this.organisationId,
@@ -206,7 +206,7 @@ export class ManageGroupOperationSuccessComponent
     this.accordionStatus = isGroupOperation && hasUsers;
   }
 
-  public isGroupOperation(){
+  private isGroupOperation(){
     return [this.operationEnum.GroupRoleUpdate, this.operationEnum.GroupAdd,this.operationEnum.GroupUserUpdate].includes(this.operation);
   }
 

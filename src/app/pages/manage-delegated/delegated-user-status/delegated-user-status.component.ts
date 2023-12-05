@@ -121,7 +121,6 @@ export class DelegatedUserStatusComponent implements OnInit {
       endyear: endDate[0],
     });
     this.getOrgRoles(response);
-    this.getEventLogDetails();
   }
   public getOrgRoles(roleResponse: any): void {
     this.orgRoleService
@@ -144,7 +143,7 @@ export class DelegatedUserStatusComponent implements OnInit {
                 this.formbuilder.control(true)
               );
             }
-         // this.getEventLogDetails();
+          this.getEventLogDetails();
           });
         });
       });

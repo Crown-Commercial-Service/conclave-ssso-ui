@@ -14,17 +14,14 @@
                     <a class="govuk-breadcrumbs__link" routerLink="/profile">{{ 'MANAGE_MY_ACCOUNT' | translate }}</a>
                 </li>
                 <li class="govuk-breadcrumbs__list-item">
-                    <span *ngIf="isEdit!=true && isEditContact!=true" class="govuk-breadcrumbs__link">{{ 'ADD_ANOTHER_CONTACT' | translate
-                        }}</span>
-                        <span *ngIf="isEditContact==true && isEdit!=true" class="govuk-breadcrumbs__link">{{ 'ADD_NEW_CONTACT' | translate
+                    <span *ngIf="isEdit!=true" class="govuk-breadcrumbs__link">{{ 'ADD_ANOTHER_CONTACT' | translate
                         }}</span>
                     <span *ngIf="isEdit==true" class="govuk-breadcrumbs__link">{{ 'EDIT_CONTACT_DETAILS' | translate
                         }}</span>
                 </li>
             </ol>
         </div>
-        <h1 *ngIf="isEdit!=true && isEditContact!=true" class="govuk-heading-xl page-title">{{ 'ADD_ANOTHER_CONTACT' | translate }}</h1>
-        <h1 *ngIf="isEditContact==true && isEdit!=true" class="govuk-heading-xl page-title">{{ 'ADD_NEW_CONTACT' | translate }}</h1>
+        <h1 *ngIf="isEdit!=true" class="govuk-heading-xl page-title">{{ 'ADD_ANOTHER_CONTACT' | translate }}</h1>
         <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">{{ 'EDIT_CONTACT_DETAILS' | translate }}</h1>
         <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert"
             tabindex="-1" id="error-summary" data-module="govuk-error-summary"

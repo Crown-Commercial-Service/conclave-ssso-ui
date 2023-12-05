@@ -37,9 +37,9 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
     selectedContacts: ContactGridInfo[] = [];
     siteCreate: any;
 
-    constructor(public userContactService: WrapperUserContactService, public siteContactService: WrapperSiteContactService,
+    constructor(private userContactService: WrapperUserContactService, private siteContactService: WrapperSiteContactService,
         private contactHelper: ContactHelper,
-        protected uiStore: Store<UIState>, public router: Router, private activatedRoute: ActivatedRoute,
+        protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';

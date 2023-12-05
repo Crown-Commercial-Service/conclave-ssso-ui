@@ -11,12 +11,12 @@ import { environment } from 'src/environments/environment';
 })
 export class DataMigrationService {
   public url: string = `${environment.uri.api.isApiGateWayEnabled ?
-    environment.uri.api.wrapper.apiGatewayEnabled.organisation : environment.uri.api.wrapper.apiGatewayDisabled.organisation}`;
+    environment.uri.api.wrapper.apiGatewayEnabled.dataMigration : environment.uri.api.wrapper.apiGatewayDisabled.dataMigration}`;
     
   constructor(private http: HttpClient) {}
 
   uploadDataMigrationFile(fileToUpload: File) {
-    const url = `${this.url}/migrations/upload`;
+    const url = `${this.url}/upload`;
     const formData: FormData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
 
@@ -36,7 +36,7 @@ export class DataMigrationService {
   }
 
   getDataMigrationFileDetails(PageSize:number,CurrentPage:number): Observable<any> {
-    const url = `${this.url}/migrations/files?PageSize=${PageSize}&CurrentPage=${CurrentPage}`;
+    const url = `${this.url}/files?PageSize=${PageSize}&CurrentPage=${CurrentPage}`;
     var user = this.http.get<any>(url).pipe(
       map((data: any) => { 
         return data;
@@ -49,7 +49,7 @@ export class DataMigrationService {
   }
 
   getDataMigrationFileStatusById(id:string): Observable<any> {
-    const url = `${this.url}/migrations/status?id=${id}`;
+    const url = `${this.url}/status?id=${id}`;
     var user = this.http.get<any>(url).pipe(
       map((data: any) => { 
         return data;

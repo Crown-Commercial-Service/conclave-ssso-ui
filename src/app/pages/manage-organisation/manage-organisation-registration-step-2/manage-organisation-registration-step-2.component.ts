@@ -19,7 +19,6 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-organisation-registration-step-2',
@@ -36,7 +35,6 @@ export class ManageOrgRegStep2Component
   extends BaseComponent
   implements OnInit
 {
-  public isCustomMfaEnabled:boolean=environment.appSetting.customMfaEnabled;
   public items$!: Observable<any>;
   public scheme!: string;
   public schemeSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
@@ -54,8 +52,7 @@ export class ManageOrgRegStep2Component
   };
   public pageAccessMode:any;
   submitted: boolean = false;
-  public newScheme:any = [];
-
+  public newScheme:any = []
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -64,7 +61,7 @@ export class ManageOrgRegStep2Component
     private router: Router,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
-    public scrollHelper: ScrollHelper,
+    protected scrollHelper: ScrollHelper,
     private formBuilder: FormBuilder,
     private ActivatedRoute: ActivatedRoute,
     private SharedDataService:SharedDataService

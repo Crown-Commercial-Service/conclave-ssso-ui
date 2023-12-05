@@ -44,7 +44,7 @@ export class NominateComponent extends BaseComponent {
     private dataService: SharedDataService,
     private PatternService: PatternService,
     private authService: AuthService,
-    public router: Router,
+    private router: Router,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,

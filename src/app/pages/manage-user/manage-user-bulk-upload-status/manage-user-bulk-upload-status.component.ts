@@ -24,7 +24,7 @@ export class ManageUserBulkUploadStatusComponent implements OnInit {
     errorColumnsToDisplay = ['errorHeading', 'errorDescription'];
     errorsGridInfoList: BulkUploadErrorsGridInfo[] = [];
     isBulkUpload = environment.appSetting.hideBulkupload
-    constructor(public router: Router, private activatedRoute: ActivatedRoute, private bulkUploadService: BulkUploadService) {
+    constructor(private router: Router, private activatedRoute: ActivatedRoute, private bulkUploadService: BulkUploadService) {
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         if(this.isBulkUpload){
             this.router.navigateByUrl('home');
