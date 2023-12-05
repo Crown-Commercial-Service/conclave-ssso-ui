@@ -27,6 +27,7 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 
 
@@ -156,7 +157,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     private dataLayerService: DataLayerService,
     private tokenService: TokenService,
     private wrapperOrganisationService: WrapperOrganisationService,
-    private sessionService:SessionService
+    private sessionService:SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     super(
       viewportScroller,
@@ -166,6 +168,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         mfaEnabled: [null]
       })
     );
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.userName = this.sessionService.decrypt('user_name')
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.routeStateData = this.router.getCurrentNavigation()?.extras.state;
@@ -177,11 +180,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
     if (this.isCustomMfaEnabled) {
       await this.GetOrganisationMfaSettings();
-    }
+    }    
     this.isAdminUser = this.route.snapshot.data.isAdmin;
-    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     localStorage.removeItem('UserContactUsername');
     await this.auditLogService
       .createLog({
@@ -409,6 +413,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
     })
+    this.loadingIndicatorService.isLoading.next(false);
+    this.loadingIndicatorService.isCustomLoading.next(false);
   }
 
   pushDataLayerEvent() {
