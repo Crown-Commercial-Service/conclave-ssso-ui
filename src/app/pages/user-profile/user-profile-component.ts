@@ -168,6 +168,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         mfaEnabled: [null]
       })
     );
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.userName = this.sessionService.decrypt('user_name')
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.routeStateData = this.router.getCurrentNavigation()?.extras.state;
@@ -185,7 +186,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       await this.GetOrganisationMfaSettings();
     }    
     this.isAdminUser = this.route.snapshot.data.isAdmin;
-    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     localStorage.removeItem('UserContactUsername');
     await this.auditLogService
       .createLog({
