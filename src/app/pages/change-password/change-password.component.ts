@@ -35,7 +35,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
-    private router: Router, protected uiStore: Store<UIState>, private location: Location,
+    public router: Router, protected uiStore: Store<UIState>, private location: Location,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore,viewportScroller,scrollHelper);
     this.formGroup = this.formBuilder.group({
@@ -65,7 +65,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
   }
 
   public checkPasswordStrong(control: FormControl) {
-    var format = /[!@#$%^&*_]+/;
+    var format = /[!"#$%&'()*+,\-.\/:;<=>?@[\]\\^_{|}]+/;
     let hasNumber = /\d/.test(control.value);
     let hasUpper = /[A-Z]/.test(control.value);
     let hasLower = /[a-z]/.test(control.value);

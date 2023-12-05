@@ -18,7 +18,7 @@
           </div>
           <div class="fleet_accept">
               <h1 class="govuk-heading-xl">Fleet Portal access verification</h1>
-              <p *ngIf="errorCode === 400" class="govuk-body-l"> The access request for Fleet Portal for user
+              <p *ngIf="errorCode === 400" class="govuk-body-l">The access request for Fleet Portal for user
                  {{userInfo.userName}} has expired or it was already actioned.</p>   
               <p *ngIf="errorCode === 404" class="govuk-body-l">User {{userInfo.userName}} no longer requires access to Fleet Portal and the access
                     has been removed by the organisation admin.</p>           

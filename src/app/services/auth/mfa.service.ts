@@ -10,7 +10,7 @@ export class MFAService {
     }
 
     resetMFA(ticket: string): Observable<any> {
-        return this.httpService.post(`${environment.uri.api.postgres}/auth/mfa-reset-by-tickets`, { 'ticket': ticket }).pipe(
+        return this.httpService.post(`${environment.uri.api.postgres}/authorization/mfa-reset-by-tickets`, { 'ticket': ticket }).pipe(
             map(data => {
                 return data;
             }),
@@ -21,7 +21,7 @@ export class MFAService {
     }
 
     sendResetMFANotification(userName: string): Observable<any> {
-        return this.httpService.post(`${environment.uri.api.postgres}/auth/mfa-reset-notifications`, { 'UserName': userName }).pipe(
+        return this.httpService.post(`${environment.uri.api.postgres}/authorization/mfa-reset-notifications`, { 'UserName': userName }).pipe(
             map(data => {
                 return data;
             }),
@@ -32,7 +32,7 @@ export class MFAService {
     }
 
     sendResetMFANotificationByAdmin(userName: string): Observable<any> {
-        return this.httpService.post(`${environment.uri.api.postgres}/auth/mfa-reset-notification-by-admins`, { 'UserName': userName }).pipe(
+        return this.httpService.post(`${environment.uri.api.postgres}/authorization/mfa-reset-notification-by-admins`, { 'UserName': userName }).pipe(
             map(data => {
                 return data;
             }),

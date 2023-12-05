@@ -20,7 +20,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
     adminSelectionMode : string = 'useradmin';
     contactUrl = environment.uri.ccsContactUrl;
     
-    constructor(private router: Router, protected uiStore: Store<UIState>,
+    constructor(public router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore, viewportScroller, scrollHelper);
     }
@@ -32,7 +32,10 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
     onContinueClick(){
         switch (this.adminSelectionMode){
             case "useradmin":{
-                this.router.navigateByUrl(`manage-org/register/type`);
+                this.router.navigateByUrl(environment.appSetting.customMfaEnabled
+                    ? 'manage-reg-organisation-mfa'
+                    : 'manage-org/register/type'
+                  );
                 break
             }
             case "nominateadmin":{

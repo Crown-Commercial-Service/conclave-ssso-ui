@@ -31,6 +31,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   public serverError: string = '';
   public dublicateSiteName=''
   organisationId: string;
+  contactAddAnother :boolean = false;
   contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER','MOBILE_NUMBER','FAX', 'WEB_URL'];
   contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber','mobileNumber','fax', 'webUrl'];
   contactData: ContactGridInfo[];
@@ -46,7 +47,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
 
   constructor(private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
-    private orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
+    public orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
     private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService) {
     super(viewportScroller, formBuilder.group({                                        
       name: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
@@ -164,6 +165,11 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
         if (siteContactListInfo != null) {
           this.contactData = this.contactHelper.getContactGridInfoList(siteContactListInfo.contactPoints);
         }
+        if (siteContactListInfo.contactPoints && siteContactListInfo.contactPoints.length > 0) {
+          this.contactAddAnother = true;
+        } else {
+          this.contactAddAnother = false;
+        }
       },
       error: (error: any) => {
         console.log(error);
@@ -279,6 +285,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       'siteId': this.siteId,
       'siteCreate':false,
       'ContactAdd':true,
+      'contactAddAnother':this.contactAddAnother,
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
   }

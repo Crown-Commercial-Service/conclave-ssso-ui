@@ -27,7 +27,7 @@ export class ContactUnassignConfirmComponent extends BaseComponent implements On
     unassignSiteId: number = 0;
     contactId: number = 0;
     constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        private contactService: WrapperOrganisationContactService, private siteContactService: WrapperSiteContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        public contactService: WrapperOrganisationContactService, public siteContactService: WrapperSiteContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
         super(uiStore,viewportScroller,scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         let queryParams = this.activatedRoute.snapshot.queryParams;

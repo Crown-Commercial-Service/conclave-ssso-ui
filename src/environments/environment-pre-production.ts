@@ -14,7 +14,7 @@ export const environment = {
 
           //security: 'https://pre.api.crowncommercial.gov.uk', 
 
-          postgres: 'https://pre.api.crowncommercial.gov.uk/core',
+          postgres: 'https://pre.api.crowncommercial.gov.uk/dashboard-wrapper',
 
           //postgres: 'https://pre.api.crowncommercial.gov.uk/core', 
 
@@ -29,9 +29,6 @@ export const environment = {
                   contact: 'https://pre.api.crowncommercial.gov.uk/contacts',
 
                   configuration: 'https://pre.api.crowncommercial.gov.uk/configurations',
-
-                  dataMigration: 'https://pre.api.crowncommercial.gov.uk/datamigration',
-
               },
 
               apiGatewayDisabled: {
@@ -43,8 +40,6 @@ export const environment = {
                   contact: 'https://preprod-api-wrapper.london.cloudapps.digital/contacts',
 
                   configuration: 'https://preprod-api-wrapper.london.cloudapps.digital/configurations',
-
-                  dataMigration: 'https://preprod-api-wrapper.london.cloudapps.digital/datamigration',
 
               }
 

@@ -55,6 +55,7 @@ export class UserContactEditComponent
   default: string = '';
   contactReasons: ContactReason[] = [];
   isEdit: boolean = false;
+  isEditContact: boolean = true;
   contactId: number = 0;
   separateDialCode = false;
   SearchCountryField = SearchCountryField;
@@ -91,16 +92,16 @@ export class UserContactEditComponent
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
-    private contactService: WrapperUserContactService,
+    public contactService: WrapperUserContactService,
     private formBuilder: FormBuilder,
-    private router: Router,
+    public router: Router,
     private PatternService: PatternService,
     private activatedRoute: ActivatedRoute,
     protected uiStore: Store<UIState>,
     private contactHelper: ContactHelper,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private externalContactService: WrapperContactService,
+    public externalContactService: WrapperContactService,
     private titleService: Title
   ) {
     super(
@@ -147,6 +148,7 @@ export class UserContactEditComponent
       this.userName =
         sessionStorage.getItem(SessionStorageKey.UserContactUsername) ?? '';
       this.contactId = routeData['contactId'];
+      this.isEditContact = routeData['isEditContact'];
     }
     this.formGroup.setValidators(this.validateForSufficientDetails());
     this.formGroup.controls['contactReason'].setValue(this.default, {

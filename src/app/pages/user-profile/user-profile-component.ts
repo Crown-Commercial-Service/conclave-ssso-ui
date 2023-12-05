@@ -81,6 +81,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   userContacts: ContactGridInfo[] = [];
   userName: string;
   organisationId: string;
+  buttonText : string | any;
+  isEditContact : boolean = false;
   canChangePassword: boolean = false;
   identityProviderDisplayName: string = '';
   roleDataList: any[] = [];
@@ -138,6 +140,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     private authService: AuthService,
     private auditLogService: AuditLoggerService,
     private organisationService: WrapperOrganisationService,
+    private route: ActivatedRoute
   ) {
     super(
       viewportScroller,
@@ -158,6 +161,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.isAdminUser = this.route.snapshot.data.isAdmin;
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     sessionStorage.removeItem(SessionStorageKey.UserContactUsername);
     await this.auditLogService
@@ -209,9 +213,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               (rp) => rp.roleId == r.roleId
             );          
           if (userRole) {
-            if (r.roleKey == this.adminRoleKey && this.isAdminUser == false) {
-              this.isAdminUser = true;
-            }
             this.formGroup.addControl(
               'orgRoleControl_' + r.roleId,
               this.formBuilder.control(this.assignedRoleDataList ? true : '')
@@ -241,11 +242,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           }
         })
         
-        var adminRoleId = orgRoles.find(r => r.roleKey === this.adminRoleKey)?.roleId;
-        if(user.detail?.userGroups?.find((x: any) => x.accessServiceRoleGroupId === adminRoleId))
-        {
-          this.isAdminUser = true;
-        }        
         this.userTypeDetails.isGrayOut = true;        
         this.userTypeDetails.selectedValue = this.isAdminUser ? this.adminRoleKey : this.userRoleKey;
         this.userTypeDetails.description = this.isAdminUser ? 'Only another administrator can change your user type.' : 'Only an administrator can change your user type.';
@@ -424,6 +420,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             userContactsInfo.contactPoints
           );
         }
+        if (userContactsInfo.contactPoints && userContactsInfo.contactPoints.length > 0) {
+          this.buttonText = 'ADD_ANOTHER_CONTACT_BTN';
+          this.isEditContact = false;
+        } else {
+          this.buttonText = 'ADD_CONTACT';
+          this.isEditContact = true;
+        }
       },
       error: (error: any) => { },
     });
@@ -453,6 +456,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     let data = {
       isEdit: false,
       contactId: 0,
+      isEditContact: this.isEditContact,
     };
     sessionStorage.setItem(
       SessionStorageKey.UserContactUsername,
@@ -473,6 +477,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         title: '',
         organisationId: this.organisationId,
         userName: this.userName,
+        mfaOpted:false,
         mfaEnabled: form.get('mfaEnabled')?.value,
         isAdminUser: this.isAdminUser,
         detail: {

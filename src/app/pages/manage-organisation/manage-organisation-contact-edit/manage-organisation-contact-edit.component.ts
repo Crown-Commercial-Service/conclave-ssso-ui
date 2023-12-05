@@ -58,6 +58,7 @@ export class ManageOrganisationContactEditComponent
   default: string = '';
   contactReasons: ContactReason[] = [];
   isEdit: boolean = false;
+  contactAddAnother :boolean = false;
   isAssignedContact: boolean = false;
   contactId: number = 0;
   siteId: number = 0;
@@ -157,6 +158,7 @@ export class ManageOrganisationContactEditComponent
       this.siteId = routeData['siteId'] || 0;
       this.siteCreate = routeData['siteCreate'] || false;
       this.ContactAdd = routeData['ContactAdd'] || false;
+      this.contactAddAnother = routeData['contactAddAnother'] ; 
     }
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.formGroup.setValidators(this.validateForSufficientDetails());

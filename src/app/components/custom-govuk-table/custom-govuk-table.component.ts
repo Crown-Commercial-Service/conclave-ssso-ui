@@ -38,7 +38,7 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   currentPage: number = 1;
   totalPagesArray: number[] = [];
   pageSize: number = environment.listPageSize;
-  tableVisibleData!: any[];
+  tableVisibleData: any[] = [];
   constructor(
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,public helperservice:HelperService,private PaginationService:PaginationService) {
     super(uiStore, viewportScroller, scrollHelper);
