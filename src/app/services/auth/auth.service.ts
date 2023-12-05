@@ -334,7 +334,6 @@ export class AuthService {
   }
   getMfaAuthorizationEndpoint()
   {
-
     let url = environment.uri.api.security + '/security/mfa/authorize?scope=email profile openid offline_access&response_type=code&client_id='
       + environment.idam_client_id
       + '&redirect_uri=' + environment.uri.web.dashboard + '/mfa-selection'

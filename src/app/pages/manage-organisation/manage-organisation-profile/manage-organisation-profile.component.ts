@@ -22,6 +22,7 @@ import { OrganisationDto } from 'src/app/models/organisation';
 import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
     selector: 'app-manage-organisation-profile',
@@ -66,7 +67,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
         protected uiStore: Store<UIState>, private readonly tokenService: TokenService, private organisationGroupService: WrapperOrganisationGroupService,
         private orgContactService: WrapperOrganisationContactService, private wrapperOrgSiteService: WrapperOrganisationSiteService,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,
+        private loadingIndicatorService: LoadingIndicatorService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.contactData = [];
         this.siteData = [];
@@ -77,6 +79,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     }
 
     async ngOnInit() {
+        this.loadingIndicatorService.isLoading.next(true);
+        this.loadingIndicatorService.isCustomLoading.next(true);
      setTimeout(() => {
         this.initialization()
      }, 500);
@@ -172,6 +176,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
              cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
            });
         })
+        this.loadingIndicatorService.isLoading.next(false);
+        this.loadingIndicatorService.isCustomLoading.next(false);
     }
     public onContactAddClick() {
         let data = {
