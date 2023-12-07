@@ -55,3 +55,13 @@ a {
 .govuk-breadcrumbs__list{
   padding-left: 0px !important;
 }
+.shared-font {
+  font-family: 'Arial', sans-serif; 
+}
+p, li {
+  font-size: 19px;
+  line-height: 1.6;
+}
+.no-bullets li {
+  margin-bottom: 15px; 
+}
