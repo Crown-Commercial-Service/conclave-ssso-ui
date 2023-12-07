@@ -90,7 +90,15 @@ export class AppComponent implements OnInit {
         // Url after trimming the leading slash
         let url = currentGlobalRoute.startsWith('/') ? currentGlobalRoute.replace(/^\/+/, '') : currentGlobalRoute;
         this.globalRouteService.globalRoute = url;
-        this.router.navigate(['/renewtkn'], { replaceUrl: true });
+        if(this.globalRouteService.globalRoute.indexOf("mfa-selection") < 0){
+          this.router.navigate(['/renewtkn'], { replaceUrl: true });
+        }
+        else
+        {
+          this.authService.useTokenFromStorage();
+          let url = this.globalRouteService.globalRoute.length > 0 ? this.globalRouteService.globalRoute : 'home';
+          this.router.navigateByUrl(url, { replaceUrl: true });
+        }
       }
       else {
         this.authService.registerTokenRenewal();
