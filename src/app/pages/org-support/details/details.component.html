@@ -47,12 +47,12 @@
     <div class="govuk-checkboxes__item" *ngIf ="!isDormantUser">
       <input class="govuk-checkboxes__input" type="checkbox" id="chkDeactivateUser" 
         name="deactivateUser" [(ngModel)]="deactivateEnabled" />
-      <label  for="chkDeactivateUser" class="govuk-label govuk-checkboxes__label">Deactivate User</label>
+      <label  for="chkDeactivateUser" class="govuk-label govuk-checkboxes__label">Deactivate user</label>
     </div>
     <div class="govuk-checkboxes__item" *ngIf ="isDormantUser">
       <input class="govuk-checkboxes__input" type="checkbox" id="chkReactivateUser" 
         name="reactivateUser" [(ngModel)]="reactivateEnabled" />
-      <label  for="chkReactivateUser" class="govuk-label govuk-checkboxes__label">Reactivate User</label>
+      <label  for="chkReactivateUser" class="govuk-label govuk-checkboxes__label">Reactivate user</label>
     </div>
   </div>
   <div class="govuk-button-group" style="margin-top: 40px">
