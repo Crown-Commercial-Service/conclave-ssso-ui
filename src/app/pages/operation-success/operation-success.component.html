@@ -202,7 +202,7 @@
                 {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
             </div>
             <div *ngIf="operation === operationEnum.UserReactivate">
-              <p class="govuk-body-l">{{ 'USER_REACTIVATE_SUCCESS' | translate }}</p>
+              <p class="govuk-body-l">{{ 'USER_REACTIVATE_SUCCESS' | translate }} <br><br> The user will be reactivated now.</p>
               <a routerLink="/manage-users" class="navigation-text" (click)="onNavigateToManageUserClick()">
                 {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
             </div>
