@@ -48,6 +48,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 organisation: [orgreginfo.orgName, Validators.compose([Validators.required])]
             });
             this.searchOrgName = orgreginfo.orgName;
+            this.pushDataLayer("form_start");
         }
         else {
             this.formGroup = this.formBuilder.group({
@@ -60,6 +61,14 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     }
 
     ngOnInit() {
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+             event: "page_view" ,
+             page_location: this.router.url.toString(),
+             user_name: localStorage.getItem("user_name"),
+             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+           });
+        })
     }
 
     async onSearchTextChange(value: any) {
@@ -92,6 +101,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         this.panelShowTimeout = setTimeout(() => {
             this.autocomplete.openPanel();
         }, 30);
+        this.pushDataLayerEvent();
     }
 
 
@@ -129,12 +139,12 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
 
 
     async onSubmit(form: FormGroup) {
-        this.pushDataLayer()
         this.submitted = true;
         if(this.PatternService.emailValidator(form.get('email')?.value)){
             this.formGroup.controls['email'].setErrors({ 'incorrect': true})
         }
         if (this.formValid(form)) {
+            this.pushDataLayer("form_submit");
             let organisationRegisterDto: OrganisationRegBasicInfo = {
                 adminEmail: form.get('email')?.value,
                 adminUserFirstName: form.get('firstName')?.value,
@@ -162,13 +172,15 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 //Multiple Orgs exists
                 this.router.navigateByUrl(`manage-org/register/initial-search-status/duplicate`);
             }
+        } else {
+            this.pushDataLayer("form_error");
         }
+        this.pushDataLayerEvent();
     }
 
-    pushDataLayer(){
-        console.log("data layer pushed")
+    pushDataLayer(event: string){
         this.dataLayerService.pushEvent({
-            'event': 'form_start',
+            'event': event,
             'form_id': 'Enter_detail _create_account'
           });
     }
@@ -182,4 +194,11 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             clearTimeout(this.panelShowTimeout);
         }
     }
+
+    pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Search Organisation - Registration"
+		});
+	  }
 }

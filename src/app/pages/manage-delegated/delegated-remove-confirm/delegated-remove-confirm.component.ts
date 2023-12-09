@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-delegated-remove-confirm',
@@ -10,7 +11,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 export class DelegatedRemoveConfirmComponent implements OnInit {
   public organisationId: string;
   public RouteData:any = {};
-  constructor(public router: Router, private route: ActivatedRoute, public DelegatedService: WrapperUserDelegatedService) {
+  constructor(public router: Router, private route: ActivatedRoute, public DelegatedService: WrapperUserDelegatedService, private dataLayerService: DataLayerService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
 
@@ -19,6 +20,14 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
       this.RouteData = JSON.parse(atob(para.data));
       this.RouteData.userName = decodeURIComponent(unescape(this.RouteData.userName));
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
   }
 
   public ConfirmRemoveUser(){
@@ -35,6 +44,7 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
       this.router.navigateByUrl('delegated-error')
       }
     });
+    this.pushDataLayerEvent();
   }
 
 
@@ -52,9 +62,18 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
       this.router.navigateByUrl('delegated-error')
       }
     });
+    this.pushDataLayerEvent();
   }
 
   public Cancel():void{
     window.history.back();
+    this.pushDataLayerEvent();
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "delegated-remove-confirm"
+    });
   }
 }

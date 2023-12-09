@@ -10,6 +10,7 @@ import { Data } from 'src/app/models/data';
 import { dataService } from 'src/app/services/data/data.service';
 import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-organisation-error',
@@ -28,7 +29,7 @@ export class ManageOrganisationErrorComponent extends BaseComponent implements O
 
   public reason!: string;
 
-  constructor(private dataService: dataService, private router: Router, private route: ActivatedRoute, private location: Location, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private dataService: dataService, private router: Router, private route: ActivatedRoute, private location: Location, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
   }
 
@@ -40,6 +41,15 @@ export class ManageOrganisationErrorComponent extends BaseComponent implements O
         this.reason = 'unknown';
       }
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+       reason: this.reason
+     });
+    })
   }
 
   public goBack(){

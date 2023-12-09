@@ -18,6 +18,7 @@ import { environment } from "src/environments/environment";
 import { AuditLoggerService } from "src/app/services/postgres/logger.service";
 import { SessionStorageKey } from "src/app/constants/constant";
 import { SharedDataService } from "src/app/shared/shared-data.service";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 
 @Component({
@@ -44,7 +45,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     public isBulkUpload=environment.appSetting.hideBulkupload
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
         protected uiStore: Store<UIState>, private router: Router, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
-        private auditLogService: AuditLoggerService,private sharedDataService:SharedDataService) {
+        private auditLogService: AuditLoggerService,private sharedDataService:SharedDataService, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.userList = {
@@ -61,6 +62,14 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     }
 
     async ngOnInit() {
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+        })
         await this.auditLogService.createLog({
             eventName: "Access", applicationName: "Manage-user-account",
             referenceData: `UI-Log`
@@ -88,6 +97,10 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
         } else {
             this.router.navigateByUrl("manage-users/add-user/details");
         }
+        this.dataLayerService.pushEvent({ 
+            event: "cta_button_click" ,
+            page_location: "Manage User Accounts"
+          });
     }
 
     searchTextChanged(event: any) {

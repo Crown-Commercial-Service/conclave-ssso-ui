@@ -6,6 +6,7 @@ import { slideAnimation } from "src/app/animations/slide.animation";
 import { BaseComponent } from "src/app/components/base/base.component";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 import { UIState } from "src/app/store/ui.states";
 
 @Component({
@@ -26,12 +27,19 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
     qrCodeStr: string = "";
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router,private authService: AuthService,
-        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
     }
     ngOnInit()
     {
-        
+      this.router.events.subscribe(value => {
+        this.dataLayerService.pushEvent({ 
+            event: "page_view" ,
+            page_location: this.router.url.toString(),
+            user_name: localStorage.getItem("user_name"),
+            cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+        });
+      })
     }
     public onNavigateToMFAClick()
     {
@@ -42,10 +50,12 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
     {
       this.getQRCode();
      // this.router.navigateByUrl('mfa-authenticator-setup');
+     this.pushDataLayerEvent();
     }
     public onBackBtnClick()
     {
       this.router.navigateByUrl('mfa-selection');
+      this.pushDataLayerEvent();
     }
     getQRCode () : any {
       this.auth0token = localStorage.getItem('auth0_token') ?? '';
@@ -74,6 +84,14 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
       });
   }
 
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Download an app"
+		});
+	  }
+
   public async RenewToken(){
     this.refreshtoken = localStorage.getItem('auth0_refresh_token')+'';
     await this.authService.mfarenewtoken(this.refreshtoken).toPromise().then((tokeninfo) => {              
@@ -87,5 +105,6 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
     });
 
 }
+
 
 }

@@ -16,6 +16,7 @@ import { share } from 'rxjs/operators';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-confirm-org-type',
@@ -43,7 +44,8 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
     private route: ActivatedRoute,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper
+    protected scrollHelper: ScrollHelper,
+    private dataLayerService: DataLayerService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.route.queryParams.subscribe((params) => {
@@ -63,6 +65,17 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
         });
       }
     });
+  }
+
+  ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
   }
 
   public onSubmitClick() {
@@ -90,10 +103,18 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
         console.log(error);
         this.router.navigateByUrl(`buyer/error`);
       });
+      this.pushDataLayerEvent();
   }
 
   public onCancelClick() {
     this.router.navigateByUrl('buyer-supplier/search');
+  }
+
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Review - Manage Buyers"
+    });
   }
 
   public onBackClick() {
@@ -107,5 +128,6 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
         'update-org-type/confirm?data=' + btoa(JSON.stringify(data))
       );
     }
+    this.pushDataLayerEvent();
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminUserListResponse, UserListResponse } from 'src/app/models/user';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -22,7 +23,9 @@ export class ContactAdminComponent implements OnInit {
   
   constructor(
     private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
-    private router:Router
+    private router: Router,
+    private dataLayerService: DataLayerService
+
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userListResponse = {
@@ -37,6 +40,14 @@ export class ContactAdminComponent implements OnInit {
   ngOnInit(): void {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.getOrganisationUsers();
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+       event: "page_view" ,
+       page_location: this.router.url.toString(),
+       user_name: localStorage.getItem("user_name"),
+       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+     });
+    })
   }
 
   public openEmailWindow(data: any): void {
@@ -71,5 +82,9 @@ export class ContactAdminComponent implements OnInit {
   }
   goBack() {
     this.router.navigateByUrl('profile');
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Contact my administrator"
+    });
   }
 }

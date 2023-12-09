@@ -18,6 +18,7 @@ import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-co
 import { ReplaySubject, Subject } from 'rxjs';
 import { MatSelect } from '@angular/material/select';
 import { take, takeUntil } from 'rxjs/operators';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-site-edit',
@@ -48,7 +49,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   constructor(private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
     public orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
-    private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService) {
+    private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService, private dataLayerService: DataLayerService) {
     super(viewportScroller, formBuilder.group({                                        
       name: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
       streetAddress: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(1)])],
@@ -68,6 +69,14 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   }
 
   async ngOnInit() {
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
     this.titleService.setTitle(`${this.isEdit ? "Edit" : "Add"} - Site - CCS`);
     this.countryDetails = await this.wrapperConfigService.getCountryDetails().toPromise();
     this.setTopCountries(false);
@@ -103,6 +112,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     else {
       this.onFormValueChange();
     }
+    this.pushDataLayer("form_start");
   }
 
   ngAfterViewInit() {
@@ -215,6 +225,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
         }
       };
 
+      this.pushDataLayer("form_submit");
       if (this.isEdit) {
         this.orgSiteService.updateOrganisationSite(this.organisationId, this.siteId, orgSiteInfo).subscribe(
           {
@@ -267,6 +278,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     }
     else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.pushDataLayer("form_error");
     }
   }
 
@@ -278,6 +290,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
 
   onCancelClick() {
     this.router.navigateByUrl('manage-org/profile');
+    this.pushDataLayerEvent();
   }
 
   onDeleteClick() {
@@ -306,6 +319,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       'contactAddAnother':this.contactAddAnother,
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
+    this.pushDataLayerEvent();
   }
 
   public onContactAssignClick() {
@@ -313,6 +327,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       'assigningSiteId': this.siteId
     };
     this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
+    this.pushDataLayerEvent();
   }
 
   onContactEditClick(contactInfo: ContactGridInfoWithLink) {
@@ -327,4 +342,18 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   public formValueChanged(){
    this.serverError=''
   }
+
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+        'event': event,
+        'form_id': 'Manage_organisation Edit_site'
+    });
+  }
+
+  pushDataLayerEvent() {
+		this.dataLayerService.pushEvent({ 
+		  event: "cta_button_click" ,
+		  page_location: "Add/Edit - Site"
+		});
+	  }
 }

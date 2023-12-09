@@ -16,7 +16,8 @@ a {
 }
 
 p {
-  margin-top: 38px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .navigation-text {
@@ -26,4 +27,8 @@ p {
 .gov_success_msg{
     // margin-top: -14px;
     margin-bottom: 30px;
+}
+.govuk-body-l {
+  margin-top: 30px !important;
+  margin-bottom: 30px !important;
 }

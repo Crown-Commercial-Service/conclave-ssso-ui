@@ -9,6 +9,7 @@ import { WorkerService } from "src/app/services/worker.service";
 import { TokenService } from "src/app/services/auth/token.service";
 import { ViewportScroller } from "@angular/common";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
+import { DataLayerService } from "src/app/shared/data-layer.service";
 
 @Component({
     selector: 'app-manage-reg-organisation-mfa',
@@ -26,12 +27,19 @@ import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 export class ManageOrgRegMfaComponent extends BaseComponent implements OnInit {
 
 constructor(private activatedRoute: ActivatedRoute,private router:Router, private authService: AuthService,
-    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
 }
    selectedOption: string = "required";
     ngOnInit() {
-        
+        this.router.events.subscribe(value => {
+            this.dataLayerService.pushEvent({ 
+                event: "page_view" ,
+                page_location: this.router.url.toString(),
+                user_name: localStorage.getItem("user_name"),
+                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+            });
+        })
     }
     public onContinueClick(option :string | null)
     {
@@ -42,5 +50,9 @@ constructor(private activatedRoute: ActivatedRoute,private router:Router, privat
           orgReginfo.isMfaRequired = (option === "optional") ? false : true;
         sessionStorage.setItem('orgreginfo', JSON.stringify(orgReginfo));
         this.router.navigateByUrl(`manage-org/register/type`);
+        this.dataLayerService.pushEvent({ 
+            event: "cta_button_click" ,
+            page_location: "2FA selection - Registration"
+          });
     }
 }

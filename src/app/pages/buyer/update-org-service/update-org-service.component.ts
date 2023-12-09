@@ -14,6 +14,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 @Component({
   selector: 'app-update-org-service',
   templateUrl: './update-org-service.component.html',
@@ -38,7 +39,7 @@ export class UpdateOrgServiceComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService, private WrapperOrganisationService: WrapperOrganisationService,
     private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     this.orgRoles = [];
     this.eRoles = [];
     this.roles = [];
@@ -72,6 +73,14 @@ export class UpdateOrgServiceComponent implements OnInit {
         });
       }
     });
+    this.router.events.subscribe(value => {
+      this.dataLayerService.pushEvent({ 
+          event: "page_view" ,
+          page_location: this.router.url.toString(),
+          user_name: localStorage.getItem("user_name"),
+          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+      });
+    })
   }
 
   /**
@@ -443,6 +452,7 @@ export class UpdateOrgServiceComponent implements OnInit {
       localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
       this.router.navigateByUrl(`update-org-services/confirm-changes?data=` + btoa(JSON.stringify(data)))
     }
+    this.pushDataLayerEvent();
   }
 
 
@@ -452,6 +462,7 @@ export class UpdateOrgServiceComponent implements OnInit {
   public onCancelClick() {
     localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
     this.router.navigateByUrl('buyer-supplier/search');
+    this.pushDataLayerEvent();
   }
 
 
@@ -496,4 +507,10 @@ export class UpdateOrgServiceComponent implements OnInit {
     }    
   }
 
+  pushDataLayerEvent() {
+    this.dataLayerService.pushEvent({ 
+      event: "cta_button_click" ,
+      page_location: "Review - Manage Buyers"
+    });
+  }
 }
