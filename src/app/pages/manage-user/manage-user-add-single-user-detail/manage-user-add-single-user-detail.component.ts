@@ -863,14 +863,16 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
 
   private setMfaStatus(roleKey: any, status: boolean) {
-    if (roleKey == 'ORG_ADMINISTRATOR' && this.selectedUserType.key !== 'ORG_DEFAULT_USER') {
-      this.formGroup.controls['mfaEnabled'].setValue(status);
-      this.isAutoDisableMFA = status;
-    } else {
-      this.formGroup.controls['mfaEnabled'].setValue(
-        this.userProfileResponseInfo.mfaEnabled
-      );
-      this.isAutoDisableMFA = false;
+    if (!this.isCustomMfaEnabled) {
+      if (roleKey == 'ORG_ADMINISTRATOR' && this.selectedUserType.key !== 'ORG_DEFAULT_USER') {
+        this.formGroup.controls['mfaEnabled'].setValue(status);
+        this.isAutoDisableMFA = status;
+      } else {
+        this.formGroup.controls['mfaEnabled'].setValue(
+          this.userProfileResponseInfo.mfaEnabled
+        );
+        this.isAutoDisableMFA = false;
+      }
     }
   }
 
