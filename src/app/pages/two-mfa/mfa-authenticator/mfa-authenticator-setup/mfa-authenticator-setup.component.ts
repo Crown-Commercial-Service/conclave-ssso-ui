@@ -28,6 +28,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     formGroup: FormGroup;
     public mfaQrCode: any = localStorage.getItem('qr_code');
     public secretCode : string | null = localStorage.getItem('secret_code');
+    public isMfaOpted : boolean = false;
     authcode: string = "";
     auth0token: string = "";
     oob_code: any;    
@@ -74,6 +75,8 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
 
             next: (response) => {
                 this.submitted = false;
+                this.isMfaOpted = true;
+                localStorage.setItem('mfa_opted',JSON.stringify(this.isMfaOpted));
                 this.router.navigateByUrl('/home');
             },
         
