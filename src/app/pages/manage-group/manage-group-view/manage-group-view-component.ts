@@ -33,7 +33,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   isEdit: boolean = false;
   editingGroupId: number = 0;
   routeData: any = {};
-  usersTableHeaders = ['NAME', 'EMAIL', ''];
+  usersTableHeaders = ['NAME', 'EMAIL', '.'];
   usersColumnsToDisplay = ['name', 'userId', 'userPendingRoleStatus'];
   rolesTableHeaders = ['NAME'];
   roesColumnsToDisplay = ['name'];

@@ -467,5 +467,6 @@
   "CONFIRM_REACTIVATE_BTN": "Confirm and reactivate",
   "USER_DEACTIVATE_SUCCESS": "You have successfully deactivated the user account",
   "USER_REACTIVATE_SUCCESS": "You have successfully reactivated this user account.",
-  "ON": "On"
+  "ON": "On",
+  "ERROR_INVALID_CURRENT_PASSWORD": "Invalid current password"
 }
