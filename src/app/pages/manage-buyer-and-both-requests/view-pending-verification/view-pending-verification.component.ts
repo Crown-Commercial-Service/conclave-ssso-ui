@@ -325,6 +325,8 @@ export class ViewPendingVerificationComponent implements OnInit {
       next: (orgListResponse: OrganisationAuditListResponse) => {
         if (orgListResponse != null) {
         let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId == this.routeDetails.organisationId )
+        if (orgDetails != undefined)
+        {
         let data = {
           header: 'View request',
           Description: '',
@@ -337,6 +339,8 @@ export class ViewPendingVerificationComponent implements OnInit {
           'verified-organisations?data=' + btoa(JSON.stringify(data))
         );
         }
+        this.getOrgDetails();
+      }
       },
       error: (error: any) => {
         this.router.navigateByUrl('delegated-error');
