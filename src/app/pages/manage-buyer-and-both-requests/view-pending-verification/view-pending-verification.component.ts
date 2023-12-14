@@ -14,6 +14,7 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { HelperService } from 'src/app/shared/helper.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-view-pending-verification',
@@ -69,7 +70,8 @@ export class ViewPendingVerificationComponent implements OnInit {
     private translate: TranslateService,
     public helperService:HelperService,
     private dataLayerService: DataLayerService,
-    private sessionService:SessionService
+    private sessionService: SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -90,6 +92,9 @@ export class ViewPendingVerificationComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
+    
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
       this.lastRoute = this.routeDetails.lastRoute
@@ -105,6 +110,11 @@ export class ViewPendingVerificationComponent implements OnInit {
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })
+
+    setTimeout(() => {
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
+    }, 3000);
   }
 
   public openEmailWindow(data: any): void {

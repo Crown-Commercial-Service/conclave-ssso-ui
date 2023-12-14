@@ -20,6 +20,7 @@ import { MatSelect } from '@angular/material/select';
 import { take, takeUntil } from 'rxjs/operators';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-site-edit',
@@ -50,7 +51,8 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   constructor(private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,private sessionService:SessionService,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
     public orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
-    private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService, private dataLayerService: DataLayerService) {
+    private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService, private dataLayerService: DataLayerService,
+    private loadingIndicatorService: LoadingIndicatorService) {
     super(viewportScroller, formBuilder.group({                                        
       name: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
       streetAddress: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(1)])],
@@ -89,7 +91,10 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       .subscribe(() => {
         this.filterBanks();
       });
-    if (this.isEdit) {
+    if (this.isEdit) {  
+      this.loadingIndicatorService.isLoading.next(true);
+      this.loadingIndicatorService.isCustomLoading.next(true);
+      
       this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
         {
           next: (siteInfo: OrganisationSiteResponse) => {
@@ -104,10 +109,16 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
             });
             this.getSiteContacts();
             this.onFormValueChange();
+            
+            this.loadingIndicatorService.isLoading.next(false);
+            this.loadingIndicatorService.isCustomLoading.next(false);
           },
           error: (error: any) => {
             console.log(error);
-          }
+            
+            this.loadingIndicatorService.isLoading.next(false);
+            this.loadingIndicatorService.isCustomLoading.next(false);
+          },
         });
     }
     else {
