@@ -47,8 +47,7 @@
         </div>
         <div class="link_valid"
           *ngIf="userDetails.status === 1 || userDetails.status === 2 || userDetails.status === 4">
-          <p class="govuk-body-l">The access request for Fleet Portal for user {{userDetails.userName}} has expired or
-            it was already actioned.</p>
+          <p class="govuk-body-l">User {{userDetails.userName}} no longer requires access to Fleet Portal and the access has been removed by the organisation admin.</p>
         </div>
         <div class="link_valid" *ngIf="userDetails.status === 3">
           <p class="govuk-body-l">User {{userDetails.userName}} no longer requires access to Fleet Portal and the access

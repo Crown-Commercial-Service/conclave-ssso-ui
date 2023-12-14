@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-buyer-both-requests',
@@ -54,7 +55,8 @@ export class BuyerBothRequestsComponent implements OnInit {
     private wrapperBuyerAndBothService:WrapperBuyerBothService,
     private translate: TranslateService,
     private dataLayerService: DataLayerService,
-    private sessionService:SessionService
+    private sessionService:SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.pendingVerificationBuyerAndBoth.organisationAuditList = {
@@ -74,6 +76,9 @@ export class BuyerBothRequestsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
+
     this.tabChanged(sessionStorage.getItem('activetab') || 'pendingOrg');
     this.getPendingVerificationOrg();
     this.router.events.subscribe(value => {
@@ -84,6 +89,8 @@ export class BuyerBothRequestsComponent implements OnInit {
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })
+    this.loadingIndicatorService.isLoading.next(false);
+    this.loadingIndicatorService.isCustomLoading.next(false);
   }
 
   public onSearchClick(): void {

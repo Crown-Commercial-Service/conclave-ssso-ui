@@ -50,7 +50,7 @@ export class AuthErrorComponent extends BaseComponent implements OnInit {
         });
         });
         
-        if(this.globalRouteService.globalRoute.indexOf("isEdit") < 0){
+        if(this.globalRouteService.globalRoute.indexOf("isEdit") < 0 && this.globalRouteService.globalRoute.indexOf("mfareset") < 0){
             this.authService.renewAccessToken(this.globalRouteService.globalRoute.length > 0 ?
                 this.globalRouteService.globalRoute : 'home');
         }

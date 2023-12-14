@@ -113,8 +113,9 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
           this.router.navigateByUrl(`change-password-success/${OperationEnum.PasswordChanged}`);
         }, (err) => {
           if (err.error == "INVALID_CURRENT_PASSWORD") {
-            this.authService.signOut();
-            this.router.navigateByUrl(`change-password-failed/${OperationEnum.PasswordChanged}`);
+            form.controls['currentPassword'].setErrors({ 'invalidCurrentPassword': true });
+          //  this.authService.signOut();
+           // this.router.navigateByUrl(`change-password-failed/${OperationEnum.PasswordChanged}`);
           }
           else if (err.error == "ERROR_PASSWORD_CONTAINS_USER_INFO") {
             form.controls['newPassword'].setErrors({ 'passwordContainsUserInfo': true });

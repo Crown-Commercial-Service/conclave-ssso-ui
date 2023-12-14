@@ -30,6 +30,7 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { Subscription } from 'rxjs';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-manage-user-add-single-user-detail',
@@ -135,7 +136,8 @@ export class ManageUserAddSingleUserDetailComponent
     private organisationService: WrapperOrganisationService,
     private sharedDataService: SharedDataService,
     private dataLayerService: DataLayerService,
-    private sessionService:SessionService
+    private sessionService:SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     super(
       viewportScroller,
@@ -222,6 +224,9 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   async ngOnInit() {
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
+
     this.router.events.subscribe(value => {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
@@ -318,6 +323,9 @@ export class ManageUserAddSingleUserDetailComponent
     this.oldSelectedUserType = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
     this.userTypeDetails.isGrayOut = this.isDormantUser ?'true': null;
     this.removeDefaultUserRoleFromServiceRole();
+
+    this.loadingIndicatorService.isLoading.next(false);
+    this.loadingIndicatorService.isCustomLoading.next(false);
   }
 
   private patchAdminMailData() {
