@@ -58,3 +58,19 @@ a {
     min-height: 0px;
    }
 
+
+@media (max-width: 767px) {
+  .resend-link {
+    text-align: center;
+             display: block;
+             margin: 0 auto;
+             margin-bottom:-25px; 
+        }
+@media (min-width: 650px) and (max-width: 750px) {
+          .resend-link {
+            text-align: left;
+            margin: 0;
+          }
+        }
+}
+
