@@ -6,6 +6,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-find-delegated-user',
@@ -24,7 +25,8 @@ export class FindDelegatedUserComponent implements OnInit {
     public WrapperUserDelegatedService: WrapperUserDelegatedService,
     protected scrollHelper: ScrollHelper,
     private router: Router,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
@@ -34,7 +36,7 @@ export class FindDelegatedUserComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })
@@ -83,7 +85,18 @@ export class FindDelegatedUserComponent implements OnInit {
               status: '001'
             }
             this.route.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
-          } else {
+          }
+          else if(userResponse.isDormant) 
+          {
+            let data = {
+              header: 'User is in dormant state',
+              Description: 'This user is in dormant state.\ You can\'t delegate access to users who are in dormant state.',
+              Breadcrumb: 'User inactive',
+              status: '004'
+            }
+            this.route.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
+          }
+          else {
             userResponse.pageaccessmode = "add";
             userResponse.userName = escape(encodeURIComponent(userResponse.userName));
             this.route.navigateByUrl('delegate-access-user?data=' + btoa(JSON.stringify(userResponse)))

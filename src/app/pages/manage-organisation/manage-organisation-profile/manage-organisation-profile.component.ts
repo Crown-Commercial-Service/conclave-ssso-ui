@@ -21,6 +21,8 @@ import { environment } from 'src/environments/environment';
 import { OrganisationDto } from 'src/app/models/organisation';
 import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
     selector: 'app-manage-organisation-profile',
@@ -59,15 +61,14 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     selectedOption:string = "";
     originalSelectedOption : string = "";
     isMfaOptionChanged : boolean = false;
-    
+  
 
-
-
-    constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
+    constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,private sessionService:SessionService,
         private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
         protected uiStore: Store<UIState>, private readonly tokenService: TokenService, private organisationGroupService: WrapperOrganisationGroupService,
         private orgContactService: WrapperOrganisationContactService, private wrapperOrgSiteService: WrapperOrganisationSiteService,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,
+        private loadingIndicatorService: LoadingIndicatorService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.contactData = [];
         this.siteData = [];
@@ -78,6 +79,15 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     }
 
     async ngOnInit() {
+        this.loadingIndicatorService.isLoading.next(true);
+        this.loadingIndicatorService.isCustomLoading.next(true);
+     setTimeout(() => {
+        this.initialization()
+     }, 500);
+    }
+
+
+    public async initialization(){
         const ciiOrgId = this.tokenService.getCiiOrgId();
         this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
         var org = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
@@ -124,7 +134,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                 data.additionalIdentifiers.forEach((Identifier:any)=>{
                  if(Identifier.scheme != this.pponSchema){
                     this.additionalIdentifiers.push(Identifier)
-                  }   
+                  }
                 })
             }).catch(e => {
             });
@@ -162,12 +172,13 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             this.dataLayerService.pushEvent({ 
              event: "page_view" ,
              page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
+             user_name: this.sessionService.decrypt('user_name'),
              cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
            });
         })
+        this.loadingIndicatorService.isLoading.next(false);
+        this.loadingIndicatorService.isCustomLoading.next(false);
     }
-
     public onContactAddClick() {
         let data = {
             'isEdit': false,
@@ -216,8 +227,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/delete/${row.scheme}/${row.id}`);
     }
 
-    public generateRegistryRemoveRoute(row: any): string {
-        return `/manage-org/profile/${this.ciiOrganisationId}/registry/delete/${row.scheme}/${row.id}`;
+    public generateRegistryRemoveRoute(row: any): any {
+        this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/delete/${row.scheme}/${row.id}`);
       }
 
     public onIdentityProviderChange(e: any, row: any) {
@@ -305,6 +316,12 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         return selecedScheme?.schemeName;
     }
 
+    private getSchema(schemaName: string){
+        let selecedSchemeName = this.schemeData.find(s => s.schemeName === schemaName);
+        console.log("selecedSchemeName?.scheme",selecedSchemeName?.scheme)
+        return selecedSchemeName?.scheme;
+    }
+
     public onContactAssignClick() {
         let data = {
             'assigningOrgId': this.ciiOrganisationId
@@ -327,6 +344,10 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
           console.log('An error occurred during API calls:', error);
         }
       }
+      
+      isHyperLinkRowVisible(dataRow: any): boolean {
+        return dataRow.contactReason=='REGISTRY'?false:true;
+      }
 
     pushDataLayerEvent() {
 		this.dataLayerService.pushEvent({ 
@@ -334,5 +355,6 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 		  page_location: "Manage your organisation"
 		});
 	  }
+
   
 }

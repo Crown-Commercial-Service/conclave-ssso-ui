@@ -10,6 +10,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-org-support-success',
@@ -28,9 +29,12 @@ export class OrgSupportSuccessComponent extends BaseComponent implements OnInit 
 
   public user$!: Observable<any>;
   displayMessage: string = '';
+  public deactivateEnabled : boolean = false;
+  public reactivateEnabled : boolean = false;
+  
 
   constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper, private router: Router, private dataLayerService: DataLayerService) {
+    protected scrollHelper: ScrollHelper,private sessionService:SessionService,  private router: Router, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
@@ -39,7 +43,7 @@ export class OrgSupportSuccessComponent extends BaseComponent implements OnInit 
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })
@@ -49,7 +53,6 @@ export class OrgSupportSuccessComponent extends BaseComponent implements OnInit 
     let changeRoleType: string = "noChange";
 
     this.route.queryParams.subscribe(para => {
-
       if (para.rpwd != undefined) {
         changePassword = JSON.parse(para.rpwd);
       }
@@ -60,6 +63,14 @@ export class OrgSupportSuccessComponent extends BaseComponent implements OnInit 
 
       if (para.chrole != undefined) {
         changeRoleType = para.chrole;
+      }
+      if (para.deuser != undefined)
+      {
+        this.deactivateEnabled = JSON.parse(para.deuser);
+      }
+      if (para.reuser != undefined)
+      {
+        this.reactivateEnabled = JSON.parse(para.reuser);
       }
 
       this.displayMessage = '';
@@ -77,6 +88,15 @@ export class OrgSupportSuccessComponent extends BaseComponent implements OnInit 
       if (resetMfa) {
         this.displayMessage = changePassword || changeRoleType !== "noChange" ? this.displayMessage + `\n Additional security reset email has been sent to ${userName}.` :
           `Additional security reset email has been sent to ${userName}.`;
+      }
+      if (this.deactivateEnabled)
+      {
+        this.displayMessage = changePassword || changeRoleType !== "noChange" || resetMfa ? this.displayMessage + `\n You have successfully deactivated user ${userName}.` :
+          `You have successfully deactivated user ${userName}.`;
+      }
+      if (this.reactivateEnabled)
+      {
+        this.displayMessage =  `You have successfully reactivated user ${userName}.`;
       }
     });
   }

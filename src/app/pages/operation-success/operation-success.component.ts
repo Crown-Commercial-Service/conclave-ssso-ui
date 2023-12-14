@@ -14,6 +14,7 @@ import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
     selector: 'app-operation-success',
@@ -39,7 +40,7 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     public approveRequiredRole:any=[]
     public pendingRoleDetails: any = []
     public isCustomMfaEnabled : boolean = environment.appSetting.customMfaEnabled;
-    constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
+    constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,private sessionService:SessionService,
         protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private wrapperUserService: WrapperUserService, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
@@ -72,7 +73,7 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
             this.dataLayerService.pushEvent({ 
              event: "page_view" ,
              page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
+             user_name: this.sessionService.decrypt('user_name'),
              cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
              operation: this.operation
            });
@@ -108,6 +109,12 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
                 break;
             case this.operationEnum.UserDelete:
                 area = 'Delete - Manage Users'
+                break;
+            case this.operationEnum.UserDeactivate:
+                area = 'Deactivate - Manage Users'
+                break;
+            case this.operationEnum.UserReactivate:
+                area = 'Reactivate - Manage Users'
                 break;
             default:
                 break

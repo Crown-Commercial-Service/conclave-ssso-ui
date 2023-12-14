@@ -26,6 +26,8 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { TokenService } from 'src/app/services/auth/token.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 
 
@@ -73,7 +75,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     groupservices: false
   }
   public detailsData: any = [];
-  public isAdminUser: boolean = false;
+  public isAdminUser: any;
   userGroups: UserGroup[] = [];
   public approveRequiredRole: Role[];
   public pendingRoleDetails: any = []
@@ -135,7 +137,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public mfaOpted: boolean = false;
   public mfaRadioButtonValue : boolean = false;
   public isMfaRadioChange : boolean = false;
-
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -155,8 +156,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     private route: ActivatedRoute,
     private dataLayerService: DataLayerService,
     private tokenService: TokenService,
-    private wrapperOrganisationService: WrapperOrganisationService
-
+    private wrapperOrganisationService: WrapperOrganisationService,
+    private sessionService:SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     super(
       viewportScroller,
@@ -166,7 +168,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         mfaEnabled: [null]
       })
     );
-    this.userName = localStorage.getItem('user_name') || '';
+    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
+    this.userName = this.sessionService.decrypt('user_name')
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.routeStateData = this.router.getCurrentNavigation()?.extras.state;
     this.approveRequiredRole = []
@@ -177,12 +180,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
     if (this.isCustomMfaEnabled) {
       await this.GetOrganisationMfaSettings();
-    }
+    }    
     this.isAdminUser = this.route.snapshot.data.isAdmin;
-    this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
-    sessionStorage.removeItem(SessionStorageKey.UserContactUsername);
     localStorage.removeItem('UserContactUsername');
     await this.auditLogService
       .createLog({
@@ -406,10 +409,12 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
        event: "page_view" ,
        page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
+       user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
     })
+    this.loadingIndicatorService.isLoading.next(false);
+    this.loadingIndicatorService.isCustomLoading.next(false);
   }
 
   pushDataLayerEvent() {
@@ -422,6 +427,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   ngAfterViewChecked() {
     this.scrollHelper.doScroll();
   }
+
+
 
   scrollToAnchor(elementId: string): void {
     this.viewportScroller.scrollToAnchor(elementId);
@@ -477,8 +484,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
               'isEdit': true,
               'contactId': f.contactId,
             };
-          sessionStorage.setItem(SessionStorageKey.UserContactUsername, this.userName);
-          localStorage.setItem('UserContactUsername', this.userName);
+          this.sessionService.encrypt('UserContactUsername',this.userName);
           let queryParams = {data: JSON.stringify(data)}
           f.routeLink= `/user-contact-edit`
           f.routeData = queryParams
@@ -510,10 +516,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       isEdit: true,
       contactId: dataRow.contactId,
     };
-    sessionStorage.setItem(
-      SessionStorageKey.UserContactUsername,
-      this.userName
-    );
+    this.sessionService.encrypt(SessionStorageKey.UserContactUsername,this.userName)
     this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
   }
 
@@ -527,7 +530,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       SessionStorageKey.UserContactUsername,
       this.userName
     );
-    localStorage.setItem('UserContactUsername',this.userName);
+    this.sessionService.encrypt('UserContactUsername',this.userName);
     this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
     this.pushDataLayerEvent();
   }
@@ -555,6 +558,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         },
         firstName: form.get('firstName')?.value,
         lastName: form.get('lastName')?.value,
+        isDormant:false
       };
 
       this.userRequest = userRequest

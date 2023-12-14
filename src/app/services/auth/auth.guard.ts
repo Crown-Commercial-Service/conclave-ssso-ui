@@ -11,7 +11,6 @@ import { environment } from 'src/environments/environment';
 export class AuthGuard implements CanActivate {
 
   constructor(public authService: AuthService,private router:Router) { }
-
   public canActivate(): Observable<boolean> {
     
     return this.authService.isAuthenticated().pipe(

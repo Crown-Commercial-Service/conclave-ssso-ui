@@ -11,6 +11,7 @@ import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.service";
 import { SessionStorageKey } from "src/app/constants/constant";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-manage-user-confirm-reset-password',
@@ -25,7 +26,7 @@ import { DataLayerService } from "src/app/shared/data-layer.service";
 })
 export class ManageUserConfirmResetPasswordComponent extends BaseComponent implements OnInit {
     userName: string = '';
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
+    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,private sessionService:SessionService,
         private userService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.userName = sessionStorage.getItem("manage_user_username") ?? '';
@@ -36,7 +37,7 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })

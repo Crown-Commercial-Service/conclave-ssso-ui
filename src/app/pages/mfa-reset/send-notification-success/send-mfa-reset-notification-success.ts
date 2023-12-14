@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 export class SendMFAResetNotificationSuccessComponent extends BaseComponent implements OnInit {
   userName: string = '';
 
-  constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>,
+  constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>,private sessionService:SessionService,
     public authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private router: Router, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
@@ -34,7 +35,7 @@ export class SendMFAResetNotificationSuccessComponent extends BaseComponent impl
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

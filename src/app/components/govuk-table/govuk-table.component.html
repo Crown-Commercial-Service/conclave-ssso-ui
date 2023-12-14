@@ -13,7 +13,7 @@
     </thead>
     <tbody class="govuk-table__body">
       <tr (click)="onRowClick(dataRow, index,$event)" class="govuk-table__row" [class.clickable]="
-          isCheckBoxVisible || isHyperLinkVisible || isRadioVisible || hyperArrayVisible
+        isCheckBoxVisible || (isHyperLinkVisible && isHyperLinkRowVisible? isHyperLinkRowVisible(dataRow):true )|| isRadioVisible || hyperArrayVisible 
         " *ngFor="let dataRow of tableVisibleData; let index = index">
         <td class="govuk-table__cell" *ngFor="let dataKey of dataKeys" [ngClass]="[
             pageName === 'Contactadmin' && dataKey ==='email'
@@ -48,6 +48,10 @@
             (dataKey === 'userId' && dataRow['isAdmin'])">
               Admin
             </strong>
+            <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'userName' && dataRow['isDormant']) ||
+            (dataKey === 'userId' && dataRow['isDormant']) || (dataKey === 'email' && dataRow['isDormant'])">
+              INACTIVE
+            </strong>
             <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'groupName' && dataRow['groupType'] == '1') ">
               Default Group
             </strong>
@@ -56,7 +60,7 @@
         </td>      
         <td class="govuk-table__cell" *ngIf="isHyperLinkVisible == true">
           <a class="navigation-text" [routerLink] = "dataRow.routeLink" [queryParams] ="dataRow.routeData"
-          [ngClass]="{'navigation-text-empty':hyperLinkText==='.'}">
+          [ngClass]="{'navigation-text-empty':hyperLinkText==='.'}" *ngIf="isHyperLinkRowVisible? isHyperLinkRowVisible(dataRow):true">
             {{ hyperLinkText || "" | translate }}</a>
         </td>
         <td *ngIf="hyperArrayVisible == true" class="govuk-table__cell">
@@ -74,7 +78,7 @@
           <div class="govuk-checkboxes" data-module="govuk-checkboxes">
             <div class="govuk-checkboxes__item">
               <input class="govuk-checkboxes__input" id="{{ 'table-chk-id-' + index }}" type="checkbox"
-                [checked]="dataRow['isChecked'] == true" />
+                [checked]="dataRow['isChecked'] == true" [disabled]="dataRow['isDisable'] == true" />
               <label class="govuk-label govuk-checkboxes__label" title="select one option"
                 for="{{ 'table-chk-id-' + index }}">
                 <span style="display: none; visibility: hidden">Select the option</span>
@@ -82,7 +86,8 @@
             </div>
           </div>
         </td>
-        <td class="govuk-table__cell" *ngIf="isRadioVisible == true">
+        <td class="govuk-table__cell" *ngIf="isRadioVisible == true"
+          [ngClass]="{'isDisabled': isRadioDisabled && isRadioDisabled(dataRow)}">
           <fieldset class="govuk-fieldset">
             <legend style="display: none; visibility: hidden" class="govuk-fieldset__legend"></legend>
             <div class="govuk-radios">

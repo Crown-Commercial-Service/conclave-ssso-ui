@@ -4,6 +4,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 import { environment } from 'src/environments/environment';
 import { ManageDelegateService } from '../../service/manage-delegate.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-delegated-organisation',
@@ -26,7 +27,8 @@ export class DelegatedOrganisationComponent implements OnInit {
     private delegatedService: WrapperUserDelegatedService,
     private DelegateService: ManageDelegateService,
     private router: Router,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
      this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     if(this.isDeleagation === true){
@@ -47,7 +49,7 @@ export class DelegatedOrganisationComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

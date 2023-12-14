@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ManualValidationStatus } from 'src/app/constants/enum';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-confirm-accept',
@@ -14,7 +15,7 @@ export class ConfirmAcceptComponent implements OnInit {
   private organisationId: string;
   public routeDetails:any;
 
-  constructor(private route: ActivatedRoute, private router: Router, 
+  constructor(private route: ActivatedRoute, private router: Router, private sessionService:SessionService,
     private wrapperBuyerAndBothService:WrapperBuyerBothService, private dataLayerService: DataLayerService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
@@ -27,7 +28,7 @@ export class ConfirmAcceptComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

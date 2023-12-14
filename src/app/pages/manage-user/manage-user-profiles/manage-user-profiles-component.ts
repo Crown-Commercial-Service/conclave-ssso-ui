@@ -19,6 +19,7 @@ import { AuditLoggerService } from "src/app/services/postgres/logger.service";
 import { SessionStorageKey } from "src/app/constants/constant";
 import { SharedDataService } from "src/app/shared/shared-data.service";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 
 @Component({
@@ -44,7 +45,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     searchSumbited:boolean=false;
     public isBulkUpload=environment.appSetting.hideBulkupload
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
-        protected uiStore: Store<UIState>, private router: Router, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
+        protected uiStore: Store<UIState>,private sessionService:SessionService, private router: Router, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
         private auditLogService: AuditLoggerService,private sharedDataService:SharedDataService, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
@@ -66,7 +67,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })
@@ -123,7 +124,8 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
          let  data = {
                 'rowData':dataRow.userName
         };
-        this.sharedDataService.storeUserDetails(JSON.stringify(data))
+        this.sharedDataService.storeUserDetails(JSON.stringify(data));
+        localStorage.setItem('ManageUserUserName',dataRow.userName);
         sessionStorage.setItem(SessionStorageKey.ManageUserUserName, dataRow.userName);
         localStorage.setItem('ManageUserUserName', dataRow.userName);
         this.router.navigateByUrl('manage-users/add-user/details?data=' + btoa(JSON.stringify({'isEdit': true})));

@@ -30,7 +30,7 @@
         <app-govuk-table [headerTextKeys]="tableHeaders" [data]="data.orgUserList"
         [dataKeys]="tableColumnsToDisplay" [isRadioVisible]="true" 
         (radioClickEvent)="onSelectRow($event)" [serverPageCount]="pageCount" 
-        [useServerPagination]="true" [serverPageCurrentPage]="currentPage"
+        [useServerPagination]="true" [serverPageCurrentPage]="currentPage"[pageName] ="pageName" 
         (changeCurrentPageEvent)="setPage($event)"></app-govuk-table>
       </div>
     </div>

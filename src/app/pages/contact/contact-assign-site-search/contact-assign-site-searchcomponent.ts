@@ -11,6 +11,7 @@ import { WrapperOrganisationSiteService } from "src/app/services/wrapper/wrapper
 import { OrganisationSite, OrganisationSiteInfoList, SiteGridInfo } from "src/app/models/site";
 import { SessionStorageKey } from "src/app/constants/constant";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-contact-assign-site-search-component',
@@ -32,7 +33,7 @@ export class ContactAssignSiteSearchComponent extends BaseComponent implements O
     siteData: SiteGridInfo[] = [];
     public searchSumbited:boolean=false;
     constructor(private wrapperSiteService: WrapperOrganisationSiteService,
-        protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
+        protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,private sessionService:SessionService,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
@@ -45,7 +46,7 @@ export class ContactAssignSiteSearchComponent extends BaseComponent implements O
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })

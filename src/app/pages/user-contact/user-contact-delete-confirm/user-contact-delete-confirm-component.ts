@@ -12,6 +12,7 @@ import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { ViewportScroller } from "@angular/common";
 import { SessionStorageKey } from "src/app/constants/constant";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-user-contact-delete-confirm',
@@ -29,13 +30,13 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
     contactId: number = 0;
     isOrgAdmin: boolean = false;
     constructor(protected uiStore: Store<UIState>, public router: Router, private activatedRoute: ActivatedRoute,
-        private contactService: WrapperUserContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+        private contactService: WrapperUserContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,private sessionService:SessionService) {
         super(uiStore,viewportScroller,scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
             console.log(routeData);
-            this.userName = localStorage.getItem('UserContactUsername') ?? '';
+            this.userName = this.sessionService.decrypt('UserContactUsername');
             this.contactId = routeData['contactId'];
         }
     }
@@ -45,7 +46,7 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
             this.dataLayerService.pushEvent({ 
              event: "page_view" ,
              page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
+             user_name: this.sessionService.decrypt('user_name'),
              cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
            });
         })

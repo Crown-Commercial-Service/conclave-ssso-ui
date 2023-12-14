@@ -9,6 +9,7 @@ import { ViewportScroller } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-org-support-error',
@@ -28,7 +29,7 @@ export class OrgSupportErrorComponent extends BaseComponent implements OnInit {
   contactUrl = environment.uri.ccsContactUrl;
 
   constructor(protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper, private activatedRoute: ActivatedRoute, private router: Router, private dataLayerService: DataLayerService) {
+    protected scrollHelper: ScrollHelper,private sessionService:SessionService, private activatedRoute: ActivatedRoute, private router: Router, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
     let queryParams = this.activatedRoute.snapshot.queryParams;
     if (queryParams) {
@@ -41,7 +42,7 @@ export class OrgSupportErrorComponent extends BaseComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

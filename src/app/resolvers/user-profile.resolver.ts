@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/r
 import { WrapperOrganisationGroupService } from "../services/wrapper/wrapper-org--group-service";
 import { Role } from 'src/app/models/organisationGroup';
 import { WrapperUserService } from "../services/wrapper/wrapper-user.service";
+import { SessionService } from "../shared/session.service";
 
 @Injectable({
     providedIn: 'root',
@@ -13,10 +14,10 @@ export class UserProfileResolver implements Resolve<boolean> {
     private isAdminUser = false;
 
     constructor(private userService: WrapperUserService,
-        private orgGroupService: WrapperOrganisationGroupService) { }
+        private orgGroupService: WrapperOrganisationGroupService, private sessionService:SessionService) { }
 
     async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-        const userName = localStorage.getItem('user_name') || '';
+        const userName =  this.sessionService.decrypt('user_name')
         const organisationId = localStorage.getItem('cii_organisation_id') || '';
         let user = await this.userService.getUser(userName).toPromise();
         await this.orgGroupService.getOrganisationRoles(organisationId)

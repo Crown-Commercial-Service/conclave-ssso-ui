@@ -20,7 +20,8 @@
           </li>
           <li *ngIf="operation === operationEnum.UserCreateWithIdamRegister || operation === operationEnum.UserCreate
                         || operation === operationEnum.UserUpdate || operation === operationEnum.UserUpdateWithIdamRegister
-                        || operation === operationEnum.UserPasswordChange || operation === operationEnum.UserDelete"
+                        || operation === operationEnum.UserPasswordChange || operation === operationEnum.UserDelete
+                        || operation === operationEnum.UserDeactivate || operation === operationEnum.UserReactivate"
                         class="govuk-breadcrumbs__list-item">
                         <a href="javascript:;" class="govuk-breadcrumbs__link" routerLink="/manage-users">{{
                             'MANAGE_YOUR_USER_ACCOUNTS' |
@@ -194,6 +195,16 @@
                     {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a> -->
                 <a routerLink="/manage-users" class="navigation-text" (click)="onNavigateToManageUserClick()">
                       {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a> 
+            </div>
+            <div *ngIf="operation === operationEnum.UserDeactivate">
+              <p class="govuk-body-l">{{ 'USER_DEACTIVATE_SUCCESS' | translate }}</p>
+              <a routerLink="/manage-users" class="navigation-text" (click)="onNavigateToManageUserClick()">
+                {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
+            </div>
+            <div *ngIf="operation === operationEnum.UserReactivate">
+              <p class="govuk-body-l">{{ 'USER_REACTIVATE_SUCCESS' | translate }} <br><br> The user will be reactivated now.</p>
+              <a routerLink="/manage-users" class="navigation-text" (click)="onNavigateToManageUserClick()">
+                {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
             </div>
             <br>
         </div>

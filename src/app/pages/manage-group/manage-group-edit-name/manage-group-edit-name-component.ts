@@ -19,6 +19,7 @@ import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-group-edit-name',
@@ -50,7 +51,8 @@ export class ManageGroupEditNameComponent
     private orgGroupService: WrapperOrganisationGroupService,
     private titleService: Title,
     private SharedDataService: SharedDataService,
-    private dataLayerService: DataLayerService
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
     super(
       viewportScroller,
@@ -74,7 +76,7 @@ export class ManageGroupEditNameComponent
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

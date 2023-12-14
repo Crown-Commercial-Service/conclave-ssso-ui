@@ -7,6 +7,8 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from "src/app/services/auth/auth.service";
+import { SessionService } from 'src/app/shared/session.service';
+import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 
 @Component({
   selector: 'app-delegated-user-list',
@@ -43,8 +45,8 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
     hyperTextrray: ['View']
   }
 
-  constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService, 
-               private dataLayerService: DataLayerService, private authService: AuthService) {
+  constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService, private sessionService:SessionService,
+               private dataLayerService: DataLayerService, private authService: AuthService, protected scrollHelper: ScrollHelper,) {
 
     this.organisationId = localStorage.getItem('cii_organisation_id') || ''
     this.currentUserstableConfig.userList = {
@@ -65,11 +67,12 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
 
   ngOnInit() {
+    
     this.router.events.subscribe(value => {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })
@@ -173,11 +176,6 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
 
   public tabChanged(activetab: string): void {
-    document.getElementById(activetab)?.scrollIntoView({
-      block: 'start',
-      inline: 'nearest',
-    });
-   
     if (activetab === 'currentusers') {
       this.tabConfig.currentusers = true
       this.tabConfig.expiredusers = false
@@ -185,7 +183,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
       this.tabConfig.expiredusers = true
       this.tabConfig.currentusers = false
     }
-
+ 
     this.dataLayerService.pushEvent({
       event: "tab_navigation",
       link_text: activetab === 'currentusers' ? "Current users with delegated access to your Organisation": "Users with expired delegated access to your Organisation"
@@ -194,5 +192,9 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
   ngOnDestroy(): void {
     sessionStorage.removeItem('activetab')
+  }
+
+  ngAfterViewChecked() {
+    this.scrollHelper.doScroll();
   }
 }

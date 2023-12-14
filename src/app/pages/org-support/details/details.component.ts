@@ -16,6 +16,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-org-support-details',
@@ -38,15 +39,18 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
   public changeRoleEnabled: boolean = false;
   public resetPasswordEnabled: boolean = false;
   public resetMfaEnabled: boolean = false;
+  public deactivateEnabled : boolean = false;
+  public reactivateEnabled : boolean = false; 
   public orgGroups!: Group[];
   public roles$!: Observable<any>;
   public roles!: [];
   public customMfaEnabled = environment.appSetting.customMfaEnabled;
+  public isDormantUser : boolean = false;
   
   @ViewChild('assignChk') assignChk!: ElementRef;
   @ViewChild('resetPassword') resetPassword!: ElementRef;
 
-  constructor(private organisationGroupService: WrapperOrganisationGroupService, private wrapperUserService: WrapperUserService,
+  constructor(private  sessionService:SessionService,private organisationGroupService: WrapperOrganisationGroupService, private wrapperUserService: WrapperUserService,
     public router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
@@ -63,7 +67,8 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
         id: 0,
         canChangePassword: false
 
-      }
+      },
+      isDormant:false
     }
   }
 
@@ -72,7 +77,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })
@@ -82,6 +87,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
       this.user$.subscribe({
         next: (result: UserProfileResponseInfo) => {
           this.user = result;
+          this.isDormantUser = this.user.isDormant;
           this.getOrgGroups();
         }
       });
@@ -97,6 +103,14 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
 
       if (para.chrole != undefined) {
         this.changeRoleEnabled = para.chrole != "noChange";
+      }
+      if (para.deuser != undefined)
+      {
+        this.deactivateEnabled = JSON.parse(para.deuser);
+      }
+      if (para.reuser != undefined)
+      {
+        this.reactivateEnabled = JSON.parse(para.reuser);
       }
     });
   }
@@ -127,7 +141,8 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
   public onContinueClick() {
     let hasAdminRole = this.hasAdminRole();
     this.router.navigateByUrl(`org-support/confirm?rpwd=` + this.resetPasswordEnabled + `&rmfa=` + this.resetMfaEnabled +
-      `&chrole=${this.changeRoleEnabled ? (hasAdminRole ? "unassign" : "assign") : "noChange"}`);
+      `&chrole=${this.changeRoleEnabled ? (hasAdminRole ? "unassign" : "assign") : "noChange"}` + `&deuser=` + this.deactivateEnabled
+      + `&reuser=` + this.reactivateEnabled );
     this.pushDataLayerEvent();
   }
 

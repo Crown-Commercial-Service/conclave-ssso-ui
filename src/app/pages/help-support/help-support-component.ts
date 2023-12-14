@@ -9,6 +9,7 @@ import { ViewportScroller } from '@angular/common';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { Router } from '@angular/router';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-help-support-component',
@@ -24,7 +25,7 @@ import { Router } from '@angular/router';
 export class HelpAndSupportComponent extends BaseComponent implements OnInit {
   isAuthenticated: boolean = false;
   constructor(protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
-    public authService: AuthService, private router: Router, private dataLayerService: DataLayerService) {
+    public authService: AuthService, private router: Router, private dataLayerService: DataLayerService,private sessionService:SessionService) {
     super(uiStore,viewportScroller,scrollHelper);
   }
 
@@ -36,7 +37,7 @@ export class HelpAndSupportComponent extends BaseComponent implements OnInit {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
     })

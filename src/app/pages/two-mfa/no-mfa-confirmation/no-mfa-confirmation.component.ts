@@ -10,6 +10,7 @@ import { UIState } from "src/app/store/ui.states";
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { DataLayerService } from "src/app/shared/data-layer.service";
 import { environment } from "src/environments/environment";
+import { SessionService } from "src/app/shared/session.service";
 
 
 @Component({
@@ -25,10 +26,10 @@ import { environment } from "src/environments/environment";
     encapsulation: ViewEncapsulation.None,
 })
 export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit {
-    userName = localStorage.getItem('user_name') ?? ''
+    userName = this.sessionService.decrypt('user_name')
     public isMfaOpted : boolean = false;
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, private wrapperUserService: WrapperUserService,
-        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,private sessionService:SessionService) {
         super(uiStore, viewportScroller, scrollHelper);
     }
     ngOnInit() {
@@ -36,7 +37,7 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })

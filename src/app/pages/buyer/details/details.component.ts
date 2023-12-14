@@ -12,6 +12,7 @@ import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/or
 import { environment } from 'src/environments/environment';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-buyer-details',
@@ -24,11 +25,11 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   public selectedOrgId: string = '';
-  schemeData: any[] = [];
+  public schemeData: any[] = [];
 
   constructor(private ciiService: ciiService, private organisationService: WrapperOrganisationService,private SharedDataService:SharedDataService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+    protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService, private sessionService:SessionService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.registries = {};
   }
@@ -37,42 +38,26 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
     this.route.params.subscribe(async params => {
       if (params.id) {
         this.selectedOrgId = params.id;
-        this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
-        this.org = await this.organisationService.getOrganisation(params.id).toPromise();
-        // Passing true to get hidden identifier for manage services eligibility page
-        this.registries = await this.ciiService.getOrgDetails(params.id, true).toPromise();
-        if (this.registries != undefined) {
-          this.additionalIdentifiers = this.registries?.additionalIdentifiers;
-        }
+        setTimeout(() => {
+        this.getOrgDetails(params.id)
+        }, 500);
       }
     });
     this.router.events.subscribe(value => {
       this.dataLayerService.pushEvent({ 
           event: "page_view" ,
           page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
+          user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
           id: this.selectedOrgId
       });
     })
   }
 
-  public getSchemaName(schema: string): string {
-    let selecedScheme = this.schemeData.find(s => s.scheme === schema);    
-    if (schema === 'GB-CCS') {
-      return 'Internal Identifier';
-    }
-    else if(selecedScheme?.schemeName) {
-      return selecedScheme?.schemeName;
-    }
-    else {
-      return '';
-    }
-  }
+  public async getOrgDetails(id:any){
+    this.org = await this.organisationService.getOrganisation(id).toPromise();
 
-  public getId(id:string, schema: string): string {
-    return this.SharedDataService.getId(id,schema)
-   }
+  }
 
   public convertIdToHyphenId(id:string): string {    
   return this.SharedDataService.convertIdToHyphenId(id)

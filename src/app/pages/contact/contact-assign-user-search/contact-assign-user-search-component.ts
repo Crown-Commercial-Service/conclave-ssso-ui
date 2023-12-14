@@ -12,6 +12,7 @@ import { UserListInfo, UserListResponse } from "src/app/models/user";
 import { environment } from "src/environments/environment";
 import { SessionStorageKey } from "src/app/constants/constant";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-contact-assign-user-search-component',
@@ -39,7 +40,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
     searchSumbited:boolean=false;
     siteCreate: any;
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
-        protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
+        protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,private sessionService:SessionService,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
@@ -66,7 +67,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
             this.dataLayerService.pushEvent({ 
                 event: "page_view" ,
                 page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
+                user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
         })
@@ -142,5 +143,9 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
           event: "cta_button_click" ,
           page_location: "Assign a user's contacts to your organisation account"
         });
+      }
+
+      isRadioDisabled(dataRow: any): boolean {
+        return dataRow['isDormant'] === true;
       }
 }

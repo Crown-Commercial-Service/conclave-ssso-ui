@@ -15,6 +15,7 @@ import { LoadingIndicatorService } from './services/helper/loading-indicator.ser
 import { filter, map } from 'rxjs/operators';
 import { GlobalRouteService } from './services/helper/global-route.service';
 import { GoogleTagManagerService } from 'angular-google-tag-manager';
+import { SessionService } from './shared/session.service';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +34,7 @@ export class AppComponent implements OnInit {
   ccsContactUrl: string = environment.uri.ccsContactUrl;
   constructor(private sanitizer: DomSanitizer, private globalRouteService: GlobalRouteService, private overlay: OverlayContainer, private translate: TranslateService, protected uiStore: Store<UIState>, private router: Router,
     private route: ActivatedRoute, public authService: AuthService, private gtmService: GoogleTagManagerService,
-    public loadingIndicatorService: LoadingIndicatorService, private titleService: Title) {
+    public loadingIndicatorService: LoadingIndicatorService, private titleService: Title, private sessionService:SessionService) {
     translate.setDefaultLang('en');
     this.sideNavVisible$ = this.uiStore.pipe(select(getSideNavVisible));
     //this.gtmService.addGtmToDom();
@@ -68,7 +69,7 @@ export class AppComponent implements OnInit {
   async ngOnInit() {        
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
-        if(localStorage.getItem('user_name') === null){
+        if(this.sessionService.decrypt('user_name')=== null){
           if((<NavigationEnd>event).url.split('?')[0] != '/authsuccess'){
             localStorage.setItem('routeRecords',(<NavigationEnd>event).url)
           }
@@ -113,8 +114,8 @@ export class AppComponent implements OnInit {
         this.overlay.getContainerElement().classList.remove(darkClassName);
       }
     });
-    if (!localStorage.getItem('client_id')) {
-      localStorage.setItem('client_id', environment.idam_client_id);
+    if (!this.sessionService.decrypt('client_id')) {
+      this.sessionService.encrypt('client_id',environment.idam_client_id)
     }
     if (!localStorage.getItem('securityapiurl')) {
       localStorage.setItem('securityapiurl', environment.uri.api.security);

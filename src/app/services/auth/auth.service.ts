@@ -15,6 +15,7 @@ import { WorkerService } from '../worker.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +26,7 @@ export class AuthService {
   ccsServices: CcsServiceInfo[] = [];
 
   constructor(public readonly workerService: WorkerService, private router: Router, private location: Location,private RollbarErrorService:RollbarErrorService,
-    private readonly httpService: HttpClient, private readonly tokenService: TokenService) {
+    private readonly httpService: HttpClient, private readonly tokenService: TokenService,private sessionService:SessionService) {
     this.servicePermission = [];
   }
 
@@ -35,8 +36,8 @@ export class AuthService {
   }
 
   public isUserAuthenticated() {
-    const tokens = localStorage.getItem('user_name');
-    return tokens != null;
+    const tokens = this.sessionService.decrypt('user_name')    
+    return tokens != null && tokens != '';
   }
 
   public async isInMemoryTokenExists(): Promise<boolean> {
@@ -121,7 +122,7 @@ export class AuthService {
   }
 
   public isAuthenticated(): Observable<boolean> {
-    const tokens = localStorage.getItem('user_name');
+    const tokens = this.sessionService.decrypt('user_name')
     if (tokens) {
       return Observable.of(true);
     }
@@ -243,7 +244,6 @@ export class AuthService {
 
   public signOut() {
     clearTimeout(this.authTokenRenewaltimerReference);
-    localStorage.removeItem('brickedon_user');
     localStorage.removeItem('user_name');
     localStorage.removeItem('ccs_organisation_id');
     localStorage.removeItem('cii_organisation');
@@ -262,6 +262,8 @@ export class AuthService {
     localStorage.removeItem('user_access_name');
     localStorage.removeItem('userEditDetails');
     localStorage.removeItem('roleForGroup');
+    localStorage.removeItem('user_contact_user_name');
+    sessionStorage.removeItem('user_contact_user_name');
   }
 
   public logOutAndRedirect() {
@@ -287,7 +289,7 @@ export class AuthService {
   getPermissions(accessPage:string): Observable<any> {
     if (this.servicePermission.length == 0 || accessPage === 'HOME') {
       return this.httpService.get<ServicePermission[]>(`${environment.uri.api.postgres}/users/permissions?user-name=`
-        + encodeURIComponent(localStorage.getItem('user_name') || "") + `&service-client-id=` + environment.idam_client_id +'&organisation-id='+ localStorage.getItem('permission_organisation_id') || "").pipe(
+        + encodeURIComponent(this.sessionService.decrypt('user_name')) + `&service-client-id=` + environment.idam_client_id +'&organisation-id='+ localStorage.getItem('permission_organisation_id') || "").pipe(
           map((data: ServicePermission[]) => {
             // Cache permissions locally
             this.servicePermission = data;
@@ -332,7 +334,6 @@ export class AuthService {
   }
   getMfaAuthorizationEndpoint()
   {
-
     let url = environment.uri.api.security + '/security/mfa/authorize?scope=email profile openid offline_access&response_type=code&client_id='
       + environment.idam_client_id
       + '&redirect_uri=' + environment.uri.web.dashboard + '/mfa-selection'
@@ -434,7 +435,7 @@ export class AuthService {
       })
     )
   }
-
+  
   useTokenFromStorage(){
     var token = localStorage.getItem('STORE_TOKEN_ACCESS_TOKEN');
     var refreshToken = localStorage.getItem('STORE_TOKEN_ACCESS_TOKEN');
@@ -454,5 +455,4 @@ export class AuthService {
         this.workerService.storeTokenInWorker(tokeInfor);
     }
   }
-
 }
