@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { ManageDelegateService } from '../service/manage-delegate.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-delegated-access-user',
@@ -61,7 +62,8 @@ export class DelegatedAccessUserComponent implements OnInit {
     private DelegatedService: ManageDelegateService,
     private dataLayerService: DataLayerService,
     private router: Router,
-    private sessionService:SessionService
+    private sessionService:SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userSelectedFormData = sessionStorage.getItem('deleagted_user_details')
@@ -92,6 +94,9 @@ export class DelegatedAccessUserComponent implements OnInit {
       endyear: ['', [Validators.required]],
     });
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
+      this.loadingIndicatorService.isLoading.next(true);
+      this.loadingIndicatorService.isCustomLoading.next(true);
+
       this.userDetails = JSON.parse(atob(para.data));
       this.userDetails.userName = decodeURIComponent(unescape(this.userDetails.userName));
       this.userId = this.userDetails.id
@@ -113,6 +118,8 @@ export class DelegatedAccessUserComponent implements OnInit {
           this.patchDefaultDate()
         }, 10);
       }
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
     });
   }
 
