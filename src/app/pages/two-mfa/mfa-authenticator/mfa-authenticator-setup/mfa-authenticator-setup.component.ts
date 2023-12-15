@@ -30,6 +30,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     public mfaQrCode: any = localStorage.getItem('qr_code');
     public secretCode : string | null = localStorage.getItem('secret_code');
     public isMfaOpted : boolean = false;
+    public isDormanted : boolean = false;
     authcode: string = "";
     auth0token: string = "";
     oob_code: any;    
@@ -84,6 +85,11 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
             error: (err) => {
                 if(err.error.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
                     this.RenewToken();
+                }
+                else if(err.error=='ERROR_USER_IN_DORMANTED_STATE'){
+                     this.isDormanted=true;
+                     localStorage.setItem('isDormant', JSON.stringify(this.isDormanted));
+                     this.router.navigateByUrl('dormancy-message');
                 }
                 else{
                     // this.showError = true;

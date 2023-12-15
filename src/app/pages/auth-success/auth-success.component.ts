@@ -89,6 +89,7 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
                             this.isMfaOpted = data.mfaOpted;
                             localStorage.setItem('mfa_opted', JSON.stringify(this.isMfaOpted));
                             this.isDormantUser = data.isDormant;
+                            localStorage.setItem('isDormant', JSON.stringify(this.isDormantUser));
                             if (this.isDormantUser) {
                                 this.router.navigateByUrl('dormancy-message');
                             }
