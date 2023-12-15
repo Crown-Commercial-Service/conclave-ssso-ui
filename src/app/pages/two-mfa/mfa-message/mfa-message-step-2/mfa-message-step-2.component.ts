@@ -28,6 +28,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     formGroup: FormGroup;
     public phonenumber: string = localStorage.getItem('phonenumber') ?? '';
     public isMfaOpted : boolean = false;
+    public isDormanted : boolean = false;
     otp: string = "";
     authcode: string = "";
     auth0token: string = "";
@@ -78,6 +79,11 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
                 if(err.error.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
                     this.RenewToken('VERIFYOTP');
                 }
+                else if(err.error=='ERROR_USER_IN_DORMANTED_STATE'){
+                    this.isDormanted=true;
+                    localStorage.setItem('isDormant', JSON.stringify(this.isDormanted));
+                    this.router.navigateByUrl('dormancy-message');
+               }
                 else{
                     this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
                 }                
@@ -130,6 +136,11 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
                     this.isTooManySms = true;
                     this.submitted = false;                    
                 }
+                else if(err.error=='ERROR_USER_IN_DORMANTED_STATE'){
+                    this.isDormanted=true;
+                    localStorage.setItem('isDormant', JSON.stringify(this.isDormanted));
+                    this.router.navigateByUrl('dormancy-message');
+               }
             } //console.log("Error"),
         });
     }

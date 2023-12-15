@@ -28,6 +28,7 @@ import { SessionService } from "src/app/shared/session.service";
 export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit {
     userName = this.sessionService.decrypt('user_name')
     public isMfaOpted : boolean = false;
+    public isDormanted : boolean = false;
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, private wrapperUserService: WrapperUserService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,private sessionService:SessionService) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -56,7 +57,12 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
 
             },
             error: (err) => {
-                console.log(err)
+                    if(err.error=='ERROR_USER_IN_DORMANTED_STATE'){
+                    this.isDormanted=true;
+                    localStorage.setItem('isDormant', JSON.stringify(this.isDormanted));
+                    this.router.navigateByUrl('dormancy-message');
+               }
+              console.log(err)
             },
         })
         this.pushDataLayerEvent();
