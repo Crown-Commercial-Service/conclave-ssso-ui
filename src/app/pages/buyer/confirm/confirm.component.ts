@@ -88,15 +88,7 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
         });
       }
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-          id: this.id
-      });
-    })
+    this.dataLayerService.pushPageViewEvent({id: this.id});
   }
 
   public onSelect(verified: boolean) {

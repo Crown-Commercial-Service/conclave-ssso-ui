@@ -50,14 +50,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
         this.mfaQrCode = localStorage.getItem('qr_code');
         this.secretCode = localStorage.getItem('secret_code');
         this.pushDataLayer("form_start");
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
     // ngAfterViewInit()
     // {

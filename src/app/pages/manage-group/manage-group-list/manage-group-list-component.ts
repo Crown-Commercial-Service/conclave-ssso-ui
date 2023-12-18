@@ -47,14 +47,7 @@ export class ManageGroupListComponent extends BaseComponent implements OnInit {
         sessionStorage.removeItem('group_added_users');
         sessionStorage.removeItem('group_removed_users');
         this.getOrganisationUsers();
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
 
     getOrganisationUsers() {

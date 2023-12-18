@@ -20,13 +20,21 @@ export class DataLayerService {
     });
   }
 
-  pushPageViewEvent() {
-    this.pushEvent({ 
+  pushPageViewEvent(extraProps: any = null) {
+    console.log("ent_" + window.location.href);
+    let eventInfo = { 
       event: "page_view" ,
       page_location: window.location.href,
       user_id: localStorage.getItem("user_name"),
-      cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-    });
+      user_org: localStorage.getItem("cii_organisation_id"),
+      page_title: document.title
+    };
+    
+    if(extraProps != null){
+      eventInfo = Object.assign(eventInfo, extraProps);
+    }
+
+    this.pushEvent(eventInfo);
   }
 
   pushFormStartEvent(formId: string) {

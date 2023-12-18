@@ -76,16 +76,10 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
         });
       }
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-       scheme: this.routeParams.scheme,
+    this.dataLayerService.pushPageViewEvent({
+      scheme: this.routeParams.scheme,
        organisationId: this.routeParams.this.organisationId,
-     });
-    })
+    });
   }
 
   public onSubmit() {

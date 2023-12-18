@@ -78,15 +78,9 @@ export class DelegatedAccessUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    });
-    this.dataLayerService.pushFormStartEvent(this.formId);
+    this.dataLayerService.pushPageViewEvent();
+      this.dataLayerService.pushFormStartEvent(this.formId);
+
     this.formGroup = this.formbuilder.group({
       startday: ['', [Validators.required]],
       startmonth: ['', [Validators.required]],
