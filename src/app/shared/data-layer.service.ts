@@ -11,4 +11,12 @@ export class DataLayerService {
     (window as any).dataLayer = (window as any).dataLayer || [];
     (window as any).dataLayer.push(event);
   }
+
+  pushClickEvent(buttonText: string) {
+    this.pushEvent({ 
+      event: "cta_button_click" ,
+      link_text: buttonText,
+      link_url: window.location.href
+    });
+  }
 }
