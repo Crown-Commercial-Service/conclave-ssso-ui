@@ -26,6 +26,7 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
     auth0token: string = "";
     refreshtoken: string = "";
     qrCodeStr: string = "";
+    public isDormanted : boolean = false;
 
     constructor(private activatedRoute: ActivatedRoute,private sessionService:SessionService, private router: Router,private authService: AuthService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
@@ -77,6 +78,11 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
           else if(err.error.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
               this.RenewToken();
           }
+          else if(err.error=='ERROR_USER_IN_DORMANTED_STATE'){
+            this.isDormanted=true;
+            localStorage.setItem('isDormant', JSON.stringify(this.isDormanted));
+            this.router.navigateByUrl('dormancy-message');
+       }
           else {
               this.authService.logOutAndRedirect();
           }

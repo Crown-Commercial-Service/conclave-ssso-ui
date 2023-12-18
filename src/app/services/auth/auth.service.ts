@@ -264,6 +264,7 @@ export class AuthService {
     localStorage.removeItem('roleForGroup');
     localStorage.removeItem('user_contact_user_name');
     sessionStorage.removeItem('user_contact_user_name');
+    localStorage.removeItem('isDormant');
   }
 
   public logOutAndRedirect() {
