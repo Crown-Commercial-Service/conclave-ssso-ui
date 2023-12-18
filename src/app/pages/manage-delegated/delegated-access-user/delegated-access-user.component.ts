@@ -49,6 +49,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   };
   public isStartDateDisabled:boolean=false;
   public pastDateValidationMessage="The start date cannot be in the past";
+  public formId : string = 'delegated_access';
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private route: Router,
@@ -84,7 +85,8 @@ export class DelegatedAccessUserComponent implements OnInit {
           user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
-    })
+    });
+    this.dataLayerService.pushFormStartEvent(this.formId);
     this.formGroup = this.formbuilder.group({
       startday: ['', [Validators.required]],
       startmonth: ['', [Validators.required]],
@@ -377,15 +379,15 @@ export class DelegatedAccessUserComponent implements OnInit {
       this.userDetails.pageaccessmode = this.pageAccessMode;
       data.userName = escape(encodeURIComponent(data.userName));
       data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
-      let stringifyData = JSON.stringify(data)
-      this.pushDataLayer("form_submit");
+      let stringifyData = JSON.stringify(data);
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData));
       this.route.navigateByUrl(
         'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
       );
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -415,8 +417,8 @@ export class DelegatedAccessUserComponent implements OnInit {
       this.userDetails.pageaccessmode = this.pageAccessMode;
       data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
       data.userName = escape(encodeURIComponent(data.userName));
-      let stringifyData = JSON.stringify(data)
-      this.pushDataLayer("form_submit");
+      let stringifyData = JSON.stringify(data);
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData));
       this.route.navigateByUrl(
         'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
@@ -424,7 +426,7 @@ export class DelegatedAccessUserComponent implements OnInit {
 
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 

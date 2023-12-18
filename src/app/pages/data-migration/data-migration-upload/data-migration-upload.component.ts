@@ -22,6 +22,7 @@ export class DataMigrationUploadComponent implements OnInit {
     fileSizeExceedError: boolean = false;
     file: any;
     maxFileSize: number = environment.bulkUploadMaxFileSizeInBytes / (1024 * 1024);
+    public formId :string = 'Data_migration upload';
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     public userUploadHistoryTable: any = {
         currentPage: 1,
@@ -51,6 +52,7 @@ export class DataMigrationUploadComponent implements OnInit {
                 user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
+            this.dataLayerService.pushFormStartEvent(this.formId);
         })
     }
 
@@ -114,7 +116,7 @@ export class DataMigrationUploadComponent implements OnInit {
         this.resetError();
         let uploadStartTime = performance.now();
         if (this.validateFile()) {
-            this.pushDataLayer("form_submit");
+            this.dataLayerService.pushFormSubmitEvent(this.formId);
             this.DataMigrationService.uploadDataMigrationFile(this.file).subscribe({
                 next: (response: dataMigrationReportDetailsResponce) => {
                     let uploadEndTime = performance.now();
@@ -132,7 +134,7 @@ export class DataMigrationUploadComponent implements OnInit {
                 }
             });
         } else {
-            this.pushDataLayer("form_error");
+            this.dataLayerService.pushFormErrorEvent(this.formId);
         }
        this.pushDataLayerEvent();
     }
@@ -189,12 +191,5 @@ export class DataMigrationUploadComponent implements OnInit {
           }
         }
       }
-
-    pushDataLayer(event:string){
-        this.dataLayerService.pushEvent({
-            'event': event,
-            'form_id': 'Data_migration upload'
-        });
-    }
 }
 

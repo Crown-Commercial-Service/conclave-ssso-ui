@@ -18,6 +18,7 @@ export class FindDelegatedUserComponent implements OnInit {
   public submitted: boolean = false;
   public organisationId: string = ''
   public error: string = ''
+  public formId : string = 'find_delegated_user';
   constructor(
     public route: Router,
     private formBuilder: FormBuilder,
@@ -39,7 +40,8 @@ export class FindDelegatedUserComponent implements OnInit {
           user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
-    })
+    });
+    this.dataLayerService.pushFormStartEvent(this.formId);
     this.formGroup = this.formBuilder.group({
       email: [
         '',
@@ -75,6 +77,7 @@ export class FindDelegatedUserComponent implements OnInit {
   public GetUserStatus(from: FormGroup) {
     this.submitted = true;
     if (this.formValid(from)) {
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       this.WrapperUserDelegatedService.getuserDetail(from.controls.email.value, this.organisationId).subscribe({
         next: (userResponse: any) => {
           if (userResponse.organisationId === this.organisationId) {
@@ -123,6 +126,7 @@ export class FindDelegatedUserComponent implements OnInit {
       });
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
     this.pushDataLayerEvent();
   }

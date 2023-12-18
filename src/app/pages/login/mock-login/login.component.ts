@@ -19,6 +19,7 @@ import { SessionService } from 'src/app/shared/session.service';
 export class LoginComponent extends BaseComponent {
 
   formGroup: FormGroup;
+  public formId : string = 'Signin';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -40,11 +41,12 @@ export class LoginComponent extends BaseComponent {
        user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
-    })
+    });
+    this.dataLayerService.pushFormStartEvent(this.formId);
   }
 
   public onSubmit(form: FormGroup) {
-    this.pushDataLayer("form_submit");
+    this.dataLayerService.pushFormSubmitEvent(this.formId);
     this.authService.login(form.get('userName')?.value, form.get('password')?.value);
   }
 
@@ -58,12 +60,5 @@ export class LoginComponent extends BaseComponent {
   public onCancelClick() {
     this.location.back();
     this.pushDataLayerEvent();
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Signin'
-    });
   }
 }

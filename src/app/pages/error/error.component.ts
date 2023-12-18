@@ -49,6 +49,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
   public mainPageUrl: string = environment.uri.web.dashboard;
   public errorCode = '';
   expiredLinkErrorCodeValue: string = 'Access expired.';
+  public formId : string = 'error';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   userName: string;
@@ -83,7 +84,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
       }
     });
     this.userName = this.sessionService.decrypt('user_name')
-    this.pushDataLayer("form_start");
+    this.dataLayerService.pushFormStartEvent(this.formId);
   }
   ngOnInit(): void {
     console.log("errorCode",this.errorCode)
@@ -95,7 +96,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
        user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
-    })
+    });
   }
 
   displayError(error: string) {
@@ -134,9 +135,10 @@ export class ErrorComponent extends BaseComponent implements OnInit {
 
     if (this.PatternService.emailValidator(form.get('userName')?.value)) {
       this.resendForm.controls['userName'].setErrors({ incorrect: true });
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
     if (this.formValid(form)) {
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       console.log(form.get('userName')?.value);
       this.userService
         .resendUserActivationEmail(form.get('userName')?.value, true)
@@ -150,7 +152,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
           );
         });
     } else {
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
     this.dataLayerService.pushEvent({ 
       event: "cta_button_click" ,
@@ -166,12 +168,5 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     if (form == null) return false;
     if (form.controls == null) return false;
     return form.valid;
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'error'
-    });
   }
 }

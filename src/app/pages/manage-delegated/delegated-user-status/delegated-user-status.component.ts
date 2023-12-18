@@ -42,6 +42,7 @@ export class DelegatedUserStatusComponent implements OnInit {
     },
   };
   hideSimplifyRole: boolean = environment.appSetting.hideSimplifyRole;
+  public formId : string = 'delegated_user_status';
 
   constructor(
     private route: ActivatedRoute,

@@ -33,6 +33,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
   submitted: boolean = false;
   usedPasswordThreshold: number = environment.usedPasswordThreshold;
   public isOrgAdmin: boolean = false;
+  public formId :string = 'Manage_my_account Change_password';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -56,7 +57,8 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
        user_name: this.sessionService.decrypt('user_name'),
        cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
      });
-    })
+    });
+    this.dataLayerService.pushFormStartEvent(this.formId);
   }
 
   ngAfterViewChecked() {
@@ -103,8 +105,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
         newPassword: form.get('newPassword')?.value,
         userName: userName
       };
-
-      this.pushDataLayer("form_submit");
+     this.dataLayerService.pushFormSubmitEvent(this.formId);
 
       this.authService.changePassword(contactData).toPromise()
         .then((response) => {
@@ -130,7 +131,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
     }
     else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -143,13 +144,6 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
   public onCancelClick() {
     this.location.back();
     this.pushDataLayerEvent();
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_my_account Change_password'
-    });
   }
 
   pushDataLayerEvent() {

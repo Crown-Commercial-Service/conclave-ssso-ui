@@ -44,6 +44,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
 
   public bankFilterCtrl: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
+  public formId : string = 'Manage_organisation Edit_site';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   @ViewChild('singleSelect', { static: true }) singleSelect!: MatSelect;
@@ -124,7 +125,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     else {
       this.onFormValueChange();
     }
-    this.pushDataLayer("form_start");
+    this.dataLayerService.pushFormStartEvent(this.formId);
   }
 
   ngAfterViewInit() {
@@ -237,7 +238,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
         }
       };
 
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       if (this.isEdit) {
         this.orgSiteService.updateOrganisationSite(this.organisationId, this.siteId, orgSiteInfo).subscribe(
           {
@@ -279,6 +280,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
                 // form.controls['countryCode'].setErrors(errorObject);
                 this.serverError = error.error;
                 this.scrollHelper.scrollToFirst('error-summary');
+                this.dataLayerService.pushFormErrorEvent(this.formId);
                 if(error.status==409){
                   this.serverError="INVALID_SITE_NAME"
                 }
@@ -290,7 +292,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     }
     else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+     this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -353,13 +355,6 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
 
   public formValueChanged(){
    this.serverError=''
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_organisation Edit_site'
-    });
   }
 
   pushDataLayerEvent() {

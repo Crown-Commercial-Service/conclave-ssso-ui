@@ -27,6 +27,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
     resetErrorString!: string;
     submitted!: boolean;
     public errorCode = '';
+    public formId : string = 'forgot_password'
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     constructor(private formBuilder: FormBuilder,
         private translateService: TranslateService,
@@ -57,7 +58,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         this.translateService.get('RESET_PASSWORD_ERROR').subscribe((value) => {
             this.resetErrorString = value;
         });
-        this.pushDataLayer("form_start");
+        this.dataLayerService.pushFormStartEvent(this.formId);
         this.router.events.subscribe(value => {
             this.dataLayerService.pushEvent({ 
              event: "page_view" ,
@@ -87,7 +88,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
             this.resetForm.controls['userName'].setErrors({ 'incorrect': true})
    }
         if (this.formValid(form)) {
-            this.pushDataLayer("form_submit")
+            this.dataLayerService.pushFormSubmitEvent(this.formId);
             this.authService.resetPassword(form.get('userName')?.value).toPromise()
             .then(() => {
                 sessionStorage.setItem(SessionStorageKey.ForgotPasswordUserName, form.get('userName')?.value);
@@ -98,7 +99,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
                 }
         })
         } else {
-            this.pushDataLayer("form_error");
+            this.dataLayerService.pushFormErrorEvent(this.formId);
         }
         this.pushDataLayerEvent();
     }
@@ -123,12 +124,5 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
     public onCancelClick() {
         this.router.navigateByUrl('login');
         this.pushDataLayerEvent();
-    }
-
-    pushDataLayer(event:string){
-        this.dataLayerService.pushEvent({
-            'event': event,
-            'form_id': 'forgot_password'
-        });
     }
 }

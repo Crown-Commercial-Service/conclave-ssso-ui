@@ -72,6 +72,7 @@ export class ManageOrganisationContactEditComponent
     CountryISO.UnitedStates,
     CountryISO.UnitedKingdom,
   ];
+  public formId : string = 'Manage_your_organisation Edit_contact_details';
   public contact_error: boolean = false;
   public toggleInput: any = [
     {
@@ -207,7 +208,7 @@ export class ManageOrganisationContactEditComponent
         console.log(error);
       },
     });
-    this.pushDataLayer("form_start");
+    this.dataLayerService.pushFormStartEvent(this.formId);
   }
 
   getOrganisationContact() {
@@ -371,7 +372,7 @@ export class ManageOrganisationContactEditComponent
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
 
-        this.pushDataLayer("form_submit");
+        this.dataLayerService.pushFormSubmitEvent(this.formId);
 
         if (this.siteId == 0) {
           // If organisation contact
@@ -390,11 +391,11 @@ export class ManageOrganisationContactEditComponent
         }
       } else {
         this.scrollHelper.scrollToFirst('error-summary-title');
-        this.pushDataLayer("form_error");
+        this.dataLayerService.pushFormErrorEvent(this.formId);
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+    this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -654,12 +655,5 @@ export class ManageOrganisationContactEditComponent
       return true
     } 
     return false
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-      'event': event,
-      'form_id': 'Manage_your_organisation Edit_contact_details'
-    });
   }
 }

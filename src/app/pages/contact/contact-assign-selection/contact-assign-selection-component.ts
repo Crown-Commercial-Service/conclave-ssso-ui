@@ -27,6 +27,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
     selectionForm!: FormGroup;
     assigningSiteId: number = 0;
     assigningOrgId: string = "";
+    public formId :string = 'Assign_Contacts_Selection';
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     siteCreate: any;
@@ -54,6 +55,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
                 user_name: this.sessionService.decrypt('user_name'),
                 cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
             });
+            this.dataLayerService.pushFormStartEvent(this.formId);
         })
     }
 
@@ -81,8 +83,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
                 'assigningOrgId': this.assigningOrgId,
                 'siteCreate':this.siteCreate
             };
-
-            this.pushDataLayer("form_submit");
+           this.dataLayerService.pushFormSubmitEvent(this.formId);
 
             let selection = form.get('selection')?.value;
             if (selection === "userContact"){
@@ -94,7 +95,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
                 this.router.navigateByUrl("contact-assign/site-search?data=" + JSON.stringify(data));
             }
         } else {
-            this.pushDataLayer("form_error");
+            this.dataLayerService.pushFormErrorEvent(this.formId);
         }
     }
 
@@ -121,12 +122,5 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
         // else{
         //     this.router.navigateByUrl('manage-org/profile');
         // }
-    }
-
-    pushDataLayer(event:string){
-        this.dataLayerService.pushEvent({
-            'event': event,
-            'form_id': 'Manage_my_account Change_password'
-        });
     }
 }

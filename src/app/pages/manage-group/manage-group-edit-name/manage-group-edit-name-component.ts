@@ -37,6 +37,7 @@ export class ManageGroupEditNameComponent
   editingGroupId: number = 0;
   groupName: string = '';
   private specialChars = /^[ @().,;:'/#&+-]*$/;
+  public formId : string = 'Manage_groups Edit_groups Update_group_name';
 
              
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
@@ -79,14 +80,14 @@ export class ManageGroupEditNameComponent
           user_name: this.sessionService.decrypt('user_name'),
           cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
       });
-    })
+    });
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit Name' : 'Create'} - Manage Groups - CCS`
     );
     if(this.isEdit){
     this.groupName=sessionStorage.getItem('Gname') || ''
     this.formGroup.controls['groupName'].setValue(this.groupName);
-    this.pushDataLayer("form_start");
+    this.dataLayerService.pushFormStartEvent(this.formId);
     }
     this.onFormValueChange();
   }
@@ -132,7 +133,7 @@ export class ManageGroupEditNameComponent
           let groupPatchRequestInfo: OrganisationGroupRequestInfo = {
             groupName: this.groupName,
           };
-          this.pushDataLayer("form_submit");
+          this.dataLayerService.pushFormSubmitEvent(this.formId);
           this.orgGroupService
             .patchUpdateOrganisationGroup(
               this.organisationId,
@@ -169,7 +170,7 @@ export class ManageGroupEditNameComponent
             groupName: this.groupName,
           };
           this.SharedDataService.manageGroupStorage(this.groupName);
-          this.pushDataLayer("form_submit");
+          this.dataLayerService.pushFormSubmitEvent(this.formId);
           this.orgGroupService
             .createOrganisationGroups(this.organisationId, groupRequest)
             .subscribe(
@@ -202,11 +203,11 @@ export class ManageGroupEditNameComponent
         }
       }else{
         this.formGroup.controls['groupName'].setErrors({ 'specialCharsincluded': true})
-        this.pushDataLayer("form_error");
+        this.dataLayerService.pushFormErrorEvent(this.formId);
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -228,12 +229,5 @@ export class ManageGroupEditNameComponent
   onCancelClick() {
     this.router.navigateByUrl('manage-groups');
     this.pushDataLayerEvent();
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_groups Edit_groups Update_group_name'
-    });
   }
 }
