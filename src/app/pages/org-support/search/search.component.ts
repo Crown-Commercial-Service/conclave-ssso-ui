@@ -85,6 +85,10 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
   async onSearch() {
     let result = await this.organisationService.getUsers(this.searchText, this.currentPage, this.pageSize).toPromise();
     this.data = result;
+    if( this.data && this.data.orgUserList.length <= 0)
+    {
+     this.selectedRowId = '';
+    }
     this.pageCount = this.data.pageCount;
   }
 

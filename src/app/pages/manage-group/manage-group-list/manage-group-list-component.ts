@@ -43,6 +43,9 @@ export class ManageGroupListComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
+        sessionStorage.removeItem('group_existing_users');
+        sessionStorage.removeItem('group_added_users');
+        sessionStorage.removeItem('group_removed_users');
         this.getOrganisationUsers();
         this.router.events.subscribe(value => {
             this.dataLayerService.pushEvent({ 

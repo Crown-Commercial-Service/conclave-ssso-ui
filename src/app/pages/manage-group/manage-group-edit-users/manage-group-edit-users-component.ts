@@ -52,6 +52,7 @@ export class ManageGroupEditUsersComponent
   public userName = ''
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   groupType: number = 0;
+  public isDataChanged : boolean = false;
   constructor(
     protected uiStore: Store<UIState>,
     private router: Router,
@@ -141,6 +142,16 @@ export class ManageGroupEditUsersComponent
               };
               this.userGridSource.push(userGridSourceObject);
             });
+            
+            if (userListResponse.userList.length > 0 && (this.addingUsers.length > 0 || this.removingUsers.length > 0))
+            {
+              this.isDataChanged = true;
+            }
+            else{
+              this.isDataChanged = false;
+        
+            }
+
           }
         },
         error: (error: any) => {},
@@ -160,8 +171,11 @@ export class ManageGroupEditUsersComponent
   }
 
   onSearchClick() {
+    this.addingUsers = [];
+   // this.removingUsers =[];
     this.searchSumbited=true
     this.currentPage = 1;
+    this.isDataChanged = false;
     this.getOrganisationUsers();
   }
 
@@ -202,8 +216,17 @@ export class ManageGroupEditUsersComponent
           isDormant: dataRow.isDormant
         };
         this.removingUsers.push(userInfo);
-      }
+      }     
     }
+    if (this.addingUsers.length > 0 || this.removingUsers.length > 0)
+    {
+      this.isDataChanged = true;
+    }
+    else{
+      this.isDataChanged = false;
+
+    }
+
   }
 
   onContinueClick() {

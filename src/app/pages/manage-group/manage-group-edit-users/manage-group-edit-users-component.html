@@ -63,7 +63,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-button-group save-cancel-button-group">
-            <button type="button" (click)="onContinueClick()" class="govuk-button" data-module="govuk-button">
+            <button type="button" (click)="onContinueClick()"  [disabled] ="!isDataChanged" class="govuk-button" data-module="govuk-button">
                 {{ 'CONTINUE_BTN' | translate }}
             </button>
             <div class="govuk-button-group save-cancel-button-group" >
