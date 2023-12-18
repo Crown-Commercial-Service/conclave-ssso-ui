@@ -59,7 +59,7 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
         );
     }
 
-    onDeleteConfirmClick() {
+    onDeleteConfirmClick(buttonText:string) {
         this.orgGroupService.deleteOrganisationGroup(this.organisationId, this.groupId).subscribe({
             next: () => { 
                 this.SharedDataService.manageGroupStorage(this.GroupDetails.groupName)
@@ -69,19 +69,19 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
                 console.log(error);
             }
         });
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    onCancelClick(){
+    onCancelClick(buttonText:string){
         this.router.navigateByUrl('manage-groups/view?data=' + JSON.stringify(this.routeData));
-        this.pushDataLayerEvent();
+        if(buttonText==='Cancel')
+        {
+        this.pushDataLayerEvent(buttonText);
+        }
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Delete - Manage Groups"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText);
 	  }
   
 }

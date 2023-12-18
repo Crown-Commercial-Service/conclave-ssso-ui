@@ -60,11 +60,8 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
         this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Select Contact Type - Assign Contacts"
-        });
+    pushDataLayerEvent(buttonText:string) {
+       this.dataLayerService.pushClickEvent(buttonText);
       }
     
     public onSubmit(form: FormGroup) {
@@ -106,9 +103,9 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
       window.history.back();
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
         // if (this.assigningSiteId != 0){
         //     this.onNavigateToSiteClick();
         // }

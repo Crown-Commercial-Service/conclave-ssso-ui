@@ -46,7 +46,7 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
     this.dataLayerService.pushFormStartEvent(this.formId);
   }
 
-  public onSubmit(form: FormGroup) {
+  public onSubmit(form: FormGroup,buttonText:string) {
     this.submitted = true;
     if(this.PatternService.emailValidator(form.get('email')?.value)){
       this.formGroup.controls['email'].setErrors({ 'incorrect': true})
@@ -63,10 +63,7 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
     } else {
       this.dataLayerService.pushFormErrorEvent(this.formId);
     }
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Contact Us"
-    });
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 
   /**

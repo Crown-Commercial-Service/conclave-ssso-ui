@@ -30,10 +30,10 @@
         </div>
     </div>
     <div class="govuk-button-group continue-button-group">
-        <button type="button" [disabled]="selectedContacts.length == 0" class="govuk-button" data-module="govuk-button" (click)="onContinueClick()">
+        <button type="button" [disabled]="selectedContacts.length == 0" class="govuk-button" data-module="govuk-button" (click)="onContinueClick('Continue')">
             {{ 'CONTINUE_BTN' | translate }}
         </button>
-        <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+        <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
             data-module="govuk-button">
             {{ 'CANCEL_BTN' | translate }}
         </button>

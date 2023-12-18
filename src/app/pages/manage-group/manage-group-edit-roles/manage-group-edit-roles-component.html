@@ -12,7 +12,7 @@
                             }}</a>
                     </li>
                     <li *ngIf="isEdit== true" class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'EDIT_GROUP' | translate }}</a>
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick('Edit group')">{{ 'EDIT_GROUP' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" >
                         <span class="govuk-breadcrumbs__link" *ngIf="isEdit== true">
@@ -73,14 +73,14 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <div class="govuk-button-group save-cancel-button-group">
-                <button type="button" (click)="onContinueClick()" class="govuk-button" data-module="govuk-button">
+                <button type="button" (click)="onContinueClick('Continue')" class="govuk-button" data-module="govuk-button">
                     {{ 'CONTINUE_BTN' | translate }}
                 </button>
-                <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                <button type="button" (click)="onCancelClick(serviceRoleGroup.CREATE_BTN)" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button" *ngIf="!isEdit">
                     {{ serviceRoleGroup.CREATE_BTN }}
                 </button>
-                <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                <button type="button" (click)="onCancelClick('Cancel and go to group')" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button" *ngIf="isEdit">
                     Cancel and go to group 
                 </button>

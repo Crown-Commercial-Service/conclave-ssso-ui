@@ -183,7 +183,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
         }
     }
 
-    onContinueClick() {
+    onContinueClick(buttonText:string) {
         let data = {
             'isEdit': this.isEdit,
             'groupId': this.editingGroupId,
@@ -196,24 +196,24 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
        this.dataLayerService.pushFormSubmitEvent(this.formId);
         this.sharedDataService.storeRoleForGroup(JSON.stringify(data))
         this.router.navigateByUrl('manage-groups/edit-roles-confirm?data=' + JSON.stringify({ 'isEdit': this.isEdit }));
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Add/Edit Roles - Manage Groups"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
   
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         let data = {
             'isEdit': true,
             'groupId': this.editingGroupId
         };
         this.router.navigateByUrl('manage-groups/view?data=' + JSON.stringify(data));
-        this.pushDataLayerEvent();
+        if(buttonText!='Edit group')
+        {
+        this.pushDataLayerEvent(buttonText);
+        }
     }
 
     private initialteServiceRoleGroup() {

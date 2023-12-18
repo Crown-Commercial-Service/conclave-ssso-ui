@@ -16,11 +16,8 @@ export class FindyouradministratorComponent implements OnInit {
     this.dataLayerService.pushPageViewEvent();
   }
 
-  goBack() {
+  goBack(buttonText:string) {
     window.history.back();
-    this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "How to find your administrator"
-		});
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 }

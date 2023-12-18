@@ -104,7 +104,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
       }
 
 
-    onConfirmClick() {
+    onConfirmClick(buttonText:string) {
         let groupPatchRequestInfo: OrganisationGroupRequestInfo = {
             roleInfo: {
                 addedRoleIds: this.addingRoles.map(ar => ar.roleId),
@@ -131,7 +131,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
                         this.router.navigateByUrl(`manage-groups/error?data=` + JSON.stringify(data));
                     }
                 });
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     onGoToEditGroupClick() {
@@ -139,9 +139,9 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
         this.router.navigateByUrl("manage-groups/view?data=" + JSON.stringify(this.routeData));
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         this.router.navigateByUrl("manage-groups/edit-roles?data=" + JSON.stringify(this.routeData));
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     private initialteServiceRoleGroups(){
@@ -166,10 +166,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
            }
         } 
 
-        pushDataLayerEvent() {
-            this.dataLayerService.pushEvent({ 
-              event: "cta_button_click" ,
-              page_location: "Confirm - Add/Edit Roles - Manage Groups"
-            });
+        pushDataLayerEvent(buttonText:string) {
+            this.dataLayerService.pushClickEvent(buttonText);
           }    
 }

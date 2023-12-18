@@ -45,7 +45,7 @@ export class ContactUnassignConfirmComponent extends BaseComponent implements On
         this.dataLayerService.pushPageViewEvent();
     }
 
-    onDeleteConfirmClick() {
+    onDeleteConfirmClick(buttonText:string) {
         if (this.unassignSiteId == 0){
             this.contactService.unassignOrgContact(this.unassignOrgId, [this.contactId]).subscribe({
                 next: () => { 
@@ -72,23 +72,23 @@ export class ContactUnassignConfirmComponent extends BaseComponent implements On
                 }
             });
         }
-        this.pushDataLayerEvent(); 
+        this.pushDataLayerEvent(buttonText); 
     }
 
-    onCancelClick(){
+    onCancelClick(buttonText:string){
         let data = {
             'isEdit': true,
             'contactId': this.contactId,
             'siteId': this.unassignSiteId
         };
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
-        this.pushDataLayerEvent();
+        if(buttonText==='Cancel')
+        {
+        this.pushDataLayerEvent(buttonText);
+        }
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Confirm - Unassign Contact"
-        });
+    pushDataLayerEvent(buttonText:string) {
+       this.dataLayerService.pushClickEvent(buttonText);
       }
 }

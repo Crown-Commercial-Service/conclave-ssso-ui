@@ -123,7 +123,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     }
   }
 
-  onSubmit(form: FormGroup): void {
+  onSubmit(form: FormGroup,buttonText:string): void {
     this.submitted = true;
 
     if (this.PatternService.emailValidator(form.get('userName')?.value)) {
@@ -147,10 +147,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     } else {
       this.dataLayerService.pushFormErrorEvent(this.formId);
     }
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Error"
-    });
+   this.dataLayerService.pushClickEvent(buttonText)
   }
 
   setFocus(inputIndex: number) {

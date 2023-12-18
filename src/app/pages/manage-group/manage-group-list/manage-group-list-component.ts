@@ -71,16 +71,13 @@ export class ManageGroupListComponent extends BaseComponent implements OnInit {
         });
     }
 
-    onAddClick() {
+    onAddClick(buttonText:string) {
         let data = {
             'isEdit': false,
             'groupId': 0
         };
         this.router.navigateByUrl('manage-groups/edit-name?data=' + JSON.stringify(data));
-        this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "Manage Groups"
-          });
+      this.dataLayerService.pushClickEvent(buttonText);
     }
 
     searchTextChanged(event: any) {

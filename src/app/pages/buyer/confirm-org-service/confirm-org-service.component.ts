@@ -112,7 +112,7 @@ export class ConfirmOrgServiceComponent extends BaseComponent {
     }
   }
 
-  public onSubmitClick() {
+  public onSubmitClick(buttonText:string) {
     const model = {
       orgType: parseInt(this.changes.orgType),
       serviceRoleGroupsToDelete: this.filterRoleId(this.changes.toDelete),
@@ -136,7 +136,7 @@ export class ConfirmOrgServiceComponent extends BaseComponent {
         console.log(error);
         this.router.navigateByUrl(`buyer/error`);
       });
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
   }
 
   public filterRoleId(roleArray: any) {
@@ -151,7 +151,7 @@ export class ConfirmOrgServiceComponent extends BaseComponent {
     this.router.navigateByUrl('buyer-supplier/search');
   }
 
-  public onBackClick() {
+  public onBackClick(buttonText:string) {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
     let data = {
       companyHouseId: this.routeData.companyHouseId,
@@ -166,13 +166,10 @@ export class ConfirmOrgServiceComponent extends BaseComponent {
         'update-org-services/confirm?data=' + btoa(JSON.stringify(data))
       );
     }
-    this.pushDataLayerEvent()
+    this.pushDataLayerEvent(buttonText)
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Review - Manage Buyers"
-    });
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText)
   }
 }

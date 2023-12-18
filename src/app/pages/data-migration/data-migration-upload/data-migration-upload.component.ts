@@ -104,7 +104,7 @@ export class DataMigrationUploadComponent implements OnInit {
         }
     }
 
-    public onContinueClick() {
+    public onContinueClick(buttonText:string) {
         this.submitted = true;
         this.resetError();
         let uploadStartTime = performance.now();
@@ -129,7 +129,7 @@ export class DataMigrationUploadComponent implements OnInit {
         } else {
             this.dataLayerService.pushFormErrorEvent(this.formId);
         }
-       this.pushDataLayerEvent();
+       this.pushDataLayerEvent(buttonText);
     }
 
     sendAnalyticsData(timeElapsedInSeconds: number) {
@@ -153,11 +153,8 @@ export class DataMigrationUploadComponent implements OnInit {
         return true;
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Data migration"
-        });
+    pushDataLayerEvent(buttonText:string) {
+        this.dataLayerService.pushClickEvent(buttonText);
       }
       
 
@@ -168,9 +165,9 @@ export class DataMigrationUploadComponent implements OnInit {
         this.fileSizeExceedError = false;
     }
 
-    public onCancelClick() {
+    public onCancelClick(buttonText:string) {
         this.router.navigateByUrl('home');
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     public onLinkClick(data: any): void {

@@ -77,11 +77,8 @@ export class ContactAdminComponent implements OnInit {
     this.currentPage = pageNumber;
     this.getOrganisationUsers();
   }
-  goBack() {
+  goBack(buttonText:string) {
     this.router.navigateByUrl('profile');
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Contact my administrator"
-    });
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 }

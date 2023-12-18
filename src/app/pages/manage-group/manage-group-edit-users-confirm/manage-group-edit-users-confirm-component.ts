@@ -61,7 +61,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
         this.dataLayerService.pushPageViewEvent();
     }
 
-    onConfirmClick() {
+    onConfirmClick(buttonText:string) {
         let groupPatchRequestInfo: OrganisationGroupRequestInfo = {
             userInfo: {
                 addedUserIds: this.addingUsers.map(au => au.userName),
@@ -101,7 +101,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
                         this.router.navigateByUrl(`manage-groups/error?data=` + JSON.stringify(data));
                     }
                 });
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     onGoToEditGroupClick() {
@@ -110,9 +110,9 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
         this.router.navigateByUrl("manage-groups/view?data=" + JSON.stringify(this.routeData));
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         this.router.navigateByUrl("manage-groups/edit-users?data=" + JSON.stringify(this.routeData));
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     clearSessionStorageGroupUserData() {
@@ -121,11 +121,8 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
         sessionStorage.removeItem("group_removed_users");
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Confirm - Add/Edit Users - Manage Groups"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText);
 	  }
   
 }

@@ -246,14 +246,11 @@ export class ViewVerifiedOrgComponent implements OnInit {
   }
 
 
-  private pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Manage Buyer status requests - View Buyer status for the organisation"
-    });
+  private pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 
-  public removeRightToBuy(): void {
+  public removeRightToBuy(buttonText:string): void {
     let data = {
       id: this.routeDetails.event.organisationId,
       status: ManualValidationStatus.decline,
@@ -262,17 +259,21 @@ export class ViewVerifiedOrgComponent implements OnInit {
     this.router.navigateByUrl(
       'remove-right-to-buy?data=' + btoa(JSON.stringify(data))
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  goBack() {
+  goBack(buttonText:string) {
     if (this.routeDetails.lastRoute === "pending-verification") {
       this.router.navigateByUrl('manage-buyer-both');
     } else {
       sessionStorage.setItem('activetab', 'verifiedOrg');
       window.history.back();
     }
-    this.pushDataLayerEvent();
+    
+    if(buttonText==='Back')
+    {
+    this.pushDataLayerEvent(buttonText);
+    }
   }
 
   public getSchemaName(schema: string): string {

@@ -67,7 +67,7 @@ export class FindDelegatedUserComponent implements OnInit {
 
 
 
-  public GetUserStatus(from: FormGroup) {
+  public GetUserStatus(from: FormGroup,buttonText:string) {
     this.submitted = true;
     if (this.formValid(from)) {
       this.dataLayerService.pushFormSubmitEvent(this.formId);
@@ -121,18 +121,15 @@ export class FindDelegatedUserComponent implements OnInit {
       this.scrollHelper.scrollToFirst('error-summary');
       this.dataLayerService.pushFormErrorEvent(this.formId);
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public Cancel() {
+  public Cancel(buttonText:string) {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Find a user"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 }

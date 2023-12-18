@@ -28,12 +28,9 @@ public isOrgAdmin: boolean = false;
     this.dataLayerService.pushPageViewEvent();
   }
 
-  public print():void{
+  public print(buttonText:string):void{
     window.print()
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Accessibility statement"
-    });
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
 }

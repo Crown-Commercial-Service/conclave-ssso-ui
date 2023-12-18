@@ -81,7 +81,7 @@ export class ContactAssignSiteSearchComponent extends BaseComponent implements O
         this.selectedSiteId = dataRow?.siteId ?? '';
     }
 
-    onContinue() {
+    onContinue(buttonText:string) {
         if (this.selectedSiteId != 0) {
             sessionStorage.removeItem("assigning-contact-list");
             let data = {
@@ -90,7 +90,7 @@ export class ContactAssignSiteSearchComponent extends BaseComponent implements O
             };
             this.router.navigateByUrl('contact-assign?data=' + JSON.stringify(data));
         }
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     onCancelClick() {
@@ -101,15 +101,12 @@ export class ContactAssignSiteSearchComponent extends BaseComponent implements O
         this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
     }
 
-    public onBack(){
+    public onBack(buttonText:string){
       window.history.back();
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Assign a site's contacts to your organisation account"
-        });
+    pushDataLayerEvent(buttonText:string) {
+       this.dataLayerService.pushClickEvent(buttonText);
       }
 }

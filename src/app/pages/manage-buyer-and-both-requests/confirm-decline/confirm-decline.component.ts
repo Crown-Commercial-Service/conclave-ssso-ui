@@ -31,7 +31,7 @@ export class ConfirmDeclineComponent implements OnInit {
     this.dataLayerService.pushPageViewEvent();
   }
 
-  public confirmAndDecline(): void {
+  public confirmAndDecline(buttonText:string): void {
     this.wrapperBuyerAndBothService.manualValidation(this.routeDetails.organisationId, ManualValidationStatus.decline).subscribe({
       next: (response: any) => {
         this.router.navigateByUrl('decline-success');
@@ -48,18 +48,15 @@ export class ConfirmDeclineComponent implements OnInit {
     this.router.navigateByUrl(
       'decline-success?data=' + btoa(JSON.stringify(data))
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public Back(): void {
+  public Back(buttonText:string): void {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Decline right to buy status"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 }

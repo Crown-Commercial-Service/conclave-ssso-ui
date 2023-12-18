@@ -15,6 +15,7 @@ import { PatternService } from 'src/app/shared/pattern.service';
 import { ActivatedRoute } from '@angular/router';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
 
 @Component({
     selector: 'app-forgot-password',
@@ -75,7 +76,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
     *
     * @memberof ForgotPasswordComponent
     */
-    onSubmit(form: FormGroup): void {
+    onSubmit(form: FormGroup,buttonText:string): void {
         this.submitted = true;
         if(this.PatternService.emailValidator(form.get('userName')?.value)){
             this.resetForm.controls['userName'].setErrors({ 'incorrect': true})
@@ -94,14 +95,11 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         } else {
             this.dataLayerService.pushFormErrorEvent(this.formId);
         }
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Reset your password"
-        });
+    pushDataLayerEvent(buttonText:string) {
+       this.dataLayerService.pushClickEvent(buttonText)
       }
 
     setFocus(inputIndex: number) {
@@ -114,8 +112,8 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         return form.valid;
     }
 
-    public onCancelClick() {
+    public onCancelClick(buttonText:string) {
         this.router.navigateByUrl('login');
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 }

@@ -94,19 +94,16 @@ export class DelegatedOrganisationComponent implements OnInit {
     this.primaryRoleSelected = null;
     this.roleInfo = orgDetails.delegatedOrgId;
   }
-  onSubmit() {
+  onSubmit(buttonText:string) {
     this.DelegateService.setDelegatedOrg(this.roleInfo,'home');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
-  public Cancel() {
+  public Cancel(buttonText:string) {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Manage your delegated access"
-		});
+  pushDataLayerEvent(buttonText:string) {
+	this.dataLayerService.pushClickEvent(buttonText);
 	  }
 }

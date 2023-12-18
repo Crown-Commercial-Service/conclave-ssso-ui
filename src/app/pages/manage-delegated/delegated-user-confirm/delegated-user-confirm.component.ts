@@ -57,13 +57,13 @@ export class DelegatedUserConfirmComponent implements OnInit {
 
 
 
-  public onSubmit(): void {
+  public onSubmit(buttonText:string): void {
     if (this.pageAccessMode === "edit") {
       this.updateDelegatedUser()
     } else {
       this.createDelegateUser()
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   public createDelegateUser(): void {
@@ -165,15 +165,12 @@ export class DelegatedUserConfirmComponent implements OnInit {
     sessionStorage.removeItem('deleagted_user_details')
   }
 
-  public Cancel() {
+  public Cancel(buttonText:string) {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "delegate-user-confirm"
-    });
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 }

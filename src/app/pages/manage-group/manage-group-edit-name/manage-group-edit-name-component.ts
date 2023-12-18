@@ -97,11 +97,8 @@ export class ManageGroupEditNameComponent
     }
 
 
- 	 pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Add/Edit Name - Manage Groups"
-		});
+ 	 pushDataLayerEvent(buttonText:string) {
+	this.dataLayerService.pushClickEvent(buttonText);
 	  }
   
 
@@ -210,17 +207,20 @@ export class ManageGroupEditNameComponent
     return form.valid;
   }
 
-  onCancelAndGoToGroupClick() {
+  onCancelAndGoToGroupClick(buttonText:string) {
     if (this.isEdit == true) {
       this.router.navigateByUrl(
         'manage-groups/view?data=' + JSON.stringify(this.routeData)
       );
     }
-    this.pushDataLayerEvent();
+    if(buttonText==='Cancel and go to group')
+    {
+    this.pushDataLayerEvent(buttonText);
+    }
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText:string) {
     this.router.navigateByUrl('manage-groups');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 }

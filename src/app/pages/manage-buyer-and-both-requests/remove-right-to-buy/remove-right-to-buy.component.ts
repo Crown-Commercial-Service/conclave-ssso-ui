@@ -22,12 +22,12 @@ export class RemoveRightToBuyComponent implements OnInit {
     this.dataLayerService.pushPageViewEvent();
   }
 
- public Back():void {
+ public Back(buttonText:string):void {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public confirm(){
+  public confirm(buttonText:string){
     let data = {
       status: 'remove',
       orgName: this.routeDetails.orgName
@@ -42,13 +42,10 @@ export class RemoveRightToBuyComponent implements OnInit {
         this.router.navigateByUrl('buyer-and-both-fail');
       },
     });
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Remove right to buy status"
-    });
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 }

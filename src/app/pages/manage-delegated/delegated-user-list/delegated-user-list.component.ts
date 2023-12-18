@@ -118,12 +118,9 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
     this.getOrganisationExpiredUsers();
   }
 
-  public FindDelegateUser(): void {
+  public FindDelegateUser(buttonText:string): void {
     this.router.navigateByUrl('find-delegated-user');
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Delegated access"
-    });
+   this.dataLayerService.pushClickEvent(buttonText)
   }
 
   getOrganisationCurrentUsers() {

@@ -27,7 +27,7 @@ export class ConfirmAcceptComponent implements OnInit {
     this.dataLayerService.pushPageViewEvent();
   }
 
-  public confirm(): void {
+  public confirm(buttonText:string): void {
     this.wrapperBuyerAndBothService.manualValidation(this.routeDetails.organisationId, ManualValidationStatus.approve).subscribe({
       next: (response: any) => {
         this.router.navigateByUrl('buyer-and-both-success');
@@ -44,19 +44,16 @@ export class ConfirmAcceptComponent implements OnInit {
     this.router.navigateByUrl(
       'buyer-and-both-success?data=' + btoa(JSON.stringify(data))
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public Back(): void {
+  public Back(buttonText:string): void {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Approve right to buy status"
-    });
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 
 }

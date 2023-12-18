@@ -98,13 +98,10 @@ export class SuccessOrgServiceComponent implements OnDestroy {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
   }
 
-  public onBackClick() {
+  public onBackClick(buttonText:string) {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
     this.router.navigateByUrl('update-org-type/confirm/' + this.org.ciiOrganisationId);
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Review - Manage Buyers"
-    });
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
 }

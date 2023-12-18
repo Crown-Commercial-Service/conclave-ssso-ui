@@ -134,15 +134,12 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
     return form.valid;
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     this.location.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Change Password"
-    });
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText)
   }
 }

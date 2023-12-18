@@ -9,7 +9,7 @@
                 <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate }}</a>
             </li>
             <li *ngIf="isEdit==true" class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelAndGoToGroupClick()">{{
+                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelAndGoToGroupClick('Edit group')">{{
                     'EDIT_GROUP' | translate }}</a>
             </li>
             <li *ngIf="isEdit!=true" class="govuk-breadcrumbs__list-item">
@@ -114,19 +114,19 @@
                     </div>
                 </div>
                 <div class="govuk-button-group save-cancel-button-group">
-                    <button *ngIf="isEdit!=true" type="submit" (click)="pushDataLayerEvent()" [disabled]="!formChanged" class="govuk-button"
+                    <button *ngIf="isEdit!=true" type="submit" (click)="pushDataLayerEvent('Save and continue')" [disabled]="!formChanged" class="govuk-button"
                         data-module="govuk-button">
                         {{ 'SAVE_CONTINUE_BTN' | translate }}
                     </button>
-                    <button *ngIf="isEdit==true" type="submit" (click)="pushDataLayerEvent()" [disabled]="!formChanged" class="govuk-button"
+                    <button *ngIf="isEdit==true" type="submit" (click)="pushDataLayerEvent('Save changes')" [disabled]="!formChanged" class="govuk-button"
                         data-module="govuk-button">
                         {{ 'SAVE_BTN' | translate }}
                     </button>
-                    <button *ngIf="isEdit!=true" type="button" (click)="onCancelClick()"
+                    <button *ngIf="isEdit!=true" type="button" (click)="onCancelClick('Cancel')"
                         class="govuk-button govuk-button--secondary" data-module="govuk-button">
                         {{ 'CANCEL_BTN' | translate }}
                     </button>
-                    <button *ngIf="isEdit==true" type="button" (click)="onCancelAndGoToGroupClick()"
+                    <button *ngIf="isEdit==true" type="button" (click)="onCancelAndGoToGroupClick('Cancel and go to group')"
                         class="govuk-button govuk-button--secondary" data-module="govuk-button">
                         {{ 'CANCEL_GO_GROUP_BTN' | translate }}
                     </button>

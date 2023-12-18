@@ -222,7 +222,7 @@ export class ManageGroupEditUsersComponent
 
   }
 
-  onContinueClick() {
+  onContinueClick(buttonText:string) {
     sessionStorage.setItem(
       'group_existing_users',
       JSON.stringify(this.userNames)
@@ -243,18 +243,15 @@ export class ManageGroupEditUsersComponent
     this.router.navigateByUrl(
       'manage-groups/edit-users-confirm?data=' + JSON.stringify(data)
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Add/Edit Users - Manage Groups"
-		});
+  pushDataLayerEvent(buttonText:string) {
+	this.dataLayerService.pushClickEvent(buttonText);
 	  }
   
 
-  onCancelClick() {
+  onCancelClick(buttonText:string) {
     let data = {
       isEdit: true,
       groupId: this.editingGroupId,
@@ -265,7 +262,18 @@ export class ManageGroupEditUsersComponent
     this.router.navigateByUrl(
       'manage-groups/view?data=' + JSON.stringify(data)
     );
-    this.pushDataLayerEvent();
+    if(buttonText!="Edit group")
+    {
+    if(this.showRoleView)
+    {
+      buttonText=buttonText+'roles';
+    }
+    else if(!this.showRoleView)
+    {
+      buttonText=buttonText+'services';
+    }
+    this.pushDataLayerEvent(buttonText);
+  }
   }
 
   public isAdminGroupAndUser(totalUserName:string){

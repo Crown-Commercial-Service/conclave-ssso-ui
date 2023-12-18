@@ -18,7 +18,7 @@
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'CONTACT_ASSIGN_SELECTION'
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick('Select contact type')">{{ 'CONTACT_ASSIGN_SELECTION'
                             |translate}}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
@@ -55,10 +55,10 @@
 
     <div class="govuk-button-group continue-button-group">
         <button type="button" [disabled]="selectedUserName == ''" class="govuk-button" data-module="govuk-button"
-            (click)="onContinue()">
+            (click)="onContinue('Continue')">
             {{ 'CONTINUE_BTN' | translate }}
         </button>
-        <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+        <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
             data-module="govuk-button">
             {{ 'CANCEL_BTN' | translate }}
         </button>

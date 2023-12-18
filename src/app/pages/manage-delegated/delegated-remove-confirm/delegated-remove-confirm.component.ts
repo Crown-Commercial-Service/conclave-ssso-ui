@@ -24,7 +24,7 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
     this.dataLayerService.pushPageViewEvent();
   }
 
-  public ConfirmRemoveUser(){
+  public ConfirmRemoveUser(buttonText:string){
     let data ={
       status:'delete',
       userName:this.RouteData.userName
@@ -38,11 +38,11 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
       this.router.navigateByUrl('delegated-error')
       }
     });
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
 
-  public ConfirmResentLink(){
+  public ConfirmResentLink(buttonText:string){
     let data ={
       status:'resent',
       userName:this.RouteData.userName
@@ -56,18 +56,15 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
       this.router.navigateByUrl('delegated-error')
       }
     });
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public Cancel():void{
+  public Cancel(buttonText:string):void{
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "delegated-remove-confirm"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 }

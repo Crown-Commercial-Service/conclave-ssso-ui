@@ -55,7 +55,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   return this.SharedDataService.convertIdToHyphenId(id)
   }
 
-  public onContinueClick() {
+  public onContinueClick(buttonText:string) {
     if(environment.appSetting.hideAutoValidation){
      this.router.navigateByUrl(`buyer/confirm/${this.selectedOrgId}`);
     }
@@ -73,18 +73,15 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
       }
       this.router.navigateByUrl('update-org-services/confirm?data=' + btoa(JSON.stringify(data)));
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     this.router.navigateByUrl('buyer-supplier/search');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Review - Manage Buyers"
-    });
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 }
