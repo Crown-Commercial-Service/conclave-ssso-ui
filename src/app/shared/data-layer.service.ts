@@ -19,4 +19,35 @@ export class DataLayerService {
       link_url: window.location.href
     });
   }
+
+  pushPageViewEvent() {
+    this.pushEvent({ 
+      event: "page_view" ,
+      page_location: window.location.href,
+      user_id: localStorage.getItem("user_name"),
+      cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
+    });
+  }
+
+  pushFormStartEvent(formId: string) {
+    this.pushEvent({
+      event: 'form_start',
+      form_id: formId
+    });
+  }
+
+  pushFormSubmitEvent(formId: string) {
+    this.pushEvent({
+      event: 'form_submit',
+      form_id: formId
+    });
+  }
+
+  pushFormErrorEvent(formId: string) {
+    this.pushEvent({
+      event: 'form_error',
+      form_id: formId
+    });
+  }
+  
 }
