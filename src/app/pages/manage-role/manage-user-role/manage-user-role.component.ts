@@ -34,7 +34,7 @@ public tokenPara : any=[];
     })
   }
 
-  public acceptRejectRequest(responce:number):void{
+  public acceptRejectRequest(responce:number,buttonText:string):void{
     this.userDetails=null;
     this.wrapperUserService.userTokenVerify(this.tokenPara).subscribe((data)=>{
     this.userDetails = data;  
@@ -59,9 +59,6 @@ public tokenPara : any=[];
   },(err)=>{
     this.errorResponce = true
   })
-  this.dataLayerService.pushEvent({ 
-    event: "cta_button_click" ,
-    page_location: "Fleet Portal access verification"
-  });
+  this.dataLayerService.pushClickEvent(buttonText)
   }
 }

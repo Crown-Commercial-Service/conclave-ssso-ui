@@ -174,7 +174,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.routeStateData = this.router.getCurrentNavigation()?.extras.state;
     this.approveRequiredRole = []
     this.locationStrategy.onPopState(() => {
-      this.onCancelClick();
+      this.onCancelClick('Cancel');
     });
     this.orgGroups = [];
   }
@@ -410,11 +410,8 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.loadingIndicatorService.isCustomLoading.next(false);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "My Profile"
-    });
+  pushDataLayerEvent(buttonText: string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
   ngAfterViewChecked() {
@@ -484,10 +481,10 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           })
         }
         if (userContactsInfo.contactPoints && userContactsInfo.contactPoints.length > 0) {
-          this.buttonText = 'ADD_ANOTHER_CONTACT_BTN';
+          this.buttonText = 'Add another contact';
           this.isEditContact = false;
         } else {
-          this.buttonText = 'ADD_CONTACT';
+          this.buttonText = 'Add contact';
           this.isEditContact = true;
         }
       },
@@ -495,9 +492,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     });
   }
 
-  onChangePasswordClick() {
+  onChangePasswordClick(buttonText: string) {
     this.router.navigateByUrl('change-password');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onRequestRoleChangeClick() {
@@ -513,7 +510,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
   }
 
-  onContactAddClick() {
+  onContactAddClick(buttonText:string) {
     let data = {
       isEdit: false,
       contactId: 0,
@@ -525,7 +522,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     );
     this.sessionService.encrypt('UserContactUsername',this.userName);
     this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onContactAssignRemoveClick() {
@@ -583,9 +580,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText: string) {
     this.router.navigateByUrl('home');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
 
@@ -780,7 +777,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.inputs.toArray()[1].nativeElement.focus();
     }
   }
-  ResetAdditionalSecurity() {
+  ResetAdditionalSecurity(buttonText: string) {
     if (this.formGroup.controls.mfaEnabled.value) {
       let data = {
         data: this.userName,
@@ -788,7 +785,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
       this.router.navigateByUrl('confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data)))
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   async getOrgGroups() {

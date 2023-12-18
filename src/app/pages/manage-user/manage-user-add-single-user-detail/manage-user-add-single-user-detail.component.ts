@@ -830,16 +830,16 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText: string) {
     sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
     localStorage.removeItem('ManageUserUserName');
     this.router.navigateByUrl('manage-users');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  onResetPasswordClick() {
+  onResetPasswordClick(buttonText: string) {
     this.router.navigateByUrl('manage-users/confirm-reset-password');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onDeleteClick() {
@@ -899,7 +899,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
 
 
-  public ResetAdditionalSecurity(): void {
+  public ResetAdditionalSecurity(buttonText: string): void {
     if (this.MFA_Enabled) {
       let data = {
         IsUser: true,
@@ -913,7 +913,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         'confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data))
       );
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   ngOnDestroy() {
@@ -1014,11 +1014,8 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     this.updateFormUserTypeChanged(event);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Add/Edit - Manage Users"
-		});
+  pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
   
   private setMfaandAdminGroup(){

@@ -46,7 +46,7 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
         this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     }
 
-    onDeleteConfirmClick() {
+    onDeleteConfirmClick(buttonText: string) {
         this.contactService.deleteUserContact(this.userName, this.contactId).subscribe({
             next: () => { 
                 this.router.navigateByUrl(`operation-success/${OperationEnum.MyAccountContactDelete}`);             
@@ -55,23 +55,20 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
                 console.log(error);
             }
         });
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    onCancelClick(){
+    onCancelClick(buttonText: string){
         let data = {
             'isEdit':true,
             'contactId': this.contactId
         };
         this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Delete - User Contact"
-		});
+    pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }
 

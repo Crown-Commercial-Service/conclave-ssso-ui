@@ -111,10 +111,7 @@ export class NominateComponent extends BaseComponent {
     } else {
       this.pushDataLayer("form_error");
     }
-    this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Nominate"
-		});
+    this.dataLayerService.pushClickEvent('Continue');
   }
 
   /**

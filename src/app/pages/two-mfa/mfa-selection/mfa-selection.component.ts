@@ -92,9 +92,9 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
         });
 
     }
-    public onCancelClick() {
+    public onCancelClick(buttonText:string) {
         this.authService.logOutAndRedirect();
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     public onContinueClick(event: string | null) {
@@ -109,14 +109,11 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
         else if (event == "NOAUTH") {
             this.router.navigateByUrl('no-mfa-confirmation');
         }
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent('Continue');
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "MFA Selection"
-		});
+    pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	}
 
     public async GetOrganisationMfaSettings() {

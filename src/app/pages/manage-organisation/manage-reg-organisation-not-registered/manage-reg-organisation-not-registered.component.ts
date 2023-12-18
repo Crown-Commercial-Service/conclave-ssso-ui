@@ -35,7 +35,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
         this.router.navigateByUrl(`manage-org/register/newreg`);
     }
     
-    onContinueClick(){
+    onContinueClick(buttonText: string){
         switch (this.adminSelectionMode){
             case "useradmin":{
                 this.router.navigateByUrl(environment.appSetting.customMfaEnabled
@@ -54,10 +54,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
             }
         }
 
-        this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "Admin Details - Registration"
-        });
+        this.dataLayerService.pushClickEvent(buttonText)
     }
 
     goBack() {

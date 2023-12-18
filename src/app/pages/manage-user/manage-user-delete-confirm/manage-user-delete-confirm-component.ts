@@ -37,7 +37,7 @@ export class ManageUserDeleteConfirmComponent extends BaseComponent implements O
         this.dataLayerService.pushPageViewEvent();
     }
 
-    onDeleteConfirmClick() {
+    onDeleteConfirmClick(buttonText: string) {
         this.wrapperUserService.deleteUser(this.userName).subscribe({
             next: () => { 
                 sessionStorage.setItem(SessionStorageKey.OperationSuccessUserName, this.userName);
@@ -48,18 +48,15 @@ export class ManageUserDeleteConfirmComponent extends BaseComponent implements O
                 console.log(error);
             }
         });
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    onCancelClick(){
+    onCancelClick(buttonText: string){
         window.history.back();
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Delete - Manage Users"
-		});
+    pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

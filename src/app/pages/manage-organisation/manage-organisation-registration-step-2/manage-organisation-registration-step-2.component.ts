@@ -107,7 +107,7 @@ export class ManageOrgRegStep2Component
     this.inputs.toArray()[inputIndex].nativeElement.focus();
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     let schemeDetails = {
       scheme:this.scheme,
       schemeID:this.txtValue,
@@ -124,10 +124,7 @@ export class ManageOrgRegStep2Component
       } else {
         this.scrollHelper.scrollToFirst('error-summary');
       }
-      this.dataLayerService.pushEvent({ 
-        event: "cta_button_click" ,
-        page_location: "Enter Details - Registration"
-      });
+      this.dataLayerService.pushClickEvent(buttonText);
   }
 
   public onBackClick() {

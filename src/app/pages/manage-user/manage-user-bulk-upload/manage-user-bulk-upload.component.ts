@@ -51,7 +51,7 @@ export class ManageUserBulkUploadComponent {
         }
     }
 
-    onContinueClick() {
+    onContinueClick(buttonText:string) {
         this.submitted = true;
         this.resetError();
         let uploadStartTime = performance.now();
@@ -75,7 +75,7 @@ export class ManageUserBulkUploadComponent {
         } else {
             this.pushDataLayer("form_error");
         }
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     sendAnalyticsData(timeElapsedInSeconds: number) {
@@ -99,11 +99,8 @@ export class ManageUserBulkUploadComponent {
         return true;
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Bulk Upload - Manage Users"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText);
 	}
 
     resetError() {
@@ -113,9 +110,9 @@ export class ManageUserBulkUploadComponent {
         this.fileSizeExceedError = false;
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         this.router.navigateByUrl('manage-users/add-user-selection');
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     pushDataLayer(event:string){

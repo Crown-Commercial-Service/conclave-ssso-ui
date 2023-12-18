@@ -83,19 +83,15 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
             },
         
         });
-        this.pushDataLayerEvent();
     }
 
-    public onBackBtnClick() {
+    public onBackBtnClick(buttonText:string) {
         this.router.navigateByUrl('mfa-message-step-1');
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Check your phone"
-        });
+    pushDataLayerEvent(buttonText:string) {
+        this.dataLayerService.pushClickEvent(buttonText);
         }
 
     public onNavigateToMFAClick() {

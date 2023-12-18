@@ -90,12 +90,12 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         }
     }
 
-    showMoreClicked() {
+    showMoreClicked(buttonText: string) {
         this.showMoreOptionsVisible = true;
         this.panelShowTimeout = setTimeout(() => {
             this.autocomplete.openPanel();
         }, 30);
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
 
@@ -169,7 +169,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         } else {
             this.pushDataLayer("form_error");
         }
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent('Continue');
     }
 
     pushDataLayer(event: string){
@@ -189,10 +189,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         }
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Search Organisation - Registration"
-		});
+    pushDataLayerEvent(buttonText:string) {
+      this.dataLayerService.pushClickEvent(buttonText);
 	  }
 }

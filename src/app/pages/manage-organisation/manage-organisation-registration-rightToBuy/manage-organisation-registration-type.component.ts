@@ -42,7 +42,7 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
     // this.router.navigateByUrl('manage-org/register/newreg'); 
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     localStorage.setItem("manage-org_reg_type", this.defaultChoice);
     let regType = localStorage.getItem("manage-org_reg_type") + '';
     this.pushDataLayer("form_submit");
@@ -52,10 +52,7 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
       //this.router.navigateByUrl(`manage-org/register/start`);
       this.router.navigateByUrl(`manage-org/register/search`);
     }
-    this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Organisation type"
-		});
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 
   pushDataLayer(event:string){

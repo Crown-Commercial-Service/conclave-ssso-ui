@@ -41,16 +41,16 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
          
       this.router.navigateByUrl('mfa-selection');
     }
-    public onContinueBtnClick()
+    public onContinueBtnClick(buttonText: string)
     {
       this.getQRCode();
      // this.router.navigateByUrl('mfa-authenticator-setup');
-     this.pushDataLayerEvent();
+     this.pushDataLayerEvent(buttonText);
     }
-    public onBackBtnClick()
+    public onBackBtnClick(buttonText: string)
     {
       this.router.navigateByUrl('mfa-selection');
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
     }
     getQRCode () : any {
       this.auth0token = localStorage.getItem('auth0_token') ?? '';
@@ -85,11 +85,8 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
   }
 
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Download an app"
-		});
+  pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 
   public async RenewToken(){

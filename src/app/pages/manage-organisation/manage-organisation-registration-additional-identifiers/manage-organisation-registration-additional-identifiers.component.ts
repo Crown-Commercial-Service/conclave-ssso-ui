@@ -62,17 +62,21 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
     });
   }
 
-  public goBack() {
+  public goBack(buttonText:string) {
+    if(buttonText=='Confirm organisation details'){
     this.router.navigateByUrl(`manage-org/register/search/${this.routeParams.scheme}?id=${encodeURIComponent(this.routeParams.id)}`);
-    this.pushDataLayerEvent();
+    }
+    else{
+      this.pushDataLayerEvent(buttonText);
+    }
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     const org = JSON.parse(localStorage.getItem('cii_organisation')+'');
     org.additionalIdentifiers = this.selectedIdentifiers;
     localStorage.setItem('cii_organisation', JSON.stringify(org));
     this.router.navigateByUrl(`manage-org/register/user?data=` + btoa(JSON.stringify(2)));
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   public onChange(event: any, additionalIdentifier: any) {
@@ -110,11 +114,8 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
    } 
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Confirm Additional Identifiers - Registration"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
   
 }

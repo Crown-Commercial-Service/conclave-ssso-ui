@@ -92,7 +92,6 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     }
 
         });
-        this.pushDataLayerEvent();
     }
 
     public async RenewToken(){
@@ -109,16 +108,13 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     
     }
 
-    public onBackBtnClick() {
+    public onBackBtnClick(buttonText:string) {
         this.router.navigateByUrl('mfa-authenticator-information');
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Set up an app"
-		});
+    pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 
     public onNavigateToMFAClick() {

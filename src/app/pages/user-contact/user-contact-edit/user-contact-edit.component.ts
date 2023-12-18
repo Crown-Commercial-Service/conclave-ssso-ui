@@ -272,11 +272,8 @@ export class UserContactEditComponent
     }
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Add/Edit - User Contact"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 
   public onSubmit(form: FormGroup) {
@@ -364,9 +361,9 @@ export class UserContactEditComponent
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText: string) {
     this.router.navigateByUrl('profile');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onDeleteClick() {

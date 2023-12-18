@@ -44,9 +44,6 @@ constructor(private activatedRoute: ActivatedRoute,private sessionService:Sessio
           orgReginfo.isMfaRequired = (option === "optional") ? false : true;
         sessionStorage.setItem('orgreginfo', JSON.stringify(orgReginfo));
         this.router.navigateByUrl(`manage-org/register/type`);
-        this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "2FA selection - Registration"
-          });
+        this.dataLayerService.pushClickEvent('Continue');
     }
 }

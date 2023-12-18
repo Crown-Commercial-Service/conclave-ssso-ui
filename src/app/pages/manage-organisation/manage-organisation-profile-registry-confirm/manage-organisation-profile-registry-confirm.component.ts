@@ -82,7 +82,7 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
     });
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     if (this.detailValidityOption === 'CorrectOrganisation') {
       this.ciiService.addRegistry(this.organisationId, this.routeParams.scheme, this.id).subscribe((data) => {
         this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/confirmation/' + this.routeParams.scheme + '/' + this.id);
@@ -95,10 +95,7 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
     } else {
       this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/search/not-my-org`);
     }
-    this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Confirm Registry - Add Registry - Manage Organisation"
-		});
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
   public onChange(event: any, additionalIdentifier: any) {

@@ -239,7 +239,7 @@ export class ManageOrgRegStep3Component
     window.history.back();
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText: string) {
     if(this.countryCode){
       this.orgDetails.address.countryCode=this.countryCode
       localStorage.setItem('cii_organisation', JSON.stringify(this.orgDetails));
@@ -269,10 +269,7 @@ export class ManageOrgRegStep3Component
     }else{
       this.isInvalid=true
     }
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Confirm Organisation Details - Registration"
-    });
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
   public onChange(event: any, additionalIdentifier: any) {

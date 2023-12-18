@@ -87,7 +87,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
   // }
 
 
-  public onSubmit() {
+  public onSubmit(buttonText: string) {
     this.submitted = true;
     this.validationObj.isDunlength = false;
       if (this.txtValue && this.txtValue.length > 0) {
@@ -95,10 +95,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
       } else {
         this.scrollHelper.scrollToFirst('error-summary');
       }
-    this.dataLayerService.pushEvent({ 
-        event: "cta_button_click" ,
-        page_location: "Add Registry - Manage Organisation"
-      });
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 
  

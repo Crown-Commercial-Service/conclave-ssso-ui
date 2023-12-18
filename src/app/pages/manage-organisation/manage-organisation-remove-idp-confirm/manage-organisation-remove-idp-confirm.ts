@@ -52,7 +52,7 @@ export class ManageOrganisationRemoveIdpConfirmComponent extends BaseComponent i
         this.dataLayerService.pushPageViewEvent();
     }
 
-    onRemoveIdpConfirmClick() {
+    onRemoveIdpConfirmClick(buttonText:string) {
         const ciiOrgId = this.tokenService.getCiiOrgId();
 
         let identityProviderSummary: IdentityProviderSummary = {
@@ -62,18 +62,15 @@ export class ManageOrganisationRemoveIdpConfirmComponent extends BaseComponent i
         this.organisationGroupService.enableIdentityProvider(identityProviderSummary).subscribe(data => {
             this.router.navigateByUrl(`manage-org/profile/success`);
         });
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         this.router.navigateByUrl('/manage-org/profile');
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "removing a sign in provider"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

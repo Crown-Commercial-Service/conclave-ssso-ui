@@ -295,9 +295,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText:string) {
     this.router.navigateByUrl('manage-org/profile');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onDeleteClick() {
@@ -316,7 +316,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     return JSON.stringify(data);
   }
   
-  public onContactAddClick() {
+  public onContactAddClick(buttonText:string) {
     let data = {
       'isEdit': false,
       'contactId': 0,
@@ -326,15 +326,15 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       'contactAddAnother':this.contactAddAnother,
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onContactAssignClick() {
+  public onContactAssignClick(buttonText:string) {
     let data = {
       'assigningSiteId': this.siteId
     };
     this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onContactEditClick(contactInfo: ContactGridInfoWithLink) {
@@ -350,10 +350,14 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
    this.serverError=''
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Add/Edit - Site"
-		});
+  pushDataLayer(event:string){
+    this.dataLayerService.pushEvent({
+        'event': event,
+        'form_id': 'Manage_organisation Edit_site'
+    });
+  }
+
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

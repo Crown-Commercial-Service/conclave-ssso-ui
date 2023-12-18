@@ -58,11 +58,8 @@ export class ManageUserAddSelectionComponent
     this.inputs.toArray()[inputIndex].nativeElement.focus();
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Select - Manage Users"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 
   public onSubmit(form: FormGroup) {
@@ -89,9 +86,9 @@ export class ManageUserAddSelectionComponent
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText:string) {
     this.router.navigateByUrl('manage-users');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   pushDataLayer(event: string){

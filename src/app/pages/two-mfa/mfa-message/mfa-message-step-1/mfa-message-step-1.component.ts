@@ -27,7 +27,7 @@ import { SessionService } from "src/app/shared/session.service";
             open: { left: '-12.5rem' }
         })
     ],
-
+                                      
 })
 export class MfaMessageStep1Component extends BaseComponent implements OnInit {
  formGroup: FormGroup;
@@ -66,20 +66,18 @@ export class MfaMessageStep1Component extends BaseComponent implements OnInit {
               this.router.navigateByUrl('mfa-message-step-2');
 
             }
-            this.pushDataLayerEvent();
         }
-    onBackBtnClick() {
+
+    onBackBtnClick(buttonText:string) {
             this.router.navigateByUrl('mfa-selection');
-            this.pushDataLayerEvent();
+            this.pushDataLayerEvent(buttonText);
         }
+
     onNavigateToMFAClick() {
             this.router.navigateByUrl('mfa-selection');
         }
 
-        pushDataLayerEvent() {
-          this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "Enter your mobile number"
-          });
+        pushDataLayerEvent(buttonText:string) {
+          this.dataLayerService.pushClickEvent(buttonText);
           }
     }

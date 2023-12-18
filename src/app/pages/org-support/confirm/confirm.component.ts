@@ -104,7 +104,7 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
     }
   }
 
-  public async onSubmitClick() {
+  public async onSubmitClick(buttonText:string) {
     try {
       if (this.changePassword) {
         await this.wrapperUserService.resetUserPassword(this.userName, "Org-user-support").toPromise();
@@ -137,21 +137,18 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
     catch (err: any) {
       this.router.navigateByUrl(`org-support/error?errCode=${err.error}`);
     }
-    this.pushDataLayerEvent(); 
+    this.pushDataLayerEvent(buttonText); 
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     this.router.navigateByUrl(`org-support/details?rpwd=` + this.changePassword + `&rmfa=` + this.resetMfa +
       `&chrole=` + this.changeRoleType +`&deuser=` + this.deactivateEnabled
       + `&reuser=` + this.reactivateEnabled);
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Confirm - Update User - Organisation Support"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent('buttonText')
 	  }
   
 }

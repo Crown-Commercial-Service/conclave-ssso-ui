@@ -95,23 +95,20 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
     await this.onSearch();
   }
 
-  public onContinueClick() {
+  public onContinueClick(buttonText:string) {
     sessionStorage.setItem(SessionStorageKey.OrgUserSupportUserName, this.selectedRowId);
     this.router.navigateByUrl(`org-support/details`);
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     sessionStorage.removeItem(SessionStorageKey.OrgUserSupportUserName);
     this.router.navigateByUrl('home');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Organisation Support"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
   
   onSelectRow(dataRow: any) {

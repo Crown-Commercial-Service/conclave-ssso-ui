@@ -90,17 +90,14 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
         });
     }
 
-    onAddClick() {
+    onAddClick(buttonText:string) {
         this.router.navigateByUrl("manage-users/add-user-selection");
         if(!this.isBulkUpload){
             this.router.navigateByUrl("manage-users/add-user-selection");
         } else {
             this.router.navigateByUrl("manage-users/add-user/details");
         }
-        this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "Manage User Accounts"
-          });
+        this.dataLayerService.pushClickEvent(buttonText)
     }
 
     searchTextChanged(event: any) {

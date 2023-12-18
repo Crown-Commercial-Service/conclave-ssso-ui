@@ -82,11 +82,11 @@
                     <div><a class="navigation-text template-link" href="{{bulkUploadTemplateUrl}}" target="_blank" (click)="onDownloadClick()" >{{
                             'DOWNLOAD_BULK_UPLOAD_TEMPLATE_FILE' | translate }} </a></div>
                     <div class="govuk-button-group save-cancel-button-group">
-                        <button type="button" (click)="onContinueClick()" class="govuk-button"
+                        <button type="button" (click)="onContinueClick('Continue')" class="govuk-button"
                             data-module="govuk-button">
                             {{ 'CONTINUE_BTN' | translate }}
                         </button>
-                        <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                        <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
                             data-module="govuk-button">
                             {{ 'CANCEL_BTN' | translate }}
                         </button>

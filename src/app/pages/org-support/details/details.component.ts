@@ -131,24 +131,21 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
     }
   }
 
-  public onContinueClick() {
+  public onContinueClick(buttonText:string) {
     let hasAdminRole = this.hasAdminRole();
     this.router.navigateByUrl(`org-support/confirm?rpwd=` + this.resetPasswordEnabled + `&rmfa=` + this.resetMfaEnabled +
       `&chrole=${this.changeRoleEnabled ? (hasAdminRole ? "unassign" : "assign") : "noChange"}` + `&deuser=` + this.deactivateEnabled
       + `&reuser=` + this.reactivateEnabled );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     this.router.navigateByUrl('org-support/search');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Update User - Organisation Support"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
   
   getOrgGroups() {

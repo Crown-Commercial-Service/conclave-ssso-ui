@@ -57,25 +57,22 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
     });
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     this.ciiService.deleteRegistry(this.tokenService.getCiiOrgId(), this.routeParams.scheme, this.routeParams.id)
       .subscribe((data) => {
         this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/delete/confirmation/' + this.routeParams.scheme + '/' + this.routeParams.id);
       }, (error) => {
         console.log(error);
       });
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
   }
 
-  public goBack() {
+  public goBack(buttonText:string) {
     this.router.navigateByUrl('manage-org/profile');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Remove Registry - Manage Organisation"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

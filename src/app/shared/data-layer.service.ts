@@ -16,8 +16,9 @@ export class DataLayerService {
     this.pushEvent({ 
       event: "cta_button_click" ,
       link_text: buttonText,
-      link_url: window.location.href
+      link_url: window.location.href     
     });
+    console.log("DataLayer","Event:","cta_button_click", ";","link_text:",buttonText,";","link_url:",window.location.href);
   }
 
   pushPageViewEvent(extraProps: any = null) {

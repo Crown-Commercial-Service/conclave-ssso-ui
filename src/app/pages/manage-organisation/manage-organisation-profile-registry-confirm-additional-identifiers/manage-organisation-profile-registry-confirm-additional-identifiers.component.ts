@@ -101,12 +101,12 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
     });
   }
 
-  public goBack() {
+  public goBack(buttonText:string) {
     this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/search/' + this.routeParams.scheme + '/' + this.routeParams.id);
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     let organisation = JSON.parse(localStorage.getItem('cii_organisation') + '');
     organisation.additionalIdentifiers = this.selectedIdentifiers;
     localStorage.setItem('cii_organisation', JSON.stringify(organisation));
@@ -116,14 +116,11 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
       (error) => {
         console.log(error);
       });
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Confirm Additional Identifiers - Add Registry - Manage Organisation"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 
   public onChange(event: any, additionalIdentifier: any) {

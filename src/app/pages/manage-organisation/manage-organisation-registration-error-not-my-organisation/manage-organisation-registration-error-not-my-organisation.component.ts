@@ -46,11 +46,8 @@ export class ManageOrgRegOrgNotFoundComponent extends BaseComponent implements O
   }
  
 
-  public Onclick():void{
+  public Onclick(buttonText:string):void{
     this.router.navigateByUrl("/manage-org/register/search")
-    this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Not My Organisation - Registration"
-		});
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 }

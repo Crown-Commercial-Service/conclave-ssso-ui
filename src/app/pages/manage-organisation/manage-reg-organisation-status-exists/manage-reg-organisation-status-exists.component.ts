@@ -36,16 +36,16 @@ export class ManageOrgRegSearchStatusExistsComponent implements OnInit{
         this.dataLayerService.pushPageViewEvent();
     }
 
-    public onContinueSingleOrgRegistered() {
+    public onContinueSingleOrgRegistered(buttonText:string) {
         this.organisationService.requestOrgAdminToJoinOrg(this.orgreginfo.ciiOrgId, this.orgreginfo.adminUserFirstName, this.orgreginfo.adminUserLastName, this.orgreginfo.adminEmail).toPromise().then(() => {
           this.router.navigateByUrl(`/manage-org/register/notify-join-org?data=` + btoa(JSON.stringify(this.pageAccessMode)));
         });
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    goBack() {
+    goBack(buttonText:string) {
         window.history.back();
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     getOrgDetails() {
@@ -54,10 +54,7 @@ export class ManageOrgRegSearchStatusExistsComponent implements OnInit{
         return orgReginfo;
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Search Organisation - Registration"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText);
 	  }
 }

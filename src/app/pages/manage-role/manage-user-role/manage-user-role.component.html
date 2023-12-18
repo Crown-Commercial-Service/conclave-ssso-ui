@@ -36,11 +36,11 @@
             {{userDetails.userName}}</p>
           <div class="govuk-button-group continue-cancel-button-group">
             <button type="submit" class="govuk-button govuk-button--primarry" data-module="govuk-button"
-              (click)="acceptRejectRequest(1)">
+              (click)="acceptRejectRequest(1,'Accept')">
               Accept
             </button>
             <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
-              (click)="acceptRejectRequest(2)">
+              (click)="acceptRejectRequest(2,'Deny')">
               Deny
             </button>
           </div>
