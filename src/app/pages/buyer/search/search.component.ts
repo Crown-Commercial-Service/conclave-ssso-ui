@@ -83,6 +83,10 @@ export class BuyerSearchComponent extends BaseComponent implements OnInit {
   async onSearch() {
     let result = await this.organisationService.get(this.searchText,this.currentPage, this.pageSize).toPromise();
     this.data = result;
+    if (this.data && this.data.orgList.length <= 0)
+    {
+      this.selectedOrgId = '';
+    }
     this.pageCount = this.data.pageCount;
   }
 
