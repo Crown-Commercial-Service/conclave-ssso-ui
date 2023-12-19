@@ -21,8 +21,8 @@
         <strong style="font-weight: 500;">{{ getSchemaName(ai?.scheme) }}</strong><br />
         <input type="checkbox" checked="checked" style="top: 1px; margin-right: 4px; position: relative; left: 1px;" (change)="onChange($event, ai)">{{ ai?.id }} - {{ ai?.legalName }}
       </p>
-      <button type="button" class="govuk-button" (click)="onSubmit()">Continue</button>
-      <button type="button" class="govuk-button govuk-button--secondary" (click)="goBack()" style="margin-left:10px;">Cancel</button>
+      <button type="button" class="govuk-button" (click)="onSubmit('Continue')">Continue</button>
+      <button type="button" class="govuk-button govuk-button--secondary" (click)="goBack('Cancel')" style="margin-left:10px;">Cancel</button>
     </div>
   </div>
 </div>

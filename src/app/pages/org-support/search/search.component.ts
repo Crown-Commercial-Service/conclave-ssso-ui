@@ -69,15 +69,7 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
       this.onSearch();
     }
 
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
-
+    this.dataLayerService.pushPageViewEvent();
     this.loadingIndicatorService.isLoading.next(false);
     this.loadingIndicatorService.isCustomLoading.next(false);
   }
@@ -103,23 +95,20 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
     await this.onSearch();
   }
 
-  public onContinueClick() {
+  public onContinueClick(buttonText:string) {
     sessionStorage.setItem(SessionStorageKey.OrgUserSupportUserName, this.selectedRowId);
     this.router.navigateByUrl(`org-support/details`);
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     sessionStorage.removeItem(SessionStorageKey.OrgUserSupportUserName);
     this.router.navigateByUrl('home');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Organisation Support"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
   
   onSelectRow(dataRow: any) {

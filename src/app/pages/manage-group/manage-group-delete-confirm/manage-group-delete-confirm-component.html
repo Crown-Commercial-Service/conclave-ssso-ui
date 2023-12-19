@@ -11,7 +11,7 @@
                         <a class="govuk-breadcrumbs__link" role="link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate }}</a>
                     </li>
                     <li *ngIf="isEdit==true" class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" tabindex=0 role="link" (click)="onCancelClick()">{{ 'EDIT_GROUP' | translate }}</a>
+                        <a class="govuk-breadcrumbs__link" tabindex=0 role="link" (click)="onCancelClick('Edit group')">{{ 'EDIT_GROUP' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
                         <span class="govuk-breadcrumbs__link"> {{ 'DELETE_GROUP' | translate }}</span>
@@ -21,11 +21,11 @@
             <h1 class="govuk-heading-xl">Delete group : {{GroupDetails.groupName}}</h1>
             <p class="govuk-body">{{ 'CONFIRM_GROUP_DELETE' | translate }}{{ 'THIS_CANNOT_BE_UNDONE' | translate }}</p>
             <div class="govuk-button-group continue-cancel-button-group">
-                <button type="submit" (click)="onDeleteConfirmClick()" class="govuk-button govuk-button--warning"
+                <button type="submit" (click)="onDeleteConfirmClick('Confirm and delete')" class="govuk-button govuk-button--warning"
                     data-module="govuk-button">
                     {{ 'CONFIRM_DELETE_BTN' | translate }}
                 </button>
-                <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button">
                     {{ 'CANCEL_BTN' | translate }}
                 </button>

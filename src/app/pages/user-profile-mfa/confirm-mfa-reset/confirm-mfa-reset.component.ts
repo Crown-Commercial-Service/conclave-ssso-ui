@@ -28,17 +28,10 @@ export class ConfirmMfaResetComponent implements OnInit {
       let RouteData = JSON.parse(atob(para.data));
       this.decodedData = RouteData;
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
   }
 
-  public navigateTosuccess(): void {
+  public navigateTosuccess(buttonText:string): void {
     this.mfaService
       .sendResetMFANotification(this.decodedData.data)
       .toPromise()
@@ -54,18 +47,15 @@ export class ConfirmMfaResetComponent implements OnInit {
             );
           }
       });
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
   }
 
-  public OnCancel():void {
+  public OnCancel(buttonText:string):void {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Additional security Reset"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

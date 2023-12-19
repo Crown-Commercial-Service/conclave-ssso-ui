@@ -87,14 +87,7 @@ export class ManageOrgRegStep2Component
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.items$ = this.ciiService.getSchemes().pipe(share());
     this.items$.subscribe({
       next: (result) => {
@@ -114,7 +107,7 @@ export class ManageOrgRegStep2Component
     this.inputs.toArray()[inputIndex].nativeElement.focus();
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     let schemeDetails = {
       scheme:this.scheme,
       schemeID:this.txtValue,
@@ -131,10 +124,7 @@ export class ManageOrgRegStep2Component
       } else {
         this.scrollHelper.scrollToFirst('error-summary');
       }
-      this.dataLayerService.pushEvent({ 
-        event: "cta_button_click" ,
-        page_location: "Enter Details - Registration"
-      });
+      this.dataLayerService.pushClickEvent(buttonText);
   }
 
   public onBackClick() {

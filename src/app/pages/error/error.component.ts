@@ -49,6 +49,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
   public mainPageUrl: string = environment.uri.web.dashboard;
   public errorCode = '';
   expiredLinkErrorCodeValue: string = 'Access expired.';
+  public formId : string = 'error';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   userName: string;
@@ -83,19 +84,12 @@ export class ErrorComponent extends BaseComponent implements OnInit {
       }
     });
     this.userName = this.sessionService.decrypt('user_name')
-    this.pushDataLayer("form_start");
   }
   ngOnInit(): void {
     console.log("errorCode",this.errorCode)
     this.RollbarErrorService.RollbarDebug('Error Page:'.concat(this.errorCode));
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.resendForm);
   }
 
   displayError(error: string) {
@@ -129,14 +123,15 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     }
   }
 
-  onSubmit(form: FormGroup): void {
+  onSubmit(form: FormGroup,buttonText:string): void {
     this.submitted = true;
 
     if (this.PatternService.emailValidator(form.get('userName')?.value)) {
       this.resendForm.controls['userName'].setErrors({ incorrect: true });
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
     if (this.formValid(form)) {
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       console.log(form.get('userName')?.value);
       this.userService
         .resendUserActivationEmail(form.get('userName')?.value, true)
@@ -150,12 +145,9 @@ export class ErrorComponent extends BaseComponent implements OnInit {
           );
         });
     } else {
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Error"
-    });
+   this.dataLayerService.pushClickEvent(buttonText)
   }
 
   setFocus(inputIndex: number) {
@@ -166,12 +158,5 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     if (form == null) return false;
     if (form.controls == null) return false;
     return form.valid;
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'error'
-    });
   }
 }

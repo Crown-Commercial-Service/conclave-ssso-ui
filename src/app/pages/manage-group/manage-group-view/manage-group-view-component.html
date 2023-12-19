@@ -100,7 +100,7 @@
 <div class="govuk-grid-row" *ngIf="isEdit==true && !isAdminGroup">
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-button-group">
-            <button type="button" (click)="onNameEditClick()" class="govuk-button govuk-button--secondary"
+            <button type="button" (click)="onNameEditClick('Change group name')" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button">
                 {{ 'CHANGE_GROUP_NAME_BTN' | translate }}
             </button>
@@ -137,11 +137,11 @@
     <div class="govuk-grid-row" *ngIf="isEdit==true">
         <div class="govuk-grid-column-two-thirds">
             <div class="govuk-button-group">
-                <button *ngIf="showRoleView" type="button" (click)="onRoleEditClick()"
+                <button *ngIf="showRoleView" type="button" (click)="onRoleEditClick('Manage group roles')"
                     class="govuk-button govuk-button--secondary" data-module="govuk-button">
                     {{ 'MANAGE_GROUP_ROLE_BTN' | translate }}
                 </button>
-                <button *ngIf="!showRoleView" type="button" (click)="onRoleEditClick()"
+                <button *ngIf="!showRoleView" type="button" (click)="onRoleEditClick('Manage group services')"
                     class="govuk-button govuk-button--secondary" data-module="govuk-button">
                     {{ 'MANAGE_GROUP_SERVICE_BTN' | translate }}
                 </button>
@@ -190,7 +190,7 @@
     <div class="govuk-grid-row" *ngIf="isEdit==true">
         <div class="govuk-grid-column-two-thirds">
             <div class="govuk-button-group">
-                <button type="button" (click)="onUserEditClick()" class="govuk-button govuk-button--secondary"
+                <button type="button" (click)="onUserEditClick('Manage users')" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button">
                     {{ 'MANAGE_USER_BTN' | translate }}
                 </button>

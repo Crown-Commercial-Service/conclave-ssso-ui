@@ -102,14 +102,7 @@ export class ViewPendingVerificationComponent implements OnInit {
        this.getPendingVerificationOrg()
       }, 500);
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
 
     setTimeout(() => {
       this.loadingIndicatorService.isLoading.next(false);
@@ -236,23 +229,20 @@ export class ViewPendingVerificationComponent implements OnInit {
       });
   }
 
-  private pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Manage Buyer status requests - View request"
-    });
+  private pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
-  goBack() {
+  goBack(buttonText:string) {
     if (this.lastRoute == "view-verified") {
       this.router.navigateByUrl('manage-buyer-both');
     } else {
       window.history.back();
     }
-     this.pushDataLayerEvent();
+     this.pushDataLayerEvent(buttonText);
   }
 
-  public acceptRightToBuy() {
+  public acceptRightToBuy(buttonText:string) {
     let data = {
       organisationId: this.routeDetails.organisationId,
       organisationName: this.routeDetails.organisationName,
@@ -260,9 +250,9 @@ export class ViewPendingVerificationComponent implements OnInit {
     this.router.navigateByUrl(
       'confirm-accept?data=' + btoa(JSON.stringify(data))
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
-  public declineRightToBuy() {
+  public declineRightToBuy(buttonText:string) {
     let data = {
       organisationId: this.routeDetails.organisationId,
       organisationName: this.routeDetails.organisationName,
@@ -270,7 +260,7 @@ export class ViewPendingVerificationComponent implements OnInit {
     this.router.navigateByUrl(
       'confirm-decline?data=' + btoa(JSON.stringify(data))
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   public getSchemaName(schema: string): string {

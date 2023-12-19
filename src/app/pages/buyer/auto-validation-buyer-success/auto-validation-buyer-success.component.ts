@@ -72,15 +72,7 @@ export class AutoValidationBuyerSuccessComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-          id: this.id
-      });
-    })
+    this.dataLayerService.pushPageViewEvent({id: this.id});
   }
 
   ngOnDestroy(): void {
@@ -89,14 +81,11 @@ export class AutoValidationBuyerSuccessComponent implements OnDestroy {
       localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
   }
 
-  public onBackClick() {
+  public onBackClick(buttonText:string) {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
     this.router.navigateByUrl(
       'update-org-type/confirm/' + this.org.ciiOrganisationId
     );
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Review - Manage Buyers"
-    });
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 }

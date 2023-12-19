@@ -67,8 +67,8 @@
                     access from the administrator.</p>
                 <div class="govuk-button-group continue-cancel-button-group">
                     <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
-                        (click)="onContinueSingleOrgRegistered()">Continue</button>
-                    <button type="button" (click)="goBack()" class="govuk-button govuk-button--secondary"
+                        (click)="onContinueSingleOrgRegistered('Continue')">Continue</button>
+                    <button type="button" (click)="goBack('This is not my organisation')" class="govuk-button govuk-button--secondary"
                         data-module="govuk-button">
                         {{'THIS_IS_NOT_MY_ORGANISATION_BTN' | translate}}
                     </button>

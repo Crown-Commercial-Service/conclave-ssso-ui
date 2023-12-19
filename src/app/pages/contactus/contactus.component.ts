@@ -29,6 +29,7 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
 
   formGroup: FormGroup;
   submitted: boolean = false;
+  public formId :string = 'contact_us';
 
   constructor(public formBuilder: FormBuilder,private sessionService:SessionService,public PatternService:PatternService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService, private router: Router) {
@@ -41,23 +42,17 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
-  public onSubmit(form: FormGroup) {
+  public onSubmit(form: FormGroup,buttonText:string) {
     this.submitted = true;
     if(this.PatternService.emailValidator(form.get('email')?.value)){
       this.formGroup.controls['email'].setErrors({ 'incorrect': true})
 }
     if (this.formValid(form)) {
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       // this.authService.nominate(form.get('firstName')?.value, form.get('lastName')?.value, form.get('email')?.value).toPromise().then((response: any) => {
       //   console.log(response);
          this.submitted = false;
@@ -66,12 +61,9 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
       //   console.log(err);
       // });
     } else {
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Contact Us"
-    });
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 
   /**
@@ -84,12 +76,5 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
     // let array = _.takeWhile(form.controls, function(c:FormControl) { return !c.valid; });
     // let array = _.takeWhile([], function(c:FormControl) { return !c.valid; });
     // return array.length > 0;
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'contact_us'
-    });
   }
 }

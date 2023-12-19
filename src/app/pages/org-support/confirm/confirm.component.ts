@@ -49,14 +49,7 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.userName = sessionStorage.getItem(SessionStorageKey.OrgUserSupportUserName) ?? '';
     this.route.queryParams.subscribe(para => {
       if (para.rpwd != undefined) {
@@ -111,7 +104,7 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
     }
   }
 
-  public async onSubmitClick() {
+  public async onSubmitClick(buttonText:string) {
     try {
       if (this.changePassword) {
         await this.wrapperUserService.resetUserPassword(this.userName, "Org-user-support").toPromise();
@@ -144,21 +137,18 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
     catch (err: any) {
       this.router.navigateByUrl(`org-support/error?errCode=${err.error}`);
     }
-    this.pushDataLayerEvent(); 
+    this.pushDataLayerEvent(buttonText); 
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     this.router.navigateByUrl(`org-support/details?rpwd=` + this.changePassword + `&rmfa=` + this.resetMfa +
       `&chrole=` + this.changeRoleType +`&deuser=` + this.deactivateEnabled
       + `&reuser=` + this.reactivateEnabled);
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Confirm - Update User - Organisation Support"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent('buttonText')
 	  }
   
 }

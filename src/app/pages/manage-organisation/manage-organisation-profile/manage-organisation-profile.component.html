@@ -126,13 +126,13 @@
   </div>
   <div class="govuk-form-group govuk-button-group">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-    *ngIf="contactAddAnother" (click)="onContactAddClick()">{{
+    *ngIf="contactAddAnother" (click)="onContactAddClick('Add another contact')">{{
       'ADD_ANOTHER_CONTACT_BTN' | translate }}</button>
       <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-    *ngIf="!contactAddAnother" (click)="onContactAddClick()">{{
+    *ngIf="!contactAddAnother" (click)="onContactAddClick('Add contact')">{{
       'ADD_CONTACT' | translate }}</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onContactAssignClick()">
+      (click)="onContactAssignClick('Find and assign contact')">
       {{ 'FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
   </div>
   <h2 class="govuk-heading-s">{{ 'SITE_DETAILS' | translate }}</h2>
@@ -149,7 +149,7 @@
   </div>
   <div class="govuk-form-group govuk-button-group">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onSiteAddClick()">Add a new site</button>
+      (click)="onSiteAddClick('Add a new site')">Add a new site</button>
   </div>
 
   <h2 class="govuk-heading-s" *ngIf="registries">Registries</h2>
@@ -160,12 +160,12 @@
 
   <div class="govuk-form-group govuk-button-group" *ngIf="registries != null">
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onRegistryAddClick()">Add new registry</button>
+      (click)="onRegistryAddClick('Add new registry')">Add new registry</button>
   </div>
   <div class="govuk-button-group">
     <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button"
-      (click)="onSaveChanges()" [disabled]="changedIdpList.length ==0 && !isMfaOptionChanged">Save changes</button>
+      (click)="onSaveChanges('Save changes')" [disabled]="changedIdpList.length ==0 && !isMfaOptionChanged">Save changes</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onCancel()">Cancel</button>
+      (click)="onCancel('Cancel')">Cancel</button>
   </div>
 </div>

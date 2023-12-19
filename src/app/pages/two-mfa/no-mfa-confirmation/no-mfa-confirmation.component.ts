@@ -34,21 +34,14 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
         super(uiStore, viewportScroller, scrollHelper);
     }
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
-    public onGoBackClick() {
+    public onGoBackClick(buttonText:string) {
         this.router.navigateByUrl('mfa-selection');
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    public onDontTurnOnClick() {
+    public onDontTurnOnClick(buttonText:string) {
         this.wrapperUserService.resetMfaopted(this.userName, true).subscribe({
             next: (response) => {
                 this.isMfaOpted = true;
@@ -65,13 +58,10 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
               console.log(err)
             },
         })
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "no-mfa-confirmation"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

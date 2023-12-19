@@ -114,7 +114,7 @@
                                 <button *ngIf="!isCustomMfaEnabled" type="button"
                                     class="govuk-button govuk-button--secondary" data-module="govuk-button"
                                     [disabled]="!formGroup.controls.mfaEnabled.value"
-                                    (click)="ResetAdditionalSecurity()">Reset my additional security</button>
+                                    (click)="ResetAdditionalSecurity('Reset my additional security')">Reset my additional security</button>
 
                                 <div class="govuk-form-group" *ngIf="isCustomMfaEnabled">
                                     <fieldset class="govuk-fieldset">
@@ -162,7 +162,7 @@
                                     <div id="reset-mfa-hint" class="govuk-hint" style="margin-top: 15px;">
                                         {{ 'RESET_MFA_HINT' | translate }}
                                     </div>
-                                    <button type="button" (click)="onResetMfaClick()" class="govuk-button"
+                                    <button type="button" (click)="onResetMfaClick('Reset my 2FA')" class="govuk-button"
                                     [disabled] = "!formGroup.controls.mfaEnabled.value"
                                         data-module="govuk-button">{{ 'RESET_MFA_BTN' |
                                         translate }}
@@ -174,7 +174,7 @@
                                         {{"SIGN_IN_PROVIDER"| translate}} : {{identityProviderDisplayName}}</p>
                                 </div>
                                 <br>
-                                <button *ngIf="canChangePassword" type="button" (click)="onChangePasswordClick()"
+                                <button *ngIf="canChangePassword" type="button" (click)="onChangePasswordClick('Change password')"
                                     class="govuk-button govuk-button--secondary change-password-button"
                                     data-module="govuk-button">
                                     {{ 'CHANGE_PASSWORD_BTN' | translate }}
@@ -461,7 +461,7 @@
                     </div>
                 </div>
                 <div class="govuk-button-group contact-button-group">
-                    <button type="button" (click)="onContactAddClick()" class="govuk-button govuk-button--secondary"
+                    <button type="button" (click)="onContactAddClick(buttonText)" class="govuk-button govuk-button--secondary"
                         data-module="govuk-button">
                         {{ buttonText | translate }}
                     </button>
@@ -472,10 +472,10 @@
                 </div>
 
                 <div class="govuk-button-group save-cancel-button-group">
-                    <button type="submit" class="govuk-button" (click)="pushDataLayerEvent()" [disabled]="!isFormChanges" data-module="govuk-button">
+                    <button type="submit" class="govuk-button" (click)="pushDataLayerEvent('Save Change')" [disabled]="!isFormChanges" data-module="govuk-button">
                         {{ 'SAVE_BTN' | translate }}
                     </button>
-                    <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                    <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
                         data-module="govuk-button">
                         {{ 'CANCEL_BTN' | translate }}
                     </button>

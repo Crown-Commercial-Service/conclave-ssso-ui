@@ -27,14 +27,7 @@ export class ManageOrgRegCIIOrgDisplayComponent extends BaseComponent implements
         super(uiStore, viewportScroller, scrollHelper);
     }
     async ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-             event: "page_view" ,
-             page_location: this.router.url.toString(),
-             user_name: this.sessionService.decrypt('user_name'),
-             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-           });
-        })
+        this.dataLayerService.pushPageViewEvent();
         let orgreginfo = sessionStorage.getItem('orgreginfo') ? JSON.parse(sessionStorage.getItem('orgreginfo')!) : {};
         let data = await this.organisationService.getByName(orgreginfo.orgName).toPromise();
         if (data.length == 0) {
