@@ -11,8 +11,9 @@
             </p>
             <form [formGroup]="formGroup" (ngSubmit)="onContinueBtnClick()">
             <label class="mfa-message-label-text" for ="mobile-input">Phone number<br></label>
-            <ngx-intl-tel-input [cssClass]="'govuk-input'" [preferredCountries]="preferredCountries"
-                [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+            <ngx-intl-tel-input [cssClass]="'govuk-input'" [preferredCountries]="preferredCountries" 
+                    [selectedCountryISO]="CountryISO.UnitedKingdom" [enableAutoCountrySelect]="true" 
+                    [enablePlaceholder]="true" [searchCountryFlag]="true"
                     [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"autofocus
                     [selectFirstCountry]="false" [phoneValidation]="true" [separateDialCode]="separateDialCode"
                     [maxLength]="'15'" [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'"
