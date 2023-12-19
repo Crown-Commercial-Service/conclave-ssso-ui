@@ -65,6 +65,10 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     ngOnInit() {
         this.dataLayerService.pushPageViewEvent();
         this.dataLayerService.pushFormStartEvent(this.formId);
+        this.dataLayerService.pushEvent({
+            event: "sign_up",
+            method: "register"
+          });
     }
 
     async onSearchTextChange(value: any) {

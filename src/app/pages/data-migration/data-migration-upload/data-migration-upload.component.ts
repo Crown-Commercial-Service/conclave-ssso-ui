@@ -115,7 +115,7 @@ export class DataMigrationUploadComponent implements OnInit {
                     let uploadEndTime = performance.now();
                     let timeElapsedInSeconds = (uploadEndTime - uploadStartTime) / 1000;
 
-                    this.sendAnalyticsData(timeElapsedInSeconds);
+                    this.sendAnalyticsData(timeElapsedInSeconds, this.file);
                     this.router.navigateByUrl(
                         'data-migration/status?data=' + response.id
                       );
@@ -132,11 +132,14 @@ export class DataMigrationUploadComponent implements OnInit {
        this.pushDataLayerEvent(buttonText);
     }
 
-    sendAnalyticsData(timeElapsedInSeconds: number) {
+    sendAnalyticsData(timeElapsedInSeconds: number, file: any) {
         this.dataLayerService.pushEvent({ 
             event: "document_upload" ,
             interaction_type: "Data migration",
-            time_elapsed: timeElapsedInSeconds.toFixed(3) + "seconds"
+            time_elapsed: timeElapsedInSeconds.toFixed(3) + "seconds",
+            file_extension: file.name.split('.').pop(),  
+            file_size: file.size,  
+            file_name: file.name
           });
     }
 

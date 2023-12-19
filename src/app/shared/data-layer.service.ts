@@ -18,11 +18,9 @@ export class DataLayerService {
       link_text: buttonText,
       link_url: window.location.href     
     });
-    console.log("DataLayer","Event:","cta_button_click", ";","link_text:",buttonText,";","link_url:",window.location.href);
   }
 
   pushPageViewEvent(extraProps: any = null) {
-    console.log("ent_" + window.location.href);
     let eventInfo = { 
       event: "page_view" ,
       page_location: window.location.href,
@@ -39,10 +37,10 @@ export class DataLayerService {
   }
 
   pushFormStartEvent(formId: string) {
-    this.pushEvent({
-      event: 'form_start',
-      form_id: formId
-    });
+    // this.pushEvent({
+    //   event: 'form_start',
+    //   form_id: formId
+    // });
   }
 
   pushFormSubmitEvent(formId: string) {
