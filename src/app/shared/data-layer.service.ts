@@ -41,6 +41,7 @@ export class DataLayerService {
     }
 
     this.pushEvent(eventInfo);
+    this.lastFormId = "";
   }
 
   pushFormStartOnInitEvent(formId: string) {
@@ -48,7 +49,6 @@ export class DataLayerService {
       event: 'form_start',
       form_id: formId
     });
-    console.log("form_start_oninit: "+formId);
   }
 
   pushFormStartEvent(formId: string, formGroup: FormGroup) {
@@ -56,7 +56,6 @@ export class DataLayerService {
     this.valueChangesSubscription = formGroup.valueChanges.subscribe(value => {
       if (this.lastFormId != this.formId) {
         this.lastFormId = this.formId;
-        console.log("form_start_sub: "+formId);
         this.pushEvent({
           event: 'form_start',
           form_id: formId
