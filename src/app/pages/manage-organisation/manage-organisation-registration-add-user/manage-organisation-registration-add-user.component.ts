@@ -64,9 +64,9 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
       this.formGroup.controls['firstName'].setValue(orgreginfo.adminUserFirstName);
       this.formGroup.controls['lastName'].setValue(orgreginfo.adminUserLastName);
       this.formGroup.controls['email'].setValue(orgreginfo.adminEmail);
-      this.dataLayerService.pushFormStartEvent(this.formId);
     }
     this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
 

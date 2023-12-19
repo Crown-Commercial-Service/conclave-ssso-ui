@@ -48,7 +48,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     ngOnInit() {
         this.sendSmsOtp(this.phonenumber);
         this.dataLayerService.pushPageViewEvent();
-        this.dataLayerService.pushFormStartEvent(this.formId);
+        this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
     }
     ngAfterViewInit()
     {

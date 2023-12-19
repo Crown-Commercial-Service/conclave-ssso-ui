@@ -79,7 +79,6 @@ export class DelegatedAccessUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataLayerService.pushPageViewEvent();
-      this.dataLayerService.pushFormStartEvent(this.formId);
 
     this.formGroup = this.formbuilder.group({
       startday: ['', [Validators.required]],
@@ -89,6 +88,7 @@ export class DelegatedAccessUserComponent implements OnInit {
       endmonth: ['', [Validators.required]],
       endyear: ['', [Validators.required]],
     });
+    
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.loadingIndicatorService.isLoading.next(true);
       this.loadingIndicatorService.isCustomLoading.next(true);
@@ -117,6 +117,8 @@ export class DelegatedAccessUserComponent implements OnInit {
       this.loadingIndicatorService.isLoading.next(false);
       this.loadingIndicatorService.isCustomLoading.next(false);
     });
+    
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   /**

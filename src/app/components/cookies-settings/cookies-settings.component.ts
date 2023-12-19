@@ -49,7 +49,7 @@ export class CookiesSettingsComponent implements OnInit {
     if (this.ppg_cookies_preferences_set == "true") {
       this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
     }
-    this.dataLayerService.pushFormStartEvent('cookies_settings');
+    this.dataLayerService.pushFormStartOnInitEvent('cookies_settings');
   }
 
   public OnSubmit() {

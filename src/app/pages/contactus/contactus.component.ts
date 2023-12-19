@@ -43,7 +43,7 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.dataLayerService.pushPageViewEvent();
-    this.dataLayerService.pushFormStartEvent(this.formId);
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   public onSubmit(form: FormGroup,buttonText:string) {

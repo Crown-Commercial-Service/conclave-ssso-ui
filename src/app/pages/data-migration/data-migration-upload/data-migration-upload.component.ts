@@ -45,8 +45,8 @@ export class DataMigrationUploadComponent implements OnInit {
     }
     ngOnInit(): void {
         this.getUploadedFilesDetails()
-      this.dataLayerService.pushPageViewEvent();
-      this.dataLayerService.pushFormStartEvent(this.formId);
+        this.dataLayerService.pushPageViewEvent();
+        this.dataLayerService.pushFormStartOnInitEvent(this.formId);
     }
 
     public getUploadedFilesDetails() {

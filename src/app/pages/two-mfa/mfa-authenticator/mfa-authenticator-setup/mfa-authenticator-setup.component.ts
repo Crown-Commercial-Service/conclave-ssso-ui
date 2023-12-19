@@ -50,8 +50,8 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     ngOnInit() {
         this.mfaQrCode = localStorage.getItem('qr_code');
         this.secretCode = localStorage.getItem('secret_code');
-        this.dataLayerService.pushFormStartEvent(this.formId);
         this.dataLayerService.pushPageViewEvent();
+        this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
     }
     // ngAfterViewInit()
     // {

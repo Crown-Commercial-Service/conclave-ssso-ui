@@ -50,7 +50,6 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 organisation: [orgreginfo.orgName, Validators.compose([Validators.required])]
             });
             this.searchOrgName = orgreginfo.orgName;
-            this.dataLayerService.pushFormStartEvent(this.formId);
         }
         else {
             this.formGroup = this.formBuilder.group({
@@ -64,11 +63,11 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
 
     ngOnInit() {
         this.dataLayerService.pushPageViewEvent();
-        this.dataLayerService.pushFormStartEvent(this.formId);
         this.dataLayerService.pushEvent({
             event: "sign_up",
             method: "register"
           });
+          this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
     }
 
     async onSearchTextChange(value: any) {

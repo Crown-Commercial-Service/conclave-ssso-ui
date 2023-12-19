@@ -68,17 +68,18 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
 
     ngOnInit() {
         this.dataLayerService.pushPageViewEvent();
-        this.dataLayerService.pushFormStartEvent(this.formId);
         this.formGroup = new FormGroup({
             role: new FormControl()
         });
+        
         if (this.showRoleView) {
             this.titleService.setTitle(`${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - CCS`);
         } else {
             this.titleService.setTitle(`${this.isEdit ? "Add or remove services" : "Add services"}  - Manage Groups - CCS`);
         }
         this.getOrganisationRoles();
-        this.initialteServiceRoleGroup()
+        this.initialteServiceRoleGroup();        
+        this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
     }
 
     ngAfterViewChecked() {

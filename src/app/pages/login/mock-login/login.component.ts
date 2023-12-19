@@ -35,7 +35,7 @@ export class LoginComponent extends BaseComponent {
 
   ngOnInit() {
       this.dataLayerService.pushPageViewEvent();
-      this.dataLayerService.pushFormStartEvent(this.formId);
+      this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   public onSubmit(form: FormGroup) {

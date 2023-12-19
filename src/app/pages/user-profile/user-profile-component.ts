@@ -239,7 +239,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           mfaEnabled: user.mfaEnabled
         });
       } 
-      this.dataLayerService.pushFormStartEvent(this.formId);
     }
     await this.getApprovalRequriedRoles()
     await this.getPendingApprovalUserRole();
@@ -406,9 +405,11 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
     this.removeDefaultUserRoleFromServiceRole();
     this.setAccordinoForUser()
-    this.dataLayerService.pushPageViewEvent();
     this.loadingIndicatorService.isLoading.next(false);
     this.loadingIndicatorService.isCustomLoading.next(false);
+    
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   pushDataLayerEvent(buttonText: string) {

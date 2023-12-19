@@ -201,7 +201,7 @@ export class ManageOrganisationContactEditComponent
         console.log(error);
       },
     });
-    this.dataLayerService.pushFormStartEvent(this.formId);
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   getOrganisationContact() {

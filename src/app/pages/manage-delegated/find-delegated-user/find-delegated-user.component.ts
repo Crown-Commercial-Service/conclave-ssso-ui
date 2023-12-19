@@ -34,7 +34,6 @@ export class FindDelegatedUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataLayerService.pushPageViewEvent();
-    this.dataLayerService.pushFormStartEvent(this.formId);
     this.formGroup = this.formBuilder.group({
       email: [
         '',
@@ -44,6 +43,8 @@ export class FindDelegatedUserComponent implements OnInit {
         ]),
       ],
     });
+    
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   validateEmailLength(data: any) {

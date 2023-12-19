@@ -55,9 +55,9 @@ export class AuthSuccessComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.dataLayerService.pushEvent({
-        //     event: "login",
-        // });
+        this.dataLayerService.pushEvent({
+            event: "login",
+        });
         this.dataLayerService.pushPageViewEvent();
         this.route.queryParams.subscribe(params => {
             if (params['code']) {

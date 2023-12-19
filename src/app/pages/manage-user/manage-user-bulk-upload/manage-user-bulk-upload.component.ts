@@ -39,7 +39,7 @@ export class ManageUserBulkUploadComponent {
 
     ngOnInit() {
         this.dataLayerService.pushPageViewEvent();
-        this.dataLayerService.pushFormStartEvent(this.formId);
+        this.dataLayerService.pushFormStartOnInitEvent(this.formId);
     }
 
     setFocus(inputIndex: number) {

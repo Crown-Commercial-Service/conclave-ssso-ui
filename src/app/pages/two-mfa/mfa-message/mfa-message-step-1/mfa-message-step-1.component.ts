@@ -55,7 +55,7 @@ export class MfaMessageStep1Component extends BaseComponent implements OnInit {
     
         ngOnInit() {
           this.dataLayerService.pushPageViewEvent();
-          this.dataLayerService.pushFormStartEvent(this.formId);
+          this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
         }
 
     onContinueBtnClick() {

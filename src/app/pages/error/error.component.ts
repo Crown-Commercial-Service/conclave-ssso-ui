@@ -84,12 +84,12 @@ export class ErrorComponent extends BaseComponent implements OnInit {
       }
     });
     this.userName = this.sessionService.decrypt('user_name')
-    this.dataLayerService.pushFormStartEvent(this.formId);
   }
   ngOnInit(): void {
     console.log("errorCode",this.errorCode)
     this.RollbarErrorService.RollbarDebug('Error Page:'.concat(this.errorCode));
     this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.resendForm);
   }
 
   displayError(error: string) {

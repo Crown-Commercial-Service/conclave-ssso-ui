@@ -59,7 +59,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
         this.translateService.get('RESET_PASSWORD_ERROR').subscribe((value) => {
             this.resetErrorString = value;
         });
-        this.dataLayerService.pushFormStartEvent(this.formId);
+        this.dataLayerService.pushFormStartEvent(this.formId, this.resetForm);
         this.dataLayerService.pushPageViewEvent();
     }
 

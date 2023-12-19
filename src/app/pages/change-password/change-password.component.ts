@@ -51,7 +51,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.dataLayerService.pushPageViewEvent();
-    this.dataLayerService.pushFormStartEvent(this.formId);
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   ngAfterViewChecked() {

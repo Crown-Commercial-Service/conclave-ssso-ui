@@ -36,7 +36,7 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
 
   ngOnInit() {
     this.dataLayerService.pushPageViewEvent();
-    this.dataLayerService.pushFormStartEvent(this.formId);
+    this.dataLayerService.pushFormStartOnInitEvent(this.formId);
   }
 
   public onBackClick() {

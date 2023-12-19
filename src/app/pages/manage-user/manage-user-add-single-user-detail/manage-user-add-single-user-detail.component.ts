@@ -229,7 +229,6 @@ export class ManageUserAddSingleUserDetailComponent
     this.loadingIndicatorService.isCustomLoading.next(true);
 
     this.dataLayerService.pushPageViewEvent();
-    this.dataLayerService.pushFormStartEvent(this.formId);
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} - Manage Users - CCS`
     );
@@ -321,6 +320,8 @@ export class ManageUserAddSingleUserDetailComponent
 
     this.loadingIndicatorService.isLoading.next(false);
     this.loadingIndicatorService.isCustomLoading.next(false);
+    
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   private patchAdminMailData() {

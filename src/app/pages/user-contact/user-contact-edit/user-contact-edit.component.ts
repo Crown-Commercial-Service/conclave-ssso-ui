@@ -159,7 +159,6 @@ export class UserContactEditComponent
     this.formGroup.controls['contactReason'].setValue(this.default, {
       onlySelf: true,
     });
-    this.dataLayerService.pushFormStartEvent(this.formId);
   }
 
   ngOnInit() {
@@ -214,8 +213,7 @@ export class UserContactEditComponent
                       contactInfo.contacts
                     )
                   );
-                  this.formGroup.controls['contactReason'].setValue(
-			contactInfo.contactPointReason == "" ? "NONE" : contactInfo.contactPointReason
+                  this.formGroup.controls['contactReason'].setValue(contactInfo.contactPointReason == "" ? "NONE" : contactInfo.contactPointReason
                   );
                   this.onFormValueChange();
                   this.EditCheckbox();
@@ -233,6 +231,8 @@ export class UserContactEditComponent
         console.log(error);
       },
     });
+    
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   ngAfterViewChecked() {

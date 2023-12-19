@@ -80,9 +80,10 @@ export class ManageGroupEditNameComponent
     if(this.isEdit){
     this.groupName=sessionStorage.getItem('Gname') || ''
     this.formGroup.controls['groupName'].setValue(this.groupName);
-    this.dataLayerService.pushFormStartEvent(this.formId);
     }
     this.onFormValueChange();
+    
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
   
    public get specialCharsVaidation(){

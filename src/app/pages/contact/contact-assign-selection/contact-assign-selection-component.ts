@@ -49,7 +49,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
 
     ngOnInit() {
       this.dataLayerService.pushPageViewEvent();
-      this.dataLayerService.pushFormStartEvent(this.formId);
+      this.dataLayerService.pushFormStartEvent(this.formId, this.selectionForm);
     }
 
     ngAfterViewChecked() {
