@@ -19,7 +19,7 @@
     <br />{{ i?.identifier?.id }} - {{ i?.identifier?.legalName }}
   </p>
   <p class="para_custom" style="font-weight: bold;">This cannot be undone</p>
-  <button type="submit" (click)="onSubmit()" class="govuk-button govuk-button--warning">Confirm and delete</button>
-  <button type="button" style="margin-left:20px;" (click)="goBack()"
+  <button type="submit" (click)="onSubmit('Confirm and delete')" class="govuk-button govuk-button--warning">Confirm and delete</button>
+  <button type="button" style="margin-left:20px;" (click)="goBack('Cancel')"
     class="govuk-button govuk-button--secondary">Cancel</button>
 </div>

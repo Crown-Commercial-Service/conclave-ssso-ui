@@ -43,9 +43,9 @@
   </ng-template>
   <div class="govuk-button-group">
     <button type="button" class="govuk-button"
-      [class.govuk-button--disabled]="selectedOrgId === ''" data-module="govuk-button" (click)="onContinueClick()"
+      [class.govuk-button--disabled]="selectedOrgId === ''" data-module="govuk-button" (click)="onContinueClick('Continue')"
       [disabled]="selectedOrgId === ''">Continue</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onCancelClick()">Cancel</button>
+      (click)="onCancelClick('Cancel')">Cancel</button>
   </div>
 </div>

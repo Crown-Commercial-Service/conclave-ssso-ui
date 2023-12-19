@@ -102,7 +102,7 @@
           [class.govuk-input--error]="submitted && (resendForm.controls.userName.hasError('required') || resendForm.controls.userName.invalid)">
       </div>
       <div class="govuk-form-group govuk-button-group">
-        <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onSubmit(resendForm)">{{
+        <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onSubmit(resendForm,'Resend')">{{
           'RESEND_BTN' | translate }}</button>
       </div>
     </form>

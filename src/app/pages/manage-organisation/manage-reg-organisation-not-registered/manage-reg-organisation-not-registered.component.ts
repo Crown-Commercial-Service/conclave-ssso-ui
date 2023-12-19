@@ -28,21 +28,14 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
     }
 
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-             event: "page_view" ,
-             page_location: this.router.url.toString(),
-             user_name: this.sessionService.decrypt('user_name'),
-             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-           });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
 
     public onContinueNotRegistered() {
         this.router.navigateByUrl(`manage-org/register/newreg`);
     }
     
-    onContinueClick(){
+    onContinueClick(buttonText: string){
         switch (this.adminSelectionMode){
             case "useradmin":{
                 this.router.navigateByUrl(environment.appSetting.customMfaEnabled
@@ -61,10 +54,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
             }
         }
 
-        this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "Admin Details - Registration"
-        });
+        this.dataLayerService.pushClickEvent(buttonText)
     }
 
     goBack() {

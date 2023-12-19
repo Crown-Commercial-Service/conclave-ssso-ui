@@ -19,22 +19,15 @@ export class RemoveRightToBuyComponent implements OnInit {
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
     })
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
   }
 
- public Back():void {
+ public Back(buttonText:string):void {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public confirm(){
+  public confirm(buttonText:string){
     let data = {
       status: 'remove',
       orgName: this.routeDetails.orgName
@@ -49,13 +42,10 @@ export class RemoveRightToBuyComponent implements OnInit {
         this.router.navigateByUrl('buyer-and-both-fail');
       },
     });
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Remove right to buy status"
-    });
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 }

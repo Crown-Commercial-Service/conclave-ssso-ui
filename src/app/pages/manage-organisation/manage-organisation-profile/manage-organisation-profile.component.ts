@@ -168,25 +168,18 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             }).catch(e => {
             });
         }
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-             event: "page_view" ,
-             page_location: this.router.url.toString(),
-             user_name: this.sessionService.decrypt('user_name'),
-             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-           });
-        })
+        this.dataLayerService.pushPageViewEvent();
         this.loadingIndicatorService.isLoading.next(false);
         this.loadingIndicatorService.isCustomLoading.next(false);
     }
-    public onContactAddClick() {
+    public onContactAddClick(buttonText:string) {
         let data = {
             'isEdit': false,
             'contactId': 0,
             'contactAddAnother': this.contactAddAnother
         };
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     public onContactEditClick(contactDetail: ContactGridInfo) {
@@ -197,13 +190,13 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
     }
 
-    public onSiteAddClick() {
+    public onSiteAddClick(buttonText:string) {
         let data = {
             'isEdit': false,
             'siteId': 0
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     public onSiteEditClick(orgSite: SiteGridInfo) {
@@ -214,9 +207,9 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
-    public onRegistryAddClick() {
+    public onRegistryAddClick(buttonText:string) {
         this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/search`);
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     public onRegistryEditClick(row: any) {
@@ -262,7 +255,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
        }
     }
 
-    public onSaveChanges() {
+    public onSaveChanges(buttonText: string) {
         this.submitted = true;
         const ciiOrgId = this.tokenService.getCiiOrgId();
         var isMfaRequired = false;
@@ -299,16 +292,16 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             this.performApiCalls(identityProviderSummary,ciiOrgId,isMfaRequired);
            
         }
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     setFocus() {
         this.inputs.toArray().find(x => x.nativeElement.id = 'orgRoleControl_1')?.nativeElement.focus();
     }
 
-    public onCancel() {
+    public onCancel(buttonText:string) {
         this.router.navigateByUrl(`home`);
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     public getSchemaName(schema: string): string {
@@ -322,12 +315,12 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         return selecedSchemeName?.scheme;
     }
 
-    public onContactAssignClick() {
+    public onContactAssignClick(buttonText:string) {
         let data = {
             'assigningOrgId': this.ciiOrganisationId
         };
         this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
   public  async  performApiCalls(identityProviderSummary:any,ciiOrgId:string,isMfaRequired:boolean) {
         try {
@@ -349,11 +342,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         return dataRow.contactReason=='REGISTRY'?false:true;
       }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Manage your organisation"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 
   

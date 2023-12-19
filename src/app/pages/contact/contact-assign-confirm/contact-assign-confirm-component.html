@@ -29,10 +29,10 @@
         </div>
     </div>
     <div class="govuk-button-group continue-button-group">
-        <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onConfirmClick()">
+        <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onConfirmClick('Confirm')">
             {{ 'CONFIRM_BTN' | translate }}
         </button>
-        <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+        <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
             data-module="govuk-button">
             {{ 'CANCEL_BTN' | translate }}
         </button>

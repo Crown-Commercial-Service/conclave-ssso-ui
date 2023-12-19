@@ -25,10 +25,10 @@
                 </h1>
                 <p class="govuk-body-l">This cannot be undone</p>
                 <div class="govuk-button-group save-cancel-button-group">
-                    <button class="govuk-button govuk-button--warning" data-module="govuk-button" (click)="ConfirmRemoveUser()">
+                    <button class="govuk-button govuk-button--warning" data-module="govuk-button" (click)="ConfirmRemoveUser('Confirm and remove')">
                         Confirm and remove
                       </button>
-                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="Cancel()">
+                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="Cancel('Cancel')">
                         Cancel
                     </button>
                 </div>
@@ -40,11 +40,11 @@
                 <p class="govuk-body-l">Send new activation link for a delegated access to user {{RouteData.userName}}</p>
                 <div class="govuk-button-group save-cancel-button-group">
                     <button type="submit" class="govuk-button" data-module="govuk-button"
-                        (click)="ConfirmResentLink()">
+                        (click)="ConfirmResentLink('Resend activation link')">
                         Resend activation link
                     </button>
                     <button type="button" class="govuk-button govuk-button--secondary"
-                        data-module="govuk-button" (click)="Cancel()">
+                        data-module="govuk-button" (click)="Cancel('Cancel')">
                         Cancel
                     </button>
                 </div>

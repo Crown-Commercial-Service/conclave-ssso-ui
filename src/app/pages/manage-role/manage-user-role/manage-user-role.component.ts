@@ -23,14 +23,7 @@ public tokenPara : any=[];
       this.tokenPara = para.token;
       this.verifytoken(para.token)
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
   }
 
   public verifytoken(encryptedtoken:string):void {
@@ -41,7 +34,7 @@ public tokenPara : any=[];
     })
   }
 
-  public acceptRejectRequest(responce:number):void{
+  public acceptRejectRequest(responce:number,buttonText:string):void{
     this.userDetails=null;
     this.wrapperUserService.userTokenVerify(this.tokenPara).subscribe((data)=>{
     this.userDetails = data;  
@@ -66,9 +59,6 @@ public tokenPara : any=[];
   },(err)=>{
     this.errorResponce = true
   })
-  this.dataLayerService.pushEvent({ 
-    event: "cta_button_click" ,
-    page_location: "Fleet Portal access verification"
-  });
+  this.dataLayerService.pushClickEvent(buttonText)
   }
 }

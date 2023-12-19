@@ -8,7 +8,7 @@
                             {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="goBack()">
+                        <a class="govuk-breadcrumbs__link" (click)="goBack('Return to Manage Buyer status requests')">
                             Return to Manage Buyer status requests</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
@@ -78,13 +78,13 @@
                 <br>
                 <div class="govuk-button-group" *ngIf="routeDetails.event.rightToBuy === true">
                     <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
-                        (click)="removeRightToBuy()" *ngIf="!isDeletedOrg">Remove right to buy status</button>
+                        (click)="removeRightToBuy('Remove right to buy status')" *ngIf="!isDeletedOrg">Remove right to buy status</button>
                     <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                        (click)="goBack()">Back</button>
+                        (click)="goBack('Back')">Back</button>
                 </div>
                 <div *ngIf="routeDetails.event.rightToBuy != true">
                     <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                        (click)="goBack()">Back</button>
+                        (click)="goBack('Back')">Back</button>
                     <p *ngIf="!isDeletedOrg" class="govuk-body"><a class="govuk-link navigation-text"
                         [routerLink]="['/update-org-services/confirm']"  [queryParams]="{ data: getQueryData() }">View / edit organisations’ right to buy status</a></p>
                 </div>

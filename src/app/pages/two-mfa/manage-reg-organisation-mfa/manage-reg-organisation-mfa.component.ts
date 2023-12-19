@@ -33,14 +33,7 @@ constructor(private activatedRoute: ActivatedRoute,private sessionService:Sessio
 }
    selectedOption: string = "required";
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
     public onContinueClick(option :string | null)
     {
@@ -51,9 +44,6 @@ constructor(private activatedRoute: ActivatedRoute,private sessionService:Sessio
           orgReginfo.isMfaRequired = (option === "optional") ? false : true;
         sessionStorage.setItem('orgreginfo', JSON.stringify(orgReginfo));
         this.router.navigateByUrl(`manage-org/register/type`);
-        this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "2FA selection - Registration"
-          });
+        this.dataLayerService.pushClickEvent('Continue');
     }
 }

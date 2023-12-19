@@ -18,6 +18,7 @@ export class FindDelegatedUserComponent implements OnInit {
   public submitted: boolean = false;
   public organisationId: string = ''
   public error: string = ''
+  public formId : string = 'find_delegated_user';
   constructor(
     public route: Router,
     private formBuilder: FormBuilder,
@@ -32,14 +33,7 @@ export class FindDelegatedUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.formGroup = this.formBuilder.group({
       email: [
         '',
@@ -49,6 +43,8 @@ export class FindDelegatedUserComponent implements OnInit {
         ]),
       ],
     });
+    
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   validateEmailLength(data: any) {
@@ -72,9 +68,10 @@ export class FindDelegatedUserComponent implements OnInit {
 
 
 
-  public GetUserStatus(from: FormGroup) {
+  public GetUserStatus(from: FormGroup,buttonText:string) {
     this.submitted = true;
     if (this.formValid(from)) {
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       this.WrapperUserDelegatedService.getuserDetail(from.controls.email.value, this.organisationId).subscribe({
         next: (userResponse: any) => {
           if (userResponse.organisationId === this.organisationId) {
@@ -123,19 +120,17 @@ export class FindDelegatedUserComponent implements OnInit {
       });
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public Cancel() {
+  public Cancel(buttonText:string) {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Find a user"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 }

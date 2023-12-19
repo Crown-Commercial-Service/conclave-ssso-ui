@@ -118,7 +118,7 @@
                     </div>
                     <div class="form-group">
                         <!-- start date  -->
-                        <form [formGroup]="formGroup" (submit)="onSubmit(formGroup)">
+                        <form [formGroup]="formGroup" (submit)="onSubmit(formGroup,'Save and continue')">
                             <div class="govuk-form-group"
                                 [class.govuk-form-group--error]="submitted && (StartDateValidation || PastDateValidation || formGroup.controls.startday.invalid || formGroup.controls.startmonth.invalid || formGroup.controls.startyear.invalid)">
                                 <fieldset class="govuk-fieldset" role="group" aria-describedby="start-hint">
@@ -358,17 +358,17 @@
                                 <br>     
                             <div class="govuk-button-group save-cancel-button-group"> 
                                 <button *ngIf="pageAccessMode == 'edit'" type="button" class="govuk-button govuk-button--warning"
-                                data-module="govuk-button" (click)="RemoveAccess()">
+                                data-module="govuk-button" (click)="RemoveAccess('Remove access')">
                                 Remove access
                                 </button>
                             </div>
                             <div class="govuk-button-group save-cancel-button-group">
                                 <button type="submit" class="govuk-button" data-module="govuk-button"
-                                    (click)="onSubmit(formGroup)">
+                                    (click)="onSubmit(formGroup,'Save and continue')">
                                     Save and continue
                                 </button>
                                 <button type="button" class="govuk-button govuk-button--secondary"
-                                    data-module="govuk-button" (click)="Cancel()">
+                                    data-module="govuk-button" (click)="Cancel('Cancel')">
                                     Cancel
                                 </button>
                             </div>

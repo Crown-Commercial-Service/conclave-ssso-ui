@@ -72,6 +72,7 @@ export class ManageOrganisationContactEditComponent
     CountryISO.UnitedStates,
     CountryISO.UnitedKingdom,
   ];
+  public formId : string = 'Manage_your_organisation Edit_contact_details';
   public contact_error: boolean = false;
   public toggleInput: any = [
     {
@@ -172,14 +173,7 @@ export class ManageOrganisationContactEditComponent
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
     if (this.siteCreate) {
       this.getSiteDetails();
     }
@@ -207,7 +201,7 @@ export class ManageOrganisationContactEditComponent
         console.log(error);
       },
     });
-    this.pushDataLayer("form_start");
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   getOrganisationContact() {
@@ -371,7 +365,7 @@ export class ManageOrganisationContactEditComponent
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
 
-        this.pushDataLayer("form_submit");
+        this.dataLayerService.pushFormSubmitEvent(this.formId);
 
         if (this.siteId == 0) {
           // If organisation contact
@@ -390,11 +384,11 @@ export class ManageOrganisationContactEditComponent
         }
       } else {
         this.scrollHelper.scrollToFirst('error-summary-title');
-        this.pushDataLayer("form_error");
+        this.dataLayerService.pushFormErrorEvent(this.formId);
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+    this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -523,7 +517,7 @@ export class ManageOrganisationContactEditComponent
       );
     } else {
       window.history.back();
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(click);
     }
     // if (this.siteId == 0) {
     //   this.router.navigateByUrl('manage-org/profile');
@@ -627,11 +621,8 @@ export class ManageOrganisationContactEditComponent
     return true;
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Add/Edit - Organisation Contact"
-		});
+  pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText);
 	  }
 
   private getSiteDetails(): void {
@@ -654,12 +645,5 @@ export class ManageOrganisationContactEditComponent
       return true
     } 
     return false
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-      'event': event,
-      'form_id': 'Manage_your_organisation Edit_contact_details'
-    });
   }
 }

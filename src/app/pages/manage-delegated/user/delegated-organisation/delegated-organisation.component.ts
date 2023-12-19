@@ -45,14 +45,7 @@ export class DelegatedOrganisationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     if (
       this.DelegateService.getDelegatedOrg == '0' ||
       this.DelegateService.getDelegatedOrg == null || this.DelegateService.getDelegatedOrg == ''
@@ -101,19 +94,16 @@ export class DelegatedOrganisationComponent implements OnInit {
     this.primaryRoleSelected = null;
     this.roleInfo = orgDetails.delegatedOrgId;
   }
-  onSubmit() {
+  onSubmit(buttonText:string) {
     this.DelegateService.setDelegatedOrg(this.roleInfo,'home');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
-  public Cancel() {
+  public Cancel(buttonText:string) {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Manage your delegated access"
-		});
+  pushDataLayerEvent(buttonText:string) {
+	this.dataLayerService.pushClickEvent(buttonText);
 	  }
 }

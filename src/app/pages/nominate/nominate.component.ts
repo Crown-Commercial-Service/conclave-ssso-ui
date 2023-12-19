@@ -39,6 +39,7 @@ export class NominateComponent extends BaseComponent {
   formGroup: FormGroup;
   submitted: boolean = false;
   public pageAccessMode:any;
+  public formId : string = 'Create_administrator_account Nominate';
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -84,14 +85,8 @@ export class NominateComponent extends BaseComponent {
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   validateEmailLength(data: any) {
@@ -106,7 +101,7 @@ export class NominateComponent extends BaseComponent {
     }
     if (this.formValid(form)) {
       let uname = form.get('email')?.value;
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       this.authService
         .nominate(uname)
         .toPromise()
@@ -116,12 +111,9 @@ export class NominateComponent extends BaseComponent {
           this.router.navigateByUrl(`nominate/success?data=` + btoa(JSON.stringify(this.pageAccessMode)));
         });
     } else {
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
-    this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Nominate"
-		});
+    this.dataLayerService.pushClickEvent('Continue');
   }
 
   /**
@@ -165,12 +157,5 @@ export class NominateComponent extends BaseComponent {
         schemeDetails.schemeID
       )}`
     );
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Create_administrator_account Nominate'
-    });
   }
 }

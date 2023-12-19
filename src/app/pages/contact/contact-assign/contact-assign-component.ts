@@ -61,14 +61,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
         if (this.contactSiteId && this.contactSiteId != 0) {
             this.getSiteContacts();
         }
@@ -126,7 +119,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
         }
     }
 
-    onContinueClick() {
+    onContinueClick(buttonText:string) {
         let contactString = JSON.stringify(this.selectedContacts);
         sessionStorage.setItem("assigning-contact-list", contactString);
         let data = {
@@ -136,7 +129,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
             'siteCreate':this.siteCreate
         };
         this.router.navigateByUrl('contact-assign/confirm?data=' + JSON.stringify(data));
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     onNavigateToHomeClick() {
@@ -161,10 +154,10 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         sessionStorage.removeItem("assigning-contact-list");
         window.history.back();
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
         // let data = {
         //     'assigningSiteId': this.assigningSiteId,
         //     'assigningOrgId': this.assigningOrgId,
@@ -178,10 +171,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
         // }
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Assign Contacts"
-        });
+    pushDataLayerEvent(buttonText:string) {
+       this.dataLayerService.pushClickEvent(buttonText)
       }
 }

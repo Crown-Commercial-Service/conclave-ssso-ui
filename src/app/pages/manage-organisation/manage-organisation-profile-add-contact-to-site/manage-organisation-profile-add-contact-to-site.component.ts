@@ -29,14 +29,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
    }
 
   ngOnInit(): void {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.getSiteDetails()
   }
 
@@ -54,13 +47,19 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
  
 
 
- public onSiteEditClick() {
+ public onSiteEditClick(buttonText:string) {
+  if(buttonText==='Edit site')
+  {
   let data = {
       'isEdit': true,
       'siteId': this.siteId
   };
   this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
-  this.pushDataLayerEvent();
+  }
+  else{
+    this.pushDataLayerEvent(buttonText);
+  }
+  
 }
 
 
@@ -84,7 +83,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
           break
       }
   }
-  this.pushDataLayerEvent();
+  this.pushDataLayerEvent("Continue");
   }
   
 /**
@@ -113,10 +112,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
     this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Add/Edit - Site"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

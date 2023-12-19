@@ -43,15 +43,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
         }, 500);
       }
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-          id: this.selectedOrgId
-      });
-    })
+    this.dataLayerService.pushPageViewEvent({id: this.selectedOrgId});
   }
 
   public async getOrgDetails(id:any){
@@ -63,7 +55,7 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
   return this.SharedDataService.convertIdToHyphenId(id)
   }
 
-  public onContinueClick() {
+  public onContinueClick(buttonText:string) {
     if(environment.appSetting.hideAutoValidation){
      this.router.navigateByUrl(`buyer/confirm/${this.selectedOrgId}`);
     }
@@ -81,18 +73,15 @@ export class BuyerDetailsComponent extends BaseComponent implements OnInit {
       }
       this.router.navigateByUrl('update-org-services/confirm?data=' + btoa(JSON.stringify(data)));
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     this.router.navigateByUrl('buyer-supplier/search');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Review - Manage Buyers"
-    });
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 }

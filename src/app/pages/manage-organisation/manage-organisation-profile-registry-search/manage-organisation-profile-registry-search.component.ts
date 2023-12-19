@@ -65,14 +65,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
         localStorage.setItem('scheme_name', this.schemeName);
       }
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
   }
 
   ngAfterViewChecked() {
@@ -94,7 +87,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
   // }
 
 
-  public onSubmit() {
+  public onSubmit(buttonText: string) {
     this.submitted = true;
     this.validationObj.isDunlength = false;
       if (this.txtValue && this.txtValue.length > 0) {
@@ -102,10 +95,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
       } else {
         this.scrollHelper.scrollToFirst('error-summary');
       }
-    this.dataLayerService.pushEvent({ 
-        event: "cta_button_click" ,
-        page_location: "Add Registry - Manage Organisation"
-      });
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 
  

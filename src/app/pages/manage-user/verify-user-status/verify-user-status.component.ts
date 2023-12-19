@@ -18,14 +18,7 @@ export class VerifyUserStatusComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data));
       console.log("this.userInfo",this.userInfo)

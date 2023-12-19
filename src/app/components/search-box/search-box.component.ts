@@ -23,7 +23,25 @@ export class SearchBoxComponent extends BaseComponent implements OnInit {
 
   @Output() searchTextChange = new EventEmitter();
   set searchText(val) {
+    let interactiontype = "";
+
+    if(this.searchTextValue.length > 0 && val.length === 0){
+      interactiontype = "clear";
+    }
+    else if(this.searchTextValue.length > val.length){
+      interactiontype = "remove";
+    }  
+
     this.searchTextValue = val;
+
+    if(interactiontype != ""){
+      this.dataLayerService.pushEvent({ 
+        event: "search_filter" ,
+        interaction_type: interactiontype,
+        interaction_detail: this.pageName
+      });
+    }
+
     this.searchTextChange.emit(this.searchTextValue);
   }
 
@@ -40,7 +58,7 @@ export class SearchBoxComponent extends BaseComponent implements OnInit {
   onSearchClick() {
     this.onSearchClickEvent.emit();
     this.dataLayerService.pushEvent({ 
-		  event: "search_filter" ,
+		  event: "view_search_results" ,
 		  interaction_detail: this.pageName
 		});
   }

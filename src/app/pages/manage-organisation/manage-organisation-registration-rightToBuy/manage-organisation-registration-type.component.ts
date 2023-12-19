@@ -27,6 +27,7 @@ import { SessionService } from 'src/app/shared/session.service';
 export class ManageOrgRegRightToBuyComponent extends BaseComponent {
   public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
   defaultChoice: string = "supplier";
+  public formId : string = 'Register_organisation Organisation_type';
 
   constructor(public router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,private sessionService:SessionService,
     protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
@@ -34,14 +35,8 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartOnInitEvent(this.formId);
   }
 
   public onBackClick() {
@@ -49,26 +44,16 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
     // this.router.navigateByUrl('manage-org/register/newreg'); 
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     localStorage.setItem("manage-org_reg_type", this.defaultChoice);
     let regType = localStorage.getItem("manage-org_reg_type") + '';
-    this.pushDataLayer("form_submit");
+    this.dataLayerService.pushFormSubmitEvent(this.formId);
     if (regType !== 'supplier') {
       this.router.navigateByUrl('manage-org/register/buyer-type');
     } else {
       //this.router.navigateByUrl(`manage-org/register/start`);
       this.router.navigateByUrl(`manage-org/register/search`);
     }
-    this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Organisation type"
-		});
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Register_organisation Organisation_type'
-    });
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 }

@@ -149,15 +149,8 @@ export class ManageOrgRegStep3Component
         });
       }
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-       scheme: this.routeParams.scheme
-     });
-    })
+
+    this.dataLayerService.pushPageViewEvent({scheme: this.routeParams.scheme});
   }
 
   ngAfterViewInit() {
@@ -246,7 +239,7 @@ export class ManageOrgRegStep3Component
     window.history.back();
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText: string) {
     if(this.countryCode){
       this.orgDetails.address.countryCode=this.countryCode
       localStorage.setItem('cii_organisation', JSON.stringify(this.orgDetails));
@@ -276,10 +269,7 @@ export class ManageOrgRegStep3Component
     }else{
       this.isInvalid=true
     }
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Confirm Organisation Details - Registration"
-    });
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
   public onChange(event: any, additionalIdentifier: any) {
