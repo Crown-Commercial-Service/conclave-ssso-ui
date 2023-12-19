@@ -162,7 +162,7 @@
                                     <div id="reset-mfa-hint" class="govuk-hint" style="margin-top: 15px;">
                                         {{ 'RESET_MFA_HINT' | translate }}
                                     </div>
-                                    <button type="button" (click)="onResetMfaClick()" class="govuk-button"
+                                    <button type="button" (click)="onResetMfaClick('Reset my 2FA')" class="govuk-button"
                                     [disabled] = "!formGroup.controls.mfaEnabled.value"
                                         data-module="govuk-button">{{ 'RESET_MFA_BTN' |
                                         translate }}

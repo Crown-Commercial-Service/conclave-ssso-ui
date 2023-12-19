@@ -968,7 +968,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       });
 
   }
-  onResetMfaClick() {
+  onResetMfaClick(buttonText: string) {
     if (this.formGroup.controls.mfaEnabled.value) {
       let data = {
         data: this.userName,
@@ -976,8 +976,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
       this.router.navigateByUrl('confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data)))
     }
-
+    this.pushDataLayerEvent(buttonText);
   }
+
   onRadioChange(form: FormGroup)
   {
     this.isMfaRadioChange = false;
