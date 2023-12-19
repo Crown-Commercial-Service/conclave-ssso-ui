@@ -37,6 +37,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     submitted: boolean = false;
     errorMsg: string = "";
     isTooManySms: boolean = false;
+    public formId : string = 'Check_your_phone';
     constructor(private activatedRoute: ActivatedRoute,private sessionService:SessionService, private formBuilder: FormBuilder, private router: Router, private authService: AuthService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -47,6 +48,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     ngOnInit() {
         this.sendSmsOtp(this.phonenumber);
         this.dataLayerService.pushPageViewEvent();
+        this.dataLayerService.pushFormStartEvent(this.formId);
     }
     ngAfterViewInit()
     {
@@ -56,7 +58,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
         this.submitted = true;
         this.isTooManySms = false;
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
-        this.pushDataLayer("form_submit");
+        this.dataLayerService.pushFormSubmitEvent(this.formId);
         this.otp = otp;
 
         this.authService.VerifyOTP(otp, this.auth0token, this.oob_code, "SMS").subscribe({
@@ -78,7 +80,8 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
                     this.router.navigateByUrl('dormancy-message');
                }
                 else{
-                    this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
+                    this.formGroup.controls['otp'].setErrors({ 'incorrect': true });
+                    this.dataLayerService.pushFormErrorEvent(this.formId);
                 }                
             },
         
@@ -109,7 +112,6 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     }
     sendSmsOtp(phone: string) {
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
-        this.pushDataLayer("form_start");
         this.authService.Associate(this.auth0token, phone, true).subscribe({
             next: (response) => {
                 this.oob_code = response.oob_Code;
@@ -151,12 +153,5 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
             this.authService.logOutAndRedirect();
         });
     
-    }
-
-    pushDataLayer(event:string){
-        this.dataLayerService.pushEvent({
-            'event': event,
-            'form_id': 'Check_your_phone'
-        });
     }
 }

@@ -38,6 +38,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     showError: boolean = false;
     submitted: boolean = false;
     otpValue: string = "";
+    public formId:string = 'Set_up_your_app Use_your_authenticator_app_to_scan_the_QR_code.';
     constructor(private activatedRoute: ActivatedRoute,private sessionService:SessionService, private formBuilder: FormBuilder, private router: Router, public authService: AuthService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -49,7 +50,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     ngOnInit() {
         this.mfaQrCode = localStorage.getItem('qr_code');
         this.secretCode = localStorage.getItem('secret_code');
-        this.pushDataLayer("form_start");
+        this.dataLayerService.pushFormStartEvent(this.formId);
         this.dataLayerService.pushPageViewEvent();
     }
     // ngAfterViewInit()
@@ -65,7 +66,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
         this.submitted = true;
         this.otpValue = otp;
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
-        this.pushDataLayer("form_submit");
+        this.dataLayerService.pushFormSubmitEvent(this.formId);
         this.authService.VerifyOTP(otp, this.auth0token, this.qrCodeStr, "QR").subscribe({
 
             next: (response) => {
@@ -88,6 +89,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
                     // this.showError = true;
                     this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
                 }
+                this.dataLayerService.pushFormErrorEvent(this.formId);
                 
     }
 
@@ -119,12 +121,5 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
 
     public onNavigateToMFAClick() {
         this.router.navigateByUrl('mfa-selection');
-    }
-
-    pushDataLayer(event:string){
-        this.dataLayerService.pushEvent({
-            'event': event,
-            'form_id': 'Set_up_your_app Use_your_authenticator_app_to_scan_the_QR_code.'
-        });
     }
 }

@@ -41,6 +41,7 @@ export class MfaMessageStep1Component extends BaseComponent implements OnInit {
   ];
     auth0token: string = "";
     oob_code: any;
+    public formId : string = 'mfa_setup_Enter_your_mobile_number'
  
     
     
@@ -54,15 +55,15 @@ export class MfaMessageStep1Component extends BaseComponent implements OnInit {
     
         ngOnInit() {
           this.dataLayerService.pushPageViewEvent();
+          this.dataLayerService.pushFormStartEvent(this.formId);
         }
 
     onContinueBtnClick() {
             const mobileControl = this.formGroup.get('mobile');
             if (mobileControl && mobileControl.valid) {
               const phoneNumber = mobileControl.value;
-              console.log(phoneNumber);
-              console.log(phoneNumber.e164Number);
             localStorage.setItem('phonenumber', phoneNumber.e164Number);
+            this.dataLayerService.pushFormSubmitEvent(this.formId);
               this.router.navigateByUrl('mfa-message-step-2');
 
             }

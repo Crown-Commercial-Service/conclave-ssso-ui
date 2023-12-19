@@ -117,6 +117,7 @@ export class ManageUserAddSingleUserDetailComponent
   public oldSelectedUserType: any;
   public isAdminUser: boolean = false;
   public isDormantUser:boolean = false;
+  public formId:string = 'Manage_user_accounts Create_new_user_account';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
@@ -228,6 +229,7 @@ export class ManageUserAddSingleUserDetailComponent
     this.loadingIndicatorService.isCustomLoading.next(true);
 
     this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId);
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} - Manage Users - CCS`
     );
@@ -538,7 +540,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
       this.formGroup.controls['userName'].setErrors({ incorrect: true });
     }
     if (this.formValid(form)) {
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       this.userProfileRequestInfo.title = form.get('userTitle')?.value;
       this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
       this.userProfileRequestInfo.lastName = form.get('lastName')?.value;
@@ -565,7 +567,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         this.saveChanges("create", form)
       }
     } else {
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
       this.scrollView();
     }
   }
@@ -1083,13 +1085,5 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   {
     this.router.navigateByUrl('manage-users/confirm-user-deactivate');
 
-  }
-
-
-  pushDataLayer(event: string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_user_accounts Create_new_user_account'
-    });
   }
 }

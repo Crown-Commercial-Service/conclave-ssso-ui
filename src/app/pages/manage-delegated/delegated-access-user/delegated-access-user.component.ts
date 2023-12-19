@@ -609,13 +609,6 @@ export class DelegatedAccessUserComponent implements OnInit {
     })
   }
 
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-      'event': event,
-      'form_id': 'delegated_access'
-    });
-  }
-
   pushDataLayerEvent(buttonText:string) {
    this.dataLayerService.pushClickEvent(buttonText);
   }

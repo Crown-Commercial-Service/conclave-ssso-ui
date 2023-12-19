@@ -92,6 +92,7 @@ export class UserContactEditComponent
   ];
   isOrgAdmin: boolean = false;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
+  public formId : string = 'Manage_my_account Edit_contact_details';
 
   constructor(
     public contactService: WrapperUserContactService,
@@ -158,7 +159,7 @@ export class UserContactEditComponent
     this.formGroup.controls['contactReason'].setValue(this.default, {
       onlySelf: true,
     });
-    this.pushDataLayer("form_start");
+    this.dataLayerService.pushFormStartEvent(this.formId);
   }
 
   ngOnInit() {
@@ -288,7 +289,7 @@ export class UserContactEditComponent
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
         this.contactData.contactPointReason = form.get('contactReason')?.value;
-        this.pushDataLayer("form_submit");
+        this.dataLayerService.pushFormSubmitEvent(this.formId);
         if (this.isEdit) {
           this.contactService
             .updateUserContact(this.userName, this.contactId, this.contactData)
@@ -326,6 +327,7 @@ export class UserContactEditComponent
               error: (error) => {
                 console.log(error);
                 console.log(error.error);
+                this.dataLayerService.pushFormErrorEvent(this.formId);
                 if (error.error == 'INVALID_PHONE_NUMBER') {
                   this.setError(form, 'phone', 'invalid');
                 } else if (error.error == 'INVALID_EMAIL') {
@@ -340,11 +342,11 @@ export class UserContactEditComponent
         }
       } else {
         this.scrollHelper.scrollToFirst('error-summary-title');
-        this.pushDataLayer("form_error");
+        this.dataLayerService.pushFormErrorEvent(this.formId);
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -431,13 +433,6 @@ export class UserContactEditComponent
       return true
     } 
     return false
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_my_account Edit_contact_details'
-    });
   }
 
   // public get checkboxValidator() {

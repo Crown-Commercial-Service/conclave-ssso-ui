@@ -27,6 +27,7 @@ import { SessionService } from 'src/app/shared/session.service';
 export class ManageOrgRegRightToBuyComponent extends BaseComponent {
   public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
   defaultChoice: string = "supplier";
+  public formId : string = 'Register_organisation Organisation_type';
 
   constructor(public router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,private sessionService:SessionService,
     protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
@@ -35,6 +36,7 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
 
   ngOnInit() {
     this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId);
   }
 
   public onBackClick() {
@@ -45,7 +47,7 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
   public onSubmit(buttonText:string) {
     localStorage.setItem("manage-org_reg_type", this.defaultChoice);
     let regType = localStorage.getItem("manage-org_reg_type") + '';
-    this.pushDataLayer("form_submit");
+    this.dataLayerService.pushFormSubmitEvent(this.formId);
     if (regType !== 'supplier') {
       this.router.navigateByUrl('manage-org/register/buyer-type');
     } else {
@@ -53,12 +55,5 @@ export class ManageOrgRegRightToBuyComponent extends BaseComponent {
       this.router.navigateByUrl(`manage-org/register/search`);
     }
     this.dataLayerService.pushClickEvent(buttonText)
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Register_organisation Organisation_type'
-    });
   }
 }

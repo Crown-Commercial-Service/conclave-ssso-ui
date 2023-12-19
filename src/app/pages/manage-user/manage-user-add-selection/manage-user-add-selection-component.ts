@@ -28,6 +28,7 @@ export class ManageUserAddSelectionComponent
 {
   submitted!: boolean;
   selectionForm!: FormGroup;
+  public formId : string = 'Manage_user_accounts Add_users';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -48,6 +49,7 @@ export class ManageUserAddSelectionComponent
 
   ngOnInit() {
     this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId);
   }
 
   ngAfterViewChecked() {
@@ -65,7 +67,7 @@ export class ManageUserAddSelectionComponent
   public onSubmit(form: FormGroup) {
     this.submitted = true;
     if (this.formValid(form)) {
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       this.submitted = false;
 
       let selection = form.get('selection')?.value;
@@ -76,7 +78,7 @@ export class ManageUserAddSelectionComponent
         this.router.navigateByUrl('manage-users/bulk-users');
       }
     } else {
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -89,12 +91,5 @@ export class ManageUserAddSelectionComponent
   onCancelClick(buttonText:string) {
     this.router.navigateByUrl('manage-users');
     this.pushDataLayerEvent(buttonText);
-  }
-
-  pushDataLayer(event: string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_user_accounts Add_users'
-    });
   }
 }

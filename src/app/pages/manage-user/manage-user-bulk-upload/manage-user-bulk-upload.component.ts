@@ -24,6 +24,7 @@ export class ManageUserBulkUploadComponent {
     file: any;
     maxFileSize: number = environment.bulkUploadMaxFileSizeInBytes / (1024 * 1024);
     bulkUploadTemplateUrl: string;
+    public formId : string = 'Add_multiple_user Add_multiple_users_by_uploading_a_csv_file';
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     isBulkUpload = environment.appSetting.hideBulkupload
     constructor(private router: Router, private bulkUploadService: BulkUploadService,private sessionService:SessionService,
@@ -38,6 +39,7 @@ export class ManageUserBulkUploadComponent {
 
     ngOnInit() {
         this.dataLayerService.pushPageViewEvent();
+        this.dataLayerService.pushFormStartEvent(this.formId);
     }
 
     setFocus(inputIndex: number) {
@@ -56,7 +58,7 @@ export class ManageUserBulkUploadComponent {
         this.resetError();
         let uploadStartTime = performance.now();
         if (this.validateFile()) {
-            this.pushDataLayer("form_submit");
+            this.dataLayerService.pushFormSubmitEvent(this.formId);
             // this.submitted = false;
             this.bulkUploadService.uploadFile(this.organisationId, this.file).subscribe({
                 next: (response: BulkUploadResponse) => {
@@ -73,7 +75,7 @@ export class ManageUserBulkUploadComponent {
                 }
             });
         } else {
-            this.pushDataLayer("form_error");
+            this.dataLayerService.pushFormErrorEvent(this.formId);
         }
         this.pushDataLayerEvent(buttonText);
     }

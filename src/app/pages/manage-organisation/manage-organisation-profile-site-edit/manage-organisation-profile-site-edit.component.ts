@@ -350,13 +350,6 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
    this.serverError=''
   }
 
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_organisation Edit_site'
-    });
-  }
-
   pushDataLayerEvent(buttonText:string) {
 		this.dataLayerService.pushClickEvent(buttonText)
 	  }

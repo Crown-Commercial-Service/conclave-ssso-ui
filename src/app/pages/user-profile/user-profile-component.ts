@@ -137,6 +137,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public mfaOpted: boolean = false;
   public mfaRadioButtonValue : boolean = false;
   public isMfaRadioChange : boolean = false;
+  public formId : string = 'Manage_my_account';
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -238,7 +239,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           mfaEnabled: user.mfaEnabled
         });
       } 
-      this.pushDataLayer("form_start");
+      this.dataLayerService.pushFormStartEvent(this.formId);
     }
     await this.getApprovalRequriedRoles()
     await this.getPendingApprovalUserRole();
@@ -532,7 +533,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   onSubmit(form: FormGroup) {
     this.submitted = true;
     if (this.formValid(form)) {
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       this.submitted = false;
       let userRequest: UserProfileRequestInfo = {
         title: '',
@@ -570,7 +571,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.checkApproveRolesSelected()
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -954,14 +955,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     document.getElementById(id)?.scrollIntoView({
       block: 'start',
       inline: 'nearest',
-    });
-  }
-
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-      'event': event,
-      'form_id': 'Manage_my_account'
     });
   }
 
