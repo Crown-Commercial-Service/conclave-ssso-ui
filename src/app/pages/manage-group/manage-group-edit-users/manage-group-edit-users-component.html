@@ -71,7 +71,7 @@
                 data-module="govuk-button" *ngIf="isEdit">
                 Cancel and go to group
             </button>
-            <button type="button" (click)="onCancelClick('Create group with no users and')"
+            <button type="button" (click)="onCancelClick('Create group with no users and')" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button" *ngIf="!isEdit">
                 Create group with no users and {{showRoleView === true ? 'roles': (showRoleView == false ? 'services' : '')}}
             </button>
