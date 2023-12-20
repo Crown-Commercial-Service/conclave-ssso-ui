@@ -15,10 +15,13 @@ a {
   text-decoration: underline;
 }
 
-.table-scroll {
+.table-scroll,.table-scrolls {
   overflow-x: auto;
   white-space: nowrap;
   margin-bottom: 10px;
+}
+.table-scrolls .govuk-table__header:last-child,.table-scrolls .govuk-table__cell:last-child {
+  padding-right: 1px0;
 }
 
 .pagination-area {
