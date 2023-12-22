@@ -17,26 +17,27 @@ export class UserProfileResolver implements Resolve<boolean> {
         private orgGroupService: WrapperOrganisationGroupService, private sessionService:SessionService) { }
 
     async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-        const userName =  this.sessionService.decrypt('user_name')
-        const organisationId = localStorage.getItem('cii_organisation_id') || '';
-        let user = await this.userService.getUser(userName).toPromise();
-        await this.orgGroupService.getOrganisationRoles(organisationId)
-            .toPromise()
-            .then((orgRoles: Role[]) => {
-                orgRoles.forEach((r: Role) => {
-                    let userRole = user.detail.rolePermissionInfo && user.detail.rolePermissionInfo.some((rp: Role) => rp.roleId == r.roleId);
-                    if (userRole) {
-                        if (r.roleKey == this.adminRoleKey && this.isAdminUser == false) {
-                            this.isAdminUser = true;
-                        }
-                    }
-                });
-                var adminRoleId = orgRoles.find((r: Role) => r.roleKey === this.adminRoleKey)?.roleId;
-                if (user.detail.userGroups?.find((x: any) => x.accessServiceRoleGroupId === adminRoleId)) {
-                    this.isAdminUser = true;
-                }
-            });
-        return this.isAdminUser;
+        // const userName =  this.sessionService.decrypt('user_name')
+        // const organisationId = localStorage.getItem('cii_organisation_id') || '';
+        // let user = await this.userService.getUser(userName).toPromise();
+        // await this.orgGroupService.getOrganisationRoles(organisationId)
+        //     .toPromise()
+        //     .then((orgRoles: Role[]) => {
+        //         orgRoles.forEach((r: Role) => {
+        //             let userRole = user.detail.rolePermissionInfo && user.detail.rolePermissionInfo.some((rp: Role) => rp.roleId == r.roleId);
+        //             if (userRole) {
+        //                 if (r.roleKey == this.adminRoleKey && this.isAdminUser == false) {
+        //                     this.isAdminUser = true;
+        //                 }
+        //             }
+        //         });
+        //         var adminRoleId = orgRoles.find((r: Role) => r.roleKey === this.adminRoleKey)?.roleId;
+        //         if (user.detail.userGroups?.find((x: any) => x.accessServiceRoleGroupId === adminRoleId)) {
+        //             this.isAdminUser = true;
+        //         }
+        //     });
+        // return this.isAdminUser;
+        return localStorage.getItem("isOrgAdmin") === "true";
     }
 
 }
