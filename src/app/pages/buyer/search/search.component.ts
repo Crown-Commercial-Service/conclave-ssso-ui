@@ -55,11 +55,11 @@ export class BuyerSearchComponent extends BaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
     await this.onSearch();
-    this.data.forEach((x: any) => {
+    this.data.orgList.forEach((x: any) => {
       x.legalName = x.legalName?.toUpperCase() || 'UNKNOWN';
     });
-    this.dataLayerService.pushPageViewEvent();
   }
 
   async onSearchClick() {
