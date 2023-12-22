@@ -294,6 +294,7 @@ export class AuthService {
           map((data: ServicePermission[]) => {
             // Cache permissions locally
             this.servicePermission = data;
+            localStorage.setItem('isOrgAdmin', JSON.stringify(this.servicePermission.some(x => x.roleKey === "ORG_ADMINISTRATOR")));
             return data;
           }),
           catchError(error => {

@@ -83,8 +83,10 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.dataLayerService.pushPageViewEvent();
     this.checkValidOrganisation()
 
-    this.loadingIndicatorService.isLoading.next(false);
-    this.loadingIndicatorService.isCustomLoading.next(false);
+    setTimeout(() => {
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
+      }, 2000);
   }
 
   public checkValidOrganisation() {

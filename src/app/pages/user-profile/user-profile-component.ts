@@ -405,8 +405,10 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
     this.removeDefaultUserRoleFromServiceRole();
     this.setAccordinoForUser()
-    this.loadingIndicatorService.isLoading.next(false);
-    this.loadingIndicatorService.isCustomLoading.next(false);
+    setTimeout(() => {
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
+    }, 1500);
     
     this.dataLayerService.pushPageViewEvent();
     this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
