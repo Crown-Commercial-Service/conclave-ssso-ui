@@ -29,7 +29,7 @@ export class WrapperOrganisationSiteService {
   }
 
   getOrganisationSites(organisationId: string, searchString: string =""): Observable<any> {
-    const url = `${this.url}/${organisationId}/sites?search-string=${searchString}`;
+    const url = `${this.url}/${organisationId}/sites?search-string=${encodeURIComponent(searchString)}`;
     return this.http.get<OrganisationSiteInfoList>(url).pipe(
       map((data: OrganisationSiteInfoList) => {
         return data;
