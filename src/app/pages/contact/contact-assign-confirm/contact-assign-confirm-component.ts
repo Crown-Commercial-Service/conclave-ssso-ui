@@ -156,6 +156,14 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
+    getEditQueryData(): string {
+        let data = {
+          isEdit: true,
+          siteId: this.assigningSiteId
+        };
+        return JSON.stringify(data);
+      }
+
     pushDataLayerEvent(buttonText:string) {
         this.dataLayerService.pushClickEvent(buttonText)
       }

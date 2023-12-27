@@ -10,7 +10,8 @@
               }}</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link customlink" style="text-decoration: underline;" (click)="onSiteEditClick('Edit site')">{{ 'EDIT_SITE' | translate
+            <a class="govuk-breadcrumbs__link customlink" style="text-decoration: underline;" [routerLink]="['/manage-org/profile/site/edit']" [queryParams]="{ data: getEditQueryData() }"
+            (click)="onSiteEditClick('Edit site')">{{ 'EDIT_SITE' | translate
             }}</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">

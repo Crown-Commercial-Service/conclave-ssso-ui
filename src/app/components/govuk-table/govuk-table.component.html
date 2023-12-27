@@ -63,16 +63,29 @@
           [ngClass]="{'navigation-text-empty':hyperLinkText==='.'}" *ngIf="isHyperLinkRowVisible? isHyperLinkRowVisible(dataRow):true">
             {{ hyperLinkText || "" | translate }}</a>
         </td>
-        <td *ngIf="hyperArrayVisible == true" class="govuk-table__cell">
+
+        <td *ngIf="hyperArrayVisible && !isNavigate" class="govuk-table__cell">
           <div class="govuk-table_action-links">
             <span *ngFor="let hypertex of hyperLinkArray">
-              <a class="navigation-text" href="javascript:;"
+              <a class="navigation-text" [routerLink] = "dataRow.routeLink" [queryParams] ="dataRow.routeData"
                 [ngClass]="{'navigation-text-red': hypertex == 'Remove' || hypertex == 'Decline' }">
                 {{ hypertex }}</a>
             </span>
           </div>
         </td>
 
+        <td *ngIf="hyperArrayVisible && isNavigate"  class="govuk-table__cell">
+          <div class="govuk-table_action-links">
+            <span *ngFor="let hypertex of hyperLinkArray">
+              <a class="navigation-text"   [routerLink] = "dataRow.routeLink" [queryParams] ="dataRow.routeData" *ngIf="(hypertex != 'Remove' && hypertex != 'Decline') == true ; else decline_link">
+                {{ hypertex }}</a>    
+                <ng-template #decline_link>
+                  <a class="navigation-text" [routerLink] = "dataRow.declineRouteLink" [queryParams] ="dataRow.declineRouteData"
+                  [ngClass]="{'navigation-text-red': hypertex == 'Remove' || hypertex == 'Decline' }">
+                  {{ hypertex }}</a></ng-template>                            
+            </span>
+          </div>
+        </td>
         <td class="govuk-table__cell" *ngIf="isCheckBoxVisible == true"
           [ngClass]="{'isDisabled': dataRow['isDisable']  == true}">
           <div class="govuk-checkboxes" data-module="govuk-checkboxes">

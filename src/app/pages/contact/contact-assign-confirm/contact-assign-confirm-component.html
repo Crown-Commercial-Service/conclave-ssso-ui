@@ -2,14 +2,14 @@
     <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
             <li class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToHomeClick()">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
+                <a href="javascript:;" class="govuk-breadcrumbs__link" routerLink="/home" (click)="onNavigateToHomeClick()">{{ 'ADMINISTRATOR_DASHBOARD' | translate}}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToOrgClick()">{{ 'MANAGE_YOUR_ORGANISATION'
+                <a href="javascript:;" class="govuk-breadcrumbs__link" routerLink="/manage-org/profile" (click)="onNavigateToOrgClick()">{{ 'MANAGE_YOUR_ORGANISATION'
                     |translate}}</a>
             </li>
             <li *ngIf="assigningSiteId != 0" class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
+                <a href="javascript:;" class="govuk-breadcrumbs__link" [routerLink]="['/manage-org/profile/site/edit']" [queryParams]="{ data: getEditQueryData() }" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
                     translate
                     }}</a>
             </li>

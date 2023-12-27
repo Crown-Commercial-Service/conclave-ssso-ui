@@ -103,6 +103,14 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
+    getEditQueryData(): string {
+        let data = {
+          isEdit: true,
+          siteId: this.assigningSiteId,
+        };
+        return JSON.stringify(data);
+      }
+
     onCancelClick(buttonText:string) {
       window.history.back();
       this.pushDataLayerEvent(buttonText);

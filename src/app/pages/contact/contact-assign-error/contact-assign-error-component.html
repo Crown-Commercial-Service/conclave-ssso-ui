@@ -9,8 +9,8 @@
                     |translate}}</a>
             </li>
             <li *ngIf="assigningSiteId != 0" class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
-                    translate
+                <a href="javascript:;" class="govuk-breadcrumbs__link"  [routerLink]="['/manage-org/profile/site/edit']" [queryParams]="{ data: getEditQueryData() }" 
+                    (click)="onNavigateToSiteClick()"> {{ 'EDIT_SITE' | translate
                     }}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">

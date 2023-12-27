@@ -4,11 +4,11 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="nevigate('home')">
+                        <a class="govuk-breadcrumbs__link" routerLink="/home" (click)="nevigate('home')">
                             {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="nevigate('delegated-access')">
+                        <a class="govuk-breadcrumbs__link"  routerLink="/delegated-access" (click)="nevigate('delegated-access')">
                             Delegated access</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="pageAccessMode =='add'">

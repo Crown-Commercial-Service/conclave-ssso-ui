@@ -36,6 +36,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Output() changeCurrentPageEvent = new EventEmitter<number>();
   @Input() isRadioDisabled?: (dataRow: any) => boolean;
   @Input() isHyperLinkRowVisible?: (dataRow: any) => boolean;
+  @Input() isNavigate?: boolean;
 
   pageCount?: number | any;
   currentPage: number = 1;

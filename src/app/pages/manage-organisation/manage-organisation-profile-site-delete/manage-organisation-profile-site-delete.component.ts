@@ -57,6 +57,14 @@ export class ManageOrganisationSiteDeleteComponent extends BaseComponent impleme
         this.pushDataLayerEvent(buttonText);
     }
 
+    getEditQueryData(): string {
+        let data = {
+          isEdit: true,
+          siteId: this.siteId,
+        };
+        return JSON.stringify(data);
+      }
+
     onCancelClick(buttonText:string){
         if(buttonText==='Edit site')
         {

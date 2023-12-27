@@ -142,6 +142,11 @@ export class BuyerBothRequestsComponent implements OnInit {
           this.pendingVerificationBuyerAndBoth.organisationAuditList = orgListResponse;
           this.pendingVerificationBuyerAndBoth.pageCount = orgListResponse.pageCount;
           this.assignOrgTypeName(orgListResponse);
+          Array.from(this.pendingVerificationBuyerAndBoth.organisationAuditList.organisationAuditList).forEach((f: any)=>{
+              let queryParams = {data: btoa(JSON.stringify(f))}
+               f.routeLink= `/pending-verification`,
+               f.routeData = queryParams
+          })
         }
         this.geVerifiedOrg()
       },
@@ -163,6 +168,19 @@ export class BuyerBothRequestsComponent implements OnInit {
           this.verifiedBuyerAndBoth.organisationAuditList = orgListResponse;
           this.verifiedBuyerAndBoth.pageCount = orgListResponse.pageCount;
           this.assignOrgTypeName(orgListResponse);
+          Array.from(this.verifiedBuyerAndBoth.organisationAuditList.organisationAuditList).forEach((f: any)=>{
+            let data = {
+              header: 'View request',
+              Description: '',
+              Breadcrumb: 'View request',
+              status: '003',
+              event: f,
+            };
+              let queryParams = {data: btoa(JSON.stringify(data))}
+               f.routeLink= `/verified-organisations`,
+               f.routeData = queryParams
+          })
+          
         }
       },
       error: (error: any) => {

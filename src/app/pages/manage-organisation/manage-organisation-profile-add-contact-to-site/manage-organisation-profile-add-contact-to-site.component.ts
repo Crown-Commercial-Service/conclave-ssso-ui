@@ -45,7 +45,13 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
     });
  }
  
-
+ getEditQueryData(): string {
+  let data = {
+    isEdit: true,
+    siteId: this.siteId
+  };
+  return JSON.stringify(data);
+}
 
  public onSiteEditClick(buttonText:string) {
   if(buttonText==='Edit site')
