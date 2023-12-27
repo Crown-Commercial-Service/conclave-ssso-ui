@@ -506,6 +506,14 @@ export class ManageOrganisationContactEditComponent
     return form.valid;
   }
 
+  getEditQueryData(): string {
+    let data = {
+      isEdit: true,
+      siteId: this.siteId,
+    };
+    return JSON.stringify(data);
+  }
+
   onCancelClick(click: string) {
     if (click === 'edit') {
       let data = {

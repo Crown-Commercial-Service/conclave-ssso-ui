@@ -67,7 +67,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
         this.loadingIndicatorService.isLoading.next(true);
         this.loadingIndicatorService.isCustomLoading.next(true);
         this.dataLayerService.pushPageViewEvent();
-        
+ 
         await this.auditLogService.createLog({
             eventName: "Access", applicationName: "Manage-user-account",
             referenceData: `UI-Log`
@@ -83,6 +83,18 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
                 if (userListResponse != null) {
                     this.userList = userListResponse;
                     this.pageCount = this.userList.pageCount;
+                    this.userList.userList.forEach((f)=>{
+                        let  data = {
+                            'rowData':f.userName
+                    };
+                    this.sharedDataService.storeUserDetails(JSON.stringify(data));
+                    localStorage.setItem('ManageUserUserName',f.userName);
+                    sessionStorage.setItem(SessionStorageKey.ManageUserUserName, f.userName);
+                    localStorage.setItem('ManageUserUserName', f.userName);
+                    let queryParams = {data: btoa(JSON.stringify({'isEdit': true, 'name':f.userName}))}
+                         f.routeLink= `/manage-users/add-user/details`,
+                         f.routeData = queryParams
+                    })
                 }
             },
             error: (error: any) => {
@@ -124,6 +136,6 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
         localStorage.setItem('ManageUserUserName',dataRow.userName);
         sessionStorage.setItem(SessionStorageKey.ManageUserUserName, dataRow.userName);
         localStorage.setItem('ManageUserUserName', dataRow.userName);
-        this.router.navigateByUrl('manage-users/add-user/details?data=' + btoa(JSON.stringify({'isEdit': true})));
+        this.router.navigateByUrl('manage-users/add-user/details?data=' + btoa(JSON.stringify({'isEdit': true, 'name':dataRow.userName})));
     }
 }

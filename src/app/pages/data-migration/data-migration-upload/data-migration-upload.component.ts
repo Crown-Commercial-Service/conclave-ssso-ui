@@ -82,9 +82,17 @@ export class DataMigrationUploadComponent implements OnInit {
                             break;
                         }
                     }
-                })
+                })    
                 this.userUploadHistoryTable.userList.dataMigrationList = data.dataMigrationList
-                this.userUploadHistoryTable.userList.pageCount= data.pageCount                    
+                this.userUploadHistoryTable.userList.pageCount= data.pageCount;             
+                Array.from(this.userUploadHistoryTable.userList.dataMigrationList).forEach((datas:any)=>{
+                        if(datas.status === "Failed"){
+                            let queryParams = {data: datas.id}
+                            datas.routeLink =`/data-migration/error`
+                            datas.routeData = queryParams
+                        }
+                  })      
+                       
             })
     }
 

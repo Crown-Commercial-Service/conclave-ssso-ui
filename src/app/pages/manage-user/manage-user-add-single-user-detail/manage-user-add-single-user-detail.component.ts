@@ -180,8 +180,14 @@ export class ManageUserAddSingleUserDetailComponent
       this.subscription = this.sharedDataService.userEditDetails.subscribe((data) => {
         this.routeData = JSON.parse(atob(queryParams.data));
         this.isEdit = this.routeData['isEdit'];
+        let  datas = {
+          'rowData':this.routeData['name']
+        };
+        this.sharedDataService.storeUserDetails(JSON.stringify(datas));
+        sessionStorage.setItem(SessionStorageKey.ManageUserUserName,this.routeData['name']);
+        localStorage.setItem('ManageUserUserName',this.routeData['name']);
         this.editingUserName = localStorage.getItem('ManageUserUserName')??'';
-        this.editingUserName = data.rowData;
+        this.editingUserName = this.routeData['name'];
       })
     }
     this.orgGroups = [];
