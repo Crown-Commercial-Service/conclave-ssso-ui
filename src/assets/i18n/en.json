@@ -468,5 +468,6 @@
   "USER_DEACTIVATE_SUCCESS": "You have successfully deactivated the user account",
   "USER_REACTIVATE_SUCCESS": "You have successfully reactivated this user account.",
   "ON": "On",
-  "ERROR_INVALID_CURRENT_PASSWORD": "Invalid current password"
+  "ERROR_INVALID_CURRENT_PASSWORD": "Invalid current password",
+  "YOUR_DETAILS" : "Your details"
 }
