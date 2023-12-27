@@ -111,9 +111,10 @@
           </div>
     </fieldset>
   </div>
-
-  <h2 class="govuk-heading-s"> {{ 'CONTACT_DETAILS' | translate }}</h2>
-  <app-details [detailsData]="detailsData[0]"></app-details>
+  <div id = "contact-details">
+    <h2 class="govuk-heading-s"> {{ 'CONTACT_DETAILS' | translate }}</h2>
+    <app-details [detailsData]="detailsData[0]"></app-details>
+  </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <div>
@@ -135,8 +136,10 @@
       (click)="onContactAssignClick('Find and assign contact')">
       {{ 'FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
   </div>
-  <h2 class="govuk-heading-s">{{ 'SITE_DETAILS' | translate }}</h2>
-  <app-details [detailsData]="detailsData[1]"></app-details>
+  <div id ="site-details">
+    <h2 class="govuk-heading-s">{{ 'SITE_DETAILS' | translate }}</h2>
+    <app-details [detailsData]="detailsData[1]"></app-details>
+  </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <div>
@@ -151,11 +154,12 @@
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
       (click)="onSiteAddClick('Add a new site')">Add a new site</button>
   </div>
-
+  <div id ="registry-details">
   <h2 class="govuk-heading-s" *ngIf="registries">Registries</h2>
   <app-details [detailsData]="detailsData[2]"></app-details>
   <h2 class="govuk-heading-s">Below are the registries currently linked to your
     organisation</h2>
+  </div> 
  <app-registry-govuk-table  [pageName]="'MO'" (hyperLinkClickEvent)="generateRegistryRemoveRoute($event)" ></app-registry-govuk-table>
 
   <div class="govuk-form-group govuk-button-group" *ngIf="registries != null">

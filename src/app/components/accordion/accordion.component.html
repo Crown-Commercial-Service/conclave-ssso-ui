@@ -31,7 +31,7 @@
                                     for="{{'orgGroupControl_' + groupdata.groupId}}">
                                     <span>
                                         <a [routerLink]="['/manage-groups/view']" [queryParams]="{ data: getQueryData(groupdata.groupId) }" class="govuk-link" 
-                                        href="javascript:void(0)">{{groupdata[headerTextKeys]}}</a>
+                                        href="javascript:void(0)" target="_blank">{{groupdata[headerTextKeys]}}</a>
                                         <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleData">
                                             <ul class="govuk-list govuk-list--bullet govuk-!-padding-top-4 govuk-!-padding-left-3"
                                                 id="{{groupdata.groupId}}" style="display: none;">
@@ -62,7 +62,7 @@
                 </th>
                 <td class="govuk-table__cell govuk-text-align-right">
                     <a *ngIf="groupdata.groupType === 0" href="javascript:;" class="govuk-link"
-                        (click)="onBottomToggle(groupdata.groupId)">{{getElementStatus(groupdata.groupId)}}</a>
+                        (click)="onBottomToggle($event, groupdata)">{{getElementStatus(groupdata.groupId)}}</a>
                 </td>
             </tr>
         </tbody>
