@@ -28,6 +28,7 @@ import { ManageDelegateService } from '../manage-delegated/service/manage-delega
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-home',
@@ -68,22 +69,24 @@ export class HomeComponent extends BaseComponent implements OnInit {
     private DelegateService: ManageDelegateService,
     private router: Router,
     private dataLayerService: DataLayerService,
-    private sessionService:SessionService
+    private sessionService:SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.switchedOrgId = localStorage.getItem('permission_organisation_id') || ""
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
+
+    this.dataLayerService.pushPageViewEvent();
     this.checkValidOrganisation()
+
+    setTimeout(() => {
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
+      }, 2000);
   }
 
   public checkValidOrganisation() {

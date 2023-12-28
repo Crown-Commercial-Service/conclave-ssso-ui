@@ -101,7 +101,7 @@
       <button
         *ngIf="isEdit!=true"
         type="submit"
-        (click)="onConfirmClick()"
+        (click)="onConfirmClick('Confirm and continue')"
         class="govuk-button govuk-button--primary"
         data-module="govuk-button"
       >
@@ -110,7 +110,7 @@
       <button
         *ngIf="isEdit==true"
         type="submit"
-        (click)="onConfirmClick()"
+        (click)="onConfirmClick('Confirm')"
         class="govuk-button govuk-button--primary"
         data-module="govuk-button"
       >
@@ -118,7 +118,7 @@
       </button>
       <button
         type="button"
-        (click)="onCancelClick()"
+        (click)="onCancelClick('Select a different user')"
         class="govuk-button govuk-button--secondary"
         data-module="govuk-button"
       >

@@ -28,26 +28,20 @@ import { SessionService } from "src/app/shared/session.service";
 export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit {
     userName = this.sessionService.decrypt('user_name')
     public isMfaOpted : boolean = false;
+    public isDormanted : boolean = false;
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private authService: AuthService, private wrapperUserService: WrapperUserService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,private sessionService:SessionService) {
         super(uiStore, viewportScroller, scrollHelper);
     }
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
-    public onGoBackClick() {
+    public onGoBackClick(buttonText:string) {
         this.router.navigateByUrl('mfa-selection');
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    public onDontTurnOnClick() {
+    public onDontTurnOnClick(buttonText:string) {
         this.wrapperUserService.resetMfaopted(this.userName, true).subscribe({
             next: (response) => {
                 this.isMfaOpted = true;
@@ -56,16 +50,18 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
 
             },
             error: (err) => {
-                console.log(err)
+                    if(err.error=='ERROR_USER_IN_DORMANTED_STATE'){
+                    this.isDormanted=true;
+                    localStorage.setItem('isDormant', JSON.stringify(this.isDormanted));
+                    this.router.navigateByUrl('dormancy-message');
+               }
+              console.log(err)
             },
         })
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "no-mfa-confirmation"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

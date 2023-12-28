@@ -14,6 +14,7 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { HelperService } from 'src/app/shared/helper.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-view-pending-verification',
@@ -69,7 +70,8 @@ export class ViewPendingVerificationComponent implements OnInit {
     private translate: TranslateService,
     public helperService:HelperService,
     private dataLayerService: DataLayerService,
-    private sessionService:SessionService
+    private sessionService: SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -90,6 +92,9 @@ export class ViewPendingVerificationComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
+    
     this.route.queryParams.subscribe(async (para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
       this.lastRoute = this.routeDetails.lastRoute
@@ -97,14 +102,12 @@ export class ViewPendingVerificationComponent implements OnInit {
        this.getPendingVerificationOrg()
       }, 500);
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
+
+    setTimeout(() => {
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
+    }, 3000);
   }
 
   public openEmailWindow(data: any): void {
@@ -226,23 +229,20 @@ export class ViewPendingVerificationComponent implements OnInit {
       });
   }
 
-  private pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Manage Buyer status requests - View request"
-    });
+  private pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
-  goBack() {
+  goBack(buttonText:string) {
     if (this.lastRoute == "view-verified") {
       this.router.navigateByUrl('manage-buyer-both');
     } else {
       window.history.back();
     }
-     this.pushDataLayerEvent();
+     this.pushDataLayerEvent(buttonText);
   }
 
-  public acceptRightToBuy() {
+  public acceptRightToBuy(buttonText:string) {
     let data = {
       organisationId: this.routeDetails.organisationId,
       organisationName: this.routeDetails.organisationName,
@@ -250,9 +250,9 @@ export class ViewPendingVerificationComponent implements OnInit {
     this.router.navigateByUrl(
       'confirm-accept?data=' + btoa(JSON.stringify(data))
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
-  public declineRightToBuy() {
+  public declineRightToBuy(buttonText:string) {
     let data = {
       organisationId: this.routeDetails.organisationId,
       organisationName: this.routeDetails.organisationName,
@@ -260,7 +260,7 @@ export class ViewPendingVerificationComponent implements OnInit {
     this.router.navigateByUrl(
       'confirm-decline?data=' + btoa(JSON.stringify(data))
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   public getSchemaName(schema: string): string {
@@ -325,6 +325,8 @@ export class ViewPendingVerificationComponent implements OnInit {
       next: (orgListResponse: OrganisationAuditListResponse) => {
         if (orgListResponse != null) {
         let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId == this.routeDetails.organisationId )
+        if (orgDetails != undefined)
+        {
         let data = {
           header: 'View request',
           Description: '',
@@ -337,6 +339,8 @@ export class ViewPendingVerificationComponent implements OnInit {
           'verified-organisations?data=' + btoa(JSON.stringify(data))
         );
         }
+        this.getOrgDetails();
+      }
       },
       error: (error: any) => {
         this.router.navigateByUrl('delegated-error');

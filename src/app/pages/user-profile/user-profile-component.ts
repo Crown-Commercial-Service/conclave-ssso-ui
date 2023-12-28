@@ -137,6 +137,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public mfaOpted: boolean = false;
   public mfaRadioButtonValue : boolean = false;
   public isMfaRadioChange : boolean = false;
+  public formId : string = 'Manage_my_account';
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -174,7 +175,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.routeStateData = this.router.getCurrentNavigation()?.extras.state;
     this.approveRequiredRole = []
     this.locationStrategy.onPopState(() => {
-      this.onCancelClick();
+      this.onCancelClick('Cancel');
     });
     this.orgGroups = [];
   }
@@ -238,7 +239,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           mfaEnabled: user.mfaEnabled
         });
       } 
-      this.pushDataLayer("form_start");
     }
     await this.getApprovalRequriedRoles()
     await this.getPendingApprovalUserRole();
@@ -405,23 +405,17 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     }
     this.removeDefaultUserRoleFromServiceRole();
     this.setAccordinoForUser()
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
-    this.loadingIndicatorService.isLoading.next(false);
-    this.loadingIndicatorService.isCustomLoading.next(false);
+    setTimeout(() => {
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
+    }, 1500);
+    
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "My Profile"
-    });
+  pushDataLayerEvent(buttonText: string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
   ngAfterViewChecked() {
@@ -491,10 +485,10 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           })
         }
         if (userContactsInfo.contactPoints && userContactsInfo.contactPoints.length > 0) {
-          this.buttonText = 'ADD_ANOTHER_CONTACT_BTN';
+          this.buttonText = 'Add another contact';
           this.isEditContact = false;
         } else {
-          this.buttonText = 'ADD_CONTACT';
+          this.buttonText = 'Add contact';
           this.isEditContact = true;
         }
       },
@@ -502,9 +496,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     });
   }
 
-  onChangePasswordClick() {
+  onChangePasswordClick(buttonText: string) {
     this.router.navigateByUrl('change-password');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onRequestRoleChangeClick() {
@@ -520,7 +514,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
   }
 
-  onContactAddClick() {
+  onContactAddClick(buttonText:string) {
     let data = {
       isEdit: false,
       contactId: 0,
@@ -532,7 +526,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     );
     this.sessionService.encrypt('UserContactUsername',this.userName);
     this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onContactAssignRemoveClick() {
@@ -542,7 +536,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   onSubmit(form: FormGroup) {
     this.submitted = true;
     if (this.formValid(form)) {
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       this.submitted = false;
       let userRequest: UserProfileRequestInfo = {
         title: '',
@@ -580,7 +574,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.checkApproveRolesSelected()
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -590,9 +584,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText: string) {
     this.router.navigateByUrl('home');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
 
@@ -787,7 +781,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       this.inputs.toArray()[1].nativeElement.focus();
     }
   }
-  ResetAdditionalSecurity() {
+  ResetAdditionalSecurity(buttonText: string) {
     if (this.formGroup.controls.mfaEnabled.value) {
       let data = {
         data: this.userName,
@@ -795,7 +789,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
       this.router.navigateByUrl('confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data)))
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   async getOrgGroups() {
@@ -967,14 +961,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     });
   }
 
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-      'event': event,
-      'form_id': 'Manage_my_account'
-    });
-  }
-
   public async GetOrganisationMfaSettings() {
     this.ciiOrgId = this.tokenService.getCiiOrgId();
     await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data: any) => {
@@ -985,7 +971,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       });
 
   }
-  onResetMfaClick() {
+  onResetMfaClick(buttonText: string) {
     if (this.formGroup.controls.mfaEnabled.value) {
       let data = {
         data: this.userName,
@@ -993,8 +979,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       }
       this.router.navigateByUrl('confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data)))
     }
-
+    this.pushDataLayerEvent(buttonText);
   }
+
   onRadioChange(form: FormGroup)
   {
     this.isMfaRadioChange = false;

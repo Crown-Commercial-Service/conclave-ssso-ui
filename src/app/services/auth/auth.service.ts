@@ -264,6 +264,7 @@ export class AuthService {
     localStorage.removeItem('roleForGroup');
     localStorage.removeItem('user_contact_user_name');
     sessionStorage.removeItem('user_contact_user_name');
+    localStorage.removeItem('isDormant');
   }
 
   public logOutAndRedirect() {
@@ -293,6 +294,7 @@ export class AuthService {
           map((data: ServicePermission[]) => {
             // Cache permissions locally
             this.servicePermission = data;
+            localStorage.setItem('isOrgAdmin', JSON.stringify(this.servicePermission.some(x => x.roleKey === "ORG_ADMINISTRATOR")));
             return data;
           }),
           catchError(error => {

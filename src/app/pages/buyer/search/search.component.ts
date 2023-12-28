@@ -55,18 +55,11 @@ export class BuyerSearchComponent extends BaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
     await this.onSearch();
-    this.data.forEach((x: any) => {
+    this.data.orgList.forEach((x: any) => {
       x.legalName = x.legalName?.toUpperCase() || 'UNKNOWN';
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
   }
 
   async onSearchClick() {
@@ -83,24 +76,25 @@ export class BuyerSearchComponent extends BaseComponent implements OnInit {
   async onSearch() {
     let result = await this.organisationService.get(this.searchText,this.currentPage, this.pageSize).toPromise();
     this.data = result;
+    if (this.data && this.data.orgList.length <= 0)
+    {
+      this.selectedOrgId = '';
+    }
     this.pageCount = this.data.pageCount;
   }
 
-  public onContinueClick() {
+  public onContinueClick(buttonText:string) {
     this.router.navigateByUrl(`buyer/details/${this.selectedOrgId}`);
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     this.router.navigateByUrl('home');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Review - Manage Buyers"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
   onSelectRow(dataRow: any) {

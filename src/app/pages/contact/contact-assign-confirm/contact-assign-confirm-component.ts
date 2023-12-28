@@ -61,24 +61,17 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
     }
 
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
 
-    onConfirmClick() {
+    onConfirmClick(buttonText:string) {
         if (this.assigningSiteId && this.assigningSiteId != 0) {
             this.assignToSiteContacts();
         }
         else {
             this.assignToOrgContacts()
         }
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     assignToSiteContacts() {
@@ -137,9 +130,9 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         this.router.navigateByUrl('contact-assign/error?data=' + JSON.stringify(data));
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         window.history.back();
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     onNavigateToHomeClick() {
@@ -163,11 +156,8 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Confirm - Assign Contacts"
-        });
+    pushDataLayerEvent(buttonText:string) {
+        this.dataLayerService.pushClickEvent(buttonText)
       }
 
 }

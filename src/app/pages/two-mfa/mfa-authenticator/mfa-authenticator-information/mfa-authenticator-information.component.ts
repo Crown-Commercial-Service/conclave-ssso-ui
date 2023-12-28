@@ -26,6 +26,7 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
     auth0token: string = "";
     refreshtoken: string = "";
     qrCodeStr: string = "";
+    public isDormanted : boolean = false;
 
     constructor(private activatedRoute: ActivatedRoute,private sessionService:SessionService, private router: Router,private authService: AuthService,
         protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
@@ -33,30 +34,23 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
     }
     ngOnInit()
     {
-      this.router.events.subscribe(value => {
-        this.dataLayerService.pushEvent({ 
-            event: "page_view" ,
-            page_location: this.router.url.toString(),
-            user_name: this.sessionService.decrypt('user_name'),
-            cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-        });
-      })
+      this.dataLayerService.pushPageViewEvent();
     }
     public onNavigateToMFAClick()
     {
          
       this.router.navigateByUrl('mfa-selection');
     }
-    public onContinueBtnClick()
+    public onContinueBtnClick(buttonText: string)
     {
       this.getQRCode();
      // this.router.navigateByUrl('mfa-authenticator-setup');
-     this.pushDataLayerEvent();
+     this.pushDataLayerEvent(buttonText);
     }
-    public onBackBtnClick()
+    public onBackBtnClick(buttonText: string)
     {
       this.router.navigateByUrl('mfa-selection');
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
     }
     getQRCode () : any {
       this.auth0token = localStorage.getItem('auth0_token') ?? '';
@@ -77,6 +71,11 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
           else if(err.error.error_description == 'The mfa_token provided is invalid. Try getting a new token.'){
               this.RenewToken();
           }
+          else if(err.error=='ERROR_USER_IN_DORMANTED_STATE'){
+            this.isDormanted=true;
+            localStorage.setItem('isDormant', JSON.stringify(this.isDormanted));
+            this.router.navigateByUrl('dormancy-message');
+       }
           else {
               this.authService.logOutAndRedirect();
           }
@@ -86,11 +85,8 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
   }
 
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Download an app"
-		});
+  pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 
   public async RenewToken(){

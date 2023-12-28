@@ -42,6 +42,7 @@ export class DelegatedUserStatusComponent implements OnInit {
     },
   };
   hideSimplifyRole: boolean = environment.appSetting.hideSimplifyRole;
+  public formId : string = 'delegated_user_status';
 
   constructor(
     private route: ActivatedRoute,
@@ -65,14 +66,7 @@ export class DelegatedUserStatusComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.route.queryParams.subscribe((para: any) => {
       let RouteData: any = JSON.parse(atob(para.data));
       if (RouteData.event) {
@@ -172,27 +166,24 @@ export class DelegatedUserStatusComponent implements OnInit {
     this.getEventLogDetails();
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "delegated-user-status"
-    });
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText)
   }
 
-  public BackToDelegated(): void {
+  public BackToDelegated(buttonText:string): void {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public BackToDashboard(): void {
+  public BackToDashboard(buttonText:string): void {
     this.router.navigateByUrl('home');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
   
-  public Back(): void {
+  public Back(buttonText:string): void {
     sessionStorage.setItem('activetab', 'expiredusers');
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
   public goToDelegatedAccessPage() {
     sessionStorage.setItem('activetab', 'expiredusers');

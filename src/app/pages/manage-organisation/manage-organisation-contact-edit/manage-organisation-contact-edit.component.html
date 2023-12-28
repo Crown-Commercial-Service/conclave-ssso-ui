@@ -247,10 +247,10 @@
             </div>
           </div>
           <div class="govuk-button-group save-cancel-button-group">
-            <button type="submit" class="govuk-button" (click)="pushDataLayerEvent()" [disabled]="!formChanged" data-module="govuk-button">
+            <button type="submit" class="govuk-button" (click)="pushDataLayerEvent(isEdit ? 'Edit contact' : 'Create contact')" [disabled]="!formChanged" data-module="govuk-button">
               {{ isEdit === false ? 'Create contact' : 'Edit contact'}}
             </button>
-            <button type="button" (click)="onCancelClick('cancel')" class="govuk-button govuk-button--secondary"
+            <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
               data-module="govuk-button">
               {{ 'CANCEL_BTN' | translate }}
             </button>

@@ -78,6 +78,9 @@ export class AppComponent implements OnInit {
           sessionStorage['previousGlobalRoute'] = localStorage['currentGlobalRoute'];
           localStorage['currentGlobalRoute'] = (<NavigationEnd>event).url;
         }
+        if ((<NavigationEnd>event).url.includes('verify-user?details=')) {
+          localStorage.setItem('routeRecords',(<NavigationEnd>event).url);
+        }
       }
     });
 

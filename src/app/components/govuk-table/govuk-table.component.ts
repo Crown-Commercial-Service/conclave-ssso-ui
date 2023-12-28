@@ -52,9 +52,14 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+   
   }
 
   ngOnChanges() {
+    if (this.isRadioVisible) { // Emit the event to remove the radio selection 
+      this.selectedRadioId = 'table-radio-id-non';
+      this.radioClickEvent.emit(null);
+    }
     if (this.useClientPagination) {
       this.pageCount = Math.ceil(this.data.length / this.pageSize);
       this.totalPagesArray = Array(this.pageCount).fill(0).map((x, i) => i + 1);

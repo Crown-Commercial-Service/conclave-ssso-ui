@@ -11,9 +11,8 @@
             </p>
             <form [formGroup]="formGroup" (ngSubmit)="onContinueBtnClick()">
             <label class="mfa-message-label-text" for ="mobile-input">Phone number<br></label>
-            <ngx-intl-tel-input [cssClass]="'govuk-input'" [preferredCountries]="preferredCountries" 
-                    [selectedCountryISO]="CountryISO.UnitedKingdom" [enableAutoCountrySelect]="true" 
-                    [enablePlaceholder]="true" [searchCountryFlag]="true"
+            <ngx-intl-tel-input [cssClass]="'govuk-input'" [selectedCountryISO]="CountryISO.UnitedKingdom" [preferredCountries]="preferredCountries"
+                    [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
                     [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"autofocus
                     [selectFirstCountry]="false" [phoneValidation]="true" [separateDialCode]="separateDialCode"
                     [maxLength]="'15'" [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'"
@@ -22,10 +21,10 @@
             <label for="mobile" class="unwanted_lable">.</label>  
             <div class="govuk-button-group">
                 <button type="submit" class="govuk-button"
-                    [disabled]="formGroup.controls.mobile.invalid" data-module="govuk-button">
+                    [disabled]="formGroup.controls.mobile.invalid" (click)="pushDataLayerEvent('Continue')" data-module="govuk-button">
                     {{ 'CONTINUE_BTN' | translate }}
                 </button>
-                <button type="button" class="govuk-button govuk-button--secondary" (click)="onBackBtnClick()"
+                <button type="button" class="govuk-button govuk-button--secondary" (click)="onBackBtnClick('Back')"
                     data-module="govuk-button">
                     {{ 'BACK' | translate }}
                 </button>

@@ -8,6 +8,7 @@ import { OperationEnum } from 'src/app/constants/enum';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { UIState } from 'src/app/store/ui.states';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-manage-user-deactivate-confirm',
@@ -19,7 +20,8 @@ export class ManageUserDeactivateConfirmComponent extends BaseComponent implemen
   dormantBy : string ='Manual';
   fromPage:string ='edit_user'
   constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-      private wrapperUserService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+      private wrapperUserService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
+      private dataLayerService: DataLayerService) {
       super(uiStore,viewportScroller,scrollHelper);
       this.userName = sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
       this.userName = localStorage.getItem('ManageUserUserName') ?? '';
@@ -28,7 +30,9 @@ export class ManageUserDeactivateConfirmComponent extends BaseComponent implemen
   }
 
   ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
   }
+  
   public onDeactivateConfirmClick()
   {
     this.wrapperUserService.deActivateUser(this.userName,this.dormantBy,this.fromPage).subscribe(

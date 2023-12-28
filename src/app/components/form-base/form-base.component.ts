@@ -5,7 +5,6 @@ import { Subscription } from "rxjs";
 
 @Injectable()
 export abstract class FormBaseComponent {
-
     public formChanged: boolean = false;
     public formGroup: FormGroup;
     private valueChangesSubscription: Subscription;
@@ -18,7 +17,7 @@ export abstract class FormBaseComponent {
         this.valueChangesSubscription = new Subscription();
     }
 
-    onFormValueChange() {
+    onFormValueChange() {        
         const initialValue = this.formGroup.value;
         this.valueChangesSubscription = this.formGroup.valueChanges.subscribe(value => {
             this.formChanged = Object.keys(initialValue).some(key => {

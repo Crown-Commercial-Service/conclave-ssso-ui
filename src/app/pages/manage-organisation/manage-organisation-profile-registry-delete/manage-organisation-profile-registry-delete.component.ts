@@ -49,38 +49,30 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
         this.item$ = this.ciiService.getOrganisationIdentifierDetails(this.tokenService.getCiiOrgId(), params.scheme, params.id).pipe(share());
       }
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-       organisationId: this.routeParams.this.organisationId,
-       scheme: this.routeParams.this.scheme,
-       id: this.routeParams.this.id,
-     });
-    })
+
+    this.dataLayerService.pushPageViewEvent({
+      organisationId: this.routeParams.this.organisationId,
+      scheme: this.routeParams.this.scheme,
+      id: this.routeParams.this.id
+    });
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     this.ciiService.deleteRegistry(this.tokenService.getCiiOrgId(), this.routeParams.scheme, this.routeParams.id)
       .subscribe((data) => {
         this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/delete/confirmation/' + this.routeParams.scheme + '/' + this.routeParams.id);
       }, (error) => {
         console.log(error);
       });
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
   }
 
-  public goBack() {
+  public goBack(buttonText:string) {
     this.router.navigateByUrl('manage-org/profile');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Remove Registry - Manage Organisation"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

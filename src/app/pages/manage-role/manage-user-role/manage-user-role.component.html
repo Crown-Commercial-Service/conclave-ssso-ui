@@ -36,23 +36,21 @@
             {{userDetails.userName}}</p>
           <div class="govuk-button-group continue-cancel-button-group">
             <button type="submit" class="govuk-button govuk-button--primarry" data-module="govuk-button"
-              (click)="acceptRejectRequest(1)">
+              (click)="acceptRejectRequest(1,'Accept')">
               Accept
             </button>
             <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
-              (click)="acceptRejectRequest(2)">
+              (click)="acceptRejectRequest(2,'Deny')">
               Deny
             </button>
           </div>
         </div>
         <div class="link_valid"
           *ngIf="userDetails.status === 1 || userDetails.status === 2 || userDetails.status === 4">
-          <p class="govuk-body-l">The access request for Fleet Portal for user {{userDetails.userName}} has expired or
-            it was already actioned.</p>
+          <p class="govuk-body-l">The access request for Fleet Portal for {{userDetails.userName}} has expired or it was already actioned.</p>
         </div>
         <div class="link_valid" *ngIf="userDetails.status === 3">
-          <p class="govuk-body-l">User {{userDetails.userName}} no longer requires access to Fleet Portal and the access
-            has been removed by the organisation admin.</p>
+          <p class="govuk-body-l">The access request for Fleet Portal for {{userDetails.userName}} has expired or it was already actioned.</p>
         </div>
         <a href="javascript:;" class="navigation-text" routerLink="/home">Return to dashboard</a>
       </div>

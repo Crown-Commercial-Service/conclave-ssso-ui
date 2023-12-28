@@ -20,7 +20,7 @@ import { SessionStorageKey } from "src/app/constants/constant";
 import { SharedDataService } from "src/app/shared/shared-data.service";
 import { DataLayerService } from "src/app/shared/data-layer.service";
 import { SessionService } from "src/app/shared/session.service";
-
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
     selector: 'app-manage-user-profiles',
@@ -46,7 +46,8 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     public isBulkUpload=environment.appSetting.hideBulkupload
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
         protected uiStore: Store<UIState>,private sessionService:SessionService, private router: Router, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
-        private auditLogService: AuditLoggerService,private sharedDataService:SharedDataService, private dataLayerService: DataLayerService) {
+        private auditLogService: AuditLoggerService,private sharedDataService:SharedDataService, private dataLayerService: DataLayerService,
+        private loadingIndicatorService: LoadingIndicatorService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.userList = {
@@ -63,19 +64,17 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     }
 
     async ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.loadingIndicatorService.isLoading.next(true);
+        this.loadingIndicatorService.isCustomLoading.next(true);
+        this.dataLayerService.pushPageViewEvent();
+        
         await this.auditLogService.createLog({
             eventName: "Access", applicationName: "Manage-user-account",
             referenceData: `UI-Log`
         }).toPromise();
         this.getOrganisationUsers();
+        this.loadingIndicatorService.isLoading.next(false);
+        this.loadingIndicatorService.isCustomLoading.next(false);
     }
 
     getOrganisationUsers() {
@@ -91,17 +90,14 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
         });
     }
 
-    onAddClick() {
+    onAddClick(buttonText:string) {
         this.router.navigateByUrl("manage-users/add-user-selection");
         if(!this.isBulkUpload){
             this.router.navigateByUrl("manage-users/add-user-selection");
         } else {
             this.router.navigateByUrl("manage-users/add-user/details");
         }
-        this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "Manage User Accounts"
-          });
+        this.dataLayerService.pushClickEvent(buttonText)
     }
 
     searchTextChanged(event: any) {

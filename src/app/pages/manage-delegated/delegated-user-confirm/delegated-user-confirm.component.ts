@@ -35,14 +35,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data)).userDetails;
       this.userInfo.userName = decodeURIComponent(unescape(this.userInfo.userName));
@@ -64,13 +57,13 @@ export class DelegatedUserConfirmComponent implements OnInit {
 
 
 
-  public onSubmit(): void {
+  public onSubmit(buttonText:string): void {
     if (this.pageAccessMode === "edit") {
       this.updateDelegatedUser()
     } else {
       this.createDelegateUser()
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   public createDelegateUser(): void {
@@ -172,15 +165,12 @@ export class DelegatedUserConfirmComponent implements OnInit {
     sessionStorage.removeItem('deleagted_user_details')
   }
 
-  public Cancel() {
+  public Cancel(buttonText:string) {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "delegate-user-confirm"
-    });
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 }

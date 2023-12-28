@@ -10,7 +10,7 @@
               }}</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link customlink" style="text-decoration: underline;" (click)="onSiteEditClick()">{{ 'EDIT_SITE' | translate
+            <a class="govuk-breadcrumbs__link customlink" style="text-decoration: underline;" (click)="onSiteEditClick('Edit site')">{{ 'EDIT_SITE' | translate
             }}</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">
@@ -61,7 +61,7 @@
                 (click)="Continue(contactSelectedOption)">{{ 'CONTINUE_BTN' | translate }}</button>
 
                 <button  type="button" 
-                class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onSiteEditClick()">
+                class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="onSiteEditClick('Cancel')">
                 {{ 'CANCEL_BTN' | translate }}
             </button>
             </div>

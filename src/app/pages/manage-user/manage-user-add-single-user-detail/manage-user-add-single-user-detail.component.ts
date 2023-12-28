@@ -30,6 +30,7 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { Subscription } from 'rxjs';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-manage-user-add-single-user-detail',
@@ -116,6 +117,7 @@ export class ManageUserAddSingleUserDetailComponent
   public oldSelectedUserType: any;
   public isAdminUser: boolean = false;
   public isDormantUser:boolean = false;
+  public formId:string = 'Manage_user_accounts Create_new_user_account';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
@@ -135,7 +137,8 @@ export class ManageUserAddSingleUserDetailComponent
     private organisationService: WrapperOrganisationService,
     private sharedDataService: SharedDataService,
     private dataLayerService: DataLayerService,
-    private sessionService:SessionService
+    private sessionService:SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     super(
       viewportScroller,
@@ -222,14 +225,10 @@ export class ManageUserAddSingleUserDetailComponent
   }
 
   async ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
+
+    this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} - Manage Users - CCS`
     );
@@ -318,6 +317,11 @@ export class ManageUserAddSingleUserDetailComponent
     this.oldSelectedUserType = this.isAdminUser ? 'ORG_ADMINISTRATOR' : 'ORG_DEFAULT_USER';
     this.userTypeDetails.isGrayOut = this.isDormantUser ?'true': null;
     this.removeDefaultUserRoleFromServiceRole();
+
+    this.loadingIndicatorService.isLoading.next(false);
+    this.loadingIndicatorService.isCustomLoading.next(false);
+    
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   private patchAdminMailData() {
@@ -537,7 +541,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
       this.formGroup.controls['userName'].setErrors({ incorrect: true });
     }
     if (this.formValid(form)) {
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       this.userProfileRequestInfo.title = form.get('userTitle')?.value;
       this.userProfileRequestInfo.firstName = form.get('firstName')?.value;
       this.userProfileRequestInfo.lastName = form.get('lastName')?.value;
@@ -564,7 +568,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         this.saveChanges("create", form)
       }
     } else {
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
       this.scrollView();
     }
   }
@@ -829,16 +833,16 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText: string) {
     sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
     localStorage.removeItem('ManageUserUserName');
     this.router.navigateByUrl('manage-users');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  onResetPasswordClick() {
+  onResetPasswordClick(buttonText: string) {
     this.router.navigateByUrl('manage-users/confirm-reset-password');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onDeleteClick() {
@@ -898,7 +902,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   }
 
 
-  public ResetAdditionalSecurity(): void {
+  public ResetAdditionalSecurity(buttonText: string): void {
     if (this.MFA_Enabled) {
       let data = {
         IsUser: true,
@@ -912,7 +916,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         'confirm-user-mfa-reset?data=' + btoa(JSON.stringify(data))
       );
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   ngOnDestroy() {
@@ -1013,11 +1017,8 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     this.updateFormUserTypeChanged(event);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Add/Edit - Manage Users"
-		});
+  pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
   
   private setMfaandAdminGroup(){
@@ -1085,13 +1086,5 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
   {
     this.router.navigateByUrl('manage-users/confirm-user-deactivate');
 
-  }
-
-
-  pushDataLayer(event: string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_user_accounts Create_new_user_account'
-    });
   }
 }

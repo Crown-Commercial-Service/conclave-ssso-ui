@@ -16,6 +16,8 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
 import { environment } from 'src/environments/environment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
+
 @Component({
   selector: 'app-update-org-service',
   templateUrl: './update-org-service.component.html',
@@ -40,7 +42,8 @@ export class UpdateOrgServiceComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,private sessionService:SessionService, private organisationService: OrganisationService, private WrapperOrganisationService: WrapperOrganisationService,
     private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,
+    private loadingIndicatorService: LoadingIndicatorService) {
     this.orgRoles = [];
     this.eRoles = [];
     this.roles = [];
@@ -55,7 +58,10 @@ export class UpdateOrgServiceComponent implements OnInit {
   public supplierRemoveList = ['JAEGGER_BUYER', 'CAT_USER', 'FP_USER']
 
   ngOnInit() {
+    
     this.route.queryParams.subscribe(params => {
+      this.loadingIndicatorService.isLoading.next(true);
+      this.loadingIndicatorService.isCustomLoading.next(true);
       this.routeData = JSON.parse(atob(params.data));
       if (this.routeData.Id) {
         this.org$ = this.organisationService.getById(this.routeData.Id).pipe(share());
@@ -73,15 +79,12 @@ export class UpdateOrgServiceComponent implements OnInit {
           }
         });
       }
+      setTimeout(() => {
+        this.loadingIndicatorService.isLoading.next(false);
+        this.loadingIndicatorService.isCustomLoading.next(false);
+      }, 1000);
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
   }
 
   /**
@@ -414,7 +417,7 @@ export class UpdateOrgServiceComponent implements OnInit {
   /**
    * On submit save call.
    */
-  public onSubmitClick() {
+  public onSubmitClick(buttonText:string) {
     let selection = {
       org: this.organisation,
       toDelete: this.rolesToDelete,
@@ -453,24 +456,24 @@ export class UpdateOrgServiceComponent implements OnInit {
       localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
       this.router.navigateByUrl(`update-org-services/confirm-changes?data=` + btoa(JSON.stringify(data)))
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
 
   /**
    * cancel button call , removing all the local storage details
    */
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
     this.router.navigateByUrl('buyer-supplier/search');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
 
   /**
    * getting all roles and find elegible role call.
    */
-  public getOrgRoles() {
+  public getOrgRoles() {    
     this.orgRoles$ = this.wrapperConfigService.getRoles().pipe(share());
     this.orgRoles$.subscribe({
       next: (orgRoles: Role[]) => {
@@ -508,10 +511,7 @@ export class UpdateOrgServiceComponent implements OnInit {
     }    
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Review - Manage Buyers"
-    });
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 }

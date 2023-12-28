@@ -27,7 +27,7 @@ import { SessionService } from "src/app/shared/session.service";
             open: { left: '-12.5rem' }
         })
     ],
-
+                                      
 })
 export class MfaMessageStep1Component extends BaseComponent implements OnInit {
  formGroup: FormGroup;
@@ -41,6 +41,7 @@ export class MfaMessageStep1Component extends BaseComponent implements OnInit {
   ];
     auth0token: string = "";
     oob_code: any;
+    public formId : string = 'mfa_setup_Enter_your_mobile_number'
  
     
     
@@ -53,40 +54,31 @@ export class MfaMessageStep1Component extends BaseComponent implements OnInit {
     }
     
         ngOnInit() {
-          this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-          })
+          this.dataLayerService.pushPageViewEvent();
+          this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
         }
 
     onContinueBtnClick() {
             const mobileControl = this.formGroup.get('mobile');
             if (mobileControl && mobileControl.valid) {
               const phoneNumber = mobileControl.value;
-              console.log(phoneNumber);
-              console.log(phoneNumber.e164Number);
             localStorage.setItem('phonenumber', phoneNumber.e164Number);
+            this.dataLayerService.pushFormSubmitEvent(this.formId);
               this.router.navigateByUrl('mfa-message-step-2');
 
             }
-            this.pushDataLayerEvent();
         }
-    onBackBtnClick() {
+
+    onBackBtnClick(buttonText:string) {
             this.router.navigateByUrl('mfa-selection');
-            this.pushDataLayerEvent();
+            this.pushDataLayerEvent(buttonText);
         }
+
     onNavigateToMFAClick() {
             this.router.navigateByUrl('mfa-selection');
         }
 
-        pushDataLayerEvent() {
-          this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "Enter your mobile number"
-          });
+        pushDataLayerEvent(buttonText:string) {
+          this.dataLayerService.pushClickEvent(buttonText);
           }
     }

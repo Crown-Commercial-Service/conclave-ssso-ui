@@ -43,15 +43,11 @@ export class ManageGroupListComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
+        sessionStorage.removeItem('group_existing_users');
+        sessionStorage.removeItem('group_added_users');
+        sessionStorage.removeItem('group_removed_users');
         this.getOrganisationUsers();
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
 
     getOrganisationUsers() {
@@ -75,16 +71,13 @@ export class ManageGroupListComponent extends BaseComponent implements OnInit {
         });
     }
 
-    onAddClick() {
+    onAddClick(buttonText:string) {
         let data = {
             'isEdit': false,
             'groupId': 0
         };
         this.router.navigateByUrl('manage-groups/edit-name?data=' + JSON.stringify(data));
-        this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "Manage Groups"
-          });
+      this.dataLayerService.pushClickEvent(buttonText);
     }
 
     searchTextChanged(event: any) {

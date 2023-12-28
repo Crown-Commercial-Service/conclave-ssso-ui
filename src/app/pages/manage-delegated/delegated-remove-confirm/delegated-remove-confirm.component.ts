@@ -21,17 +21,10 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
       this.RouteData = JSON.parse(atob(para.data));
       this.RouteData.userName = decodeURIComponent(unescape(this.RouteData.userName));
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: this.sessionService.decrypt('user_name'),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
   }
 
-  public ConfirmRemoveUser(){
+  public ConfirmRemoveUser(buttonText:string){
     let data ={
       status:'delete',
       userName:this.RouteData.userName
@@ -45,11 +38,11 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
       this.router.navigateByUrl('delegated-error')
       }
     });
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
 
-  public ConfirmResentLink(){
+  public ConfirmResentLink(buttonText:string){
     let data ={
       status:'resent',
       userName:this.RouteData.userName
@@ -63,18 +56,15 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
       this.router.navigateByUrl('delegated-error')
       }
     });
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public Cancel():void{
+  public Cancel(buttonText:string):void{
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "delegated-remove-confirm"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 }

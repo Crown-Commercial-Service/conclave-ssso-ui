@@ -31,22 +31,12 @@ export class ManageOrgRegStep1BComponent extends BaseComponent implements OnInit
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: this.sessionService.decrypt('user_name'),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
    }
 
-  public onClick() {
+  public onClick(buttonText:string) {
     this.router.navigateByUrl(`manage-org/register/search`);
-    this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Start - Registration"
-		});
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
   public onBackClick() {

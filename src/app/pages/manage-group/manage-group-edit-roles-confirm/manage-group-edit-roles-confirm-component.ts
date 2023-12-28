@@ -67,14 +67,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
     }
 
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
         if(this.showRoleView){
             this.titleService.setTitle(`Confirm - ${"Group - Roles"}`);
         } else {
@@ -111,7 +104,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
       }
 
 
-    onConfirmClick() {
+    onConfirmClick(buttonText:string) {
         let groupPatchRequestInfo: OrganisationGroupRequestInfo = {
             roleInfo: {
                 addedRoleIds: this.addingRoles.map(ar => ar.roleId),
@@ -138,7 +131,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
                         this.router.navigateByUrl(`manage-groups/error?data=` + JSON.stringify(data));
                     }
                 });
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     onGoToEditGroupClick() {
@@ -146,9 +139,9 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
         this.router.navigateByUrl("manage-groups/view?data=" + JSON.stringify(this.routeData));
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         this.router.navigateByUrl("manage-groups/edit-roles?data=" + JSON.stringify(this.routeData));
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     private initialteServiceRoleGroups(){
@@ -173,10 +166,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
            }
         } 
 
-        pushDataLayerEvent() {
-            this.dataLayerService.pushEvent({ 
-              event: "cta_button_click" ,
-              page_location: "Confirm - Add/Edit Roles - Manage Groups"
-            });
+        pushDataLayerEvent(buttonText:string) {
+            this.dataLayerService.pushClickEvent(buttonText);
           }    
 }

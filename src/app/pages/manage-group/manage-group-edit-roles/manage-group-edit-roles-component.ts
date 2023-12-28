@@ -47,6 +47,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     public showRoleView: boolean = environment.appSetting.hideSimplifyRole
     public formGroup: FormGroup | any;
     public orgAdminRole: any[] = [];
+    public formId : string = 'Edit_groups roles';
     constructor(protected uiStore: Store<UIState>,private sessionService:SessionService, public router: Router, private activatedRoute: ActivatedRoute, public titleService: Title,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, public sharedDataService: SharedDataService, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
@@ -66,24 +67,19 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     }
 
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: this.sessionService.decrypt('user_name'),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
         this.formGroup = new FormGroup({
             role: new FormControl()
         });
+        
         if (this.showRoleView) {
             this.titleService.setTitle(`${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - CCS`);
         } else {
             this.titleService.setTitle(`${this.isEdit ? "Add or remove services" : "Add services"}  - Manage Groups - CCS`);
         }
         this.getOrganisationRoles();
-        this.initialteServiceRoleGroup()
+        this.initialteServiceRoleGroup();        
+        this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
     }
 
     ngAfterViewChecked() {
@@ -188,7 +184,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
         }
     }
 
-    onContinueClick() {
+    onContinueClick(buttonText:string) {
         let data = {
             'isEdit': this.isEdit,
             'groupId': this.editingGroupId,
@@ -198,27 +194,27 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
             'userCount': this.userCount,
             'groupName': this.groupName
         };
-        this.pushDataLayer("form_submit");
+       this.dataLayerService.pushFormSubmitEvent(this.formId);
         this.sharedDataService.storeRoleForGroup(JSON.stringify(data))
         this.router.navigateByUrl('manage-groups/edit-roles-confirm?data=' + JSON.stringify({ 'isEdit': this.isEdit }));
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Add/Edit Roles - Manage Groups"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
   
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         let data = {
             'isEdit': true,
             'groupId': this.editingGroupId
         };
         this.router.navigateByUrl('manage-groups/view?data=' + JSON.stringify(data));
-        this.pushDataLayerEvent();
+        if(buttonText!='Edit group')
+        {
+        this.pushDataLayerEvent(buttonText);
+        }
     }
 
     private initialteServiceRoleGroup() {
@@ -239,12 +235,5 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
                 CREATE_BTN: "Create group with no services"
             }
         }
-    }
-
-    pushDataLayer(event:string){
-        this.dataLayerService.pushEvent({
-            'event': event,
-            'form_id': 'Edit_groups roles'
-        });
     }
 }
