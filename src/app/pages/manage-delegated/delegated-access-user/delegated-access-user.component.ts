@@ -12,6 +12,7 @@ import { ManageDelegateService } from '../service/manage-delegate.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
+import { DetailsToggleService } from 'src/app/shared/shared-details-toggle.service';
 
 @Component({
   selector: 'app-delegated-access-user',
@@ -50,6 +51,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   public isStartDateDisabled:boolean=false;
   public pastDateValidationMessage="The start date cannot be in the past";
   public formId : string = 'delegated_access';
+  public linkText : string = 'Additional Security - MFA status'
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private route: Router,
@@ -64,7 +66,9 @@ export class DelegatedAccessUserComponent implements OnInit {
     private dataLayerService: DataLayerService,
     private router: Router,
     private sessionService:SessionService,
-    private loadingIndicatorService: LoadingIndicatorService
+    private loadingIndicatorService: LoadingIndicatorService,
+    private elementRef: ElementRef,
+    private detailsToggleService : DetailsToggleService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userSelectedFormData = sessionStorage.getItem('deleagted_user_details')
@@ -120,7 +124,26 @@ export class DelegatedAccessUserComponent implements OnInit {
     
     this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
+  ngAfterViewInit() {
+    const detailsElement = this.elementRef.nativeElement.querySelector('details');
 
+    this.detailsToggleService.addToggleListener(detailsElement, (isOpen: boolean) => {
+      if (isOpen) {
+        this.dataLayerService.pushEvent({
+          event: "accordion_use",
+          interaction_type: "open",
+          link_text: this.linkText
+        })
+      } else {
+        this.dataLayerService.pushEvent({
+          event: "accordion_use",
+          interaction_type: "close",
+          link_text: this.linkText
+        })
+      }
+    });
+   
+  }
   /**
    * patch default value when user add. start date is today. and end date is after 365 days
    */
@@ -613,5 +636,9 @@ export class DelegatedAccessUserComponent implements OnInit {
 
   pushDataLayerEvent(buttonText:string) {
    this.dataLayerService.pushClickEvent(buttonText);
+  }
+  ngOnDestroy() {
+    const detailsElement = this.elementRef.nativeElement.querySelector('details');
+    this.detailsToggleService.removeToggleListener(detailsElement);
   }
 }
