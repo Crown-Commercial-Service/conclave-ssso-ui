@@ -1,5 +1,5 @@
 import { ViewportScroller } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -8,6 +8,7 @@ import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { OrganisationService } from "src/app/services/postgres/organisation.service";
 import { DataLayerService } from "src/app/shared/data-layer.service";
 import { SessionService } from "src/app/shared/session.service";
+import { DetailsToggleService } from "src/app/shared/shared-details-toggle.service";
 import { UIState } from "src/app/store/ui.states";
 import { environment } from "src/environments/environment";
 
@@ -21,15 +22,38 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
 
     adminSelectionMode : string = 'useradmin';
     contactUrl = environment.uri.ccsContactUrl;
+    public linkText : string = 'Administrator Setup - Help content'
     
     constructor(public router: Router, protected uiStore: Store<UIState>,
-        protected viewportScroller: ViewportScroller,private sessionService:SessionService, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+        protected viewportScroller: ViewportScroller,private sessionService:SessionService, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,  private elementRef: ElementRef,
+        private detailsToggleService : DetailsToggleService) {
         super(uiStore, viewportScroller, scrollHelper);
     }
 
     ngOnInit() {
         this.dataLayerService.pushPageViewEvent();
     }
+
+    ngAfterViewInit() {
+        const detailsElement = this.elementRef.nativeElement.querySelector('details');
+    
+        this.detailsToggleService.addToggleListener(detailsElement, (isOpen: boolean) => {
+          if (isOpen) {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "open",
+              link_text: this.linkText
+            })
+          } else {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "close",
+              link_text: this.linkText
+            })
+          }
+        });
+       
+      }
 
     public onContinueNotRegistered() {
         this.router.navigateByUrl(`manage-org/register/newreg`);
@@ -60,5 +84,9 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
     goBack() {
         window.history.back();
     }
+    ngOnDestroy() {
+        const detailsElement = this.elementRef.nativeElement.querySelector('details');
+        this.detailsToggleService.removeToggleListener(detailsElement);
+      }
 
 }
