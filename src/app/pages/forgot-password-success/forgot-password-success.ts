@@ -13,6 +13,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-forget-password-success',
@@ -36,6 +37,12 @@ export class ForgotPasswordSuccessComponent extends BaseComponent implements OnI
     onNavigateLinkClick(){
         this.authService.logOutAndRedirect();
     }
+
+    getSignOutEndpoint() {
+        return environment.uri.api.security + '/security/log-out?client-id=' + environment.idam_client_id
+          + '&redirect-uri=' + environment.uri.web.dashboard;
+      }
+    
 
     ngOnDestroy(){
         sessionStorage.removeItem(SessionStorageKey.ForgotPasswordUserName);

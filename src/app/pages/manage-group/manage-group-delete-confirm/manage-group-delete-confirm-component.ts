@@ -80,6 +80,10 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
         }
     }
 
+    getEditQueryData() {
+       return JSON.stringify(this.routeData);
+      }
+
     pushDataLayerEvent(buttonText:string) {
 		this.dataLayerService.pushClickEvent(buttonText);
 	  }

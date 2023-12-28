@@ -83,6 +83,15 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
     }
 
+    getEditQueryData(): string {
+        let data = {
+          isEdit: true,
+          contactId : this.contactId,
+          siteId: this.siteId,
+        };
+        return JSON.stringify(data);
+      }
+    
     public onBack(buttonText:string):void{
         window.history.back()
         this.pushDataLayerEvent(buttonText);

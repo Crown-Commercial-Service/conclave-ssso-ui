@@ -778,7 +778,7 @@
                                 Sign in
                             </button>
                             <div class="align-right">
-                                <a id="forgotPwdLink" style="margin-bottom: 15px;" class="navigation-text" href="javascript:;" onclick="forgotPassword()"
+                                <a id="forgotPwdLink" style="margin-bottom: 15px;" class="navigation-text" href="#" onclick="forgotPassword()"
                                     >I have forgotten
                                     my
                                     password</a>
@@ -912,7 +912,7 @@
 
     <script src="https://cdn.auth0.com/js/auth0/9.14/auth0.min.js"></script>
     <script src="https://cdn.auth0.com/js/polyfills/1.0/object-assign.min.js"></script>
-    <script>
+    <script>        
         function scrollToError(element, inputId) {
             // debugger;
             let elementObj = document.getElementById(element);
@@ -963,8 +963,17 @@
             let lastUserEmail = document.getElementById("email").value
             localStorage.setItem('lastUserEmail', lastUserEmail);
             window.location.href = "https://dev.identify.crowncommercial.gov.uk/forgot-password?email="+lastUserEmail;
-        }    
+        }  
 
+            let emailInput = document.getElementById("email");
+            let lastUserEmail = emailInput.value;
+            localStorage.setItem('lastUserEmail', lastUserEmail);   
+
+         email.addEventListener('input', function () {
+                lastUserEmail = emailInput.value;
+                forgotPwdLink.href = "https://dev.identify.crowncommercial.gov.uk/forgot-password?email="+lastUserEmail;
+            });
+        
         window.addEventListener('load', function () {
             //debugger;
             var cookieExpirationTimeInMinutes = 525600; // 525600 => 365 Days

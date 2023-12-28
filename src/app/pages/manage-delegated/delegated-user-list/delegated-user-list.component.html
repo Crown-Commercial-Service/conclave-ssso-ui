@@ -52,7 +52,7 @@
     <div class="govuk-grid-column-full">
         <div class="user-table">
             <app-govuk-table [headerTextKeys]="currentUserstableConfig.usersTableHeaders" [data]="currentUserstableConfig.userList.userList"
-                [dataKeys]="currentUserstableConfig.usersColumnsToDisplay" [isHyperLinkVisible]="false"
+                [dataKeys]="currentUserstableConfig.usersColumnsToDisplay" [isHyperLinkVisible]="false" [isNavigate]="true"
                 [pageName]="currentUserstableConfig.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=currentUserstableConfig.hyperTextrray
                 (hyperLinkClickEvent)="onLinkClick($event)" [useServerPagination]="true" [serverPageCount]="currentUserstableConfig.pageCount"
                 [serverPageCurrentPage]="currentUserstableConfig.currentPage" (changeCurrentPageEvent)="setPagecurrentUsers($event)"></app-govuk-table>
@@ -66,8 +66,8 @@
         <app-govuk-table [headerTextKeys]="expiredUserstableConfig.usersTableHeaders" [data]="expiredUserstableConfig.userList.userList"
         [dataKeys]="expiredUserstableConfig.usersColumnsToDisplay" [isHyperLinkVisible]="false"
         [pageName]="expiredUserstableConfig.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=expiredUserstableConfig.hyperTextrray
-        (hyperLinkClickEvent)="OnClickView($event)" [useServerPagination]="true" [serverPageCount]="expiredUserstableConfig.pageCount"
-        [serverPageCurrentPage]="expiredUserstableConfig.currentPage" (changeCurrentPageEvent)="setPageexpiredUsers($event)"></app-govuk-table>
+        (hyperLinkClickEvent)="OnClickView($event)" [useServerPagination]="true" [serverPageCount]="expiredUserstableConfig.pageCount"  
+        [serverPageCurrentPage]="expiredUserstableConfig.currentPage" (changeCurrentPageEvent)="setPageexpiredUsers($event)"></app-govuk-table> 
     </div>
     </div>
   </div>

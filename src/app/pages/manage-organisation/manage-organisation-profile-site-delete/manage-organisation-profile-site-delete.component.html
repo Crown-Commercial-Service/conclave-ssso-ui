@@ -12,8 +12,8 @@
               {{ 'MANAGE_YOUR_ORGANISATION' |translate }}</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" (click)="onCancelClick('Edit site')">
-              {{ 'EDIT_SITE' | translate }}</a>
+            <a class="govuk-breadcrumbs__link" [routerLink]="['/manage-org/profile/site/edit']" [queryParams]="{ data: getEditQueryData() }"
+            (click)="onCancelClick('Edit site')"> {{ 'EDIT_SITE' | translate }}</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">
             <span class="govuk-breadcrumbs__link"> {{ 'DELETE_SITE' | translate }}</span>

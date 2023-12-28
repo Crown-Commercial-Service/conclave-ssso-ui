@@ -154,6 +154,14 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
+    getEditQueryData(): string {
+        let data = {
+          isEdit: true,
+          siteId: this.assigningSiteId
+        };
+        return JSON.stringify(data);
+      }
+
     onCancelClick(buttonText:string) {
         sessionStorage.removeItem("assigning-contact-list");
         window.history.back();
