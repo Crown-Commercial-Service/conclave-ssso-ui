@@ -50,6 +50,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
   public errorCode = '';
   expiredLinkErrorCodeValue: string = 'Access expired.';
   public formId : string = 'error';
+  public isRegUser = false;
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   userName: string;
@@ -71,6 +72,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     super(uiStore, viewportScroller, scrollHelper);
     this.route.queryParams.subscribe((params) => {
       this.errorCode = params['error_description'];
+      this.isRegUser = params['is-reg-user'] == true ? true : false;
       if (this.errorCode === this.expiredLinkErrorCodeValue) {
         this.resendForm = this.formBuilder.group({
           userName: [
@@ -134,7 +136,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
       this.dataLayerService.pushFormSubmitEvent(this.formId);
       console.log(form.get('userName')?.value);
       this.userService
-        .resendUserActivationEmail(form.get('userName')?.value, true)
+        .resendUserActivationEmail(form.get('userName')?.value, true, this.isRegUser)
         .toPromise()
         .then(() => {
           console.log('scuuccess');
