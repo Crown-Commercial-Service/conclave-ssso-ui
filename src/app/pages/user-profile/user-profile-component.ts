@@ -188,9 +188,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
       await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data: any) => {
       this.orgMfaRequired = data.toLowerCase() === 'true';
     })
-      .catch((err) => {
-        console.log('error', err);
-      });
     }    
     this.isAdminUser = this.route.snapshot.data.isAdmin;
     localStorage.removeItem('UserContactUsername');
