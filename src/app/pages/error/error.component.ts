@@ -72,7 +72,6 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     super(uiStore, viewportScroller, scrollHelper);
     this.route.queryParams.subscribe((params) => {
       this.errorCode = params['error_description'];
-      this.isRegUser = params['is-reg-user'] == true ? true : false;
       if (this.errorCode === this.expiredLinkErrorCodeValue) {
         this.resendForm = this.formBuilder.group({
           userName: [
@@ -89,6 +88,15 @@ export class ErrorComponent extends BaseComponent implements OnInit {
   }
   ngOnInit(): void {
     console.log("errorCode",this.errorCode)
+    var fragment=this.route.snapshot.fragment;
+    if(fragment)
+    {
+      var regUser=this.route.snapshot.fragment?.indexOf('&is-reg-user')
+      if(regUser!=-1 )
+      {
+        this.isRegUser=true;
+      }
+    }
     this.RollbarErrorService.RollbarDebug('Error Page:'.concat(this.errorCode));
     this.dataLayerService.pushPageViewEvent();
     this.dataLayerService.pushFormStartEvent(this.formId, this.resendForm);
