@@ -184,7 +184,13 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     this.loadingIndicatorService.isLoading.next(true);
     this.loadingIndicatorService.isCustomLoading.next(true);
     if (this.isCustomMfaEnabled) {
-      await this.GetOrganisationMfaSettings();
+      this.ciiOrgId = this.tokenService.getCiiOrgId();
+      await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data: any) => {
+      this.orgMfaRequired = data.toLowerCase() === 'true';
+    })
+      .catch((err) => {
+        console.log('error', err);
+      });
     }    
     this.isAdminUser = this.route.snapshot.data.isAdmin;
     localStorage.removeItem('UserContactUsername');
@@ -961,16 +967,6 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     });
   }
 
-  public async GetOrganisationMfaSettings() {
-    this.ciiOrgId = this.tokenService.getCiiOrgId();
-    await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data: any) => {
-      this.orgMfaRequired = data.toLowerCase() === 'true';
-    })
-      .catch((err) => {
-        console.log('error', err);
-      });
-
-  }
   onResetMfaClick(buttonText: string) {
     if (this.formGroup.controls.mfaEnabled.value) {
       let data = {
