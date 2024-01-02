@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { DetailsToggleService } from 'src/app/shared/shared-details-toggle.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -25,7 +26,9 @@ export class DelegatedUserConfirmComponent implements OnInit {
     data: '',
     pageName: 'Contactadmin',
   }
-  constructor(private sessionService:SessionService,public route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, public titleService: Title, private router: Router, private dataLayerService: DataLayerService) { 
+  public linkText : string = 'Additional Security - MFA status'
+  constructor(private sessionService:SessionService,public route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, public titleService: Title,
+     private router: Router, private dataLayerService: DataLayerService,    private elementRef: ElementRef,private detailsToggleService : DetailsToggleService) { 
     this.delegationRolesTable.details = {
       currentPage: this.delegationRolesTable.currentPage,
       pageCount: 0,
@@ -53,6 +56,26 @@ export class DelegatedUserConfirmComponent implements OnInit {
       );
     }
    this.getSelectedRole()
+  }
+  ngAfterViewInit() {
+    const detailsElement = this.elementRef.nativeElement.querySelector('details');
+
+    this.detailsToggleService.addToggleListener(detailsElement, (isOpen: boolean) => {
+      if (isOpen) {
+        this.dataLayerService.pushEvent({
+          event: "accordion_use",
+          interaction_type: "open",
+          link_text: this.linkText
+        })
+      } else {
+        this.dataLayerService.pushEvent({
+          event: "accordion_use",
+          interaction_type: "close",
+          link_text: this.linkText
+        })
+      }
+    });
+   
   }
 
 
@@ -172,5 +195,9 @@ export class DelegatedUserConfirmComponent implements OnInit {
 
   pushDataLayerEvent(buttonText:string) {
    this.dataLayerService.pushClickEvent(buttonText);
+  }
+  ngOnDestroy() {
+    const detailsElement = this.elementRef.nativeElement.querySelector('details');
+    this.detailsToggleService.removeToggleListener(detailsElement);
   }
 }

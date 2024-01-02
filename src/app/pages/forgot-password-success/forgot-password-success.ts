@@ -13,6 +13,8 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { environment } from '../../../environments/environment';
+import { DetailsToggleService } from 'src/app/shared/shared-details-toggle.service';
 
 @Component({
     selector: 'app-forget-password-success',
@@ -22,9 +24,11 @@ import { SessionService } from 'src/app/shared/session.service';
 export class ForgotPasswordSuccessComponent extends BaseComponent implements OnInit{
 
     public userName: string = '';
+    public linkText: string = 'Reset Password email not received - Help content'
 
     constructor(private activatedRoute: ActivatedRoute, public authService: AuthService,private sessionService:SessionService,
-        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private router: Router, private dataLayerService: DataLayerService) {
+        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private router: Router, private dataLayerService: DataLayerService,  private elementRef: ElementRef,
+        private detailsToggleService : DetailsToggleService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.userName = sessionStorage.getItem(SessionStorageKey.ForgotPasswordUserName) ?? "";
     }
@@ -32,6 +36,26 @@ export class ForgotPasswordSuccessComponent extends BaseComponent implements OnI
     ngOnInit() {
         this.dataLayerService.pushPageViewEvent();
     }
+    ngAfterViewInit() {
+        const detailsElement = this.elementRef.nativeElement.querySelector('details');
+    
+        this.detailsToggleService.addToggleListener(detailsElement, (isOpen: boolean) => {
+          if (isOpen) {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "open",
+              link_text: this.linkText
+            })
+          } else {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "close",
+              link_text: this.linkText
+            })
+          }
+        });
+       
+      }
 
     onNavigateLinkClick(){
         this.authService.logOutAndRedirect();
@@ -39,5 +63,7 @@ export class ForgotPasswordSuccessComponent extends BaseComponent implements OnI
 
     ngOnDestroy(){
         sessionStorage.removeItem(SessionStorageKey.ForgotPasswordUserName);
+        const detailsElement = this.elementRef.nativeElement.querySelector('details');
+        this.detailsToggleService.removeToggleListener(detailsElement);
     }
 }
