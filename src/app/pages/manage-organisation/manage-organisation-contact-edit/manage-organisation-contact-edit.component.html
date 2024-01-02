@@ -250,7 +250,7 @@
             <button type="submit" class="govuk-button" (click)="pushDataLayerEvent(isEdit ? 'Edit contact' : 'Create contact')" [disabled]="!formChanged" data-module="govuk-button">
               {{ isEdit === false ? 'Create contact' : 'Edit contact'}}
             </button>
-            <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
+            <button type="button"  [routerLink]="['/manage-org/profile/site/edit']" [queryParams]="{ data: getEditQueryData() }" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
               data-module="govuk-button">
               {{ 'CANCEL_BTN' | translate }}
             </button>

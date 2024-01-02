@@ -28,7 +28,7 @@
                     <button class="govuk-button govuk-button--warning" data-module="govuk-button" (click)="ConfirmRemoveUser('Confirm and remove')">
                         Confirm and remove
                       </button>
-                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="Cancel('Cancel')">
+                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" routerLink="/delegated-access"  (click)="Cancel('Cancel')">
                         Cancel
                     </button>
                 </div>
@@ -44,7 +44,7 @@
                         Resend activation link
                     </button>
                     <button type="button" class="govuk-button govuk-button--secondary"
-                        data-module="govuk-button" (click)="Cancel('Cancel')">
+                        data-module="govuk-button" routerLink="/delegated-access" (click)="Cancel('Cancel')">
                         Cancel
                     </button>
                 </div>
