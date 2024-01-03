@@ -28,18 +28,19 @@ export class RegistryGovukTableComponent implements OnInit, OnChanges {
   public tableData: any;
   public pponSchema: string = 'GB-PPG';
   schemeData: any[] = [];
+  ciiOrganisationId: string;
 
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers: CiiAdditionalIdentifier[];
   constructor(private PaginationService: PaginationService, private sharedDataService: SharedDataService, private readonly tokenService: TokenService, private ciiService: ciiService) {
     this.registries = {};
     this.additionalIdentifiers = [];
-
+    this.ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
   }
 
   async ngOnInit() {
 
-
+    
   }
   async ngOnChanges() {
     let ciiOrgId: any
@@ -103,4 +104,7 @@ export class RegistryGovukTableComponent implements OnInit, OnChanges {
     this.hyperLinkClickEvent.emit(dataRow);
   }
 
+  public generateRegistryRemoveRoute(row: any): any {
+    return `/manage-org/profile/${this.ciiOrganisationId}/registry/delete/${row.scheme}/${row.id}`;
+  }
 }
