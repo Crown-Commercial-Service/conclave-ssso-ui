@@ -47,7 +47,7 @@ export class ManageOrgRegConfirmComponent extends BaseComponent implements OnIni
     this.route.queryParams.subscribe(params => {
       if (params['rs'] != undefined) {
         this.resendActivationEmailMode = true;
-        this.userService.resendUserActivationEmail(this.emailAddress).toPromise().then(() => {
+        this.userService.resendUserActivationEmail(this.emailAddress,false,true).toPromise().then(() => {
         });
       }
     });
