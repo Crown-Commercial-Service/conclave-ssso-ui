@@ -28,7 +28,7 @@
                     data-module="govuk-button">
                     {{ 'CONFIRM_DELETE_BTN' | translate }}
                 </button>
-                <button type="button" (click)="onBack('Cancel')" class="govuk-button govuk-button--secondary"
+                <button type="button"  [routerLink]="['/manage-org/profile/contact-edit']" [queryParams]="{ data: getEditQueryData() }" (click)="onBack('Cancel')" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button">
                     {{ 'CANCEL_BTN' | translate }}
                 </button>

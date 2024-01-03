@@ -80,11 +80,11 @@
                     <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
                         (click)="removeRightToBuy('Remove right to buy status')" *ngIf="!isDeletedOrg">Remove right to buy status</button>
                     <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                        (click)="goBack('Back')">Back</button>
+                       routerLink="/manage-buyer-both"  (click)="goBack('Back')">Back</button>
                 </div>
                 <div *ngIf="routeDetails.event.rightToBuy != true">
                     <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                        (click)="goBack('Back')">Back</button>
+                        routerLink="/manage-buyer-both" (click)="goBack('Back')">Back</button>
                     <p *ngIf="!isDeletedOrg" class="govuk-body"><a class="govuk-link navigation-text"
                         [routerLink]="['/update-org-services/confirm']"  [queryParams]="{ data: getQueryData() }">View / edit organisations’ right to buy status</a></p>
                 </div>
