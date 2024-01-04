@@ -71,11 +71,35 @@ export class DataLayerService {
     });
   }
 
-  pushFormErrorEvent(formId: string) {
-    this.pushEvent({
-      event: 'form_error',
-      form_id: formId
-    });
+  pushFormErrorEvent(formId: string,elementId:string='error-summary') {
+    setTimeout(() => {
+      var errorDiv = document.getElementById(elementId);
+      var errorLinks=errorDiv?.getElementsByTagName('a');
+      if(errorLinks!=null)
+      {
+        for(var i=0;i<errorLinks.length;++i)
+        {
+          this.pushEvent({
+          event: 'form_error',
+          form_id: formId,
+          interaction_detail:errorLinks[i].innerText
+       });
+      }
+    }
+  }, 15);
+  }
+ 
+  pushFormErrorEventByMessage(formId: string,errorMessage:string='') {
+    setTimeout(() => {
+       if(errorMessage)
+       {
+          this.pushEvent({
+          event: 'form_error',
+          form_id: formId,
+          interaction_detail:errorMessage
+          });
+       }
+   }, 15);
   }
 
   ngOnDestroy() {

@@ -64,7 +64,7 @@
         <div class="govuk-grid-column-three-quarters">
           <form class="govuk-!-width-three-quarters" [class.error]="!formValid(formGroup)" [formGroup]="formGroup">
             <div class="govuk-form-group" *ngIf="formValid(formGroup) == false && submitted">
-              <div class="govuk-error-summary govuk-grid-column-three-quarters" aria-labelledby="error-summary-title"
+              <div class="govuk-error-summary govuk-grid-column-three-quarters" aria-labelledby="error-summary-title" id="error-summary"
                 role="alert" tabindex="-1" data-module="govuk-error-summary">
                 <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
                 <div class="govuk-error-summary__body">
