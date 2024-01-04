@@ -248,7 +248,7 @@
             'DELETE_SITE'
             | translate }}</a>   
            -->
-          <a [routerLink]="['/manage-org/profile/site/delete']"  [queryParams]="{ data: getQueryData() }" class="navigation-text delete-link">
+          <a [routerLink]="['/manage-org/profile/site/delete']"  [queryParams]="{ data: getQueryData(),isNewTab:true }" class="navigation-text delete-link">
               {{ 'DELETE_SITE' | translate }}
           </a>      
         </div>

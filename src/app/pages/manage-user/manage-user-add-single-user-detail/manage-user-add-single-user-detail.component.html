@@ -32,7 +32,7 @@
             <div class="govuk-notification-banner__content">
                 <p class="govuk-notification-banner__heading">
                     {{'DORMANT_STATE_MESSAGE' | translate}} <br>
-                    <a class="govuk-notification-banner__link" href="javascript:;" (click)="onReactivateUserClick()">
+                    <a class="govuk-notification-banner__link"  [routerLink]="['/manage-users/confirm-user-reactivate']" [queryParams]="{isNewTab:true}"  (click)="onReactivateUserClick()">
                         {{'REACTIVATE_ACCOUNT' | translate}}</a>
                 </p>
             </div>
@@ -552,10 +552,10 @@
                             | translate }}</a>
                     </div> -->
                     <div *ngIf="isEdit==true">
-                        <a *ngIf="isEdit && !isDormantUser" routerLink="/manage-users/confirm-user-deactivate"
+                        <a *ngIf="isEdit && !isDormantUser" [routerLink]="['/manage-users/confirm-user-deactivate']" [queryParams]="{isNewTab:true}"
                             (click)="onDeactivateClick()" class="navigation-text delete-link">
                             {{'DEACTIVATE_USER' | translate }}</a>
-                        <a *ngIf="isEdit && isDormantUser" routerLink="/manage-users/confirm-user-reactivate"
+                        <a *ngIf="isEdit && isDormantUser" [routerLink]="['/manage-users/confirm-user-reactivate']" [queryParams]="{isNewTab:true}"
                             (click)="onReactivateUserClick()" class="navigation-text delete-link">
                             {{'REACTIVATE_USER' | translate}}</a>
                     </div>

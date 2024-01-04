@@ -183,6 +183,15 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   async ngOnInit() {
     this.loadingIndicatorService.isLoading.next(true);
     this.loadingIndicatorService.isCustomLoading.next(true);
+
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
+
     if (this.isCustomMfaEnabled) {
       this.ciiOrgId = this.tokenService.getCiiOrgId();
       await this.wrapperOrganisationService.getOrganisationMfaStatus(this.ciiOrgId).toPromise().then((data: any) => {

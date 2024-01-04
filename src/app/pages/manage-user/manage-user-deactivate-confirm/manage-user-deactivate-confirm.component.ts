@@ -31,6 +31,13 @@ export class ManageUserDeactivateConfirmComponent extends BaseComponent implemen
 
   ngOnInit() {
     this.dataLayerService.pushPageViewEvent();
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
   }
   
   public onDeactivateConfirmClick()
@@ -54,4 +61,12 @@ export class ManageUserDeactivateConfirmComponent extends BaseComponent implemen
     window.history.back();
 }
 
+getQueryData(): string {
+  let userName= localStorage.getItem('ManageUserUserName'); 
+  let data = {
+      'isEdit': true,
+      'name': userName
+  };
+  return btoa(JSON.stringify(data));
+}
 }

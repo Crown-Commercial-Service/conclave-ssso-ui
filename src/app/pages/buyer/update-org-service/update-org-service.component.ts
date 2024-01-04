@@ -85,6 +85,13 @@ export class UpdateOrgServiceComponent implements OnInit {
       }, 1000);
     });
     this.dataLayerService.pushPageViewEvent();
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
   }
 
   /**
