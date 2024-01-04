@@ -82,6 +82,10 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
       this.formGroup.controls['email'].setErrors({ 'incorrect': true })
     }
     if (this.formValid(form)) {
+      this.dataLayerService.pushEvent({
+        event: "sign_up",
+        method: "register"
+      });
       const regType = localStorage.getItem("manage-org_reg_type") || "";
       let orgreginfo = JSON.parse(sessionStorage.getItem('orgreginfo') ?? '');
       let organisationRegisterDto: OrganisationRegisterDto = {
