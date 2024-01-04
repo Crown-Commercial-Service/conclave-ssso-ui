@@ -10,7 +10,7 @@ import { User, UserGroup, UserListInfo, UserListResponse, UserProfileRequestInfo
 import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.service";
 import { WrapperUserContactService } from "src/app/services/wrapper/wrapper-user-contact.service";
 import { ContactPoint, UserContactInfoList } from "src/app/models/contactInfo";
-import { Router } from "@angular/router";
+import { Router,ActivatedRoute } from "@angular/router";
 import { OperationEnum } from "src/app/constants/enum";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org-service";
@@ -47,7 +47,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
         protected uiStore: Store<UIState>,private sessionService:SessionService, private router: Router, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
         private auditLogService: AuditLoggerService,private sharedDataService:SharedDataService, private dataLayerService: DataLayerService,
-        private loadingIndicatorService: LoadingIndicatorService) {
+        private loadingIndicatorService: LoadingIndicatorService,public route: ActivatedRoute) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.userList = {
@@ -75,6 +75,13 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
         this.getOrganisationUsers();
         this.loadingIndicatorService.isLoading.next(false);
         this.loadingIndicatorService.isCustomLoading.next(false);
+        this.route.queryParams.subscribe(params => {
+            if (params['isNewTab'] === 'true') {
+              const urlTree = this.router.parseUrl(this.router.url);
+              delete urlTree.queryParams['isNewTab'];
+              this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+            }
+          });
     }
 
     getOrganisationUsers() {
@@ -91,9 +98,9 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
                     localStorage.setItem('ManageUserUserName',f.userName);
                     sessionStorage.setItem(SessionStorageKey.ManageUserUserName, f.userName);
                     localStorage.setItem('ManageUserUserName', f.userName);
-                    let queryParams = {data: btoa(JSON.stringify({'isEdit': true, 'name':f.userName}))}
-                         f.routeLink= `/manage-users/add-user/details`,
-                         f.routeData = queryParams
+                    let queryParams = {data: btoa(JSON.stringify({'isEdit': true, 'name':f.userName})),isNewTab: true}
+                         f.routeLink= `/manage-users/add-user/details`;
+                         f.routeData = queryParams;
                     })
                 }
             },

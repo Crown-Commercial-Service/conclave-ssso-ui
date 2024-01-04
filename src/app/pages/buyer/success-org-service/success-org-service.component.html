@@ -128,7 +128,7 @@
       </div>
     </ng-container>
   <div>
-  <p><a class="navigation-text" href="javascript:;" routerLink="/buyer-supplier/search">Return to Manage service eligibility</a></p>
-  <p><a *ngIf="changes?.autoValidate != true" class="navigation-text" href="javascript:;" routerLink="/manage-buyer-both">Go to Manage Buyer status requests</a></p>
+  <p><a class="navigation-text" href="javascript:;" [routerLink]="['/buyer-supplier/search']" [queryParams]="{isNewTab:true}">Return to Manage service eligibility</a></p>
+  <p><a *ngIf="changes?.autoValidate != true" class="navigation-text" href="javascript:;" [routerLink]="['/manage-buyer-both']" [queryParams]="{isNewTab:true}">Go to Manage Buyer status requests</a></p>
   </div>
   </div>

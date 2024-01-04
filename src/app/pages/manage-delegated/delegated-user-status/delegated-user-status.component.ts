@@ -75,6 +75,13 @@ export class DelegatedUserStatusComponent implements OnInit {
           unescape(RouteData.event.userName)
         );
       }
+      this.route.queryParams.subscribe(params => {
+        if (params['isNewTab'] === 'true') {
+          const urlTree = this.router.parseUrl(this.router.url);
+          delete urlTree.queryParams['isNewTab'];
+          this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+        }
+      });
       switch (RouteData.status) {
         case '001': {
           this.UserStatus = RouteData;

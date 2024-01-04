@@ -234,6 +234,14 @@ export class ManageUserAddSingleUserDetailComponent
     this.loadingIndicatorService.isLoading.next(true);
     this.loadingIndicatorService.isCustomLoading.next(true);
 
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
+
     this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} - Manage Users - CCS`

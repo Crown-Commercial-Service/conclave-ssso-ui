@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { AdminUserListResponse, UserListResponse } from 'src/app/models/user';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
@@ -27,7 +27,7 @@ export class ContactAdminComponent implements OnInit {
     private router: Router,
     private dataLayerService: DataLayerService,
     private sessionService:SessionService,
-
+    public route: ActivatedRoute
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userListResponse = {
@@ -43,6 +43,13 @@ export class ContactAdminComponent implements OnInit {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.getOrganisationUsers();
     this.dataLayerService.pushPageViewEvent();
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
   }
 
   public openEmailWindow(data: any): void {

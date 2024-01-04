@@ -28,7 +28,7 @@
 
     </div>
     <div class="govuk-dashboard-link"  style = "margin-top: 10px;">
-        <a href="javascript:;" class="navigation-text"  routerLink="/home">
+        <a href="javascript:;" class="navigation-text"  [routerLink]="['/home']" [queryParams]="{isNewTab:true}">
             {{'RETURN_TO_DASHBOARD' | translate }}
         </a>
 

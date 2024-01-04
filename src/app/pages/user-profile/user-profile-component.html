@@ -184,7 +184,7 @@
                             <div class="content-right">
                                 <div class="card card-help govuk-details__text detail-text">
                                     <h3 class="card-title">Have an issue?</h3>
-                                    <a class="navigation-text" routerLink="/contact-admin">Contact my admin</a>
+                                    <a class="navigation-text" [routerLink]="['/contact-admin']" [queryParams]="{isNewTab:true}">Contact my admin</a>
                                 </div>
                             </div>
                         </div>

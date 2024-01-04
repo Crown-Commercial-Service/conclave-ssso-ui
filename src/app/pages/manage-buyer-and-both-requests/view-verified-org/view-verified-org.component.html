@@ -86,7 +86,7 @@
                     <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
                         routerLink="/manage-buyer-both" (click)="goBack('Back')">Back</button>
                     <p *ngIf="!isDeletedOrg" class="govuk-body"><a class="govuk-link navigation-text"
-                        [routerLink]="['/update-org-services/confirm']"  [queryParams]="{ data: getQueryData() }">View / edit organisations’ right to buy status</a></p>
+                        [routerLink]="['/update-org-services/confirm']"  [queryParams]="{ data: getQueryData(),isNewTab:true }">View / edit organisations’ right to buy status</a></p>
                 </div>
             </div>
         </div>

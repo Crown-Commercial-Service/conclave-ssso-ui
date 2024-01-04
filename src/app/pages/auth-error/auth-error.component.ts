@@ -42,14 +42,22 @@ export class AuthErrorComponent extends BaseComponent implements OnInit {
 
     ngOnInit() {
         this.dataLayerService.pushPageViewEvent();
-        
-        if(this.globalRouteService.globalRoute.indexOf("isEdit") < 0 && this.globalRouteService.globalRoute.indexOf("mfareset") < 0){
+
+        if(this.globalRouteService.globalRoute.indexOf("isEdit") < 0 && this.globalRouteService.globalRoute.indexOf("mfareset") < 0
+            && this.globalRouteService.globalRoute.indexOf("isNewTab") < 0){
             this.authService.renewAccessToken(this.globalRouteService.globalRoute.length > 0 ?
                 this.globalRouteService.globalRoute : 'home');
         }
         else{
             this.authService.useTokenFromStorage();
             let url = this.globalRouteService.globalRoute.length > 0 ? this.globalRouteService.globalRoute : 'home';
+            if (url.includes('isNewTab=true')) {
+                const urlTree = this.router.parseUrl(url);
+               if (urlTree.queryParams) {          
+                    delete urlTree.queryParams['isNewTab'];
+                    url = urlTree.toString();
+                }
+            }
             this.router.navigateByUrl(url, { replaceUrl: true });
         }
     }

@@ -37,6 +37,13 @@ export class DataMigrationErrorComponent implements OnInit {
       this.getUploadedFilesDetails(routeData)
     });
     this.dataLayerService.pushPageViewEvent();
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
   }
 
 

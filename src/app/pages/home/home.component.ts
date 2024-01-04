@@ -29,6 +29,7 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/shared/session.service';
 import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -70,7 +71,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
     private router: Router,
     private dataLayerService: DataLayerService,
     private sessionService:SessionService,
-    private loadingIndicatorService: LoadingIndicatorService
+    private loadingIndicatorService: LoadingIndicatorService,
+    private route: ActivatedRoute
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.switchedOrgId = localStorage.getItem('permission_organisation_id') || ""
@@ -87,6 +89,14 @@ export class HomeComponent extends BaseComponent implements OnInit {
       this.loadingIndicatorService.isLoading.next(false);
       this.loadingIndicatorService.isCustomLoading.next(false);
       }, 2000);
+
+      this.route.queryParams.subscribe(params => {
+        if (params['isNewTab'] === 'true') {
+          const urlTree = this.router.parseUrl(this.router.url);
+          delete urlTree.queryParams['isNewTab'];
+          this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+        }
+      });
   }
 
   public checkValidOrganisation() {

@@ -22,10 +22,10 @@
 
     </div>
     <div class="govuk-2mfa-link">
-        <a href="javascript:;" class="navigation-text" routerLink ="/profile" >
+        <a href="javascript:;" class="navigation-text" [routerLink] ="['/profile']" [queryParams]="{isNewTab:true}" >
             {{'RETURN_TO_EDIT_USER' | translate }}<br>
         </a>
-        <a href="javascript:;" class="navigation-text" routerLink="/home">
+        <a href="javascript:;" class="navigation-text" [routerLink]="['/home']" [queryParams]="{isNewTab:true}">
             {{'RETURN_TO_DASHBOARD' | translate }}
         </a>
 
