@@ -355,6 +355,7 @@ export class UserContactEditComponent
     errorObject[errorString] = true;
     form.controls[control].setErrors(errorObject);
     this.scrollHelper.scrollToFirst('error-summary');
+    this.dataLayerService.pushFormErrorEvent(this.formId);
   }
 
   formValid(form: FormGroup): Boolean {

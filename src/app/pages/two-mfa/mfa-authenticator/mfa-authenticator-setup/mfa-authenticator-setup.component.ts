@@ -111,9 +111,9 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
                 }
                 else{
                     // this.showError = true;
-                    this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
+                    this.formGroup.controls['otp'].setErrors({ 'incorrect': true });
+                    this.dataLayerService.pushFormErrorEventByMessage(this.formId,'Please provide valid code');
                 }
-                this.dataLayerService.pushFormErrorEvent(this.formId);
                 
     }
 
