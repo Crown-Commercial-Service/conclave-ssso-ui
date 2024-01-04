@@ -128,6 +128,13 @@ export class ManageUserBulkUploadComponent {
     }
 
     onDownloadClick() {
-        this.pushDataLayer("file_download");
+        this.dataLayerService.pushEvent({ 
+            event: "file_download" ,
+            link_text : "You can download the template file here",
+            link_url : window.location.href,
+            file_extension: "csv", 
+            file_size: '243', 
+            file_name: "DataMigrationTemplate.csv"
+          });
     }
 }
