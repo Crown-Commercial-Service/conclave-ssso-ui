@@ -4,23 +4,23 @@ export const environment = {
     uri: {
       api: {
         isApiGateWayEnabled: true,
-        security: 'https://dev.ppg-sso-service.crowncommercial.gov.uk',
-        postgres: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/dashboard-wrapper',
+        security: 'https://dev.api.crowncommercial.gov.uk',
+        postgres: 'https://dev.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
         cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
-            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/users',
-            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/organisations',
-            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/contacts',
-            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/configurations',
-            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/datamigration',
+            user: 'https://dev.api.crowncommercial.gov.uk/aws/user-profile',
+            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/organisation-profile',
+            contact: 'https://dev.api.crowncommercial.gov.uk/aws/contact-service',
+            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/configuration-service',
+            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/organisation-profile/migrations',
           },
           apiGatewayDisabled: {
-            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/users',
-            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/organisations',
-            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/contacts',
-            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/configurations',
-            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk:5000/datamigration',
+            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/user-profile',
+            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
+            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/contact-service',
+            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
+            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/migrations',
           }
         }
       },
@@ -66,11 +66,13 @@ export const environment = {
       },
     },
     appSetting: {
-     hideIDP:false,
+     hideIDP:true,
      hideDelegation:false,
      hideBulkupload:false,
      hideAutoValidation:false,
      hideSimplifyRole:false,
-     blockedScheme: ['GB-EDU',"GB-PPG"]
+     blockedScheme: ["GB-PPG"],
+     isMaintenance: false,
+     customMfaEnabled : true
     },
   };
