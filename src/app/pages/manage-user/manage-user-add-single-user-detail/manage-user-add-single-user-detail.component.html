@@ -30,11 +30,12 @@
                 </h2>
             </div>
             <div class="govuk-notification-banner__content">
-                <p class="govuk-notification-banner__heading">
-                    {{'DORMANT_STATE_MESSAGE' | translate}} <br>
-                    <a class="govuk-notification-banner__link"  [routerLink]="['/manage-users/confirm-user-reactivate']" [queryParams]="{isNewTab:true}"  (click)="onReactivateUserClick()">
-                        {{'REACTIVATE_ACCOUNT' | translate}}</a>
-                </p>
+              <p class="govuk-notification-banner__heading">
+                {{'DORMANT_STATE_MESSAGE' | translate}} <br>
+                <a class="govuk-notification-banner__link" [routerLink]="['/manage-users/confirm-user-reactivate']" [queryParams]="{isNewTab:true}" (click)="onReactivateUserClick()">
+                  {{'REACTIVATE_ACCOUNT' | translate}}
+                </a>
+              </p>
             </div>
         </div>
         <h2 *ngIf="isEdit == true" class="govuk-heading-m page-title">{{ 'RESET_PASSWORD_OR_DELETE_USER_ACCOUNTS' |
@@ -47,6 +48,11 @@
             </h2>
             <div class="govuk-error-summary__body">
                 <ul class="govuk-list govuk-error-summary__list">
+                    <li
+                        *ngIf="submitted && ((!formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid) || (!formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid))">
+                        <a href="javascript:;" onClick="return false;" (click)="customFocus()">
+                            {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
+                    </li>
                     <li *ngIf="submitted && formGroup.controls.firstName.errors?.required">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(0)">
                             {{'ERROR_FIRST_NAME' | translate }} </a>
@@ -54,12 +60,7 @@
                     <li *ngIf="submitted && formGroup.controls.lastName.errors?.required">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(1)">
                             {{'ERROR_LAST_NAME' | translate }}</a>
-                    </li>
-                    <li
-                        *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
-                        <a href="javascript:;" onClick="return false;" (click)="customFocus()">
-                            {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
-                    </li>
+                    </li>                    
                     <li *ngIf="submitted && formGroup.controls.userName.hasError('required')">
                         <a href="javascript:;" onClick="return false;" (click)="setFocus(2)">
                             {{'ERROR_EMAIL_REQUIRED' | translate }}</a>
@@ -552,10 +553,10 @@
                             | translate }}</a>
                     </div> -->
                     <div *ngIf="isEdit==true">
-                        <a *ngIf="isEdit && !isDormantUser" [routerLink]="['/manage-users/confirm-user-deactivate']" [queryParams]="{isNewTab:true}"
+                        <a *ngIf="isEdit && !isDormantUser" routerLink="/manage-users/confirm-user-deactivate"
                             (click)="onDeactivateClick()" class="navigation-text delete-link">
                             {{'DEACTIVATE_USER' | translate }}</a>
-                        <a *ngIf="isEdit && isDormantUser" [routerLink]="['/manage-users/confirm-user-reactivate']" [queryParams]="{isNewTab:true}"
+                        <a *ngIf="isEdit && isDormantUser" routerLink="/manage-users/confirm-user-reactivate"
                             (click)="onReactivateUserClick()" class="navigation-text delete-link">
                             {{'REACTIVATE_USER' | translate}}</a>
                     </div>
