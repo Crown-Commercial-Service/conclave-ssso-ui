@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { UserListResponse } from 'src/app/models/user';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
@@ -47,7 +47,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
   }
 
   constructor(public router: Router, private WrapperUserDelegatedService: WrapperUserDelegatedService, private sessionService:SessionService,
-               private dataLayerService: DataLayerService, private authService: AuthService, protected scrollHelper: ScrollHelper,) {
+               public route: ActivatedRoute,private dataLayerService: DataLayerService, private authService: AuthService, protected scrollHelper: ScrollHelper,) {
 
     this.organisationId = localStorage.getItem('cii_organisation_id') || ''
     this.currentUserstableConfig.userList = {
@@ -74,6 +74,14 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
       this.getOrganisationExpiredUsers()
     }, 10);
     this.getOrganisationCurrentUsers()
+
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
   }
 
   public onSearchClick(): void {
@@ -133,7 +141,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
           console.log(this.currentUserstableConfig);
           Array.from(this.currentUserstableConfig.userList.userList).forEach((f: any) => {        
                   f.pageaccessmode = 'edit';
-                  let queryParams = { data: btoa(JSON.stringify(f)) };
+                  let queryParams = { data: btoa(JSON.stringify(f)),isNewTab:true };
                   f.routeLink = `/delegate-access-user`;
                   f.routeData = queryParams;
             
@@ -157,7 +165,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
                   "pageaccessmode":"remove"
                 }
 
-                let queryDeclineParams = { data: btoa(JSON.stringify(datas)) };
+                let queryDeclineParams = { data: btoa(JSON.stringify(datas)),isNewTab: true };
                 console.log("datas",datas);
                 f.pageaccessmode = 'remove';
                 f.declineRouteLink = `/delegated-remove-confirm`;
@@ -192,7 +200,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
               event: f
             }
               //data.event.userName = escape(encodeURIComponent(data.event.userName));
-              let queryParams = {data: btoa(JSON.stringify(data))}
+              let queryParams = {data: btoa(JSON.stringify(data)),isNewTab: true}
                f.routeLink= `/delegated-user-status`,
                f.routeData = queryParams
           })

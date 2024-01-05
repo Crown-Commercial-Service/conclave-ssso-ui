@@ -49,7 +49,13 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
         this.item$ = this.ciiService.getOrganisationIdentifierDetails(this.tokenService.getCiiOrgId(), params.scheme, params.id).pipe(share());
       }
     });
-
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
     this.dataLayerService.pushPageViewEvent({
       organisationId: this.routeParams.this.organisationId,
       scheme: this.routeParams.this.scheme,

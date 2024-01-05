@@ -1,6 +1,6 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BulkUploadResponse } from 'src/app/models/bulkUploadResponse';
 import { dataMigrationReportDetailsResponce } from 'src/app/models/data-migration.model';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
@@ -35,7 +35,8 @@ export class DataMigrationUploadComponent implements OnInit {
         hyperTextrray: ['Download report', 'View summary']
     }
     constructor(private router: Router, private bulkUploadService: BulkUploadService,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private sessionService:SessionService, private DataMigrationService: DataMigrationService, private dataLayerService: DataLayerService) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private sessionService:SessionService, private DataMigrationService: DataMigrationService, private dataLayerService: DataLayerService,
+        public route: ActivatedRoute) {
         this.userUploadHistoryTable.userList = {
             currentPage: this.userUploadHistoryTable.currentPage,
             pageCount: 0,
@@ -47,6 +48,13 @@ export class DataMigrationUploadComponent implements OnInit {
         this.getUploadedFilesDetails()
         this.dataLayerService.pushPageViewEvent();
         this.dataLayerService.pushFormStartOnInitEvent(this.formId);
+        this.route.queryParams.subscribe(params => {
+            if (params['isNewTab'] === 'true') {
+              const urlTree = this.router.parseUrl(this.router.url);
+              delete urlTree.queryParams['isNewTab'];
+              this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+            }
+          });
     }
 
     public getUploadedFilesDetails() {
@@ -87,7 +95,7 @@ export class DataMigrationUploadComponent implements OnInit {
                 this.userUploadHistoryTable.userList.pageCount= data.pageCount;             
                 Array.from(this.userUploadHistoryTable.userList.dataMigrationList).forEach((datas:any)=>{
                         if(datas.status === "Failed"){
-                            let queryParams = {data: datas.id}
+                            let queryParams = {data: datas.id,isNewTab:true}
                             datas.routeLink =`/data-migration/error`
                             datas.routeData = queryParams
                         }

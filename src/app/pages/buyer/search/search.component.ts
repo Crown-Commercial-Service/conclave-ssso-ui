@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { slideAnimation } from 'src/app/animations/slide.animation';
@@ -40,7 +40,7 @@ export class BuyerSearchComponent extends BaseComponent implements OnInit {
   public ciiOrganisationId!: string;
   public searchSumbited:boolean=false;
   constructor(private cf: ChangeDetectorRef,private sessionService:SessionService, private formBuilder: FormBuilder, private organisationService: OrganisationService,
-    private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+    private router: Router, public route:ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.formGroup = this.formBuilder.group({
       search: [, Validators.compose([Validators.required])],
@@ -59,6 +59,13 @@ export class BuyerSearchComponent extends BaseComponent implements OnInit {
     await this.onSearch();
     this.data.orgList.forEach((x: any) => {
       x.legalName = x.legalName?.toUpperCase() || 'UNKNOWN';
+    });
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
     });
   }
 

@@ -123,6 +123,13 @@ export class DelegatedAccessUserComponent implements OnInit {
     });
     
     this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
+    this.ActivatedRoute.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
   }
   ngAfterViewInit() {
     const detailsElement = this.elementRef.nativeElement.querySelector('details');

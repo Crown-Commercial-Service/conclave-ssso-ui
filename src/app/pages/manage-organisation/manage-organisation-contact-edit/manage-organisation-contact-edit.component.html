@@ -256,11 +256,11 @@
             </button>
           </div>
           
-          <a [routerLink]="generateDeleteClickRoute()" [queryParams]="{ data: getQueryData() }"
+          <a [routerLink]="generateDeleteClickRoute()" [queryParams]="{ data: getQueryData(),isNewTab:true }"
             *ngIf="isEdit == true && !isAssignedContact" class="navigation-text delete-link">
             {{ 'DELETE_CONTACT' | translate }}</a>       
          
-            <a [routerLink]="['/contact-unassign/confirm']" [queryParams]="{ data: getUnassignQueryData() }"
+            <a [routerLink]="['/contact-unassign/confirm']" [queryParams]="{ data: getUnassignQueryData(),isNewTab:true  }"
               *ngIf="isEdit==true && isAssignedContact" class="navigation-text delete-link">
               {{'UNASSIGN_CONTACT' | translate }}
             </a>            

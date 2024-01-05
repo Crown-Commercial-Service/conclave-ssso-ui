@@ -27,6 +27,13 @@ export class ManageUserReactivateConfirmComponent extends BaseComponent implemen
   }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
   }
   public onReactivateConfirmClick()
   {
@@ -48,5 +55,14 @@ export class ManageUserReactivateConfirmComponent extends BaseComponent implemen
   }
   public onCancelClick(){
     window.history.back();
+}
+
+getQueryData(): string {
+  let userName= localStorage.getItem('ManageUserUserName'); 
+  let data = {
+      'isEdit': true,
+      'name': userName
+  };
+  return btoa(JSON.stringify(data));
 }
 }

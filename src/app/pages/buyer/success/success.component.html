@@ -14,5 +14,5 @@
     </ol>
   </div>
   <p class="govuk-body-l" style="margin-top: 50px;">You have successfully saved the changes </p>
-  <p><a class="navigation-text" href="javascript:;" routerLink="/buyer-supplier/search">Return to Manage service eligibility</a></p>
+  <p><a class="navigation-text" href="javascript:;" [routerLink]="['/buyer-supplier/search']" [queryParams]="{isNewTab:true}" >Return to Manage service eligibility</a></p>
 </div>

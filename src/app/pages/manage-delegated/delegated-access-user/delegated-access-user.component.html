@@ -352,7 +352,7 @@
                                 </div>
                             </div>
                             <br>            
-                            <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" [routerLink]="['/delegated-remove-confirm']"  [queryParams]="{ data: getQueryData() }"
+                            <a *ngIf="pageAccessMode == 'edit' && !delegationAccepted" [routerLink]="['/delegated-remove-confirm']"  [queryParams]="{ data: getQueryData(),isNewTab:true }"
                                 class="navigation-text resend-link" (click)="Resentactivation()"> Resend activation link </a>
                                 <br>
                                 <br>     
@@ -363,8 +363,7 @@
                                 </button>
                             </div>
                             <div class="govuk-button-group save-cancel-button-group">
-                                <button type="submit" class="govuk-button" data-module="govuk-button"
-                                    (click)="onSubmit(formGroup,'Save and continue')">
+                                <button type="submit" class="govuk-button" data-module="govuk-button">
                                     Save and continue
                                 </button>
                                 <button type="button" class="govuk-button govuk-button--secondary"

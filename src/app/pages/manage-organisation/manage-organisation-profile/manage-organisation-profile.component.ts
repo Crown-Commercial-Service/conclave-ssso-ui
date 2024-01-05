@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { BaseComponent } from 'src/app/components/base/base.component';
@@ -64,7 +64,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
   
 
     constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,private sessionService:SessionService,
-        private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
+        private configWrapperService: WrapperConfigurationService, private route: ActivatedRoute, private router: Router, private contactHelper: ContactHelper,
         protected uiStore: Store<UIState>, private readonly tokenService: TokenService, private organisationGroupService: WrapperOrganisationGroupService,
         private orgContactService: WrapperOrganisationContactService, private wrapperOrgSiteService: WrapperOrganisationSiteService,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,
@@ -84,6 +84,13 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
      setTimeout(() => {
         this.initialization()
      }, 500);
+     this.route.queryParams.subscribe(params => {
+        if (params['isNewTab'] === 'true') {
+          const urlTree = this.router.parseUrl(this.router.url);
+          delete urlTree.queryParams['isNewTab'];
+          this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+        }
+      });
     }
 
 

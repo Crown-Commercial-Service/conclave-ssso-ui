@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { environment } from 'src/environments/environment';
@@ -56,6 +56,7 @@ export class BuyerBothRequestsComponent implements OnInit {
     private translate: TranslateService,
     private dataLayerService: DataLayerService,
     private sessionService:SessionService,
+    public route:ActivatedRoute,
     private loadingIndicatorService: LoadingIndicatorService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
@@ -84,6 +85,14 @@ export class BuyerBothRequestsComponent implements OnInit {
     this.getPendingVerificationOrg();
     this.loadingIndicatorService.isLoading.next(false);
     this.loadingIndicatorService.isCustomLoading.next(false);
+
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
   }
 
   public onSearchClick(): void {
@@ -143,7 +152,7 @@ export class BuyerBothRequestsComponent implements OnInit {
           this.pendingVerificationBuyerAndBoth.pageCount = orgListResponse.pageCount;
           this.assignOrgTypeName(orgListResponse);
           Array.from(this.pendingVerificationBuyerAndBoth.organisationAuditList.organisationAuditList).forEach((f: any)=>{
-              let queryParams = {data: btoa(JSON.stringify(f))}
+              let queryParams = {data: btoa(JSON.stringify(f)),isNewTab: true}
                f.routeLink= `/pending-verification`,
                f.routeData = queryParams
           })
@@ -176,7 +185,7 @@ export class BuyerBothRequestsComponent implements OnInit {
               status: '003',
               event: f,
             };
-              let queryParams = {data: btoa(JSON.stringify(data))}
+              let queryParams = {data: btoa(JSON.stringify(data)),isNewTab: true}
                f.routeLink= `/verified-organisations`,
                f.routeData = queryParams
           })
