@@ -41,7 +41,7 @@ export class DataLayerService {
     let eventInfo = {
       event: "page_view",
       page_location: window.location.href,
-      user_id: localStorage.getItem("user_name"),
+      user_id: this.uniqueId,
       user_org: localStorage.getItem("cii_organisation_id"),
       page_title: document.title
     };
