@@ -752,7 +752,7 @@
             <div class="govuk-grid-column-full">
                 <div class="content flex">
                     <div class="content-left">
-                        <form class="ui form login mb-two" onsubmit="return false;" method="post">
+                        <form class="ui form login mb-two" id="login-form" onsubmit="return false;" method="post">
                             <div id="email-form-group" class="govuk-form-group">
                               <div>
                                 <h1 class="govuk-heading-m">If you don’t have an account you can create an account here</h1>
@@ -1029,6 +1029,7 @@
                 passwordFG.classList.remove("invalid");
                 userNameField.classList.remove("govuk-input--error");
                 passwordField.classList.remove("govuk-input--error");
+                dataLayer.push({event : 'cta_button_click', link_text : 'Sign in',link_url: window.location.href});
 
                 let userNameEmpty = username === '';
                 let passwordEmpty = password === '';
@@ -1050,6 +1051,7 @@
                 }
 
                 button.disabled = true;
+                dataLayer.push({event : 'form_submit', form_id : 'login'});
                 webAuth.login({
                     realm: databaseConnection,
                     username: username,
@@ -1152,6 +1154,26 @@
                     userNameField.classList.add("govuk-input--error");
 
                 }
+                setTimeout(() => {
+                    // Fetch the visible elements inside the div
+                    if (errorSummary) {
+                        var allElements = errorSummary.getElementsByTagName('li');
+                        var visibleElements = [];
+                        for (var i = 0; i < allElements.length; i++) {
+                            var element = allElements[i];
+                            var computedStyle = window.getComputedStyle(element);
+
+                            if (computedStyle.display !== 'none' && computedStyle.visibility !== 'hidden') {
+                                visibleElements.push(element);
+                            }
+                        }
+                        visibleElements.forEach(function (visibleElement) {
+                            if (visibleElement.innerText) {
+                                dataLayer.push({ event: 'form_error', form_id: 'login', interaction_detail: visibleElement.innerText });
+                            }
+                        });
+                    }
+                }, 10)
             }
 
             function acceptAdditionalCookies(e) {
@@ -1187,6 +1209,10 @@
             document.getElementById('rejectCookieButton').addEventListener('click', rejectAdditionalCookies);
             document.getElementById('hideCookieMsgOnAcceptButton').addEventListener('click', hideCookieMsg);
             document.getElementById('hideCookieMsgOnRejectButton').addEventListener('click', hideCookieMsg);
+            var form = document.getElementById('login-form');
+            if (form) {
+                dataLayer.push({event : 'form_start', form_id : 'login'});
+              }
         });
     </script>
 </body>

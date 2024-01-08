@@ -568,8 +568,8 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         this.saveChanges("create", form)
       }
     } else {
-      this.dataLayerService.pushFormErrorEvent(this.formId);
       this.scrollView();
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 

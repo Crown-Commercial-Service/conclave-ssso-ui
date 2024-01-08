@@ -147,10 +147,12 @@ export class ManageGroupEditNameComponent
                 if (error.status == 409) {
                   form.controls['groupName'].setErrors({ alreadyExists: true });
                   this.scrollHelper.scrollToFirst('error-summary');
+                  this.dataLayerService.pushFormErrorEvent(this.formId);
                 }
                 if (error.status == 400) {
                   this.formGroup.controls['groupName'].setErrors({ 'specialCharsincluded': true})
                   this.scrollHelper.scrollToFirst('error-summary');
+                  this.dataLayerService.pushFormErrorEvent(this.formId);
                 }
                 console.log(error);
                 console.log(error.error);
@@ -182,10 +184,12 @@ export class ManageGroupEditNameComponent
                 if (error.status == 409) {
                   form.controls['groupName'].setErrors({ alreadyExists: true });
                   this.scrollHelper.scrollToFirst('error-summary');
+                  this.dataLayerService.pushFormErrorEvent(this.formId);
                 }
                 if (error.status == 400) {
                   this.formGroup.controls['groupName'].setErrors({ 'specialCharsincluded': true})
                   this.scrollHelper.scrollToFirst('error-summary');
+                  this.dataLayerService.pushFormErrorEvent(this.formId);
                 }
                 console.log(error);
                 console.log(error.error);
