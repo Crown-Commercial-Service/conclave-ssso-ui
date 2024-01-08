@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,10 @@ export class DataLayerService {
   private formId: string = "";
   private lastFormId: string = "";
   private valueChangesSubscription: Subscription;
+  private uniqueId : string ="";
+  private hashedId : string ="";
 
-  constructor() {
+  constructor(private sessionService:SessionService) {
     this.valueChangesSubscription = new Subscription();
   }
 
@@ -28,6 +31,13 @@ export class DataLayerService {
   }
 
   pushPageViewEvent(extraProps: any = null) {
+    const encryptedEmail = localStorage.getItem("user_name");
+    const emailWithoutAtSymbol = encryptedEmail?.replace('@', '');
+    if (emailWithoutAtSymbol)
+    {
+     this.hashedId = this.sessionService.generateUniqueKey(emailWithoutAtSymbol);
+    }
+    this.uniqueId =  this.hashedId;
     let eventInfo = {
       event: "page_view",
       page_location: window.location.href,
