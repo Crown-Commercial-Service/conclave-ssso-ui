@@ -57,6 +57,7 @@ export class ManageOrgRegStep2Component
   public pageAccessMode:any;
   submitted: boolean = false;
   public newScheme:any = [];
+  public formId : string = 'Manage-organisation-registration-step-2';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -123,6 +124,7 @@ export class ManageOrgRegStep2Component
         );
       } else {
         this.scrollHelper.scrollToFirst('error-summary');
+        this.dataLayerService.pushFormErrorEvent(this.formId);
       }
       this.dataLayerService.pushClickEvent(buttonText);
   }

@@ -248,6 +248,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
                 this.serverError="INVALID_SITE_NAME"
               }
               this.scrollHelper.scrollToFirst('error-summary');
+              this.dataLayerService.pushFormErrorEvent(this.formId);
               return;
             }
           });

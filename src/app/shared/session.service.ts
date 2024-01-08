@@ -9,6 +9,7 @@ export class SessionService {
   private readonly shift = 3;
 
   public secretKey = environment.mailDecryptKey;
+  public hashedId : string = "";
   constructor() {}
 
   public encrypt(key:string,text: string): string {
@@ -51,5 +52,10 @@ export class SessionService {
       }
     }
     return decryptedText;
+  }
+  public generateUniqueKey (key : string) 
+  {
+    this.hashedId = CryptoJS.SHA256(key).toString();
+    return this.hashedId; 
   }
 }
