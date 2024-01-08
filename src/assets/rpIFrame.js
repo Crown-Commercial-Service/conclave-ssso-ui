@@ -12,7 +12,7 @@ function check_session() {
     let client_id = decrypt('client_id');
     let session_state = this.localStorage.getItem('session_state');
     let mes = client_id + ' ' + session_state;
-    win.postMessage(mes, '*.crowncommercial.gov.uk');
+     win.postMessage(mes, this.localStorage.getItem('securityapiurl'));
 }
 
 function setTimer() {
