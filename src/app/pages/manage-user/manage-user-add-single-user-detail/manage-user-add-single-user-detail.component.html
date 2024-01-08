@@ -56,7 +56,7 @@
                             {{'ERROR_LAST_NAME' | translate }}</a>
                     </li>
                     <li
-                        *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)">
+                        *ngIf="submitted && ((!formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid) || (!formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid))">
                         <a href="javascript:;" onClick="return false;" (click)="customFocus()">
                             {{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</a>
                     </li>
