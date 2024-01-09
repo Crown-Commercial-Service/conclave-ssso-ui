@@ -12,7 +12,7 @@ function check_session() {
     let client_id = this.localStorage.getItem('client_id');
     let session_state = this.localStorage.getItem('session_state');
     let mes = client_id + ' ' + session_state;
-    win.postMessage(mes, 'https://identify.crowncommercial.gov.uk/');
+    win.postMessage(mes, this.localStorage.getItem('securityapiurl'));
 }
 
 function setTimer() {
