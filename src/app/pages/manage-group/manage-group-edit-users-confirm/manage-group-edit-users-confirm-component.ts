@@ -110,6 +110,12 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
         this.router.navigateByUrl("manage-groups/view?data=" + JSON.stringify(this.routeData));
     }
 
+    getQueryData(){
+        this.routeData.isEdit = true;
+        this.clearSessionStorageGroupUserData();
+        return JSON.stringify(this.routeData);
+    }
+
     onCancelClick(buttonText:string) {
         this.router.navigateByUrl("manage-groups/edit-users?data=" + JSON.stringify(this.routeData));
         this.pushDataLayerEvent(buttonText);

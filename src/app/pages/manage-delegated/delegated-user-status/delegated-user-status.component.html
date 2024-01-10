@@ -4,12 +4,12 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                        <a class="govuk-breadcrumbs__link" [routerLink]="['/home']" [queryParams]="{isNewTab:true}" >
                             {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="goToDelegatedAccessPage()"
-                            routerLink="/delegated-access">
+                        <a class="govuk-breadcrumbs__link" [routerLink]="['/delegated-access']" [queryParams]="{isNewTab:true}"
+                        (click)="goToDelegatedAccessPage()">
                             Delegated access</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="UserStatus.status != '003'">

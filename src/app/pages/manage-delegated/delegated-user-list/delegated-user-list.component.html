@@ -4,7 +4,7 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                        <a class="govuk-breadcrumbs__link" [routerLink]="['/home']" [queryParams]="{isNewTab:true}" >
                             {{ 'ADMINISTRATOR_DASHBOARD' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">

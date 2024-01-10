@@ -12,7 +12,8 @@
                             }}</a>
                     </li>
                     <li *ngIf="isEdit== true" class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick('Edit group')">{{ 'EDIT_GROUP' | translate }}</a>
+                        <a href="javascript:;" class="govuk-breadcrumbs__link"  [routerLink]="['/manage-groups/view']" [queryParams]="{ data: getQueryData()}"
+                         (click)="onCancelClick('Edit group')">{{ 'EDIT_GROUP' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" >
                         <span class="govuk-breadcrumbs__link" *ngIf="isEdit== true">

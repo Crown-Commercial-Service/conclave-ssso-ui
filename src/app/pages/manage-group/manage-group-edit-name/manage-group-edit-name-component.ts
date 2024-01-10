@@ -224,6 +224,10 @@ export class ManageGroupEditNameComponent
     }
   }
 
+  public getQueryData(){
+    return JSON.stringify(this.routeData)
+  }
+
   onCancelClick(buttonText:string) {
     this.router.navigateByUrl('manage-groups');
     this.pushDataLayerEvent(buttonText);

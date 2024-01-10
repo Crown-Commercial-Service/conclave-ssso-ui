@@ -249,6 +249,17 @@ export class ManageGroupEditUsersComponent
   pushDataLayerEvent(buttonText:string) {
 	this.dataLayerService.pushClickEvent(buttonText);
 	  }
+
+  getQueryData(){
+    let data = {
+      isEdit: true,
+      groupId: this.editingGroupId,
+    };
+    sessionStorage.removeItem('group_existing_users');
+    sessionStorage.removeItem('group_added_users');
+    sessionStorage.removeItem('group_removed_users');
+    return JSON.stringify(data);
+  }
   
 
   onCancelClick(buttonText:string) {

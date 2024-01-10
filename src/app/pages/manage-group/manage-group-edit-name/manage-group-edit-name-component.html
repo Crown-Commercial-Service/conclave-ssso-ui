@@ -9,7 +9,8 @@
                 <a class="govuk-breadcrumbs__link" routerLink="/manage-groups">{{ 'MANAGE_GROUPS' | translate }}</a>
             </li>
             <li *ngIf="isEdit==true" class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelAndGoToGroupClick('Edit group')">{{
+                <a href="javascript:;" class="govuk-breadcrumbs__link" [routerLink]="['/manage-groups/view']" [queryParams]="{ data: getQueryData()}"
+                  (click)="onCancelAndGoToGroupClick('Edit group')">{{
                     'EDIT_GROUP' | translate }}</a>
             </li>
             <li *ngIf="isEdit!=true" class="govuk-breadcrumbs__list-item">
