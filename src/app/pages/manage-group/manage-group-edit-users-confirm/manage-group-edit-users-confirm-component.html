@@ -17,6 +17,7 @@
             <a
               href="javascript:;"
               class="govuk-breadcrumbs__link edit-group"
+              [routerLink]="['/manage-groups/view']" [queryParams]="{ data: getQueryData()}"
               (click)="onGoToEditGroupClick()"
               >{{ 'EDIT_GROUP' | translate }}</a
             >
