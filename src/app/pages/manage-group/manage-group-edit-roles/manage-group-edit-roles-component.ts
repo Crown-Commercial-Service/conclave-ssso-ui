@@ -217,6 +217,14 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
         }
     }
 
+    getQueryData(){
+        let data = {
+            'isEdit': true,
+            'groupId': this.editingGroupId
+        };
+         return JSON.stringify(data)
+    }
+
     private initialteServiceRoleGroup() {
         if (this.showRoleView) {
             this.serviceRoleGroup = {
