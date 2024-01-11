@@ -44,15 +44,7 @@ export class ManageUserBulkUploadStatusComponent implements OnInit {
                 }, environment.bulkUploadPollingFrequencyInSeconds * 1000);
             }
         });
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-                id: this.id
-            });
-        })
+        this.dataLayerService.pushPageViewEvent({id: this.id});
     }
 
     checkStatus(docId: string) {

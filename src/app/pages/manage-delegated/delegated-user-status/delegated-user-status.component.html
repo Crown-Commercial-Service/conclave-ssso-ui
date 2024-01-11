@@ -193,18 +193,18 @@
                     </div>
 
                     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                        (click)="Back()">
+                        (click)="Back('Back')">
                         Back
                     </button>
                 </form>
             </div>
             <div class="govuk-button-group save-cancel-button-group" *ngIf="UserStatus.status != '003'">
                 <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                    (click)="BackToDelegated()">
+                    (click)="BackToDelegated('Back to Delegated access')">
                     Back to Delegated access
                 </button>
                 <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                    (click)="BackToDashboard()">
+                    (click)="BackToDashboard('Back to the Dashboard')">
                     Back to the Dashboard
                 </button>
             </div>

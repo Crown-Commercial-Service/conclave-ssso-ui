@@ -26,6 +26,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
     selectionForm!: FormGroup;
     assigningSiteId: number = 0;
     assigningOrgId: string = "";
+    public formId :string = 'Assign_Contacts_Selection';
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     siteCreate: any;
@@ -46,14 +47,8 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
     }
 
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
+        this.dataLayerService.pushFormStartEvent(this.formId, this.selectionForm);
     }
 
     ngAfterViewChecked() {
@@ -64,11 +59,8 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
         this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Select Contact Type - Assign Contacts"
-        });
+    pushDataLayerEvent(buttonText:string) {
+        this.dataLayerService.pushClickEvent(buttonText);
       }
     
     public onSubmit(form: FormGroup) {
@@ -81,7 +73,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
                 'siteCreate':this.siteCreate
             };
 
-            this.pushDataLayer("form_submit");
+            this.dataLayerService.pushFormSubmitEvent(this.formId);
 
             let selection = form.get('selection')?.value;
             if (selection === "userContact"){
@@ -93,7 +85,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
                 this.router.navigateByUrl("contact-assign/site-search?data=" + JSON.stringify(data));
             }
         } else {
-            this.pushDataLayer("form_error");
+            this.dataLayerService.pushFormErrorEvent(this.formId);
         }
     }
 
@@ -111,9 +103,9 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
       window.history.back();
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
         // if (this.assigningSiteId != 0){
         //     this.onNavigateToSiteClick();
         // }

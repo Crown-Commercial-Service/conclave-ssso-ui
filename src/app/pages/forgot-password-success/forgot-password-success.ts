@@ -12,6 +12,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { DetailsToggleService } from 'src/app/shared/shared-details-toggle.service';
 
 @Component({
     selector: 'app-forget-password-success',
@@ -21,24 +22,38 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 export class ForgotPasswordSuccessComponent extends BaseComponent implements OnInit{
 
     public userName: string = '';
+    public linkText: string = 'Reset Password email not received - Help content'
 
     constructor(private activatedRoute: ActivatedRoute, public authService: AuthService,
-        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private router: Router, private dataLayerService: DataLayerService) {
+        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private router: Router, private dataLayerService: DataLayerService,  private elementRef: ElementRef,
+        private detailsToggleService : DetailsToggleService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.userName = sessionStorage.getItem(SessionStorageKey.ForgotPasswordUserName) ?? "";
     }
 
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-             event: "page_view" ,
-             page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
-             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-           });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
-
+    ngAfterViewInit() {
+        const detailsElement = this.elementRef.nativeElement.querySelector('details');
+    
+        this.detailsToggleService.addToggleListener(detailsElement, (isOpen: boolean) => {
+          if (isOpen) {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "open",
+              link_text: this.linkText
+            })
+          } else {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "close",
+              link_text: this.linkText
+            })
+          }
+        });
+       
+      }
     onNavigateLinkClick(){
         this.authService.logOutAndRedirect();
     }

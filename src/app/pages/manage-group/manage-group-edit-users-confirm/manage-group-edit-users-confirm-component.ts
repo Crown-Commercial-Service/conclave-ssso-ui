@@ -57,17 +57,10 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
 
     ngOnInit() {
         this.titleService.setTitle(`Confirm - ${this.isEdit ? "Add/Remove Users" : "Add Users"} - Manage Groups - CCS`);
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
 
-    onConfirmClick() {
+    onConfirmClick(buttonText:string) {
         let groupPatchRequestInfo: OrganisationGroupRequestInfo = {
             userInfo: {
                 addedUserIds: this.addingUsers.map(au => au.userName),
@@ -107,7 +100,7 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
                         this.router.navigateByUrl(`manage-groups/error?data=` + JSON.stringify(data));
                     }
                 });
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     onGoToEditGroupClick() {
@@ -116,9 +109,9 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
         this.router.navigateByUrl("manage-groups/view?data=" + JSON.stringify(this.routeData));
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         this.router.navigateByUrl("manage-groups/edit-users?data=" + JSON.stringify(this.routeData));
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     clearSessionStorageGroupUserData() {
@@ -127,11 +120,8 @@ export class ManageGroupEditUsersConfirmComponent extends BaseComponent implemen
         sessionStorage.removeItem("group_removed_users");
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Confirm - Add/Edit Users - Manage Groups"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText);
 	  }
   
 }

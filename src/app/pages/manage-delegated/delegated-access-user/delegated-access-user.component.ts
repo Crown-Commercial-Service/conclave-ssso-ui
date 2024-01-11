@@ -47,6 +47,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   };
   public isStartDateDisabled:boolean=false;
   public pastDateValidationMessage="The start date cannot be in the past";
+  public formId : string = 'delegated_access';
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   constructor(
     private route: Router,
@@ -73,14 +74,8 @@ export class DelegatedAccessUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
+
     this.formGroup = this.formbuilder.group({
       startday: ['', [Validators.required]],
       startmonth: ['', [Validators.required]],
@@ -112,6 +107,7 @@ export class DelegatedAccessUserComponent implements OnInit {
         }, 10);
       }
     });
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   /**
@@ -293,14 +289,14 @@ export class DelegatedAccessUserComponent implements OnInit {
   /**
    * remove functionlity sharing data and nevigate to confimation page
    */
-  public RemoveAccess(): void {
+  public RemoveAccess(buttonText:string): void {
     this.userDetails.pageaccessmode = 'remove'
     sessionStorage.removeItem('deleagted_user_details');
     this.userDetails.userName = escape(encodeURIComponent(this.userDetails.userName));
     this.route.navigateByUrl(
       'delegated-remove-confirm?data=' + btoa(JSON.stringify(this.userDetails))
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   /**
@@ -336,14 +332,14 @@ export class DelegatedAccessUserComponent implements OnInit {
    * submit functionlity, chosing page edit or add
    * @param form forms group value getting from html
    */
-  public onSubmit(form: FormGroup) {
+  public onSubmit(form: FormGroup,buttonText:string) {
     this.submitted = true;
     if (this.pageAccessMode === 'edit') {
       this.edituserdetails(form)
     } else {
       this.createuserdetails(form)
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   /**
@@ -369,14 +365,14 @@ export class DelegatedAccessUserComponent implements OnInit {
       data.userName = escape(encodeURIComponent(data.userName));
       data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
       let stringifyData = JSON.stringify(data)
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData));
       this.route.navigateByUrl(
         'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
       );
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -407,7 +403,7 @@ export class DelegatedAccessUserComponent implements OnInit {
       data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
       data.userName = escape(encodeURIComponent(data.userName));
       let stringifyData = JSON.stringify(data)
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData));
       this.route.navigateByUrl(
         'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
@@ -415,7 +411,7 @@ export class DelegatedAccessUserComponent implements OnInit {
 
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -577,10 +573,10 @@ export class DelegatedAccessUserComponent implements OnInit {
   /**
    * nevigate to last active page and clearing all the session values
    */
-  public Cancel() {
+  public Cancel(buttonText:string) {
     sessionStorage.removeItem('deleagted_user_details')
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   /**
@@ -604,17 +600,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     })
   }
 
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-      'event': event,
-      'form_id': 'delegated_access'
-    });
-  }
-
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Delegate access to a user"
-    });
-  }
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
+   }
 }

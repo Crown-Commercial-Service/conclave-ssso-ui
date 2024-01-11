@@ -1,5 +1,5 @@
 import { ViewportScroller } from "@angular/common";
-import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -9,6 +9,7 @@ import { BaseComponent } from "src/app/components/base/base.component";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { DetailsToggleService } from "src/app/shared/shared-details-toggle.service";
 import { UIState } from "src/app/store/ui.states";
 import { environment } from "src/environments/environment";
 
@@ -36,8 +37,11 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     showError: boolean = false;
     submitted: boolean = false;
     otpValue: string = "";
+    public linkText : string = 'I cannot scan the QR code - Secret Key'
+    public formId:string = 'Set_up_your_app Use_your_authenticator_app_to_scan_the_QR_code.';
     constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, public authService: AuthService,
-        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,
+        private elementRef: ElementRef,private detailsToggleService : DetailsToggleService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.formGroup = this.formBuilder.group({
             otp: [, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6)])],
@@ -47,16 +51,29 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     ngOnInit() {
         this.mfaQrCode = localStorage.getItem('qr_code');
         this.secretCode = localStorage.getItem('secret_code');
-        this.pushDataLayer("form_start");
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
+        this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
     }
+    ngAfterViewInit() {
+        const detailsElement = this.elementRef.nativeElement.querySelector('details');
+    
+        this.detailsToggleService.addToggleListener(detailsElement, (isOpen: boolean) => {
+          if (isOpen) {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "open",
+              link_text: this.linkText
+            })
+          } else {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "close",
+              link_text: this.linkText
+            })
+          }
+        });
+       
+      }
     // ngAfterViewInit()
     // {
     //     document.getElementById('authenticator-otp')?.focus();
@@ -70,7 +87,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
         this.submitted = true;
         this.otpValue = otp;
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
-        this.pushDataLayer("form_submit");
+        this.dataLayerService.pushFormSubmitEvent(this.formId);
         this.authService.VerifyOTP(otp, this.auth0token, this.qrCodeStr, "QR").subscribe({
 
             next: (response) => {
@@ -87,12 +104,11 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
                 else{
                     // this.showError = true;
                     this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
-                }
-                
+                    this.dataLayerService.pushFormErrorEventByMessage(this.formId,'Please provide valid code');
+                }              
     }
 
         });
-        this.pushDataLayerEvent();
     }
 
     public async RenewToken(){
@@ -109,26 +125,21 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
     
     }
 
-    public onBackBtnClick() {
+    public onBackBtnClick(buttonText:string) {
         this.router.navigateByUrl('mfa-authenticator-information');
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Set up an app"
-		});
+    pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 
     public onNavigateToMFAClick() {
         this.router.navigateByUrl('mfa-selection');
     }
 
-    pushDataLayer(event:string){
-        this.dataLayerService.pushEvent({
-            'event': event,
-            'form_id': 'Set_up_your_app Use_your_authenticator_app_to_scan_the_QR_code.'
-        });
-    }
+    ngOnDestroy() {
+        const detailsElement = this.elementRef.nativeElement.querySelector('details');
+        this.detailsToggleService.removeToggleListener(detailsElement);
+      }
 }

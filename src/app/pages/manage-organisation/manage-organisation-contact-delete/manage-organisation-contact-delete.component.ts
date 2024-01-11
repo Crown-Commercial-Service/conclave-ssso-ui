@@ -43,17 +43,10 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
     }
 
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-             event: "page_view" ,
-             page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
-             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-           });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
 
-    onDeleteConfirmClick() {
+    onDeleteConfirmClick(buttonText:string) {
         if (this.siteId == 0){
             this.contactService.deleteOrganisationContact(this.organisationId, this.contactId).subscribe({
                 next: () => { 
@@ -77,7 +70,7 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
                 }
             });
         }
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     onCancelClick(){
@@ -89,15 +82,12 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
     }
 
-    public onBack():void{
+    public onBack(buttonText:string):void{
         window.history.back()
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Delete Organisation Contact"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

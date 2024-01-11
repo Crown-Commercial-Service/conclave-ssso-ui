@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,ElementRef, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { environment } from 'src/environments/environment';
+import { DetailsToggleService } from 'src/app/shared/shared-details-toggle.service';
 
 @Component({
   selector: 'app-delegated-user-confirm',
@@ -24,7 +25,9 @@ export class DelegatedUserConfirmComponent implements OnInit {
     data: '',
     pageName: 'Contactadmin',
   }
-  constructor(public route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, public titleService: Title, private router: Router, private dataLayerService: DataLayerService) { 
+  public linkText : string = 'Additional Security - MFA status'
+  constructor(public route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, public titleService: Title, private router: Router, private dataLayerService: DataLayerService
+    ,private elementRef: ElementRef,private detailsToggleService : DetailsToggleService) { 
     this.delegationRolesTable.details = {
       currentPage: this.delegationRolesTable.currentPage,
       pageCount: 0,
@@ -34,14 +37,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data)).userDetails;
       this.userInfo.userName = decodeURIComponent(unescape(this.userInfo.userName));
@@ -61,15 +57,35 @@ export class DelegatedUserConfirmComponent implements OnInit {
    this.getSelectedRole()
   }
 
+  ngAfterViewInit() {
+    const detailsElement = this.elementRef.nativeElement.querySelector('details');
+
+    this.detailsToggleService.addToggleListener(detailsElement, (isOpen: boolean) => {
+      if (isOpen) {
+        this.dataLayerService.pushEvent({
+          event: "accordion_use",
+          interaction_type: "open",
+          link_text: this.linkText
+        })
+      } else {
+        this.dataLayerService.pushEvent({
+          event: "accordion_use",
+          interaction_type: "close",
+          link_text: this.linkText
+        })
+      }
+    });
+   
+  }
 
 
-  public onSubmit(): void {
+  public onSubmit(buttonText:string): void {
     if (this.pageAccessMode === "edit") {
       this.updateDelegatedUser()
     } else {
       this.createDelegateUser()
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   public createDelegateUser(): void {
@@ -171,15 +187,12 @@ export class DelegatedUserConfirmComponent implements OnInit {
     sessionStorage.removeItem('deleagted_user_details')
   }
 
-  public Cancel() {
+  public Cancel(buttonText:string) {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "delegate-user-confirm"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 }

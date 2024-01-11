@@ -43,14 +43,7 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
     }
 
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
         this.orgGroupService
         .getOrganisationGroup(this.organisationId, this.groupId)
         .subscribe(
@@ -65,7 +58,7 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
         );
     }
 
-    onDeleteConfirmClick() {
+    onDeleteConfirmClick(buttonText:string) {
         this.orgGroupService.deleteOrganisationGroup(this.organisationId, this.groupId).subscribe({
             next: () => { 
                 this.SharedDataService.manageGroupStorage(this.GroupDetails.groupName)
@@ -75,19 +68,19 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
                 console.log(error);
             }
         });
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    onCancelClick(){
+    onCancelClick(buttonText:string){
         this.router.navigateByUrl('manage-groups/view?data=' + JSON.stringify(this.routeData));
-        this.pushDataLayerEvent();
+        if(buttonText==='Cancel')
+        {
+        this.pushDataLayerEvent(buttonText);
+        }
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Delete - Manage Groups"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText);
 	  }
   
 }

@@ -27,17 +27,10 @@ export class ConfirmDeclineComponent implements OnInit {
     this.route.queryParams.subscribe((para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
   }
 
-  public confirmAndDecline(): void {
+  public confirmAndDecline(buttonText:string): void {
     this.wrapperBuyerAndBothService.manualValidation(this.routeDetails.organisationId, ManualValidationStatus.decline).subscribe({
       next: (response: any) => {
         this.router.navigateByUrl('decline-success');
@@ -54,18 +47,15 @@ export class ConfirmDeclineComponent implements OnInit {
     this.router.navigateByUrl(
       'decline-success?data=' + btoa(JSON.stringify(data))
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public Back(): void {
+  public Back(buttonText:string): void {
     window.history.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Decline right to buy status"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 }

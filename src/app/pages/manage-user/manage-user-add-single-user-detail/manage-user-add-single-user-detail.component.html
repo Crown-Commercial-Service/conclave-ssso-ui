@@ -211,7 +211,7 @@
                         <div id="reset-mfa-hint" class="govuk-hint" style="margin-top: 15px;">
                             {{ 'RESET_USER_MFA_HINT' | translate }}
                         </div>
-                        <button type="button" (click)="ResetAdditionalSecurity()" class="govuk-button"
+                        <button type="button" (click)="ResetAdditionalSecurity('Reset user\'s 2FA')" class="govuk-button"
                             data-module="govuk-button" [disabled]="!isUserMfaOpted">{{ 'RESET_2FA_USER_BTN' |
                             translate }}
                         </button>
@@ -473,22 +473,22 @@
                     </div>
 
                     <div class="govuk-button-group save-cancel-button-group">
-                        <button type="submit" class="govuk-button" (click)="pushDataLayerEvent()" [disabled]="!isFormChanges" data-module="govuk-button">
+                        <button type="submit" class="govuk-button" (click)="pushDataLayerEvent('Save changes')" [disabled]="!isFormChanges" data-module="govuk-button">
                             {{ 'SAVE_BTN' | translate }}
                         </button>
-                        <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                        <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
                             data-module="govuk-button">
                             {{ 'CANCEL_BTN' | translate }}
                         </button>
                     </div>
 
                     <button *ngIf="isEdit == true && userProfileResponseInfo.detail.canChangePassword" type="button"
-                        (click)="onResetPasswordClick()" class="govuk-button govuk-button--secondary"
+                    (click)="onResetPasswordClick('Reset user password')" class="govuk-button govuk-button--secondary"
                         data-module="govuk-button">
                         {{ 'RESET_USER_PASSWORD_BTN' | translate }}
                     </button>
                     <br>
-                    <button *ngIf="isEdit && !isCustomMfaEnabled" (click)="ResetAdditionalSecurity()" type="button" class="govuk-button govuk-button--secondary"
+                    <button *ngIf="isEdit && !isCustomMfaEnabled"  (click)="ResetAdditionalSecurity('Reset user\'s additional security')" type="button" class="govuk-button govuk-button--secondary"
                         data-module="govuk-button" [disabled]="!MFA_Enabled">
                         Reset user’s additional security
                     </button>

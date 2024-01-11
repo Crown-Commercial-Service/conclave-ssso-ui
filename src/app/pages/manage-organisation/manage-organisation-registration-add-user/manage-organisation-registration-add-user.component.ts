@@ -29,6 +29,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
   public buyerFlow: any;
   legalName: string = '';
   public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
+  public formId : string = 'Additional_registries Create_administrator_account';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -62,16 +63,9 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
       this.formGroup.controls['firstName'].setValue(orgreginfo.adminUserFirstName);
       this.formGroup.controls['lastName'].setValue(orgreginfo.adminUserLastName);
       this.formGroup.controls['email'].setValue(orgreginfo.adminEmail);
-      this.pushDataLayer("form_start");
     }
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
 
@@ -87,6 +81,10 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
       this.formGroup.controls['email'].setErrors({ 'incorrect': true })
     }
     if (this.formValid(form)) {
+      this.dataLayerService.pushEvent({
+        event: "sign_up",
+        method: "register"
+      });
       const regType = localStorage.getItem("manage-org_reg_type") || "";
       let orgreginfo = JSON.parse(sessionStorage.getItem('orgreginfo') ?? '');
       let organisationRegisterDto: OrganisationRegisterDto = {
@@ -101,7 +99,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
         isMfaRequired:orgreginfo.isMfaRequired
       };
 
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
 
       let updatedOrgRegInfo: OrganisationRegBasicInfo = {
         adminEmail: form.get('email')?.value,
@@ -137,12 +135,9 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
           }
         });
     } else {
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
-    this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Admin Details - Registration"
-		});
+    this.dataLayerService.pushClickEvent('Continue');
   }
 
   setFocus(inputIndex: number) {
@@ -186,12 +181,5 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
 
   public goBack() {
     window.history.back()
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Additional_registries Create_administrator_account'
-    });
   }
 }

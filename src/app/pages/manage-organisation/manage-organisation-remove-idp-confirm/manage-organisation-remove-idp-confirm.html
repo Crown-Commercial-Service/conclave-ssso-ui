@@ -40,11 +40,11 @@
 
             <p class="govuk-body">{{ 'DO_YOU_WANT_TO_PROCEED' | translate }}</p>
             <div class="govuk-button-group continue-cancel-button-group">
-                <button type="submit" (click)="onRemoveIdpConfirmClick()" class="govuk-button"
+                <button type="submit"(click)="onRemoveIdpConfirmClick('Yes')" class="govuk-button"
                     data-module="govuk-button">
                     {{ 'YES_DELETE_BTN' | translate }}
                 </button>
-                <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                <button type="button" (click)="onCancelClick('No')"  class="govuk-button govuk-button--secondary"
                     data-module="govuk-button">
                     {{ 'NO_DELETE_BTN' | translate }}
                 </button>

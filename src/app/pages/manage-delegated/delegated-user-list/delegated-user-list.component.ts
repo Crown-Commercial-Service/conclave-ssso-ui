@@ -65,14 +65,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
 
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.tabChanged(sessionStorage.getItem('activetab') || 'currentusers')
     setTimeout(() => {
       this.getOrganisationExpiredUsers()
@@ -123,12 +116,9 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
     this.getOrganisationExpiredUsers();
   }
 
-  public FindDelegateUser(): void {
+  public FindDelegateUser(buttonText:string): void {
     this.router.navigateByUrl('find-delegated-user');
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Delegated access"
-    });
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 
   getOrganisationCurrentUsers() {

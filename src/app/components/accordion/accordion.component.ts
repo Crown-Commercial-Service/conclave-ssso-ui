@@ -45,13 +45,15 @@ export class AccordionComponent implements OnInit, OnChanges {
     this.groupShow = !this.groupShow
   }
 
-  public onBottomToggle(id: string): void {
-    const el: any = document.getElementById(id);
+  public onBottomToggle(event: Event, groupdata: any): void {
+    const el: any = document.getElementById(groupdata.groupId);
+    const groupNameEventText  = groupdata['groupName'];
     el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    var eventNameText =  (el.style.display === 'block') ?  'Show services' : 'Hide services';
     this.dataLayerService.pushEvent({
       event: "accordion_use",
-      interaction_type: (el.style.display === 'block') ? 'close' : 'open',
-      link_text: this.headerText
+      interaction_type: (el.style.display === 'block') ? 'open':'close',
+      link_text: `${groupNameEventText} - ${eventNameText}`
     })
   }
 

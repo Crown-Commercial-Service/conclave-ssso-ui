@@ -27,6 +27,7 @@ export class ManageUserAddSelectionComponent
 {
   submitted!: boolean;
   selectionForm!: FormGroup;
+  public formId : string = 'Manage_user_accounts Add_users';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -45,14 +46,8 @@ export class ManageUserAddSelectionComponent
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.selectionForm);
   }
 
   ngAfterViewChecked() {
@@ -63,17 +58,14 @@ export class ManageUserAddSelectionComponent
     this.inputs.toArray()[inputIndex].nativeElement.focus();
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Select - Manage Users"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 
   public onSubmit(form: FormGroup) {
     this.submitted = true;
     if (this.formValid(form)) {
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       this.submitted = false;
 
       let selection = form.get('selection')?.value;
@@ -84,7 +76,7 @@ export class ManageUserAddSelectionComponent
         this.router.navigateByUrl('manage-users/bulk-users');
       }
     } else {
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -94,15 +86,8 @@ export class ManageUserAddSelectionComponent
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText:string) {
     this.router.navigateByUrl('manage-users');
-    this.pushDataLayerEvent();
-  }
-
-  pushDataLayer(event: string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_user_accounts Add_users'
-    });
+    this.pushDataLayerEvent(buttonText);
   }
 }

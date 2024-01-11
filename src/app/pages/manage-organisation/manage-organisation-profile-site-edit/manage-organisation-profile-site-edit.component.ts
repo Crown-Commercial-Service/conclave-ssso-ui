@@ -42,6 +42,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
 
   public bankFilterCtrl: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
+  public formId : string = 'Manage_organisation Edit_site';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   @ViewChild('singleSelect', { static: true }) singleSelect!: MatSelect;
@@ -69,14 +70,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   }
 
   async ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(`${this.isEdit ? "Edit" : "Add"} - Site - CCS`);
     this.countryDetails = await this.wrapperConfigService.getCountryDetails().toPromise();
     this.setTopCountries(false);
@@ -112,7 +106,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     else {
       this.onFormValueChange();
     }
-    this.pushDataLayer("form_start");
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   ngAfterViewInit() {
@@ -225,7 +219,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
         }
       };
 
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       if (this.isEdit) {
         this.orgSiteService.updateOrganisationSite(this.organisationId, this.siteId, orgSiteInfo).subscribe(
           {
@@ -242,6 +236,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
                 this.serverError="INVALID_SITE_NAME"
               }
               this.scrollHelper.scrollToFirst('error-summary');
+              this.dataLayerService.pushFormErrorEvent(this.formId);
               return;
             }
           });
@@ -267,6 +262,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
                 // form.controls['countryCode'].setErrors(errorObject);
                 this.serverError = error.error;
                 this.scrollHelper.scrollToFirst('error-summary');
+                this.dataLayerService.pushFormErrorEvent(this.formId);
                 if(error.status==409){
                   this.serverError="INVALID_SITE_NAME"
                 }
@@ -278,7 +274,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     }
     else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -288,9 +284,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText:string) {
     this.router.navigateByUrl('manage-org/profile');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onDeleteClick() {
@@ -309,7 +305,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     return JSON.stringify(data);
   }
   
-  public onContactAddClick() {
+  public onContactAddClick(buttonText:string) {
     let data = {
       'isEdit': false,
       'contactId': 0,
@@ -319,15 +315,15 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       'contactAddAnother':this.contactAddAnother,
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onContactAssignClick() {
+  public onContactAssignClick(buttonText:string) {
     let data = {
       'assigningSiteId': this.siteId
     };
     this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onContactEditClick(contactInfo: ContactGridInfoWithLink) {
@@ -343,17 +339,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
    this.serverError=''
   }
 
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_organisation Edit_site'
-    });
-  }
-
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Add/Edit - Site"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

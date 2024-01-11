@@ -79,14 +79,7 @@ export class UpdateOrgTypeComponent implements OnInit {
         });
       }
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
   }
 
   /**
@@ -384,7 +377,7 @@ export class UpdateOrgTypeComponent implements OnInit {
   /**
    * On submit save call.
    */
-  public onSubmitClick() {
+  public onSubmitClick(buttonText:string) {
     let selection = {
       org: this.organisation,
       toDelete: this.rolesToDelete,
@@ -436,17 +429,17 @@ export class UpdateOrgTypeComponent implements OnInit {
       localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
       this.router.navigateByUrl(`update-org-type/confirm-changes?data=` + btoa(JSON.stringify(data)))
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
 
   /**
    * cancel button call , removing all the local storage details
    */
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
     this.router.navigateByUrl('buyer-supplier/search');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
 
@@ -481,10 +474,7 @@ export class UpdateOrgTypeComponent implements OnInit {
     });
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Review - Manage Buyers"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 }

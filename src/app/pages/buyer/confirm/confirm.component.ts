@@ -88,15 +88,7 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
         });
       }
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-          id: this.id
-      });
-    })
+    this.dataLayerService.pushPageViewEvent({id: this.id});
   }
 
   public onSelect(verified: boolean) {
@@ -248,14 +240,11 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
     }
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Review - Manage Buyers"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
-  public onSubmitClick() {
+  public onSubmitClick(buttonText:string) {
     let selection = {
       org: this.organisation,
       toDelete: this.rolesToDelete,
@@ -275,13 +264,13 @@ export class BuyerConfirmComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       `buyer/confirm-changes/${this.organisation.ciiOrganisationId}`
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
     this.router.navigateByUrl('buyer-supplier/search');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   getOrgRoles() {

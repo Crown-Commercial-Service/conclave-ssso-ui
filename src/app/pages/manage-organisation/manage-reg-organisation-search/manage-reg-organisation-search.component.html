@@ -21,7 +21,7 @@
             <form class="govuk-!-width-three-quarters" [class.error]="!formValid(formGroup)" [formGroup]="formGroup">
                 <div class="govuk-form-group" *ngIf="formValid(formGroup) == false && submitted">
                     <div class="govuk-error-summary govuk-grid-column-three-quarters"
-                        aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+                        aria-labelledby="error-summary-title" role="alert" id="error-summary" tabindex="-1"
                         data-module="govuk-error-summary">
                         <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
                         <div class="govuk-error-summary__body">
@@ -78,7 +78,7 @@
                                 *ngIf="(filteredOptions?.length! > showMoreThreshold)  && !showMoreOptionsVisible">
                                 <div class="col-sm-6 text-right pr-2">
                                     <button type="button" class="btn btn-primary clickable"
-                                        (click)="showMoreClicked()">Show
+                                     (click)="showMoreClicked('Show more')">Show
                                         more</button>
                                 </div>
                             </div>

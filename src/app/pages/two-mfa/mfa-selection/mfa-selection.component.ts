@@ -47,14 +47,7 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
     }
 
      async ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
        // this.orgMfaRequired = JSON.parse(localStorage.getItem('org_mfa_required') || 'false');
        await this.GetOrganisationMfaSettings();
         this.selectedOption = this.helperService.getSelectedOption();
@@ -98,9 +91,9 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
         });
 
     }
-    public onCancelClick() {
+    public onCancelClick(buttonText:string) {
         this.authService.logOutAndRedirect();
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     public onContinueClick(event: string | null) {
@@ -115,14 +108,11 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
         else if (event == "NOAUTH") {
             this.router.navigateByUrl('no-mfa-confirmation');
         }
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent('Continue');
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "MFA Selection"
-		});
+    pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	}
 
     public async GetOrganisationMfaSettings() {

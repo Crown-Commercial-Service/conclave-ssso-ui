@@ -30,7 +30,7 @@
       <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/search">{{ 'ORG_DETAILS' | translate }}</a>
      </li>
      <li class="govuk-breadcrumbs__list-item">
-      <a class="govuk-breadcrumbs__link"  href="javascript:;" (click)="goBack()">{{ 'CONFIRM_ORG_DETAILS' | translate }}</a>
+      <a class="govuk-breadcrumbs__link"  href="javascript:;" (click)="goBack('Confirm organisation details')">{{ 'CONFIRM_ORG_DETAILS' | translate }}</a>
      </li>
         <li class="govuk-breadcrumbs__list-item">
             <span class="govuk-breadcrumbs__link"> {{ 'ADD_REG' | translate }}</span>
@@ -60,9 +60,9 @@
         </div>
       </fieldset>
       <div class="govuk-form-group govuk-button-group button-group">
-        <button type="button" class="govuk-button" data-module="govuk-button" (click)="onSubmit()">Continue</button>
+        <button type="button" class="govuk-button" data-module="govuk-button" (click)="onSubmit('Continue')">Continue</button>
         <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-          (click)="goBack()">Back</button>
+        (click)="goBack('Back')">Back</button>
       </div>
     </div>
   </div>

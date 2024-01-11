@@ -88,14 +88,7 @@ export class ManageGroupEditUsersComponent
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(
       `${this.isEdit ? 'Add/Remove Users' : 'Add Users'} - Manage Groups - CCS`
     );
@@ -200,7 +193,7 @@ export class ManageGroupEditUsersComponent
     }
   }
 
-  onContinueClick() {
+  onContinueClick(buttonText:string) {
     sessionStorage.setItem(
       'group_existing_users',
       JSON.stringify(this.userNames)
@@ -221,18 +214,16 @@ export class ManageGroupEditUsersComponent
     this.router.navigateByUrl(
       'manage-groups/edit-users-confirm?data=' + JSON.stringify(data)
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Add/Edit Users - Manage Groups"
-		});
-	  }
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
+      }
+  
   
 
-  onCancelClick() {
+  onCancelClick(buttonText:string) {
     let data = {
       isEdit: true,
       groupId: this.editingGroupId,
@@ -243,7 +234,18 @@ export class ManageGroupEditUsersComponent
     this.router.navigateByUrl(
       'manage-groups/view?data=' + JSON.stringify(data)
     );
-    this.pushDataLayerEvent();
+    if(buttonText!="Edit group")
+    {
+    if(this.showRoleView)
+    {
+      buttonText=buttonText+'roles';
+    }
+    else if(!this.showRoleView)
+    {
+      buttonText=buttonText+'services';
+    }
+    this.pushDataLayerEvent(buttonText);
+  }
   }
 
   public isAdminGroupAndUser(totalUserName:string){
