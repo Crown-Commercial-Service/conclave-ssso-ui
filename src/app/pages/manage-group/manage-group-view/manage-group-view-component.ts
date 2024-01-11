@@ -85,14 +85,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'View'} - Manage Groups - CCS`
     );
@@ -123,7 +116,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       else{return true};
     })
   }
-  onNameEditClick() {
+  onNameEditClick(buttonText:string) {
     let data = {
       isEdit: this.isEdit,
       groupId: this.editingGroupId,
@@ -132,10 +125,10 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       'manage-groups/edit-name?data=' + JSON.stringify(data)
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  onRoleEditClick() {
+  onRoleEditClick(buttonText:string) {
     this.SharedDataService.manageGroupStorage(this.group.groupName);
     let roleIds = this.group.roles.map((role) => role.id);
     let data = {
@@ -147,10 +140,10 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       'manage-groups/edit-roles?data=' + JSON.stringify(data)
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  onUserEditClick() {
+  onUserEditClick(buttonText:string) {
     let userNames = this.group.users.map((user) => user.userId);
     sessionStorage.setItem('group_existing_users', JSON.stringify(userNames));
     this.SharedDataService.manageGroupStorage(this.group.groupName);
@@ -162,7 +155,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       'manage-groups/edit-users?data=' + JSON.stringify(data)
     );
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onDeleteClick() {
@@ -221,11 +214,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     }
   }
 
-  pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Manage Groups"
-		});
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText);
 	  }
-  
 }

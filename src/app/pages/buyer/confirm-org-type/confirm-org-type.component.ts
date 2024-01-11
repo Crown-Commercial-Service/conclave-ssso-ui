@@ -68,17 +68,10 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-          event: "page_view" ,
-          page_location: this.router.url.toString(),
-          user_name: localStorage.getItem("user_name"),
-          cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-      });
-    })
+    this.dataLayerService.pushPageViewEvent();
   }
 
-  public onSubmitClick() {
+  public onSubmitClick(buttonText:string) {
     const model = {
       orgType: parseInt(this.changes.orgType),
       rolesToDelete: this.changes.toDelete,
@@ -103,21 +96,18 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
         console.log(error);
         this.router.navigateByUrl(`buyer/error`);
       });
-      this.pushDataLayerEvent();
+      this.pushDataLayerEvent(buttonText);
   }
 
   public onCancelClick() {
     this.router.navigateByUrl('buyer-supplier/search');
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Review - Manage Buyers"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
-  public onBackClick() {
+  public onBackClick(buttonText:string) {
     if (this.org && this.org.ciiOrganisationId) {
       localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
       let data = {
@@ -128,6 +118,6 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
         'update-org-type/confirm?data=' + btoa(JSON.stringify(data))
       );
     }
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 }

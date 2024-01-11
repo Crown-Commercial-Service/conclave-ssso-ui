@@ -53,11 +53,11 @@
 
         </div>
         <div class="govuk-button-group save-cancel-button-group">
-          <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onSubmit()" [disabled]="isDisabled">
+          <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onSubmit('Switch organisations')" [disabled]="isDisabled">
             Switch organisations
           </button>
           <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-            (click)="Cancel()">
+            (click)="Cancel('Cancel')">
             Cancel
           </button>
         </div>

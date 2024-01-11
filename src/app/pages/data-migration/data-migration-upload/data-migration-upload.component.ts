@@ -21,6 +21,7 @@ export class DataMigrationUploadComponent implements OnInit {
     fileSizeExceedError: boolean = false;
     file: any;
     maxFileSize: number = environment.bulkUploadMaxFileSizeInBytes / (1024 * 1024);
+    public formId :string = 'Data_migration upload';
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     public userUploadHistoryTable: any = {
         currentPage: 1,
@@ -43,14 +44,8 @@ export class DataMigrationUploadComponent implements OnInit {
     }
     ngOnInit(): void {
         this.getUploadedFilesDetails()
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
+        this.dataLayerService.pushFormStartOnInitEvent(this.formId);
     }
 
     public getUploadedFilesDetails() {
@@ -108,18 +103,18 @@ export class DataMigrationUploadComponent implements OnInit {
         }
     }
 
-    public onContinueClick() {
+    public onContinueClick(buttonText:string) {
         this.submitted = true;
         this.resetError();
         let uploadStartTime = performance.now();
         if (this.validateFile()) {
-            this.pushDataLayer("form_submit");
+            this.dataLayerService.pushFormSubmitEvent(this.formId);
             this.DataMigrationService.uploadDataMigrationFile(this.file).subscribe({
                 next: (response: dataMigrationReportDetailsResponce) => {
                     let uploadEndTime = performance.now();
                     let timeElapsedInSeconds = (uploadEndTime - uploadStartTime) / 1000;
 
-                    this.sendAnalyticsData(timeElapsedInSeconds);
+                    this.sendAnalyticsData(timeElapsedInSeconds,this.file);
                     this.router.navigateByUrl(
                         'data-migration/status?data=' + response.id
                       );
@@ -131,16 +126,19 @@ export class DataMigrationUploadComponent implements OnInit {
                 }
             });
         } else {
-            this.pushDataLayer("form_error");
+            this.dataLayerService.pushFormErrorEvent(this.formId);
         }
-       this.pushDataLayerEvent();
+       this.pushDataLayerEvent(buttonText);
     }
 
-    sendAnalyticsData(timeElapsedInSeconds: number) {
+    sendAnalyticsData(timeElapsedInSeconds: number,file:any) {
         this.dataLayerService.pushEvent({ 
             event: "document_upload" ,
             interaction_type: "Data migration",
-            time_elapsed: timeElapsedInSeconds.toFixed(3) + "seconds"
+            time_elapsed: timeElapsedInSeconds.toFixed(3) + "seconds",
+            file_extension: file.name.split('.').pop(),  
+            file_size: file.size,  
+            file_name: file.name
           });
     }
 
@@ -157,11 +155,8 @@ export class DataMigrationUploadComponent implements OnInit {
         return true;
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Data migration"
-        });
+    pushDataLayerEvent(buttonText:string) {
+        this.dataLayerService.pushClickEvent(buttonText);
       }
       
 
@@ -172,9 +167,9 @@ export class DataMigrationUploadComponent implements OnInit {
         this.fileSizeExceedError = false;
     }
 
-    public onCancelClick() {
+    public onCancelClick(buttonText:string) {
         this.router.navigateByUrl('home');
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     public onLinkClick(data: any): void {

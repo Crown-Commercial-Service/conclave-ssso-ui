@@ -40,14 +40,7 @@ export class ContactAdminComponent implements OnInit {
   ngOnInit(): void {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.getOrganisationUsers();
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
   }
 
   public openEmailWindow(data: any): void {
@@ -80,11 +73,8 @@ export class ContactAdminComponent implements OnInit {
     this.currentPage = pageNumber;
     this.getOrganisationUsers();
   }
-  goBack() {
+  goBack(buttonText:string) {
     this.router.navigateByUrl('profile');
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Contact my administrator"
-    });
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 }

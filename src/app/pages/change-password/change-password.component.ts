@@ -32,6 +32,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
   submitted: boolean = false;
   usedPasswordThreshold: number = environment.usedPasswordThreshold;
   public isOrgAdmin: boolean = false;
+  public formId :string = 'Manage_my_account Change_password';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -48,14 +49,8 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   ngAfterViewChecked() {
@@ -103,7 +98,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
         userName: userName
       };
 
-      this.pushDataLayer("form_submit");
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
 
       this.authService.changePassword(contactData).toPromise()
         .then((response) => {
@@ -128,7 +123,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
     }
     else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -138,22 +133,12 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
     return form.valid;
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     this.location.back();
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_my_account Change_password'
-    });
-  }
-
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Change Password"
-    });
-  }
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText)
+   }
 }

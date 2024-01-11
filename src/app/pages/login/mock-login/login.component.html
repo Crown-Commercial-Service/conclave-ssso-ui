@@ -13,10 +13,10 @@
             autocomplete="off">
         </div>
         <div class="govuk-button-group save-cancel-button-group">
-          <button type="submit" (click)="pushDataLayerEvent()" class="govuk-button" data-module="govuk-button">
+          <button type="submit" (click)="pushDataLayerEvent('Log In')" class="govuk-button" data-module="govuk-button">
             {{'LOGIN_BTN' | translate}}
           </button>
-          <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+          <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
             data-module="govuk-button">
             {{ 'CANCEL_BTN' | translate }}
           </button>

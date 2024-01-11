@@ -41,16 +41,10 @@ export class ManageOrganisationRegistryAddConfirmationComponent extends BaseComp
     this.route.params.subscribe(params => {
       this.routeParams = params;
     });
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-       scheme: this.routeParams.scheme,
-       id: this.routeParams.id,
-       organisationId: this.routeParams.this.organisationId,
-     });
-    })
+    this.dataLayerService.pushPageViewEvent({
+      scheme: this.routeParams.scheme,
+      id: this.routeParams.id,
+      organisationId: this.routeParams.this.organisationId
+    });
    }
 }

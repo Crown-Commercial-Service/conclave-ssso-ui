@@ -18,6 +18,7 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 export class LoginComponent extends BaseComponent {
 
   formGroup: FormGroup;
+  public formId : string = 'Signin';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -32,37 +33,21 @@ export class LoginComponent extends BaseComponent {
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   public onSubmit(form: FormGroup) {
-    this.pushDataLayer("form_submit");
+    this.dataLayerService.pushFormSubmitEvent(this.formId);
     this.authService.login(form.get('userName')?.value, form.get('password')?.value);
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Login"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     this.location.back();
-    this.pushDataLayerEvent();
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Signin'
-    });
+    this.pushDataLayerEvent(buttonText);
   }
 }

@@ -62,14 +62,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
 
     ngOnInit() {
         this.getOrganisationUsers();
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
 
     getOrganisationUsers() {
@@ -104,7 +97,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
         this.selectedUserName = dataRow?.userName ?? '';
     }
 
-    onContinue() {
+    onContinue(buttonText:string) {
         if (this.selectedUserName != "") {
             sessionStorage.removeItem("assigning-contact-list");
             sessionStorage.setItem(SessionStorageKey.ContactAssignUsername, this.selectedUserName);
@@ -115,7 +108,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
             };
             this.router.navigateByUrl('contact-assign?data=' + JSON.stringify(data));
         }
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
     onNavigateToSiteClick(){
@@ -126,9 +119,9 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
-    onCancelClick(){
+    onCancelClick(buttonText:string){
         window.history.back();
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
         // let data = {
         //     'assigningSiteId': this.assigningSiteId,
         //     'assigningOrgId': this.assigningOrgId,
@@ -137,10 +130,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
         // this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Assign a user's contacts to your organisation account"
-        });
+    pushDataLayerEvent(buttonText:string) {
+        this.dataLayerService.pushClickEvent(buttonText)
       }
 }

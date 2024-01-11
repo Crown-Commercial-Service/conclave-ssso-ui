@@ -35,6 +35,8 @@ export class CookiesSettingsComponent implements OnInit {
   public ppg_cookies_policy: string = this.CookiesService.getCookie('ppg_cookies_policy');
   public userName =  '';
   public isOrgAdmin: boolean = false;
+  public isFormEdited: boolean = false;
+  public formId : string = 'cookies_settings';
 
 
   constructor(private CookiesService: CookiesService,private router: Router, private dataLayerService: DataLayerService) {
@@ -43,24 +45,15 @@ export class CookiesSettingsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
     if (this.ppg_cookies_preferences_set == "true") {
       this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
     }
-    this.pushDataLayer("form_start");
   }
 
   public OnSubmit() {
     const cookies_prefernace = JSON.stringify(this.cookiesValue)
-    this.pushDataLayer("form_submit");
     this.CookiesService.setCookie('ppg_cookies_policy', cookies_prefernace, this.cookieExpirationTimeInMinutes);
     this.CookiesService.setCookie('ppg_cookies_preferences_set', 'true', this.cookieExpirationTimeInMinutes);
     this.cookiesUpdated = true;
@@ -68,6 +61,7 @@ export class CookiesSettingsComponent implements OnInit {
     setTimeout(() => {
       this.scrollView()
     }, 500);
+    this.dataLayerService.pushFormSubmitEvent(this.formId);
   }
 
   public checkCompination(cookiesValue:any):void{
@@ -87,11 +81,10 @@ export class CookiesSettingsComponent implements OnInit {
     const element = document.getElementById("govuk-notification-banner-title");
     element?.scrollIntoView();
   }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'cookies_settings'
-    });
+  public formEdited() {
+    if(this.isFormEdited == false){
+      this.dataLayerService.pushFormStartOnInitEvent(this.formId);
+      this.isFormEdited = true;
+    }
   }
 }
