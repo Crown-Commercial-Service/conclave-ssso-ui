@@ -121,7 +121,10 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
 
     onCancelClick(buttonText:string){
         window.history.back();
+        if(buttonText==='Cancel')
+        {
         this.pushDataLayerEvent(buttonText);
+        }
         // let data = {
         //     'assigningSiteId': this.assigningSiteId,
         //     'assigningOrgId': this.assigningOrgId,

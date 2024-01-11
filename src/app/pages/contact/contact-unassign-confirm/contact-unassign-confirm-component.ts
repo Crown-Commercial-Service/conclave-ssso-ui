@@ -81,7 +81,10 @@ export class ContactUnassignConfirmComponent extends BaseComponent implements On
             'siteId': this.unassignSiteId
         };
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
+        if(buttonText==='Cancel')
+        {
         this.pushDataLayerEvent(buttonText);
+        }
     }
 
     pushDataLayerEvent(buttonText:string) {
