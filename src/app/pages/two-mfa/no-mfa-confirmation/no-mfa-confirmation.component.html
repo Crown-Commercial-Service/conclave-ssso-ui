@@ -17,10 +17,10 @@
 
     </div>
     <div class="govuk-button-group">
-        <button type="button" class="govuk-button" (click)="onGoBackClick()" data-module="govuk-button">
+        <button type="button" class="govuk-button"  (click)="onGoBackClick('Go back')"  data-module="govuk-button">
             {{ 'GO_BACK_MESSAGE' | translate }}
         </button>
-        <button type="button" (click)="onDontTurnOnClick()" class="govuk-button govuk-button--warning"
+        <button type="button" (click)="onDontTurnOnClick('Do not turn on')" class="govuk-button govuk-button--warning"
             data-module="govuk-button">
             {{ 'DO_NOT_TURN_ON' | translate }}
         </button>

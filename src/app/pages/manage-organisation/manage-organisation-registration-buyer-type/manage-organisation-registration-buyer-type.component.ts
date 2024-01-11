@@ -27,6 +27,7 @@ export class ManageOrgRegBuyerTypeComponent extends BaseComponent implements OnI
   
   public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
   defaultChoice: string = "Central Government";
+  public formId : string = 'Register_organisation Buyer_type';
 
   constructor(private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
@@ -34,14 +35,8 @@ export class ManageOrgRegBuyerTypeComponent extends BaseComponent implements OnI
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartOnInitEvent(this.formId);
   }
 
   onBack(){
@@ -52,14 +47,7 @@ export class ManageOrgRegBuyerTypeComponent extends BaseComponent implements OnI
   public onSubmit() {
     localStorage.setItem("manage-org_buyer_type", this.defaultChoice);
     //this.router.navigateByUrl(`manage-org/register/start`);
-    this.pushDataLayer("form_submit");
+    this.dataLayerService.pushFormSubmitEvent(this.formId);
     this.router.navigateByUrl(`manage-org/register/search?data=` + btoa(JSON.stringify(3)));
-  }
-
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Register_organisation Buyer_type'
-    });
   }
 }

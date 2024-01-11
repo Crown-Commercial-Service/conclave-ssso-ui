@@ -62,14 +62,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     }
 
     async ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
         await this.auditLogService.createLog({
             eventName: "Access", applicationName: "Manage-user-account",
             referenceData: `UI-Log`
@@ -90,17 +83,14 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
         });
     }
 
-    onAddClick() {
+    onAddClick(buttonText:string) {
         this.router.navigateByUrl("manage-users/add-user-selection");
         if(!this.isBulkUpload){
             this.router.navigateByUrl("manage-users/add-user-selection");
         } else {
             this.router.navigateByUrl("manage-users/add-user/details");
         }
-        this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "Manage User Accounts"
-          });
+        this.dataLayerService.pushClickEvent(buttonText);
     }
 
     searchTextChanged(event: any) {

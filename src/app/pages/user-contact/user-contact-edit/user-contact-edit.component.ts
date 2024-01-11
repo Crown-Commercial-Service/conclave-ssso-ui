@@ -90,6 +90,7 @@ export class UserContactEditComponent
     { data: 'Web', status: false, isChecked: false, formControlName: 'webUrl' },
   ];
   isOrgAdmin: boolean = false;
+  public formId : string = 'Manage_my_account Edit_contact_details';
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -156,18 +157,10 @@ export class UserContactEditComponent
     this.formGroup.controls['contactReason'].setValue(this.default, {
       onlySelf: true,
     });
-    this.pushDataLayer("form_start");
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} - User Contact - CCS`
@@ -237,6 +230,7 @@ export class UserContactEditComponent
         console.log(error);
       },
     });
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   ngAfterViewChecked() {
@@ -277,11 +271,8 @@ export class UserContactEditComponent
     }
   }
 
-  pushDataLayerEvent() {
-    this.dataLayerService.pushEvent({ 
-      event: "cta_button_click" ,
-      page_location: "Add/Edit - User Contact"
-    });
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 
   public onSubmit(form: FormGroup) {
@@ -296,7 +287,7 @@ export class UserContactEditComponent
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
         this.contactData.contactPointReason = form.get('contactReason')?.value;
-        this.pushDataLayer("form_submit");
+        this.dataLayerService.pushFormSubmitEvent(this.formId);
         if (this.isEdit) {
           this.contactService
             .updateUserContact(this.userName, this.contactId, this.contactData)
@@ -334,6 +325,7 @@ export class UserContactEditComponent
               error: (error) => {
                 console.log(error);
                 console.log(error.error);
+                this.dataLayerService.pushFormErrorEvent(this.formId);
                 if (error.error == 'INVALID_PHONE_NUMBER') {
                   this.setError(form, 'phone', 'invalid');
                 } else if (error.error == 'INVALID_EMAIL') {
@@ -348,11 +340,11 @@ export class UserContactEditComponent
         }
       } else {
         this.scrollHelper.scrollToFirst('error-summary-title');
-        this.pushDataLayer("form_error");
+        this.dataLayerService.pushFormErrorEvent(this.formId);
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
-      this.pushDataLayer("form_error");
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -360,7 +352,7 @@ export class UserContactEditComponent
     var errorObject: ValidationErrors = {};
     errorObject[errorString] = true;
     form.controls[control].setErrors(errorObject);
-    this.scrollHelper.scrollToFirst('error-summary');
+    this.dataLayerService.pushFormErrorEvent(this.formId);
   }
 
   formValid(form: FormGroup): Boolean {
@@ -369,9 +361,9 @@ export class UserContactEditComponent
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText:string) {
     this.router.navigateByUrl('profile');
-    this.pushDataLayerEvent();
+    this.pushDataLayerEvent(buttonText);
   }
 
   onDeleteClick() {
@@ -441,12 +433,6 @@ export class UserContactEditComponent
     return false
   }
 
-  pushDataLayer(event:string){
-    this.dataLayerService.pushEvent({
-        'event': event,
-        'form_id': 'Manage_my_account Edit_contact_details'
-    });
-  }
 
   // public get checkboxValidator() {
   //   let returnValue=false

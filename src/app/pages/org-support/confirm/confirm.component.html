@@ -16,8 +16,8 @@
   <h1 class="govuk-heading-xl page-title" style="margin-top: 50px;">{{displayMessage}}</h1>
   <div class="govuk-button-group" style="margin-top: 40px;">
     <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" [disabled]="!canContinue" data-module="govuk-button"
-      (click)="onSubmitClick()">Save and Continue</button>
+    (click)="onSubmitClick('Save and Continue')">Save and Continue</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onCancelClick()">Cancel</button>
+    (click)="onCancelClick('Cancel')">Cancel</button>
   </div>
 </div>

@@ -56,6 +56,7 @@ export class ManageOrgRegStep2Component
   public pageAccessMode:any;
   submitted: boolean = false;
   public newScheme:any = [];
+  public formId : string = 'Manage-organisation-registration-step-2';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
@@ -85,14 +86,7 @@ export class ManageOrgRegStep2Component
   }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
-      this.dataLayerService.pushEvent({ 
-       event: "page_view" ,
-       page_location: this.router.url.toString(),
-       user_name: localStorage.getItem("user_name"),
-       cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-     });
-    })
+    this.dataLayerService.pushPageViewEvent();
     this.items$ = this.ciiService.getSchemes().pipe(share());
     this.items$.subscribe({
       next: (result) => {
@@ -112,12 +106,13 @@ export class ManageOrgRegStep2Component
     this.inputs.toArray()[inputIndex].nativeElement.focus();
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     let schemeDetails = {
       scheme:this.scheme,
       schemeID:this.txtValue,
     }
     this.submitted = true;
+    this.dataLayerService.pushFormSubmitEvent(this.formId);
     this.validationObj.isDunlength = false;
       if (this.txtValue && this.txtValue.length > 0) {
         localStorage.setItem('schemeDetails', (JSON.stringify(schemeDetails)));
@@ -128,11 +123,9 @@ export class ManageOrgRegStep2Component
         );
       } else {
         this.scrollHelper.scrollToFirst('error-summary');
+        this.dataLayerService.pushFormErrorEvent(this.formId);
       }
-      this.dataLayerService.pushEvent({ 
-        event: "cta_button_click" ,
-        page_location: "Enter Details - Registration"
-      });
+      this.dataLayerService.pushClickEvent(buttonText);
   }
 
   public onBackClick() {

@@ -42,16 +42,11 @@ export class ManageOrganisationSiteDeleteComponent extends BaseComponent impleme
 
     ngOnInit() {
         this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        });
+        this.dataLayerService.pushPageViewEvent();
     }
 
-    onDeleteConfirmClick() {
+    onDeleteConfirmClick(buttonText:string) {
         this.contactService.deleteOrganisationSite(this.organisationId, this.siteId).subscribe({
             next: () => { 
                 this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.DeleteSite}`);           
@@ -60,22 +55,23 @@ export class ManageOrganisationSiteDeleteComponent extends BaseComponent impleme
                 console.log(error);
             }
         });
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    onCancelClick(){
+    onCancelClick(buttonText:string){
+        if(buttonText==='Edit site')
+        {
         let data = {
             'isEdit': true,
             'siteId': this.siteId
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
-        this.pushDataLayerEvent();
+        }
+        else{
+        this.pushDataLayerEvent(buttonText);}
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Delete - Site"
-		});
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
 	  }
 }

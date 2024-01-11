@@ -1,5 +1,5 @@
 import { ViewportScroller } from "@angular/common";
-import { AfterContentInit, ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -8,6 +8,7 @@ import { BaseComponent } from "src/app/components/base/base.component";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { DetailsToggleService } from "src/app/shared/shared-details-toggle.service";
 import { UIState } from "src/app/store/ui.states";
 import { environment } from "src/environments/environment";
 
@@ -35,8 +36,11 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     submitted: boolean = false;
     errorMsg: string = "";
     isTooManySms: boolean = false;
+    public linkText : string = 'Problems with the code - Help content'
+    public formId : string = 'Check_your_phone';
     constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private authService: AuthService,
-        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+        protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,
+         private elementRef: ElementRef,private detailsToggleService : DetailsToggleService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.formGroup = this.formBuilder.group({
             otp: [, Validators.compose([Validators.required, Validators.minLength(6)])],
@@ -44,24 +48,35 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     }
     ngOnInit() {
         this.sendSmsOtp(this.phonenumber);
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-                event: "page_view" ,
-                page_location: this.router.url.toString(),
-                user_name: localStorage.getItem("user_name"),
-                cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-            });
-        })
+        this.dataLayerService.pushPageViewEvent();
+        this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
     }
     ngAfterViewInit()
     {
         document.getElementById('message-otp')?.focus();
-    }
+        const detailsElement = this.elementRef.nativeElement.querySelector('details'); 
+        this.detailsToggleService.addToggleListener(detailsElement, (isOpen: boolean) => {
+          if (isOpen) {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "open",
+              link_text: this.linkText
+            })
+          } else {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "close",
+              link_text: this.linkText
+            })
+          }
+        });
+       
+      }
     public onContinueBtnClick(otp: string) {
         this.submitted = true;
         this.isTooManySms = false;
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
-        this.pushDataLayer("form_submit");
+        this.dataLayerService.pushFormSubmitEvent(this.formId);
         this.otp = otp;
 
         this.authService.VerifyOTP(otp, this.auth0token, this.oob_code, "SMS").subscribe({
@@ -78,24 +93,21 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
                     this.RenewToken('VERIFYOTP');
                 }
                 else{
-                    this.formGroup.controls['otp'].setErrors({ 'incorrect': true })
+                    this.formGroup.controls['otp'].setErrors({ 'incorrect': true });
+                    this.dataLayerService.pushFormErrorEventByMessage(this.formId,'Please provide valid code');
                 }                
             },
         
         });
-        this.pushDataLayerEvent();
     }
 
-    public onBackBtnClick() {
+    public onBackBtnClick(buttonText:string) {
         this.router.navigateByUrl('mfa-message-step-1');
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
-    pushDataLayerEvent() {
-        this.dataLayerService.pushEvent({ 
-          event: "cta_button_click" ,
-          page_location: "Check your phone"
-        });
+    pushDataLayerEvent(buttonText:string) {
+        this.dataLayerService.pushClickEvent(buttonText);
         }
 
     public onNavigateToMFAClick() {
@@ -113,7 +125,6 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     }
     sendSmsOtp(phone: string) {
         this.auth0token = localStorage.getItem('auth0_token') ?? '';
-        this.pushDataLayer("form_start");
         this.authService.Associate(this.auth0token, phone, true).subscribe({
             next: (response) => {
                 this.oob_code = response.oob_Code;
@@ -151,11 +162,8 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
         });
     
     }
-
-    pushDataLayer(event:string){
-        this.dataLayerService.pushEvent({
-            'event': event,
-            'form_id': 'Check_your_phone'
-        });
-    }
+    ngOnDestroy() {
+        const detailsElement = this.elementRef.nativeElement.querySelector('details');
+        this.detailsToggleService.removeToggleListener(detailsElement);
+      }
 }

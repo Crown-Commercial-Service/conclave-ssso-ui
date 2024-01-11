@@ -33,6 +33,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     @ViewChild(MatAutocompleteTrigger) autocomplete!: MatAutocompleteTrigger;
     panelShowTimeout: any;
     searchOrgName: string = '';
+    public formId : string = 'Enter_detail _create_account';
 
     constructor(private organisationService: OrganisationService,private PatternService:PatternService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
         protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private dataLayerService:DataLayerService) {
@@ -48,7 +49,6 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 organisation: [orgreginfo.orgName, Validators.compose([Validators.required])]
             });
             this.searchOrgName = orgreginfo.orgName;
-            this.pushDataLayer("form_start");
         }
         else {
             this.formGroup = this.formBuilder.group({
@@ -61,14 +61,8 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     }
 
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-             event: "page_view" ,
-             page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
-             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-           });
-        })
+        this.dataLayerService.pushPageViewEvent();
+        this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
     }
 
     async onSearchTextChange(value: any) {
@@ -96,12 +90,12 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         }
     }
 
-    showMoreClicked() {
+    showMoreClicked(buttonText:string) {
         this.showMoreOptionsVisible = true;
         this.panelShowTimeout = setTimeout(() => {
             this.autocomplete.openPanel();
         }, 30);
-        this.pushDataLayerEvent();
+        this.pushDataLayerEvent(buttonText);
     }
 
 
@@ -141,10 +135,11 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     async onSubmit(form: FormGroup) {
         this.submitted = true;
         if(this.PatternService.emailValidator(form.get('email')?.value)){
-            this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+            this.formGroup.controls['email'].setErrors({ 'incorrect': true});
+            this.dataLayerService.pushFormErrorEvent(this.formId);
         }
         if (this.formValid(form)) {
-            this.pushDataLayer("form_submit");
+            this.dataLayerService.pushFormSubmitEvent(this.formId);
             let organisationRegisterDto: OrganisationRegBasicInfo = {
                 adminEmail: form.get('email')?.value,
                 adminUserFirstName: form.get('firstName')?.value,
@@ -173,16 +168,9 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 this.router.navigateByUrl(`manage-org/register/initial-search-status/duplicate`);
             }
         } else {
-            this.pushDataLayer("form_error");
+            this.dataLayerService.pushFormErrorEvent(this.formId);
         }
-        this.pushDataLayerEvent();
-    }
-
-    pushDataLayer(event: string){
-        this.dataLayerService.pushEvent({
-            'event': event,
-            'form_id': 'Enter_detail _create_account'
-          });
+        this.pushDataLayerEvent('Continue');
     }
 
     goBack() {
@@ -195,10 +183,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
         }
     }
 
-    pushDataLayerEvent() {
-		this.dataLayerService.pushEvent({ 
-		  event: "cta_button_click" ,
-		  page_location: "Search Organisation - Registration"
-		});
-	  }
+    pushDataLayerEvent(buttonText:string) {
+        this.dataLayerService.pushClickEvent(buttonText);
+        }
 }

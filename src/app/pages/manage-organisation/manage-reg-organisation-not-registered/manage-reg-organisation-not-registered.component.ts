@@ -1,5 +1,5 @@
 import { ViewportScroller } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -7,6 +7,7 @@ import { BaseComponent } from "src/app/components/base/base.component";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { OrganisationService } from "src/app/services/postgres/organisation.service";
 import { DataLayerService } from "src/app/shared/data-layer.service";
+import { DetailsToggleService } from "src/app/shared/shared-details-toggle.service";
 import { UIState } from "src/app/store/ui.states";
 import { environment } from "src/environments/environment";
 
@@ -20,28 +21,43 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
 
     adminSelectionMode : string = 'useradmin';
     contactUrl = environment.uri.ccsContactUrl;
+    public linkText : string = 'Administrator Setup - Help content';
     
     constructor(public router: Router, protected uiStore: Store<UIState>,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService, private elementRef: ElementRef,
+        private detailsToggleService : DetailsToggleService) {
         super(uiStore, viewportScroller, scrollHelper);
     }
 
     ngOnInit() {
-        this.router.events.subscribe(value => {
-            this.dataLayerService.pushEvent({ 
-             event: "page_view" ,
-             page_location: this.router.url.toString(),
-             user_name: localStorage.getItem("user_name"),
-             cii_organisataion_id: localStorage.getItem("cii_organisation_id"),
-           });
-        })
+        this.dataLayerService.pushPageViewEvent();
     }
+    ngAfterViewInit() {
+        const detailsElement = this.elementRef.nativeElement.querySelector('details');
+    
+        this.detailsToggleService.addToggleListener(detailsElement, (isOpen: boolean) => {
+          if (isOpen) {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "open",
+              link_text: this.linkText
+            })
+          } else {
+            this.dataLayerService.pushEvent({
+              event: "accordion_use",
+              interaction_type: "close",
+              link_text: this.linkText
+            })
+          }
+        });
+       
+      }
 
     public onContinueNotRegistered() {
         this.router.navigateByUrl(`manage-org/register/newreg`);
     }
     
-    onContinueClick(){
+    onContinueClick(buttonText:string){
         switch (this.adminSelectionMode){
             case "useradmin":{
                 this.router.navigateByUrl(environment.appSetting.customMfaEnabled
@@ -60,10 +76,7 @@ export class ManageOrgRegNotRegisteredComponent extends BaseComponent {
             }
         }
 
-        this.dataLayerService.pushEvent({ 
-            event: "cta_button_click" ,
-            page_location: "Admin Details - Registration"
-        });
+        this.dataLayerService.pushClickEvent(buttonText);
     }
 
     goBack() {

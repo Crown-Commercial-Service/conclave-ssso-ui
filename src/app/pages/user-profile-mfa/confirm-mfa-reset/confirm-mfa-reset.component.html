@@ -33,8 +33,8 @@
                 <h1 class="govuk-heading page-title">Confirm you want to reset additional security for {{decodedData.userName}}.</h1>
             </div>
             <div class="govuk-button-group save-cancel-button-group">
-                <button type="submit" data-module="govuk-button"class="govuk-button" (click)="navigateTosuccess()">Save and continue</button>
-                <button type="button" data-module="govuk-button"  class="govuk-button govuk-button--secondary" (click)="OnCancel()"> Cancel </button>
+                <button type="submit" data-module="govuk-button"class="govuk-button"(click)="navigateTosuccess('Save and continue')">Save and continue</button>
+                <button type="button" data-module="govuk-button"  class="govuk-button govuk-button--secondary"(click)="OnCancel('Cancel')"> Cancel </button>
                 </div>
             <br>
         </div>
