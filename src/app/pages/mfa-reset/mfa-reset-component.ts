@@ -22,6 +22,7 @@ export class MFAResetComponent extends BaseComponent implements OnInit {
   userName: string = '';
   resultVerified: boolean = false;
   titlePrefix: string = '';
+  mfaReset:boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
     private mfaService: MFAService, private authService: AuthService, private titleService: Title,private sessionService:SessionService,
@@ -53,6 +54,7 @@ export class MFAResetComponent extends BaseComponent implements OnInit {
         this.titleService.setTitle(`Error - Additional security Reset - CCS`);
         if (er.error.error == 'INVALID_TICKET') {
           this.userName = er.error.error_description;
+          this.mfaReset = er.error.mfa_reset_inprogress;
         }
       });
     });
