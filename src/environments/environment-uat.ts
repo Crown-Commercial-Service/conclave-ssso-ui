@@ -3,19 +3,19 @@ export const environment = {
   idam_client_id: '%IDAM%',
   uri: {
     api: {
-      isApiGateWayEnabled: false,
+      isApiGateWayEnabled: true,
       //security: 'https://uat-api-security.london.cloudapps.digital',
-      security: 'https://uat.ppg-sso-service.crowncommercial.gov.uk',
+      security: 'https://uat.api.crowncommercial.gov.uk',
       //postgres: 'https://uat-api-core.london.cloudapps.digital',
-      postgres: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/dashboard-wrapper',
+      postgres: 'https://uat.api.crowncommercial.gov.uk/dashboard-wrapper',
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/user-profile',
-          organisation: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/contact-service',
-          configuration: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/datamigration',
+          user: 'https://uat.api.crowncommercial.gov.uk/user-profile',
+          organisation: 'https://uat.api.crowncommercial.gov.uk/organisation-profile',
+          contact: 'https://uat.api.crowncommercial.gov.uk/contact-service',
+          configuration: 'https://uat.api.crowncommercial.gov.uk/configuration-service',
+          dataMigration: 'https://uat.api.crowncommercial.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/user-profile',
@@ -28,7 +28,7 @@ export const environment = {
     },
     web: {
       //dashboard: 'https://uat-ccs-sso.london.cloudapps.digital'
-      dashboard: 'https://uat-ppg-sso.crowncommercial.gov.uk',
+      dashboard: 'https://uat.identify.crowncommercial.gov.uk',
       name: "UAT"
     },
     ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
@@ -75,6 +75,8 @@ export const environment = {
    hideBulkupload:false,
    hideAutoValidation:false,
    hideSimplifyRole: false,
-   blockedScheme: ["GB-PPG"]
+   blockedScheme: ["GB-PPG"],
+   customMfaEnabled: true,
+   isMaintenance: false,
   },
 };
