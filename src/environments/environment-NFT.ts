@@ -10,19 +10,19 @@ export const environment = {
 
       isApiGateWayEnabled: true,
 
-      security: 'https://nft.api.crowncommercial.gov.uk/aws',
+      security: 'https://nft.api.crowncommercial.gov.uk',
 
-      postgres: 'https://nft.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
+      postgres: 'https://nft.api.crowncommercial.gov.uk/dashboard-wrapper',
 
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
 
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://nft.api.crowncommercial.gov.uk/aws/user-profile',
-          organisation: 'https://nft.api.crowncommercial.gov.uk/aws/organisation-profile',
-          contact: 'https://nft.api.crowncommercial.gov.uk/aws/contact-service',
-          configuration: 'https://nft.api.crowncommercial.gov.uk/aws/configuration-service',
-          dataMigration: 'https://nft.api.crowncommercial.gov.uk/aws/organisation-profile/datamigration',
+          user: 'https://nft.api.crowncommercial.gov.uk/user-profile',
+          organisation: 'https://nft.api.crowncommercial.gov.uk/organisation-profile',
+          contact: 'https://nft.api.crowncommercial.gov.uk/contact-service',
+          configuration: 'https://nft.api.crowncommercial.gov.uk/configuration-service',
+          dataMigration: 'https://nft.api.crowncommercial.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/user-profile',
@@ -37,7 +37,7 @@ export const environment = {
 
     web: {
 
-      dashboard: 'https://nft-ppg-sso.crowncommercial.gov.uk',
+      dashboard: 'https://nft.identify.crowncommercial.gov.uk',
       name: "NFT"
 
     },
@@ -55,7 +55,7 @@ export const environment = {
 
   bulkUploadMaxFileSizeInBytes:1048576,
 
-  bulkUploadTemplateFileUrl: 'https://uat.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
+  bulkUploadTemplateFileUrl: 'https://nft.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
 
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
 
@@ -71,7 +71,7 @@ export const environment = {
 
     security_log: false,
     
-    environment: 'uat-ccs-sso'
+    environment: 'nft-ccs-sso'
 
   },
   cookies_policy: {
@@ -100,7 +100,8 @@ export const environment = {
     hideBulkupload:false,
     hideAutoValidation:false,
     hideSimplifyRole: false,
-    blockedScheme: ["GB-PPG"]
+    blockedScheme: ["GB-PPG"],
+    customMfaEnabled: true,
+    isMaintenance: false,
    },
-
 };
