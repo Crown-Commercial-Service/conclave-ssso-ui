@@ -55,7 +55,8 @@ export class RegistryGovukTableComponent implements OnInit, OnChanges {
       data.identifier.primary = true
       this.additionalIdentifiers.push(data.identifier)
       data.additionalIdentifiers.forEach((Identifier: any) => {
-        if (Identifier.scheme != this.pponSchema) {
+        //PPON Schema Identifier should not be displayed in Manage Organisation(Bug-7218)
+        if (this.pageName != 'MO' || Identifier.scheme != this.pponSchema) {
           Identifier.primary = false
           this.additionalIdentifiers.push(Identifier)
         }
