@@ -18,6 +18,8 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WorkerService } from 'src/app/services/worker.service';
 import { GlobalRouteService } from 'src/app/services/helper/global-route.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 
 @Component({
@@ -30,15 +32,33 @@ export class AuthErrorComponent extends BaseComponent implements OnInit {
         private route: ActivatedRoute,
         private authService: AuthService,
         protected uiStore: Store<UIState>,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
+        private router: Router,
+        private dataLayerService: DataLayerService,
+        private sessionService: SessionService
     ) {
         super(uiStore, viewportScroller, scrollHelper);
     }
 
     ngOnInit() {
-        this.authService.renewAccessToken(this.globalRouteService.globalRoute.length > 0 ?
-            this.globalRouteService.globalRoute : 'home');
-        // window.location.href = this.authService.getAuthorizedEndpoint();
-        // return false;
+        this.dataLayerService.pushPageViewEvent();
+
+        if(this.globalRouteService.globalRoute.indexOf("isEdit") < 0 && this.globalRouteService.globalRoute.indexOf("mfareset") < 0
+            && this.globalRouteService.globalRoute.indexOf("isNewTab") < 0){
+            this.authService.renewAccessToken(this.globalRouteService.globalRoute.length > 0 ?
+                this.globalRouteService.globalRoute : 'home');
+        }
+        else{
+            this.authService.useTokenFromStorage();
+            let url = this.globalRouteService.globalRoute.length > 0 ? this.globalRouteService.globalRoute : 'home';
+            if (url.includes('isNewTab=true')) {
+                const urlTree = this.router.parseUrl(url);
+               if (urlTree.queryParams) {          
+                    delete urlTree.queryParams['isNewTab'];
+                    url = urlTree.toString();
+                }
+            }
+            this.router.navigateByUrl(url, { replaceUrl: true });
+        }
     }
 }

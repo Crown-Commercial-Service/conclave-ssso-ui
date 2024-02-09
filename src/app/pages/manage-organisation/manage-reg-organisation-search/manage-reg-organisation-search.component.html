@@ -20,8 +20,8 @@
         <div class="govuk-grid-column-three-quarters">
             <form class="govuk-!-width-three-quarters" [class.error]="!formValid(formGroup)" [formGroup]="formGroup">
                 <div class="govuk-form-group" *ngIf="formValid(formGroup) == false && submitted">
-                    <div class="govuk-error-summary govuk-grid-column-three-quarters"
-                        aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+                    <div class="govuk-error-summary govuk-grid-column-three-quarters" 
+                        aria-labelledby="error-summary-title" id="error-summary" role="alert" tabindex="-1"
                         data-module="govuk-error-summary">
                         <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
                         <div class="govuk-error-summary__body">
@@ -46,7 +46,7 @@
                                     *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
                                     <li>Enter an email address in the correct format, like name@example.com</li>
                                 </a>
-                                <a *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)"
+                                <a *ngIf="submitted && ((!formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid) || (!formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid))"
                                     href="javascript:;" onClick="return false;" (click)="customFocum()">
                                     <li>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</li>
                                 </a>
@@ -78,7 +78,7 @@
                                 *ngIf="(filteredOptions?.length! > showMoreThreshold)  && !showMoreOptionsVisible">
                                 <div class="col-sm-6 text-right pr-2">
                                     <button type="button" class="btn btn-primary clickable"
-                                        (click)="showMoreClicked()">Show
+                                        (click)="showMoreClicked('Show more')">Show
                                         more</button>
                                 </div>
                             </div>

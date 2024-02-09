@@ -12,16 +12,18 @@
                             Manage Buyer status requests</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <span class="govuk-breadcrumbs__link">Success</span>
+                        <span class="govuk-breadcrumbs__link">{{routeDetails.status === 'accept' ? 'Success': 'Declined'}}</span>
                     </li>
                 </ol>
             </div>
-            <h1 class="govuk-heading-xl page-title header-bread-align" *ngIf="routeDetails.status === 'decline'">You have declined the right to buy status for organisation {{routeDetails.organisationName}}</h1>
+            <h1 class="govuk-heading-xl page-title header-bread-align" *ngIf="routeDetails.status === 'decline'">You have declined the right to buy status for the organisation {{routeDetails.organisationName}}</h1>
             <h1 class="govuk-heading-xl page-title header-bread-align" *ngIf="routeDetails.status === 'accept'">You have accepted the right to buy status for the organisation {{routeDetails.organisationName}}</h1>
             <div>
-                <a  (click)="returnToRequests()" class="navigation-text">Return to Manage Buyer status requests</a>
+                
+                <a  [routerLink]="['/manage-buyer-both']"  [queryParams]="{isNewTab:true}" class="navigation-text">Return to Manage Buyer status requests</a>
                 <br><br>
-                <a  (click)="returnToDashBoard()"  class="navigation-text">Return to the
+                
+                <a  [routerLink]="['/home']" [queryParams]="{isNewTab:true}" class="navigation-text">Return to the
                     dashboard</a>
             </div>
         </div>

@@ -13,6 +13,8 @@ import { TokenService } from 'src/app/services/auth/token.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { CiiOrgIdentifiersDto } from 'src/app/models/org';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-registry-confirm',
@@ -38,8 +40,8 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
   public user!: User;
   id!: string;
 
-  constructor(private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
-    private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(public ciiService: ciiService,private sessionService:SessionService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
+    private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     let queryParams = this.route.snapshot.queryParams;
@@ -64,16 +66,23 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
               this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/error/notfound`);
             } else if (err.status == '409') {
               this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/error/existsInConclave`);
-            } else {
+            } else if (err.status == '503') {
+              this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/error/ciidown`);
+            }
+            else {
               this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/error/generic`);
             }
           }
         });
       }
     });
+    this.dataLayerService.pushPageViewEvent({
+      scheme: this.routeParams.scheme,
+       organisationId: this.routeParams.this.organisationId,
+    });
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     if (this.detailValidityOption === 'CorrectOrganisation') {
       this.ciiService.addRegistry(this.organisationId, this.routeParams.scheme, this.id).subscribe((data) => {
         this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/confirmation/' + this.routeParams.scheme + '/' + this.id);
@@ -86,6 +95,7 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
     } else {
       this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/search/not-my-org`);
     }
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
   public onChange(event: any, additionalIdentifier: any) {

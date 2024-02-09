@@ -1,0 +1,41 @@
+<div class="content flex">
+    <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                <h1 class="govuk-fieldset__heading">
+                    {{'ENTER_MOBILE_NUMBER' | translate}}
+                </h1>
+            </legend>
+            <p class="govuk-body-l">
+                {{'SEND_CODE' | translate}}
+            </p>
+            <form [formGroup]="formGroup" (ngSubmit)="onContinueBtnClick()">
+            <label class="mfa-message-label-text" for ="mobile-input">Phone number<br></label>
+            <ngx-intl-tel-input [cssClass]="'govuk-input'" [selectedCountryISO]="CountryISO.UnitedKingdom" [preferredCountries]="preferredCountries"
+                    [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                    [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"autofocus
+                    [selectFirstCountry]="false" [phoneValidation]="true" [separateDialCode]="separateDialCode"
+                    [maxLength]="'15'" [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'"
+                    name="mobile" id ="mobile-input" formControlName="mobile">
+            </ngx-intl-tel-input>
+            <label for="mobile" class="unwanted_lable">.</label>  
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button"
+                    [disabled]="formGroup.controls.mobile.invalid" (click)="pushDataLayerEvent('Continue')" data-module="govuk-button">
+                    {{ 'CONTINUE_BTN' | translate }}
+                </button>
+                <button type="button" class="govuk-button govuk-button--secondary" (click)="onBackBtnClick('Back')"
+                    data-module="govuk-button">
+                    {{ 'BACK' | translate }}
+                </button>
+            </div>
+            <div class="govuk-2mfa-link">
+                <a href="javascript:;" class="navigation-text" (click)="onNavigateToMFAClick()">
+                    {{'BACK_TO_2MFA' | translate }}
+                </a>
+            </div>
+            </form>
+        </fieldset>
+    </div>
+   
+</div>

@@ -11,6 +11,9 @@ import { UIState } from 'src/app/store/ui.states';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
     selector: 'app-manage-organisation-registration-additional-identifiers',
@@ -32,9 +35,10 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
   public additionalIdentifiers: any[] = new Array();
   public routeParams!: any;
   public organisation!:any;
-  public buyerFlow:any
+  public buyerFlow:any;
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
 
-  constructor(private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private ciiService: ciiService, public router: Router,private sessionService:SessionService, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
     this.buyerFlow = localStorage.getItem('organisation_type') ?? '';
 
@@ -51,17 +55,28 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
         this.router.navigateByUrl(`manage-org/register/error/notfound`);
       }
     });
+
+    this.dataLayerService.pushPageViewEvent({
+      scheme: this.routeParams.scheme,
+       id: this.routeParams.id
+    });
   }
 
-  public goBack() {
+  public goBack(buttonText:string) {
+    if(buttonText=='Confirm organisation details'){
     this.router.navigateByUrl(`manage-org/register/search/${this.routeParams.scheme}?id=${encodeURIComponent(this.routeParams.id)}`);
+    }
+    else{
+      this.pushDataLayerEvent(buttonText);
+    }
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     const org = JSON.parse(localStorage.getItem('cii_organisation')+'');
     org.additionalIdentifiers = this.selectedIdentifiers;
     localStorage.setItem('cii_organisation', JSON.stringify(org));
     this.router.navigateByUrl(`manage-org/register/user?data=` + btoa(JSON.stringify(2)));
+    this.pushDataLayerEvent(buttonText);
   }
 
   public onChange(event: any, additionalIdentifier: any) {
@@ -99,4 +114,8 @@ export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent im
    } 
   }
 
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
+	  }
+  
 }

@@ -22,6 +22,9 @@
             <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate
               }}</a>
           </li>
+          <li class="govuk-breadcrumbs__list-item" *ngIf="isCustomMfaEnabled">
+            <a class="govuk-breadcrumbs__link" routerLink="/manage-reg-organisation-mfa">{{ '2FA_SETUP' | translate }}</a>
+        </li>
           <li class="govuk-breadcrumbs__list-item">
             <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/type">{{ 'ORG_TYPE' | translate }}</a>
           </li>
@@ -61,7 +64,7 @@
         <div class="govuk-grid-column-three-quarters">
           <form class="govuk-!-width-three-quarters" [class.error]="!formValid(formGroup)" [formGroup]="formGroup">
             <div class="govuk-form-group" *ngIf="formValid(formGroup) == false && submitted">
-              <div class="govuk-error-summary govuk-grid-column-three-quarters" aria-labelledby="error-summary-title"
+              <div class="govuk-error-summary govuk-grid-column-three-quarters" aria-labelledby="error-summary-title" id="error-summary"
                 role="alert" tabindex="-1" data-module="govuk-error-summary">
                 <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
                 <div class="govuk-error-summary__body">
@@ -82,7 +85,7 @@
                       *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
                       <li>Enter an email address in the correct format, like name@example.com</li>
                     </a>
-                    <a *ngIf="submitted && (!formGroup.controls.firstName.errors?.required && !formGroup.controls.lastName.errors?.required) && (formGroup.controls.firstName.invalid || formGroup.controls.lastName.invalid)"
+                    <a *ngIf="submitted && ((!formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid) || (!formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid))"
                       href="javascript:;" onClick="return false;" (click)="customFocum()">
                       <li>{{ 'ENTER_NAME_WITHOUT_NUM_SPECIAL' | translate }}</li>
                     </a>

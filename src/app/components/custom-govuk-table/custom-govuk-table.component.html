@@ -19,7 +19,7 @@
                 <td class="govuk-table__cell">{{dataRow.name}}</td>
                 <td class="govuk-table__cell">{{dataRow.fileName}}</td>
                 <td class="govuk-table__cell">{{dataRow.status}}</td>
-                <td class="govuk-table__cell table-links custom_table_data" (click)="onTableRowClick(dataRow, index,$event)" > <a class="navigation-text" href="javascript:;"
+                <td class="govuk-table__cell table-links custom_table_data" (click)="onTableRowClick(dataRow, index,$event)" > <a class="navigation-text"  [routerLink] = "dataRow.routeLink" [queryParams] ="dataRow.routeData"
                         *ngFor="let childLink of dataRow.link; let index = index">{{childLink}}</a></td>
             </tr>
         </tbody>
@@ -37,12 +37,15 @@
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row" *ngFor="let dataRow of tableVisibleData; let index = index">
                 <td class="govuk-table__cell">
-                    <div *ngIf="dataRow.actionedBy === 'Admin'">
+                    <div *ngIf="dataRow.actionedBy === 'Admin' && dataRow.eventType != 'DelegationTerminationByDormancy'">
                         <span>{{dataRow.actionedByFirstName}} {{dataRow.actionedByLastName}}</span><br>
                         <span>{{dataRow.actionedByUserName}}</span>
                     </div>
-                    <div *ngIf="dataRow.actionedBy != 'Admin'">
+                    <div *ngIf="dataRow.actionedBy != 'Admin' && dataRow.eventType != 'DelegationTerminationByDormancy'">
                         <span>Automatic</span>
+                    </div>
+                    <div *ngIf="dataRow.eventType === 'DelegationTerminationByDormancy'">
+                        <span>Automated dormancy action</span>
                     </div>
                     </td>
                 <td class="govuk-table__cell">

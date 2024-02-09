@@ -5,7 +5,7 @@
                 <a class="govuk-breadcrumbs__link" routerLink="/home">Administrator dashboard</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
-                <a class="govuk-breadcrumbs__link" routerLink="/buyer/search">Manage service eligibility</a>
+                <a class="govuk-breadcrumbs__link" routerLink="/buyer-supplier/search">Manage service eligibility</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
               <span class="govuk-breadcrumbs__link">Success</span>
@@ -38,7 +38,7 @@
       </div>
       <div class="govuk-button-group" style="margin-top: 40px;">
         <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" 
-        (click)="onBackClick()">Back</button>
+        (click)="onBackClick('Back')">Back</button>
       </div>
     </ng-container>
     <ng-container *ngIf="changes?.hasChanges === true">
@@ -46,15 +46,15 @@
       <div style="font-size: 24px;">{{changes?.org?.rightToBuy ? 'Yes' : 'No'}}</div> -->
       <div class="govuk-form-group" style="margin-top:30px;"*ngIf="changes?.autoValidate === true">
         <fieldset class="govuk-fieldset">
-          <legend class="govuk-fieldset__legend" style="font-size: 22px;">Organisation type:</legend>
+          <h2 class="govuk-heading-s" style="font-size: 22px;">Organisation type:</h2>
           <div class="govuk-checkboxes">
             <div class="govuk-__item">
               <label *ngIf="changes?.orgType == changes?.org?.supplierBuyerType" class="govuk-label">- No Changes</label>
               <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">{{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : 'Supplier')}}</label>
             </div>
           </div>
-          <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services you have assigned to this organisation:
-          </legend>
+          <h2 *ngIf="changes?.toAdd.length > 0" class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services you have assigned to this organisation:
+          </h2>
           <div class="govuk-checkboxes">
             <ng-container>
               <div class="govuk-__item">
@@ -65,8 +65,8 @@
               </div>
             </ng-container>
           </div>
-          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services you have unassigned from this organisation
-          </legend>
+          <h2 *ngIf="changes?.toDelete.length > 0" class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services you have unassigned from this organisation
+          </h2>
           <div class="govuk-checkboxes">
             <ng-container>
               <div class="govuk-__item">
@@ -81,15 +81,15 @@
       </div>
       <div class="govuk-form-group" style="margin-top:30px;" *ngIf="changes?.autoValidate === false">
         <fieldset class="govuk-fieldset">
-          <legend class="govuk-fieldset__legend" style="font-size: 22px;">Organisation type:</legend>
+          <h2 class="govuk-heading-s" style="font-size: 22px;">Organisation type:</h2>
           <div class="govuk-checkboxes">
             <div class="govuk-__item">
               <label *ngIf="changes?.orgType == changes?.org?.supplierBuyerType" class="govuk-label">- No Changes</label>
               <label *ngIf="changes?.orgType != changes?.org?.supplierBuyerType" class="govuk-label">{{changes?.orgType == '1' ? 'Buyer' :  (changes?.orgType == '2' ? 'Both' : 'Supplier')}} - Automatic validation of verified buyer status has been unsuccessful. This will require manual validation and a request will be created on the 'Manage buyer status requests' page.</label>
             </div>
           </div>
-          <legend *ngIf="changes?.toAutoValid.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services which will be assigned after manual validation is completed:
-          </legend>
+          <h2 *ngIf="changes?.toAutoValid.length > 0" class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services which will be assigned after manual validation is completed:
+          </h2>
           <div class="govuk-checkboxes">
             <ng-container >
               <div class="govuk-__item">
@@ -100,8 +100,8 @@
               </div>
             </ng-container>
           </div>
-          <legend *ngIf="changes?.toAdd.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services you have assigned to this organisation:
-          </legend>
+          <h2 *ngIf="changes?.toAdd.length > 0" class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services you have assigned to this organisation:
+          </h2>
           <div class="govuk-checkboxes">
             <ng-container>
               <div class="govuk-__item">
@@ -112,8 +112,8 @@
               </div>
             </ng-container>
           </div>
-          <legend *ngIf="changes?.toDelete.length > 0" class="govuk-fieldset__legend" style="font-size: 22px;margin-top:30px;">Services you have unassigned from this organisation
-          </legend>
+          <h2 *ngIf="changes?.toDelete.length > 0" class="govuk-heading-s" style="font-size: 22px;margin-top:30px;">Services you have unassigned from this organisation
+          </h2>
           <div class="govuk-checkboxes">
             <ng-container>
               <div class="govuk-__item">
@@ -128,7 +128,7 @@
       </div>
     </ng-container>
   <div>
-  <p><a class="navigation-text" href="javascript:;" routerLink="/buyer/search">Return to Manage service eligibility</a></p>
-  <p><a *ngIf="changes?.autoValidate != true" class="navigation-text" href="javascript:;" routerLink="/manage-buyer-both">Go to Manage Buyer status requests</a></p>
+  <p><a class="navigation-text" href="javascript:;" [routerLink]="['/buyer-supplier/search']" [queryParams]="{isNewTab:true}">Return to Manage service eligibility</a></p>
+  <p><a *ngIf="changes?.autoValidate != true" class="navigation-text" href="javascript:;" [routerLink]="['/manage-buyer-both']" [queryParams]="{isNewTab:true}">Go to Manage Buyer status requests</a></p>
   </div>
   </div>

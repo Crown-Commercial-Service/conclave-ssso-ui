@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { DetailsToggleService } from 'src/app/shared/shared-details-toggle.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -23,7 +26,9 @@ export class DelegatedUserConfirmComponent implements OnInit {
     data: '',
     pageName: 'Contactadmin',
   }
-  constructor(private route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, private titleService: Title,) { 
+  public linkText : string = 'Additional Security - MFA status'
+  constructor(private sessionService:SessionService,public route: Router, private ActivatedRoute: ActivatedRoute, private DelegatedService: WrapperUserDelegatedService, public titleService: Title,
+     private router: Router, private dataLayerService: DataLayerService,    private elementRef: ElementRef,private detailsToggleService : DetailsToggleService) { 
     this.delegationRolesTable.details = {
       currentPage: this.delegationRolesTable.currentPage,
       pageCount: 0,
@@ -33,6 +38,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataLayerService.pushPageViewEvent();
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data)).userDetails;
       this.userInfo.userName = decodeURIComponent(unescape(this.userInfo.userName));
@@ -42,24 +48,45 @@ export class DelegatedUserConfirmComponent implements OnInit {
     });
     if (this.pageAccessMode === "edit") {
       this.titleService.setTitle(
-        `${'Confirm Delegation'}  - CCS`
+        `Confirm Delegation - CCS`
       );
     } else {
       this.titleService.setTitle(
-        `${'Confirm Delegation'}  - CCS`
+        `Confirm Delegation - CCS`
       );
     }
    this.getSelectedRole()
   }
+  ngAfterViewInit() {
+    const detailsElement = this.elementRef.nativeElement.querySelector('details');
+
+    this.detailsToggleService.addToggleListener(detailsElement, (isOpen: boolean) => {
+      if (isOpen) {
+        this.dataLayerService.pushEvent({
+          event: "accordion_use",
+          interaction_type: "open",
+          link_text: this.linkText
+        })
+      } else {
+        this.dataLayerService.pushEvent({
+          event: "accordion_use",
+          interaction_type: "close",
+          link_text: this.linkText
+        })
+      }
+    });
+   
+  }
 
 
 
-  public onSubmit(): void {
+  public onSubmit(buttonText:string): void {
     if (this.pageAccessMode === "edit") {
       this.updateDelegatedUser()
     } else {
       this.createDelegateUser()
     }
+    this.pushDataLayerEvent(buttonText);
   }
 
   public createDelegateUser(): void {
@@ -149,7 +176,7 @@ export class DelegatedUserConfirmComponent implements OnInit {
   }
 
 
-  private exchangeGroupAndRole() {
+  public exchangeGroupAndRole() {
     if (!environment.appSetting.hideSimplifyRole) {
       this.UserSelectedinfo.detail.serviceRoleGroupIds = this.UserSelectedinfo.detail.roleIds;
       delete this.UserSelectedinfo.detail.roleIds;
@@ -161,7 +188,16 @@ export class DelegatedUserConfirmComponent implements OnInit {
     sessionStorage.removeItem('deleagted_user_details')
   }
 
-  public Cancel() {
+  public Cancel(buttonText:string) {
     window.history.back();
+    this.pushDataLayerEvent(buttonText);
+  }
+
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
+  }
+  ngOnDestroy() {
+    const detailsElement = this.elementRef.nativeElement.querySelector('details');
+    this.detailsToggleService.removeToggleListener(detailsElement);
   }
 }

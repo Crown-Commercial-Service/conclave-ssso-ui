@@ -9,8 +9,8 @@
                     |translate}}</a>
             </li>
             <li *ngIf="assigningSiteId != 0" class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
-                    translate
+                <a href="javascript:;" class="govuk-breadcrumbs__link"  [routerLink]="['/manage-org/profile/site/edit']" [queryParams]="{ data: getEditQueryData() }" 
+                    (click)="onNavigateToSiteClick()"> {{ 'EDIT_SITE' | translate
                     }}</a>
             </li>
             <li class="govuk-breadcrumbs__list-item">
@@ -23,8 +23,7 @@
             <p class="govuk-body-l">
                 {{ errorCode | translate }}
             </p>
-            <a href="javascript:;" *ngIf="assigningSiteId == 0" class="navigation-text"
-                (click)="onNavigateToProfileClick()">
+            <a [routerLink]="['/manage-org/profile']" [queryParams]="{isNewTab:true}" *ngIf="assigningSiteId == 0" class="navigation-text">
                 {{'RETURN_MANAGE_YOUR_ORGANISATION' | translate }} </a>
             <a href="javascript:;" *ngIf="assigningSiteId != 0" class="navigation-text"
                 (click)="onNavigateToSiteClick()">

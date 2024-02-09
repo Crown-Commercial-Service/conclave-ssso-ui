@@ -7,6 +7,8 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { environment } from 'src/environments/environment';
 import { ManageDelegateService } from '../service/manage-delegate.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-delegated-user-status',
@@ -40,6 +42,7 @@ export class DelegatedUserStatusComponent implements OnInit {
     },
   };
   hideSimplifyRole: boolean = environment.appSetting.hideSimplifyRole;
+  public formId : string = 'delegated_user_status';
 
   constructor(
     private route: ActivatedRoute,
@@ -48,7 +51,9 @@ export class DelegatedUserStatusComponent implements OnInit {
     private formbuilder: FormBuilder,
     private DelegatedService: ManageDelegateService,
     private DelegationApiService: WrapperUserDelegatedService,
-    private titleService: Title
+    private titleService: Title,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.eventLog.delegationAuditEventDetails = {
@@ -61,6 +66,7 @@ export class DelegatedUserStatusComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataLayerService.pushPageViewEvent();
     this.route.queryParams.subscribe((para: any) => {
       let RouteData: any = JSON.parse(atob(para.data));
       if (RouteData.event) {
@@ -69,6 +75,13 @@ export class DelegatedUserStatusComponent implements OnInit {
           unescape(RouteData.event.userName)
         );
       }
+      this.route.queryParams.subscribe(params => {
+        if (params['isNewTab'] === 'true') {
+          const urlTree = this.router.parseUrl(this.router.url);
+          delete urlTree.queryParams['isNewTab'];
+          this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+        }
+      });
       switch (RouteData.status) {
         case '001': {
           this.UserStatus = RouteData;
@@ -101,6 +114,11 @@ export class DelegatedUserStatusComponent implements OnInit {
           //statements;
           break;
         }
+        case '004': {
+          this.UserStatus = RouteData;
+          this.titleService.setTitle(`${'Inactive User'}  - CCS`);
+          break;
+        }
         default: {
           //statements;
           break;
@@ -121,6 +139,7 @@ export class DelegatedUserStatusComponent implements OnInit {
       endyear: endDate[0],
     });
     this.getOrgRoles(response);
+    this.getEventLogDetails();
   }
   public getOrgRoles(roleResponse: any): void {
     this.orgRoleService
@@ -143,7 +162,7 @@ export class DelegatedUserStatusComponent implements OnInit {
                 this.formbuilder.control(true)
               );
             }
-          this.getEventLogDetails();
+         // this.getEventLogDetails();
           });
         });
       });
@@ -154,15 +173,24 @@ export class DelegatedUserStatusComponent implements OnInit {
     this.getEventLogDetails();
   }
 
-  public BackToDelegated(): void {
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText)
+  }
+
+  public BackToDelegated(buttonText:string): void {
     window.history.back();
+    this.pushDataLayerEvent(buttonText);
   }
-  public BackToDashboard(): void {
+
+  public BackToDashboard(buttonText:string): void {
     this.router.navigateByUrl('home');
+    this.pushDataLayerEvent(buttonText);
   }
-  public Back(): void {
+  
+  public Back(buttonText:string): void {
     sessionStorage.setItem('activetab', 'expiredusers');
     window.history.back();
+    this.pushDataLayerEvent(buttonText);
   }
   public goToDelegatedAccessPage() {
     sessionStorage.setItem('activetab', 'expiredusers');

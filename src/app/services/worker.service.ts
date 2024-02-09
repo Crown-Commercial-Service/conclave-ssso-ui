@@ -42,6 +42,8 @@ export class WorkerService {
     }
 
     storeTokenInWorker(tokenInfo: TokenInfo) {
+        localStorage.setItem('STORE_TOKEN_ACCESS_TOKEN', tokenInfo.access_token);
+        localStorage.setItem('STORE_TOKEN_REFRESH_TOKEN', tokenInfo.refresh_token);
         if (typeof Worker !== 'undefined') {
             // Create a new
             if (this.worker == undefined) {

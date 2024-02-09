@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { UserListResponse } from 'src/app/models/user';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-find-delegated-user',
@@ -14,19 +16,24 @@ import { PatternService } from 'src/app/shared/pattern.service';
 export class FindDelegatedUserComponent implements OnInit {
   public formGroup!: FormGroup;
   public submitted: boolean = false;
-  private organisationId: string = ''
+  public organisationId: string = ''
   public error: string = ''
+  public formId : string = 'find_delegated_user';
   constructor(
-    private route: Router,
+    public route: Router,
     private formBuilder: FormBuilder,
     private PatternService: PatternService,
-    private WrapperUserDelegatedService: WrapperUserDelegatedService,
+    public WrapperUserDelegatedService: WrapperUserDelegatedService,
     protected scrollHelper: ScrollHelper,
+    private router: Router,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
 
   ngOnInit(): void {
+    this.dataLayerService.pushPageViewEvent();
     this.formGroup = this.formBuilder.group({
       email: [
         '',
@@ -36,6 +43,8 @@ export class FindDelegatedUserComponent implements OnInit {
         ]),
       ],
     });
+    
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   validateEmailLength(data: any) {
@@ -59,9 +68,10 @@ export class FindDelegatedUserComponent implements OnInit {
 
 
 
-  public GetUserStatus(from: FormGroup) {
+  public GetUserStatus(from: FormGroup,buttonText:string) {
     this.submitted = true;
     if (this.formValid(from)) {
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       this.WrapperUserDelegatedService.getuserDetail(from.controls.email.value, this.organisationId).subscribe({
         next: (userResponse: any) => {
           if (userResponse.organisationId === this.organisationId) {
@@ -72,7 +82,18 @@ export class FindDelegatedUserComponent implements OnInit {
               status: '001'
             }
             this.route.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
-          } else {
+          }
+          else if(userResponse.isDormant) 
+          {
+            let data = {
+              header: 'User is in dormant state',
+              Description: 'This user is in dormant state.\ You can\'t delegate access to users who are in dormant state.',
+              Breadcrumb: 'User inactive',
+              status: '004'
+            }
+            this.route.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
+          }
+          else {
             userResponse.pageaccessmode = "add";
             userResponse.userName = escape(encodeURIComponent(userResponse.userName));
             this.route.navigateByUrl('delegate-access-user?data=' + btoa(JSON.stringify(userResponse)))
@@ -99,11 +120,17 @@ export class FindDelegatedUserComponent implements OnInit {
       });
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
-
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public Cancel() {
+  public Cancel(buttonText:string) {
     window.history.back();
+    this.pushDataLayerEvent(buttonText);
+  }
+
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 }

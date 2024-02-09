@@ -21,8 +21,8 @@ export class LoadingIndicatorInterceptor implements HttpInterceptor {
     this.urlExceptions = [
       `${environment.uri.api.security}/security/authorize`,
       `${environment.uri.api.security}/security/token`,
-      `${environment.uri.api.postgres}/auth/refresh-tokens`,
-      `${environment.uri.api.postgres}/auth/sessions`,
+      `${environment.uri.api.postgres}/authorization/refresh-tokens`,
+      `${environment.uri.api.postgres}/authorization/sessions`,
       `${environment.uri.api.postgres}/organisations/orgs-by-name`
     ];
   }
@@ -32,15 +32,25 @@ export class LoadingIndicatorInterceptor implements HttpInterceptor {
     if (i >= 0) {
       this.requests.splice(i, 1);
     }
-    this.loadingIndicatorService.isLoading.next(this.requests.length > 0);
+    var isCustomLoading = this.loadingIndicatorService.isCustomLoading.value;
+    var isLoading = this.loadingIndicatorService.isLoading.value;
+    if(!isCustomLoading && isLoading && this.requests.length <= 0) {
+      this.loadingIndicatorService.isLoading.next(false);
+    }
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (localStorage.getItem('show_loading_indicator') === 'false' && (this.urlExceptions.includes(req.url) || this.urlExceptions.includes(req.url.split('?')[0]))) {
-      this.loadingIndicatorService.isLoading.next(false);
+    var isCustomLoading = this.loadingIndicatorService.isCustomLoading.value;
+    if (isCustomLoading) {
+      // DO NOT CHANGE STATE
+    } else if (this.urlExceptions.includes(req.url) || this.urlExceptions.includes(req.url.split('?')[0])) {
+      this.loadingIndicatorService.isLoading.next(false);    
     }else{
-      this.requests.push(req);
-      this.loadingIndicatorService.isLoading.next(true);
+      this.requests.push(req);      
+      var isLoading = this.loadingIndicatorService.isLoading.value;
+      if(!isLoading) {
+        this.loadingIndicatorService.isLoading.next(true);
+      }
     }
     return Observable.create((observer: { next: (arg0: HttpResponse<any>) => void; error: (arg0: any) => void; complete: () => void; }) => {
       const subscription = next.handle(req)

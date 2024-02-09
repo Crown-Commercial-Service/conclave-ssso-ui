@@ -11,26 +11,37 @@
             }}</a>
         </li>
         <li *ngIf="siteId != 0" class="govuk-breadcrumbs__list-item">
-          <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick('edit')">{{ 'EDIT_SITE' |
-            translate
+          <a href="javascript:;" class="govuk-breadcrumbs__link" [routerLink]="['/manage-org/profile/site/edit']" [queryParams]="{ data: getEditQueryData() }" 
+           (click)="onCancelClick('edit')">{{ 'EDIT_SITE' | translate
             }}</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
-          <span *ngIf="isEdit!=true && !siteCreate && !ContactAdd" class="govuk-breadcrumbs__link">{{
+          <span *ngIf="isEdit!=true && !siteCreate && !ContactAdd && contactAddAnother==true " class="govuk-breadcrumbs__link">{{
             'ADD_ANOTHER_CONTACT' | translate
+            }}</span>
+          <span *ngIf="isEdit!=true && !siteCreate && !ContactAdd && contactAddAnother!=true " class="govuk-breadcrumbs__link">{{
+            'ADD_NEW_CONTACT' | translate
             }}</span>
           <span *ngIf="isEdit==true" class="govuk-breadcrumbs__link">{{ 'EDIT_CONTACT_DETAILS' | translate
             }}</span>
-          <span *ngIf="siteCreate || ContactAdd" class="govuk-breadcrumbs__link">Add new contact
-            {{siteInfo.siteName}}</span>
+          <span *ngIf="!siteCreate && ContactAdd && !contactAddAnother" class="govuk-breadcrumbs__link">
+            Add new contact {{siteInfo.siteName}}</span>
+          <span *ngIf="!siteCreate && ContactAdd && contactAddAnother" class="govuk-breadcrumbs__link">
+            Add another contact {{siteInfo.siteName}}</span>
+          <span *ngIf="siteCreate && !contactAddAnother" class="govuk-breadcrumbs__link">
+              Add new contact {{siteInfo.siteName}}</span>
         </li>
       </ol>
     </div>
-    <h1 *ngIf="isEdit!=true  && !siteCreate && !ContactAdd" class="govuk-heading-xl page-title">{{ 'ADD_ANOTHER_CONTACT'
+    <h1 *ngIf="isEdit!=true  && !siteCreate && !ContactAdd && contactAddAnother==true" class="govuk-heading-xl page-title">{{ 'ADD_ANOTHER_CONTACT'
+      | translate }}</h1>
+    <h1 *ngIf="isEdit!=true  && !siteCreate && !ContactAdd && contactAddAnother!=true" class="govuk-heading-xl page-title">{{ 'ADD_NEW_CONTACT'
       | translate }}</h1>
     <h1 *ngIf="isEdit==true" class="govuk-heading-xl page-title">{{ 'EDIT_CONTACT_DETAILS' | translate }}</h1>
-    <h1 *ngIf="siteCreate || ContactAdd" class="govuk-heading-xl page-title">Add new contact {{siteInfo.siteName}}</h1>
-    <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+    <h1 *ngIf="!siteCreate && ContactAdd && !contactAddAnother" class="govuk-heading-xl page-title">Add new contact {{siteInfo.siteName}}</h1>
+   <h1 *ngIf="!siteCreate && ContactAdd && contactAddAnother" class="govuk-heading-xl page-title">Add another contact {{siteInfo.siteName}}</h1>
+   <h1 *ngIf="siteCreate && !contactAddAnother" class="govuk-heading-xl page-title">Add new contact {{siteInfo.siteName}}</h1>
+   <div class="govuk-error-summary contact-form-error" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
       id="error-summary" data-module="govuk-error-summary"
       *ngIf="!formValid(formGroup) && submitted || validator && submitted">
       <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -139,6 +150,7 @@
                 <input #input formControlName="email" class="govuk-input" id="email" name="email" type="email"
                   [class.govuk-input--error]="submitted && formGroup.controls.email.hasError('email') || submitted && contact_error"
                   size="20" value="" autocomplete="email" spellcheck="false" (input)="validateEmailLength($event)">
+                  <label for="email" class="unwanted_lable">.</label>  
               </div>
             </div>
             <div class="govuk-checkboxes__item"
@@ -164,6 +176,7 @@
                   [numberFormat]="PhoneNumberFormat.International" [inputId]="'phone'" name="phone"
                   formControlName="phone">
                 </ngx-intl-tel-input>
+                <label for="phone" class="unwanted_lable">.</label>  
               </div>
             </div>
             <div class="govuk-checkboxes__item"
@@ -187,6 +200,7 @@
                   [maxLength]="'15'" [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'" name="mobile"
                   formControlName="mobile">
                 </ngx-intl-tel-input>
+                <label for="mobile" class="unwanted_lable">.</label>  
               </div>
             </div>
             <div class="govuk-checkboxes__item"
@@ -210,6 +224,7 @@
                   [phoneValidation]="true" [separateDialCode]="separateDialCode"
                   [numberFormat]="PhoneNumberFormat.International" [inputId]="'fax'" name="fax" formControlName="fax">
                 </ngx-intl-tel-input>
+                <label for="fax" class="unwanted_lable">.</label>  
               </div>
             </div>
             <div class="govuk-checkboxes__item"
@@ -227,26 +242,28 @@
                 </span>
                 <input formControlName="webUrl" class="govuk-input" id="web" name="web" type="text"
                   [class.govuk-input--error]="submitted && contact_error">
+                <label for="web" class="unwanted_lable">.</label>  
               </div>
             </div>
           </div>
           <div class="govuk-button-group save-cancel-button-group">
-            <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
+            <button type="submit" class="govuk-button" (click)="pushDataLayerEvent(isEdit ? 'Edit contact' : 'Create contact')" [disabled]="!formChanged" data-module="govuk-button">
               {{ isEdit === false ? 'Create contact' : 'Edit contact'}}
             </button>
-            <button type="button" (click)="onCancelClick('cancel')" class="govuk-button govuk-button--secondary"
+            <button type="button"  [routerLink]="['/manage-org/profile/site/edit']" [queryParams]="{ data: getEditQueryData() }" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
               data-module="govuk-button">
               {{ 'CANCEL_BTN' | translate }}
             </button>
           </div>
-          <a href="javascript:;" *ngIf="isEdit==true && !isAssignedContact" (click)="onDeleteClick()"
-            class="navigation-text delete-link">{{
-            'DELETE_CONTACT'
-            | translate }}</a>
-          <a href="javascript:;" *ngIf="isEdit==true && isAssignedContact" (click)="onUnassignClick()"
-            class="navigation-text delete-link">{{
-            'UNASSIGN_CONTACT'
-            | translate }}</a>
+          
+          <a [routerLink]="generateDeleteClickRoute()" [queryParams]="{ data: getQueryData(),isNewTab:true }"
+            *ngIf="isEdit == true && !isAssignedContact" class="navigation-text delete-link">
+            {{ 'DELETE_CONTACT' | translate }}</a>       
+         
+            <a [routerLink]="['/contact-unassign/confirm']" [queryParams]="{ data: getUnassignQueryData(),isNewTab:true  }"
+              *ngIf="isEdit==true && isAssignedContact" class="navigation-text delete-link">
+              {{'UNASSIGN_CONTACT' | translate }}
+            </a>            
         </div>
       </form>
     </div>

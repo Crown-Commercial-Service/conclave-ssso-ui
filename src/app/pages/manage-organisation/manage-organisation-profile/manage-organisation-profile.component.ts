@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { BaseComponent } from 'src/app/components/base/base.component';
@@ -11,15 +11,18 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { IdentityProvider, IdentityProviderSummary } from 'src/app/models/identityProvider';
 import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-configuration.service';
 import { WrapperOrganisationContactService } from 'src/app/services/wrapper/wrapper-org-contact-service';
-import { ContactGridInfo } from 'src/app/models/contactInfo';
+import { ContactGridInfo, ContactGridInfoWithLink } from 'src/app/models/contactInfo';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
-import { OrganisationSite, SiteGridInfo } from 'src/app/models/site';
+import { OrganisationSite, SiteGridInfo, SiteGridInfoWithLink } from 'src/app/models/site';
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
 import { OrganisationDto } from 'src/app/models/organisation';
 import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
     selector: 'app-manage-organisation-profile',
@@ -30,9 +33,10 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
     org: OrganisationDto;
     ciiOrganisationId: string;
-    contactData: ContactGridInfo[];
-    siteData: SiteGridInfo[];
+    contactData: ContactGridInfoWithLink[];
+    siteData: SiteGridInfoWithLink[];
     registries: CiiOrgIdentifiersDto;
+    contactAddAnother: any;
     additionalIdentifiers: CiiAdditionalIdentifier[];
     contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER', 'MOBILE_NUMBER', 'FAX', 'WEB_URL'];
     contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber', 'mobileNumber', 'fax', 'webUrl'];
@@ -40,7 +44,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     siteColumnsToDisplay = ['siteName', 'streetAddress', 'postalCode', 'countryCode'];
     registriesTableDisplayedColumns: string[] = ['authority', 'id', 'type', 'actions'];
     organisation: any;
-    public idps: any;
+    public idps: any = [];
     public orgIdps: any[] = [];
     changedIdpList: { id: number, enabled: boolean, connectionName: string, name: string }[] = [];
     ccsContactUrl: string = environment.uri.ccsContactUrl;
@@ -54,14 +58,17 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     submitted: boolean = false;
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     pponSchema: string = 'GB-PPG';
+    selectedOption:string = "";
+    originalSelectedOption : string = "";
+    isMfaOptionChanged : boolean = false;
+  
 
-
-
-    constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,
-        private configWrapperService: WrapperConfigurationService, private router: Router, private contactHelper: ContactHelper,
+    constructor(private organisationService: WrapperOrganisationService, private ciiService: ciiService,private sessionService:SessionService,
+        private configWrapperService: WrapperConfigurationService, private route: ActivatedRoute, private router: Router, private contactHelper: ContactHelper,
         protected uiStore: Store<UIState>, private readonly tokenService: TokenService, private organisationGroupService: WrapperOrganisationGroupService,
         private orgContactService: WrapperOrganisationContactService, private wrapperOrgSiteService: WrapperOrganisationSiteService,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,
+        private loadingIndicatorService: LoadingIndicatorService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.contactData = [];
         this.siteData = [];
@@ -72,12 +79,37 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     }
 
     async ngOnInit() {
+        this.loadingIndicatorService.isLoading.next(true);
+        this.loadingIndicatorService.isCustomLoading.next(true);
+     setTimeout(() => {
+        this.initialization()
+     }, 500);
+     this.route.queryParams.subscribe(params => {
+        if (params['isNewTab'] === 'true') {
+          const urlTree = this.router.parseUrl(this.router.url);
+          delete urlTree.queryParams['isNewTab'];
+          this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+        }
+      });
+    }
+
+
+    public async initialization(){
         const ciiOrgId = this.tokenService.getCiiOrgId();
         this.schemeData = await this.ciiService.getSchemes().toPromise() as any[];
         var org = await this.organisationService.getOrganisation(this.ciiOrganisationId).toPromise().catch(e => {
         });
         if (org) {
             this.org = org;
+            if (this.org.detail?.isMfaRequired)
+            {
+                this.selectedOption = "required"
+            }
+            else 
+            {
+                this.selectedOption = "optional"
+            }
+            this.originalSelectedOption = this.selectedOption;
             this.idps = await this.configWrapperService.getIdentityProviders().toPromise().catch();
             this.orgIdps = await this.organisationGroupService.getOrganisationIdentityProviders(ciiOrgId).toPromise().catch();
             this.idps = this.idps.filter((x : IdentityProvider) => x.connectionName != 'none');
@@ -92,8 +124,13 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
             await this.orgContactService.getOrganisationContacts(this.ciiOrganisationId).toPromise().then(orgContactListInfo => {
                 if (orgContactListInfo != null) {
-                    this.contactData = this.contactHelper.getContactGridInfoList(orgContactListInfo.contactPoints);
+                    this.contactData = this.contactHelper.getContactGridInfoListWithLink(orgContactListInfo.contactPoints);
                 }
+                if (orgContactListInfo.contactPoints && orgContactListInfo.contactPoints.length > 0) {
+                    this.contactAddAnother = true;
+                  } else {
+                    this.contactAddAnother = false;
+                  }
             }).catch(e => {
             });
 
@@ -104,7 +141,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                 data.additionalIdentifiers.forEach((Identifier:any)=>{
                  if(Identifier.scheme != this.pponSchema){
                     this.additionalIdentifiers.push(Identifier)
-                  }   
+                  }
                 })
             }).catch(e => {
             });
@@ -113,7 +150,14 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
                 if (orgContactListInfo != null) {
                     this.siteData = orgContactListInfo.sites.map((site: OrganisationSite) => {
-                        let siteGridInfo: SiteGridInfo = {
+                        let data = {
+                            'isEdit': true,
+                            'siteId': site.details.siteId
+                        };
+                        let queryParams =
+                            {data: JSON.stringify(data)}
+                    
+                        let siteGridInfo: SiteGridInfoWithLink = {
                             siteId: site.details.siteId,
                             siteName: site.siteName,
                             streetAddress: site.address.streetAddress,
@@ -122,6 +166,8 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
                             countryName: site.address.countryName,
                             locality: site.address.locality,
                             region: site.address.region,
+                            routeLink : `/manage-org/profile/site/edit`,
+                            routeData: queryParams
                         };
                         return siteGridInfo;
                     });
@@ -129,14 +175,18 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
             }).catch(e => {
             });
         }
+        this.dataLayerService.pushPageViewEvent();
+        this.loadingIndicatorService.isLoading.next(false);
+        this.loadingIndicatorService.isCustomLoading.next(false);
     }
-
-    public onContactAddClick() {
+    public onContactAddClick(buttonText:string) {
         let data = {
             'isEdit': false,
-            'contactId': 0
+            'contactId': 0,
+            'contactAddAnother': this.contactAddAnother
         };
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent(buttonText);
     }
 
     public onContactEditClick(contactDetail: ContactGridInfo) {
@@ -147,12 +197,13 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
     }
 
-    public onSiteAddClick() {
+    public onSiteAddClick(buttonText:string) {
         let data = {
             'isEdit': false,
             'siteId': 0
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent(buttonText);
     }
 
     public onSiteEditClick(orgSite: SiteGridInfo) {
@@ -163,8 +214,9 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
-    public onRegistryAddClick() {
+    public onRegistryAddClick(buttonText:string) {
         this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/search`);
+        this.pushDataLayerEvent(buttonText);
     }
 
     public onRegistryEditClick(row: any) {
@@ -174,6 +226,10 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     public onRegistryRemoveClick(row: any) {
         this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/delete/${row.scheme}/${row.id}`);
     }
+
+    public generateRegistryRemoveRoute(row: any): any {
+        this.router.navigateByUrl(`manage-org/profile/${this.ciiOrganisationId}/registry/delete/${row.scheme}/${row.id}`);
+      }
 
     public onIdentityProviderChange(e: any, row: any) {
         var selectedItem = this.idps.find((x: any) => x.id === row.id);
@@ -197,36 +253,62 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
     get isValid(): boolean {
         return this.idps.find((x: any) => x.enabled === true) ? true : false;
     }
+    public onRadioChange ()
+    {
+        this.isMfaOptionChanged = false;
+       if (this.selectedOption != this.originalSelectedOption)
+       {
+            this.isMfaOptionChanged = true;
+       }
+    }
 
-    public onSaveChanges() {
+    public onSaveChanges(buttonText: string) {
         this.submitted = true;
-        if (!this.isIdpChanged || !this.isValid) {
+        const ciiOrgId = this.tokenService.getCiiOrgId();
+        var isMfaRequired = false;
+        let identityProviderSummary: IdentityProviderSummary = {
+            ciiOrganisationId: ciiOrgId,
+            changedOrgIdentityProviders: this.changedIdpList
+        }
+        if (this.selectedOption == "required")
+        {
+            isMfaRequired = true
+        }
+        if (!this.isIdpChanged && !this.isMfaOptionChanged || !this.isValid) {
             this.setFocus();
             return;
         }
-
-        if (this.changedIdpList.find(x => x.enabled === false)) {
-            this.router.navigateByUrl('manage-org/idp-confirm?data=' +btoa(JSON.stringify(this.changedIdpList)));
-
-        } else {
-            const ciiOrgId = this.tokenService.getCiiOrgId();
-            let identityProviderSummary: IdentityProviderSummary = {
-                ciiOrganisationId: ciiOrgId,
-                changedOrgIdentityProviders: this.changedIdpList
-            }
+        if (this.isIdpChanged && !this.isMfaOptionChanged)
+        {
+                  
             this.organisationGroupService.enableIdentityProvider(identityProviderSummary).subscribe(data => {
-                this.router.navigateByUrl(`manage-org/profile/success`);
-            });
-        }
+                        this.router.navigateByUrl(`manage-org/profile/success`);
+                    });
 
+        }
+        else if (!this.isIdpChanged && this.isMfaOptionChanged )
+        {
+            this.organisationService.updateOrganisationMfaSettings(ciiOrgId,isMfaRequired).subscribe(data =>{
+            this.router.navigateByUrl('manage-org-mfa-update-success?data='+JSON.stringify(this.selectedOption));
+            });
+
+
+        }
+        else if (this.isIdpChanged && this.isMfaOptionChanged)
+        {
+            this.performApiCalls(identityProviderSummary,ciiOrgId,isMfaRequired);
+           
+        }
+        this.pushDataLayerEvent(buttonText);
     }
 
     setFocus() {
         this.inputs.toArray().find(x => x.nativeElement.id = 'orgRoleControl_1')?.nativeElement.focus();
     }
 
-    public onCancel() {
+    public onCancel(buttonText:string) {
         this.router.navigateByUrl(`home`);
+        this.pushDataLayerEvent(buttonText);
     }
 
     public getSchemaName(schema: string): string {
@@ -234,11 +316,42 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
         return selecedScheme?.schemeName;
     }
 
-    public onContactAssignClick() {
+    private getSchema(schemaName: string){
+        let selecedSchemeName = this.schemeData.find(s => s.schemeName === schemaName);
+        console.log("selecedSchemeName?.scheme",selecedSchemeName?.scheme)
+        return selecedSchemeName?.scheme;
+    }
+
+    public onContactAssignClick(buttonText:string) {
         let data = {
             'assigningOrgId': this.ciiOrganisationId
         };
         this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent(buttonText);
     }
+  public  async  performApiCalls(identityProviderSummary:any,ciiOrgId:string,isMfaRequired:boolean) {
+        try {
+          const idpResponse = await this.organisationGroupService.enableIdentityProvider(identityProviderSummary).toPromise();
+          const mfaResponse = await this.organisationService.updateOrganisationMfaSettings(ciiOrgId, isMfaRequired).toPromise();
+      
+          if (idpResponse && mfaResponse) {
+            this.router.navigateByUrl('manage-org-mfa-update-success?data=' + JSON.stringify(this.selectedOption));
+          } else {
+            console.log('One or more API calls failed.');
+          }
+        } catch (error) {
 
+          console.log('An error occurred during API calls:', error);
+        }
+      }
+      
+      isHyperLinkRowVisible(dataRow: any): boolean {
+        return dataRow.contactReason=='REGISTRY'?false:true;
+      }
+
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
+	  }
+
+  
 }

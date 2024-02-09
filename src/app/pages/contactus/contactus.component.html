@@ -6,13 +6,13 @@
     <div class="govuk-grid-column-three-quarters">
       <form class="govuk-!-width-three-quarters" [class.error]="!formValid(formGroup)" [formGroup]="formGroup">
         <div class="govuk-form-group" *ngIf="formValid(formGroup) == false && submitted">
-          <div class="govuk-error-summary govuk-grid-column-three-quarters" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+          <div class="govuk-error-summary govuk-grid-column-three-quarters" aria-labelledby="error-summary-title" id="error-summary" role="alert" tabindex="-1" data-module="govuk-error-summary">
             <h2 class="govuk-error-summary__title" id="error-summary-title"> There is a problem</h2>
             <div class="govuk-error-summary__body">
               <ul class="govuk-list govuk-error-summary__list">
-                <a *ngIf="formGroup.controls['firstName'].hasError('required')"><li>Enter your name</li></a>
-                <a *ngIf="formGroup.controls['email'].hasError('required')"><li>Enter your email address</li></a>
-                <a *ngIf="formGroup.controls['email'].hasError('email')"><li>Enter an email address in the correct format, like name@example.com</li></a>
+                <li *ngIf="formGroup.controls['firstName'].hasError('required')"><a href="javascript:;" onClick="return false;">Enter your name</a></li>
+                <li *ngIf="formGroup.controls['email'].hasError('required')"><a href="javascript:;" onClick="return false;">Enter your email address</a></li>
+                <li *ngIf="formGroup.controls['email'].hasError('email')"><a href="javascript:;" onClick="return false;">Enter an email address in the correct format, like name@example.com</a></li>
               </ul>
             </div>
           </div>
@@ -39,7 +39,7 @@
               [class.govuk-input--error]="submitted && formGroup.controls.email.invalid">
         </div>
         <div class="govuk-form-group">
-          <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button" (click)="onSubmit(formGroup)">Send enquiry</button>
+          <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button" (click)="onSubmit(formGroup,'Send enquiry')">Send enquiry</button>
         </div>
       </form>
     </div>

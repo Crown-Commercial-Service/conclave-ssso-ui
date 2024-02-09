@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookiesService } from 'src/app/shared/cookies.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -24,24 +26,26 @@ export class CookiesSettingsComponent implements OnInit {
   public did = environment.cookies_policy.Auth0cookies.did;
   public auth0 = environment.cookies_policy.Auth0cookies.auth0;
   public _cf_bm = environment.cookies_policy.Auth0cookies.__cf_bm;
-  private cookieExpirationTimeInMinutes =environment.cookieExpirationTimeInMinutes;
+  public cookieExpirationTimeInMinutes =environment.cookieExpirationTimeInMinutes;
   public cookiesValue = {
     essential: true,
     additional: false,
     glassbox: false
   }
-  private ppg_cookies_preferences_set: string = this.CookiesService.getCookie('ppg_cookies_preferences_set');
-  private ppg_cookies_policy: string = this.CookiesService.getCookie('ppg_cookies_policy');
+  public ppg_cookies_preferences_set: string = this.CookiesService.getCookie('ppg_cookies_preferences_set');
+  public ppg_cookies_policy: string = this.CookiesService.getCookie('ppg_cookies_policy');
   public userName =  '';
   public isOrgAdmin: boolean = false;
+  public isFormEdited: boolean = false;
+  public formId : string = 'cookies_settings';
 
-
-  constructor(private CookiesService: CookiesService,private router: Router) {
+  constructor(private CookiesService: CookiesService,private router: Router, private dataLayerService: DataLayerService,private sessionService:SessionService) {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
-    this.userName = localStorage.getItem('user_name') || '';
+    this.userName = this.sessionService.decrypt('user_name')
    }
 
   ngOnInit(): void {
+    this.dataLayerService.pushPageViewEvent();
     this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
     if (this.ppg_cookies_preferences_set == "true") {
       this.cookiesValue = JSON.parse(this.ppg_cookies_policy)
@@ -57,6 +61,7 @@ export class CookiesSettingsComponent implements OnInit {
     setTimeout(() => {
       this.scrollView()
     }, 500);
+    this.dataLayerService.pushFormSubmitEvent(this.formId);
   }
 
   public checkCompination(cookiesValue:any):void{
@@ -72,9 +77,15 @@ export class CookiesSettingsComponent implements OnInit {
     window.history.back();
   }
 
-  private scrollView(): void {
+  public scrollView(): void {
     const element = document.getElementById("govuk-notification-banner-title");
     element?.scrollIntoView();
   }
 
+  public formEdited() {
+    if(this.isFormEdited == false){
+      this.dataLayerService.pushFormStartOnInitEvent(this.formId);
+      this.isFormEdited = true;
+    }
+  }
 }

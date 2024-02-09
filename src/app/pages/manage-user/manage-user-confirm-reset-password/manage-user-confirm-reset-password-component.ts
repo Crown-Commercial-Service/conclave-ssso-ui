@@ -10,6 +10,8 @@ import { ViewportScroller } from "@angular/common";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.service";
 import { SessionStorageKey } from "src/app/constants/constant";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-manage-user-confirm-reset-password',
@@ -24,16 +26,17 @@ import { SessionStorageKey } from "src/app/constants/constant";
 })
 export class ManageUserConfirmResetPasswordComponent extends BaseComponent implements OnInit {
     userName: string = '';
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        private userService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,private sessionService:SessionService,
+        private userService: WrapperUserService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.userName = sessionStorage.getItem("manage_user_username") ?? '';
     }
 
     ngOnInit() {
+        this.dataLayerService.pushPageViewEvent();
     }
 
-    onConfirmClick() {
+    onConfirmClick(buttonText:string) {
         this.userService.resetUserPassword(this.userName, "Manage-user-account").subscribe({
             next: () => {
                 sessionStorage.setItem(SessionStorageKey.OperationSuccessUserName, this.userName);
@@ -43,9 +46,15 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
                 console.log(error);
             }
         });
+        this.pushDataLayerEvent(buttonText);
     }
 
-    onCancelClick(){
+    onCancelClick(buttonText: string){
         window.history.back();
+        this.pushDataLayerEvent(buttonText);
     }
+
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
+	  }
 }

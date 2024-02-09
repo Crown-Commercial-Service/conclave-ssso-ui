@@ -20,7 +20,6 @@
             </li>
         </ol>
     </div>
-    <br />
     <h1 class="govuk-heading-xl page-title">
         {{ "CONTACT_AN_ADMIN" | translate }}
     </h1>
@@ -31,14 +30,14 @@
         <div class="govuk-grid-column-full">
             <div class="user-table">
                 <app-govuk-table [headerTextKeys]="usersTableHeaders" [data]="userListResponse.userList"
-                    [dataKeys]="usersColumnsToDisplay" [isHyperLinkVisible]="true" [pageName]="pageName"
+                    [dataKeys]="usersColumnsToDisplay" [isHyperLinkVisible]="true" [hyperLinkText]="'.'"  [pageName]="pageName"
                     (hyperLinkClickEvent)="openEmailWindow($event)" [useServerPagination]="true"
                     [serverPageCount]="pageCount" [serverPageCurrentPage]="currentPage"
                     (changeCurrentPageEvent)="setPage($event)"></app-govuk-table>
             </div>
         </div>
     </div>
-    <button type="button" (click)="goBack()" class="govuk-button govuk-button--secondary">{{
+    <button type="button" (click)="goBack('Back')" class="govuk-button govuk-button--secondary">{{
 
         "BACK" | translate
 

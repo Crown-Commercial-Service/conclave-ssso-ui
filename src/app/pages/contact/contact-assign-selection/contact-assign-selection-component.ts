@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { slideAnimation } from "src/app/animations/slide.animation";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-contact-assign-selection-component',
@@ -25,12 +27,13 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
     selectionForm!: FormGroup;
     assigningSiteId: number = 0;
     assigningOrgId: string = "";
+    public formId :string = 'Assign_Contacts_Selection';
 
     @ViewChildren('input') inputs!: QueryList<ElementRef>;
     siteCreate: any;
 
-    constructor(protected uiStore: Store<UIState>, private router: Router, private formBuilder: FormBuilder,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private activatedRoute: ActivatedRoute) {
+    constructor(protected uiStore: Store<UIState>, public router: Router, private formBuilder: FormBuilder,private sessionService:SessionService,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private activatedRoute: ActivatedRoute, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.selectionForm = this.formBuilder.group({
             selection: ['', Validators.compose([Validators.required])],
@@ -45,6 +48,8 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
     }
 
     ngOnInit() {
+      this.dataLayerService.pushPageViewEvent();
+      this.dataLayerService.pushFormStartEvent(this.formId, this.selectionForm);
     }
 
     ngAfterViewChecked() {
@@ -55,6 +60,10 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
         this.inputs.toArray()[inputIndex].nativeElement.focus();
     }
 
+    pushDataLayerEvent(buttonText:string) {
+       this.dataLayerService.pushClickEvent(buttonText);
+      }
+    
     public onSubmit(form: FormGroup) {
         this.submitted = true;
         if (this.formValid(form)) {
@@ -64,6 +73,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
                 'assigningOrgId': this.assigningOrgId,
                 'siteCreate':this.siteCreate
             };
+           this.dataLayerService.pushFormSubmitEvent(this.formId);
 
             let selection = form.get('selection')?.value;
             if (selection === "userContact"){
@@ -74,6 +84,8 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
             else{
                 this.router.navigateByUrl("contact-assign/site-search?data=" + JSON.stringify(data));
             }
+        } else {
+            this.dataLayerService.pushFormErrorEvent(this.formId);
         }
     }
 
@@ -91,8 +103,17 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
-    onCancelClick() {
+    getEditQueryData(): string {
+        let data = {
+          isEdit: true,
+          siteId: this.assigningSiteId,
+        };
+        return JSON.stringify(data);
+      }
+
+    onCancelClick(buttonText:string) {
       window.history.back();
+      this.pushDataLayerEvent(buttonText);
         // if (this.assigningSiteId != 0){
         //     this.onNavigateToSiteClick();
         // }

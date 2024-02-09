@@ -1,27 +1,26 @@
 export const environment = {
   production: true,
-  idam_client_id:'IDAM_ID',
+  idam_client_id:'%IDAM%',
   uri: {
     api: {
       isApiGateWayEnabled: true,
       security: 'https://tst.api.crowncommercial.gov.uk',
-      postgres: 'https://tst.api.crowncommercial.gov.uk/core',
+      postgres: 'https://tst.api.crowncommercial.gov.uk/dashboard-wrapper',
       cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://tst.api.crowncommercial.gov.uk/user-profiles',
-          organisation: 'https://tst.api.crowncommercial.gov.uk/organisation-profiles',
-          contact: 'https://tst.api.crowncommercial.gov.uk/contacts',
-          configuration: 'https://tst.api.crowncommercial.gov.uk/configurations',
-          dataMigration: 'https://tst.api.crowncommercial.gov.uk/datamigration',
+          user: 'https://tst.api.crowncommercial.gov.uk/user-profile',
+          organisation: 'https://tst.api.crowncommercial.gov.uk/organisation-profile',
+          contact: 'https://tst.api.crowncommercial.gov.uk/contact-service',
+          configuration: 'https://tst.api.crowncommercial.gov.uk/configuration-service',
+          dataMigration: 'https://tst.api.crowncommercial.gov.uk/organisation-profile/migrations',
         },
         apiGatewayDisabled: {
-          user: 'https://test-api-wrapper.london.cloudapps.digital/users',
-          organisation: 'https://test-api-wrapper.london.cloudapps.digital/organisations',
-          contact: 'https://test-api-wrapper.london.cloudapps.digital/contacts',
-          configuration: 'https://test-api-wrapper.london.cloudapps.digital/configurations',
-          dataMigration: 'https://test-api-wrapper.london.cloudapps.digital/datamigration',
-          
+          user: 'https://test.ppg-sso-service.crowncommercial.gov.uk/user-profile',
+          organisation: 'https://test.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
+          contact: 'https://test.ppg-sso-service.crowncommercial.gov.uk/contact-service',
+          configuration: 'https://test.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
+          dataMigration: 'https://test.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/migrations',
         }
       }
     },
@@ -33,16 +32,16 @@ export const environment = {
     ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
   },
   
-  googleTagMangerId: 'GTM',
+  googleTagMangerId: 'GTM-TZCX5VP',
   cookieExpirationTimeInMinutes: 525600,
   bulkUploadPollingFrequencyInSeconds: 5,
   bulkUploadMaxFileSizeInBytes:1048576,
-  bulkUploadTemplateFileUrl: 'BUCKET_URL', // Put the publicly accessible url of the template file
+  bulkUploadTemplateFileUrl: 'https://tst.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv', // Put the publicly accessible url of the template file
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
   mailDecryptKey:'conclavesimpleemailencrypt',
   rollbar: {
-        key: 'ROLLBAR',
+        key: '%ROLLBAR%',
         enable : false,
         security_log:false,
         environment: 'test-ccs-sso'
@@ -74,5 +73,7 @@ export const environment = {
    hideAutoValidation:false,
    hideSimplifyRole:false,
    blockedScheme: ["GB-PPG"],
+   isMaintenance: false,    
+   customMfaEnabled : true,
   },
 };

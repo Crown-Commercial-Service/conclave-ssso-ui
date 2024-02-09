@@ -19,6 +19,8 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-nominate',
@@ -37,6 +39,7 @@ export class NominateComponent extends BaseComponent {
   formGroup: FormGroup;
   submitted: boolean = false;
   public pageAccessMode:any;
+  public formId : string = 'Create_administrator_account Nominate';
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -44,30 +47,32 @@ export class NominateComponent extends BaseComponent {
     private dataService: SharedDataService,
     private PatternService: PatternService,
     private authService: AuthService,
-    private router: Router,
+    public router: Router,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private ActivatedRoute: ActivatedRoute
+    private ActivatedRoute: ActivatedRoute,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.formGroup = this.formBuilder.group({
       firstName: [
-        ,
+        '',
         Validators.compose([
           Validators.required,
           Validators.pattern(this.PatternService.NameValidator),
         ]),
       ],
       lastName: [
-        ,
+        '',
         Validators.compose([
           Validators.required,
           Validators.pattern(this.PatternService.NameValidator),
         ]),
       ],
       email: [
-        ,
+        '',
         Validators.compose([
           Validators.required,
           Validators.pattern(this.PatternService.emailPattern),
@@ -79,19 +84,24 @@ export class NominateComponent extends BaseComponent {
     });
   }
 
+  ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
+  }
+
   validateEmailLength(data: any) {
     if (this.PatternService.emailValidator(data.target.value)) {
       this.formGroup.controls['email'].setErrors({ incorrect: true });
     }
   }
   public onSubmit(form: FormGroup) {
-    this.router.navigateByUrl(`nominate/success?data=` + btoa(JSON.stringify(this.pageAccessMode)));
     this.submitted = true;
     if (this.PatternService.emailValidator(form.get('email')?.value)) {
       this.formGroup.controls['email'].setErrors({ incorrect: true });
     }
     if (this.formValid(form)) {
       let uname = form.get('email')?.value;
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       this.authService
         .nominate(uname)
         .toPromise()
@@ -100,7 +110,10 @@ export class NominateComponent extends BaseComponent {
           this.dataService.NominiData.next(uname);
           this.router.navigateByUrl(`nominate/success?data=` + btoa(JSON.stringify(this.pageAccessMode)));
         });
+    } else {
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
+    this.dataLayerService.pushClickEvent('Continue');
   }
 
   /**

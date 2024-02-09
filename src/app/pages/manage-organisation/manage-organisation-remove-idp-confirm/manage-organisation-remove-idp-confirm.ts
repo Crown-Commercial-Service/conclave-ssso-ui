@@ -11,6 +11,8 @@ import { IdentityProviderSummary } from "src/app/models/identityProvider";
 import { TokenService } from "src/app/services/auth/token.service";
 import { WrapperOrganisationGroupService } from "src/app/services/wrapper/wrapper-org--group-service";
 import { OrganisationService } from "src/app/services/postgres/organisation.service";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-manage-user-delete-confirm',
@@ -29,9 +31,9 @@ export class ManageOrganisationRemoveIdpConfirmComponent extends BaseComponent i
     idpNames: string = '';
     affectedUsers: number = 0;
 
-    constructor(protected uiStore: Store<UIState>, private router: Router, private organisationGroupService: WrapperOrganisationGroupService,
-        private organisationService: OrganisationService, private readonly tokenService: TokenService, private activatedRoute: ActivatedRoute,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    constructor(protected uiStore: Store<UIState>,private sessionService:SessionService, public router: Router, public organisationGroupService: WrapperOrganisationGroupService,
+        public organisationService: OrganisationService, private readonly tokenService: TokenService, private activatedRoute: ActivatedRoute,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
 
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
@@ -47,9 +49,10 @@ export class ManageOrganisationRemoveIdpConfirmComponent extends BaseComponent i
         this.organisationService.getUserAffectedByRemovedIdps(ciiOrgId, idpIds).subscribe(data => {
             this.affectedUsers = data;
         });
+        this.dataLayerService.pushPageViewEvent();
     }
 
-    onRemoveIdpConfirmClick() {
+    onRemoveIdpConfirmClick(buttonText:string) {
         const ciiOrgId = this.tokenService.getCiiOrgId();
 
         let identityProviderSummary: IdentityProviderSummary = {
@@ -59,9 +62,15 @@ export class ManageOrganisationRemoveIdpConfirmComponent extends BaseComponent i
         this.organisationGroupService.enableIdentityProvider(identityProviderSummary).subscribe(data => {
             this.router.navigateByUrl(`manage-org/profile/success`);
         });
+        this.pushDataLayerEvent(buttonText);
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         this.router.navigateByUrl('/manage-org/profile');
+        this.pushDataLayerEvent(buttonText);
     }
+
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
+	  }
 }

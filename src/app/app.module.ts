@@ -207,6 +207,26 @@ import { GovukRadioComponent } from './components/govuk-radio/govuk-radio.compon
 import { EnvironmentBannerComponent } from './components/environment-banner/environment-banner.component';
 import { PermissionPipe } from './pipes/permission.pipe';
 import { SchemePipe } from './pipes/scheme.pipe';
+import { ManageOrganisationRegisterationCiiComponent } from './pages/manage-organisation/manage-organisation-registeration-cii/manage-organisation-registeration-cii.component';
+import { ManageOrgRegErrorAddressDetailsComponent } from './pages/manage-organisation/manage-organisation-registration-error-empty-address-details/manage-organisation-registration-error-empty-address-details.component'; 
+import { MfaSelectionComponent } from './pages/two-mfa/mfa-selection/mfa-selection.component';
+import { MfaInformationComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-information/mfa-authenticator-information.component';
+import { MfaAuthenticatorSetupComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-setup/mfa-authenticator-setup.component';
+import { QRCodeModule } from 'angularx-qrcode'; 
+import { MfaMessageStep1Component } from './pages/two-mfa/mfa-message/mfa-message-step-1/mfa-message-step-1.component';
+import { MfaMessageStep2Component } from './pages/two-mfa/mfa-message/mfa-message-step-2/mfa-message-step-2.component';
+import { NoMfaConfiramtionComponent } from './pages/two-mfa/no-mfa-confirmation/no-mfa-confirmation.component';
+import { MfaOffSaveSuccessComponent } from './pages/two-mfa/deactivate-two-mfa-success/mfa-off-save-success.component';
+import { MfaAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-authentication-setup-success/mfa-authentication-setup-sucess.component';
+import { MfaNoAuthenticationSetupSuccessComponent } from './pages/two-mfa/mfa-setup-success/mfa-no-authentication-setup-success/mfa-no-authentication-setup-success.component';
+import { ManageOrgRegMfaComponent } from './pages/two-mfa/manage-reg-organisation-mfa/manage-reg-organisation-mfa.component';
+import { ManageOrgMfaUpdateSuccessComponent } from './pages/two-mfa/manage-org-mfa-update-success/manage-org-mfa-update-success.component';
+import { RegistryGovukTableComponent } from './components/registry-govuk-table/registry-govuk-table.component';
+import { DormancyMessageComponent } from './pages/dormancy-message/dormancy-message.component';
+import { ManageUserDeactivateConfirmComponent } from './pages/manage-user/manage-user-deactivate-confirm/manage-user-deactivate-confirm.component';
+import { ManageUserReactivateConfirmComponent } from './pages/manage-user/manage-user-reactivate-confirm/manage-user-reactivate-confirm.component';
+import { ForceLogoutComponent } from './pages/force-logout/force-logout.component';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -379,7 +399,25 @@ export function createTranslateLoader(http: HttpClient) {
     GovukRadioComponent,
     EnvironmentBannerComponent,
     PermissionPipe,
-    SchemePipe
+    SchemePipe,
+    ManageOrganisationRegisterationCiiComponent,
+    ManageOrgRegErrorAddressDetailsComponent,
+    MfaSelectionComponent,
+    MfaInformationComponent,
+    MfaAuthenticatorSetupComponent,
+    MfaMessageStep1Component,
+    MfaMessageStep2Component,
+    NoMfaConfiramtionComponent,
+    MfaOffSaveSuccessComponent,
+    MfaAuthenticationSetupSuccessComponent,
+    MfaNoAuthenticationSetupSuccessComponent,
+    ManageOrgRegMfaComponent,
+    ManageOrgMfaUpdateSuccessComponent,
+    RegistryGovukTableComponent,
+    DormancyMessageComponent,
+    ManageUserDeactivateConfirmComponent,
+    ManageUserReactivateConfirmComponent,    
+    ForceLogoutComponent
   ],
   imports: [
     // BrowserModule,
@@ -422,7 +460,8 @@ export function createTranslateLoader(http: HttpClient) {
     NzLayoutModule,
     ComponentsModule,
     MatTableModule,
-    NgxIntlTelInputModule
+    NgxIntlTelInputModule,
+    QRCodeModule
   ],
   exports: [TranslateModule],
   providers: [

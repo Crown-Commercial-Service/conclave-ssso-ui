@@ -7,6 +7,8 @@ import { Role } from 'src/app/models/organisationGroup';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-confirm-decline',
@@ -18,7 +20,7 @@ export class ConfirmDeclineComponent implements OnInit {
   public routeDetails:any;
 
   constructor(private route: ActivatedRoute, private router: Router,
-    private wrapperBuyerAndBothService:WrapperBuyerBothService) {
+    private wrapperBuyerAndBothService:WrapperBuyerBothService, private dataLayerService: DataLayerService,private sessionService:SessionService) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
   }
 
@@ -26,12 +28,13 @@ export class ConfirmDeclineComponent implements OnInit {
     this.route.queryParams.subscribe((para: any) => {
       this.routeDetails = JSON.parse(atob(para.data));
     });
+    this.dataLayerService.pushPageViewEvent();
   }
 
-  public confirmAndDecline(): void {
+  public confirmAndDecline(buttonText:string): void {
     this.wrapperBuyerAndBothService.manualValidation(this.routeDetails.organisationId, ManualValidationStatus.decline).subscribe({
       next: (response: any) => {
-        this.router.navigateByUrl('buyer-and-both-success');
+        this.router.navigateByUrl('decline-success');
       },
       error: (error: any) => {
         this.router.navigateByUrl('buyer-and-both-fail');
@@ -43,11 +46,17 @@ export class ConfirmDeclineComponent implements OnInit {
       organisationName: this.routeDetails.organisationName
     };
     this.router.navigateByUrl(
-      'buyer-and-both-success?data=' + btoa(JSON.stringify(data))
+      'decline-success?data=' + btoa(JSON.stringify(data))
     );
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public Back(): void {
+  public Back(buttonText:string): void {
     window.history.back();
+    this.pushDataLayerEvent(buttonText);
+  }
+
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 }

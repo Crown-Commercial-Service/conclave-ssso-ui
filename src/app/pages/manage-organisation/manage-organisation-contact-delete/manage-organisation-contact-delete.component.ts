@@ -12,6 +12,8 @@ import { WrapperOrganisationContactService } from "src/app/services/wrapper/wrap
 import { WrapperSiteContactService } from "src/app/services/wrapper/wrapper-site-contact-service";
 import { ViewportScroller } from "@angular/common";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-manage-organisation-contact-delete',
@@ -28,8 +30,8 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
     organisationId: string;
     contactId: number = 0;
     siteId: number = 0;
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        private contactService: WrapperOrganisationContactService, private siteContactService: WrapperSiteContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    constructor(protected uiStore: Store<UIState>,private sessionService:SessionService, private router: Router, private activatedRoute: ActivatedRoute,
+        private contactService: WrapperOrganisationContactService, private siteContactService: WrapperSiteContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         let queryParams = this.activatedRoute.snapshot.queryParams;
@@ -42,9 +44,17 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
     }
 
     ngOnInit() {
+        this.activatedRoute.queryParams.subscribe(params => {
+            if (params['isNewTab'] === 'true') {
+              const urlTree = this.router.parseUrl(this.router.url);
+              delete urlTree.queryParams['isNewTab'];
+              this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+            }
+          });
+        this.dataLayerService.pushPageViewEvent();
     }
 
-    onDeleteConfirmClick() {
+    onDeleteConfirmClick(buttonText:string) {
         if (this.siteId == 0){
             this.contactService.deleteOrganisationContact(this.organisationId, this.contactId).subscribe({
                 next: () => { 
@@ -68,7 +78,7 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
                 }
             });
         }
-        
+        this.pushDataLayerEvent(buttonText);
     }
 
     onCancelClick(){
@@ -80,7 +90,21 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
         this.router.navigateByUrl('manage-org/profile/contact-edit?data=' + JSON.stringify(data));
     }
 
-    public onBack():void{
+    getEditQueryData(): string {
+        let data = {
+          isEdit: true,
+          contactId : this.contactId,
+          siteId: this.siteId,
+        };
+        return JSON.stringify(data);
+      }
+    
+    public onBack(buttonText:string):void{
         window.history.back()
+        this.pushDataLayerEvent(buttonText);
     }
+
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
+	  }
 }

@@ -13,6 +13,8 @@ import { Title } from '@angular/platform-browser';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { environment } from 'src/environments/environment';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
     selector: 'app-operation-success',
@@ -37,11 +39,13 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
     public showRole:boolean=false
     public approveRequiredRole:any=[]
     public pendingRoleDetails: any = []
-    constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
-        protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private wrapperUserService: WrapperUserService) {
+    public isCustomMfaEnabled : boolean = environment.appSetting.customMfaEnabled;
+    constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,private sessionService:SessionService,
+        protected uiStore: Store<UIState>, private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private wrapperUserService: WrapperUserService, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.operation = parseInt(this.activatedRoute.snapshot.paramMap.get('operation') || '0');
         this.userName = sessionStorage.getItem(SessionStorageKey.OperationSuccessUserName) ?? '';
+        this.userName = localStorage.getItem('OperationSuccessUserName')?? '';
         this.approveRequiredRole = this.getSelectedRole(JSON.parse(localStorage.getItem('user_approved_role') || 'null' ))
         this.selectedUserName = localStorage.getItem('user_access_name') || '';
     }
@@ -65,6 +69,7 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
 
 
     ngOnInit() {
+        this.dataLayerService.pushPageViewEvent({operation: this.operation});
         this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
         let area: string = "";
         switch (this.operation) {
@@ -97,6 +102,12 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
             case this.operationEnum.UserDelete:
                 area = 'Delete - Manage Users'
                 break;
+            case this.operationEnum.UserDeactivate:
+                area = 'Deactivate - Manage Users'
+                break;
+            case this.operationEnum.UserReactivate:
+                area = 'Reactivate - Manage Users'
+                break;
             default:
                 break
         }
@@ -114,6 +125,9 @@ export class OperationSuccessComponent extends BaseComponent implements OnInit {
 
     onNavigateToManageUserClick() {
         this.router.navigateByUrl("manage-users");
+    }
+    onNavigateToDashboardClick(){
+        this.router.navigateByUrl("/home")
     }
 
     async getPendingApprovalUserRole() {

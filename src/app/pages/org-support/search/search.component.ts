@@ -17,6 +17,9 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { OrganisationUserDto, OrgUserListResponse } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
 import { SessionStorageKey } from 'src/app/constants/constant';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-org-support-search',
@@ -35,10 +38,12 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
   currentPage: number = 1;
   pageCount: number = 0;
   pageSize: number = environment.listPageSize;
+  pageName : string ='OUS';
   tableHeaders = ['NAME', 'ORGANISATION', 'USER_EMAIL'];
   tableColumnsToDisplay = ['name', 'organisationLegalName', 'userName'];
   searchSumbited:boolean=false;
-  constructor(private cf: ChangeDetectorRef, private formBuilder: FormBuilder, private translateService: TranslateService, private organisationService: OrganisationService, private wrapperOrganisationService: WrapperOrganisationService, private readonly tokenService: TokenService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private cf: ChangeDetectorRef, private formBuilder: FormBuilder,private sessionService:SessionService, private translateService: TranslateService, private organisationService: OrganisationService, private wrapperOrganisationService: WrapperOrganisationService, private readonly tokenService: TokenService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,
+    private loadingIndicatorService: LoadingIndicatorService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.formGroup = this.formBuilder.group({
       search: [, Validators.compose([Validators.required])],
@@ -53,6 +58,8 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
     // TODO This api call required a refactoring since its suppose to give a lot of data records (entire users in the system)
     // Suggestions:-
     // 1. Server side pagination
@@ -61,11 +68,28 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
       this.organisationId = org.organisationId;
       this.onSearch();
     }
+
+    this.dataLayerService.pushPageViewEvent();
+    this.loadingIndicatorService.isLoading.next(false);
+    this.loadingIndicatorService.isCustomLoading.next(false);
+
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
+
   }
 
   async onSearch() {
     let result = await this.organisationService.getUsers(this.searchText, this.currentPage, this.pageSize).toPromise();
     this.data = result;
+    if( this.data && this.data.orgUserList.length <= 0)
+    {
+     this.selectedRowId = '';
+    }
     this.pageCount = this.data.pageCount;
   }
 
@@ -80,16 +104,22 @@ export class OrgSupportSearchComponent extends BaseComponent implements OnInit {
     await this.onSearch();
   }
 
-  public onContinueClick() {
+  public onContinueClick(buttonText:string) {
     sessionStorage.setItem(SessionStorageKey.OrgUserSupportUserName, this.selectedRowId);
     this.router.navigateByUrl(`org-support/details`);
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     sessionStorage.removeItem(SessionStorageKey.OrgUserSupportUserName);
     this.router.navigateByUrl('home');
+    this.pushDataLayerEvent(buttonText);
   }
 
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
+	  }
+  
   onSelectRow(dataRow: any) {
     this.selectedRowId = dataRow?.userName ?? '';
   }

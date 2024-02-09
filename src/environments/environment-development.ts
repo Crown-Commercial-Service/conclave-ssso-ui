@@ -4,30 +4,32 @@ export const environment = {
     uri: {
       api: {
         isApiGateWayEnabled: true,
-        security: 'https://dev.api.crowncommercial.gov.uk/aws',
+        security: 'https://dev.api.crowncommercial.gov.uk',
         postgres: 'https://dev.api.crowncommercial.gov.uk/aws/dashboard-wrapper',
         cii: 'https://conclave-cii-testing-talkative-oryx-hh.london.cloudapps.digital',
         wrapper: {
           apiGatewayEnabled: {
-            user: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/users',
-            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/organisations',
-            contact: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/contacts',
-            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/configurations',
-            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/wrapper/datamigration',
+            user: 'https://dev.api.crowncommercial.gov.uk/aws/user-profile',
+            organisation: 'https://dev.api.crowncommercial.gov.uk/aws/organisation-profile',
+            contact: 'https://dev.api.crowncommercial.gov.uk/aws/contact-service',
+            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/configuration-service',
+            dataMigration: 'https://dev.api.crowncommercial.gov.uk/aws/organisation-profile/migrations',
           },
           apiGatewayDisabled: {
-            user: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/users',
-            organisation: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/organisations',
-            contact: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/contacts',
-            configuration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/configurations',
-            dataMigration: 'http://dev-alb-backend-295506639.eu-west-2.elb.amazonaws.com:5000/datamigration',
+            user: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/user-profile',
+            organisation: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
+            contact: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/contact-service',
+            configuration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
+            dataMigration: 'https://dev.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/migrations',
           }
         }
       },
       web: {
-        dashboard: 'https://dev.identify.crowncommercial.gov.uk'
+        dashboard: 'https://dev.identify.crowncommercial.gov.uk',
+        name: "DEV"
       },
-      ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+      ccsContactUrl: "https://webdev.crowncommercial.gov.uk/contact",
+      ccsDashboardUrl: "https://webdev.crowncommercial.gov.uk"
     },
     googleTagMangerId: 'GTM-TZCX5VP',
     cookieExpirationTimeInMinutes: 525600,
@@ -64,11 +66,13 @@ export const environment = {
       },
     },
     appSetting: {
-     hideIDP:false,
+     hideIDP:true,
      hideDelegation:false,
      hideBulkupload:false,
      hideAutoValidation:false,
      hideSimplifyRole:false,
-     blockedScheme: ['GB-EDU',"GB-PPG"]
+     blockedScheme: ["GB-PPG"],
+     isMaintenance: false,
+     customMfaEnabled : true
     },
   };

@@ -219,12 +219,15 @@
               (hyperLinkClickEvent)="onContactEditClick($event)" [useClientPagination]="true">
             </app-govuk-table>
           </div>
-          <div class="govuk-form-group govuk-button-group">
+          <div class="govuk-form-group govuk-button-group">        
+              <button type="button" (click)="onContactAddClick('Add another contact')" class="govuk-button govuk-button--secondary" data-module="govuk-button" *ngIf="contactAddAnother">
+                {{ 'ADD_ANOTHER_CONTACT_BTN' | translate }}
+              </button>
+              <button type="button" (click)="onContactAddClick('Add new contact')" class="govuk-button govuk-button--secondary" data-module="govuk-button" *ngIf="!contactAddAnother">
+                {{ 'ADD_NEW_CONTACT' | translate }}
+              </button>
             <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-              (click)="onContactAddClick()">
-              {{ 'ADD_ANOTHER_CONTACT_BTN' | translate }}</button>
-            <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-              (click)="onContactAssignClick()">
+              (click)="onContactAssignClick('Find and assign contact')">
               {{ 'FIND_AND_ASSIGN_CONTACT_BTN' | translate }}</button>
           </div>
         </div>
@@ -233,17 +236,21 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <div class="govuk-button-group save-cancel-button-group">
-            <button type="submit" class="govuk-button" [disabled]="!formChanged" data-module="govuk-button">
+            <button type="submit" class="govuk-button" (click)="pushDataLayerEvent(isEdit ? 'Save changes':'Save and Continue')" [disabled]="!formChanged" data-module="govuk-button">
               {{ isEdit === false ? 'Save and Continue' : ' Save changes'}}
             </button>
-            <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+            <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
               data-module="govuk-button">
               {{ 'CANCEL_BTN' | translate }}
             </button>
           </div>
-          <a href="javascript:;" *ngIf="isEdit==true" (click)="onDeleteClick()" class="navigation-text delete-link">{{
+          <!-- <a href="javascript:;" *ngIf="isEdit==true" (click)="onDeleteClick()" class="navigation-text delete-link">{{
             'DELETE_SITE'
-            | translate }}</a>
+            | translate }}</a>   
+           -->
+          <a [routerLink]="['/manage-org/profile/site/delete']" *ngIf="isEdit==true"  [queryParams]="{ data: getQueryData(),isNewTab:true }" class="navigation-text delete-link">
+              {{ 'DELETE_SITE' | translate }}
+          </a>      
         </div>
       </div>
     </div>

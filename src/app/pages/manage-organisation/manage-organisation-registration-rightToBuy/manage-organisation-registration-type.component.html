@@ -17,6 +17,9 @@
         <li class="govuk-breadcrumbs__list-item">
           <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate }}</a>
       </li>
+      <li class="govuk-breadcrumbs__list-item" [hidden]="!isCustomMfaEnabled">
+        <a class="govuk-breadcrumbs__link" routerLink="/manage-reg-organisation-mfa">{{ '2FA_SETUP' | translate }}</a>
+    </li>
         <li class="govuk-breadcrumbs__list-item">
             <span class="govuk-breadcrumbs__link"> {{ 'ORG_TYPE' | translate }}</span>
         </li>
@@ -28,11 +31,9 @@
       <form class="govuk-!-width-four-quarters">
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend">
-              <p>
-                <b> Select the organisation you work for</b>
-              </p>
-            </legend>
+            <h2 class="govuk-heading-m">
+                Select the organisation you work for
+            </h2>
             <div class="govuk-radios">
               <div class="govuk-radios__item" id="supplierRadioSelection">
                 <input class="govuk-radios__input" id="supplierRadioButton" name="radioSelectionGroup" type="radio"
@@ -84,7 +85,7 @@
         </div>
         <div class="govuk-form-group">
           <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
-            (click)="onSubmit()">Continue</button>
+            (click)="onSubmit('Continue')">Continue</button>
         </div>
       </form>
     </div>

@@ -12,6 +12,8 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-registry-search',
@@ -46,7 +48,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
   constructor(private ref: ChangeDetectorRef,
     private SharedDataService:SharedDataService,
     private formBuilder: FormBuilder,
-    private ciiService: ciiService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    private ciiService: ciiService, public router: Router,private sessionService:SessionService, private route: ActivatedRoute, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, public scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.organisationId = parseInt(this.route.snapshot.paramMap.get('organisationId') || '0');
     this.txtValue = '';
@@ -63,6 +65,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
         localStorage.setItem('scheme_name', this.schemeName);
       }
     });
+    this.dataLayerService.pushPageViewEvent();
   }
 
   ngAfterViewChecked() {
@@ -84,7 +87,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
   // }
 
 
-  public onSubmit() {
+  public onSubmit(buttonText: string) {
     this.submitted = true;
     this.validationObj.isDunlength = false;
       if (this.txtValue && this.txtValue.length > 0) {
@@ -92,6 +95,7 @@ export class ManageOrganisationRegistrySearchComponent extends BaseComponent imp
       } else {
         this.scrollHelper.scrollToFirst('error-summary');
       }
+    this.dataLayerService.pushClickEvent(buttonText)
   }
 
  

@@ -13,6 +13,8 @@ import { Title } from "@angular/platform-browser";
 import { environment } from "src/environments/environment";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { SharedDataService } from "src/app/shared/shared-data.service";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-manage-group-edit-roles',
@@ -45,8 +47,9 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     public showRoleView: boolean = environment.appSetting.hideSimplifyRole
     public formGroup: FormGroup | any;
     public orgAdminRole: any[] = [];
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, private sharedDataService: SharedDataService) {
+    public formId : string = 'Edit_groups roles';
+    constructor(protected uiStore: Store<UIState>,private sessionService:SessionService, public router: Router, private activatedRoute: ActivatedRoute, public titleService: Title,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private orgGroupService: WrapperOrganisationGroupService, private formBuilder: FormBuilder, public sharedDataService: SharedDataService, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -64,16 +67,19 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
     }
 
     ngOnInit() {
+        this.dataLayerService.pushPageViewEvent();
         this.formGroup = new FormGroup({
             role: new FormControl()
         });
+        
         if (this.showRoleView) {
             this.titleService.setTitle(`${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - CCS`);
         } else {
             this.titleService.setTitle(`${this.isEdit ? "Add or remove services" : "Add services"}  - Manage Groups - CCS`);
         }
         this.getOrganisationRoles();
-        this.initialteServiceRoleGroup()
+        this.initialteServiceRoleGroup();        
+        this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
     }
 
     ngAfterViewChecked() {
@@ -178,7 +184,7 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
         }
     }
 
-    onContinueClick() {
+    onContinueClick(buttonText:string) {
         let data = {
             'isEdit': this.isEdit,
             'groupId': this.editingGroupId,
@@ -188,16 +194,35 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
             'userCount': this.userCount,
             'groupName': this.groupName
         };
+       this.dataLayerService.pushFormSubmitEvent(this.formId);
         this.sharedDataService.storeRoleForGroup(JSON.stringify(data))
         this.router.navigateByUrl('manage-groups/edit-roles-confirm?data=' + JSON.stringify({ 'isEdit': this.isEdit }));
+        this.pushDataLayerEvent(buttonText);
     }
 
-    onCancelClick() {
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
+	  }
+  
+
+    onCancelClick(buttonText:string) {
         let data = {
             'isEdit': true,
             'groupId': this.editingGroupId
         };
         this.router.navigateByUrl('manage-groups/view?data=' + JSON.stringify(data));
+        if(buttonText!='Edit group')
+        {
+        this.pushDataLayerEvent(buttonText);
+        }
+    }
+
+    getQueryData(){
+        let data = {
+            'isEdit': true,
+            'groupId': this.editingGroupId
+        };
+         return JSON.stringify(data)
     }
 
     private initialteServiceRoleGroup() {

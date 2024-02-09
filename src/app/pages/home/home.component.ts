@@ -25,6 +25,11 @@ import { ServicePermission } from 'src/app/models/servicePermission';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { ManageDelegateService } from '../manage-delegated/service/manage-delegate.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { Router } from '@angular/router';
+import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +38,7 @@ import { ManageDelegateService } from '../manage-delegated/service/manage-delega
 })
 export class HomeComponent extends BaseComponent implements OnInit {
   switchedOrgId = ''
-  isDelegation: boolean = !environment.appSetting.hideDelegation
+  isDelegation: boolean = !environment.appSetting.hideDelegation;
   public orgDetails: any = ''
   systemModules: SystemModule[] = [];
   ccsModules: SystemModule[] = [];
@@ -62,20 +67,42 @@ export class HomeComponent extends BaseComponent implements OnInit {
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
     private delegatedApiService: WrapperUserDelegatedService,
-    private DelegateService: ManageDelegateService
+    private DelegateService: ManageDelegateService,
+    private router: Router,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
+    private loadingIndicatorService: LoadingIndicatorService,
+    private route: ActivatedRoute
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.switchedOrgId = localStorage.getItem('permission_organisation_id') || ""
   }
 
   ngOnInit() {
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
+
+    this.dataLayerService.pushPageViewEvent();
     this.checkValidOrganisation()
+
+    setTimeout(() => {
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
+      }, 2000);
+
+      this.route.queryParams.subscribe(params => {
+        if (params['isNewTab'] === 'true') {
+          const urlTree = this.router.parseUrl(this.router.url);
+          delete urlTree.queryParams['isNewTab'];
+          this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+        }
+      });
   }
 
   public checkValidOrganisation() {
     this.delegatedApiService.getDeligatedOrg().subscribe({
       next: (data: any) => {
-        let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; }) => element.delegatedOrgId == this.switchedOrgId)
+        let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; }) => element.delegatedOrgId == this.switchedOrgId);
         if (orgDetails === undefined) {
           this.DelegateService.setDelegatedOrg(0, 'home');
           this.initializer()
@@ -262,14 +289,14 @@ export class HomeComponent extends BaseComponent implements OnInit {
           this.otherModules.push({
             name: 'Manage service eligibility',
             description: 'Manage services and roles for organisations',
-            route: '/buyer/search',
+            route: '/buyer-supplier/search',
             orderId : 2
           });
         } else {
           this.otherModules.push({
             name: 'Manage service eligibility',
             description: 'Manage organisations’ type and services',
-            route: '/buyer/search',
+            route: '/buyer-supplier/search',
             orderId : 2
           });
         }

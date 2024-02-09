@@ -8,6 +8,9 @@ import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { Router } from '@angular/router';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-contactus',
@@ -26,9 +29,10 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
 
   formGroup: FormGroup;
   submitted: boolean = false;
+  public formId :string = 'contact_us';
 
-  constructor(private formBuilder: FormBuilder,private PatternService:PatternService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper) {
+  constructor(public formBuilder: FormBuilder,private sessionService:SessionService,public PatternService:PatternService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
+    protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService, private router: Router) {
     super(uiStore,viewportScroller,scrollHelper);
     this.formGroup = this.formBuilder.group({
       firstName: [, Validators.compose([Validators.required])],
@@ -38,15 +42,17 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
-  public onSubmit(form: FormGroup) {
+  public onSubmit(form: FormGroup,buttonText:string) {
     this.submitted = true;
     if(this.PatternService.emailValidator(form.get('email')?.value)){
       this.formGroup.controls['email'].setErrors({ 'incorrect': true})
 }
     if (this.formValid(form)) {
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       // this.authService.nominate(form.get('firstName')?.value, form.get('lastName')?.value, form.get('email')?.value).toPromise().then((response: any) => {
       //   console.log(response);
          this.submitted = false;
@@ -54,7 +60,10 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
       // }, (err) => {
       //   console.log(err);
       // });
+    } else {
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 
   /**
@@ -68,5 +77,4 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
     // let array = _.takeWhile([], function(c:FormControl) { return !c.valid; });
     // return array.length > 0;
   }
-
 }

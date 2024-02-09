@@ -34,12 +34,15 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Output() checkBoxClickEvent = new EventEmitter<any>();
   @Output() radioClickEvent = new EventEmitter<any>();
   @Output() changeCurrentPageEvent = new EventEmitter<number>();
+  @Input() isRadioDisabled?: (dataRow: any) => boolean;
+  @Input() isHyperLinkRowVisible?: (dataRow: any) => boolean;
+  @Input() isNavigate?: boolean;
 
   pageCount?: number | any;
   currentPage: number = 1;
   totalPagesArray: number[] = [];
   pageSize: number = environment.listPageSize;
-  tableVisibleData!: any[];
+  tableVisibleData: any[] = [];
   selectedRadioId: string = 'table-radio-id-non';
   public maxVisibleDots = 5
    constructor(
@@ -50,9 +53,14 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+   
   }
 
   ngOnChanges() {
+    if (this.isRadioVisible) { // Emit the event to remove the radio selection 
+      this.selectedRadioId = 'table-radio-id-non';
+      this.radioClickEvent.emit(null);
+    }
     if (this.useClientPagination) {
       this.pageCount = Math.ceil(this.data.length / this.pageSize);
       this.totalPagesArray = Array(this.pageCount).fill(0).map((x, i) => i + 1);
@@ -78,17 +86,26 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
       this.checkBoxClickEvent.emit(dataRow);
     }
     else if (this.isRadioVisible) {
-      this.selectedRadioId = 'table-radio-id-' + index;
-      this.radioClickEvent.emit(dataRow);
+      if (!dataRow.isDormant) {
+        this.selectedRadioId = 'table-radio-id-' + index;
+        this.radioClickEvent.emit(dataRow);
+      }
+      else if (this.pageName ==='OUS')
+      {
+        this.selectedRadioId = 'table-radio-id-' + index;
+        this.radioClickEvent.emit(dataRow);
+      }
     }
     else if (this.isHyperLinkVisible || this.hyperArrayVisible) {
+      if(dataRow.contactReason!='REGISTRY')
+      {
       if(this.hyperArrayVisible){
         dataRow.event=event
         this.hyperLinkClickEvent.emit(dataRow);
       }else{
         this.hyperLinkClickEvent.emit(dataRow);
-
       }
+    }
     }
     else {
     }

@@ -8,7 +8,7 @@
         }}</a>
       </li>
       <li class="govuk-breadcrumbs__list-item">
-        <a class="govuk-breadcrumbs__link" routerLink="/buyer/search"
+        <a class="govuk-breadcrumbs__link" routerLink="/buyer-supplier/search"
           >Manage service eligibility</a
         >
       </li>
@@ -255,7 +255,7 @@
       type="button"
       class="govuk-button"
       data-module="govuk-button"
-      (click)="onSubmitClick()"
+      (click)="onSubmitClick('Continue')"
     >
       Continue
     </button>
@@ -263,7 +263,7 @@
       type="button"
       class="govuk-button govuk-button--secondary"
       data-module="govuk-button"
-      (click)="onCancelClick()"
+      (click)="onCancelClick('Cancel')"
     >
       Cancel
     </button>

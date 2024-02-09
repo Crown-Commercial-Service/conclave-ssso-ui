@@ -4,7 +4,7 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                        <a class="govuk-breadcrumbs__link" [routerLink]="['/home']" [queryParams]="{isNewTab:true}" >
                             {{ 'ADMINISTRATOR_DASHBOARD' | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
@@ -17,7 +17,7 @@
                 <p class="govuk-body-l">The following steps allow you to create, remove and update delegated users</p>
             </div>
             <button type="button"  class="govuk-button govuk-button--secondary"
-                data-module="govuk-button" (click)="FindDelegateUser()">
+                data-module="govuk-button" (click)="FindDelegateUser(' Delegate to an external user')">
                 Delegate to an external user
             </button>
 
@@ -27,7 +27,7 @@
                 *ngIf="searchSumbited && searchText ===''">
                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a user's name, organisation name or email address
               </span>
-                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
+                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()" [pageName]="'Delegated access'">
                 </app-search-box>
             </div>
         </div>
@@ -52,7 +52,7 @@
     <div class="govuk-grid-column-full">
         <div class="user-table">
             <app-govuk-table [headerTextKeys]="currentUserstableConfig.usersTableHeaders" [data]="currentUserstableConfig.userList.userList"
-                [dataKeys]="currentUserstableConfig.usersColumnsToDisplay" [isHyperLinkVisible]="false"
+                [dataKeys]="currentUserstableConfig.usersColumnsToDisplay" [isHyperLinkVisible]="false" [isNavigate]="true"
                 [pageName]="currentUserstableConfig.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=currentUserstableConfig.hyperTextrray
                 (hyperLinkClickEvent)="onLinkClick($event)" [useServerPagination]="true" [serverPageCount]="currentUserstableConfig.pageCount"
                 [serverPageCurrentPage]="currentUserstableConfig.currentPage" (changeCurrentPageEvent)="setPagecurrentUsers($event)"></app-govuk-table>
@@ -66,8 +66,8 @@
         <app-govuk-table [headerTextKeys]="expiredUserstableConfig.usersTableHeaders" [data]="expiredUserstableConfig.userList.userList"
         [dataKeys]="expiredUserstableConfig.usersColumnsToDisplay" [isHyperLinkVisible]="false"
         [pageName]="expiredUserstableConfig.pageName" [hyperArrayVisible]="true"   [hyperLinkArray]=expiredUserstableConfig.hyperTextrray
-        (hyperLinkClickEvent)="OnClickView($event)" [useServerPagination]="true" [serverPageCount]="expiredUserstableConfig.pageCount"
-        [serverPageCurrentPage]="expiredUserstableConfig.currentPage" (changeCurrentPageEvent)="setPageexpiredUsers($event)"></app-govuk-table>
+        (hyperLinkClickEvent)="OnClickView($event)" [useServerPagination]="true" [serverPageCount]="expiredUserstableConfig.pageCount"  
+        [serverPageCurrentPage]="expiredUserstableConfig.currentPage" (changeCurrentPageEvent)="setPageexpiredUsers($event)"></app-govuk-table> 
     </div>
     </div>
   </div>

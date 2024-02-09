@@ -18,7 +18,7 @@
                             }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'CONTACT_ASSIGN_SELECTION'
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick('Select contact type')">{{ 'CONTACT_ASSIGN_SELECTION'
                             |translate}}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
@@ -35,7 +35,7 @@
                 *ngIf="searchSumbited && searchingUserName ===''">
                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a user’s name or email address
               </span>
-                <app-search-box [(searchText)]="searchingUserName" (onSearchClickEvent)="onSearchClick()">
+                <app-search-box [(searchText)]="searchingUserName" (onSearchClickEvent)="onSearchClick()" [pageName]="'Assign a user s contacts to your organisation account'">
                 </app-search-box>
             </div>
         </div>
@@ -45,7 +45,8 @@
         <div class="govuk-grid-column-full">
             <div class="user-table">
                 <app-govuk-table [headerTextKeys]="usersTableHeaders" [data]="userList.userList"
-                    [dataKeys]="usersColumnsToDisplay" [isRadioVisible]="true" (radioClickEvent)="onSelectRow($event)"
+                    [dataKeys]="usersColumnsToDisplay" [isRadioVisible]="true" [isRadioDisabled]="isRadioDisabled" 
+                    (radioClickEvent)="onSelectRow($event)"
                     [useServerPagination]="true" [serverPageCount]="pageCount" [serverPageCurrentPage]="currentPage"
                     (changeCurrentPageEvent)="setPage($event)"></app-govuk-table>
             </div>
@@ -54,10 +55,10 @@
 
     <div class="govuk-button-group continue-button-group">
         <button type="button" [disabled]="selectedUserName == ''" class="govuk-button" data-module="govuk-button"
-            (click)="onContinue()">
+            (click)="onContinue('Continue')">
             {{ 'CONTINUE_BTN' | translate }}
         </button>
-        <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+        <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
             data-module="govuk-button">
             {{ 'CANCEL_BTN' | translate }}
         </button>

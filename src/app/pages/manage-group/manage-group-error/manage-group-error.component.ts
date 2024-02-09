@@ -17,6 +17,8 @@ import { TokenService } from 'src/app/services/auth/token.service';
 import { environment } from 'src/environments/environment';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
     templateUrl: './manage-group-error.component.html',
@@ -29,7 +31,7 @@ export class ManageGroupErrorComponent extends BaseComponent {
     public showRoleView:boolean = environment.appSetting.hideSimplifyRole
     groupName: string;
 
-    constructor(private activatedRoute: ActivatedRoute,private router: Router, protected uiStore: Store<UIState>,private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    constructor(private activatedRoute: ActivatedRoute,private router: Router,private sessionService:SessionService, protected uiStore: Store<UIState>,private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -37,6 +39,10 @@ export class ManageGroupErrorComponent extends BaseComponent {
             this.editingGroupId = this.routeData['groupId'];
         }
         this.groupName = sessionStorage.getItem('Gname') || '';
+    }
+
+    ngOnInit() {
+        this.dataLayerService.pushPageViewEvent();
     }
 
     navigateBackToGroups() {

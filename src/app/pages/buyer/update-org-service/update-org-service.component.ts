@@ -14,6 +14,10 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
+
 @Component({
   selector: 'app-update-org-service',
   templateUrl: './update-org-service.component.html',
@@ -35,10 +39,11 @@ export class UpdateOrgServiceComponent implements OnInit {
   adminSelectionMode: string = "";
   public autoValidationPending: any = null;
   public routeData: any = {}
-  constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService, private WrapperOrganisationService: WrapperOrganisationService,
+  constructor(private formBuilder: FormBuilder,private sessionService:SessionService, private organisationService: OrganisationService, private WrapperOrganisationService: WrapperOrganisationService,
     private wrapperConfigService: WrapperConfigurationService, private router: Router, private route: ActivatedRoute,
     protected uiStore: Store<UIState>, private organisationGroupService: WrapperOrganisationGroupService,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,
+    private loadingIndicatorService: LoadingIndicatorService) {
     this.orgRoles = [];
     this.eRoles = [];
     this.roles = [];
@@ -53,7 +58,10 @@ export class UpdateOrgServiceComponent implements OnInit {
   public supplierRemoveList = ['JAEGGER_BUYER', 'CAT_USER', 'FP_USER']
 
   ngOnInit() {
+    
     this.route.queryParams.subscribe(params => {
+      this.loadingIndicatorService.isLoading.next(true);
+      this.loadingIndicatorService.isCustomLoading.next(true);
       this.routeData = JSON.parse(atob(params.data));
       if (this.routeData.Id) {
         this.org$ = this.organisationService.getById(this.routeData.Id).pipe(share());
@@ -70,6 +78,18 @@ export class UpdateOrgServiceComponent implements OnInit {
             this.getOrgRoles();
           }
         });
+      }
+      setTimeout(() => {
+        this.loadingIndicatorService.isLoading.next(false);
+        this.loadingIndicatorService.isCustomLoading.next(false);
+      }, 1000);
+    });
+    this.dataLayerService.pushPageViewEvent();
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
       }
     });
   }
@@ -404,7 +424,7 @@ export class UpdateOrgServiceComponent implements OnInit {
   /**
    * On submit save call.
    */
-  public onSubmitClick() {
+  public onSubmitClick(buttonText:string) {
     let selection = {
       org: this.organisation,
       toDelete: this.rolesToDelete,
@@ -443,22 +463,24 @@ export class UpdateOrgServiceComponent implements OnInit {
       localStorage.setItem(`mse_org_${this.organisation.ciiOrganisationId}`, JSON.stringify(selection));
       this.router.navigateByUrl(`update-org-services/confirm-changes?data=` + btoa(JSON.stringify(data)))
     }
+    this.pushDataLayerEvent(buttonText);
   }
 
 
   /**
    * cancel button call , removing all the local storage details
    */
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     localStorage.removeItem(`mse_org_${this.organisation.ciiOrganisationId}`);
-    this.router.navigateByUrl('buyer/search');
+    this.router.navigateByUrl('buyer-supplier/search');
+    this.pushDataLayerEvent(buttonText);
   }
 
 
   /**
    * getting all roles and find elegible role call.
    */
-  public getOrgRoles() {
+  public getOrgRoles() {    
     this.orgRoles$ = this.wrapperConfigService.getRoles().pipe(share());
     this.orgRoles$.subscribe({
       next: (orgRoles: Role[]) => {
@@ -496,4 +518,7 @@ export class UpdateOrgServiceComponent implements OnInit {
     }    
   }
 
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
+  }
 }

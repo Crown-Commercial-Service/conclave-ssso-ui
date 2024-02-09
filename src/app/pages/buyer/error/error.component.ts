@@ -6,6 +6,9 @@ import { slideAnimation } from 'src/app/animations/slide.animation';
 import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
+import { Router } from '@angular/router';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-buyer-error',
@@ -22,9 +25,11 @@ import { ViewportScroller } from '@angular/common';
 })
 export class BuyerErrorComponent extends BaseComponent implements OnInit {
 
-  constructor(protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(protected uiStore: Store<UIState>,private sessionService:SessionService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private router: Router, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
+  }
 }

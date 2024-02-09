@@ -6,11 +6,11 @@ import { BaseComponent } from "src/app/components/base/base.component";
 import { UIState } from "src/app/store/ui.states";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { slideAnimation } from "src/app/animations/slide.animation";
-import { User, UserGroup, UserListInfo, UserListResponse, UserProfileRequestInfo } from "src/app/models/user";
+import { User, UserGroup, UserListInfo, UserListResponse, UserProfileRequestInfo,UserListResponseWithLink } from "src/app/models/user";
 import { WrapperUserService } from "src/app/services/wrapper/wrapper-user.service";
 import { WrapperUserContactService } from "src/app/services/wrapper/wrapper-user-contact.service";
 import { ContactPoint, UserContactInfoList } from "src/app/models/contactInfo";
-import { Router } from "@angular/router";
+import { Router,ActivatedRoute } from "@angular/router";
 import { OperationEnum } from "src/app/constants/enum";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org-service";
@@ -18,6 +18,9 @@ import { environment } from "src/environments/environment";
 import { AuditLoggerService } from "src/app/services/postgres/logger.service";
 import { SessionStorageKey } from "src/app/constants/constant";
 import { SharedDataService } from "src/app/shared/shared-data.service";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
     selector: 'app-manage-user-profiles',
@@ -42,8 +45,9 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     searchSumbited:boolean=false;
     public isBulkUpload=environment.appSetting.hideBulkupload
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
-        protected uiStore: Store<UIState>, private router: Router, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
-        private auditLogService: AuditLoggerService,private sharedDataService:SharedDataService) {
+        protected uiStore: Store<UIState>,private sessionService:SessionService, private router: Router, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
+        private auditLogService: AuditLoggerService,private sharedDataService:SharedDataService, private dataLayerService: DataLayerService,
+        private loadingIndicatorService: LoadingIndicatorService,public route: ActivatedRoute) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.userList = {
@@ -53,16 +57,31 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
             organisationId: this.organisationId,
             userList: []
         }
-        sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);
+        sessionStorage.removeItem(SessionStorageKey.ManageUserUserName);     
+        localStorage.removeItem('ManageUserUserName');
         sessionStorage.removeItem(SessionStorageKey.OperationSuccessUserName);
+        localStorage.removeItem('OperationSuccessUserName');
     }
 
     async ngOnInit() {
+        this.loadingIndicatorService.isLoading.next(true);
+        this.loadingIndicatorService.isCustomLoading.next(true);
+        this.dataLayerService.pushPageViewEvent();
+ 
         await this.auditLogService.createLog({
             eventName: "Access", applicationName: "Manage-user-account",
             referenceData: `UI-Log`
         }).toPromise();
         this.getOrganisationUsers();
+        this.loadingIndicatorService.isLoading.next(false);
+        this.loadingIndicatorService.isCustomLoading.next(false);
+        this.route.queryParams.subscribe(params => {
+            if (params['isNewTab'] === 'true') {
+              const urlTree = this.router.parseUrl(this.router.url);
+              delete urlTree.queryParams['isNewTab'];
+              this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+            }
+          });
     }
 
     getOrganisationUsers() {
@@ -71,20 +90,33 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
                 if (userListResponse != null) {
                     this.userList = userListResponse;
                     this.pageCount = this.userList.pageCount;
+                    this.userList.userList.forEach((f)=>{
+                        let  data = {
+                            'rowData':f.userName
+                    };
+                    this.sharedDataService.storeUserDetails(JSON.stringify(data));
+                    localStorage.setItem('ManageUserUserName',f.userName);
+                    sessionStorage.setItem(SessionStorageKey.ManageUserUserName, f.userName);
+                    localStorage.setItem('ManageUserUserName', f.userName);
+                    let queryParams = {data: btoa(JSON.stringify({'isEdit': true, 'name':f.userName})),isNewTab: true}
+                         f.routeLink= `/manage-users/add-user/details`;
+                         f.routeData = queryParams;
+                    })
                 }
             },
             error: (error: any) => {
-            }
+            }       
         });
     }
 
-    onAddClick() {
+    onAddClick(buttonText:string) {
         this.router.navigateByUrl("manage-users/add-user-selection");
         if(!this.isBulkUpload){
             this.router.navigateByUrl("manage-users/add-user-selection");
         } else {
             this.router.navigateByUrl("manage-users/add-user/details");
         }
+        this.dataLayerService.pushClickEvent(buttonText)
     }
 
     searchTextChanged(event: any) {
@@ -107,8 +139,10 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
          let  data = {
                 'rowData':dataRow.userName
         };
-        this.sharedDataService.storeUserDetails(JSON.stringify(data))
+        this.sharedDataService.storeUserDetails(JSON.stringify(data));
+        localStorage.setItem('ManageUserUserName',dataRow.userName);
         sessionStorage.setItem(SessionStorageKey.ManageUserUserName, dataRow.userName);
-        this.router.navigateByUrl('manage-users/add-user/details?data=' + btoa(JSON.stringify({'isEdit': true})));
+        localStorage.setItem('ManageUserUserName', dataRow.userName);
+        this.router.navigateByUrl('manage-users/add-user/details?data=' + btoa(JSON.stringify({'isEdit': true, 'name':dataRow.userName})));
     }
 }

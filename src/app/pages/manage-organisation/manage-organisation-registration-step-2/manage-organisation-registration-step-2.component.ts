@@ -19,6 +19,9 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-organisation-registration-step-2',
@@ -35,6 +38,7 @@ export class ManageOrgRegStep2Component
   extends BaseComponent
   implements OnInit
 {
+  public isCustomMfaEnabled:boolean=environment.appSetting.customMfaEnabled;
   public items$!: Observable<any>;
   public scheme!: string;
   public schemeSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
@@ -52,7 +56,9 @@ export class ManageOrgRegStep2Component
   };
   public pageAccessMode:any;
   submitted: boolean = false;
-  public newScheme:any = []
+  public newScheme:any = [];
+  public formId : string = 'Manage-organisation-registration-step-2';
+
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(
@@ -61,10 +67,12 @@ export class ManageOrgRegStep2Component
     private router: Router,
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
-    protected scrollHelper: ScrollHelper,
+    public scrollHelper: ScrollHelper,
     private formBuilder: FormBuilder,
     private ActivatedRoute: ActivatedRoute,
-    private SharedDataService:SharedDataService
+    private SharedDataService:SharedDataService,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.txtValue = '';
@@ -80,6 +88,7 @@ export class ManageOrgRegStep2Component
   }
 
   ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
     this.items$ = this.ciiService.getSchemes().pipe(share());
     this.items$.subscribe({
       next: (result) => {
@@ -99,7 +108,7 @@ export class ManageOrgRegStep2Component
     this.inputs.toArray()[inputIndex].nativeElement.focus();
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     let schemeDetails = {
       scheme:this.scheme,
       schemeID:this.txtValue,
@@ -115,7 +124,9 @@ export class ManageOrgRegStep2Component
         );
       } else {
         this.scrollHelper.scrollToFirst('error-summary');
+        this.dataLayerService.pushFormErrorEvent(this.formId);
       }
+      this.dataLayerService.pushClickEvent(buttonText);
   }
 
   public onBackClick() {

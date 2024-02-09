@@ -9,7 +9,7 @@
                     |translate}}</a>
             </li>
             <li *ngIf="assigningSiteId != 0" class="govuk-breadcrumbs__list-item">
-                <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
+                <a href="javascript:;" class="govuk-breadcrumbs__link"  [routerLink]="['/manage-org/profile/site/edit']" [queryParams]="{ data: getEditQueryData() }" (click)="onNavigateToSiteClick()">{{ 'EDIT_SITE' |
                     translate
                     }}</a>
             </li>
@@ -66,10 +66,10 @@
                 </fieldset>
             </div>
             <div class="govuk-button-group continue-button-group">
-                <button type="submit" class="govuk-button" data-module="govuk-button">
+                <button type="submit" class="govuk-button"  (click)="pushDataLayerEvent('Continue')" data-module="govuk-button">
                     {{ 'CONTINUE_BTN' | translate }}
                 </button>
-                <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button">
                     {{ 'CANCEL_BTN' | translate }}
                 </button>

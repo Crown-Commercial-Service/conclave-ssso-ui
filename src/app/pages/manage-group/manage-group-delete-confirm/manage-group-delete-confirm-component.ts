@@ -11,6 +11,8 @@ import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { ViewportScroller } from "@angular/common";
 import { OrganisationGroupResponseInfo } from "src/app/models/organisationGroup";
 import { SharedDataService } from "src/app/shared/shared-data.service";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-manage-group-delete-confirm',
@@ -24,13 +26,13 @@ import { SharedDataService } from "src/app/shared/shared-data.service";
     ]
 })
 export class ManageGroupDeleteConfirmComponent extends BaseComponent implements OnInit {
-    public GroupDetails:any;
+    public GroupDetails:any = {};
     isEdit: boolean = false;
     groupId: number = 0;
     organisationId: string = '';
     routeData: any = {};
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        private orgGroupService: WrapperOrganisationGroupService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private SharedDataService:SharedDataService) {
+    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,private sessionService:SessionService,
+        private orgGroupService: WrapperOrganisationGroupService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private SharedDataService:SharedDataService, private dataLayerService: DataLayerService) {
         super(uiStore,viewportScroller,scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
@@ -42,6 +44,7 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
     }
 
     ngOnInit() {
+        this.dataLayerService.pushPageViewEvent();
         this.orgGroupService
         .getOrganisationGroup(this.organisationId, this.groupId)
         .subscribe(
@@ -56,7 +59,7 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
         );
     }
 
-    onDeleteConfirmClick() {
+    onDeleteConfirmClick(buttonText:string) {
         this.orgGroupService.deleteOrganisationGroup(this.organisationId, this.groupId).subscribe({
             next: () => { 
                 this.SharedDataService.manageGroupStorage(this.GroupDetails.groupName)
@@ -66,9 +69,23 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
                 console.log(error);
             }
         });
+        this.pushDataLayerEvent(buttonText);
     }
 
-    onCancelClick(){
+    onCancelClick(buttonText:string){
         this.router.navigateByUrl('manage-groups/view?data=' + JSON.stringify(this.routeData));
+        if(buttonText==='Cancel')
+        {
+        this.pushDataLayerEvent(buttonText);
+        }
     }
+
+    getEditQueryData() {
+       return JSON.stringify(this.routeData);
+      }
+
+    pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText);
+	  }
+  
 }

@@ -18,7 +18,7 @@
         *ngIf="searchSumbited && searchText ===''">
         <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter an organisation’s name
       </span>
-        <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
+        <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()" [pageName]="'Organisation Support'">
         </app-search-box>
       </div>
     </div>
@@ -30,7 +30,7 @@
         <app-govuk-table [headerTextKeys]="tableHeaders" [data]="data.orgUserList"
         [dataKeys]="tableColumnsToDisplay" [isRadioVisible]="true" 
         (radioClickEvent)="onSelectRow($event)" [serverPageCount]="pageCount" 
-        [useServerPagination]="true" [serverPageCurrentPage]="currentPage"
+        [useServerPagination]="true" [serverPageCurrentPage]="currentPage"[pageName] ="pageName" 
         (changeCurrentPageEvent)="setPage($event)"></app-govuk-table>
       </div>
     </div>
@@ -42,9 +42,9 @@
   <div class="govuk-button-group">
     <!-- <button class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button" data-module="govuk-button" (click)="onContinueClick()">Continue</button> -->
     <button type="button" class="govuk-button"
-      [class.govuk-button--disabled]="selectedRowId === ''" data-module="govuk-button" (click)="onContinueClick()"
+      [class.govuk-button--disabled]="selectedRowId === ''" data-module="govuk-button" (click)="onContinueClick('Continue')"
       [disabled]="selectedRowId === ''">Continue</button>
     <button  type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onCancelClick()">Cancel</button>
+      (click)="onCancelClick('Cancel')">Cancel</button>
   </div>
 </div>

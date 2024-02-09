@@ -2,7 +2,7 @@
     <table class="govuk-table" *ngIf="data.length > 0; else noData">
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header border-bottom-0">{{headerText}}</th>
+                <h2 scope="col" class="govuk-table__header border-bottom-0 govuk-heading-s">{{headerText}}</h2>
                 <th scope="col" class="govuk-table__header border-bottom-0 govuk-text-align-right">
                     <p *ngIf="accessTable === 'groupsMember'" class="govuk-body"><a href="javascript:;"
                             class="govuk-link" (click)="onTopToggle()">{{groupShow ==
@@ -27,43 +27,50 @@
                                     (click)="onCheckBoxClick(groupdata,groupdata.checked)"
                                     [attr.disabled]="groupdata.disabled">
                                 <label
-                                    class="govuk-label govuk-checkboxes__label govuk-!-margin-bottom-2 govuk-!-margin-left-4 govuk-link"
-                                    for="{{'groupdata' + groupdata.groupId}}">
-
+                                    class="govuk-label govuk-checkboxes__label govuk-!-margin-bottom-2 govuk-!-margin-left-4"
+                                    for="{{'orgGroupControl_' + groupdata.groupId}}">
+                                    <span>
+                                        <a [routerLink]="['/manage-groups/view']" [queryParams]="{ data: getQueryData(groupdata.groupId) }" class="govuk-link" 
+                                        href="javascript:void(0)" target="_blank">{{groupdata[headerTextKeys]}}</a>
+                                        <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleData">
+                                            <ul class="govuk-list govuk-list--bullet govuk-!-padding-top-4 govuk-!-padding-left-3"
+                                                id="{{groupdata.groupId}}" style="display: none;">
+                                                <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}}
+                                                    <strong *ngIf="orgRole.approvalStatus === 0"> - Pending
+                                                        approval</strong>
+                                                </li>
+                                            </ul>
+                                        </span>
+                                        <ng-template #noRoleData>
+                                            <ul class="govuk-list govuk-list--bullet govuk-!-padding-top-4 govuk-!-padding-left-3"
+                                                id="{{groupdata.groupId}}" style="display: none;">
+                                                <li>
+                                                    <label class="no-data-message no-data-message-l"> {{noRoleText}}
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </ng-template>
+                                    </span>
                                 </label>
                             </span>
-                            <span>
-                                <a href="javascript:;" class="govuk-link"
-                                    (click)="goToEditGroup(groupdata.groupId)">{{groupdata[headerTextKeys]}}</a>
-                                <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-6 govuk-!-padding-left-8 govuk-!-padding-top-4"
-                                    id="{{groupdata.groupId}}" style="display: none;">
 
-                                    <span *ngIf="groupdata.serviceRoleGroups.length > 0; else noRoleData">
-                                        <li *ngFor="let orgRole of groupdata.serviceRoleGroups">{{orgRole.name}}
-                                            <strong *ngIf="orgRole.approvalStatus === 0"> - Pending approval</strong>
-                                        </li>
-                                    </span>
-                                    <ng-template #noRoleData>
-                                        <label class="no-data-message"> {{noRoleText}} </label>
-                                    </ng-template>
-                                </ul>
-                            </span>
+
+
 
                         </div>
                     </div>
                 </th>
                 <td class="govuk-table__cell govuk-text-align-right">
-                    <a *ngIf="groupdata.groupType === 0" href="javascript:;" class="govuk-link" 
-                        (click)="onBottomToggle(groupdata.groupId)">{{getElementStatus(groupdata.groupId)}}</a>
-                    </td>
+                    <a *ngIf="groupdata.groupType === 0" href="javascript:;" class="govuk-link"
+                        (click)="onBottomToggle($event, groupdata)">{{getElementStatus(groupdata.groupId)}}</a>
+                </td>
             </tr>
         </tbody>
     </table>
     <ng-template #noData>
         <div>
             <fieldset class="gov_uk_fieldset">
-                <strong class="custom_strong">{{headerText}}</strong>
-                <br>
+                <h2 class="custom_strong">{{headerText}}</h2>
                 <br>
                 <span *ngIf="accessTable === 'groupsMember'" class="none_span">
                     {{!noDataGroupsMemberMessage? 'This user is not
@@ -71,6 +78,8 @@
                 <span *ngIf="accessTable === 'noneGroupsMember'" class="none_span">
                     {{!noDatanoneGroupsMemberMessage? 'There are no unassigned groups for
                     this user.':noDatanoneGroupsMemberMessage}}
+
+
 
                 </span>
             </fieldset>

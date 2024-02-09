@@ -11,6 +11,8 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { SessionStorageKey } from 'src/app/constants/constant';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-org-support-confirm',
@@ -32,16 +34,22 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
   displayMessage: string = '';
   userName: string = '';
   canContinue: boolean = false;
+  public deactivateEnabled: boolean = false;
+  public reactivateEnabled : boolean = false; 
+  public dormantBy : string ='Manual';
+  public fromPage : string ='org_user'
 
   constructor(private organisationGroupService: WrapperOrganisationGroupService,
     private wrapperUserService: WrapperUserService,
     private mfaService: MFAService,
+    private sessionService:SessionService,
     private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
   ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
     this.userName = sessionStorage.getItem(SessionStorageKey.OrgUserSupportUserName) ?? '';
     this.route.queryParams.subscribe(para => {
       if (para.rpwd != undefined) {
@@ -55,9 +63,17 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
       if (para.chrole != undefined) {
         this.changeRoleType = para.chrole;
       }
+      if (para.deuser != undefined)
+      {
+        this.deactivateEnabled = JSON.parse(para.deuser);
+      }
+      if (para.reuser != undefined)
+      {
+        this.reactivateEnabled = JSON.parse(para.reuser);
+      }
     });
 
-    if (this.changeRoleType == "noChange" && !this.changePassword && !this.resetMfa) {
+    if (this.changeRoleType == "noChange" && !this.changePassword && !this.resetMfa && !this.deactivateEnabled && !this.reactivateEnabled) {
       this.displayMessage = "You haven't selected any changes for the user.";
     }
     else {
@@ -75,12 +91,20 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
       if (this.resetMfa) {
         this.displayMessage = this.displayMessage + (this.changePassword || this.changeRoleType !== "noChange" ? ', reset additional security' : 'reset additional security');
       }
+      if (this.deactivateEnabled) {
+        this.displayMessage = this.displayMessage + (this.changePassword || this.changeRoleType !== "noChange" || this.resetMfa ?', deactivate the account': 'deactivate the account');
+      }
+      if (this.reactivateEnabled) 
+      {
+        this.displayMessage = this.displayMessage +('reactivate the account');
+      }
+
 
       this.displayMessage = this.displayMessage + ` for ${this.userName}.`;
     }
   }
 
-  public async onSubmitClick() {
+  public async onSubmitClick(buttonText:string) {
     try {
       if (this.changePassword) {
         await this.wrapperUserService.resetUserPassword(this.userName, "Org-user-support").toPromise();
@@ -98,16 +122,33 @@ export class OrgSupportConfirmComponent extends BaseComponent implements OnInit 
           await this.wrapperUserService.removeAdminRoles(this.userName).toPromise();
         }
       }
+      if (this.deactivateEnabled)
+      {
+        await this.wrapperUserService.deActivateUser(this.userName,this.dormantBy,this.fromPage).toPromise();
+      }
+      if (this.reactivateEnabled)
+      {
+        await this.wrapperUserService.reActivateUser(this.userName,this.fromPage).toPromise();
+      }
       this.router.navigateByUrl(`org-support/success?rpwd=` + this.changePassword + `&rmfa=` + this.resetMfa +
-        `&chrole=` + this.changeRoleType);
+        `&chrole=` + this.changeRoleType + `&deuser=` + this.deactivateEnabled
+        + `&reuser=` + this.reactivateEnabled);
     }
     catch (err: any) {
       this.router.navigateByUrl(`org-support/error?errCode=${err.error}`);
     }
+    this.pushDataLayerEvent(buttonText); 
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     this.router.navigateByUrl(`org-support/details?rpwd=` + this.changePassword + `&rmfa=` + this.resetMfa +
-      `&chrole=` + this.changeRoleType);
+      `&chrole=` + this.changeRoleType +`&deuser=` + this.deactivateEnabled
+      + `&reuser=` + this.reactivateEnabled);
+      this.pushDataLayerEvent(buttonText);
   }
+
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent('buttonText')
+	  }
+  
 }

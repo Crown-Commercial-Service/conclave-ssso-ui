@@ -15,21 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- GA4 script -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-624NHLKTKL"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-624NHLKTKL');
-    </script>
-    <!--  GA4 script -->
       <!-- Google Tag Manager -->
     <script>
         (function (w, d, s, l, i) {
             w[l] = w[l] || [];
             w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            w[l].push({event : 'page_view', page_location : window.location.href,user_id : null,user_org : null ,page_title : document.title});
             var f = d.getElementsByTagName(s)[0],
                 j = d.createElement(s),
                 dl = l != 'dataLayer' ? '&l=' + l : '';
@@ -368,9 +359,9 @@
 
     .card.card-help {
         height: auto;
-        min-width: 100px;
         max-width: 300px;
         margin-left: auto;
+        word-break: break-word;
     }
 
     .card-help .card-title {
@@ -391,7 +382,7 @@
     }
 
     .content-right {
-        width: 33.3%;
+        width: calc(33.3% - 15px);
     }
 
     @media(max-width: 767.98px) {
@@ -560,6 +551,42 @@
   .para_text span {
     font-weight: 600;
   }
+  .linked_icon {
+    width: 20px;
+    height: 20px;
+    background: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='currentColor' d='M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z'/></svg>") center center no-repeat;
+    background-size: contain;
+    filter: invert(1)
+}
+.twitter_icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='currentColor' d='M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z'/></svg>") center center no-repeat;
+    background-size: contain;
+    filter: invert(1)
+}
+  .header_logo {
+    background: url(https://res.cloudinary.com/ccssiteimage/image/upload/v1613028512/site/CCS_WHITE_SML_AW_space-01_p3dj6u.png) no-repeat;
+    width: 8.75rem;
+    height: 116px;
+    background-size: contain;
+    display: block;
+}
+.header-global .logo {
+    min-height: 116px;
+}
+/* This class provides visually hidden text for accessibility */
+.visually-hidden {
+    color: #FFFFFF;
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0;
+    border: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}  
 </style>
 
 <body class="govuk-template__body show-flourishes pillar--none js-enabled">
@@ -652,9 +679,8 @@
         <div class="ccs-width-container">
 
             <div class="nav-wrapper">
-                <a href="https://webuat.crowncommercial.gov.uk" class="logo"><img
-                        src="https://res.cloudinary.com/ccssiteimage/image/upload/v1613028512/site/CCS_WHITE_SML_AW_space-01_p3dj6u.png"
-                        alt="Go to the CCS homepage"></a>
+                <a href="https://webdev.crowncommercial.gov.uk/" class="logo"><span class="header_logo" alt="Go to the CCS homepage"></span>
+                    <span class="visually-hidden">Go to the CCS homepage</span></a>
                 <nav class="global-navigation" data-toggle="nav"
                     data-app-uri="http://www.crowncommercial.gov.uk/contact/sendToSalesforce"
                     data-app-pathinfo="/contact/sendToSalesforce" aria-hidden="false">
@@ -726,7 +752,7 @@
             <div class="govuk-grid-column-full">
                 <div class="content flex">
                     <div class="content-left">
-                        <form class="ui form login mb-two" onsubmit="return false;" method="post">
+                        <form class="ui form login mb-two" id="login-form" onsubmit="return false;" method="post">
                             <div id="email-form-group" class="govuk-form-group">
                               <div>
                                 <h1 class="govuk-heading-m">If you don’t have an account you can create an account here</h1>
@@ -738,15 +764,12 @@
                                     </div>
                                 </label>
                                 <span style="display: none" id="email-error" class="govuk-error-message">
-                                    <span class="govuk-visually-hidden">Error:</span>
                                 </span>
                                 <input type="email" class="govuk-input" id="email" placeholder="Enter your email">
                             </div>
                             <div id="password-form-group" style="margin-top:30px;" class="govuk-form-group">
                                 <label class="govuk-label" for="password">Password</label>
                                 <span style="display: none" id="password-error" class="govuk-error-message">
-                                    <span class="govuk-visually-hidden">Error:</span>
-                                    Password is required
                                 </span>
                                 <input type="password" autocomplete="off" class="govuk-input" id="password"
                                     placeholder="Enter your password">
@@ -756,8 +779,8 @@
                                 Sign in
                             </button>
                             <div class="align-right">
-                                <a id="forgotPwdLink" style="margin-bottom: 15px;" class="navigation-text"
-                                    href="https://dev.identify.crowncommercial.gov.uk/forgot-password">I have forgotten
+                                <a id="forgotPwdLink" style="margin-bottom: 15px;" class="navigation-text" href="#" onclick="forgotPassword()"
+                                    >I have forgotten
                                     my
                                     password</a>
                                 <br />
@@ -817,45 +840,34 @@
         <div class="govuk-width-container ">
             <div class="govuk-footer__meta">
                 <div class="govuk-footer__meta-item">
-                    <a class="govuk-footer__link logo" href="https://webuat.crowncommercial.gov.uk"><img
-                            src="https://res.cloudinary.com/ccssiteimage/image/upload/v1613028512/site/CCS_WHITE_SML_AW_space-01_p3dj6u.png"
-                            alt="Go to the CCS homepage"></a>
+                    <a class="govuk-footer__link logo" href="https://webdev.crowncommercial.gov.uk/">
+                            <span class="header_logo" alt="Go to the CCS homepage"></span>
+                            <span class="visually-hidden">Go to the CCS homepage</span>
+                            </a>
                 </div>
                 <div class="govuk-footer__meta-item govuk-footer__meta-item--grow right-content">
                     <ul class="govuk-list">
                         <li>
                             <ul class="govuk-footer__inline-list">
-                                <li class="govuk-footer__inline-list-item">
-                                    <a href="https://twitter.com/gov_procurement" class="govuk-footer__link">
-                                        <span class="icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
-                                                <path fill="currentColor"
-                                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z">
-                                                </path>
-                                            </svg>
-                                        </span>
-                                        <span class="visuallyhidden">Follow us on Twitter</span>
-                                    </a>
-                                </li>
-                                <li class="govuk-footer__inline-list-item">
-                                    <a href="https://www.linkedin.com/company/government-procurement-service/"
-                                        class="govuk-footer__link">
-                                        <span class="icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
-                                                <path fill="currentColor"
-                                                    d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z">
-                                                </path>
-                                            </svg>
-                                        </span>
-                                        <span class="visuallyhidden">Connect with us on LinkedIn</span>
-                                    </a>
-                                </li>
-                            </ul>
+                            <li class="govuk-footer__inline-list-item">
+                                <a href="https://twitter.com/gov_procurement" class="govuk-footer__link">
+                                    <div class="twitter_icon"> </div>
+                                    <span class="visuallyhidden">Follow us on Twitter</span>
+                                </a>
+                            </li>
+                            <li class="govuk-footer__inline-list-item">
+                                <a href="https://www.linkedin.com/company/government-procurement-service/"
+                                    class="govuk-footer__link">
+                                    <div class="linked_icon"></div>
+                                    <span class="visuallyhidden">Connect with us on LinkedIn</span>
+                                </a>
+                            </li>
+                        </ul>
                         </li>
                         <li>
                             <ul class="govuk-footer__inline-list">
                                 <li class="govuk-footer__inline-list-item">
-                                    <a class="govuk-footer__link"
+                                    <a class="govuk-footer__link" referrerpolicy="unsafe-url"
                                         href="https://webdev.crowncommercial.gov.uk/contact">Contact CCS</a>
                                 </li>
                                 <li class="govuk-footer__inline-list-item">
@@ -901,7 +913,7 @@
 
     <script src="https://cdn.auth0.com/js/auth0/9.14/auth0.min.js"></script>
     <script src="https://cdn.auth0.com/js/polyfills/1.0/object-assign.min.js"></script>
-    <script>
+    <script>        
         function scrollToError(element, inputId) {
             // debugger;
             let elementObj = document.getElementById(element);
@@ -948,7 +960,21 @@
                 deleteCookie("_cls_v", 'removed');
             }
     
+        function forgotPassword(){
+            let lastUserEmail = document.getElementById("email").value
+            localStorage.setItem('lastUserEmail', lastUserEmail);
+            window.location.href = "https://dev.identify.crowncommercial.gov.uk/forgot-password?email="+lastUserEmail;
+        }  
 
+            let emailInput = document.getElementById("email");
+            let lastUserEmail = emailInput.value;
+            localStorage.setItem('lastUserEmail', lastUserEmail);   
+
+         email.addEventListener('input', function () {
+                lastUserEmail = emailInput.value;
+                forgotPwdLink.href = "https://dev.identify.crowncommercial.gov.uk/forgot-password?email="+lastUserEmail;
+            });
+        
         window.addEventListener('load', function () {
             //debugger;
             var cookieExpirationTimeInMinutes = 525600; // 525600 => 365 Days
@@ -1012,6 +1038,7 @@
                 passwordFG.classList.remove("invalid");
                 userNameField.classList.remove("govuk-input--error");
                 passwordField.classList.remove("govuk-input--error");
+                dataLayer.push({event : 'cta_button_click', link_text : 'Sign in',link_url: window.location.href});
 
                 let userNameEmpty = username === '';
                 let passwordEmpty = password === '';
@@ -1033,6 +1060,7 @@
                 }
 
                 button.disabled = true;
+                dataLayer.push({event : 'form_submit', form_id : 'login'});
                 webAuth.login({
                     realm: databaseConnection,
                     username: username,
@@ -1041,6 +1069,9 @@
                 }, function (err) {
                     if (err.code === 'invalid_user_password') {
                         displayErrorSummary(false, false, "Invalid Email or Password");
+                    } 
+                    else if(err.code === 'access_denied'){
+                         displayErrorSummary(false, false, "There is a timeout issue. Please try to refresh the page and log in again.");
                     } else {
                         displayErrorSummary(false, false, err.description);
                     } button.disabled = false;
@@ -1102,6 +1133,7 @@
 
                 var errorEmail = document.getElementById('li-error-summary-email');
                 var errorEmailSummary = document.getElementById('email-error');
+                var errorPasswordSummary = document.getElementById('password-error');
                 if (isEmailValidationError) {
                     errorEmail.style.display = 'block';
                     errorEmailSummary.style.display = 'block';
@@ -1115,7 +1147,7 @@
                 errorPassword.style.display = isPasswordValidationError ? 'block' : 'none';
                 var passwordSummary = document.getElementById('password-error');
                 passwordSummary.style.display = isPasswordValidationError ? 'block' : 'none';
-
+                passwordSummary.innerHTML = 'Password is required'
                 var liErrorGeneral = document.getElementById('li-error-summary-general');
                 liErrorGeneral.style.display = liErrorGeneral != undefined ? 'block' : 'none';
                 var errorGeneral = document.getElementById('link-general-error');
@@ -1131,6 +1163,26 @@
                     userNameField.classList.add("govuk-input--error");
 
                 }
+                setTimeout(() => {
+                    // Fetch the visible elements inside the div
+                    if (errorSummary) {
+                        var allElements = errorSummary.getElementsByTagName('li');
+                        var visibleElements = [];
+                        for (var i = 0; i < allElements.length; i++) {
+                            var element = allElements[i];
+                            var computedStyle = window.getComputedStyle(element);
+
+                            if (computedStyle.display !== 'none' && computedStyle.visibility !== 'hidden') {
+                                visibleElements.push(element);
+                            }
+                        }
+                        visibleElements.forEach(function (visibleElement) {
+                            if (visibleElement.innerText) {
+                                dataLayer.push({ event: 'form_error', form_id: 'login', interaction_detail: visibleElement.innerText });
+                            }
+                        });
+                    }
+                }, 10)
             }
 
             function acceptAdditionalCookies(e) {
@@ -1166,10 +1218,13 @@
             document.getElementById('rejectCookieButton').addEventListener('click', rejectAdditionalCookies);
             document.getElementById('hideCookieMsgOnAcceptButton').addEventListener('click', hideCookieMsg);
             document.getElementById('hideCookieMsgOnRejectButton').addEventListener('click', hideCookieMsg);
+            var form = document.getElementById('login-form');
+            if (form) {
+                dataLayer.push({event : 'form_start', form_id : 'login'});
+              }
         });
     </script>
 </body>
-
 </html> 
 
  

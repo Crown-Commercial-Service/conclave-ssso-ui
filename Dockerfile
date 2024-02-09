@@ -1,17 +1,20 @@
-#Build the application
 FROM node:16 AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm install --legacy-peer-deps
+RUN npm install --legacy-peer-deps && npm cache clean --force
+
 COPY . ./
 RUN npm run build
 
-#Deploy the application to Nginx
-FROM ubuntu:14.04.6  AS runtime
-RUN apt-get install nginx -y
+FROM nginx:latest AS runtime
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY --from=build /app/dist .
+
+#COPY nginx.conf /etc/nginx/sites-enabled/default
 COPY nginxangular.conf /etc/nginx/conf.d/default.conf
+#RUN rm -rf /usr/share/nginx/html/*
+#COPY --from=build /app/dist/assets /usr/share/nginx/html/assets
+#COPY --from=build /app/dist/* /usr/share/nginx/html/
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

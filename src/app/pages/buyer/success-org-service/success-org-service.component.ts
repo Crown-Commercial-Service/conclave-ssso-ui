@@ -11,6 +11,8 @@ import { share } from 'rxjs/operators';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 @Component({
   selector: 'app-success-org-service',
   templateUrl: './success-org-service.component.html',
@@ -23,7 +25,7 @@ import { ViewportScroller } from '@angular/common';
   ],
 })
 export class SuccessOrgServiceComponent implements OnDestroy {
-
+  private id!: string;
   public org: any;
   public org$!: Observable<any>;
   public changes: any;
@@ -33,10 +35,11 @@ export class SuccessOrgServiceComponent implements OnDestroy {
   userServiceTableHeaders = ['NAME'];
   userServiceColumnsToDisplay = ['accessRoleName',]
   constructor(private cf: ChangeDetectorRef, private organisationService: OrganisationService, 
-    private wrapperOrgService: WrapperOrganisationService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
-    protected scrollHelper: ScrollHelper) {
+    private wrapperOrgService: WrapperOrganisationService,private sessionService:SessionService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
+    protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     this.route.params.subscribe(params => {
       if (params.id) {
+        this.id = params.id;
         this.org$ = this.organisationService.getById(params.id).pipe(share());
         this.org$.subscribe({
           next: data => {
@@ -53,7 +56,11 @@ export class SuccessOrgServiceComponent implements OnDestroy {
     });
   }
 
-  private updateTableData(){
+  ngOnInit() {
+    this.dataLayerService.pushPageViewEvent({id: this.id});
+  }
+
+  public updateTableData(){
     if(this.changes.toAdd.length > 0){
       this.changes.toAdd.forEach((addRole:any)=>{
         this.toAdd.push({
@@ -91,9 +98,10 @@ export class SuccessOrgServiceComponent implements OnDestroy {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
   }
 
-  public onBackClick() {
+  public onBackClick(buttonText:string) {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
     this.router.navigateByUrl('update-org-type/confirm/' + this.org.ciiOrganisationId);
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
 }
