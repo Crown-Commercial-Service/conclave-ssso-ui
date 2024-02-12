@@ -963,7 +963,7 @@
         function forgotPassword(){
             let lastUserEmail = document.getElementById("email").value
             localStorage.setItem('lastUserEmail', lastUserEmail);
-            window.location.href = "https://dev.identify.crowncommercial.gov.uk/forgot-password?email="+lastUserEmail;
+            window.location.href = "https://dev.identify.crowncommercial.gov.uk/forgot-password?email="+encodeURIComponent(lastUserEmail);
         }  
 
             let emailInput = document.getElementById("email");
@@ -972,7 +972,7 @@
 
          email.addEventListener('input', function () {
                 lastUserEmail = emailInput.value;
-                forgotPwdLink.href = "https://dev.identify.crowncommercial.gov.uk/forgot-password?email="+lastUserEmail;
+                forgotPwdLink.href = "https://dev.identify.crowncommercial.gov.uk/forgot-password?email="+encodeURIComponent(lastUserEmail);
             });
         
         window.addEventListener('load', function () {
