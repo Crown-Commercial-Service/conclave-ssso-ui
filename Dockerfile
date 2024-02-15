@@ -6,7 +6,7 @@ RUN npm install --legacy-peer-deps && npm cache clean --force
 COPY . ./
 RUN npm run build
 
-FROM nginx:1.25.3-bookworm-perl AS runtime
+FROM nginx:mainline-alpine3.18-slim AS runtime
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY --from=build /app/dist .
