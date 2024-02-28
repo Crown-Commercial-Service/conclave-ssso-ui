@@ -111,7 +111,7 @@ export class BuyerBothRequestsComponent implements OnInit {
       );
     } else {
       this.router.navigateByUrl(
-        'pending-verification?data=' + btoa(JSON.stringify(data))
+        'pending-verification?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
       );
     }
   }
@@ -125,7 +125,7 @@ export class BuyerBothRequestsComponent implements OnInit {
       event: event,
     };
     this.router.navigateByUrl(
-      'verified-organisations?data=' + btoa(JSON.stringify(data))
+      'verified-organisations?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
     );
   }
 
@@ -152,7 +152,7 @@ export class BuyerBothRequestsComponent implements OnInit {
           this.pendingVerificationBuyerAndBoth.pageCount = orgListResponse.pageCount;
           this.assignOrgTypeName(orgListResponse);
           Array.from(this.pendingVerificationBuyerAndBoth.organisationAuditList.organisationAuditList).forEach((f: any)=>{
-              let queryParams = {data: btoa(JSON.stringify(f)),isNewTab: true}
+              let queryParams = {data: btoa(encodeURIComponent(JSON.stringify(f))),isNewTab: true}
                f.routeLink= `/pending-verification`,
                f.routeData = queryParams
           })
@@ -185,7 +185,7 @@ export class BuyerBothRequestsComponent implements OnInit {
               status: '003',
               event: f,
             };
-              let queryParams = {data: btoa(JSON.stringify(data)),isNewTab: true}
+              let queryParams = {data: btoa(encodeURIComponent(JSON.stringify(data))),isNewTab: true}
                f.routeLink= `/verified-organisations`,
                f.routeData = queryParams
           })
