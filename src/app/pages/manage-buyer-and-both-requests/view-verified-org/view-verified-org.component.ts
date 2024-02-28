@@ -99,7 +99,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
     this.loadingIndicatorService.isCustomLoading.next(true);
 
     this.route.queryParams.subscribe(async (para: any) => {
-      this.routeDetails = JSON.parse(atob(para.data));
+      this.routeDetails = JSON.parse(decodeURIComponent(atob(para.data)));
       setTimeout(() => {
         this.getPendingVerificationOrg()
        }, 500);
@@ -265,7 +265,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
       orgName: this.routeDetails.event.organisationName
     };
     this.router.navigateByUrl(
-      'remove-right-to-buy?data=' + btoa(JSON.stringify(data))
+      'remove-right-to-buy?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
     );
     this.pushDataLayerEvent(buttonText);
   }
