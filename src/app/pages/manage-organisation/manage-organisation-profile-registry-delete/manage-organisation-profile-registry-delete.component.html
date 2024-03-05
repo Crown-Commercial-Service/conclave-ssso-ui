@@ -15,7 +15,7 @@
   </div>
   <h1 class="govuk-heading-xl page-title">Confirm you want to remove the below from your registries?</h1>
   <p *ngIf="item$ | async as i">
-    <strong style="font-weight: 500;">{{ i?.identifier?.scheme }}</strong>
+    <strong style="font-weight: 500;">{{schemeDetail.schemeName}}</strong>
     <br />{{ i?.identifier?.id }} - {{ i?.identifier?.legalName }}
   </p>
   <p class="para_custom" style="font-weight: bold;">This cannot be undone</p>
