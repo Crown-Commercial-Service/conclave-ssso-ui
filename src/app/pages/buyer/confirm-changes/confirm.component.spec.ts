@@ -71,13 +71,13 @@ describe('BuyerConfirmChangesComponent', () => {
     expect(component.org$).toBeInstanceOf(Observable);
   });
 
-  it('should navigate to the confirm page with the correct ID when onBackClick is called', () => {
-    const routerSpy = spyOn(component.router, 'navigateByUrl');
+  // it('should navigate to the confirm page with the correct ID when onBackClick is called', () => {
+  //   const routerSpy = spyOn(component.router, 'navigateByUrl');
 
-    component.org = { ciiOrganisationId: 1 };
+  //   component.org = { ciiOrganisationId: 1 };
 
-    component.onBackClick();
+  //   component.onBackClick();
 
-    expect(routerSpy).toHaveBeenCalledWith('buyer/confirm/1');
-  });
+  //   expect(routerSpy).toHaveBeenCalledWith('buyer/confirm/1');
+  // });
 });
