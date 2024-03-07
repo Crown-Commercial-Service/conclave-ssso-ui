@@ -90,7 +90,7 @@ import { ManageUserDeleteConfirmComponent } from './pages/manage-user/manage-use
 import { ManageOrganisationErrorComponent } from './pages/manage-organisation/manage-organisation-error/manage-organisation-error.component';
 import { ContactUsComponent } from './pages/contactus/contactus.component';
 import { BuyerSearchComponent } from './pages/buyer/search/search.component';
-import { BuyerConfirmComponent } from './pages/buyer/confirm/confirm.component';
+// import { BuyerConfirmComponent } from './pages/buyer/confirm/confirm.component';
 import { BuyerDetailsComponent } from './pages/buyer/details/details.component';
 import { BuyerSuccessComponent } from './pages/buyer/success/success.component';
 import { OrgSupportSearchComponent } from './pages/org-support/search/search.component';
@@ -304,7 +304,7 @@ export function createTranslateLoader(http: HttpClient) {
     ManageOrganisationErrorComponent,
     BuyerSearchComponent,
     BuyerDetailsComponent,
-    BuyerConfirmComponent,
+    // BuyerConfirmComponent,
     BuyerSuccessComponent,
     OrgSupportSearchComponent,
     OrgSupportDetailsComponent,
