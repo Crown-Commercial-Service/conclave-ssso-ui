@@ -22,7 +22,7 @@ export class ConfirmAcceptComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((para: any) => {
-      this.routeDetails = JSON.parse(atob(para.data));
+      this.routeDetails = JSON.parse(decodeURIComponent(atob(para.data)));
     });
     this.dataLayerService.pushPageViewEvent();
   }
@@ -42,7 +42,7 @@ export class ConfirmAcceptComponent implements OnInit {
       organisationName: this.routeDetails.organisationName
     };
     this.router.navigateByUrl(
-      'buyer-and-both-success?data=' + btoa(JSON.stringify(data))
+      'buyer-and-both-success?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
     );
     this.pushDataLayerEvent(buttonText);
   }

@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ManageDelegateService } from '../../service/manage-delegate.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-delegated-organisation',
@@ -29,6 +30,7 @@ export class DelegatedOrganisationComponent implements OnInit {
     private router: Router,
     private dataLayerService: DataLayerService,
     private sessionService:SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
      this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     if(this.isDeleagation === true){
@@ -95,8 +97,16 @@ export class DelegatedOrganisationComponent implements OnInit {
     this.roleInfo = orgDetails.delegatedOrgId;
   }
   onSubmit(buttonText:string) {
-    this.DelegateService.setDelegatedOrg(this.roleInfo,'home');
-    this.pushDataLayerEvent(buttonText);
+    try {
+      this.loadingIndicatorService.isLoading.next(true);
+      this.loadingIndicatorService.isCustomLoading.next(true);
+      this.DelegateService.setDelegatedOrg(this.roleInfo,'home');
+      this.pushDataLayerEvent(buttonText);
+    }
+    catch (err) {
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
+    }
   }
   public Cancel(buttonText:string) {
     window.history.back();

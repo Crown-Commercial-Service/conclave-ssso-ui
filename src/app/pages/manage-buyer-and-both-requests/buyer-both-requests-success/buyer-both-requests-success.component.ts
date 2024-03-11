@@ -19,7 +19,7 @@ export class BuyerBothRequestsSuccessComponent implements OnInit {
     private sessionService:SessionService
   ) {
     this.route.queryParams.subscribe((para: any) => {
-      this.routeDetails = JSON.parse(atob(para.data));
+      this.routeDetails = JSON.parse(decodeURIComponent(atob(para.data)));
       switch (this.routeDetails.status) {
         case 'accept': {
           this.titleService.setTitle(

@@ -15,7 +15,7 @@ export class SuccessRightToBuyComponent implements OnInit {
   public routeDetails:any = {}
   ngOnInit(): void {
     this.route.queryParams.subscribe(async (para: any) => {
-      this.routeDetails = JSON.parse(atob(para.data));
+      this.routeDetails = JSON.parse(decodeURIComponent(atob(para.data)));
     })
     this.dataLayerService.pushPageViewEvent();
   }

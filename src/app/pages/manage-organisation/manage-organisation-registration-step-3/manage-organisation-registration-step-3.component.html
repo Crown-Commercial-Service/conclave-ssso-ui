@@ -120,7 +120,7 @@
               </label>
             </div>
             <div class="govuk-radios__item" id="notMyOrgRadioSelection">
-              <input class="govuk-radios__input" type="radio" name="orgGroup"
+              <input class="govuk-radios__input" type="radio" name="orgGroup" (change)="OnOrgDetailsConfirmationChange($event)"
                 value="manage-org/register/error/not-my-details" [(ngModel)]="orgGroup" id="notMyOrgRadioButton" />
               <label class="govuk-label govuk-radios__label" for="notMyOrgRadioButton">
                 No, this isn't my organisation

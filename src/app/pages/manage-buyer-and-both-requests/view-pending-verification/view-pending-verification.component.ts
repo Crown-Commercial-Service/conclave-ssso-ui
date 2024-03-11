@@ -96,7 +96,7 @@ export class ViewPendingVerificationComponent implements OnInit {
     this.loadingIndicatorService.isCustomLoading.next(true);
     
     this.route.queryParams.subscribe(async (para: any) => {
-      this.routeDetails = JSON.parse(atob(para.data));
+      this.routeDetails = JSON.parse(decodeURIComponent(atob(para.data)));
       this.lastRoute = this.routeDetails.lastRoute
       setTimeout(() => {
        this.getPendingVerificationOrg()
@@ -256,7 +256,7 @@ export class ViewPendingVerificationComponent implements OnInit {
       organisationName: this.routeDetails.organisationName,
     };
     this.router.navigateByUrl(
-      'confirm-accept?data=' + btoa(JSON.stringify(data))
+      'confirm-accept?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
     );
     this.pushDataLayerEvent(buttonText);
   }
@@ -266,7 +266,7 @@ export class ViewPendingVerificationComponent implements OnInit {
       organisationName: this.routeDetails.organisationName,
     };
     this.router.navigateByUrl(
-      'confirm-decline?data=' + btoa(JSON.stringify(data))
+      'confirm-decline?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
     );
     this.pushDataLayerEvent(buttonText);
   }

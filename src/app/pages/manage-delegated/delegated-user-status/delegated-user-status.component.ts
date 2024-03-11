@@ -68,12 +68,12 @@ export class DelegatedUserStatusComponent implements OnInit {
   ngOnInit(): void {
     this.dataLayerService.pushPageViewEvent();
     this.route.queryParams.subscribe((para: any) => {
-      let RouteData: any = JSON.parse(atob(para.data));
+      let RouteData: any = JSON.parse(decodeURIComponent(atob(para.data)));
       if (RouteData.event) {
         console.log('RouteData.event', RouteData.event);
-        RouteData.event.userName = decodeURIComponent(
-          unescape(RouteData.event.userName)
-        );
+        // RouteData.event.userName = decodeURIComponent(
+        //   unescape(RouteData.event.userName)
+        // );
       }
       this.route.queryParams.subscribe(params => {
         if (params['isNewTab'] === 'true') {

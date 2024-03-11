@@ -40,10 +40,10 @@ export class DelegatedUserConfirmComponent implements OnInit {
   ngOnInit(): void {
     this.dataLayerService.pushPageViewEvent();
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
-      this.userInfo = JSON.parse(atob(para.data)).userDetails;
-      this.userInfo.userName = decodeURIComponent(unescape(this.userInfo.userName));
-      this.UserSelectedinfo = JSON.parse(atob(para.data));
-      this.UserSelectedinfo.userName = decodeURIComponent(unescape(this.UserSelectedinfo.userName));
+      this.userInfo = JSON.parse(decodeURIComponent(atob(para.data))).userDetails;
+      //this.userInfo.userName = decodeURIComponent(unescape(this.userInfo.userName));
+      this.UserSelectedinfo = JSON.parse(decodeURIComponent(atob(para.data)));
+      //this.UserSelectedinfo.userName = decodeURIComponent(unescape(this.UserSelectedinfo.userName));
       this.pageAccessMode = this.UserSelectedinfo.userDetails.pageaccessmode
     });
     if (this.pageAccessMode === "edit") {
@@ -116,8 +116,8 @@ export class DelegatedUserConfirmComponent implements OnInit {
           status: 'create',
           userName: this.UserSelectedinfo.userName
         }
-        data.userName = escape(encodeURIComponent(data.userName));
-        this.route.navigateByUrl('delegated-success?data=' + btoa(JSON.stringify(data)))
+        //data.userName = escape(encodeURIComponent(data.userName));
+        this.route.navigateByUrl('delegated-success?data=' + btoa(encodeURIComponent(JSON.stringify(data))))
       },
       error: (error: any) => {
         this.route.navigateByUrl('delegated-error')
@@ -152,8 +152,8 @@ export class DelegatedUserConfirmComponent implements OnInit {
           status: 'update',
           userName: this.UserSelectedinfo.userName
         }
-        data.userName = escape(encodeURIComponent(data.userName));
-        this.route.navigateByUrl('delegated-success?data=' + btoa(JSON.stringify(data)))
+        //data.userName = escape(encodeURIComponent(data.userName));
+        this.route.navigateByUrl('delegated-success?data=' + btoa(encodeURIComponent(JSON.stringify(data))))
       },
       error: (error: any) => {
         this.route.navigateByUrl('delegated-error')

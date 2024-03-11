@@ -54,7 +54,7 @@ import { ManageUserDeleteConfirmComponent } from './pages/manage-user/manage-use
 import { ManageOrganisationErrorComponent } from './pages/manage-organisation/manage-organisation-error/manage-organisation-error.component';
 import { ContactUsComponent } from './pages/contactus/contactus.component';
 import { BuyerSearchComponent } from './pages/buyer/search/search.component';
-import { BuyerConfirmComponent } from './pages/buyer/confirm/confirm.component';
+// import { BuyerConfirmComponent } from './pages/buyer/confirm/confirm.component';
 import { BuyerDetailsComponent } from './pages/buyer/details/details.component';
 import { BuyerSuccessComponent } from './pages/buyer/success/success.component';
 import { OrgSupportSuccessComponent } from './pages/org-support/success/success.component';
@@ -823,13 +823,13 @@ const routes: Routes = [
     canActivate: [MaintenanceCheck, AuthGuard, RoleGuard,DormancyGuard],
     component: BuyerDetailsComponent,
   },
-  {
-    path: 'buyer/confirm/:id',
-    data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
-    pathMatch: 'full',
-    canActivate: [MaintenanceCheck, AuthGuard, RoleGuard,DormancyGuard],
-    component: BuyerConfirmComponent,
-  },
+  // {
+  //   path: 'buyer/confirm/:id',
+  //   data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },
+  //   pathMatch: 'full',
+  //   canActivate: [MaintenanceCheck, AuthGuard, RoleGuard,DormancyGuard],
+  //   component: BuyerConfirmComponent,
+  // },
   {
     path: 'update-org-type/confirm',
     data: { title: 'Review - Manage Buyers', roles: ['MANAGE_SUBSCRIPTIONS'] },

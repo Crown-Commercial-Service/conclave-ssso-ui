@@ -266,6 +266,11 @@ export class ManageOrgRegStep3Component
       } else {
         this.router.navigateByUrl(this.orgGroup);
       }
+    }
+    else if(this.orgGroup === 'manage-org/register/error/not-my-details')
+    {
+      this.isInvalid=false
+      this.router.navigateByUrl(this.orgGroup);
     }else{
       this.isInvalid=true
     }
@@ -303,6 +308,11 @@ export class ManageOrgRegStep3Component
   public onChangecountry(event:string):void{
     if(event){
       this.isInvalid=false
+    }
+  }
+  public OnOrgDetailsConfirmationChange(event: any) {
+    if (event) {
+      this.isInvalid = false;
     }
   }
 }

@@ -97,8 +97,8 @@ export class DelegatedAccessUserComponent implements OnInit {
       this.loadingIndicatorService.isLoading.next(true);
       this.loadingIndicatorService.isCustomLoading.next(true);
 
-      this.userDetails = JSON.parse(atob(para.data));
-      this.userDetails.userName = decodeURIComponent(unescape(this.userDetails.userName));
+      this.userDetails = JSON.parse(decodeURIComponent(atob(para.data)));
+      // this.userDetails.userName = decodeURIComponent(unescape(this.userDetails.userName));
       this.userId = this.userDetails.id
       this.pageAccessMode = this.userDetails.pageaccessmode
       if (this.userSelectedFormData) {
@@ -333,9 +333,9 @@ export class DelegatedAccessUserComponent implements OnInit {
   public RemoveAccess(buttonText:string): void {
     this.userDetails.pageaccessmode = 'remove'
     sessionStorage.removeItem('deleagted_user_details');
-    this.userDetails.userName = escape(encodeURIComponent(this.userDetails.userName));
+    //this.userDetails.userName = escape(encodeURIComponent(this.userDetails.userName));
     this.route.navigateByUrl(
-      'delegated-remove-confirm?data=' + btoa(JSON.stringify(this.userDetails))
+      'delegated-remove-confirm?data=' + btoa(encodeURIComponent(JSON.stringify(this.userDetails)))
     );
     this.pushDataLayerEvent(buttonText);
   }
@@ -346,16 +346,16 @@ export class DelegatedAccessUserComponent implements OnInit {
   public Resentactivation(): void {
     this.userDetails.pageaccessmode = 'resent'
     sessionStorage.removeItem('deleagted_user_details');
-    this.userDetails.userName = escape(encodeURIComponent(this.userDetails.userName));
+    //this.userDetails.userName = escape(encodeURIComponent(this.userDetails.userName));
     this.route.navigateByUrl(
-      'delegated-remove-confirm?data=' + btoa(JSON.stringify(this.userDetails))
+      'delegated-remove-confirm?data=' + btoa(encodeURIComponent(JSON.stringify(this.userDetails)))
     );
   }
 
   getQueryData(): string {
     this.userDetails.pageaccessmode = 'resent'
     sessionStorage.removeItem('deleagted_user_details');
-    return btoa(JSON.stringify(this.userDetails));
+    return btoa(encodeURIComponent(JSON.stringify(this.userDetails)));
   }
 
   /**
@@ -403,13 +403,13 @@ export class DelegatedAccessUserComponent implements OnInit {
         userDetails: this.userDetails,
       };
       this.userDetails.pageaccessmode = this.pageAccessMode;
-      data.userName = escape(encodeURIComponent(data.userName));
-      data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
+      // data.userName = escape(encodeURIComponent(data.userName));
+      // data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
       let stringifyData = JSON.stringify(data);
       this.dataLayerService.pushFormSubmitEvent(this.formId);
       sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData));
       this.route.navigateByUrl(
-        'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
+        'delegate-user-confirm?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
       );
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
@@ -441,13 +441,13 @@ export class DelegatedAccessUserComponent implements OnInit {
         userDetails: this.userDetails,
       };
       this.userDetails.pageaccessmode = this.pageAccessMode;
-      data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
-      data.userName = escape(encodeURIComponent(data.userName));
+      // data.userDetails.userName = escape(encodeURIComponent(data.userDetails.userName));
+      // data.userName = escape(encodeURIComponent(data.userName));
       let stringifyData = JSON.stringify(data);
       this.dataLayerService.pushFormSubmitEvent(this.formId);
       sessionStorage.setItem('deleagted_user_details', JSON.stringify(stringifyData));
       this.route.navigateByUrl(
-        'delegate-user-confirm?data=' + btoa(JSON.stringify(data))
+        'delegate-user-confirm?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
       );
 
     } else {

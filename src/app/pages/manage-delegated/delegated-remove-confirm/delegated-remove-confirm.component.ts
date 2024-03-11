@@ -18,8 +18,8 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((para: any) => {
-      this.RouteData = JSON.parse(atob(para.data));
-      this.RouteData.userName = decodeURIComponent(unescape(this.RouteData.userName));
+      this.RouteData = JSON.parse(decodeURIComponent(atob(para.data)));
+      //this.RouteData.userName = decodeURIComponent(unescape(this.RouteData.userName));
     });
     this.dataLayerService.pushPageViewEvent();
     this.route.queryParams.subscribe(params => {
@@ -38,8 +38,8 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
     }
     this.DelegatedService.deleteDelegatedUser(this.RouteData.userName,this.organisationId).subscribe({
       next: (responce: any) => {
-      data.userName = escape(encodeURIComponent(data.userName));
-      this.router.navigateByUrl('delegated-success?data=' +btoa(JSON.stringify(data)))
+      //data.userName = escape(encodeURIComponent(data.userName));
+      this.router.navigateByUrl('delegated-success?data=' +btoa(encodeURIComponent(JSON.stringify(data))))
       },
       error: (error: any) => { 
       this.router.navigateByUrl('delegated-error')
@@ -56,8 +56,8 @@ export class DelegatedRemoveConfirmComponent implements OnInit {
     }
     this.DelegatedService.resentActivationLink(this.RouteData.userName,this.organisationId).subscribe({
       next: (responce: any) => {
-      data.userName = escape(encodeURIComponent(data.userName));
-      this.router.navigateByUrl('delegated-success?data=' +btoa(JSON.stringify(data)));
+      //data.userName = escape(encodeURIComponent(data.userName));
+      this.router.navigateByUrl('delegated-success?data=' +btoa(encodeURIComponent(JSON.stringify(data))));
       },
       error: (error: any) => { 
       this.router.navigateByUrl('delegated-error')

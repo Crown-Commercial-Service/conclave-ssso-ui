@@ -1,71 +1,74 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { BuyerConfirmComponent } from './confirm.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateModule } from '@ngx-translate/core';
+// Task 7271: Code Climate - Complex Logical Expression
+// Not in use will be removed in some time
 
-describe('BuyerConfirmComponent', () => {
-  let component: BuyerConfirmComponent;
-  let fixture: ComponentFixture<BuyerConfirmComponent>;
-  let mockRouter: any;
-  let mockStore: any;
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ReactiveFormsModule, FormGroup } from '@angular/forms';
+// import { ActivatedRoute, Router } from '@angular/router';
+// import { Store } from '@ngrx/store';
+// import { Observable, of } from 'rxjs';
+// import { BuyerConfirmComponent } from './confirm.component';
+// import { HttpClientTestingModule } from '@angular/common/http/testing';
+// import { TranslateModule } from '@ngx-translate/core';
 
-  beforeEach(async () => {
-    mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl']);
-    const activatedRouteStub = () => ({
-      params: { subscribe: (f: any) => f({ id: '123' }) },
-    });
-    mockStore = jasmine.createSpyObj('Store', ['dispatch']);
+// describe('BuyerConfirmComponent', () => {
+//   let component: BuyerConfirmComponent;
+//   let fixture: ComponentFixture<BuyerConfirmComponent>;
+//   let mockRouter: any;
+//   let mockStore: any;
 
-    await TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-      ],
-      declarations: [BuyerConfirmComponent],
-      providers: [
-        { provide: Router, useValue: mockRouter },
-        { provide: ActivatedRoute, useFactory: activatedRouteStub },
-        { provide: Store, useValue: mockStore },
-      ],
-    }).compileComponents();
-  });
+//   beforeEach(async () => {
+//     mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl']);
+//     const activatedRouteStub = () => ({
+//       params: { subscribe: (f: any) => f({ id: '123' }) },
+//     });
+//     mockStore = jasmine.createSpyObj('Store', ['dispatch']);
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BuyerConfirmComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     await TestBed.configureTestingModule({
+//       imports: [
+//         ReactiveFormsModule,
+//         HttpClientTestingModule,
+//         TranslateModule.forRoot(),
+//       ],
+//       declarations: [BuyerConfirmComponent],
+//       providers: [
+//         { provide: Router, useValue: mockRouter },
+//         { provide: ActivatedRoute, useFactory: activatedRouteStub },
+//         { provide: Store, useValue: mockStore },
+//       ],
+//     }).compileComponents();
+//   });
 
-  it('should create the component', () => {
-    expect(component).toBeTruthy();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(BuyerConfirmComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should initialize the form correctly', () => {
-    expect(component.userProfileForm).toBeTruthy();
-    expect(component.userProfileForm instanceof FormGroup).toBeTrue();
-    expect(component.rolesToAdd).toEqual([]);
-    expect(component.rolesToDelete).toEqual([]);
-  });
+//   it('should create the component', () => {
+//     expect(component).toBeTruthy();
+//   });
 
-  it('should handle the "onChange" method correctly', () => {
-    const event = { target: { checked: true } };
-    let defaultValue = true;
-    const role = { roleId: 1, enabled: true, roleKey: '1', roleName: '1' };
+//   it('should initialize the form correctly', () => {
+//     expect(component.userProfileForm).toBeTruthy();
+//     expect(component.userProfileForm instanceof FormGroup).toBeTrue();
+//     expect(component.rolesToAdd).toEqual([]);
+//     expect(component.rolesToDelete).toEqual([]);
+//   });
 
-    component.onChange(event, defaultValue, role);
+//   it('should handle the "onChange" method correctly', () => {
+//     const event = { target: { checked: true } };
+//     let defaultValue = true;
+//     const role = { roleId: 1, enabled: true, roleKey: '1', roleName: '1' };
 
-    expect(component.rolesToDelete).toEqual([]);
+//     component.onChange(event, defaultValue, role);
 
-    event.target.checked = false;
-    defaultValue = false;
+//     expect(component.rolesToDelete).toEqual([]);
 
-    component.onChange(event, defaultValue, role);
+//     event.target.checked = false;
+//     defaultValue = false;
 
-    expect(component.rolesToAdd).toEqual([]);
-  });
-});
+//     component.onChange(event, defaultValue, role);
+
+//     expect(component.rolesToAdd).toEqual([]);
+//   });
+// });

@@ -96,12 +96,12 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
   public onLinkClick(data: any): void {
     if (data.event.target.innerText === "Remove") {
       data.pageaccessmode = 'remove'
-      data.userName = escape(encodeURIComponent(data.userName));
-      this.router.navigateByUrl('delegated-remove-confirm?data=' + btoa(JSON.stringify(data)));
+      //data.userName = escape(encodeURIComponent(data.userName));
+      this.router.navigateByUrl('delegated-remove-confirm?data=' + btoa(encodeURIComponent(JSON.stringify(data))));
     } else {
       data.pageaccessmode = 'edit'
-      data.userName = escape(encodeURIComponent(data.userName));
-      this.router.navigateByUrl('delegate-access-user?data=' + btoa(JSON.stringify(data)));
+      //data.userName = escape(encodeURIComponent(data.userName));
+      this.router.navigateByUrl('delegate-access-user?data=' + btoa(encodeURIComponent(JSON.stringify(data))));
     }
   }
 
@@ -113,8 +113,8 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
       status: '003',
       event: event
     }
-    data.event.userName = escape(encodeURIComponent(data.event.userName));
-    this.router.navigateByUrl('delegated-user-status?data=' + btoa(JSON.stringify(data)))
+    //data.event.userName = escape(encodeURIComponent(data.event.userName));
+    this.router.navigateByUrl('delegated-user-status?data=' + btoa(encodeURIComponent(JSON.stringify(data))))
   }
 
   setPagecurrentUsers(pageNumber: any) {
@@ -141,7 +141,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
           console.log(this.currentUserstableConfig);
           Array.from(this.currentUserstableConfig.userList.userList).forEach((f: any) => {        
                   f.pageaccessmode = 'edit';
-                  let queryParams = { data: btoa(JSON.stringify(f)),isNewTab:true };
+                  let queryParams = { data: btoa(encodeURIComponent(JSON.stringify(f))),isNewTab:true };
                   f.routeLink = `/delegate-access-user`;
                   f.routeData = queryParams;
             
@@ -165,7 +165,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
                   "pageaccessmode":"remove"
                 }
 
-                let queryDeclineParams = { data: btoa(JSON.stringify(datas)),isNewTab: true };
+                let queryDeclineParams = { data: btoa(encodeURIComponent(JSON.stringify(datas))),isNewTab: true };
                 console.log("datas",datas);
                 f.pageaccessmode = 'remove';
                 f.declineRouteLink = `/delegated-remove-confirm`;
@@ -200,7 +200,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
               event: f
             }
               //data.event.userName = escape(encodeURIComponent(data.event.userName));
-              let queryParams = {data: btoa(JSON.stringify(data)),isNewTab: true}
+              let queryParams = {data: btoa(encodeURIComponent(JSON.stringify(data))),isNewTab: true}
                f.routeLink= `/delegated-user-status`,
                f.routeData = queryParams
           })

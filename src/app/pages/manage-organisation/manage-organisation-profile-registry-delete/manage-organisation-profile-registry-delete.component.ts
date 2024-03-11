@@ -34,6 +34,8 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
   public item$!: Observable<any>;
   public organisationId: string;
   public routeParams!: any;
+  public schemeData:any[]=[];
+  public schemeDetail:any;
 
   constructor(private ciiService: ciiService, private wrapperService: WrapperUserService, private router: Router,private sessionService:SessionService,
     private route: ActivatedRoute, protected uiStore: Store<UIState>, private readonly tokenService: TokenService,
@@ -43,10 +45,19 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async(params) => {
       this.routeParams = params;
       if (params.id && params.scheme) {
-        this.item$ = this.ciiService.getOrganisationIdentifierDetails(this.tokenService.getCiiOrgId(), params.scheme, params.id).pipe(share());
+        try {
+          this.item$ = this.ciiService.getOrganisationIdentifierDetails(this.tokenService.getCiiOrgId(), params.scheme, params.id).pipe(share());
+          const result= await this.item$.toPromise();
+          if (result) {
+            this.schemeData = await this.ciiService.getSchemes().toPromise();
+            this.schemeDetail = this.schemeData.find(x => x.scheme === params.scheme);
+          }
+        } catch (error) {
+            throw error;
+        }
       }
     });
     this.route.queryParams.subscribe(params => {

@@ -23,10 +23,10 @@ export class DelegatedSuccessComponent implements OnInit {
   ngOnInit(): void {
     this.dataLayerService.pushPageViewEvent();
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
-      this.userInfo = JSON.parse(atob(para.data));
-      this.userInfo.userName = decodeURIComponent(
-        unescape(this.userInfo.userName)
-      );
+      this.userInfo = JSON.parse(decodeURIComponent(atob(para.data)));
+      // this.userInfo.userName = decodeURIComponent(
+      //   unescape(this.userInfo.userName)
+      // );
       switch (this.userInfo.status) {
         case 'create': {
           this.titleService.setTitle(`Delegated user successfully added - CCS`);

@@ -26,7 +26,7 @@ export class ConfirmDeclineComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((para: any) => {
-      this.routeDetails = JSON.parse(atob(para.data));
+      this.routeDetails = JSON.parse(decodeURIComponent(atob(para.data)));
     });
     this.dataLayerService.pushPageViewEvent();
   }
@@ -46,7 +46,7 @@ export class ConfirmDeclineComponent implements OnInit {
       organisationName: this.routeDetails.organisationName
     };
     this.router.navigateByUrl(
-      'decline-success?data=' + btoa(JSON.stringify(data))
+      'decline-success?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
     );
     this.pushDataLayerEvent(buttonText);
   }
