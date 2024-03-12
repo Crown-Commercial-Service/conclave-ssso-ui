@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +27,7 @@ export class AuthService {
   ccsServices: CcsServiceInfo[] = [];
 
   constructor(public readonly workerService: WorkerService, private router: Router, private location: Location,private RollbarErrorService:RollbarErrorService,
-    private readonly httpService: HttpClient, private readonly tokenService: TokenService,private sessionService:SessionService) {
+    private readonly httpService: HttpClient, private readonly tokenService: TokenService,private sessionService:SessionService,private loadingIndicatorService: LoadingIndicatorService) {
     this.servicePermission = [];
   }
 
@@ -88,6 +89,8 @@ export class AuthService {
           localStorage.setItem('at_exp', decodedAccessToken.exp);
           localStorage.setItem('show_loading_indicator', 'false');
           if (url.length > 0) {
+            this.loadingIndicatorService.isLoading.next(false);
+            this.loadingIndicatorService.isCustomLoading.next(false);
             this.router.navigateByUrl(url, { replaceUrl: true });
           }
         this.RollbarErrorService.RollbarDebug('renewAccessToken:'+ JSON.stringify(data))
@@ -95,6 +98,8 @@ export class AuthService {
       },
         (err) => {
           localStorage.setItem('show_loading_indicator', 'false');
+          this.loadingIndicatorService.isLoading.next(false);
+          this.loadingIndicatorService.isCustomLoading.next(false);
          this.RollbarErrorService.RollbarDebug('renewAccessTokenError:'+ JSON.stringify(err))
           // This could due to invalid refresh token (refresh token rotation)  
           if (err.error == "INVALID_CREDENTIALS" || err.error.error_description == "PENDING_PASSWORD_CHANGE"
