@@ -43,3 +43,16 @@ label[for="country-search-box"]
       margin-left: 15px;
     }
   }
+  .unwanted_lable {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0;
+    border: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+  }
+  .govuk-heading-xl {
+    margin-top: 30px !important;
+    margin-bottom: 30px !important;
+  }

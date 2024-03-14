@@ -9,6 +9,8 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { Data } from 'src/app/models/data';
 import { dataService } from 'src/app/services/data/data.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { UIState } from 'src/app/store/ui.states';
 
 @Component({
@@ -26,10 +28,12 @@ import { UIState } from 'src/app/store/ui.states';
 })
 export class ManageOrganisationProfileSuccessComponent extends BaseComponent implements OnInit {
 
-  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private dataService: dataService, public router: Router,private sessionService:SessionService, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
+   }
 
 }

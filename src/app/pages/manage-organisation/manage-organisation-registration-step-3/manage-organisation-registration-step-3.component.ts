@@ -36,6 +36,9 @@ import { take, takeUntil } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { MatSelect } from '@angular/material/select';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
+import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-organisation-registration-step-3',
@@ -61,6 +64,7 @@ export class ManageOrgRegStep3Component
   public routeParams!: any;
   id!: string;
   ciiOrgId: string = '';
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
 
   countryDetails: ContryDetails[] = [];
   topCountries: ContryDetails[] = [];
@@ -86,7 +90,9 @@ export class ManageOrgRegStep3Component
     protected scrollHelper: ScrollHelper,
     private configurationCore: ConfigurationCore,
     private titleService: Title,
-    private orgSiteService: WrapperOrganisationSiteService
+    private orgSiteService: WrapperOrganisationSiteService,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     let queryParams = this.route.snapshot.queryParams;
@@ -108,6 +114,8 @@ export class ManageOrgRegStep3Component
               this.countryCode = result.address.countryCode;
               this.selectedIdentifiers = result.additionalIdentifiers;
               this.orgDetails=result
+              //Commented the code to revert changes for the Bug-6757(PPG-711)
+              //this.checkAddressDetailsEmpty(result.address.streetAddress,result.address.postalCode)
               localStorage.setItem('cii_organisation', JSON.stringify(result));
               this.countryDetails = await this.configurationCore
                 .getCountryDetails()
@@ -125,7 +133,10 @@ export class ManageOrgRegStep3Component
           error: (err) => {
             if (err.status == '404') {
               this.router.navigateByUrl(`manage-org/register/error/notfound`);
-            } else if (err.status == '409') {
+            } else if (err.status == '503'){
+              this.router.navigateByUrl(`manage-org/register/error/cii`);
+            } 
+            else if (err.status == '409') {
               this.ciiOrgId = err.error.organisationId;
               this.setOrgIdForOrgDetails(this.ciiOrgId);
               window.location.replace(
@@ -138,6 +149,8 @@ export class ManageOrgRegStep3Component
         });
       }
     });
+
+    this.dataLayerService.pushPageViewEvent({scheme: this.routeParams.scheme});
   }
 
   ngAfterViewInit() {
@@ -162,11 +175,17 @@ export class ManageOrgRegStep3Component
       this.topCountries = [];
     }
   }
-
+  checkAddressDetailsEmpty(streetAddress:string,postalCode:string)
+  {
+      if(streetAddress.trim() == '' || postalCode.trim() == '')
+      {
+       this.router.navigateByUrl(`manage-org/register/error/address-details`);
+      }
+    }
   /**
    * Sets the initial value after the filteredCountryDetails are loaded initially
    */
-  protected setInitialValue() {
+  public setInitialValue() {
     this.filteredCountryDetails
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
@@ -176,13 +195,15 @@ export class ManageOrgRegStep3Component
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filtercountryDetails are loaded initially
         // and after the mat-option elements are available
-        this.singleSelect.compareWith = (a: ContryDetails, b: ContryDetails) =>
+        if(this.singleSelect){
+          this.singleSelect.compareWith = (a: ContryDetails, b: ContryDetails) =>
           a && b && a.id === b.id;
-        console.log('setInitialValue2');
+          console.log('setInitialValue2');
+        }
       });
   }
 
-  protected filtercountryDetails() {
+  public filtercountryDetails() {
     if (!this.countryDetails) {
       return;
     }
@@ -218,8 +239,10 @@ export class ManageOrgRegStep3Component
     window.history.back();
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText: string) {
     if(this.countryCode){
+      this.orgDetails.address.countryCode=this.countryCode
+      localStorage.setItem('cii_organisation', JSON.stringify(this.orgDetails));
       if (this.orgGroup === 'manage-org/register/user') {
         let organisation = JSON.parse(
           localStorage.getItem('cii_organisation') + ''
@@ -237,8 +260,6 @@ export class ManageOrgRegStep3Component
             scheme:this.routeParams.scheme,
             id:this.id
           }
-          this.orgDetails.address.countryCode=this.countryCode
-          localStorage.setItem('cii_organisation', JSON.stringify(this.orgDetails));
           localStorage.setItem('cii_scheme', JSON.stringify(cii_scheme));
           this.router.navigateByUrl(this.orgGroup);
         }
@@ -248,6 +269,7 @@ export class ManageOrgRegStep3Component
     }else{
       this.isInvalid=true
     }
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
   public onChange(event: any, additionalIdentifier: any) {

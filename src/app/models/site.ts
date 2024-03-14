@@ -24,6 +24,11 @@ export interface SiteGridInfo extends Address {
     siteName: string;
 }
 
+export interface SiteGridInfoWithLink extends SiteGridInfo{
+    routeLink: string,
+    routeData: any
+}
+
 export interface SiteDetail {
     siteId: number;
 }

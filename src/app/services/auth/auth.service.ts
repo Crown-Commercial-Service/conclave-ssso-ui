@@ -15,6 +15,7 @@ import { WorkerService } from '../worker.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Injectable()
 export class AuthService {
@@ -24,8 +25,8 @@ export class AuthService {
   servicePermission: ServicePermission[];
   ccsServices: CcsServiceInfo[] = [];
 
-  constructor(private readonly workerService: WorkerService, private router: Router, private location: Location,private RollbarErrorService:RollbarErrorService,
-    private readonly httpService: HttpClient, private readonly tokenService: TokenService) {
+  constructor(public readonly workerService: WorkerService, private router: Router, private location: Location,private RollbarErrorService:RollbarErrorService,
+    private readonly httpService: HttpClient, private readonly tokenService: TokenService,private sessionService:SessionService) {
     this.servicePermission = [];
   }
 
@@ -35,8 +36,8 @@ export class AuthService {
   }
 
   public isUserAuthenticated() {
-    const tokens = localStorage.getItem('user_name');
-    return tokens != null;
+    const tokens = this.sessionService.decrypt('user_name')    
+    return tokens != null && tokens != '';
   }
 
   public async isInMemoryTokenExists(): Promise<boolean> {
@@ -121,7 +122,7 @@ export class AuthService {
   }
 
   public isAuthenticated(): Observable<boolean> {
-    const tokens = localStorage.getItem('user_name');
+    const tokens = this.sessionService.decrypt('user_name')
     if (tokens) {
       return Observable.of(true);
     }
@@ -129,7 +130,7 @@ export class AuthService {
   }
 
   changePassword(passwordChangeDetail: PasswordChangeDetail): Observable<any> {
-    return this.httpService.post(`${environment.uri.api.postgres}/auth/passwords`, passwordChangeDetail).pipe(
+    return this.httpService.post(`${environment.uri.api.postgres}/authorization/passwords`, passwordChangeDetail).pipe(
       map(data => {
         return data;
       }),
@@ -141,7 +142,7 @@ export class AuthService {
 
   resetPassword(userName: string): Observable<any> {
     var changepwd = { "userName": userName }
-    return this.httpService.post(`${this.url}/security/password-reset-requests`, changepwd);
+    return this.httpService.post(`${this.url}/security/users/reset`, changepwd);
   }
 
   token(code: string): Observable<any> {
@@ -152,7 +153,7 @@ export class AuthService {
     this.RollbarErrorService.RollbarDebug('Token_req:'+ body)
     return this.httpService.post(`${this.url}/security/token`, body, options).pipe(
       map(data => {
-       this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data))
+       this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data)) 
         return data;
       }),
       catchError(error => {
@@ -174,13 +175,16 @@ export class AuthService {
     
   }
 
-
-  createSession(refreshToken: string) {
-    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/sessions`;
+// The "isLogin" flag is added to prevent force logout from occurring during the user's first login. 
+  createSession(refreshToken: string, isLogin: boolean = false) {
+    var options = {
+      headers: new HttpHeaders().append('x-is-login', isLogin ? 'true' : 'false')
+    }
+    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/sessions`;
     const body = {
       'refreshToken': refreshToken
     }
-    return this.httpService.post(coreDataUrl, body).pipe(
+    return this.httpService.post(coreDataUrl, body, options).pipe(
       map(data => {
         return data;
       }),
@@ -194,7 +198,7 @@ export class AuthService {
     const options = {
       headers: new HttpHeaders().append('responseType', 'text')
     }
-    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/refresh-tokens`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/refresh-tokens`;
     return this.httpService.get(coreDataUrl, { responseType: 'text' });
   }
 
@@ -240,7 +244,6 @@ export class AuthService {
 
   public signOut() {
     clearTimeout(this.authTokenRenewaltimerReference);
-    localStorage.removeItem('brickedon_user');
     localStorage.removeItem('user_name');
     localStorage.removeItem('ccs_organisation_id');
     localStorage.removeItem('cii_organisation');
@@ -259,6 +262,9 @@ export class AuthService {
     localStorage.removeItem('user_access_name');
     localStorage.removeItem('userEditDetails');
     localStorage.removeItem('roleForGroup');
+    localStorage.removeItem('user_contact_user_name');
+    sessionStorage.removeItem('user_contact_user_name');
+    localStorage.removeItem('isDormant');
   }
 
   public logOutAndRedirect() {
@@ -273,7 +279,7 @@ export class AuthService {
   }
 
   clearRefreshToken() {
-    let coreDataUrl: string = `${environment.uri.api.postgres}/auth/sign-out`;
+    let coreDataUrl: string = `${environment.uri.api.postgres}/authorization/sign-out`;
     return this.httpService.post(coreDataUrl, null);
   }
 
@@ -284,10 +290,11 @@ export class AuthService {
   getPermissions(accessPage:string): Observable<any> {
     if (this.servicePermission.length == 0 || accessPage === 'HOME') {
       return this.httpService.get<ServicePermission[]>(`${environment.uri.api.postgres}/users/permissions?user-name=`
-        + encodeURIComponent(localStorage.getItem('user_name') || "") + `&service-client-id=` + environment.idam_client_id +'&organisation-id='+ localStorage.getItem('permission_organisation_id') || "").pipe(
+        + encodeURIComponent(this.sessionService.decrypt('user_name')) + `&service-client-id=` + environment.idam_client_id +'&organisation-id='+ localStorage.getItem('permission_organisation_id') || "").pipe(
           map((data: ServicePermission[]) => {
             // Cache permissions locally
             this.servicePermission = data;
+            localStorage.setItem('isOrgAdmin', JSON.stringify(this.servicePermission.some(x => x.roleKey === "ORG_ADMINISTRATOR")));
             return data;
           }),
           catchError(error => {
@@ -318,7 +325,7 @@ export class AuthService {
       headers: new HttpHeaders().append('Content-Type', 'application/json')
     }
     const body = { email }
-    return this.httpService.post(`${environment.uri.api.postgres}/users/nominees`, JSON.stringify(email), options).pipe(
+    return this.httpService.post(`${environment.uri.api.postgres}/users/nomination`, JSON.stringify(email), options).pipe(
       map(data => {
         return data;
       }),
@@ -326,5 +333,128 @@ export class AuthService {
         return throwError(error);
       })
     );
+  }
+  getMfaAuthorizationEndpoint()
+  {
+    let url = environment.uri.api.security + '/security/mfa/authorize?scope=email profile openid offline_access&response_type=code&client_id='
+      + environment.idam_client_id
+      + '&redirect_uri=' + environment.uri.web.dashboard + '/mfa-selection'
+    return url;
+  }
+  mfatoken(code: string): Observable<any> {
+    const options = {
+      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    let body = `client_id=${environment.idam_client_id}&code=${code}&grant_type=authorization_code&code_verifier=${this.getCodeVerifier()}&redirect_uri=${environment.uri.web.dashboard + '/mfa-selection'}`;
+    this.RollbarErrorService.RollbarDebug('Token_req:'+ body)
+    return this.httpService.post(`${this.url}/security/mfa/token`, body, options).pipe(
+      map(data => {
+       this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data)) 
+        return data;
+      }),
+      catchError(error => {
+       this.RollbarErrorService.RollbarDebug('Token_error:' + JSON.stringify(error))
+        return throwError(error);
+      })
+    );
+  }
+
+  mfarenewtoken(refreshToken: string): Observable<any>{
+    const options = {
+      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    let tokenBody = {        
+      "auth0_refresh_token": refreshToken,
+      "clientid": environment.idam_client_id
+    }
+    return this.httpService.post(`${this.url}/security/mfa/verify`, tokenBody).pipe(
+      map(data => {
+      //  this.RollbarErrorService.RollbarDebug('Token_res:'+ JSON.stringify(data)) 
+        return data;
+      }),
+      catchError(error => {
+       this.RollbarErrorService.RollbarDebug('Token_error:' + JSON.stringify(error))
+        return throwError(error);
+      })
+    );  
+  }
+  Associate(accessToken: string, phoneNumber: string, isSms: boolean = false): Observable<any> {
+
+    let tokenBody = {     
+      "authenticator_types": isSms ? ["oob"] : ["otp"],
+      "oob_channels":["sms"],
+      "phone_number": phoneNumber,
+      "access_token": accessToken
+    }
+    return this.httpService.post(`${this.url}/security/mfa/enrollment`, tokenBody).pipe(
+
+      map(data => {
+        
+        return data;
+
+      }),
+
+      catchError(error => {
+
+        return throwError(error);
+
+      })
+
+    );
+
+  }
+
+  VerifyOTP(otp: string, token:string, oob_code: string, auth_type: string): Observable<any> {
+
+    let tokenBody = {
+      "mfa_token": token,
+      "otp": otp,
+      "oob_code": oob_code  ,
+      "auth_type" : auth_type
+    }
+    return this.httpService.post(`${this.url}/security/mfa/verifyotp`, tokenBody).pipe(
+      map(data => {
+        return data;
+      }),
+
+      catchError(error => {
+        return throwError(error);
+      })
+
+    );
+
+  }
+  GetMfaAuthenticationType (userId:string) : Observable<any>
+  {
+   let UserEnrollmentDTO = {userId : userId}
+    return this.httpService.post(`${this.url}/security/mfa/user/enrollment`,UserEnrollmentDTO).pipe(
+      map(data =>{
+        return data;
+      }),
+      catchError(error =>{
+        console.log(error);
+        return throwError(error);
+      })
+    )
+  }
+  
+  useTokenFromStorage(){
+    var token = localStorage.getItem('STORE_TOKEN_ACCESS_TOKEN');
+    var refreshToken = localStorage.getItem('STORE_TOKEN_ACCESS_TOKEN');
+    if(token != undefined && token != '')
+    {
+        let tokeInfor : TokenInfo = {
+            access_token : token || '',
+            refresh_token: refreshToken || '',
+            auth0_access_token : '',
+            auth0_refresh_token : '',
+            challengeName : '',
+            challengeRequired : false,
+            id_token: '',
+            session_state: '',
+            sessionId: ''
+        };
+        this.workerService.storeTokenInWorker(tokeInfor);
+    }
   }
 }

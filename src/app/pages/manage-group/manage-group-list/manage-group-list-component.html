@@ -16,7 +16,7 @@
             <div class="manage-groups-bg">
                 <p>Manage large numbers of users all at once. You can give your group a name, add users and assign them {{showRoleView === true ? 'roles': (showRoleView == false ? 'services' : '')}}.</p>
             </div>
-            <button type="button" (click)="onAddClick()" class="govuk-button govuk-button--secondary"
+            <button type="button" (click)="onAddClick('Create group')" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button">
                 {{ 'CREATE_GROUP_BTN' | translate }}
             </button>
@@ -27,7 +27,7 @@
                 *ngIf="searchSumbited && searchText ===''">
                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a group’s name
               </span>
-                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
+                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()" [pageName]="'Manage Groups'">
                 </app-search-box>
             </div>
         </div>

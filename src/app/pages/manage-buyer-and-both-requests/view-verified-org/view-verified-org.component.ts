@@ -12,6 +12,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { ManualValidationStatus } from 'src/app/constants/enum';
 import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { HelperService } from 'src/app/shared/helper.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-view-verified-org',
@@ -22,7 +26,9 @@ export class ViewVerifiedOrgComponent implements OnInit {
   private organisationId: string = '';
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole
   pageName = 'Contactadmin';
-  public routeDetails: any;
+  public routeDetails: any = {
+    event: {}
+  };
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   public schemeData: any[] = [];
@@ -55,6 +61,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
       organisationAuditEventList: [],
     },
   };
+
   public isDeletedOrg: boolean = false
   constructor(
     private route: ActivatedRoute,
@@ -63,7 +70,11 @@ export class ViewVerifiedOrgComponent implements OnInit {
     private SharedDataService:SharedDataService,
     private router: Router,
     private ciiService: ciiService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    public helperService:HelperService,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -84,10 +95,29 @@ export class ViewVerifiedOrgComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
+
     this.route.queryParams.subscribe(async (para: any) => {
-      this.routeDetails = JSON.parse(atob(para.data));
-      this.getPendingVerificationOrg()
+      this.routeDetails = JSON.parse(decodeURIComponent(atob(para.data)));
+      setTimeout(() => {
+        this.getPendingVerificationOrg()
+       }, 500);
     });
+    this.dataLayerService.pushPageViewEvent();
+
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
+
+    setTimeout(() => {
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
+    }, 3000);
   }
 
   public async getSchemeData() {
@@ -223,23 +253,34 @@ export class ViewVerifiedOrgComponent implements OnInit {
     });
   }
 
-  public removeRightToBuy(): void {
+
+  private pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText);
+  }
+
+  public removeRightToBuy(buttonText:string): void {
     let data = {
       id: this.routeDetails.event.organisationId,
       status: ManualValidationStatus.decline,
       orgName: this.routeDetails.event.organisationName
     };
     this.router.navigateByUrl(
-      'remove-right-to-buy?data=' + btoa(JSON.stringify(data))
+      'remove-right-to-buy?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
     );
+    this.pushDataLayerEvent(buttonText);
   }
 
-  goBack() {
+  goBack(buttonText:string) {
     if (this.routeDetails.lastRoute === "pending-verification") {
       this.router.navigateByUrl('manage-buyer-both');
     } else {
       sessionStorage.setItem('activetab', 'verifiedOrg');
       window.history.back();
+    }
+    
+    if(buttonText==='Back')
+    {
+    this.pushDataLayerEvent(buttonText);
     }
   }
 
@@ -261,17 +302,25 @@ export class ViewVerifiedOrgComponent implements OnInit {
   }
 
 
-  public nevigateViewEdit() {
+   public nevigateViewEdit() {
+     let data = {
+       companyHouseId: this.registries.identifier?.id,
+       Id: this.routeDetails.event.organisationId,
+     };
+     window.open(
+       environment.uri.web.dashboard +
+       '/update-org-services/confirm?data=' +
+       btoa(JSON.stringify(data)),
+       '_blank'
+     );
+   }
+
+  getQueryData(): string {
     let data = {
       companyHouseId: this.registries.identifier?.id,
       Id: this.routeDetails.event.organisationId,
     };
-    window.open(
-      environment.uri.web.dashboard +
-      '/update-org-services/confirm?data=' +
-      btoa(JSON.stringify(data)),
-      '_blank'
-    );
+    return btoa(JSON.stringify(data));
   }
 
   getPendingVerificationOrg() {
@@ -333,4 +382,5 @@ export class ViewVerifiedOrgComponent implements OnInit {
       },
     });
   }
+  
 }

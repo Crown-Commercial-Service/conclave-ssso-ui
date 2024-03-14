@@ -13,6 +13,8 @@ import { PasswordChangeDetail } from 'src/app/models/passwordChangeDetail';
 import { OperationEnum } from 'src/app/constants/enum';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-change-password',
@@ -31,12 +33,13 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
   submitted: boolean = false;
   usedPasswordThreshold: number = environment.usedPasswordThreshold;
   public isOrgAdmin: boolean = false;
+  public formId :string = 'Manage_my_account Change_password';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
-    private router: Router, protected uiStore: Store<UIState>, private location: Location,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    public router: Router, protected uiStore: Store<UIState>, private location: Location,
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService, private sessionService:SessionService) {
     super(uiStore,viewportScroller,scrollHelper);
     this.formGroup = this.formBuilder.group({
       currentPassword: ['', Validators.compose([Validators.required])],
@@ -47,7 +50,8 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
-
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   ngAfterViewChecked() {
@@ -65,7 +69,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
   }
 
   public checkPasswordStrong(control: FormControl) {
-    var format = /[!@#$%^&*_]+/;
+    var format = /[!"#$%&'()*+,\-.\/:;<=>?@[\]\\^_{|}]+/;
     let hasNumber = /\d/.test(control.value);
     let hasUpper = /[A-Z]/.test(control.value);
     let hasLower = /[a-z]/.test(control.value);
@@ -88,22 +92,24 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
 
     this.submitted = true;
     if (this.formValid(form)) {
-      let userName = localStorage.getItem('user_name') || '';
+      let userName = this.sessionService.decrypt('user_name')
       let contactData: PasswordChangeDetail = {
         oldPassword: form.get('currentPassword')?.value,
         newPassword: form.get('newPassword')?.value,
         userName: userName
       };
+     this.dataLayerService.pushFormSubmitEvent(this.formId);
 
       this.authService.changePassword(contactData).toPromise()
         .then((response) => {
           console.log(response);
-          this.authService.signOut();
+         // this.authService.signOut();
           this.router.navigateByUrl(`change-password-success/${OperationEnum.PasswordChanged}`);
         }, (err) => {
           if (err.error == "INVALID_CURRENT_PASSWORD") {
-            this.authService.signOut();
-            this.router.navigateByUrl(`change-password-failed/${OperationEnum.PasswordChanged}`);
+            form.controls['currentPassword'].setErrors({ 'invalidCurrentPassword': true });
+          //  this.authService.signOut();
+           // this.router.navigateByUrl(`change-password-failed/${OperationEnum.PasswordChanged}`);
           }
           else if (err.error == "ERROR_PASSWORD_CONTAINS_USER_INFO") {
             form.controls['newPassword'].setErrors({ 'passwordContainsUserInfo': true });
@@ -118,6 +124,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
     }
     else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -127,7 +134,12 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
     return form.valid;
   }
 
-  public onCancelClick() {
+  public onCancelClick(buttonText:string) {
     this.location.back();
+    this.pushDataLayerEvent(buttonText);
+  }
+
+  pushDataLayerEvent(buttonText:string) {
+   this.dataLayerService.pushClickEvent(buttonText)
   }
 }

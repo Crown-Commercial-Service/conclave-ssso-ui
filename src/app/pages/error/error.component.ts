@@ -36,6 +36,8 @@ import { ViewportScroller } from '@angular/common';
 import { UserService } from 'src/app/services/postgres/user.service';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   templateUrl: './error.component.html',
@@ -47,6 +49,8 @@ export class ErrorComponent extends BaseComponent implements OnInit {
   public mainPageUrl: string = environment.uri.web.dashboard;
   public errorCode = '';
   expiredLinkErrorCodeValue: string = 'Access expired.';
+  public formId : string = 'error';
+  public isRegUser = false;
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   userName: string;
@@ -59,9 +63,11 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
     private router: Router,
-    private formBuilder: FormBuilder,
+    public formBuilder: FormBuilder,
     private userService: UserService,
-    private RollbarErrorService:RollbarErrorService
+    private RollbarErrorService:RollbarErrorService,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.route.queryParams.subscribe((params) => {
@@ -78,11 +84,22 @@ export class ErrorComponent extends BaseComponent implements OnInit {
         });
       }
     });
-    this.userName = localStorage.getItem('user_name') || '';
+    this.userName = this.sessionService.decrypt('user_name')
   }
   ngOnInit(): void {
     console.log("errorCode",this.errorCode)
+    var fragment=this.route.snapshot.fragment;
+    if(fragment)
+    {
+      var regUser=this.route.snapshot.fragment?.indexOf('&is-reg-user')
+      if(regUser!=-1 )
+      {
+        this.isRegUser=true;
+      }
+    }
     this.RollbarErrorService.RollbarDebug('Error Page:'.concat(this.errorCode));
+    this.dataLayerService.pushPageViewEvent();
+    this.dataLayerService.pushFormStartEvent(this.formId, this.resendForm);
   }
 
   displayError(error: string) {
@@ -116,16 +133,18 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     }
   }
 
-  onSubmit(form: FormGroup): void {
+  onSubmit(form: FormGroup,buttonText:string): void {
     this.submitted = true;
 
     if (this.PatternService.emailValidator(form.get('userName')?.value)) {
       this.resendForm.controls['userName'].setErrors({ incorrect: true });
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
     if (this.formValid(form)) {
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       console.log(form.get('userName')?.value);
       this.userService
-        .resendUserActivationEmail(form.get('userName')?.value, true)
+        .resendUserActivationEmail(form.get('userName')?.value, true, this.isRegUser)
         .toPromise()
         .then(() => {
           console.log('scuuccess');
@@ -135,7 +154,10 @@ export class ErrorComponent extends BaseComponent implements OnInit {
             )}`
           );
         });
+    } else {
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
+   this.dataLayerService.pushClickEvent(buttonText)
   }
 
   setFocus(inputIndex: number) {

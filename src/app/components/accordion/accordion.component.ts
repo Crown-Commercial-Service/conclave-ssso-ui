@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
   selector: 'app-accordion',
@@ -8,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class AccordionComponent implements OnInit, OnChanges {
 
-  @Input() data!: any[];
+  @Input() data: any[] = [];
   @Input() headerText!: string
   @Input() headerTextKeys!: string
   @Input() isAdmin!: boolean
@@ -27,7 +28,7 @@ export class AccordionComponent implements OnInit, OnChanges {
 
 
   // public groupShow: boolean = false;
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private dataLayerService: DataLayerService) { }
 
   ngOnChanges(): void {
   }
@@ -36,12 +37,24 @@ export class AccordionComponent implements OnInit, OnChanges {
   }
 
   public onTopToggle(): void {
+    this.dataLayerService.pushEvent({
+      event: "accordion_use",
+      interaction_type: this.groupShow ? "close": "open",
+      link_text: this.headerText
+    })
     this.groupShow = !this.groupShow
   }
 
-  public onBottomToggle(id: string): void {
-    const el: any = document.getElementById(id);
+  onBottomToggle(event: Event, groupdata: any) {
+    const el: any = document.getElementById(groupdata.groupId);
+    const groupNameEventText  = groupdata['groupName'];
     el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    var eventNameText =  (el.style.display === 'block') ?  'Show services' : 'Hide services';
+    this.dataLayerService.pushEvent({
+      event: "accordion_use",
+      interaction_type: (el.style.display === 'block') ? 'open':'close',
+      link_text: `${groupNameEventText} - ${eventNameText}`
+    })
   }
 
   public getElementStatus(id: string) {
@@ -75,5 +88,23 @@ export class AccordionComponent implements OnInit, OnChanges {
       userEditStatus: this.isEdit
     };
     window.open('manage-groups/view?data=' + JSON.stringify(data));
+  }
+
+  getQueryData(groupId: any): string {
+    let isFromManageMyAccount = this.router.url === '/profile';
+    let queryParams = this.activatedRoute.snapshot.queryParams;
+    if(queryParams.data)
+    {
+      this.routeData = JSON.parse(atob(queryParams.data));
+      this.isEdit = this.routeData['isEdit'];
+    }
+    let data = {
+      isEdit: true,
+      groupId: groupId,
+      accessFrom: isFromManageMyAccount ? "profile" : "users",
+      isUserAccess: true,
+      userEditStatus: this.isEdit
+    };
+    return JSON.stringify(data);
   }
 }

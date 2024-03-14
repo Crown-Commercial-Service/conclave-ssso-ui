@@ -11,6 +11,10 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OrganisationAuditListResponse } from 'src/app/models/organisation';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { HelperService } from 'src/app/shared/helper.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-view-pending-verification',
@@ -19,9 +23,9 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 })
 export class ViewPendingVerificationComponent implements OnInit {
   private organisationId: string = '';
-  private lastRoute:string=''
+  public lastRoute:string=''
   pageName = 'Contactadmin';
-  public routeDetails: any;
+  public routeDetails: any = {};
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers?: CiiAdditionalIdentifier[];
   schemeData: any[] = [];
@@ -63,7 +67,11 @@ export class ViewPendingVerificationComponent implements OnInit {
     private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
     private router: Router,
     private ciiService: ciiService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    public helperService:HelperService,
+    private dataLayerService: DataLayerService,
+    private sessionService: SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -84,11 +92,30 @@ export class ViewPendingVerificationComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.loadingIndicatorService.isLoading.next(true);
+    this.loadingIndicatorService.isCustomLoading.next(true);
+    
     this.route.queryParams.subscribe(async (para: any) => {
-      this.routeDetails = JSON.parse(atob(para.data));
+      this.routeDetails = JSON.parse(decodeURIComponent(atob(para.data)));
       this.lastRoute = this.routeDetails.lastRoute
-      await this.getPendingVerificationOrg()
+      setTimeout(() => {
+       this.getPendingVerificationOrg()
+      }, 500);
     });
+    this.dataLayerService.pushPageViewEvent();
+
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
+
+    setTimeout(() => {
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
+    }, 3000);
   }
 
   public openEmailWindow(data: any): void {
@@ -210,31 +237,38 @@ export class ViewPendingVerificationComponent implements OnInit {
       });
   }
 
-  goBack() {
+  private pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText);
+  }
+
+  goBack(buttonText:string) {
     if (this.lastRoute == "view-verified") {
       this.router.navigateByUrl('manage-buyer-both');
     } else {
       window.history.back();
     }
+     this.pushDataLayerEvent(buttonText);
   }
 
-  public acceptRightToBuy() {
+  public acceptRightToBuy(buttonText:string) {
     let data = {
       organisationId: this.routeDetails.organisationId,
       organisationName: this.routeDetails.organisationName,
     };
     this.router.navigateByUrl(
-      'confirm-accept?data=' + btoa(JSON.stringify(data))
+      'confirm-accept?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
     );
+    this.pushDataLayerEvent(buttonText);
   }
-  public declineRightToBuy() {
+  public declineRightToBuy(buttonText:string) {
     let data = {
       organisationId: this.routeDetails.organisationId,
       organisationName: this.routeDetails.organisationName,
     };
     this.router.navigateByUrl(
-      'confirm-decline?data=' + btoa(JSON.stringify(data))
+      'confirm-decline?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
     );
+    this.pushDataLayerEvent(buttonText);
   }
 
   public getSchemaName(schema: string): string {
@@ -288,6 +322,7 @@ export class ViewPendingVerificationComponent implements OnInit {
     }
   }
 
+
   getVerifiedOrg() {
     this.wrapperBuyerAndBothService.getVerifiedOrg(
       this.organisationId,
@@ -298,6 +333,8 @@ export class ViewPendingVerificationComponent implements OnInit {
       next: (orgListResponse: OrganisationAuditListResponse) => {
         if (orgListResponse != null) {
         let orgDetails = orgListResponse.organisationAuditList.find((element)=> element.organisationId == this.routeDetails.organisationId )
+        if (orgDetails != undefined)
+        {
         let data = {
           header: 'View request',
           Description: '',
@@ -310,6 +347,8 @@ export class ViewPendingVerificationComponent implements OnInit {
           'verified-organisations?data=' + btoa(JSON.stringify(data))
         );
         }
+        this.getOrgDetails();
+      }
       },
       error: (error: any) => {
         this.router.navigateByUrl('delegated-error');

@@ -12,6 +12,8 @@ import { WrapperSiteContactService } from "src/app/services/wrapper/wrapper-site
 import { AssignedContactType } from "src/app/constants/enum";
 import { WrapperOrganisationContactService } from "src/app/services/wrapper/wrapper-org-contact-service";
 import { SessionStorageKey } from "src/app/constants/constant";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-contact-assign-confirm-component',
@@ -37,9 +39,9 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
     selectedContactIds: number[] = [];
     siteCreate: any;
 
-    constructor(private siteContactService: WrapperSiteContactService, private orgContactService: WrapperOrganisationContactService,
+    constructor(private siteContactService: WrapperSiteContactService,private sessionService:SessionService, private orgContactService: WrapperOrganisationContactService,
         protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         let queryParams = this.activatedRoute.snapshot.queryParams;
@@ -59,15 +61,17 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
     }
 
     ngOnInit() {
+        this.dataLayerService.pushPageViewEvent();
     }
 
-    onConfirmClick() {
+    onConfirmClick(buttonText:string) {
         if (this.assigningSiteId && this.assigningSiteId != 0) {
             this.assignToSiteContacts();
         }
         else {
             this.assignToOrgContacts()
         }
+        this.pushDataLayerEvent(buttonText);
     }
 
     assignToSiteContacts() {
@@ -126,8 +130,9 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         this.router.navigateByUrl('contact-assign/error?data=' + JSON.stringify(data));
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         window.history.back();
+        this.pushDataLayerEvent(buttonText);
     }
 
     onNavigateToHomeClick() {
@@ -150,5 +155,17 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
+
+    getEditQueryData(): string {
+        let data = {
+          isEdit: true,
+          siteId: this.assigningSiteId
+        };
+        return JSON.stringify(data);
+      }
+
+    pushDataLayerEvent(buttonText:string) {
+        this.dataLayerService.pushClickEvent(buttonText)
+      }
 
 }
