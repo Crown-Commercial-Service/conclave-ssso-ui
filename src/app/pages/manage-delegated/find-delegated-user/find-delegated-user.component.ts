@@ -95,8 +95,8 @@ export class FindDelegatedUserComponent implements OnInit {
           }
           else {
             userResponse.pageaccessmode = "add";
-            userResponse.userName = escape(encodeURIComponent(userResponse.userName));
-            this.route.navigateByUrl('delegate-access-user?data=' + btoa(JSON.stringify(userResponse)))
+            // userResponse.userName = escape(encodeURIComponent(userResponse.userName));
+            this.route.navigateByUrl('delegate-access-user?data=' + btoa(encodeURIComponent(JSON.stringify(userResponse))))
           }
         },
         error: (error: any) => {

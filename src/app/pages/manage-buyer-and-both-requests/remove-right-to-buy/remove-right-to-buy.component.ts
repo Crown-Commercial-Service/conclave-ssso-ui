@@ -17,7 +17,7 @@ export class RemoveRightToBuyComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(async (para: any) => {
-      this.routeDetails = JSON.parse(atob(para.data));
+      this.routeDetails = JSON.parse(decodeURIComponent(atob(para.data)));
     })
     this.dataLayerService.pushPageViewEvent();
   }
@@ -35,7 +35,7 @@ export class RemoveRightToBuyComponent implements OnInit {
     this.wrapperBuyerAndBothService.manualValidation(this.routeDetails.id, ManualValidationStatus.remove).subscribe({
       next: (response: any) => {
         this.router.navigateByUrl(
-          'remove-right-to-buy-success?data=' + btoa(JSON.stringify(data))
+          'remove-right-to-buy-success?data=' + btoa(encodeURIComponent(JSON.stringify(data)))
         );
       },
       error: (error: any) => {
