@@ -105,7 +105,7 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
 
   public onBackClick(buttonText:string) {
     localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
-    this.router.navigateByUrl('buyer/confirm/' + this.org.ciiOrganisationId);
+    // this.router.navigateByUrl('buyer/confirm/' + this.org.ciiOrganisationId);
     this.pushDataLayerEvent(buttonText);
   }
 }
