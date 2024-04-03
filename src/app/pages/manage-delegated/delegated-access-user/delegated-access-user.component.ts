@@ -426,7 +426,7 @@ export class DelegatedAccessUserComponent implements OnInit {
  * @param form forms group value getting from html
  */
   public edituserdetails(form: FormGroup) {
-    if (this.formValid(form) && (!this.StartDateValidation &&!this.PastDateValidation && !this.EndDateValidation && !this.EndDateDaysValidation && this.getSelectedRoleIds(form).length != 0)) {
+    if (this.formValid(form) && this.checkGetValidator(form)) {
       const StartDateForm = this.formGroup.get('startyear').value + '-' + this.formGroup.get('startmonth').value + '-' + this.formGroup.get('startday').value;
       const EndtDateForm = this.formGroup.get('endyear').value + '-' + this.formGroup.get('endmonth').value + '-' + this.formGroup.get('endday').value;
       let data = {
