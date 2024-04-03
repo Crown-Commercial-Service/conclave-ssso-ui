@@ -14,6 +14,7 @@ import { WrapperOrganisationContactService } from "src/app/services/wrapper/wrap
 import { SessionStorageKey } from "src/app/constants/constant";
 import { DataLayerService } from "src/app/shared/data-layer.service";
 import { SessionService } from "src/app/shared/session.service";
+import { ContactHelper } from "src/app/services/helper/contact-helper.service";
 
 @Component({
     selector: 'app-contact-assign-confirm-component',
@@ -41,17 +42,17 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
 
     constructor(private siteContactService: WrapperSiteContactService,private sessionService:SessionService, private orgContactService: WrapperOrganisationContactService,
         protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService, private contactHelper: ContactHelper) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
-            let routeData = JSON.parse(queryParams.data);
-            this.assigningSiteId = routeData['assigningSiteId'] || 0;
-            this.assigningOrgId = routeData['assigningOrgId'] || "";
-            this.contactUserName = sessionStorage.getItem(SessionStorageKey.ContactAssignUsername) ?? "";
-            this.contactSiteId = routeData['contactSiteId'] || 0;
-            this.siteCreate=routeData['siteCreate'] || false;
+            let routeData = this.contactHelper.parseRouteData(queryParams.data);
+            this.assigningSiteId = routeData.assigningSiteId;
+            this.assigningOrgId = routeData.assigningOrgId;
+            this.contactUserName = routeData.contactUserName;
+            this.contactSiteId = routeData.contactSiteId;
+            this.siteCreate = routeData.siteCreate
         }
         let selectedContactString = sessionStorage.getItem("assigning-contact-list");
         if (selectedContactString) {

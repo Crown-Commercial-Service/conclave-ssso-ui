@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ContactDetail, ContactGridInfo, ContactGridInfoWithLink, ContactPoint, VirtualContactType, SiteContactInfoListWithLink } from 'src/app/models/contactInfo';
+import { SessionStorageKey } from "src/app/constants/constant"
 
 @Injectable({
     providedIn: 'root'
@@ -95,4 +96,14 @@ export class ContactHelper {
         return contactGridInfoList;
     }
     
+    parseRouteData(data: any): { assigningSiteId: number, assigningOrgId: string, contactUserName: string, contactSiteId: number, siteCreate: any } {
+        let routeData = JSON.parse(data);
+        return {
+          assigningSiteId: routeData['assigningSiteId'] || 0,
+          assigningOrgId: routeData['assigningOrgId'] || "",
+          contactUserName: sessionStorage.getItem(SessionStorageKey.ContactAssignUsername) ?? "",
+          contactSiteId: routeData['contactSiteId'] || 0,
+          siteCreate: routeData['siteCreate'] || false
+        };
+      }
 }
