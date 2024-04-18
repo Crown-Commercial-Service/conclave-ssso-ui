@@ -47,12 +47,12 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
-            let routeData = JSON.parse(queryParams.data);
-            this.assigningSiteId = routeData['assigningSiteId'] || 0;
-            this.assigningOrgId = routeData['assigningOrgId'] || "";
-            this.contactUserName = sessionStorage.getItem(SessionStorageKey.ContactAssignUsername) ?? "";
-            this.contactSiteId = routeData['contactSiteId'] || 0;
-            this.siteCreate=routeData['siteCreate'] || false;
+            let routeData = this.contactHelper.parseRouteData(queryParams.data);
+            this.assigningSiteId = routeData.assigningSiteId;
+            this.assigningOrgId = routeData.assigningOrgId;
+            this.contactUserName = routeData.contactUserName;
+            this.contactSiteId = routeData.contactSiteId;
+            this.siteCreate = routeData.siteCreate
         }
         let selectedContactString = sessionStorage.getItem("assigning-contact-list");
         if (selectedContactString) {

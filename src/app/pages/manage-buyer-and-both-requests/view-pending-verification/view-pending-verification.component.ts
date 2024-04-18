@@ -211,14 +211,7 @@ export class ViewPendingVerificationComponent implements OnInit {
                     if (f.event.includes('[RoleName]'))  {
                       let roleKey:any=['JAEGGER_SUPPLIER','ACCESS_JAGGAER','CAT_USER','ACCESS_CAAAC_CLIENT','JAEGGER_BUYER','JAGGAER_USER']
                       let filterRole = roleKey.find((element: any) => element == f.roleKey);
-                        if(filterRole === undefined)
-                        {
-                          f.event = f.event.replace('[RoleName]', f.role + ' - ' + f.serviceName);
-                        }
-                        else
-                        {
-                          f.event = f.event.replace('[RoleName]', f.role);
-                        }
+                        filterRole === undefined ? f.event = f.event.replace('[RoleName]', f.role + ' - ' + f.serviceName) : f.event = f.event.replace('[RoleName]', f.role);
                     }
                   } else {
                     f.event = f.event.replace('[RoleName] role', f.name);
