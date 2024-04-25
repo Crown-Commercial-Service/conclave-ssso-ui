@@ -16,6 +16,7 @@ import { HelperService } from 'src/app/shared/helper.service';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
+import { LocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-view-verified-org',
@@ -74,7 +75,8 @@ export class ViewVerifiedOrgComponent implements OnInit {
     public helperService:HelperService,
     private dataLayerService: DataLayerService,
     private sessionService:SessionService,
-    private loadingIndicatorService: LoadingIndicatorService
+    private loadingIndicatorService: LoadingIndicatorService,
+    private locationStrategy: LocationStrategy
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.organisationAdministrator.userListResponse = {
@@ -92,6 +94,13 @@ export class ViewVerifiedOrgComponent implements OnInit {
       organisationAuditEventList: [],
     };
     this.registries = {};
+    this.locationStrategy.onPopState(() => {
+      if (this.routeDetails.lastRoute === 'pending-verification') {
+        this.router.navigateByUrl('manage-buyer-both');
+      } else {
+        sessionStorage.setItem('activetab', 'verifiedOrg');
+      }
+    });
   }
 
   async ngOnInit() {
@@ -363,7 +372,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
             Breadcrumb: 'View request',
             status: '003',
             event: orgDetails,
-            lastRoute:"pending-verification"
+            lastRoute:"view-verified"
           };
           this.routeDetails = data
          }

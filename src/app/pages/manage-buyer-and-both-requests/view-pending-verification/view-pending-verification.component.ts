@@ -374,4 +374,7 @@ export class ViewPendingVerificationComponent implements OnInit {
       console.log('err', err);
     });
   }
+  ngOnDestroy(): void {
+    sessionStorage.removeItem('activetab');
+  }
 }
