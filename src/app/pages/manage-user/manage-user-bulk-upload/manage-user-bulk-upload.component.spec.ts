@@ -90,7 +90,7 @@ describe('ManageUserBulkUploadComponent', () => {
 
   it('should navigate to add user selection on cancel click', () => {
     spyOn(router, 'navigateByUrl');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(router.navigateByUrl).toHaveBeenCalledWith(
       'manage-users/add-user-selection'
     );

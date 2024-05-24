@@ -44,7 +44,7 @@ describe('ViewPendingVerificationComponent', () => {
 
   it('should navigate to manage-buyer-both when goBack is called and lastRoute is "view-verified"', () => {
     component.lastRoute = 'view-verified';
-    component.goBack();
+    component.goBack('Cancel');
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('manage-buyer-both');
   });
 });

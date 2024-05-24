@@ -87,7 +87,7 @@ describe('ManageGroupListComponent', () => {
   it('should navigate to add group page on add button click', () => {
     spyOn(router, 'navigateByUrl');
 
-    component.onAddClick();
+    component.onAddClick('Create Group');
     expect(router.navigateByUrl).toHaveBeenCalledWith(
       'manage-groups/edit-name?data=' +
         JSON.stringify({ isEdit: false, groupId: 0 })

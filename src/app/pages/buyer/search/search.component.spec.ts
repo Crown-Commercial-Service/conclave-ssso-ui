@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
+import { ActivatedRoute,Router, RouterModule } from '@angular/router';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
@@ -16,11 +16,16 @@ import { of } from 'rxjs';
 describe('BuyerSearchComponent', () => {
   let component: BuyerSearchComponent;
   let fixture: ComponentFixture<BuyerSearchComponent>;
+  let activatedRouteMock: jasmine.SpyObj<ActivatedRoute>;
 
   beforeEach(() => {
     const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
       'setOffset',
     ]);
+    activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', [], {
+      snapshot: { queryParams: { isNewTab: 'true' } },
+      params: of({ scheme: 'test' }),
+    });
 
     const changeDetectorRefStub = () => ({});
     const formBuilderStub = () => ({ group: (object: any) => ({}) });
@@ -41,6 +46,7 @@ describe('BuyerSearchComponent', () => {
         { provide: FormBuilder, useFactory: formBuilderStub },
         { provide: Store, useFactory: storeStub },
         { provide: Router, useFactory: routerStub },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: OrganisationService, useFactory: organisationServiceStub },
         { provide: ScrollHelper, useValue: {} },
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
@@ -86,7 +92,7 @@ describe('BuyerSearchComponent', () => {
       const organisationServiceStub: OrganisationService =
         TestBed.inject(OrganisationService);
       const spy1 = spyOn(organisationServiceStub, 'get').and.returnValue(
-        of({})
+        of({orgList: ['testOrg1']})
       );
       component.onSearch();
       expect(spy1).toHaveBeenCalled();
@@ -97,7 +103,7 @@ describe('BuyerSearchComponent', () => {
     it('makes expected calls', () => {
       const routerStub: Router = TestBed.inject(Router);
       const spy1 = spyOn(routerStub, 'navigateByUrl');
-      component.onContinueClick();
+      component.onContinueClick('Continue');
       expect(spy1).toHaveBeenCalled();
     });
   });
@@ -106,7 +112,7 @@ describe('BuyerSearchComponent', () => {
     it('makes expected calls', () => {
       const routerStub: Router = TestBed.inject(Router);
       const spy1 = spyOn(routerStub, 'navigateByUrl');
-      component.onCancelClick();
+      component.onCancelClick('Cancel');
       expect(spy1).toHaveBeenCalled();
     });
   });

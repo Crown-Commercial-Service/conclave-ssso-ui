@@ -142,7 +142,7 @@ describe('ConfirmOrgServiceComponent', () => {
   it('should navigate to the previous page on cancel click', () => {
     const routerSpy = spyOn(component.router, 'navigateByUrl');
     component.onCancelClick();
-    expect(routerSpy).toHaveBeenCalledWith('buyer/search');
+    expect(routerSpy).toHaveBeenCalledWith('buyer-supplier/search');
   });
 
   it('should navigate to the previous page on back click', () => {
@@ -150,7 +150,7 @@ describe('ConfirmOrgServiceComponent', () => {
     const routerSpy = spyOn(component.router, 'navigateByUrl');
     component.org = { ciiOrganisationId: 'orgId' };
     component.routeData = { companyHouseId: 'companyId' };
-    component.onBackClick();
+    component.onBackClick('Back');
     expect(localStorage.removeItem).toHaveBeenCalledWith('mse_org_orgId');
     expect(routerSpy).toHaveBeenCalledWith(
       'update-org-services/confirm?data=' +

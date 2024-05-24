@@ -32,7 +32,7 @@ describe('AccessibilityStatementComponent', () => {
 
   it('should print the page when print() method is called', () => {
     spyOn(window, 'print');
-    component.print();
+    component.print('cancel');
     expect(window.print).toHaveBeenCalled();
   });
 });

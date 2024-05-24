@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { OrgRegDetails } from './reg-org-details.component';
 import { ciiService } from 'src/app/services/cii/cii.service';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 describe('OrgRegDetailsComponent', () => {
   let component: OrgRegDetails;
@@ -24,6 +25,9 @@ describe('OrgRegDetailsComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [OrgRegDetails],
+      imports:[        
+        TranslateModule.forRoot(),
+      ],
       providers: [
         { provide: ciiService, useValue: ciiServiceMock },
         { provide: Store, useValue: storeMock },

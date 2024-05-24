@@ -63,7 +63,7 @@ describe('ManageOrgRegSearchStatusExistsComponent', () => {
     };
     const navigateSpy = spyOn(component.router, 'navigateByUrl');
     organisationServiceSpy.requestOrgAdminToJoinOrg.and.returnValue(of({}));
-    component.onContinueSingleOrgRegistered();
+    component.onContinueSingleOrgRegistered('Continue');
     expect(
       organisationServiceSpy.requestOrgAdminToJoinOrg
     ).toHaveBeenCalledWith('123', 'John', 'Doe', 'john.doe@example.com');
@@ -71,7 +71,7 @@ describe('ManageOrgRegSearchStatusExistsComponent', () => {
 
   it('should go back in history on goBack button click', () => {
     const goBackSpy = spyOn(window.history, 'back');
-    component.goBack();
+    component.goBack('This is not my organisation');
     expect(goBackSpy).toHaveBeenCalled();
   });
 
@@ -82,7 +82,7 @@ describe('ManageOrgRegSearchStatusExistsComponent', () => {
       '.govuk-breadcrumbs__list'
     );
     expect(breadcrumbs).toBeTruthy();
-    expect(breadcrumbs.children.length).toBe(8);
+    expect(breadcrumbs.children.length).toBe(9);
   });
 
   it('should display org details and continue button', () => {

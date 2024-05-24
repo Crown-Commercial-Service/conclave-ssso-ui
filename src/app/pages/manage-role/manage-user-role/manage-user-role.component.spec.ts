@@ -60,6 +60,8 @@ describe('ManageUserRoleComponent', () => {
         lastName: 'user',
         mfaEnabled: false,
         isAdminUser: false,
+        mfaOpted: true,
+        isDormant: false
       };
       wrapperUserService.userTokenVerify.and.returnValue(of(userDetails));
 
@@ -85,6 +87,8 @@ describe('ManageUserRoleComponent', () => {
         lastName: 'user',
         mfaEnabled: false,
         isAdminUser: false,
+        mfaOpted: true,
+        isDormant: false
       };
       wrapperUserService.userTokenVerify.and.returnValue(of(userDetails));
 
@@ -121,6 +125,8 @@ describe('ManageUserRoleComponent', () => {
         mfaEnabled: false,
         isAdminUser: false,
         id: 1,
+        mfaOpted: true,
+        isDormant: false
       };
       component.userDetails = { id: 1, status: 0 };
       wrapperUserService.userTokenVerify.and.returnValue(of(userDetails));
@@ -128,7 +134,7 @@ describe('ManageUserRoleComponent', () => {
         of(roleListResponse)
       );
 
-      component.acceptRejectRequest(response);
+      component.acceptRejectRequest(response, 'Accept');
 
       expect(component.userDetails).toEqual(userDetails);
       expect(wrapperUserService.acceptRejectRequest).toHaveBeenCalledWith({
@@ -157,13 +163,15 @@ describe('ManageUserRoleComponent', () => {
         mfaEnabled: false,
         isAdminUser: false,
         id: 1,
+        mfaOpted: true,
+        isDormant: false
       };
       wrapperUserService.userTokenVerify.and.returnValue(of(userDetails));
       wrapperUserService.acceptRejectRequest.and.returnValue(
         throwError('Test error')
       );
 
-      component.acceptRejectRequest(response);
+      component.acceptRejectRequest(response, 'Accept');
 
       expect(component.userDetails).toEqual(userDetails);
       expect(wrapperUserService.acceptRejectRequest).toHaveBeenCalledWith({

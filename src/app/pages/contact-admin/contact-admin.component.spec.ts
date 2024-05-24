@@ -27,7 +27,8 @@ describe('ContactAdminComponent', () => {
         TranslateModule.forRoot(),
         HttpClientTestingModule,
       ],
-      providers: [{ provide: Store, useFactory: () => ({}) }],
+      providers: [{ provide: Store, useFactory: () => ({}) }
+      ],
     }).compileComponents();
   });
 
@@ -76,9 +77,9 @@ describe('ContactAdminComponent', () => {
     expect(component.getOrganisationUsers).toHaveBeenCalled();
   });
 
-  it('should call window.history.back() when goBack is called', () => {
-    const windowBackSpy = spyOn(window.history, 'back');
-    component.goBack();
-    expect(windowBackSpy).toHaveBeenCalled();
+  it('should call window.history.back() when goBack is called', () => {    
+    const routerSpy = spyOn(component['router'], 'navigateByUrl');
+    component.goBack('Back');
+    expect(routerSpy).toHaveBeenCalledWith('profile');
   });
 });

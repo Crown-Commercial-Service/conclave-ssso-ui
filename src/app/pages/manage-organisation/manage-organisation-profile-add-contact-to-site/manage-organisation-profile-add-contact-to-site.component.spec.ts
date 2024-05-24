@@ -119,7 +119,7 @@ describe('ManageOrganisationProfileAddContactToSiteComponent', () => {
       const data = { isEdit: true, siteId: 'testSiteId' };
       component.siteId = data.siteId;
 
-      component.onSiteEditClick();
+      component.onSiteEditClick('Edit site');
 
       expect(routerSpy.navigateByUrl).toHaveBeenCalledWith(
         'manage-org/profile/site/edit?data=' + JSON.stringify(data)
@@ -166,6 +166,7 @@ describe('ManageOrganisationProfileAddContactToSiteComponent', () => {
         contactId: 0,
         siteId: component.siteId,
         siteCreate: true,
+        contactAddAnother: false  
       };
 
       component.onContactAddClick();

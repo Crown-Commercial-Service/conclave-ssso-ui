@@ -33,7 +33,7 @@ describe('UserService', () => {
       });
 
     const req = httpMock.expectOne(
-      `${service.url}/activation-emails?is-expired=${isExpired}`
+      `${service.url}/activation-emails?is-expired=${isExpired}&is-reg-user=false`
     );
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(`email=${encodeURIComponent(email)}`);

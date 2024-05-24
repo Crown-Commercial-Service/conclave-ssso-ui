@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RoleRequestSuccessComponent } from './role-request-success.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('RoleRequestSuccessComponent', () => {
   let component: RoleRequestSuccessComponent;
@@ -9,7 +10,7 @@ describe('RoleRequestSuccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
       declarations: [RoleRequestSuccessComponent],
       providers: [
         {

@@ -132,7 +132,7 @@ describe('ManageOrganisationContactDeleteComponent', () => {
 
   it('should navigate back in history when onBack is called', () => {
     spyOn(window.history, 'back');
-    component.onBack();
+    component.onBack('Cancel');
 
     expect(window.history.back).toHaveBeenCalled();
   });

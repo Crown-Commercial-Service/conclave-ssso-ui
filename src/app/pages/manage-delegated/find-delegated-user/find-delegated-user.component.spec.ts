@@ -65,7 +65,7 @@ describe('FindDelegatedUserComponent', () => {
     const emailControl = component.formGroup.get('email');
     emailControl?.setValue('test@example.com');
 
-    component.GetUserStatus(component.formGroup);
+    component.GetUserStatus(component.formGroup, 'Continue');
 
     expect(component.submitted).toBe(true);
     expect(
@@ -95,7 +95,7 @@ describe('FindDelegatedUserComponent', () => {
     const emailControl = component.formGroup.get('email');
     emailControl?.setValue('test@example.com');
 
-    component.GetUserStatus(component.formGroup);
+    component.GetUserStatus(component.formGroup, 'Continue');
 
     expect(component.submitted).toBe(true);
     expect(
@@ -109,7 +109,7 @@ describe('FindDelegatedUserComponent', () => {
   it('should navigate back on Cancel', () => {
     spyOn(window.history, 'back');
 
-    component.Cancel();
+    component.Cancel('Cancel');
 
     expect(window.history.back).toHaveBeenCalled();
   });

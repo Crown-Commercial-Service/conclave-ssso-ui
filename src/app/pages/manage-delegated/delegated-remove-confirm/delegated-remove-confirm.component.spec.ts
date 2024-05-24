@@ -69,7 +69,7 @@ describe('DelegatedRemoveConfirmComponent', () => {
     it('should navigate back in history', () => {
       spyOn(window.history, 'back');
 
-      component.Cancel();
+      component.Cancel('Cancel');
 
       expect(window.history.back).toHaveBeenCalled();
     });

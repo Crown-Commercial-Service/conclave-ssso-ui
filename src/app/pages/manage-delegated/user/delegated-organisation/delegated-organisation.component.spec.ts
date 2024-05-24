@@ -168,7 +168,7 @@ describe('DelegatedOrganisationComponent', () => {
   describe('onSubmit', () => {
     it('should call setDelegatedOrg with roleInfo and navigate to home', () => {
       component.roleInfo = 'org1';
-      component.onSubmit();
+      component.onSubmit('Switch organisations');
       expect(delegateServiceSpy.setDelegatedOrg).toHaveBeenCalledWith(
         'org1',
         'home'
@@ -179,7 +179,7 @@ describe('DelegatedOrganisationComponent', () => {
   describe('Cancel', () => {
     it('should navigate back in history', () => {
       spyOn(window.history, 'back');
-      component.Cancel();
+      component.Cancel('Cancel');
       expect(window.history.back).toHaveBeenCalled();
     });
   });

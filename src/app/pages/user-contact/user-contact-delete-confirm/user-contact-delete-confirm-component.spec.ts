@@ -94,7 +94,7 @@ describe('UserContactDeleteConfirmComponent', () => {
 
   it('should navigate to the user contact edit page on cancel click', () => {
     spyOn(component.router, 'navigateByUrl');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(component.router.navigateByUrl).toHaveBeenCalledWith(
       'user-contact-edit?data={"isEdit":true,"contactId":1}'
     );

@@ -45,7 +45,7 @@ describe('BuyerErrorComponent', () => {
 
   it('should have a link to go back to the buyer search page', () => {
     const backButton = fixture.nativeElement.querySelector(
-      'a[routerLink="/buyer/search"]'
+      'a[routerLink="/buyer-supplier/search"]'
     );
     expect(backButton).toBeTruthy();
     expect(backButton.textContent).toContain('Back');

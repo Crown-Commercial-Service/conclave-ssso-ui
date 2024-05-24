@@ -59,7 +59,7 @@ describe('ConfirmAcceptComponent', () => {
   it('should navigate back in history when Back method is called', () => {
     spyOn(window.history, 'back');
 
-    component.Back();
+    component.Back('Cancel');
 
     expect(window.history.back).toHaveBeenCalled();
   });

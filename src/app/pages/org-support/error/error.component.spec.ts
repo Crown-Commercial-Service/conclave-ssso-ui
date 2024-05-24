@@ -7,6 +7,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('OrgSupportErrorComponent', () => {
   let component: OrgSupportErrorComponent;
@@ -32,7 +33,7 @@ describe('OrgSupportErrorComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
       declarations: [OrgSupportErrorComponent],
       providers: [
         { provide: Store, useValue: storeMock },

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RoleRequestFailedComponent } from './role-request-failed.component';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('RoleRequestFailedComponent', () => {
   let component: RoleRequestFailedComponent;
@@ -10,7 +11,7 @@ describe('RoleRequestFailedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
       declarations: [RoleRequestFailedComponent],
       providers: [
         {
@@ -85,7 +86,7 @@ describe('RoleRequestFailedComponent', () => {
 
     expect(breadcrumbsLink.textContent).toContain('ADMINISTRATOR_DASHBOARD');
     expect(fleetAcceptParagraph.textContent).toContain(
-      'The access request for Fleet Portal for user test user has expired or it was already actioned.'
+      'User test user no longer requires access to Fleet Portal and the access has been removed by the organisation admin.'
     );
     expect(returnToDashboardLink.getAttribute('routerLink')).toBe('/home');
   });

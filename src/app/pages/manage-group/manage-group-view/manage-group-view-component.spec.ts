@@ -107,7 +107,7 @@ describe('ManageGroupViewComponent', () => {
   });
 
   it('should navigate to the edit name page when onNameEditClick is called', () => {
-    component.onNameEditClick();
+    component.onNameEditClick('Change group name');
     expect(mockSharedDataService.manageGroupStorage).toHaveBeenCalledWith(
       component.group.groupName
     );
@@ -121,7 +121,7 @@ describe('ManageGroupViewComponent', () => {
   });
 
   it('should navigate to the edit roles page when onRoleEditClick is called', () => {
-    component.onRoleEditClick();
+    component.onRoleEditClick('Manage group roles');
     expect(mockSharedDataService.manageGroupStorage).toHaveBeenCalledWith(
       component.group.groupName
     );

@@ -6,6 +6,7 @@ import { CountryISO } from 'ngx-intl-tel-input';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 describe('ManageOrganisationContactEditComponent', () => {
   let component: ManageOrganisationContactEditComponent;
@@ -13,6 +14,7 @@ describe('ManageOrganisationContactEditComponent', () => {
   let localStore: any = {
     cii_organisation_id: 'test-org-id',
   };
+  let router: Router;
 
   beforeEach(async () => {
     spyOn(localStorage, 'getItem').and.callFake((key) =>
@@ -34,6 +36,7 @@ describe('ManageOrganisationContactEditComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ManageOrganisationContactEditComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -98,17 +101,17 @@ describe('ManageOrganisationContactEditComponent', () => {
     expect(breadcrumbLinks.length).toBe(4);
     expect(breadcrumbLinks[2].textContent.trim()).toBe('EDIT_SITE');
 
-    component.isEdit = true;
+    component.isEdit = true;    
     fixture.detectChanges();
-    expect(breadcrumbLinks[3].textContent.trim()).toBe('ADD_ANOTHER_CONTACT');
+    expect(breadcrumbLinks[3].textContent.trim()).toBe('ADD_NEW_CONTACT');
 
     component.siteCreate = true;
     fixture.detectChanges();
-    expect(breadcrumbLinks[3].textContent.trim()).toBe('ADD_ANOTHER_CONTACT');
+    expect(breadcrumbLinks[3].textContent.trim()).toBe('ADD_NEW_CONTACT');
 
     component.ContactAdd = true;
     fixture.detectChanges();
-    expect(breadcrumbLinks[3].textContent.trim()).toBe('ADD_ANOTHER_CONTACT');
+    expect(breadcrumbLinks[3].textContent.trim()).toBe('ADD_NEW_CONTACT');
   });
 
   it('should render the form correctly with the appropriate form controls and labels', () => {
@@ -164,27 +167,29 @@ describe('ManageOrganisationContactEditComponent', () => {
       '.govuk-button--secondary'
     );
     cancelButton.click();
-    expect(component.onCancelClick).toHaveBeenCalledWith('cancel');
+    expect(component.onCancelClick).toHaveBeenCalledWith('Cancel');
   });
 
   it('should call the onDeleteClick method when the delete link is clicked', () => {
-    spyOn(component, 'onDeleteClick');
+    spyOn(component, 'generateDeleteClickRoute');
     component.isEdit = true;
     component.isAssignedContact = false;
     fixture.detectChanges();
     const deleteLink = fixture.nativeElement.querySelector('.delete-link');
+    console.log(deleteLink);
     deleteLink.click();
-    expect(component.onDeleteClick).toHaveBeenCalled();
+    expect(component.generateDeleteClickRoute).toHaveBeenCalled();
   });
 
-  it('should call the onUnassignClick method when the unassign link is clicked', () => {
-    spyOn(component, 'onUnassignClick');
+  it('should call the onUnassignClick method when the unassign link is clicked', () => {    
+    spyOn(router, 'navigateByUrl');
     component.isEdit = true;
     component.isAssignedContact = true;
+    component.siteId = 0;
     fixture.detectChanges();
-    const unassignLink = fixture.nativeElement.querySelector('.delete-link');
-    unassignLink.click();
-    expect(component.onUnassignClick).toHaveBeenCalled();
+    const unassignLink = fixture.nativeElement.querySelector('.delete-link');   
+    unassignLink.click();    
+    expect(router.navigateByUrl).toHaveBeenCalled();        
   });
 
   it('should call the createOrgContact method correctly when creating a new organization contact', () => {

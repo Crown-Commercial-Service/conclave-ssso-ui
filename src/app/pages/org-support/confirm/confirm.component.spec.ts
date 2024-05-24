@@ -57,9 +57,9 @@ describe('OrgSupportConfirmComponent', () => {
 
   it('should navigate to details page on cancel click', () => {
     spyOn(component['router'], 'navigateByUrl');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(component['router'].navigateByUrl).toHaveBeenCalledWith(
-      `org-support/details?rpwd=true&rmfa=false&chrole=assign`
+      `org-support/details?rpwd=true&rmfa=false&chrole=assign&deuser=false&reuser=false`
     );
   });
 });

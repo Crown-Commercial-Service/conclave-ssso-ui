@@ -55,8 +55,8 @@ describe('WrapperOrganisationService', () => {
     const expectedUsers: UserListResponse = {
       organisationId: '123',
       userList: [
-        { name: 'Test User 1', userName: 'test username 1', isAdmin: false },
-        { name: 'Test User 2', userName: 'test username 2', isAdmin: false },
+        { name: 'Test User 1', userName: 'test username 1', isAdmin: false, isDormant: false },
+        { name: 'Test User 2', userName: 'test username 2', isAdmin: false, isDormant: false },
       ],
       currentPage,
       pageCount: 3,
