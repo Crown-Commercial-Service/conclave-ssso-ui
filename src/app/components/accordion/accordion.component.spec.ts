@@ -33,14 +33,23 @@ describe('AccordionComponent', () => {
 
   it('should toggle the display of the element with the given id when onBottomToggle is called', () => {
     const elementId = 'exampleElementId';
+    const groupdata = {
+      groupId: 'exampleGroupId',
+      groupName: 'exampleGroup'
+    }
     const element = document.createElement('div');
     element.id = elementId;
     document.body.appendChild(element);
+    const sampleEvent:Event = new Event('click');
 
-    component.onBottomToggle(elementId);
-    expect(element.style.display).toBe('block');
-    component.onBottomToggle(elementId);
-    expect(element.style.display).toBe('none');
+    const toggleElement = document.createElement('div');
+    toggleElement.id = groupdata.groupId;
+    element.append(toggleElement);    
+
+    component.onBottomToggle(sampleEvent, groupdata);
+    expect(toggleElement.style.display).toBe('block');
+    component.onBottomToggle(sampleEvent, groupdata);
+    expect(toggleElement.style.display).toBe('none');
 
     document.body.removeChild(element);
   });

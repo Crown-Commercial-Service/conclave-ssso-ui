@@ -35,6 +35,8 @@ describe('WrapperUserService', () => {
       lastName: 'user',
       mfaEnabled: true,
       isAdminUser: false,
+      mfaOpted: false,
+      isDormant: false
     };
 
     service.createUser(userRequest).subscribe((data) => {

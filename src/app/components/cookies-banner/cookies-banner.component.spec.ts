@@ -46,7 +46,7 @@ describe('CookiesBannerComponent', () => {
 
   it('should accept cookies on acceptCookies', () => {
     spyOn(cookiesService, 'setCookie');
-    component.acceptCookies();
+    component.acceptCookies('Accept additional cookies');
     expect(component.cookiesData.coockiebanner).toBeFalse();
     expect(component.cookiesData.acceptAnalyticsCookies).toBeTrue();
     expect(component.cookiesData.rejectAnalyticsCookies).toBeFalse();
@@ -65,7 +65,7 @@ describe('CookiesBannerComponent', () => {
   it('should reject cookies on rejectCookies', () => {
     spyOn(cookiesService, 'setCookie');
     spyOn(cookiesService, 'deleteAdditionalCookies');
-    component.rejectCookies();
+    component.rejectCookies('Reject additional cookies');
     expect(component.cookiesData.coockiebanner).toBeFalse();
     expect(component.cookiesData.acceptAnalyticsCookies).toBeFalse();
     expect(component.cookiesData.rejectAnalyticsCookies).toBeTrue();

@@ -46,7 +46,7 @@ describe('ManageOrgRegRightToBuyComponent', () => {
     spyOn(localStorage, 'setItem');
     spyOn(component.router, 'navigateByUrl');
 
-    component.onSubmit();
+    component.onSubmit('Continue');
 
     expect(localStorage.setItem).toHaveBeenCalledWith(
       'manage-org_reg_type',

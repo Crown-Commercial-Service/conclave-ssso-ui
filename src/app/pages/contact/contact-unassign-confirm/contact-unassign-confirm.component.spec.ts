@@ -62,7 +62,7 @@ describe('ContactUnassignConfirmComponent', () => {
     spyOn(router, 'navigateByUrl');
     component.contactId = 123;
     component.unassignSiteId = 456;
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(router.navigateByUrl).toHaveBeenCalledWith('manage-org/profile/contact-edit?data={"isEdit":true,"contactId":123,"siteId":456}');
   });
 });

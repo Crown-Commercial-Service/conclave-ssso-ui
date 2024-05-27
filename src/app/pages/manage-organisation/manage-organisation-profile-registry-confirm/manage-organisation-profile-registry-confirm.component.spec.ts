@@ -54,7 +54,7 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the component', () => {
+  it('should create the component', () => {    
     expect(component).toBeTruthy();
   });
 
@@ -68,7 +68,7 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
     spyOn(router, 'navigateByUrl');
 
     component.detailValidityOption = 'CorrectOrganisation';
-    component.onSubmit();
+    component.onSubmit('Continue');
 
     expect(component.ciiService.addRegistry).toHaveBeenCalledWith(
       'test-org-id',

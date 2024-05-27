@@ -69,7 +69,7 @@ describe('ContactAssignSelectionComponent', () => {
 
   it('Cancel Click', () => {
     spyOn(window.history, 'back');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(window.history.back).toHaveBeenCalled();
   });
 });

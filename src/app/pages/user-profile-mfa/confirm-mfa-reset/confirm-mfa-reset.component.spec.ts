@@ -48,7 +48,7 @@ describe('ConfirmMfaResetComponent', () => {
     component.decodedData = decodedData;
     mfaServiceSpy.sendResetMFANotification.and.returnValue(of(null));
 
-    component.navigateTosuccess();
+    component.navigateTosuccess('Save and continue');
 
     expect(mfaServiceSpy.sendResetMFANotification).toHaveBeenCalledWith(
       decodedData.data
@@ -61,7 +61,7 @@ describe('ConfirmMfaResetComponent', () => {
     const error = 'Error occurred';
     mfaServiceSpy.sendResetMFANotification.and.returnValue(throwError(error));
 
-    component.navigateTosuccess();
+    component.navigateTosuccess('Save and continue');
 
     expect(mfaServiceSpy.sendResetMFANotification).toHaveBeenCalledWith(
       decodedData.data
@@ -71,7 +71,7 @@ describe('ConfirmMfaResetComponent', () => {
   it('should navigate back on cancel', () => {
     spyOn(window.history, 'back');
 
-    component.OnCancel();
+    component.OnCancel('Cancel');
 
     expect(window.history.back).toHaveBeenCalled();
   });

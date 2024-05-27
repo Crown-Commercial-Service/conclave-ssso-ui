@@ -65,7 +65,7 @@ describe('ConfirmDeclineComponent', () => {
       organisationId: '123',
       organisationName: 'Test Org',
     };
-    component.confirmAndDecline();
+    component.confirmAndDecline('Decline');
 
     expect(mockWrapperService.manualValidation).toHaveBeenCalledWith('123', 1);
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('decline-success');
@@ -79,7 +79,7 @@ describe('ConfirmDeclineComponent', () => {
       organisationId: '123',
       organisationName: 'Test Org',
     };
-    component.confirmAndDecline();
+    component.confirmAndDecline('Decline');
 
     expect(mockWrapperService.manualValidation).toHaveBeenCalledWith('123', 1);
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(
@@ -90,7 +90,7 @@ describe('ConfirmDeclineComponent', () => {
   it('should navigate back on Back method call', () => {
     spyOn(window.history, 'back');
 
-    component.Back();
+    component.Back('Cancel');
 
     expect(window.history.back).toHaveBeenCalled();
   });

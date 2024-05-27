@@ -83,7 +83,7 @@ describe('ConfirmOrgTypeComponent', () => {
 
   it('should navigate to the previous page on back click', () => {
     component.org = { ciiOrganisationId: 1 };
-    component.onBackClick();
+    component.onBackClick('Back');
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(
       'update-org-type/confirm?data=eyJJZCI6MX0='
     );

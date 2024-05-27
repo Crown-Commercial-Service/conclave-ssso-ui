@@ -10,6 +10,8 @@ import { of } from 'rxjs';
 import { ManageOrganisationSiteEditComponent } from './manage-organisation-profile-site-edit.component';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 describe('ManageOrganisationSiteEditComponent', () => {
   let component: ManageOrganisationSiteEditComponent;
@@ -24,6 +26,8 @@ describe('ManageOrganisationSiteEditComponent', () => {
         FormsModule,
         RouterTestingModule,
         MatSelectModule,
+        MatInputModule,
+        MatFormFieldModule,
         BrowserAnimationsModule,
         HttpClientTestingModule,
         TranslateModule.forRoot(),
@@ -58,7 +62,7 @@ describe('ManageOrganisationSiteEditComponent', () => {
   it('should navigate to the correct URL when onCancelClick is called', () => {
     spyOn(router, 'navigateByUrl');
 
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
 
     expect(router.navigateByUrl).toHaveBeenCalledWith('manage-org/profile');
   });

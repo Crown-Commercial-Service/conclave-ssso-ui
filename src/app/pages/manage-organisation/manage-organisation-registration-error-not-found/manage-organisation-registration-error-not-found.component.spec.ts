@@ -36,16 +36,17 @@ describe('ManageOrgRegErrorNotFoundComponent', () => {
     const breadcrumbLinks = fixture.nativeElement.querySelectorAll(
       '.govuk-breadcrumbs__link'
     );
-    expect(breadcrumbLinks.length).toBe(8);
+    expect(breadcrumbLinks.length).toBe(9);
 
     expect(breadcrumbLinks[0].textContent).toContain('REGITERATION_HOME');
     expect(breadcrumbLinks[1].textContent).toContain('CREATE_ACC');
     expect(breadcrumbLinks[2].textContent).toContain('ENTER_DETAIL');
     expect(breadcrumbLinks[3].textContent).toContain('REG_ORG');
     expect(breadcrumbLinks[4].textContent).toContain('ORG_ADMIN');
-    expect(breadcrumbLinks[5].textContent).toContain('ORG_TYPE');
-    expect(breadcrumbLinks[6].textContent).toContain('ORG_DETAILS');
-    expect(breadcrumbLinks[7].textContent).toContain('NOT_FOUND');
+    expect(breadcrumbLinks[5].textContent).toContain('2FA_SETUP');
+    expect(breadcrumbLinks[6].textContent).toContain('ORG_TYPE');
+    expect(breadcrumbLinks[7].textContent).toContain('ORG_DETAILS');
+    expect(breadcrumbLinks[8].textContent).toContain('NOT_FOUND');
   });
 
   it('should display the correct error message', () => {

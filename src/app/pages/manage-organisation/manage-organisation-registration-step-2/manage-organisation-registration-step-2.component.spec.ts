@@ -76,7 +76,7 @@ describe('ManageOrgRegStep2Component', () => {
       component.scheme = 'GB-COH';
       component.txtValue = '12345';
       spyOn(router, 'navigateByUrl');
-      component.onSubmit();
+      component.onSubmit('Continue');
       expect(router.navigateByUrl).toHaveBeenCalledWith(
         `manage-org/register/search/GB-COH?id=${encodeURIComponent('12345')}`
       );
@@ -86,7 +86,7 @@ describe('ManageOrgRegStep2Component', () => {
       component.scheme = 'GB-COH';
       component.txtValue = '';
       spyOn(component.scrollHelper, 'scrollToFirst');
-      component.onSubmit();
+      component.onSubmit('Continue');
       expect(component.scrollHelper.scrollToFirst).toHaveBeenCalledWith(
         'error-summary'
       );

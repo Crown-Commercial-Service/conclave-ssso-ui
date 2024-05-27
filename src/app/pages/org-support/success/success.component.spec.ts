@@ -7,6 +7,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { OrgSupportSuccessComponent } from './success.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('OrgSupportSuccessComponent', () => {
   let component: OrgSupportSuccessComponent;
@@ -22,6 +23,7 @@ describe('OrgSupportSuccessComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [OrgSupportSuccessComponent],
       providers: [
         {
@@ -90,8 +92,8 @@ describe('OrgSupportSuccessComponent', () => {
   });
 
   it('should display the correct "Return to Organisation user support" link', () => {
-    const link = fixture.nativeElement.querySelector('.navigation-text');
-    expect(link.getAttribute('routerLink')).toBe('/org-support/search');
+    const link = fixture.nativeElement.querySelector('.navigation-text');    
+    expect(link.getAttribute('ng-reflect-router-link')).toBe('/org-support/search');
     expect(link.textContent).toBe('Return to Organisation user support');
   });
 

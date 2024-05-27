@@ -3,6 +3,7 @@ import { DataMigrationStatusComponent } from './data-migration-status.component'
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DataMigrationStatusComponent (Template)', () => {
   let component: DataMigrationStatusComponent;
@@ -10,7 +11,7 @@ describe('DataMigrationStatusComponent (Template)', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(),RouterTestingModule],
       declarations: [DataMigrationStatusComponent],
       providers: [
         {
@@ -47,16 +48,17 @@ describe('DataMigrationStatusComponent (Template)', () => {
   });
 
   it('should have a "Return to Data Migration" link', () => {
-    const link = fixture.nativeElement.querySelector(
-      '.navigation-text[routerLink="/data-migration/upload"]'
+    const link = fixture.nativeElement.querySelectorAll(
+      '.navigation-text'
     );
-    expect(link.textContent).toContain('Return to Data Migration');
+    
+    expect(link[0].textContent).toContain('Return to Data Migration');
   });
 
   it('should have a "Return to dashboard" link', () => {
-    const link = fixture.nativeElement.querySelector(
-      '.navigation-text[routerLink="/home"]'
+    const link = fixture.nativeElement.querySelectorAll(
+      '.navigation-text'
     );
-    expect(link.textContent).toContain('Return to dashboard');
+    expect(link[1].textContent).toContain('Return to dashboard');
   });
 });

@@ -51,7 +51,7 @@ describe('ContactAssignSiteSearchComponent', () => {
     spyOn(router, 'navigateByUrl');
     component.selectedSiteId = 1;
     component.organisationId = 'orgId';
-    component.onContinue();
+    component.onContinue('Continue');
     expect(router.navigateByUrl).toHaveBeenCalledWith(
       'contact-assign?data={"assigningOrgId":"orgId","contactSiteId":1}'
     );
@@ -69,7 +69,7 @@ describe('ContactAssignSiteSearchComponent', () => {
 
   it('should go back in history on onBack', () => {
     spyOn(window.history, 'back');
-    component.onBack();
+    component.onBack('Back');
     expect(window.history.back).toHaveBeenCalled();
   });
 });

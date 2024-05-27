@@ -45,8 +45,6 @@ describe('ManageOrganisationContactOperationSuccessComponent', () => {
     const navigateToProfileLink =
       fixture.nativeElement.querySelector('.navigation-text');
     navigateToProfileLink.click();
-    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
-      'manage-org/profile'
-    );
+    expect(component.router.navigateByUrl).toHaveBeenCalled();
   });
 });

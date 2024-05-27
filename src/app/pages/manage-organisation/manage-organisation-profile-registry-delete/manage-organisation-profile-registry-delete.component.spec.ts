@@ -91,7 +91,7 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
   it('should navigate to confirmation page on form submission', () => {
     ciiServiceMock.deleteRegistry.and.returnValue(of({}));
     const navigateSpy = spyOn(router, 'navigateByUrl');
-    component.onSubmit();
+    component.onSubmit('Confirm and delete');
     expect(ciiServiceMock.deleteRegistry).toHaveBeenCalledWith(
       tokenServiceMock.getCiiOrgId(),
       'XYZ',
@@ -106,7 +106,7 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
 
   it('should navigate back to manage-org/profile on cancel button click', () => {
     const navigateSpy = spyOn(router, 'navigateByUrl');
-    component.goBack();
+    component.goBack('Cancel');
     expect(navigateSpy).toHaveBeenCalledWith('manage-org/profile');
   });
 });

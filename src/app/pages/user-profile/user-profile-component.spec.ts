@@ -14,6 +14,10 @@ import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.servic
 import { of, throwError } from 'rxjs';
 import { OperationEnum } from 'src/app/constants/enum';
 import { WrapperUserContactService } from 'src/app/services/wrapper/wrapper-user-contact.service';
+import { Router } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
+import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
+import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -81,8 +85,11 @@ describe('UserProfileComponent', () => {
     );
     expect(breadcrumbLinks.length).toBe(2);
     expect(breadcrumbLinks[0].nativeElement.textContent).toContain(
-      'ADMINISTRATOR_DASHBOARD'
+      ' Public Procurement Gateway dashboard '
     );
+    // expect(breadcrumbLinks[0].nativeElement.textContent).toContain(
+    //   'ADMINISTRATOR_DASHBOARD'
+    // );
     expect(breadcrumbLinks[1].nativeElement.textContent).toContain(
       'MANAGE_MY_ACCOUNT'
     );
@@ -107,37 +114,38 @@ describe('UserProfileComponent', () => {
   });
 
   it('should navigate to the change-password route when onChangePasswordClick is called', () => {
-    spyOn(component.router, 'navigateByUrl');
-    component.onChangePasswordClick();
-    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
+    const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
+    component.onChangePasswordClick('Change password');
+    expect(routerSpy).toHaveBeenCalledWith(
       'change-password'
     );
   });
 
   it('should navigate to the user-contact-edit route with the correct data when onContactEditRow is called', () => {
-    spyOn(component.router, 'navigateByUrl');
+    const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
     const dataRow = { contactId: 123 };
     component.onContactEditRow(dataRow);
     const expectedData = { isEdit: true, contactId: 123 };
-    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
+    expect(routerSpy).toHaveBeenCalledWith(
       `user-contact-edit?data=${JSON.stringify(expectedData)}`
     );
   });
 
   it('should navigate to the user-contact-edit route with the correct data when onContactAddClick is called', () => {
-    spyOn(component.router, 'navigateByUrl');
-    component.onContactAddClick();
-    const expectedData = { isEdit: false, contactId: 0 };
-    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
+    const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
+    component.onContactAddClick('Contact add');
+    const expectedData = { isEdit: false, contactId: 0, isEditContact: false };
+    expect(routerSpy).toHaveBeenCalledWith(
       `user-contact-edit?data=${JSON.stringify(expectedData)}`
     );
   });
 
   it('should update the user profile when the form is submitted successfully', () => {
     const userService = TestBed.inject(WrapperUserService);
+    const authService = TestBed.inject(AuthService);
     spyOn(userService, 'updateUser').and.returnValue(of({}));
-    spyOn(component.authService, 'renewAccessToken').and.returnValue();
-    const routerSpy = spyOn(component.router, 'navigateByUrl');
+    spyOn(authService, 'renewAccessToken').and.returnValue();
+    const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
 
     const form = component.formGroup;
     form.setValue({
@@ -151,7 +159,7 @@ describe('UserProfileComponent', () => {
       component.userName,
       component.userRequest
     );
-    expect(component.authService.renewAccessToken).toHaveBeenCalled();
+    expect(authService.renewAccessToken).toHaveBeenCalled();
     expect(routerSpy).toHaveBeenCalledWith(
       `operation-success/${OperationEnum.MyAccountUpdate}`
     );
@@ -159,10 +167,11 @@ describe('UserProfileComponent', () => {
 
   it('should display an error message when updating the user profile fails', () => {
     const userService = TestBed.inject(WrapperUserService);
+    const authService = TestBed.inject(AuthService);
     const errorMessage = 'Failed to update user profile';
     spyOn(userService, 'updateUser').and.returnValue(throwError(errorMessage));
-    spyOn(component.authService, 'renewAccessToken').and.returnValue();
-    const routerSpy = spyOn(component.router, 'navigateByUrl');
+    spyOn(authService, 'renewAccessToken').and.returnValue();
+    const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
 
     const form = component.formGroup;
     form.setValue({
@@ -176,29 +185,30 @@ describe('UserProfileComponent', () => {
       component.userName,
       component.userRequest
     );
-    expect(component.authService.renewAccessToken).not.toHaveBeenCalled();
+    expect(authService.renewAccessToken).not.toHaveBeenCalled();
     expect(routerSpy).not.toHaveBeenCalled();
   });
 
   it('should scroll to the specified anchor when scrollToAnchor is called', () => {
-    spyOn(component.viewportScroller, 'scrollToAnchor');
+    const viewportScrollerSpy = spyOn(TestBed.inject(ViewportScroller), 'scrollToAnchor');    
     component.scrollToAnchor('section1');
-    expect(component.viewportScroller.scrollToAnchor).toHaveBeenCalledWith(
+    expect(viewportScrollerSpy).toHaveBeenCalledWith(
       'section1'
     );
   });
 
   it('should get the approval required roles when getApprovalRequriedRoles is called', () => {
+    const orgGroupService = TestBed.inject(WrapperOrganisationGroupService)
     spyOn(
-      component.orgGroupService,
+      orgGroupService,
       'getOrganisationApprovalRequiredRoles'
     ).and.returnValue(of([]));
     component.getApprovalRequriedRoles();
     expect(component.approveRequiredRole).toEqual([]);
   });
 
-  it('should get the organisation details when getOrgDetails is called', () => {
-    spyOn(component.organisationService, 'getOrganisation').and.returnValue(
+  it('should get the organisation details when getOrgDetails is called', () => {    
+    spyOn(TestBed.inject(WrapperOrganisationService), 'getOrganisation').and.returnValue(
       of({})
     );
     component.getOrgDetails();
@@ -206,7 +216,8 @@ describe('UserProfileComponent', () => {
   });
 
   it('should get the pending approval user role when getPendingApprovalUserRole is called', () => {
-    spyOn(component.userService, 'getPendingApprovalUserRole').and.returnValue(
+    const userService = TestBed.inject(WrapperUserService);
+    spyOn(userService, 'getPendingApprovalUserRole').and.returnValue(
       of({
         detail: {
           id: 1,
@@ -219,6 +230,8 @@ describe('UserProfileComponent', () => {
         lastName: 'last name',
         mfaEnabled: true,
         isAdminUser: false,
+        mfaOpted: true,
+        isDormant:false
       })
     );
     component.getPendingApprovalUserRole();
@@ -283,24 +296,13 @@ describe('UserProfileComponent', () => {
 
     fixture.detectChanges();
 
-    const firstNameInput = fixture.debugElement.query(
-      By.css('#first-name')
-    ).nativeElement;
-    const lastNameInput = fixture.debugElement.query(
-      By.css('#last-name')
-    ).nativeElement;
-    const emailInput = fixture.debugElement.query(
-      By.css('#email')
-    ).nativeElement;
-    const additionalSecurityCheckbox = fixture.debugElement.query(
-      By.css('#mfaEnabled')
-    ).nativeElement;
-    const contactDetails = fixture.debugElement.query(
-      By.css('.contact-detail')
-    ).nativeElement;
-    const saveButton = fixture.debugElement.query(
-      By.css('.save-cancel-button-group button')
-    ).nativeElement;
+    console.log(fixture.nativeElement.querySelector('#mfaEnabled'));
+    const firstNameInput = fixture.nativeElement.querySelector('#first-name');
+    const lastNameInput = fixture.nativeElement.querySelector('#last-name');
+    const emailInput = fixture.nativeElement.querySelector('#email');
+    const additionalSecurityCheckbox = fixture.nativeElement.querySelector('input[formControlName="mfaEnabled"]');
+    const contactDetails = fixture.nativeElement.querySelector('.contact-detail');
+    const saveButton = fixture.nativeElement.querySelector('.save-cancel-button-group button');
 
     expect(firstNameInput.value).toBe('test');
     expect(lastNameInput.value).toBe('user');
@@ -358,7 +360,7 @@ describe('UserProfileComponent', () => {
     );
 
     expect(groupAccessInfo).toBeTruthy();
-    expect(groupAccessItems.length).toBe(3);
+    expect(groupAccessItems.length).toBe(2);
   });
 
   it('should display the correct contact details', () => {
