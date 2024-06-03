@@ -81,7 +81,7 @@ describe('ManageOrganisationRemoveIdpConfirmComponent', () => {
     ).and.returnValue(of({}));
     spyOn(component.router, 'navigateByUrl');
 
-    component.onRemoveIdpConfirmClick();
+    component.onRemoveIdpConfirmClick('Yes');
 
     expect(
       component.organisationGroupService.enableIdentityProvider
@@ -94,7 +94,7 @@ describe('ManageOrganisationRemoveIdpConfirmComponent', () => {
   it('should navigate to manage-org/profile on onCancelClick', () => {
     spyOn(component.router, 'navigateByUrl');
 
-    component.onCancelClick();
+    component.onCancelClick('No');
 
     expect(component.router.navigateByUrl).toHaveBeenCalledWith(
       '/manage-org/profile'

@@ -35,7 +35,7 @@ describe('TermsConditionsComponent', () => {
   });
 
   it('should initialize component properties', () => {
-    expect(component.userName).toEqual('test name');
+    expect(component.userName).toEqual('qbpq kxjb');
     expect(component.isOrgAdmin).toBeTrue();
   });
 });

@@ -66,7 +66,7 @@ describe('ChangePasswordComponent', () => {
 
   it('should navigate to previous location on cancel button click', () => {
     const locationSpy = spyOn(location, 'back');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(locationSpy).toHaveBeenCalled();
   });
 });

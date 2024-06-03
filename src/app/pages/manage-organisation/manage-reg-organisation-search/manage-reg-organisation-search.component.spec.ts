@@ -70,7 +70,7 @@ describe('ManageOrgRegSearchComponent', () => {
     component.showMoreOptionsVisible = false;
     spyOn(component.autocomplete, 'openPanel');
 
-    component.showMoreClicked();
+    component.showMoreClicked('Show more');
 
     expect(component.showMoreOptionsVisible).toBe(true);
   });

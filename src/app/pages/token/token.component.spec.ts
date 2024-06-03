@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { TokenComponent } from './token.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('TokenComponent', () => {
   let component: TokenComponent;
@@ -16,7 +17,7 @@ describe('TokenComponent', () => {
     storeMock.select.and.returnValue(of(false));
 
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, BrowserAnimationsModule],
+      imports: [HttpClientTestingModule, BrowserAnimationsModule, RouterTestingModule],
       declarations: [TokenComponent],
       providers: [{ provide: Store, useValue: storeMock }],
     }).compileComponents();

@@ -9,6 +9,10 @@ import { Store, StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { ViewportScroller } from '@angular/common';
+import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 
 describe('ContactAssignComponent', () => {
   let component: ContactAssignComponent;
@@ -19,6 +23,10 @@ describe('ContactAssignComponent', () => {
   let router: jasmine.SpyObj<Router>;
   let contactHelper: jasmine.SpyObj<ContactHelper>;
   let store: jasmine.SpyObj<Store>;
+  let dataLayerService: jasmine.SpyObj<DataLayerService>;
+  let sessionService: jasmine.SpyObj<SessionService>;
+  let viewportScroller: jasmine.SpyObj<ViewportScroller>;
+  let scrollHelper: jasmine.SpyObj<ScrollHelper>;  
 
   beforeEach(() => {
     userContactService = jasmine.createSpyObj('WrapperUserContactService', [
@@ -32,28 +40,36 @@ describe('ContactAssignComponent', () => {
     });
     router = jasmine.createSpyObj('Router', ['navigateByUrl']);
     contactHelper = jasmine.createSpyObj('ContactHelper', [
+      'parseRouteData',
       'getContactGridInfoList',
     ]);
     store = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+    dataLayerService = jasmine.createSpyObj('DataLayerService', ['pushPageViewEvent', 'pushClickEvent']);
+    sessionService = jasmine.createSpyObj('SessionService', ['get']);   
+
     TestBed.configureTestingModule({
       declarations: [ContactAssignComponent],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
+      imports: [       
         TranslateModule.forRoot(),
       ],
       providers: [
-        WrapperUserContactService,
-        WrapperSiteContactService,
+        { provide: WrapperUserContactService, useValue: userContactService },
+        { provide: WrapperSiteContactService, useValue: siteContactService },
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: Router, useValue: router },
         { provide: ContactHelper, useValue: contactHelper },
         { provide: Store, useValue: store },
+        { provide: DataLayerService, useValue: dataLayerService },
+        { provide: SessionService, useValue: sessionService },        
+        ViewportScroller, ScrollHelper
       ],
     });
 
     fixture = TestBed.createComponent(ContactAssignComponent);
     component = fixture.componentInstance;
+
+    // Set initial values for component properties
+    component.selectedContacts = [];
   });
 
   it('should create the component', () => {
@@ -78,7 +94,7 @@ describe('ContactAssignComponent', () => {
     const data = { assigningSiteId: 0, assigningOrgId: '', contactSiteId: 0 }; 
     spyOn(sessionStorage, 'setItem');
     component.selectedContacts = [{ contactId: 1, isChecked: true }];
-    component.onContinueClick();
+    component.onContinueClick('Continue');
     expect(sessionStorage.setItem).toHaveBeenCalledWith(
       'assigning-contact-list',
       JSON.stringify(component.selectedContacts)

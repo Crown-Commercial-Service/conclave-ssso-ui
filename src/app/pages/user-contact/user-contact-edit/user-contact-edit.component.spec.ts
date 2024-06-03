@@ -67,7 +67,7 @@ describe('UserContactEditComponent', () => {
     it('should navigate to the profile page', () => {
       spyOn(component.router, 'navigateByUrl');
 
-      component.onCancelClick();
+      component.onCancelClick('Cancel');
 
       expect(component.router.navigateByUrl).toHaveBeenCalledWith('profile');
     });

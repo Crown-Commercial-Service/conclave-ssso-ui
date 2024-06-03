@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ForgotPasswordErrorComponent } from './forgot-password-error.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ForgotPasswordErrorComponent', () => {
   let component: ForgotPasswordErrorComponent;
@@ -8,7 +9,7 @@ describe('ForgotPasswordErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(),RouterTestingModule],
       declarations: [ForgotPasswordErrorComponent],
     }).compileComponents();
   });

@@ -61,7 +61,7 @@ describe('ManageOrgRegAdditionalIdentifiersComponent', () => {
   it('should navigate back when goBack method is called', () => {
     const navigateSpy = spyOn(component.router, 'navigateByUrl');
     component.routeParams = { scheme: 'example', id: '123' };
-    component.goBack();
+    component.goBack('Confirm organisation details');
     expect(navigateSpy).toHaveBeenCalledWith(
       `manage-org/register/search/${
         component.routeParams.scheme

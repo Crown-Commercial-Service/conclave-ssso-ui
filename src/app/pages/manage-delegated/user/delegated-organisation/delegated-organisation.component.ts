@@ -17,8 +17,8 @@ export class DelegatedOrganisationComponent implements OnInit {
   public userDetails: any = {};
   public primaryRoleSelected: any;
   public secondaryRoleSelected: any;
-  private roleData:any;
-  private roleInfo: any;
+  public roleData:any;
+  public roleInfo: any;
   private isDeleagation:boolean=environment.appSetting.hideDelegation
   public isOrgAdmin: boolean = false; 
 
@@ -71,7 +71,7 @@ export class DelegatedOrganisationComponent implements OnInit {
       }
     }
 
-  private getDelegatedOrganisation(): void {
+  public getDelegatedOrganisation(): void {
     this.delegatedService.getDeligatedOrg().subscribe({
       next: (data: any) => {
         let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; })=> element.delegatedOrgId == localStorage.getItem('permission_organisation_id') || "" )

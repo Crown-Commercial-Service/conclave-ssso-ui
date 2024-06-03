@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { DataMigrationErrorComponent } from './data-migration-error.component';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DataMigrationErrorComponent', () => {
   let component: DataMigrationErrorComponent;
@@ -17,7 +18,9 @@ describe('DataMigrationErrorComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(),
+        RouterTestingModule
+      ],
       declarations: [DataMigrationErrorComponent],
       providers: [
         { provide: DataMigrationService, useValue: mockDataMigrationService },

@@ -152,6 +152,11 @@ describe('ManageOrganisationProfileComponent', () => {
         streetAddress: 'Test Street1',
         postalCode: '12345',
         countryCode: 'UK',
+        routeLink: '/manage-org/profile/site/edit',
+        routeData: {data: JSON.stringify({
+          'isEdit': true,
+          'siteId': 1
+      })}
       },
       {
         siteId: 2,
@@ -159,6 +164,11 @@ describe('ManageOrganisationProfileComponent', () => {
         streetAddress: 'Test Street2',
         postalCode: '67890',
         countryCode: 'IN',
+        routeLink: '/manage-org/profile/site/edit',
+        routeData: {data: JSON.stringify({
+          'isEdit': true,
+          'siteId': 1
+      })}
       },
     ];
     fixture.detectChanges();

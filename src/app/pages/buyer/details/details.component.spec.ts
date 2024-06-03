@@ -117,6 +117,6 @@ describe('BuyerDetailsComponent', () => {
   it('should navigate to the search page on cancel button click', () => {
     const cancelButton = fixture.debugElement.query(By.css('.govuk-button--secondary')).nativeElement;
     cancelButton.click();
-    expect(routerStub.navigateByUrl).toHaveBeenCalledWith('buyer/search');
+    expect(routerStub.navigateByUrl).toHaveBeenCalledWith('buyer-supplier/search');
   });
 });

@@ -82,7 +82,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public selectedApproveRequiredRole: any = []
   public pendingRoledeleteDetails: any = []
   public organisationDetails: any = {}
-  private userRequest: any = {}
+  userRequest: any = {}
   isInvalidDomain: boolean = false
   userContacts: ContactGridInfo[] = [];
   userName: string;

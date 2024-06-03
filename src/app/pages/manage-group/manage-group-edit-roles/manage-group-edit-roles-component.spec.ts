@@ -155,7 +155,7 @@ describe('ManageGroupEditRolesComponent', () => {
   });
 
   it('should handle continue click properly', () => {
-    component.onContinueClick();
+    component.onContinueClick('Continue');
 
     expect(component.sharedDataService.storeRoleForGroup).toHaveBeenCalledWith(
       JSON.stringify({
@@ -176,7 +176,7 @@ describe('ManageGroupEditRolesComponent', () => {
   });
 
   it('should handle cancel click properly', () => {
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
 
     expect(routerStub.navigateByUrl).toHaveBeenCalledWith(
       'manage-groups/view?data=' +

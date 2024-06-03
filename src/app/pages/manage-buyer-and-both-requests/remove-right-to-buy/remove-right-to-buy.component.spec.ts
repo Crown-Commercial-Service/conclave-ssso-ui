@@ -65,7 +65,7 @@ describe('RemoveRightToBuyComponent', () => {
   describe('Back', () => {
     it('should go back in history', () => {
       spyOn(window.history, 'back');
-      component.Back();
+      component.Back('Cancel');
       expect(window.history.back).toHaveBeenCalled();
     });
   });

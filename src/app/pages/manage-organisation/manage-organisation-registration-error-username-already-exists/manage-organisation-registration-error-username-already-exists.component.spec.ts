@@ -4,6 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { ManageOrgRegErrorUsernameExistsComponent } from './manage-organisation-registration-error-username-already-exists.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 describe('ManageOrgRegErrorUsernameExistsComponent', () => {
   let component: ManageOrgRegErrorUsernameExistsComponent;
@@ -44,9 +45,10 @@ describe('ManageOrgRegErrorUsernameExistsComponent', () => {
     };
 
     localStorage.setItem('schemeDetails', JSON.stringify(schemeDetails));
-    spyOn(component.router, 'navigateByUrl');
+    // spyOn(component.router, 'navigateByUrl');
+    const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
     component.goConfirmOrgPage();
-    expect(component.router.navigateByUrl).toHaveBeenCalledWith(
+    expect(routerSpy).toHaveBeenCalledWith(
       `manage-org/register/search/${
         schemeDetails.scheme
       }?id=${encodeURIComponent(schemeDetails.schemeID)}`

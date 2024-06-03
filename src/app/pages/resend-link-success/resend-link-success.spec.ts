@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ResendLinkSuccessComponent } from './resend-link-success';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ResendLinkSuccessComponent', () => {
   let component: ResendLinkSuccessComponent;
@@ -10,7 +11,7 @@ describe('ResendLinkSuccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
       declarations: [ResendLinkSuccessComponent],
       providers: [
         {

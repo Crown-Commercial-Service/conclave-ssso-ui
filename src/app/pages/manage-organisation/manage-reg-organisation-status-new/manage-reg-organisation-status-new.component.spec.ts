@@ -29,7 +29,7 @@ describe('ManageOrgRegSearchStatusNewComponent', () => {
 
   it("should navigate to 'manage-org/register/newreg' when onContinueNotRegistered() is called", () => {
     const navigateSpy = spyOn(router, 'navigateByUrl');
-    component.onContinueNotRegistered();
+    component.onContinueNotRegistered('Continue');
     expect(navigateSpy).toHaveBeenCalledWith('manage-org/register/newreg');
   });
 

@@ -54,14 +54,14 @@ describe('ViewVerifiedOrgComponent', () => {
 
   it('should navigate to manage-buyer-both when goBack is called from pending-verification route', () => {
     component.routeDetails = { lastRoute: 'pending-verification' };
-    component.goBack();
+    component.goBack('Cancel');
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('manage-buyer-both');
   });
 
   it('should navigate back in history when goBack is called from a different route', () => {
     spyOn(window.history, 'back');
     component.routeDetails = { lastRoute: 'some-other-route' };
-    component.goBack();
+    component.goBack('Cancel');
     expect(window.history.back).toHaveBeenCalled();
   });
 
