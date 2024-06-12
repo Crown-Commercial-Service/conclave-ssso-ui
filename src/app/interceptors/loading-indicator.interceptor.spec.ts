@@ -34,7 +34,7 @@ describe('LoadingIndicatorInterceptor', () => {
   });
 
   it('create an instance', () => {
-    const loadingIndicatorServiceMock = new LoadingIndicatorServiceMock();
+    const loadingIndicatorServiceMock = new LoadingIndicatorService();
 
     const interceptor = new LoadingIndicatorInterceptor(
       loadingIndicatorServiceMock

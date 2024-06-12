@@ -96,15 +96,15 @@ describe('OrgSupportDetailsComponent', () => {
 
   it('should navigate to the confirm page on continue click', () => {
     const routerSpy = spyOn(component.router, 'navigateByUrl');
-    component.onContinueClick();
+    component.onContinueClick('Continue');
     expect(routerSpy).toHaveBeenCalledWith(
-      'org-support/confirm?rpwd=true&rmfa=false&chrole=assign'
+      'org-support/confirm?rpwd=true&rmfa=false&chrole=assign&deuser=false&reuser=false'
     );
   });
 
   it('should navigate to the search page on cancel click', () => {
     const routerSpy = spyOn(component.router, 'navigateByUrl');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(routerSpy).toHaveBeenCalledWith('org-support/search');
   });
 });

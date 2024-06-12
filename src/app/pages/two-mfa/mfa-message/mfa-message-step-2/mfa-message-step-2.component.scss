@@ -62,3 +62,16 @@ a{
   {
     margin-bottom: 5px;
   }
+  @media (max-width: 767px) {
+    .content-left, .content-right {
+        width: 100%;
+        padding-left: 0;
+    }  
+    .govuk-custom-grid {
+        width: 100%;
+        height: auto;
+    }  
+    .card.card-help {
+        margin: 10px 0;
+    }
+  }

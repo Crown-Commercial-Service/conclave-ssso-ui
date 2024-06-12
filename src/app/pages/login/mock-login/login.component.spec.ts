@@ -69,7 +69,7 @@ describe('LoginComponent', () => {
 
   it('should navigate back on cancel button click', () => {
     spyOn(location, 'back');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(location.back).toHaveBeenCalled();
   });
 });

@@ -91,19 +91,20 @@ describe('NominateSuccessComponent', () => {
     const breadcrumbItems = fixture.nativeElement.querySelectorAll(
       '.govuk-breadcrumbs__list-item'
     );
-    expect(breadcrumbItems.length).toEqual(11);
+    expect(breadcrumbItems.length).toEqual(12);
     expect(breadcrumbItems[0].textContent.trim()).toEqual('REGITERATION_HOME');
     expect(breadcrumbItems[1].textContent.trim()).toEqual('CREATE_ACC');
     expect(breadcrumbItems[2].textContent.trim()).toEqual('ENTER_DETAIL');
     expect(breadcrumbItems[3].textContent.trim()).toEqual('REG_ORG');
     expect(breadcrumbItems[4].textContent.trim()).toEqual('ORG_ADMIN');
-    expect(breadcrumbItems[5].textContent.trim()).toEqual('ORG_TYPE');
-    expect(breadcrumbItems[6].textContent.trim()).toEqual('ORG_DETAILS');
+    expect(breadcrumbItems[5].textContent.trim()).toEqual('2FA_SETUP');
+    expect(breadcrumbItems[6].textContent.trim()).toEqual('ORG_TYPE');
     expect(breadcrumbItems[7].textContent.trim()).toEqual(
-      'CONFIRM_ORG_DETAILS'
+      'ORG_DETAILS'
     );
-    expect(breadcrumbItems[8].textContent.trim()).toEqual('CREATE_ADMIN_ACC');
-    expect(breadcrumbItems[9].textContent.trim()).toEqual('NOMINATE');
+    expect(breadcrumbItems[8].textContent.trim()).toEqual('CONFIRM_ORG_DETAILS');
+    expect(breadcrumbItems[9].textContent.trim()).toEqual('CREATE_ADMIN_ACC');
+    expect(breadcrumbItems[10].textContent.trim()).toEqual('NOMINATE');
   });
 
   it('should render the correct email address in the template', () => {

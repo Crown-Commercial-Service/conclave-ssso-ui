@@ -9,6 +9,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WorkerService } from 'src/app/services/worker.service';
 import { AuthSuccessComponent } from './auth-success.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AuthSuccessComponent', () => {
   let component: AuthSuccessComponent;
@@ -49,6 +50,7 @@ describe('AuthSuccessComponent', () => {
 
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
+      imports: [HttpClientTestingModule],
       declarations: [AuthSuccessComponent],
       providers: [
         { provide: ActivatedRoute, useFactory: activatedRouteStub },

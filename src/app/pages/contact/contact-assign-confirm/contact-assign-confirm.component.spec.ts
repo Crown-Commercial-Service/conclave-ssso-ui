@@ -72,14 +72,14 @@ describe('ContactAssignConfirmComponent', () => {
   it('site on confirm click', () => {
     spyOn(siteContactService, 'assignSiteContact').and.returnValue(of());
     component.assigningSiteId = 1;
-    component.onConfirmClick();
+    component.onConfirmClick('Confirm');
     expect(siteContactService.assignSiteContact).toHaveBeenCalled();
   });
 
   it('organization on confirm click', () => {
     spyOn(orgContactService, 'assignOrgContact').and.returnValue(of());
     component.assigningSiteId = 0;
-    component.onConfirmClick();
+    component.onConfirmClick('Confirm');
     expect(orgContactService.assignOrgContact).toHaveBeenCalled();
   });
 
@@ -106,7 +106,7 @@ describe('ContactAssignConfirmComponent', () => {
 
   it('cancel click', () => {
     spyOn(window.history, 'back');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(window.history.back).toHaveBeenCalled();
   });
 });

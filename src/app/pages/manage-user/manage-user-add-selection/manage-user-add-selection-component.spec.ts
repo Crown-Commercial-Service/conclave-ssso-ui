@@ -99,7 +99,7 @@ describe('ManageUserAddSelectionComponent', () => {
 
   it('should navigate to manage-users when cancel button is clicked', () => {
     spyOn(component.router, 'navigateByUrl');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(component.router.navigateByUrl).toHaveBeenCalledWith('manage-users');
   });
 });

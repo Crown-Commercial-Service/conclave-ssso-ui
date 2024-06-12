@@ -47,14 +47,14 @@ describe('ManageOrgRegNotRegisteredComponent', () => {
   it('should navigate to manage-org/register/type when onContinueClick is called with adminSelectionMode=useradmin', () => {
     const routerSpy = spyOn(component.router, 'navigateByUrl');
     component.adminSelectionMode = 'useradmin';
-    component.onContinueClick();
-    expect(routerSpy).toHaveBeenCalledWith('manage-org/register/type');
+    component.onContinueClick('Continue');
+    expect(routerSpy).toHaveBeenCalledWith('manage-reg-organisation-mfa');
   });
 
   it('should navigate to /nominate?data=xxxx when onContinueClick is called with adminSelectionMode=nominateadmin', () => {
     const routerSpy = spyOn(component.router, 'navigateByUrl');
     component.adminSelectionMode = 'nominateadmin';
-    component.onContinueClick();
+    component.onContinueClick('Continue');
     expect(routerSpy).toHaveBeenCalledWith(
       '/nominate?data=' + btoa(JSON.stringify(1))
     );
@@ -63,7 +63,7 @@ describe('ManageOrgRegNotRegisteredComponent', () => {
   it('should navigate to manage-org/register/find-your-administrator when onContinueClick is called with adminSelectionMode=unkownadmin', () => {
     const routerSpy = spyOn(component.router, 'navigateByUrl');
     component.adminSelectionMode = 'unkownadmin';
-    component.onContinueClick();
+    component.onContinueClick('Continue');
     expect(routerSpy).toHaveBeenCalledWith(
       'manage-org/register/find-your-administrator'
     );

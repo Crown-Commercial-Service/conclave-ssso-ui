@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { SuccessUserMfaComponent } from './success-user-mfa.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SuccessUserMfaComponent', () => {
   let component: SuccessUserMfaComponent;
@@ -29,7 +30,7 @@ describe('SuccessUserMfaComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
       declarations: [SuccessUserMfaComponent],
       providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute }],
     }).compileComponents();

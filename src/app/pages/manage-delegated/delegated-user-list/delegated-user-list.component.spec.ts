@@ -5,6 +5,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 describe('DelegatedUserListComponent', () => {
   let component: DelegatedUserListComponent;
@@ -14,6 +15,7 @@ describe('DelegatedUserListComponent', () => {
     cii_organisation_id: 'test-org-id',
     activetab: 'test-active-tab',
   };
+  let authService: AuthService;
 
   beforeEach(async () => {
     spyOn(localStorage, 'getItem').and.callFake((key) =>
@@ -27,7 +29,7 @@ describe('DelegatedUserListComponent', () => {
         TranslateModule.forRoot(),
       ],
       declarations: [DelegatedUserListComponent],
-      providers: [WrapperUserDelegatedService],
+      providers: [WrapperUserDelegatedService, AuthService],
     }).compileComponents();
   });
 
@@ -35,6 +37,7 @@ describe('DelegatedUserListComponent', () => {
     fixture = TestBed.createComponent(DelegatedUserListComponent);
     component = fixture.componentInstance;
     wrapperUserDelegatedService = TestBed.inject(WrapperUserDelegatedService);
+    authService = TestBed.inject(AuthService);
     fixture.detectChanges();
   });
 

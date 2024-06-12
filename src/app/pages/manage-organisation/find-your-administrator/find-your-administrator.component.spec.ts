@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FindyouradministratorComponent } from './find-your-administrator.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('FindyouradministratorComponent', () => {
   let component: FindyouradministratorComponent;
@@ -8,7 +9,7 @@ describe('FindyouradministratorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
       declarations: [FindyouradministratorComponent],
     }).compileComponents();
   });

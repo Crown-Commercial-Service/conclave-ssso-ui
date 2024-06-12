@@ -49,14 +49,14 @@ describe('DelegatedUserConfirmComponent', () => {
   it('should call the createDelegateUser method when pageAccessMode is "add" and onSubmit is called', () => {
     spyOn(component, 'createDelegateUser');
     component.pageAccessMode = 'add';
-    component.onSubmit();
+    component.onSubmit('Continue');
     expect(component.createDelegateUser).toHaveBeenCalled();
   });
 
   it('should call the updateDelegatedUser method when pageAccessMode is "edit" and onSubmit is called', () => {
     spyOn(component, 'updateDelegatedUser');
     component.pageAccessMode = 'edit';
-    component.onSubmit();
+    component.onSubmit('Continue');
     expect(component.updateDelegatedUser).toHaveBeenCalled();
   });
 
@@ -76,7 +76,7 @@ describe('DelegatedUserConfirmComponent', () => {
 
   it('should navigate back in history when Cancel is called', () => {
     spyOn(window.history, 'back');
-    component.Cancel();
+    component.Cancel('Cancel');
     expect(window.history.back).toHaveBeenCalled();
   });
 

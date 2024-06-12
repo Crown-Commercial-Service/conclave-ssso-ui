@@ -76,7 +76,7 @@ describe('ContactAssignUserSearchComponent', () => {
   it('should navigate to contact-assign on onContinue', () => {
     spyOn(router, 'navigateByUrl');
     component.selectedUserName = 'testUser';
-    component.onContinue();
+    component.onContinue('Continue');
     const expectedData = {
       assigningSiteId: component.assigningSiteId,
       assigningOrgId: component.assigningOrgId,
@@ -102,7 +102,7 @@ describe('ContactAssignUserSearchComponent', () => {
 
   it('should go back in history on onCancelClick', () => {
     spyOn(window.history, 'back');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(window.history.back).toHaveBeenCalledOnceWith();
   });
 });

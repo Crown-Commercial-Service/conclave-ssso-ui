@@ -23,6 +23,7 @@ describe('ManageOrganisationRegistryDeleteConfirmationComponent', () => {
     mockRouter = jasmine.createSpyObj('Router', ['navigate']);
     mockActivatedRoute = jasmine.createSpyObj('ActivatedRoute', [], {
       snapshot: { paramMap: { get: () => '1' } },
+      params: of({ scheme: 'test' }),
     });
     mockStore = jasmine.createSpyObj('Store', ['dispatch']);
     const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
@@ -31,7 +32,7 @@ describe('ManageOrganisationRegistryDeleteConfirmationComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ManageOrganisationRegistryDeleteConfirmationComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
       providers: [
         { provide: dataService, useValue: mockDataService },
         { provide: Router, useValue: mockRouter },

@@ -67,7 +67,7 @@ describe('ManageGroupEditNameComponent', () => {
   it('should navigate to the correct route on cancel and go to group click', () => {
     component.isEdit = true;
     spyOn(router, 'navigateByUrl');
-    component.onCancelAndGoToGroupClick();
+    component.onCancelAndGoToGroupClick('Edit Group');
     const expectedRoute =
       'manage-groups/view?data=' + JSON.stringify(component.routeData);
     expect(router.navigateByUrl).toHaveBeenCalledWith(expectedRoute);
@@ -75,7 +75,7 @@ describe('ManageGroupEditNameComponent', () => {
 
   it('should navigate to the correct route on cancel click', () => {
     spyOn(router, 'navigateByUrl');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(router.navigateByUrl).toHaveBeenCalledWith('manage-groups');
   });
 });

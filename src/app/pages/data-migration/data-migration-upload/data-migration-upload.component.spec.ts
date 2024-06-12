@@ -47,7 +47,7 @@ describe('DataMigrationUploadComponent', () => {
 
   it('should navigate to home page on cancel click', () => {
     spyOn(router, 'navigateByUrl');
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(router.navigateByUrl).toHaveBeenCalledWith('home');
   });
 

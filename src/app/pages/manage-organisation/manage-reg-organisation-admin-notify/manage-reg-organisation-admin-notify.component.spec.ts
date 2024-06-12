@@ -8,6 +8,7 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { ManageOrgRegNotifyAdminComponent } from './manage-reg-organisation-admin-notify.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ManageOrgRegNotifyAdminComponent', () => {
   let component: ManageOrgRegNotifyAdminComponent;
@@ -28,7 +29,7 @@ describe('ManageOrgRegNotifyAdminComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegNotifyAdminComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
       providers: [
         { provide: Store, useValue: uiStoreSpy },
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
@@ -66,7 +67,7 @@ describe('ManageOrgRegNotifyAdminComponent', () => {
     const breadcrumbs = fixture.nativeElement.querySelectorAll(
       '.govuk-breadcrumbs__list-item'
     );
-    expect(breadcrumbs.length).toBe(9);
+    expect(breadcrumbs.length).toBe(10);
     expect(breadcrumbs[0].textContent.trim()).toBe('REGITERATION_HOME');
     expect(breadcrumbs[1].textContent.trim()).toBe('CREATE_ACC');
     expect(breadcrumbs[2].textContent.trim()).toBe(
@@ -76,8 +77,9 @@ describe('ManageOrgRegNotifyAdminComponent', () => {
     expect(breadcrumbs[4].textContent.trim()).toBe(
       'ORG_ADMIN'
     );
-    expect(breadcrumbs[5].textContent.trim()).toBe('ORG_TYPE');
-    expect(breadcrumbs[6].textContent.trim()).toBe('ORG_DETAILS');
+    expect(breadcrumbs[5].textContent.trim()).toBe('2FA_SETUP');
+    expect(breadcrumbs[6].textContent.trim()).toBe('ORG_TYPE');
+    expect(breadcrumbs[7].textContent.trim()).toBe('ORG_DETAILS');
   });
 
   it('should display the correct breadcrumbs when pageAccessMode is 0', () => {

@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { ManageOrgRegDetailsWrongComponent } from './manage-organisation-registration-error-details-wrong.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 describe('ManageOrgRegDetailsWrongComponent', () => {
   let component: ManageOrgRegDetailsWrongComponent;
@@ -37,9 +38,9 @@ describe('ManageOrgRegDetailsWrongComponent', () => {
   });
 
   it('should navigate to the correct URL when continue button is clicked', () => {
-    const routerSpy = spyOn(component.router, 'navigateByUrl');
+    const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
 
-    component.onContinueClick();
+    component.onContinueClick('Continue');
 
     expect(routerSpy).toHaveBeenCalledWith(
       '/manage-org/register/user?data=' + btoa(JSON.stringify(0))

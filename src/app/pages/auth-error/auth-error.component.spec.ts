@@ -7,6 +7,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { GlobalRouteService } from 'src/app/services/helper/global-route.service';
 import { AuthErrorComponent } from './auth-error.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AuthErrorComponent', () => {
   let component: AuthErrorComponent;
@@ -16,13 +17,14 @@ describe('AuthErrorComponent', () => {
     const activatedRouteStub = () => ({});
     const storeStub = () => ({});
     const authServiceStub = () => ({ renewAccessToken: (arg: any) => ({}) });
-    const globalRouteServiceStub = () => ({ globalRoute: { length: {} } });
+    const globalRouteServiceStub = () => ({ globalRoute: 'home' });
     const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
       'setOffset',
     ]);
 
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
+      imports: [RouterTestingModule],
       declarations: [AuthErrorComponent],
       providers: [
         { provide: ActivatedRoute, useFactory: activatedRouteStub },

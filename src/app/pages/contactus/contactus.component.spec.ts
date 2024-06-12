@@ -59,21 +59,21 @@ describe('ContactUsComponent', () => {
   });
 
   it('should set submitted to true on form submission', () => {
-    component.onSubmit(component.formGroup);
+    component.onSubmit(component.formGroup, 'Send Enquiry');
     expect(component.submitted).toBeTruthy();
   });
 
   it('should validate email using emailValidator', () => {
     spyOn(mockPatternService, 'emailValidator').and.returnValue(true);
     component.formGroup.controls['email'].setValue('test@example.com');
-    component.onSubmit(component.formGroup);
+    component.onSubmit(component.formGroup, 'Send Enquiry');
     expect(mockPatternService.emailValidator).toBeTruthy();
   });
 
   it('should set email control error when email is invalid', () => {
     spyOn(mockPatternService, 'emailValidator').and.returnValue(false);
     component.formGroup.controls['email'].setValue('invalid-email');
-    component.onSubmit(component.formGroup);
+    component.onSubmit(component.formGroup,'Send Enquiry');
     expect(component.formGroup.controls['email'].hasError('incorrect')).toBeFalsy();
   });
 

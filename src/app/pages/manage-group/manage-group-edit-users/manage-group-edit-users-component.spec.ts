@@ -10,6 +10,7 @@ import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { BehaviorSubject } from 'rxjs';
+import { CheckBoxUserListGridSource, UserListInfo } from 'src/app/models/user';
 
 describe('ManageGroupEditUsersComponent', () => {
   let component: ManageGroupEditUsersComponent;
@@ -39,18 +40,20 @@ describe('ManageGroupEditUsersComponent', () => {
     setTitle: jasmine.createSpy('setTitle'),
   };
 
-  const mockUserList = [
+  const mockUserList: CheckBoxUserListGridSource[] = [
     {
       name: 'user 1',
       userName: 'user1',
       isAdmin: false,
       isDisable: false,
+      isDormant: false
     },
     {
       name: 'user 2',
       userName: 'user2',
       isAdmin: true,
       isDisable: false,
+      isDormant: false
     },
   ];
 
@@ -109,7 +112,7 @@ describe('ManageGroupEditUsersComponent', () => {
   });
 
   it('should navigate to the correct URL on cancel click', () => {
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(
       'manage-groups/view?data=' +
         JSON.stringify({ isEdit: true, groupId: 123 })
@@ -135,11 +138,12 @@ describe('ManageGroupEditUsersComponent', () => {
   });
 
   it('should add a user to addingUsers array when checkbox is clicked and isChecked is true', () => {
-    const mockUser = {
+    const mockUser: CheckBoxUserListGridSource = {
       name: 'John Doe',
       userName: 'johndoe',
       isAdmin: false,
       isDisable: false,
+      isDormant: false
     };
     component.onCheckBoxClickRow({ ...mockUser, isChecked: true });
 
@@ -154,6 +158,7 @@ describe('ManageGroupEditUsersComponent', () => {
       userName: 'johndoe',
       isAdmin: false,
       isDisable: false,
+      isDormant: false
     };
     component.addingUsers = [mockUser];
     component.onCheckBoxClickRow({ ...mockUser, isChecked: false });
@@ -161,11 +166,12 @@ describe('ManageGroupEditUsersComponent', () => {
   });
 
   it('should remove a user from removingUsers array when checkbox is clicked and isChecked is true', () => {
-    const mockUser = {
+    const mockUser : CheckBoxUserListGridSource = {
       name: 'John Doe',
       userName: 'johndoe',
       isAdmin: false,
-      isDisable: false,
+      isDormant: false,
+      isDisable: false
     };
     component.removingUsers = [mockUser];
     component.onCheckBoxClickRow({ ...mockUser, isChecked: true });
@@ -173,11 +179,12 @@ describe('ManageGroupEditUsersComponent', () => {
   });
 
   it('should add a user to removingUsers array when checkbox is clicked and isChecked is false', () => {
-    const mockUser = {
+    const mockUser: CheckBoxUserListGridSource = {
       name: 'Test user',
       userName: 'testuser',
       isAdmin: false,
       isDisable: false,
+      isDormant: false
     };
     component.onCheckBoxClickRow({ ...mockUser, isChecked: false });
 
@@ -187,7 +194,7 @@ describe('ManageGroupEditUsersComponent', () => {
   });
 
   it('should navigate to the confirmation page on continue click', () => {
-    component.onContinueClick();
+    component.onContinueClick('Continue');
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(
       'manage-groups/edit-users-confirm?data=' +
         JSON.stringify({ isEdit: true, groupId: 123 })
