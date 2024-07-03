@@ -3,6 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 #RUN npm install --legacy-peer-deps && npm cache clean --force
 RUN rm package-lock.json
+RUN angular --version
 RUN node --version
 RUN npm --version
 RUN npm install --force 
