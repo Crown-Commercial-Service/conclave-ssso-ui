@@ -2,7 +2,7 @@ FROM node:20 AS build
 WORKDIR /app
 COPY package*.json ./
 #RUN npm install --legacy-peer-deps && npm cache clean --force
-RUN npm install --force && npm cache clean --force
+RUN npm cache clean --force && npm install --force 
 
 COPY . ./
 RUN npm run build
