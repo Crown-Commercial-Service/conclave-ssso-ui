@@ -1,11 +1,6 @@
 FROM node:16 AS build
 WORKDIR /app
 COPY package*.json ./
-#RUN npm install --legacy-peer-deps && npm cache clean --force
-#RUN rm package-lock.json
-RUN node --version
-RUN npm --version
-RUN npm cache verify
 RUN npm install --legacy-peer-deps && npm cache clean --force
 
 COPY . ./
