@@ -5,6 +5,7 @@ COPY package*.json ./
 #RUN rm package-lock.json
 RUN node --version
 RUN npm --version
+RUN npm cache verify
 RUN npm install --legacy-peer-deps && npm cache clean --force
 
 COPY . ./
