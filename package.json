@@ -23,7 +23,7 @@
     "@angular/router": "^13.3.12",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "@types/lodash": "^4.14.173",
+    "@types/lodash": "^4.17.7",
     "angular-google-tag-manager": "^1.4.2",
     "angularx-qrcode": "^13.0.15",
     "bootstrap": "^4.6.0",
