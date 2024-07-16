@@ -65,3 +65,10 @@ p, li {
 .no-bullets li {
   margin-bottom: 10px; 
 }
+.privacy-link
+{
+  word-wrap: break-word;
+  word-break: break-word; 
+  max-width: 100%; 
+  overflow-wrap: break-word;
+}
