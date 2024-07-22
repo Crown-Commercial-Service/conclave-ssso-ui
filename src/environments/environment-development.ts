@@ -42,7 +42,7 @@ export const environment = {
     rollbar: {
       key: '%ROLLBAR%',
       enable : true,
-      security_log: false,
+      security_log: true,
       environment: 'dev-ccs-sso'
     },
     cookies_policy: {
