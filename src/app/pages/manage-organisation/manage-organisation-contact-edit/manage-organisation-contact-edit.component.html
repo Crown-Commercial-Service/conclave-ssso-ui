@@ -170,7 +170,7 @@
                 <ngx-intl-tel-input
                   [cssClass]="submitted && formGroup.controls['phone'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input' "
                   [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
-                  [searchCountryFlag]="true" [maxLength]="'15'"
+                  [searchCountryFlag]="true" [maxLength]="15"
                   [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
                   [phoneValidation]="true" [separateDialCode]="separateDialCode"
                   [numberFormat]="PhoneNumberFormat.International" [inputId]="'phone'" name="phone"
@@ -197,7 +197,7 @@
                   [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
                   [searchCountryFlag]="true" [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
                   [selectFirstCountry]="false" [phoneValidation]="true" [separateDialCode]="separateDialCode"
-                  [maxLength]="'15'" [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'" name="mobile"
+                  [maxLength]="15" [numberFormat]="PhoneNumberFormat.International" [inputId]="'mobile'" name="mobile"
                   formControlName="mobile">
                 </ngx-intl-tel-input>
                 <label for="mobile" class="unwanted_lable">.</label>  
@@ -219,7 +219,7 @@
                 <ngx-intl-tel-input
                   [cssClass]="submitted && formGroup.controls['fax'].invalid || submitted && contact_error ? 'govuk-input govuk-input--error' : 'govuk-input'"
                   [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
-                  [searchCountryFlag]="true" [maxLength]="'15'"
+                  [searchCountryFlag]="true" [maxLength]="15"
                   [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
                   [phoneValidation]="true" [separateDialCode]="separateDialCode"
                   [numberFormat]="PhoneNumberFormat.International" [inputId]="'fax'" name="fax" formControlName="fax">

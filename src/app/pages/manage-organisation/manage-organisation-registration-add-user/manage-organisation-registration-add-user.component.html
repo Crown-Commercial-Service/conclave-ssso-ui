@@ -109,7 +109,7 @@
               <label class="govuk-label" for="organisation">{{ 'NAME_OF_YOUR_ORGANISATION' | translate }}</label>
               <input [readonly]="true" [class.disabled]="true" class="govuk-input text-box-disabled" id="organisation"
                 name="organisation" maxlength="100" spellcheck="false"
-                [value]="ciiOrganisationInfo?.identifier?.legalName">
+                [value]="ciiOrganisationInfo.identifier?.legalName">
             </div>
             <div class="govuk-form-group"
               [class.govuk-form-group--error]="submitted && formGroup.controls.firstName.invalid">
