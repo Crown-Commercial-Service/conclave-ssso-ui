@@ -4,10 +4,12 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { SessionStorageKey } from 'src/app/constants/constant';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 
 @Component({
@@ -18,8 +20,8 @@ import { SessionStorageKey } from 'src/app/constants/constant';
 export class SendMFAResetNotificationSuccessComponent extends BaseComponent implements OnInit {
   userName: string = '';
 
-  constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>,
-    private authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private route: ActivatedRoute, protected uiStore: Store<UIState>,private sessionService:SessionService,
+    public authService: AuthService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private router: Router, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
@@ -28,7 +30,7 @@ export class SendMFAResetNotificationSuccessComponent extends BaseComponent impl
   }
 
   ngOnInit() {
-    debugger;
+    this.dataLayerService.pushPageViewEvent();
     this.userName = sessionStorage.getItem(SessionStorageKey.MFAResetUserName) ?? '';
   }
 

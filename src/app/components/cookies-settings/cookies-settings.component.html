@@ -199,7 +199,7 @@
                                             <div class="govuk-radios__item">
                                                 <input class="govuk-radios__input" id="cookies-analytics-yes"
                                                     name="cookies-analytics" type="radio" [value]="true"
-                                                    [(ngModel)]="cookiesValue.additional">
+                                                    [(ngModel)]="cookiesValue.additional" (change)="formEdited()">
                                                 <label class="govuk-label govuk-radios__label"
                                                     for="cookies-analytics-yes">
                                                     Yes
@@ -208,7 +208,7 @@
                                             <div class="govuk-radios__item">
                                                 <input class="govuk-radios__input" id="cookies-analytics-no"
                                                     name="cookies-analytics" type="radio" [value]="false"
-                                                    [(ngModel)]="cookiesValue.additional">
+                                                    [(ngModel)]="cookiesValue.additional" (change)="formEdited()">
                                                 <label class="govuk-label govuk-radios__label"
                                                     for="cookies-analytics-no">
                                                     No
@@ -289,7 +289,7 @@
                                             <div class="govuk-radios__item">
                                                 <input class="govuk-radios__input" id="cookies-glassbox-yes"
                                                     name="cookies-glassbox" type="radio" [value]="true"
-                                                    [(ngModel)]="cookiesValue.glassbox">
+                                                    [(ngModel)]="cookiesValue.glassbox" (change)="formEdited()">
                                                 <label class="govuk-label govuk-radios__label"
                                                     for="cookies-glassbox-yes">
                                                     Yes
@@ -298,7 +298,7 @@
                                             <div class="govuk-radios__item">
                                                 <input class="govuk-radios__input" id="cookies-glassbox-no"
                                                     name="cookies-glassbox" type="radio" [value]="false"
-                                                    [(ngModel)]="cookiesValue.glassbox">
+                                                    [(ngModel)]="cookiesValue.glassbox" (change)="formEdited()">
                                                 <label class="govuk-label govuk-radios__label"
                                                     for="cookies-glassbox-no">
                                                     No

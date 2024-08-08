@@ -78,13 +78,13 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-button-group save-cancel-button-group">
-            <button *ngIf="addingRoles.length != 0 || isEdit" type="submit" (click)="onConfirmClick()" class="govuk-button" data-module="govuk-button">
+            <button *ngIf="addingRoles.length != 0 || isEdit" type="submit" (click)="onConfirmClick('Confirm')" class="govuk-button" data-module="govuk-button">
                 {{ 'CONFIRM_BTN' | translate }}
             </button>
-            <button *ngIf="addingRoles.length == 0 && !isEdit" type="submit" (click)="onConfirmClick()" class="govuk-button" data-module="govuk-button">
+            <button *ngIf="addingRoles.length == 0 && !isEdit" type="submit" (click)="onConfirmClick(serviceRoleGroup.CREATE_GROUP_WITHOUT_ROLE)" class="govuk-button" data-module="govuk-button">
                 {{serviceRoleGroup.CREATE_GROUP_WITHOUT_ROLE}}
             </button>
-            <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+            <button type="button" (click)="onCancelClick(serviceRoleGroup.SELECT_SERVICE)" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button">
                 {{serviceRoleGroup.SELECT_SERVICE}}
             </button>

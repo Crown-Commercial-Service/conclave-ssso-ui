@@ -15,6 +15,7 @@ import { LoadingIndicatorService } from './services/helper/loading-indicator.ser
 import { filter, map } from 'rxjs/operators';
 import { GlobalRouteService } from './services/helper/global-route.service';
 import { GoogleTagManagerService } from 'angular-google-tag-manager';
+import { SessionService } from './shared/session.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ import { GoogleTagManagerService } from 'angular-google-tag-manager';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
+  public home = environment.uri.ccsDashboardUrl
   @HostBinding('class') className = '';
   public sideNavVisible$: Observable<boolean>;
   public IsActivePage:string=''
@@ -31,10 +32,9 @@ export class AppComponent implements OnInit {
   opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/sessions/?origin=' + environment.uri.web.dashboard);
   rpIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.web.dashboard + '/assets/rpIFrame.html');
   ccsContactUrl: string = environment.uri.ccsContactUrl;
-  public searchForm:any={agreements:'',suppliers:''}
   constructor(private sanitizer: DomSanitizer, private globalRouteService: GlobalRouteService, private overlay: OverlayContainer, private translate: TranslateService, protected uiStore: Store<UIState>, private router: Router,
     private route: ActivatedRoute, public authService: AuthService, private gtmService: GoogleTagManagerService,
-    public loadingIndicatorService: LoadingIndicatorService, private titleService: Title) {
+    public loadingIndicatorService: LoadingIndicatorService, private titleService: Title, private sessionService:SessionService) {
     translate.setDefaultLang('en');
     this.sideNavVisible$ = this.uiStore.pipe(select(getSideNavVisible));
     //this.gtmService.addGtmToDom();
@@ -66,18 +66,26 @@ export class AppComponent implements OnInit {
     });
   }
 
-  async ngOnInit() {
+  async ngOnInit() {        
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
-        if(localStorage.getItem('user_name') === null){
-          if((<NavigationEnd>event).url.split('?')[0] != '/authsuccess'){
-            localStorage.setItem('routeRecords',(<NavigationEnd>event).url)
+        this.router.events.subscribe((endEvent: any) => {
+          if (endEvent instanceof NavigationEnd) {
+            if(this.sessionService.decrypt('user_name')=== null){
+              if(endEvent.url.split('?')[0] != '/authsuccess'){
+                localStorage.setItem('routeRecords',(endEvent.url))
+              }
+             }
+            if (endEvent.url != localStorage['currentGlobalRoute']) {
+              sessionStorage['previousGlobalRoute'] = localStorage['currentGlobalRoute'];
+              localStorage['currentGlobalRoute'] = endEvent.url;
+            }
+            if (endEvent.url.includes('verify-user?details=')) {
+              localStorage.setItem('routeRecords',endEvent.url);
+            }
           }
-         }
-        if ((<NavigationEnd>event).url != localStorage['currentGlobalRoute']) {
-          sessionStorage['previousGlobalRoute'] = localStorage['currentGlobalRoute'];
-          localStorage['currentGlobalRoute'] = (<NavigationEnd>event).url;
-        }
+        });
+        
       }
     });
 
@@ -91,7 +99,15 @@ export class AppComponent implements OnInit {
         // Url after trimming the leading slash
         let url = currentGlobalRoute.startsWith('/') ? currentGlobalRoute.replace(/^\/+/, '') : currentGlobalRoute;
         this.globalRouteService.globalRoute = url;
-        this.router.navigate(['/renewtkn'], { replaceUrl: true });
+        if(this.globalRouteService.globalRoute.indexOf("mfa-selection") < 0){
+          this.router.navigate(['/renewtkn'], { replaceUrl: true });
+        }
+        else
+        {
+          this.authService.useTokenFromStorage();
+          let url = this.globalRouteService.globalRoute.length > 0 ? this.globalRouteService.globalRoute : 'home';
+          this.router.navigateByUrl(url, { replaceUrl: true });
+        }
       }
       else {
         this.authService.registerTokenRenewal();
@@ -106,8 +122,8 @@ export class AppComponent implements OnInit {
         this.overlay.getContainerElement().classList.remove(darkClassName);
       }
     });
-    if (!localStorage.getItem('client_id')) {
-      localStorage.setItem('client_id', environment.idam_client_id);
+    if (!this.sessionService.decrypt('client_id')) {
+      this.sessionService.encrypt('client_id',environment.idam_client_id)
     }
     if (!localStorage.getItem('securityapiurl')) {
       localStorage.setItem('securityapiurl', environment.uri.api.security);
@@ -129,17 +145,7 @@ export class AppComponent implements OnInit {
     this.authService.logOutAndRedirect();
   }
 
-  /**
-   * header search event
-   * @param inputData getting from input
-   */
-  public headerSearch(inputData:string):void{
-    if(inputData==="agreements"){
-     window.open('https://www.crowncommercial.gov.uk/agreements/search?q='+this.searchForm.agreements, "_blank");
-    }else if(inputData==="suppliers"){
-      window.open('https://www.crowncommercial.gov.uk/suppliers/search?q='+this.searchForm.suppliers, "_blank");
-    }
-  }
+
 
 
   // public isAuthenticated(): Observable<boolean> {

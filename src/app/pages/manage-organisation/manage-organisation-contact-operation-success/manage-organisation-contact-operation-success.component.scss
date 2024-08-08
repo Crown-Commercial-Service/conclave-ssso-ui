@@ -12,7 +12,8 @@ button {
 }
 
 p {
-    margin-top: 38px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 a {
@@ -27,3 +28,12 @@ a {
     // margin-top: -14px;
     margin-bottom: 30px;
 }
+
+h1 {
+    margin-top: 30px !important;
+    margin-bottom: 30px !important;
+  }
+  .govuk-body {
+    margin-top: 30px !important;
+    margin-bottom: 30px !important;
+  }
