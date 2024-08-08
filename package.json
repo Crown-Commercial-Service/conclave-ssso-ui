@@ -40,7 +40,7 @@
     "moment": "^2.29.4",
     "ng-zorro-antd": "^11.4.2",
     "ngrx-store-freeze": "^0.2.4",
-    "ngx-bootstrap": "^8.0.0",
+    "ngx-bootstrap": "^18.0.2",
     "ngx-intl-tel-input": "^3.1.1",
     "ngx-mat-select-search": "^3.3.3",
     "rollbar": "^2.26.4",
