@@ -8,26 +8,26 @@
 */
 exports.onExecuteSendPhoneMessage = async (event, api) => {
   const axios = require('axios');
-  const options =
-  {
-    method: 'POST',
-    url: event.secrets.DEV_URL,
-    headers: { 'content-type': 'application/json', 'x-api-key': event.secrets.XAPI_KEY },
-    data:
-    {
-      'phoneNumber': event.message_options.recipient,
-      //'phoneNumber': '447747087648',
-      //'phoneNumber': '+14043833639',                
-      'templateId': event.secrets.TEMPLATE_ID,
-      'message': [
+  const options = 
+	{
+        method: 'POST',
+        url: event.secrets.NOTIFICATION_API_URL,
+        headers: { 'content-type': 'application/json', 'x-api-key':event.secrets.NOTIFICATION_API_KEY},
+         data:       
         {
-          'key': 'code',
-          'message': event.message_options.text
+            'phoneNumber': event.message_options.recipient, 
+            //'phoneNumber': '447747087648',
+            //'phoneNumber': '+14043833639',                
+            'templateId': event.secrets.TEMPLATE_ID,
+            'message': [
+                        {
+                        'key': 'code',
+                        'message': event.message_options.text
+                        }
+                      ]
         }
-      ]
-    }
-
-  };
+     
+    };
   try {
     // Making an api call to send the text message
     const response = await axios(options);
