@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
+import { inject, Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { WrapperOrganisationGroupService } from "../services/wrapper/wrapper-org--group-service";
 import { Role } from 'src/app/models/organisationGroup';
 import { WrapperUserService } from "../services/wrapper/wrapper-user.service";
@@ -8,13 +8,14 @@ import { SessionService } from "../shared/session.service";
 @Injectable({
     providedIn: 'root',
 })
-export class UserProfileResolver implements Resolve<boolean> {
+export class UserProfileResolver  {
 
     private adminRoleKey: string = 'ORG_ADMINISTRATOR';
     private isAdminUser = false;
-
-    constructor(private userService: WrapperUserService,
-        private orgGroupService: WrapperOrganisationGroupService, private sessionService:SessionService) { }
+        
+    private userService = inject(WrapperUserService);
+    private orgGroupService = inject(WrapperOrganisationGroupService);
+    private sessionService = inject(SessionService);
 
     async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         // const userName =  this.sessionService.decrypt('user_name')
