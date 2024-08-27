@@ -240,7 +240,6 @@
       }
     }
   },
-  "defaultProject": "ccs-sso-web",
   "cli": {
     "analytics": "e7c60950-35da-4072-b4d9-afda47dcf5f6"
   }
