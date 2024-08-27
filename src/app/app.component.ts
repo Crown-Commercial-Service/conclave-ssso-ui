@@ -68,24 +68,16 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {        
     this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationStart) {
-        this.router.events.subscribe((endEvent: any) => {
-          if (endEvent instanceof NavigationEnd) {
-            if(this.sessionService.decrypt('user_name')=== null){
-              if(endEvent.url.split('?')[0] != '/authsuccess'){
-                localStorage.setItem('routeRecords',(endEvent.url))
-              }
-             }
-            if (endEvent.url != localStorage['currentGlobalRoute']) {
-              sessionStorage['previousGlobalRoute'] = localStorage['currentGlobalRoute'];
-              localStorage['currentGlobalRoute'] = endEvent.url;
-            }
-            if (endEvent.url.includes('verify-user?details=')) {
-              localStorage.setItem('routeRecords',endEvent.url);
-            }
+      if (event instanceof NavigationStart) {        
+        if(localStorage.getItem('user_name') === null){
+          if((event).url.split('?')[0] != '/authsuccess'){
+            localStorage.setItem('routeRecords',(event).url)            
           }
-        });
-        
+         }
+        if ((event).url != localStorage['currentGlobalRoute']) {
+          sessionStorage['previousGlobalRoute'] = localStorage['currentGlobalRoute'];
+          localStorage['currentGlobalRoute'] = (event).url;
+        }
       }
     });
 
