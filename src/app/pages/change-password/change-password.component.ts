@@ -15,6 +15,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { ValidatorFn } from '@angular/forms';
 
 @Component({
   selector: 'app-change-password',
@@ -43,7 +44,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
     super(uiStore,viewportScroller,scrollHelper);
     this.formGroup = this.formBuilder.group({
       currentPassword: ['', Validators.compose([Validators.required])],
-      newPassword: ['', Validators.compose([Validators.required, this.checkPasswordStrong])],
+      newPassword: ['', Validators.compose([Validators.required, this.checkPasswordStrong as ValidatorFn])],
       confirmPassword: ['', Validators.compose([Validators.required])]
     }, { validators: this.checkPasswords });
   }
