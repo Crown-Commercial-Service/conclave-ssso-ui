@@ -174,11 +174,11 @@ form {
 .mat-country-select-site {
   background-color: white !important;
   border-style: groove;
-  margin-left: 11px;
-
+  margin-left: 11px !important;  
+  
   .mat-select-search-input {
-    background-color: white;
-    margin-top: 2px;
+    background-color: white !important;
+    margin-top: 0px;    
   }
 }
 
