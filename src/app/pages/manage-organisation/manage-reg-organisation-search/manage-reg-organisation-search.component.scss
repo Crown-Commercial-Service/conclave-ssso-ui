@@ -46,3 +46,52 @@
     margin-top: 30px !important;
     margin-bottom: 30px !important;
   }
+
+  .form-field-orgname {
+    border-style: solid;
+    border-width: 2px;
+    height: 40px;
+    padding-top: 6px;
+    padding-left: 5px;
+    display: inherit !important;
+  }
+
+  .form-field-orgname:focus
+  .form-field-orgname:active,
+  .mat-focused{
+    outline: 3px solid #fd0;
+    outline-offset: 0;
+    -webkit-box-shadow: inset 0 0 0 2px;
+    box-shadow: inset 0 0 0 2px;
+
+  }
+
+
+  ::ng-deep .form-field-orgname .mdc-text-field,
+  ::ng-deep .form-field-orgname .mdc-text-field__input,
+  ::ng-deep .form-field-orgname .mat-mdc-form-field-flex,
+  ::ng-deep .form-field-orgname .mat-mdc-form-field-wrapper {
+    padding: 0 !important;    
+    border: transparent !important; /* Make it invisible */
+    
+  }
+
+::ng-deep .form-field-orgname .mdc-text-field:focus,
+::ng-deep .form-field-orgname .mdc-text-field__input:focus,
+::ng-deep .form-field-orgname .mdc-text-field:focus-within,
+::ng-deep .form-field-orgname .mat-mdc-form-field-flex:focus-within,
+::ng-deep .form-field-orgname .mdc-text-field--focused .mdc-notched-outline__leading,
+::ng-deep .form-field-orgname .mdc-text-field--focused .mdc-notched-outline__trailing,
+::ng-deep .form-field-orgname .mdc-text-field--focused .mdc-floating-label,
+::ng-deep .form-field-orgname .mdc-text-field--focused .mdc-line-ripple {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  background-color: transparent !important;
+}
+
+.custom-input{
+  height: 32px !important;
+  padding-bottom: 8px !important;
+  font-size: 1rem !important;
+}

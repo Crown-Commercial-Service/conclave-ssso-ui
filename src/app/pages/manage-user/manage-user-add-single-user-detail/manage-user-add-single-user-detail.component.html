@@ -424,7 +424,7 @@
                                                         *ngIf="orgRole.roleKey != 'ORG_DEFAULT_USER' && orgRole.roleKey != 'ORG_ADMINISTRATOR'">
                                                         <input class="govuk-checkboxes__input"
                                                             id="{{'orgRoleControl_' + orgRole.roleId}}"
-                                                            [attr.disabled]="(isEdit && isDormantUser )||  (isEdit && getDisbleRoleForService(orgRole.roleKey)) ? true : null"
+                                                            [disabled]="((isEdit && isDormantUser ) ||  (isEdit && getDisbleRoleForService(orgRole.roleKey)))"
                                                             [formControlName]="'orgRoleControl_' + orgRole.roleId"
                                                             type="checkbox"
                                                             (ngModelChange)="onUserRoleChecked(orgRole, $event)"
