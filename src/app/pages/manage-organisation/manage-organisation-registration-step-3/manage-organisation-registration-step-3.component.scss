@@ -19,7 +19,8 @@ app-manage-organisation-registration-step-3 {
   border-width: 2px;
   height: 38px;
   padding-top: 6px;
-  padding-left: 3px;
+  padding-left: 0px;
+  display: inline-block !important;
 }
 
 .form-field-country.form-field-required {
@@ -52,4 +53,9 @@ app-manage-organisation-registration-step-3 {
 .govuk-heading-xl  {
   margin-top: 30px !important;
   margin-bottom: 30px !important;
+}
+
+.custom-select{
+  height: 30px !important;
+  font-size: 1rem !important;
 }
