@@ -91,7 +91,7 @@
                     </a>
                     <a *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid"
                       href="javascript:;" onClick="return false;" (click)="setFocus(2)">
-                      <li>Enter an email address in the correct format, like name@example.com</li>
+                      <li>Enter an email address in the correct format, like name&#64;example.com</li>
                     </a>
                     <a *ngIf="submitted && ((!formGroup.controls.lastName.errors?.required && formGroup.controls.lastName.invalid) || (!formGroup.controls.firstName.errors?.required && formGroup.controls.firstName.invalid))"
                       href="javascript:;" onClick="return false;" (click)="customFocum()">
@@ -141,7 +141,7 @@
               <span id="email-error" class="govuk-error-message"
                 *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
                 <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like
-                name@example.com
+                name&#64;example.com
               </span>
               <input #input class="govuk-input" id="email" formControlName="email" name="email" size="20" type="email"
                 value="" autocomplete="email" spellcheck="false" (input)="validateEmailLength($event)"
