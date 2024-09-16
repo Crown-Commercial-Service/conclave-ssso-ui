@@ -56,4 +56,13 @@ a {
 .govuk-heading-xl {
     margin-top: 30px !important;
     margin-bottom: 30px !important;
-  }
+}
+
+::ng-deep .form-field-country .mdc-text-field--filled .mdc-line-ripple {    
+    display: none;
+}
+
+::ng-deep .mat-divider{
+    border-top-style:hidden !important;
+    border-bottom: 1px solid;
+}
