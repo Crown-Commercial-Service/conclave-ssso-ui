@@ -59,3 +59,12 @@ app-manage-organisation-registration-step-3 {
   height: 30px !important;
   font-size: 1rem !important;
 }
+
+.mat-mdc-form-field .mdc-text-field--filled .mdc-line-ripple {    
+  display: none;
+}
+
+.mat-divider{
+  border-top-style:hidden !important;
+  border-bottom: 1px solid;
+}

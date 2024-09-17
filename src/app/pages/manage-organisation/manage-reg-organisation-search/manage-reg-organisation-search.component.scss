@@ -87,8 +87,13 @@
   outline: none !important;
   box-shadow: none !important;
   border-color: transparent !important;
-  background-color: transparent !important;
+  background-color: transparent !important;  
 }
+
+::ng-deep .form-field-orgname .mdc-text-field--filled .mdc-line-ripple {    
+  display: none;
+}
+
 
 .custom-input{
   height: 32px !important;

@@ -37,7 +37,7 @@
                                     </a>
                                     <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
                                         *ngIf="submitted && !formGroup.controls.email.errors?.required && (formGroup.controls.email.hasError('incorrect') || formGroup.controls.email.hasError('pattern'))">
-                                        <li>Enter an email address in the correct format, like name@example.com</li>
+                                        <li>Enter an email address in the correct format, like name&#64;example.com</li>
                                     </a>
                                     <a onClick="return false;" (click)="setFocus(3)" href="javascript:;"
                                     *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.hasError('alreadyExists')">
@@ -58,7 +58,7 @@
                             *ngIf="submitted && !formGroup.controls.email.errors?.required && (formGroup.controls.email.hasError('incorrect') || formGroup.controls.email.hasError('pattern'))">
                             <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct
                             format,
-                            like name@example.com
+                            like name&#64;example.com
                         </span>
                         <span id="email-error" class="govuk-error-message"
                             *ngIf="submitted && formGroup.controls.email.hasError('alreadyExists')">
