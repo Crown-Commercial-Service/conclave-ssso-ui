@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { CanActivate, Router } from "@angular/router";
+import { inject, Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { AuthService } from "./auth.service";
@@ -9,8 +9,10 @@ import { map } from "rxjs/operators";
     providedIn: 'root'
 })
 
-export class DormancyGuard implements CanActivate {
-    constructor(private router: Router,private authService :AuthService) { }
+export class DormancyGuard  {
+    
+    private router = inject(Router);
+    private authService = inject(AuthService);
    
     public  canActivate(): Observable<boolean> {
         return this.authService.isAuthenticated().pipe(

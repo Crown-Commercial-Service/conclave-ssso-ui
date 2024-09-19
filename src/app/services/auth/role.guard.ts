@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { inject, Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ServicePermission } from 'src/app/models/servicePermission';
@@ -10,11 +10,12 @@ import { TokenService } from './token.service';
 @Injectable({
   providedIn: 'root'
 })
-export class RoleGuard implements CanActivate {
+export class RoleGuard  {
   private isDeleagtion = environment.appSetting.hideDelegation
 
-  constructor(public authService: AuthService, public tokenService: TokenService, private router: Router) {
-  }
+  public authService = inject(AuthService);
+  public tokenSerice = inject(TokenService);
+  private router = inject(Router);
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.checkRole(route.data.roles);
