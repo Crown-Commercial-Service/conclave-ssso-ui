@@ -280,7 +280,7 @@ export class ManageUserAddSingleUserDetailComponent
       );
       this.isMfaEnabledForUser = this.userProfileResponseInfo.mfaEnabled;
       this.isUserMfaOpted = this.userProfileResponseInfo.mfaOpted;
-      this.isDormantUser = this.userProfileResponseInfo.isDormant;
+      this.isDormantUser = this.userProfileResponseInfo.isDormant;      
       await this.getApprovalRequriedRoles()
       await this.getPendingApprovalUserRole();
       await this.getOrgDetails()
@@ -381,6 +381,7 @@ export class ManageUserAddSingleUserDetailComponent
 
         this.allIdps.push(idp);
       }
+      this.formGroup.get('signInProviderControl_' + idp.id)?.disable();
     }
 
   }
@@ -486,6 +487,9 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         let filterRole = this.pendingRoleDetails.find((element: { roleKey: any; }) => element.roleKey == role.roleKey)
         if (filterRole != undefined) {
           role.pendingStatus = true
+        }
+        if(this.isDormantUser || this.getDisbleRoleForService(role.roleKey)){
+          this.formGroup.get('orgRoleControl_' + role.roleId)?.disable();
         }
       }
       //Edit mode Determin Login user whether Admin/Normal user.
@@ -942,7 +946,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
     if (orgRoleKey === 'ORG_DEFAULT_USER') {
       return true
     } else {
-      return null
+      return false
     }
 
   }

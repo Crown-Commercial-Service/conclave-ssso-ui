@@ -12,7 +12,7 @@
               <ul class="govuk-list govuk-error-summary__list">
                 <li *ngIf="formGroup.controls['firstName'].hasError('required')"><a href="javascript:;" onClick="return false;">Enter your name</a></li>
                 <li *ngIf="formGroup.controls['email'].hasError('required')"><a href="javascript:;" onClick="return false;">Enter your email address</a></li>
-                <li *ngIf="formGroup.controls['email'].hasError('email')"><a href="javascript:;" onClick="return false;">Enter an email address in the correct format, like name@example.com</a></li>
+                <li *ngIf="formGroup.controls['email'].hasError('email')"><a href="javascript:;" onClick="return false;">Enter an email address in the correct format, like name&#64;example.com</a></li>
               </ul>
             </div>
           </div>
@@ -31,7 +31,7 @@
           </span>
           <span id="email-error" class="govuk-error-message"
               *ngIf="submitted && !formGroup.controls.email.errors?.required && formGroup.controls.email.invalid">
-                  <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like name@example.com
+                  <span class="govuk-visually-hidden">Error:</span>Enter an email address in the correct format, like name&#64;example.com
               </span>
           <input #input class="govuk-input" id="email" formControlName="email" name="email"
               size="20" type="email" value="" autocomplete="email"
