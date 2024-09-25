@@ -76,7 +76,7 @@
         </span>
         <mat-form-field class="form-field-country form-field-required" [class.govuk-input--error]="isInvalid">
           <mat-select [(ngModel)]="countryCode" #singleSelect panelClass="mat-country-select-site" id="country-code"
-            (selectionChange)="onChangecountry(countryCode)">
+            (selectionChange)="onChangecountry(countryCode)" class="custom-select">
             <mat-option>
               <ngx-mat-select-search [formControl]="countryCodeCtrl" placeholderLabel="Search"
                 noEntriesFoundLabel="No matching country found">
