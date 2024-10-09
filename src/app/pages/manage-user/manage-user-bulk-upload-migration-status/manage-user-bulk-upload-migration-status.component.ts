@@ -4,6 +4,8 @@ import * as moment from 'moment';
 import { BulkUploadStatus } from 'src/app/constants/enum';
 import { BulkUploadFileContentRowDetails, BulkUploadResponse, BulkUploadSummaryGridInfo } from 'src/app/models/bulkUploadResponse';
 import { BulkUploadService } from 'src/app/services/postgres/bulk-upload.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -12,6 +14,7 @@ import { environment } from 'src/environments/environment';
     styleUrls: ['./manage-user-bulk-upload-migration-status.component.scss']
 })
 export class ManageUserBulkUploadMigrationStatusComponent implements OnInit {
+    private id!: string;
 
     organisationId: string;
     statusCheckComplete: boolean = false;
@@ -22,7 +25,7 @@ export class ManageUserBulkUploadMigrationStatusComponent implements OnInit {
     detailColumnsToDisplay = ['identifierId', 'schemeId', 'rightToBuy', 'email', 'title', 'firstName', 'lastName', 'roles', 'status', 'statusDescription'];
     detailGridInfoList: BulkUploadFileContentRowDetails[] = [];
     isBulkUpload = environment.appSetting.hideBulkupload
-    constructor(private router: Router, private activatedRoute: ActivatedRoute, private bulkUploadService: BulkUploadService) {
+    constructor(private router: Router, private activatedRoute: ActivatedRoute, private bulkUploadService: BulkUploadService, private dataLayerService: DataLayerService,private sessionService:SessionService) {
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         if(this.isBulkUpload){
             this.router.navigateByUrl('home');
@@ -36,6 +39,8 @@ export class ManageUserBulkUploadMigrationStatusComponent implements OnInit {
                 this.getStatus(params.id);
             }
         });
+        
+        this.dataLayerService.pushPageViewEvent({id: this.id});
     }
 
     getStatus(docId: string) {
@@ -57,11 +62,9 @@ export class ManageUserBulkUploadMigrationStatusComponent implements OnInit {
         let startDate: Date = bulkUploadResponse.bulkUploadMigrationReportDetails.migrationStartedTime;
         let endDate: Date = bulkUploadResponse.bulkUploadMigrationReportDetails.migrationEndTime;
 
-        let bulkUploadSummaryGridInfo: BulkUploadSummaryGridInfo = {
+        let bulkUploadSummaryGridInfo: any = {
             totalOrganisations: bulkUploadResponse.bulkUploadMigrationReportDetails.totalOrganisationCount,
             totalUsers: bulkUploadResponse.bulkUploadMigrationReportDetails.totalUserCount,
-            startTime: moment(startDate).format("DD/MM/YYYY HH:mm:ss"),
-            endTime: moment(endDate).format("DD/MM/YYYY HH:mm:ss"),
             duration: this.getDurationDifferenceString(startDate, endDate),
             status: bulkUploadResponse.bulkUploadMigrationReportDetails.failedUserCount == 0 ? 'Completed with no errors' : "Completed with errors",
             processedUsers: bulkUploadResponse.bulkUploadMigrationReportDetails.processedUserCount,
@@ -70,22 +73,25 @@ export class ManageUserBulkUploadMigrationStatusComponent implements OnInit {
         this.summaryGridInfoList.push(bulkUploadSummaryGridInfo);
     }
 
+
+      
+
     getDurationDifferenceString(startDate: Date, endDate: Date) {
-        let startMoment = moment(startDate);
-        let endMoment = moment(endDate);
-        var differenceSeconds = moment.duration(endMoment.diff(startMoment)).asSeconds();
+        // let startMoment = moment(startDate);
+        // let endMoment = moment(endDate);
+        // var differenceSeconds = moment.duration(endMoment.diff(startMoment)).asSeconds();
 
-        var hours = Math.floor(differenceSeconds / 3600);
-        differenceSeconds -= hours * 3600;
-        var minutes = Math.floor(differenceSeconds / 60);
-        differenceSeconds -= minutes * 60;
-        var seconds = Math.floor(differenceSeconds);
+        // var hours = Math.floor(differenceSeconds / 3600);
+        // differenceSeconds -= hours * 3600;
+        // var minutes = Math.floor(differenceSeconds / 60);
+        // differenceSeconds -= minutes * 60;
+        // var seconds = Math.floor(differenceSeconds);
 
-        var differenceString = hours > 0 ? hours + `${hours == 1 ? ' hr ' : ' hrs '}` : '';
-        differenceString += minutes > 0 ? minutes + `${minutes == 1 ? ' min ' : ' mins '}` : '';
-        differenceString += seconds > 0 ? seconds + ' s' : '';
+        // var differenceString = hours > 0 ? hours + `${hours == 1 ? ' hr ' : ' hrs '}` : '';
+        // differenceString += minutes > 0 ? minutes + `${minutes == 1 ? ' min ' : ' mins '}` : '';
+        // differenceString += seconds > 0 ? seconds + ' s' : '';
 
-        return differenceString;
+        // return differenceString;
     }
 
     setDatailGridInfo(bulkUploadResponse: BulkUploadResponse) {

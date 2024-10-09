@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataMigrationService } from 'src/app/services/postgres/data-migration.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -19,7 +21,7 @@ export class DataMigrationErrorComponent implements OnInit {
     errorList: '',
     pageName: 'Contactadmin',
   }
-  constructor(private DataMigrationService: DataMigrationService, private activatedRoute: ActivatedRoute) {
+  constructor(private DataMigrationService: DataMigrationService,private sessionService:SessionService, private activatedRoute: ActivatedRoute, private router: Router, private dataLayerService: DataLayerService) {
     this.userUploadHistoryTable.data = {
       currentPage: this.userUploadHistoryTable.currentPage,
       pageCount: 0,
@@ -33,6 +35,14 @@ export class DataMigrationErrorComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((routeData: any) => {
       this.getUploadedFilesDetails(routeData)
+    });
+    this.dataLayerService.pushPageViewEvent();
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
     });
   }
 

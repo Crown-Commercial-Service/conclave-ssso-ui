@@ -13,6 +13,8 @@ export enum OperationEnum {
     UserUpdateWithIdamRegister,
     UserPasswordChange,
     UserDelete,
+    UserDeactivate,
+    UserReactivate,
     GroupAdd,
     GroupNameUpdate,
     GroupUserAdd,

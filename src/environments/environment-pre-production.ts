@@ -14,7 +14,7 @@ export const environment = {
 
           //security: 'https://pre.api.crowncommercial.gov.uk', 
 
-          postgres: 'https://pre.api.crowncommercial.gov.uk/core',
+          postgres: 'https://pre.api.crowncommercial.gov.uk/dashboard-wrapper',
 
           //postgres: 'https://pre.api.crowncommercial.gov.uk/core', 
 
@@ -29,9 +29,6 @@ export const environment = {
                   contact: 'https://pre.api.crowncommercial.gov.uk/contacts',
 
                   configuration: 'https://pre.api.crowncommercial.gov.uk/configurations',
-
-                  dataMigration: 'https://pre.api.crowncommercial.gov.uk/datamigration',
-
               },
 
               apiGatewayDisabled: {
@@ -44,8 +41,6 @@ export const environment = {
 
                   configuration: 'https://preprod-api-wrapper.london.cloudapps.digital/configurations',
 
-                  dataMigration: 'https://preprod-api-wrapper.london.cloudapps.digital/datamigration',
-
               }
 
           }
@@ -56,11 +51,12 @@ export const environment = {
 
           //dashboard: 'https://preprod-ccs-sso.london.cloudapps.digital' 
 
-          dashboard: 'https://preprod.identify.crowncommercial.gov.uk'
-
+          dashboard: 'https://preprod.identify.crowncommercial.gov.uk',
+          name: "PRE-PROD"
       },
 
-      ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+      ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
+      ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
 
   },
 

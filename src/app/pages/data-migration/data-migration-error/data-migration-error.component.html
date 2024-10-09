@@ -25,10 +25,10 @@
                 [serverPageCurrentPage]="userUploadHistoryTable.currentPage"></app-govuk-table>
         </div>
 
-        <a href="javascript:;" class="navigation-text" routerLink="/data-migration/upload">
+        <a href="javascript:;" class="navigation-text" [routerLink]="['/data-migration/upload']" [queryParams]="{isNewTab:true}">
             Upload a new file</a>
         <br><br>
-        <a href="javascript:;" class="navigation-text" routerLink="/home">
+        <a href="javascript:;" class="navigation-text" [routerLink]="['/home']" [queryParams]="{isNewTab:true}">
             Return to dashboard</a>
     </div>
 </div>

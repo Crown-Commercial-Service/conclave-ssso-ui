@@ -13,16 +13,16 @@
         </ol>
       </div>
       <h1 class="govuk-heading-xl page-title">Manage service eligibility</h1>
-      <h2 *ngIf="showRoleView" style="margin-top: -25px; margin-bottom: 40px;">Search and select the organisation profile that you would like
+      <h2 *ngIf="showRoleView" style="margin-top: 15px; margin-bottom: 40px;">Search and select the organisation profile that you would like
         to manage the buyer status for</h2>
-        <h2 *ngIf="!showRoleView" style="margin-top: -25px; margin-bottom: 40px;">Search and select the organisation profile that you would like to manage organisation type and services for</h2>
+        <h2 *ngIf="!showRoleView" style="margin-top: 15px; margin-bottom: 40px;">Search and select the organisation profile that you would like to manage organisation type and services for</h2>
       <div class="govuk-form-group" id="search-form-group" [class.govuk-form-group--error]="searchSumbited && searchText ===''">
         <label class="govuk-label" for="search"> Search for organisation </label>
         <span id="first-name-error" class="govuk-error-message"
         *ngIf="searchSumbited && searchText ===''">
         <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter an organisation’s name
       </span>
-        <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
+        <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()" [pageName]="'Manage Buyers-Suppliers'">
         </app-search-box>
       </div>
     </div>
@@ -43,9 +43,9 @@
   </ng-template>
   <div class="govuk-button-group">
     <button type="button" class="govuk-button"
-      [class.govuk-button--disabled]="selectedOrgId === ''" data-module="govuk-button" (click)="onContinueClick()"
+      [class.govuk-button--disabled]="selectedOrgId === ''" data-module="govuk-button" (click)="onContinueClick('Continue')"
       [disabled]="selectedOrgId === ''">Continue</button>
     <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-      (click)="onCancelClick()">Cancel</button>
+      (click)="onCancelClick('Cancel')">Cancel</button>
   </div>
 </div>

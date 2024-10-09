@@ -1,60 +1,62 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { inject, TestBed } from '@angular/core/testing';
-import { Observable } from 'rxjs';
-import 'rxjs/add/observable/of';
-
+import { TestBed, async, inject } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Location } from '@angular/common';
 import { AuthService } from './auth.service';
+import { TokenService } from './token.service';
+import { WorkerService } from '../worker.service';
+import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
+import { environment } from '../../../environments/environment';
+import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
 
 describe('AuthService', () => {
+  let authService: AuthService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [
         AuthService,
-      ]
+        TokenService,
+        WorkerService,
+        RollbarErrorService,
+        Location,
+        TokenService,
+        { provide: RollbarService, useValue: rollbarFactory() },
+      ],
     });
+
+    authService = TestBed.inject(AuthService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
-  it('should be created', inject([AuthService], (service: AuthService) => {
-    expect(service).toBeTruthy();
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should be created', () => {
+    expect(authService).toBeTruthy();
+  });
+
+  it('should check if user is authenticated', () => {
+    localStorage.setItem('user_name', 'testuser');
+
+    const isAuthenticated = authService.isUserAuthenticated();
+
+    expect(isAuthenticated).toBe(true);
+  });
+
+  it('should check if in-memory token exists', async(() => {
+    spyOn(authService.workerService, 'checkAccessToken').and.returnValue(
+      Promise.resolve(true)
+    );
+
+    authService.isInMemoryTokenExists().then((result) => {
+      expect(result).toBe(true);
+    });
   }));
-
-  /* describe('isAuthenticated', () => {
-    it('should make a call to check authentication', inject([HttpTestingController, AuthService], (httpMock: HttpTestingController, service: AuthService) => {
-      service.isAuthenticated().subscribe( response => {
-        expect(JSON.parse(String(response))).toBeFalsy();
-      });
-
-      const req = httpMock.expectOne('/auth/isAuthenticated');
-      expect(req.request.method).toEqual('GET');
-      req.flush('false');
-    }));
-
-  }); */
-
-  // describe('logOut', () => {
-  //   it('should make a call to logOut', inject([HttpTestingController, AuthService], (httpMock: HttpTestingController, service: AuthService) => {
-  //     service.logOut().subscribe( response => {
-  //       expect(response).toBeNull();
-  //     });
-
-  //     const req = httpMock.expectOne('/auth/logout?noredirect=true');
-  //     expect(req.request.method).toEqual('GET');
-  //     req.flush(null);
-  //   }));
-
-  // });
-
-  // describe('logOutAndRedirect', () => {
-  //   it('should work', inject([AuthService], async (service: AuthService) => {
-  //     const spyOnSetWindowLocation = spyOn(service, 'setWindowLocationHref');
-  //     spyOn(service, 'logOut').and.returnValue(Observable.of(false));
-  //     await service.logOutAndRedirect();
-  //     expect(spyOnSetWindowLocation).toHaveBeenCalledWith('/idle-sign-out');
-  //   }));
-  // });
-
 });
