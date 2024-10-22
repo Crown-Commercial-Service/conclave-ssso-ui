@@ -11,6 +11,8 @@ import { WrapperUserContactService } from "src/app/services/wrapper/wrapper-user
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
 import { ViewportScroller } from "@angular/common";
 import { SessionStorageKey } from "src/app/constants/constant";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-user-contact-delete-confirm',
@@ -27,23 +29,24 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
     userName: string = '';
     contactId: number = 0;
     isOrgAdmin: boolean = false;
-    constructor(protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        private contactService: WrapperUserContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    constructor(protected uiStore: Store<UIState>, public router: Router, private activatedRoute: ActivatedRoute,
+        private contactService: WrapperUserContactService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,private sessionService:SessionService) {
         super(uiStore,viewportScroller,scrollHelper);
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
             console.log(routeData);
-            this.userName = sessionStorage.getItem(SessionStorageKey.UserContactUsername) ?? '';
+            this.userName = this.sessionService.decrypt('UserContactUsername');
             this.contactId = routeData['contactId'];
         }
     }
 
     ngOnInit() {
+        this.dataLayerService.pushPageViewEvent();
         this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     }
 
-    onDeleteConfirmClick() {
+    onDeleteConfirmClick(buttonText: string) {
         this.contactService.deleteUserContact(this.userName, this.contactId).subscribe({
             next: () => { 
                 this.router.navigateByUrl(`operation-success/${OperationEnum.MyAccountContactDelete}`);             
@@ -52,13 +55,20 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
                 console.log(error);
             }
         });
+        this.pushDataLayerEvent(buttonText);
     }
 
-    onCancelClick(){
+    onCancelClick(buttonText: string){
         let data = {
             'isEdit':true,
             'contactId': this.contactId
         };
         this.router.navigateByUrl('user-contact-edit?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent(buttonText);
     }
+
+    pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText)
+	  }
 }
+

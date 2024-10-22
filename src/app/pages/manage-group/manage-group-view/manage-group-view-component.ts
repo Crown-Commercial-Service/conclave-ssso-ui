@@ -12,6 +12,8 @@ import { OrganisationGroupResponseInfo } from 'src/app/models/organisationGroup'
 import { Title } from '@angular/platform-browser';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-group-view',
@@ -31,10 +33,11 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   isEdit: boolean = false;
   editingGroupId: number = 0;
   routeData: any = {};
-  usersTableHeaders = ['NAME', 'EMAIL', ''];
+  usersTableHeaders = ['NAME', 'EMAIL', '.'];
   usersColumnsToDisplay = ['name', 'userId', 'userPendingRoleStatus'];
   rolesTableHeaders = ['NAME'];
   roesColumnsToDisplay = ['name'];
+  isAdminGroup: boolean = false;
   detailsData = [
     'The roles selected here will set what services are available to the users in this group.',
     'Enable two-factor authentication to improve the security of your account. Additional security is required for administrator accounts.',
@@ -49,13 +52,16 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     private orgGroupService: WrapperOrganisationGroupService,
     private locationStrategy: LocationStrategy,
     private titleService: Title,
-    private SharedDataService: SharedDataService
+    private SharedDataService: SharedDataService,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.group = {
       groupId: 0,
       mfaEnabled: false,
       groupName: '',
+      groupType: 0,
       roles: [],
       users: [],
       serviceRoleGroups: []
@@ -81,6 +87,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'View'} - Manage Groups - CCS`
     );
@@ -91,7 +98,9 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
           group.roles.forEach((f: any) => {
             f.serviceView = !this.showRoleView
           })
-          this.group = group;
+          this.group = group;          
+          this.isAdminGroup = this.group.groupType == '1'? true : false;
+          
           this.removeUserService();          
           this.group.users.forEach((f: any) => {
             f.userPendingRoleStatus = this.getUserPendingRoleStatusMessage(f.userPendingRoleStatus);
@@ -109,7 +118,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       else{return true};
     })
   }
-  onNameEditClick() {
+  onNameEditClick(buttonText:string) {
     let data = {
       isEdit: this.isEdit,
       groupId: this.editingGroupId,
@@ -118,9 +127,10 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       'manage-groups/edit-name?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent(buttonText);
   }
 
-  onRoleEditClick() {
+  onRoleEditClick(buttonText:string) {
     this.SharedDataService.manageGroupStorage(this.group.groupName);
     let roleIds = this.group.roles.map((role) => role.id);
     let data = {
@@ -132,19 +142,22 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl(
       'manage-groups/edit-roles?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent(buttonText);
   }
 
-  onUserEditClick() {
+  onUserEditClick(buttonText:string) {
     let userNames = this.group.users.map((user) => user.userId);
     sessionStorage.setItem('group_existing_users', JSON.stringify(userNames));
     this.SharedDataService.manageGroupStorage(this.group.groupName);
     let data = {
       isEdit: this.isEdit,
       groupId: this.editingGroupId,
+      groupType:this.group.groupType
     };
     this.router.navigateByUrl(
       'manage-groups/edit-users?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent(buttonText);
   }
 
   onDeleteClick() {
@@ -157,6 +170,16 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       'manage-groups/delete-group-confirm?data=' + JSON.stringify(data)
     );
   }
+
+  getQueryData(): string {
+    const data = {
+      isEdit: true,
+      organisationId: this.organisationId,
+      groupId: this.editingGroupId,
+    };
+    return JSON.stringify(data);
+  }
+  
 
   onGoBackClick() {
     let stateString = sessionStorage.getItem('groupReadonlyViewState') || '';
@@ -192,4 +215,9 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
       this.router.navigateByUrl('manage-users/add-user/details');
     }
   }
+
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText);
+	  }
+  
 }

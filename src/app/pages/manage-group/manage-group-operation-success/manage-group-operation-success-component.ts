@@ -15,6 +15,8 @@ import {
   pendingApprovalResponce,
 } from 'src/app/models/organisationGroup';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-group-operation-success',
@@ -59,7 +61,9 @@ export class ManageGroupOperationSuccessComponent
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private orgGroupService: WrapperOrganisationGroupService
+    private orgGroupService: WrapperOrganisationGroupService,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.operation = parseInt(
@@ -92,6 +96,7 @@ export class ManageGroupOperationSuccessComponent
   }
 
   ngOnInit() {
+    this.dataLayerService.pushPageViewEvent({operation: this.operation});
     let area: string = '';
     switch (this.operation) {
       case this.operationEnum.GroupAdd:
@@ -140,6 +145,14 @@ export class ManageGroupOperationSuccessComponent
       'manage-groups/view?data=' + JSON.stringify(data)
     );
   }
+  getQueryData(): string {
+    const data = {
+      isEdit: true,
+      groupId: this.groupId,
+    };
+    return JSON.stringify(data);
+  }
+  
   public onNavigateTohome() {
     this.router.navigateByUrl('/home');
   }
@@ -158,7 +171,7 @@ export class ManageGroupOperationSuccessComponent
     this.getListOfUsersGivenAccess();
   }
 
-  private getListOfUserRequiredAccess(): void {
+  public getListOfUserRequiredAccess(): void {
     this.orgGroupService
       .getPendingApproveOrganisationGroup(
         this.organisationId,
@@ -179,7 +192,7 @@ export class ManageGroupOperationSuccessComponent
       );
   }
 
-  private getListOfUsersGivenAccess(): void {
+  public getListOfUsersGivenAccess(): void {
     this.orgGroupService
       .getPendingApproveOrganisationGroup(
         this.organisationId,
@@ -206,11 +219,16 @@ export class ManageGroupOperationSuccessComponent
     this.accordionStatus = isGroupOperation && hasUsers;
   }
 
-  private isGroupOperation(){
+  public isGroupOperation(){
     return [this.operationEnum.GroupRoleUpdate, this.operationEnum.GroupAdd,this.operationEnum.GroupUserUpdate].includes(this.operation);
   }
 
   public toggleAccordion(accordin: string): void {
+    this.dataLayerService.pushEvent({
+      event: "accordion_use",
+      interaction_type: accordin === 'accordin1' ? (this.accordinData.showAccordin1 ? "close": "open") : (this.accordinData.showAccordin2 ? "close": "open"),
+      link_text: accordin === "accordin1" ? "List of users who were given access to Fleet Portal" : "List of users who require additional verification for Fleet Portal access"
+    });
     if (accordin === 'accordin1') {
       this.accordinData.showAccordin1 = !this.accordinData.showAccordin1;
     } else if (accordin === 'accordin2') {

@@ -19,9 +19,9 @@
             <h1 class="govuk-heading-xl page-title header-bread-align">You have removed the right to buy for the organisation
                 {{routeDetails.orgName}}</h1>
                 <div>
-                    <a  routerLink="/manage-buyer-both" class="navigation-text">Return to Manage Buyer status requests</a>
+                    <a  [routerLink]="['/manage-buyer-both']" [queryParams]="{isNewTab:true}" class="navigation-text">Return to Manage Buyer status requests</a>
                     <br><br>
-                    <a  routerLink="/home" class="navigation-text">Return to the
+                    <a  [routerLink]="['/home']" [queryParams]="{isNewTab:true}" class="navigation-text">Return to the
                         dashboard</a>
                 </div>
         </div>

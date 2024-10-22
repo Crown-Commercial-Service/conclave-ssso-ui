@@ -4,11 +4,11 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="onClickNevigation('home')">
+                        <a class="govuk-breadcrumbs__link" [routerLink]="['/home']" [queryParams]="{isNewTab:true}"  (click)="onClickNevigation('home')">
                             {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" (click)="onClickNevigation('delegated-access')">
+                        <a class="govuk-breadcrumbs__link" [routerLink]="['/delegated-access']" [queryParams]="{isNewTab:true}"(click)="onClickNevigation('delegated-access')">
                             Delegated access</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
@@ -54,7 +54,7 @@
                         </div>
                     </details>
                     <p class="govuk-body">
-                        <strong>The user will have a delegated access from {{UserSelectedinfo.detail.startDate | date:
+                        <strong *ngIf="UserSelectedinfo && UserSelectedinfo.detail">The user will have a delegated access from {{UserSelectedinfo.detail.startDate | date:
                             'dd/MM/yyyy'}} to {{UserSelectedinfo.detail.endDate | date: 'dd/MM/yyyy'}}.</strong>
                     </p>
                     <div>
@@ -91,11 +91,11 @@
             </div>
         </div>
         <div class="govuk-button-group save-cancel-button-group">
-            <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onSubmit()">
+            <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onSubmit('Continue')">
                 Continue
             </button>
             <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                (click)="Cancel()">
+                (click)="Cancel('Cancel')">
                 Cancel
             </button>
         </div>

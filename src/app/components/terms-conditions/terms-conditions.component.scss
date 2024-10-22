@@ -28,6 +28,7 @@ a {
   cursor: pointer;
   transition: color 0.3s;
   -webkit-text-decoration-skip: objects;
+  color: #1576d1 !important;
 }
 .navigation-text:hover {
   color: #003078;
@@ -54,4 +55,21 @@ a {
 }
 .govuk-breadcrumbs__list{
   padding-left: 0px !important;
+}
+.shared-font {
+  font-family: 'Arial', sans-serif; 
+}
+p, li {
+  font-size: 19px;
+  line-height: 1.6;
+}
+.no-bullets li {
+  margin-bottom: 10px; 
+}
+.privacy-link
+{
+  word-wrap: break-word;
+  word-break: break-word; 
+  max-width: 100%; 
+  overflow-wrap: break-word;
 }
