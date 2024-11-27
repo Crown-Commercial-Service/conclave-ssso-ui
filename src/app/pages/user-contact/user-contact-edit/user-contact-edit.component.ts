@@ -38,6 +38,8 @@ import { FormBaseComponent } from 'src/app/components/form-base/form-base.compon
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { duration } from 'moment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-user-contact-edit',
@@ -55,6 +57,7 @@ export class UserContactEditComponent
   default: string = '';
   contactReasons: ContactReason[] = [];
   isEdit: boolean = false;
+  isEditContact: boolean = true;
   contactId: number = 0;
   separateDialCode = false;
   SearchCountryField = SearchCountryField;
@@ -89,19 +92,22 @@ export class UserContactEditComponent
   ];
   isOrgAdmin: boolean = false;
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
+  public formId : string = 'Manage_my_account Edit_contact_details';
 
   constructor(
-    private contactService: WrapperUserContactService,
+    public contactService: WrapperUserContactService,
     private formBuilder: FormBuilder,
-    private router: Router,
+    public router: Router,
     private PatternService: PatternService,
     private activatedRoute: ActivatedRoute,
     protected uiStore: Store<UIState>,
     private contactHelper: ContactHelper,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private externalContactService: WrapperContactService,
-    private titleService: Title
+    public externalContactService: WrapperContactService,
+    private titleService: Title,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     super(
       viewportScroller,
@@ -140,13 +146,14 @@ export class UserContactEditComponent
     this.contactData = {
       contacts: [],
     };
+    this.userName = this.userName = this.sessionService.decrypt('UserContactUsername');
     let queryParams = this.activatedRoute.snapshot.queryParams;
     if (queryParams.data) {
       let routeData = JSON.parse(queryParams.data);
       this.isEdit = routeData['isEdit'];
-      this.userName =
-        sessionStorage.getItem(SessionStorageKey.UserContactUsername) ?? '';
+      this.userName = this.userName = this.sessionService.decrypt('UserContactUsername');
       this.contactId = routeData['contactId'];
+      this.isEditContact = routeData['isEditContact'];
     }
     this.formGroup.setValidators(this.validateForSufficientDetails());
     this.formGroup.controls['contactReason'].setValue(this.default, {
@@ -155,10 +162,12 @@ export class UserContactEditComponent
   }
 
   ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} - User Contact - CCS`
     );
+    this.sessionService.decrypt(SessionStorageKey.UserContactUsername)
     this.externalContactService.getContactReasons().subscribe({
       next: (contactReasons: ContactReason[]) => {
         if (contactReasons != null) {
@@ -204,8 +213,7 @@ export class UserContactEditComponent
                       contactInfo.contacts
                     )
                   );
-                  this.formGroup.controls['contactReason'].setValue(
-                    contactInfo.contactPointReason
+                  this.formGroup.controls['contactReason'].setValue(contactInfo.contactPointReason == "" ? "NONE" : contactInfo.contactPointReason
                   );
                   this.onFormValueChange();
                   this.EditCheckbox();
@@ -223,6 +231,8 @@ export class UserContactEditComponent
         console.log(error);
       },
     });
+    
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   ngAfterViewChecked() {
@@ -263,6 +273,10 @@ export class UserContactEditComponent
     }
   }
 
+  pushDataLayerEvent(buttonText:string) {
+    this.dataLayerService.pushClickEvent(buttonText)
+  }
+
   public onSubmit(form: FormGroup) {
     this.submitted = true;
     this.whiteSpaceValidator
@@ -275,7 +289,7 @@ export class UserContactEditComponent
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
         this.contactData.contactPointReason = form.get('contactReason')?.value;
-
+        this.dataLayerService.pushFormSubmitEvent(this.formId);
         if (this.isEdit) {
           this.contactService
             .updateUserContact(this.userName, this.contactId, this.contactData)
@@ -313,6 +327,7 @@ export class UserContactEditComponent
               error: (error) => {
                 console.log(error);
                 console.log(error.error);
+                this.dataLayerService.pushFormErrorEvent(this.formId);
                 if (error.error == 'INVALID_PHONE_NUMBER') {
                   this.setError(form, 'phone', 'invalid');
                 } else if (error.error == 'INVALID_EMAIL') {
@@ -327,9 +342,11 @@ export class UserContactEditComponent
         }
       } else {
         this.scrollHelper.scrollToFirst('error-summary-title');
+        this.dataLayerService.pushFormErrorEvent(this.formId);
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+      this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -338,6 +355,7 @@ export class UserContactEditComponent
     errorObject[errorString] = true;
     form.controls[control].setErrors(errorObject);
     this.scrollHelper.scrollToFirst('error-summary');
+    this.dataLayerService.pushFormErrorEvent(this.formId);
   }
 
   formValid(form: FormGroup): Boolean {
@@ -346,8 +364,9 @@ export class UserContactEditComponent
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText: string) {
     this.router.navigateByUrl('profile');
+    this.pushDataLayerEvent(buttonText);
   }
 
   onDeleteClick() {
@@ -358,6 +377,13 @@ export class UserContactEditComponent
     this.router.navigateByUrl(
       'user-contact-delete?data=' + JSON.stringify(data)
     );
+  }
+
+  getQueryData(): string {
+    const data = {
+      contactId: this.contactId,
+    };
+    return JSON.stringify(data);
   }
 
   public checkBoxClick(checkboxData: string): void {
@@ -409,7 +435,7 @@ export class UserContactEditComponent
     } 
     return false
   }
-  
+
   // public get checkboxValidator() {
   //   let returnValue=false
   //   this.toggleInput.forEach((f: any) => {

@@ -12,7 +12,7 @@
                             }}</a>
                     </li>
                     <li *ngIf="unassignSiteId != 0" class="govuk-breadcrumbs__list-item">
-                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick()">{{ 'EDIT_SITE' | translate
+                        <a href="javascript:;" class="govuk-breadcrumbs__link" (click)="onCancelClick('Edit site')">{{ 'EDIT_SITE' | translate
                           }}</a>
                       </li>
                     <li class="govuk-breadcrumbs__list-item">
@@ -22,11 +22,11 @@
             </div>
             <h1 class="govuk-heading-xl"> {{ 'CONFIRM_UNASSIGN_CONTACT' | translate }}</h1>
             <div class="govuk-button-group continue-cancel-button-group">
-                <button type="submit" (click)="onDeleteConfirmClick()" class="govuk-button govuk-button--warning"
+                <button type="submit" (click)="onDeleteConfirmClick('Confirm and unassign')" class="govuk-button govuk-button--warning"
                     data-module="govuk-button">
                     {{ 'CONFIRM_UNASSIGN_BTN' | translate }}
                 </button>
-                <button type="button" (click)="onCancelClick()" class="govuk-button govuk-button--secondary"
+                <button type="button" (click)="onCancelClick('Cancel')" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button">
                     {{ 'CANCEL_BTN' | translate }}
                 </button>

@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { slideAnimation } from 'src/app/animations/slide.animation';
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 
@@ -24,14 +26,17 @@ import { environment } from 'src/environments/environment';
 export class ManageOrgRegStep1BComponent extends BaseComponent implements OnInit {
   ccsContactUrl: string = environment.uri.ccsContactUrl;
   constructor(private router: Router, protected uiStore: Store<UIState>,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService,private sessionService:SessionService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
+   }
 
-  public onClick() {
+  public onClick(buttonText:string) {
     this.router.navigateByUrl(`manage-org/register/search`);
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
   public onBackClick() {

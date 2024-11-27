@@ -9,7 +9,7 @@ import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper
 import { OrganisationSiteInfo, OrganisationSiteResponse } from 'src/app/models/site';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WrapperSiteContactService } from 'src/app/services/wrapper/wrapper-site-contact-service';
-import { ContactGridInfo, SiteContactInfoList } from 'src/app/models/contactInfo';
+import { ContactGridInfo, ContactGridInfoWithLink, SiteContactInfoList } from 'src/app/models/contactInfo';
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { Title } from '@angular/platform-browser';
 import { FormBaseComponent } from 'src/app/components/form-base/form-base.component';
@@ -18,6 +18,9 @@ import { WrapperConfigurationService } from 'src/app/services/wrapper/wrapper-co
 import { ReplaySubject, Subject } from 'rxjs';
 import { MatSelect } from '@angular/material/select';
 import { take, takeUntil } from 'rxjs/operators';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-site-edit',
@@ -31,6 +34,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   public serverError: string = '';
   public dublicateSiteName=''
   organisationId: string;
+  contactAddAnother :boolean = false;
   contactTableHeaders = ['CONTACT_REASON', 'NAME', 'EMAIL', 'TELEPHONE_NUMBER','MOBILE_NUMBER','FAX', 'WEB_URL'];
   contactColumnsToDisplay = ['contactReason', 'name', 'email', 'phoneNumber','mobileNumber','fax', 'webUrl'];
   contactData: ContactGridInfo[];
@@ -40,14 +44,16 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
 
   public bankFilterCtrl: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
+  public formId : string = 'Manage_organisation Edit_site';
 
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   @ViewChild('singleSelect', { static: true }) singleSelect!: MatSelect;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,
+  constructor(private formBuilder: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute,private sessionService:SessionService,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
-    private orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
-    private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService) {
+    public orgSiteService: WrapperOrganisationSiteService, private siteContactService: WrapperSiteContactService,
+    private contactHelper: ContactHelper, private titleService: Title, private wrapperConfigService: WrapperConfigurationService, private dataLayerService: DataLayerService,
+    private loadingIndicatorService: LoadingIndicatorService) {
     super(viewportScroller, formBuilder.group({                                        
       name: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(3)])],
       streetAddress: ['', Validators.compose([Validators.required,Validators.pattern(/^[ A-Za-z0-9@().,;:'/#&+-]*$/),Validators.maxLength(256), Validators.minLength(1)])],
@@ -67,6 +73,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   }
 
   async ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(`${this.isEdit ? "Edit" : "Add"} - Site - CCS`);
     this.countryDetails = await this.wrapperConfigService.getCountryDetails().toPromise();
     this.setTopCountries(false);
@@ -78,7 +85,10 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       .subscribe(() => {
         this.filterBanks();
       });
-    if (this.isEdit) {
+    if (this.isEdit) {  
+      this.loadingIndicatorService.isLoading.next(true);
+      this.loadingIndicatorService.isCustomLoading.next(true);
+      
       this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
         {
           next: (siteInfo: OrganisationSiteResponse) => {
@@ -93,15 +103,22 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
             });
             this.getSiteContacts();
             this.onFormValueChange();
+            
+            this.loadingIndicatorService.isLoading.next(false);
+            this.loadingIndicatorService.isCustomLoading.next(false);
           },
           error: (error: any) => {
             console.log(error);
-          }
+            
+            this.loadingIndicatorService.isLoading.next(false);
+            this.loadingIndicatorService.isCustomLoading.next(false);
+          },
         });
     }
     else {
       this.onFormValueChange();
     }
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   ngAfterViewInit() {
@@ -163,6 +180,21 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       next: (siteContactListInfo: SiteContactInfoList) => {
         if (siteContactListInfo != null) {
           this.contactData = this.contactHelper.getContactGridInfoList(siteContactListInfo.contactPoints);
+          this.contactData.forEach((f)=>{
+            let data = {
+              'isEdit': true,
+              'contactId': f.contactId,
+              'siteId': this.siteId
+            };
+            let queryParams = {data: JSON.stringify(data)}
+            f.routeLink = `/manage-org/profile/site/contact-edit`,
+            f.routeData = queryParams
+          })
+        }
+        if (siteContactListInfo.contactPoints && siteContactListInfo.contactPoints.length > 0) {
+          this.contactAddAnother = true;
+        } else {
+          this.contactAddAnother = false;
         }
       },
       error: (error: any) => {
@@ -199,6 +231,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
         }
       };
 
+      this.dataLayerService.pushFormSubmitEvent(this.formId);
       if (this.isEdit) {
         this.orgSiteService.updateOrganisationSite(this.organisationId, this.siteId, orgSiteInfo).subscribe(
           {
@@ -215,6 +248,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
                 this.serverError="INVALID_SITE_NAME"
               }
               this.scrollHelper.scrollToFirst('error-summary');
+              this.dataLayerService.pushFormErrorEvent(this.formId);
               return;
             }
           });
@@ -240,6 +274,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
                 // form.controls['countryCode'].setErrors(errorObject);
                 this.serverError = error.error;
                 this.scrollHelper.scrollToFirst('error-summary');
+                this.dataLayerService.pushFormErrorEvent(this.formId);
                 if(error.status==409){
                   this.serverError="INVALID_SITE_NAME"
                 }
@@ -251,6 +286,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     }
     else {
       this.scrollHelper.scrollToFirst('error-summary');
+     this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -260,8 +296,9 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     return form.valid;
   }
 
-  onCancelClick() {
+  onCancelClick(buttonText:string) {
     this.router.navigateByUrl('manage-org/profile');
+    this.pushDataLayerEvent(buttonText);
   }
 
   onDeleteClick() {
@@ -272,25 +309,36 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
     this.router.navigateByUrl('manage-org/profile/site/delete?data=' + JSON.stringify(data));
   }
 
-  public onContactAddClick() {
+  getQueryData(): string {
+    const data = {
+      'organisationId': this.organisationId,
+      'siteId': this.siteId
+    };
+    return JSON.stringify(data);
+  }
+  
+  public onContactAddClick(buttonText:string) {
     let data = {
       'isEdit': false,
       'contactId': 0,
       'siteId': this.siteId,
       'siteCreate':false,
       'ContactAdd':true,
+      'contactAddAnother':this.contactAddAnother,
     };
     this.router.navigateByUrl('manage-org/profile/site/contact-edit?data=' + JSON.stringify(data));
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onContactAssignClick() {
+  public onContactAssignClick(buttonText:string) {
     let data = {
       'assigningSiteId': this.siteId
     };
     this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
+    this.pushDataLayerEvent(buttonText);
   }
 
-  onContactEditClick(contactInfo: ContactGridInfo) {
+  onContactEditClick(contactInfo: ContactGridInfoWithLink) {
     let data = {
       'isEdit': true,
       'contactId': contactInfo.contactId,
@@ -302,4 +350,8 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   public formValueChanged(){
    this.serverError=''
   }
+
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
+	  }
 }

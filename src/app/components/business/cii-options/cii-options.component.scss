@@ -63,3 +63,15 @@ label[for="input3"]
 {
   font-size: 16px;
 }
+
+.govuk-radios__item.custom_radio {
+  min-height: auto;
+}
+
+.govuk-fieldset__legend--m {
+  font-weight: 500;
+}
+
+.govuk-breadcrumbs__link {
+  font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", "Arial", "Helvetica", sans-serif !important;
+}

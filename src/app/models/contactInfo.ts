@@ -48,6 +48,11 @@ export interface SiteDetailInfo {
     siteId: number;
 }
 
+export interface ContactGridInfoWithLink extends ContactGridInfo {
+  routeLink: string,
+  routeData: any
+}
+
 export interface SiteContactInfo extends ContactPoint {
     detail: SiteDetailInfo;
 }
@@ -56,6 +61,11 @@ export interface SiteContactInfoList {
     organisationId: string;
     siteId: number;
     contactPoints: ContactPoint[]
+}
+
+export interface SiteContactInfoListWithLink extends SiteContactInfoList{
+    routeLink: string,
+    routeData: any
 }
 
 export const VirtualContactType = {
@@ -76,6 +86,8 @@ export interface ContactGridInfo {
     fax?: string;
     webUrl?: string;
     isChecked?: boolean;
+    routeLink?: string;
+    routeData?: any;
 }
 
 export interface ContactAssignmentInfo {
