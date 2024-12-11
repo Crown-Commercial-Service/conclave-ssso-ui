@@ -6,7 +6,7 @@ RUN npm install --legacy-peer-deps && npm cache clean --force
 COPY . ./
 RUN npm run build
 
-FROM nginx:mainline-alpine3.20 AS runtime
+FROM nginx:stable-alpine3.20-slim AS runtime
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY --from=build /app/dist .
