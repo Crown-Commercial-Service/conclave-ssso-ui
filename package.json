@@ -61,7 +61,7 @@
     "@ngrx/store": "^17.2.0",
     "@ngrx/store-devtools": "^17.2.0",
     "@types/crypto-js": "^4.2.1",
-    "@types/jasmine": "^3.9.1",
+    "@types/jasmine": "^5.1.5",
     "@types/jquery": "^3.5.14",
     "@types/node": "^16.18.106",
     "codelyzer": "^0.0.28",
