@@ -1,0 +1,59 @@
+<div class="table-scrolls">
+  <table class="govuk-table" *ngIf="registries">
+    
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Registry</th>
+        <th scope="col" class="govuk-table__header">ID</th>
+        <th scope="col" class="govuk-table__header" *ngIf="pageName != 'MSE' && pageName != 'MBSR'">Legal name</th>
+        <td scope="col" class="govuk-table__header"></td>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row" *ngFor="let row of tableVisibleData;">
+        <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
+        <td class="govuk-table__cell">{{ row.id }}</td>
+        <td class="govuk-table__cell" *ngIf="pageName == 'MO'">{{ row.legalName}}</td>
+        <!-- <td class="govuk-table__cell" *ngIf="row.primary === false && pageName != 'MSE' && pageName != 'MBSR'" (click)="onRowClick(row)"><a >Remove</a></td> -->
+        <td class="govuk-table__cell" *ngIf="row.primary === false && pageName != 'MSE' && pageName != 'MBSR'"><a [routerLink]="generateRegistryRemoveRoute(row)" [queryParams]="{isNewTab:true}">Remove</a></td>
+        <td class="govuk-table__cell" *ngIf="row.primary === true && pageName != 'MO'">Primary</td>
+        <td class="govuk-table__cell" *ngIf="row.primary === true"><a></a></td>
+        <td class="govuk-table__cell" *ngIf="row.primary === false"><a></a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="govuk-body govuk-!-font-weight-bold" *ngIf="tableVisibleData == undefined">
+    There are no matching results.
+</p>
+</div>
+<div *ngIf="
+    (useServerPagination == true || useClientPagination == true) &&
+    pageCount &&
+    pageCount > 1 &&
+    tableVisibleData.length != 0
+  " class="pagination-area" aria-label="Pagination">
+  <ul>
+    <li (click)="onSetPageClick(currentPage - 1)" *ngIf="currentPage != 1">
+      <a  href="javascript:;"  aria-label="Previous" class="govuk-pagination__link-title">
+        <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+          <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+        </svg>
+        <span>{{ "PREVIOUS" | translate }}</span>
+      </a>
+    </li>
+    <li *ngFor="let page of getPaginationData(); let i = index"  [class.active]="page == currentPage" [ngClass]="{'custom-listing': page === '...'}" (click)="onSetPageClick(page)">
+      <a *ngIf="page !== '...'" href="javascript:;"  >
+        {{ page }}</a>
+        <span  *ngIf="page === '...'">{{ page }}</span>
+    </li>
+    <li class="inline-list" *ngIf="currentPage != pageCount" (click)="onSetPageClick(currentPage + 1)">
+      <a  href="javascript:;" 
+        aria-label="Next" class="govuk-pagination__link-title">
+        <span>{{ "NEXT" | translate }}</span>
+        <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+          <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+        </svg>
+      </a>
+    </li>
+  </ul>
+</div>

@@ -11,6 +11,8 @@ import { dataService } from 'src/app/services/data/data.service';
 import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-organisation-profile-registry-error',
@@ -31,7 +33,7 @@ export class ManageOrganisationRegistryErrorComponent extends BaseComponent impl
   public organisationId!: number;
   ccsContactUrl : string = environment.uri.ccsContactUrl;
   
-  constructor(private dataService: dataService, private router: Router, private route: ActivatedRoute, private location: Location, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private dataService: dataService, public router: Router,private sessionService:SessionService, private route: ActivatedRoute, private location: Location, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
     this.organisationId = JSON.parse(localStorage.getItem('organisation_id') + '');
     // this.organisationId = parseInt(this.route.snapshot.paramMap.get('organisationId') || '0');
@@ -45,6 +47,8 @@ export class ManageOrganisationRegistryErrorComponent extends BaseComponent impl
         this.reason = 'existsInConclave';
       }
     });
+
+    this.dataLayerService.pushPageViewEvent({reason: this.reason});
   }
 
   public goBack(){

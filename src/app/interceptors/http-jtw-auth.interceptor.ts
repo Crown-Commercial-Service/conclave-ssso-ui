@@ -13,7 +13,7 @@ export class HttpJwtAuthInterceptor implements HttpInterceptor {
 
     }
 
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
+    intercept(request: HttpRequest<any>, next: any): Observable<any> {
         return this.workerService.getAccessToken().mergeMap((token: string) => {
             if (token.length > 0) {
                 request = request.clone({

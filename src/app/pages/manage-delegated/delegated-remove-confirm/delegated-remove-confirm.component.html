@@ -4,11 +4,11 @@
             <div class="govuk-breadcrumbs">
                 <ol class="govuk-breadcrumbs__list">
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/home">
+                        <a class="govuk-breadcrumbs__link" [routerLink]="['/home']" [queryParams]="{isNewTab:true}" >
                             {{ "ADMINISTRATOR_DASHBOARD" | translate }}</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item">
-                        <a class="govuk-breadcrumbs__link" routerLink="/delegated-access">
+                        <a class="govuk-breadcrumbs__link" [routerLink]="['/delegated-access']" [queryParams]="{isNewTab:true}">
                             Delegated access</a>
                     </li>
                     <li class="govuk-breadcrumbs__list-item" *ngIf="RouteData.pageaccessmode ==='remove'">
@@ -25,10 +25,10 @@
                 </h1>
                 <p class="govuk-body-l">This cannot be undone</p>
                 <div class="govuk-button-group save-cancel-button-group">
-                    <button class="govuk-button govuk-button--warning" data-module="govuk-button" (click)="ConfirmRemoveUser()">
+                    <button class="govuk-button govuk-button--warning" data-module="govuk-button" (click)="ConfirmRemoveUser('Confirm and remove')">
                         Confirm and remove
                       </button>
-                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="Cancel()">
+                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" routerLink="/delegated-access"  (click)="Cancel('Cancel')">
                         Cancel
                     </button>
                 </div>
@@ -40,11 +40,11 @@
                 <p class="govuk-body-l">Send new activation link for a delegated access to user {{RouteData.userName}}</p>
                 <div class="govuk-button-group save-cancel-button-group">
                     <button type="submit" class="govuk-button" data-module="govuk-button"
-                        (click)="ConfirmResentLink()">
+                        (click)="ConfirmResentLink('Resend activation link')">
                         Resend activation link
                     </button>
                     <button type="button" class="govuk-button govuk-button--secondary"
-                        data-module="govuk-button" (click)="Cancel()">
+                        data-module="govuk-button" routerLink="/delegated-access" (click)="Cancel('Cancel')">
                         Cancel
                     </button>
                 </div>

@@ -10,7 +10,10 @@ import { Data } from 'src/app/models/data';
 import { dataService } from 'src/app/services/data/data.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UserService } from 'src/app/services/postgres/user.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { UIState } from 'src/app/store/ui.states';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-organisation-registration-confirm',
@@ -21,11 +24,12 @@ export class ManageOrgRegConfirmComponent extends BaseComponent implements OnIni
   public pageAccessMode:any;
   public emailAddress: string = '';
   public resendActivationEmailMode: boolean = false;
-  public buyerFlow:any
-  constructor(private userService: UserService, private route: ActivatedRoute,
+  public buyerFlow:any;
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
+  constructor(private userService: UserService, private route: ActivatedRoute,private sessionService:SessionService,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private router: Router,private ActivatedRoute: ActivatedRoute) {
+    private router: Router,private ActivatedRoute: ActivatedRoute, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       if(para.data != undefined){
@@ -43,10 +47,11 @@ export class ManageOrgRegConfirmComponent extends BaseComponent implements OnIni
     this.route.queryParams.subscribe(params => {
       if (params['rs'] != undefined) {
         this.resendActivationEmailMode = true;
-        this.userService.resendUserActivationEmail(this.emailAddress).toPromise().then(() => {
+        this.userService.resendUserActivationEmail(this.emailAddress,false,true).toPromise().then(() => {
         });
       }
     });
+    this.dataLayerService.pushPageViewEvent();
   }
 
 

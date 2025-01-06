@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-manage-user-role',
@@ -11,8 +13,8 @@ export class ManageUserRoleComponent implements OnInit {
 public userDetails:any
 public errorResponce:boolean = false;
 public isOrgAdmin: boolean = false;
-private tokenPara : any=[];
-  constructor(private wrapperUserService: WrapperUserService,private router: Router,private route: ActivatedRoute) { 
+public tokenPara : any=[];
+  constructor(private sessionService:SessionService,private wrapperUserService: WrapperUserService,private router: Router,private route: ActivatedRoute, private dataLayerService: DataLayerService) { 
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
   }
 
@@ -21,9 +23,10 @@ private tokenPara : any=[];
       this.tokenPara = para.token;
       this.verifytoken(para.token)
     });
+    this.dataLayerService.pushPageViewEvent();
   }
 
-  private verifytoken(encryptedtoken:string):void {
+  public verifytoken(encryptedtoken:string):void {
     this.wrapperUserService.userTokenVerify(encryptedtoken).subscribe((data)=>{
       this.userDetails = data
     },(err)=>{
@@ -31,7 +34,7 @@ private tokenPara : any=[];
     })
   }
 
-  public acceptRejectRequest(responce:number):void{
+  public acceptRejectRequest(responce:number,buttonText:string):void{
     this.userDetails=null;
     this.wrapperUserService.userTokenVerify(this.tokenPara).subscribe((data)=>{
     this.userDetails = data;  
@@ -56,5 +59,6 @@ private tokenPara : any=[];
   },(err)=>{
     this.errorResponce = true
   })
+  this.dataLayerService.pushClickEvent(buttonText)
   }
 }

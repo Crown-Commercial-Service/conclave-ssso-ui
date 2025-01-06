@@ -11,6 +11,7 @@ export interface OrganisationRegisterDto {
     adminUserFirstName: string;
     adminUserLastName: string;
     adminUserTitle: string;
+    isMfaRequired:boolean
 }
 
 export interface OrganisationRegBasicInfo {
@@ -19,6 +20,7 @@ export interface OrganisationRegBasicInfo {
     adminUserFirstName: string;
     adminUserLastName: string;
     ciiOrgId: string;
+    isMfaRequired:boolean
 }
 
 export interface CiiOrganisationDto {
@@ -64,6 +66,7 @@ export interface OrganisationDetails{
     rightToBuy: boolean;
     businessType: string;
     supplierBuyerType: number;
+    isMfaRequired:boolean;   
 }
 
 export interface OrganisationSearchDto{
@@ -81,6 +84,8 @@ export interface OrganisationAuditList
     organisationTypeName: string;
     dateOfRegistration: Date;
     rightToBuy: boolean;
+    routeLink?:string;
+    routeData?:any;
 }
 
 export interface OrganisationAuditListResponse extends PaginationInfo {

@@ -9,6 +9,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { Title } from '@angular/platform-browser';
 import { SessionStorageKey } from 'src/app/constants/constant';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'mfa-reset-component',
@@ -20,10 +22,11 @@ export class MFAResetComponent extends BaseComponent implements OnInit {
   userName: string = '';
   resultVerified: boolean = false;
   titlePrefix: string = '';
+  mfaReset:boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
-    private mfaService: MFAService, private authService: AuthService, private titleService: Title,
-    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    private mfaService: MFAService, private authService: AuthService, private titleService: Title,private sessionService:SessionService,
+    protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
@@ -39,6 +42,7 @@ export class MFAResetComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
     this.route.queryParams.subscribe(para => {
       this.mfaService.resetMFA(para.t).toPromise().then(() => {
         this.resetSuccess = true;
@@ -50,6 +54,7 @@ export class MFAResetComponent extends BaseComponent implements OnInit {
         this.titleService.setTitle(`Error - Additional security Reset - CCS`);
         if (er.error.error == 'INVALID_TICKET') {
           this.userName = er.error.error_description;
+          this.mfaReset = er.error.mfa_reset_inprogress;
         }
       });
     });
