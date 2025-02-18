@@ -1,0 +1,34 @@
+<div class="content-flux">
+    <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" routerLink="/home">Administrator dashboard</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" routerLink="/manage-org/profile">Manage your organisation</a>
+            </li>
+        </ol>
+    </div>
+    <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l govuk-margin">
+
+                {{'CHANGES_SAVED' | translate}}
+            </legend>
+            <p class="govuk-mfa-label-text "><strong>Two-factor authentication is now off for your account.</strong></p>
+            <p class="govuk-mfa-label-text ">Please consider turning it back on to help protect your account.</p>
+        </fieldset>
+
+    </div>
+    <div class="govuk-2mfa-link">
+        <a href="javascript:;" class="navigation-text" [routerLink] ="['/profile']" [queryParams]="{isNewTab:true}" >
+            {{'RETURN_TO_EDIT_USER' | translate }}<br>
+        </a>
+        <a href="javascript:;" class="navigation-text" [routerLink]="['/home']" [queryParams]="{isNewTab:true}">
+            {{'RETURN_TO_DASHBOARD' | translate }}
+        </a>
+
+    </div>
+
+</div>

@@ -6,5 +6,7 @@ export interface TokenInfo
     id_token : string;
     access_token : string;
     refresh_token : string;
-    session_state:string
+    session_state:string,
+    auth0_access_token: string;  
+    auth0_refresh_token : string;
 }

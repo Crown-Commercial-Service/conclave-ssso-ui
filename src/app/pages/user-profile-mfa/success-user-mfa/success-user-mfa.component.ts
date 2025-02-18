@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-success-user-mfa',
@@ -11,7 +13,7 @@ export class SuccessUserMfaComponent implements OnInit {
   public sendError: boolean=false
   isOrgAdmin: boolean = false;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private router: Router, private dataLayerService: DataLayerService,private sessionService:SessionService) { }
 
   ngOnInit(): void {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
@@ -23,5 +25,6 @@ export class SuccessUserMfaComponent implements OnInit {
         this.sendError=true
       }
     })
+    this.dataLayerService.pushPageViewEvent();
   }
 }

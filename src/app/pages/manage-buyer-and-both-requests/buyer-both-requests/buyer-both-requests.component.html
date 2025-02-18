@@ -23,7 +23,7 @@
                 *ngIf="searchSumbited && searchText ===''">
                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a organisation name
               </span>
-                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()">
+                <app-search-box [(searchText)]="searchText" (onSearchClickEvent)="onSearchClick()" [pageName]="'Manage Buyer status Requests'">
                 </app-search-box>
             </div>
         </div>
@@ -32,17 +32,18 @@
 <div class="govuk-tabs" data-module="govuk-tabs">
     <ul class="govuk-tabs__list">
       <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.pendingOrg}" (click)="tabChanged('pendingOrg')">
-        <a class="govuk-tabs__tab" href="#" onClick="return false;">
+        <a class="govuk-tabs__tab" onClick="return false;">
             Buyer status pending
         </a>
       </li>
       <li class="govuk-tabs__list-item" [ngClass]="{'govuk-tabs__list-item--selected' : tabConfig.verifiedOrg}" (click)="tabChanged('verifiedOrg')">
-        <a class="govuk-tabs__tab" href="#" onClick="return false;">
+        <a class="govuk-tabs__tab" onClick="return false;">
             Approved / declined Buyer status requests 
         </a>
       </li>
     </ul>
-    <div class="govuk-tabs__panel" id="past-day" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.verifiedOrg}">
+    <div class="govuk-tabs__panel" id="pendingOrg" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.verifiedOrg}">
+    <h2 class="govuk-heading-m">Buyer status pending</h2>
     <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <div class="user-table">
@@ -55,7 +56,8 @@
     </div>
 </div>
     </div> 
-    <div class="govuk-tabs__panel" id="past-week" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.pendingOrg}">
+    <div class="govuk-tabs__panel" id="verifiedOrg" [ngClass]="{'govuk-tabs__panel--hidden' : tabConfig.pendingOrg}">
+    <h2 class="govuk-heading-m">Approved / declined Buyer status requests</h2>
       <div class="user-table">
         <app-govuk-table [headerTextKeys]="verifiedBuyerAndBoth.usersTableHeaders" [data]="verifiedBuyerAndBoth.organisationAuditList.organisationAuditList"
         [dataKeys]="verifiedBuyerAndBoth.usersColumnsToDisplay" [isHyperLinkVisible]="false"
