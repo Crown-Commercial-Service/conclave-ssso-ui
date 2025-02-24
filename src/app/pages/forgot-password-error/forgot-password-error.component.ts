@@ -4,9 +4,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-forgot-password-error',
-  templateUrl: './forgot-password-error.component.html',
-  styleUrls: ['./forgot-password-error.component.scss']
+    selector: 'app-forgot-password-error',
+    templateUrl: './forgot-password-error.component.html',
+    styleUrls: ['./forgot-password-error.component.scss'],
+    standalone: false
 })
 export class ForgotPasswordErrorComponent implements OnInit {
 

@@ -18,7 +18,8 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
     <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item last-item">
         <a href="javascript:;" (click)="setPage(pager.totalPages)" class="page-link">Last</a>
     </li>
-</ul>`
+</ul>`,
+    standalone: false
 })
 
 export class JwPaginationComponent implements OnInit, OnChanges {

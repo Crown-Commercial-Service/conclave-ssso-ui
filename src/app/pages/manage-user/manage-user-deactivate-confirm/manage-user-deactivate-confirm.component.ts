@@ -11,9 +11,10 @@ import { UIState } from 'src/app/store/ui.states';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
-  selector: 'app-manage-user-deactivate-confirm',
-  templateUrl: './manage-user-deactivate-confirm.component.html',
-  styleUrls: ['./manage-user-deactivate-confirm.component.scss']
+    selector: 'app-manage-user-deactivate-confirm',
+    templateUrl: './manage-user-deactivate-confirm.component.html',
+    styleUrls: ['./manage-user-deactivate-confirm.component.scss'],
+    standalone: false
 })
 export class ManageUserDeactivateConfirmComponent extends BaseComponent implements OnInit {
   userName: string = '';

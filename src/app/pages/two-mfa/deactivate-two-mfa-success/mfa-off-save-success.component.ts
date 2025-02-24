@@ -12,7 +12,7 @@ import { UIState } from "src/app/store/ui.states";
 
 @Component({
     selector: 'app-mfa-off-save-success',
-    templateUrl:'./mfa-off-save-success.component.html',
+    templateUrl: './mfa-off-save-success.component.html',
     styleUrls: ['./mfa-off-save-success.component.scss'],
     animations: [
         slideAnimation({
@@ -21,7 +21,8 @@ import { UIState } from "src/app/store/ui.states";
         })
     ],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class MfaOffSaveSuccessComponent extends BaseComponent implements OnInit {
     constructor(private activatedRoute: ActivatedRoute,private sessionService:SessionService,private router:Router, private authService: AuthService,

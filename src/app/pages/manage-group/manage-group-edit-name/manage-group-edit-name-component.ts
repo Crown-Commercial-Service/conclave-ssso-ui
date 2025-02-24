@@ -22,9 +22,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-group-edit-name',
-  templateUrl: './manage-group-edit-name-component.html',
-  styleUrls: ['./manage-group-edit-name-component.scss'],
+    selector: 'app-manage-group-edit-name',
+    templateUrl: './manage-group-edit-name-component.html',
+    styleUrls: ['./manage-group-edit-name-component.scss'],
+    standalone: false
 })
 export class ManageGroupEditNameComponent
   extends FormBaseComponent

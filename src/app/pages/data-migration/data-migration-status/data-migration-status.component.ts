@@ -5,9 +5,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-data-migration-status',
-  templateUrl: './data-migration-status.component.html',
-  styleUrls: ['./data-migration-status.component.scss']
+    selector: 'app-data-migration-status',
+    templateUrl: './data-migration-status.component.html',
+    styleUrls: ['./data-migration-status.component.scss'],
+    standalone: false
 })
 export class DataMigrationStatusComponent implements OnInit {
 

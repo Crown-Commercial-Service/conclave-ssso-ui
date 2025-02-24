@@ -7,7 +7,8 @@ import { SessionService } from "src/app/shared/session.service";
 @Component({
     selector: 'app-manage-reg-organisation-status-duplicate',
     templateUrl: './manage-reg-organisation-status-duplicate.component.html',
-    styleUrls: ['./manage-reg-organisation-status-duplicate.component.scss']
+    styleUrls: ['./manage-reg-organisation-status-duplicate.component.scss'],
+    standalone: false
 })
 
 export class ManageOrgRegSearchStatusDuplicateComponent {

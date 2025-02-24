@@ -22,7 +22,8 @@ import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
     templateUrl: './manage-group-error.component.html',
-    styleUrls: ['./manage-group-error.component.scss']
+    styleUrls: ['./manage-group-error.component.scss'],
+    standalone: false
 })
 export class ManageGroupErrorComponent extends BaseComponent {
 

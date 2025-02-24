@@ -15,9 +15,10 @@ import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicat
 import { DetailsToggleService } from 'src/app/shared/shared-details-toggle.service';
 
 @Component({
-  selector: 'app-delegated-access-user',
-  templateUrl: './delegated-access-user.component.html',
-  styleUrls: ['./delegated-access-user.component.scss'],
+    selector: 'app-delegated-access-user',
+    templateUrl: './delegated-access-user.component.html',
+    styleUrls: ['./delegated-access-user.component.scss'],
+    standalone: false
 })
 export class DelegatedAccessUserComponent implements OnInit {
   public formGroup: FormGroup | any;

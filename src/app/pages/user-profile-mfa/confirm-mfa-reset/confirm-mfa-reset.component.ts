@@ -6,9 +6,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-confirm-mfa-reset',
-  templateUrl: './confirm-mfa-reset.component.html',
-  styleUrls: ['./confirm-mfa-reset.component.scss'],
+    selector: 'app-confirm-mfa-reset',
+    templateUrl: './confirm-mfa-reset.component.html',
+    styleUrls: ['./confirm-mfa-reset.component.scss'],
+    standalone: false
 })
 export class ConfirmMfaResetComponent implements OnInit {
   constructor(

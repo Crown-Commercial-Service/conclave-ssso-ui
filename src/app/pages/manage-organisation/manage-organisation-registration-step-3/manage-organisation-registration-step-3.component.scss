@@ -68,3 +68,15 @@ app-manage-organisation-registration-step-3 {
   border-top-style:hidden !important;
   border-bottom: 1px solid;
 }
+
+.form-field-country .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-form-field-infix{
+  padding-top: 0px;
+}
+
+.form-field-country .mat-mdc-text-field-wrapper{
+  height: 30px;
+}
+
+#country-code-panel{
+  margin-left: 0px !important;
+} 

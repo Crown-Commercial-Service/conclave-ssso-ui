@@ -26,7 +26,8 @@ import { SessionService } from 'src/app/shared/session.service';
         })
     ],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrgRegAdditionalIdentifiersComponent extends BaseComponent implements OnInit {
 

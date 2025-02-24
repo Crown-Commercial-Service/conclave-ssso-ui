@@ -16,15 +16,16 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-organisation-profile-registry-search',
-  templateUrl: './manage-organisation-profile-registry-search.component.html',
-  styleUrls: ['./manage-organisation-profile-registry-search.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ]
+    selector: 'app-manage-organisation-profile-registry-search',
+    templateUrl: './manage-organisation-profile-registry-search.component.html',
+    styleUrls: ['./manage-organisation-profile-registry-search.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    standalone: false
 })
 export class ManageOrganisationRegistrySearchComponent extends BaseComponent implements OnInit {
   public items$!: Observable<any>;

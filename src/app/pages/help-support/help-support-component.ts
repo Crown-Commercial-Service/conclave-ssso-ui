@@ -12,15 +12,16 @@ import { Router } from '@angular/router';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-help-support-component',
-  templateUrl: './help-support-component.html',
-  styleUrls: ['./help-support-component.scss'],
-  animations: [
-    slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ]
+    selector: 'app-help-support-component',
+    templateUrl: './help-support-component.html',
+    styleUrls: ['./help-support-component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    standalone: false
 })
 export class HelpAndSupportComponent extends BaseComponent implements OnInit {
   isAuthenticated: boolean = false;

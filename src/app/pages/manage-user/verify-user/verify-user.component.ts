@@ -5,9 +5,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-verify-user',
-  templateUrl: './verify-user.component.html',
-  styleUrls: ['./verify-user.component.scss'],
+    selector: 'app-verify-user',
+    templateUrl: './verify-user.component.html',
+    styleUrls: ['./verify-user.component.scss'],
+    standalone: false
 })
 export class VerifyUserComponent implements OnInit {
   constructor(

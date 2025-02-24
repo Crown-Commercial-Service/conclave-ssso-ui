@@ -14,17 +14,18 @@ import { SessionService } from 'src/app/shared/session.service';
 import { UIState } from 'src/app/store/ui.states';
 
 @Component({
-  selector: 'app-manage-organisation-profile-registry-delete-confirm',
-  templateUrl: './manage-organisation-profile-registry-delete-confirm.component.html',
-  styleUrls: ['./manage-organisation-profile-registry-delete-confirm.component.scss'],
-  animations: [
-      slideAnimation({
-          close: { 'transform': 'translateX(12.5rem)' },
-          open: { left: '-12.5rem' }
-      })
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-manage-organisation-profile-registry-delete-confirm',
+    templateUrl: './manage-organisation-profile-registry-delete-confirm.component.html',
+    styleUrls: ['./manage-organisation-profile-registry-delete-confirm.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrganisationRegistryDeleteConfirmationComponent extends BaseComponent implements OnInit {
 

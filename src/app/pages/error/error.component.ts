@@ -40,8 +40,9 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  templateUrl: './error.component.html',
-  styleUrls: ['./error.component.scss'],
+    templateUrl: './error.component.html',
+    styleUrls: ['./error.component.scss'],
+    standalone: false
 })
 export class ErrorComponent extends BaseComponent implements OnInit {
   resendForm!: FormGroup;

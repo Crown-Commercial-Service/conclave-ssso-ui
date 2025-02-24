@@ -4,9 +4,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-find-your-administrator',
-  templateUrl: './find-your-administrator.component.html',
-  styleUrls: ['./find-your-administrator.component.scss']
+    selector: 'app-find-your-administrator',
+    templateUrl: './find-your-administrator.component.html',
+    styleUrls: ['./find-your-administrator.component.scss'],
+    standalone: false
 })
 export class FindyouradministratorComponent implements OnInit {
 

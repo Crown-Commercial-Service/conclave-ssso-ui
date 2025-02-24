@@ -13,9 +13,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'mfa-reset-component',
-  templateUrl: './mfa-reset-component.html',
-  styleUrls: ['./mfa-reset-component.scss']
+    selector: 'mfa-reset-component',
+    templateUrl: './mfa-reset-component.html',
+    styleUrls: ['./mfa-reset-component.scss'],
+    standalone: false
 })
 export class MFAResetComponent extends BaseComponent implements OnInit {
   resetSuccess: boolean = false;
