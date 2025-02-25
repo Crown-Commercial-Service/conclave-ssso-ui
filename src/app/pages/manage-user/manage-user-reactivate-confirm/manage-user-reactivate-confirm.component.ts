@@ -10,9 +10,10 @@ import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.servic
 import { UIState } from 'src/app/store/ui.states';
 
 @Component({
-  selector: 'app-manage-user-reactivate-confirm',
-  templateUrl: './manage-user-reactivate-confirm.component.html',
-  styleUrls: ['./manage-user-reactivate-confirm.component.scss']
+    selector: 'app-manage-user-reactivate-confirm',
+    templateUrl: './manage-user-reactivate-confirm.component.html',
+    styleUrls: ['./manage-user-reactivate-confirm.component.scss'],
+    standalone: false
 })
 export class ManageUserReactivateConfirmComponent extends BaseComponent implements OnInit {
   userName: string = '';

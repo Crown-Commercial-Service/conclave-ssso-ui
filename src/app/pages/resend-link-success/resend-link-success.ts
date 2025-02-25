@@ -7,7 +7,8 @@ import { SessionService } from 'src/app/shared/session.service';
 @Component({
     selector: 'app-resend-link-success',
     templateUrl: './resend-link-success.html',
-    styleUrls: ['./resend-link-success.scss']
+    styleUrls: ['./resend-link-success.scss'],
+    standalone: false
 })
 export class ResendLinkSuccessComponent{
 

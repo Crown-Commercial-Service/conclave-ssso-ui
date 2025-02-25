@@ -24,15 +24,16 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-organisation-registration-step-2',
-  templateUrl: './manage-organisation-registration-step-2.component.html',
-  styleUrls: ['./manage-organisation-registration-step-2.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { transform: 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' },
-    }),
-  ],
+    selector: 'app-manage-organisation-registration-step-2',
+    templateUrl: './manage-organisation-registration-step-2.component.html',
+    styleUrls: ['./manage-organisation-registration-step-2.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { transform: 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' },
+        }),
+    ],
+    standalone: false
 })
 export class ManageOrgRegStep2Component
   extends BaseComponent

@@ -31,7 +31,8 @@ import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicat
             close: { 'transform': 'translateX(12.5rem)' },
             open: { left: '-12.5rem' }
         })
-    ]
+    ],
+    standalone: false
 })
 export class ManageUserProfilesComponent extends BaseComponent implements OnInit {
     userList: UserListResponse;

@@ -32,9 +32,10 @@ import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicat
 
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile-component.html',
-  styleUrls: ['./user-profile-component.scss'],
+    selector: 'app-user-profile',
+    templateUrl: './user-profile-component.html',
+    styleUrls: ['./user-profile-component.scss'],
+    standalone: false
 })
 export class UserProfileComponent extends FormBaseComponent implements OnInit {
   public showRoleView: boolean = environment.appSetting.hideSimplifyRole

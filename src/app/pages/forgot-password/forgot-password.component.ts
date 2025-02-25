@@ -20,7 +20,8 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 @Component({
     selector: 'app-forgot-password',
     templateUrl: './forgot-password.component.html',
-    styleUrls: ['./forgot-password.component.scss']
+    styleUrls: ['./forgot-password.component.scss'],
+    standalone: false
 })
 export class ForgotPasswordComponent extends BaseComponent implements OnInit {
 

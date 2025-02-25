@@ -14,17 +14,18 @@ import { SessionService } from 'src/app/shared/session.service';
 import { UIState } from 'src/app/store/ui.states';
 
 @Component({
-  selector: 'app-manage-organisation-registration-error-generic',
-  templateUrl: './manage-organisation-registration-error-generic.component.html',
-  styleUrls: ['./manage-organisation-registration-error-generic.component.scss'],
-  animations: [
-      slideAnimation({
-          close: { 'transform': 'translateX(12.5rem)' },
-          open: { left: '-12.5rem' }
-      })
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-manage-organisation-registration-error-generic',
+    templateUrl: './manage-organisation-registration-error-generic.component.html',
+    styleUrls: ['./manage-organisation-registration-error-generic.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrgRegErrorGenericComponent extends BaseComponent implements OnInit {
 

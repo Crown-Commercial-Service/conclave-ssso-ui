@@ -13,7 +13,8 @@ import { environment } from 'src/environments/environment';
 @Component({
     selector: 'app-manage-user-bulk-upload-status',
     templateUrl: './manage-user-bulk-upload-status.component.html',
-    styleUrls: ['./manage-user-bulk-upload-status.component.scss']
+    styleUrls: ['./manage-user-bulk-upload-status.component.scss'],
+    standalone: false
 })
 export class ManageUserBulkUploadStatusComponent implements OnInit {
     private id!: string;

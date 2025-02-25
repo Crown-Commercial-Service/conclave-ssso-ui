@@ -14,17 +14,18 @@ import { SessionService } from 'src/app/shared/session.service';
 import { UIState } from 'src/app/store/ui.states';
 
 @Component({
-  selector: 'app-registration-success',
-  templateUrl: './registration-success.component.html',
-  styleUrls: ['./registration-success.component.scss'],
-  animations: [
-      slideAnimation({
-          close: { 'transform': 'translateX(12.5rem)' },
-          open: { left: '-12.5rem' }
-      })
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-registration-success',
+    templateUrl: './registration-success.component.html',
+    styleUrls: ['./registration-success.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class RegistrationSuccessComponent extends BaseComponent implements OnInit {
 

@@ -19,9 +19,10 @@ import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicat
 import { LocationStrategy } from '@angular/common';
 
 @Component({
-  selector: 'app-view-verified-org',
-  templateUrl: './view-verified-org.component.html',
-  styleUrls: ['./view-verified-org.component.scss'],
+    selector: 'app-view-verified-org',
+    templateUrl: './view-verified-org.component.html',
+    styleUrls: ['./view-verified-org.component.scss'],
+    standalone: false
 })
 export class ViewVerifiedOrgComponent implements OnInit {
   private organisationId: string = '';

@@ -6,9 +6,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-confirm-accept',
-  templateUrl: './confirm-accept.component.html',
-  styleUrls: ['./confirm-accept.component.scss']
+    selector: 'app-confirm-accept',
+    templateUrl: './confirm-accept.component.html',
+    styleUrls: ['./confirm-accept.component.scss'],
+    standalone: false
 })
 export class ConfirmAcceptComponent implements OnInit {
 

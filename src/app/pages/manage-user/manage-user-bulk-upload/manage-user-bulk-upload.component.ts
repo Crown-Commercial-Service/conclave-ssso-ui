@@ -11,7 +11,8 @@ import { environment } from 'src/environments/environment';
 @Component({
     selector: 'app-manage-user-bulk-upload',
     templateUrl: './manage-user-bulk-upload.component.html',
-    styleUrls: ['./manage-user-bulk-upload.component.scss']
+    styleUrls: ['./manage-user-bulk-upload.component.scss'],
+    standalone: false
 })
 export class ManageUserBulkUploadComponent {
 

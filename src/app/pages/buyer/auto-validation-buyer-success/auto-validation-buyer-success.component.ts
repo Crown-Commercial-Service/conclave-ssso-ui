@@ -20,17 +20,18 @@ import { ViewportScroller } from '@angular/common';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 @Component({
-  selector: 'app-auto-validation-buyer-success',
-  templateUrl: './auto-validation-buyer-success.component.html',
-  styleUrls: ['./auto-validation-buyer-success.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { transform: 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' },
-    }),
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-auto-validation-buyer-success',
+    templateUrl: './auto-validation-buyer-success.component.html',
+    styleUrls: ['./auto-validation-buyer-success.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { transform: 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' },
+        }),
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AutoValidationBuyerSuccessComponent implements OnDestroy {
   public org: any;

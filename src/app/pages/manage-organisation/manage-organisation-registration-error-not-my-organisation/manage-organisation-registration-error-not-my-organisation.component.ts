@@ -15,17 +15,18 @@ import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-manage-organisation-registration-error-not-my-organisation',
-  templateUrl: './manage-organisation-registration-error-not-my-organisation.component.html',
-  styleUrls: ['./manage-organisation-registration-error-not-my-organisation.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-manage-organisation-registration-error-not-my-organisation',
+    templateUrl: './manage-organisation-registration-error-not-my-organisation.component.html',
+    styleUrls: ['./manage-organisation-registration-error-not-my-organisation.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrgRegOrgNotFoundComponent extends BaseComponent implements OnInit {
   public buyerFlow:any

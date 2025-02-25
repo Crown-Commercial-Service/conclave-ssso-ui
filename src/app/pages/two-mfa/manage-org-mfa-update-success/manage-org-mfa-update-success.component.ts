@@ -20,6 +20,7 @@ import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.servic
         })
     ],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ManageOrgMfaUpdateSuccessComponent extends BaseComponent implements OnInit {
     orgMfaSetting : string =""

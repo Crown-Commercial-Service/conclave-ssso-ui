@@ -9,9 +9,10 @@ import { HelperService } from 'src/app/shared/helper.service';
 import { PaginationService } from 'src/app/shared/pagination.service';
 
 @Component({
-  selector: 'app-custom-govuk-table',
-  templateUrl: './custom-govuk-table.component.html',
-  styleUrls: ['./custom-govuk-table.component.scss']
+    selector: 'app-custom-govuk-table',
+    templateUrl: './custom-govuk-table.component.html',
+    styleUrls: ['./custom-govuk-table.component.scss'],
+    standalone: false
 })
 export class CustomGovukTableComponent extends BaseComponent implements OnInit {
 

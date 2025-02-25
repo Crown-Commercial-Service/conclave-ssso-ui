@@ -12,15 +12,16 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-user-add-selection-component',
-  templateUrl: './manage-user-add-selection-component.html',
-  styleUrls: ['./manage-user-add-selection-component.scss'],
-  animations: [
-    slideAnimation({
-      close: { transform: 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' },
-    }),
-  ],
+    selector: 'app-manage-user-add-selection-component',
+    templateUrl: './manage-user-add-selection-component.html',
+    styleUrls: ['./manage-user-add-selection-component.scss'],
+    animations: [
+        slideAnimation({
+            close: { transform: 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' },
+        }),
+    ],
+    standalone: false
 })
 export class ManageUserAddSelectionComponent
   extends BaseComponent

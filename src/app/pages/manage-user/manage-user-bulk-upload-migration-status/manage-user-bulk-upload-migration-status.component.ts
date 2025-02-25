@@ -11,7 +11,8 @@ import { environment } from 'src/environments/environment';
 @Component({
     selector: 'app-manage-user-bulk-upload-migration-status',
     templateUrl: './manage-user-bulk-upload-migration-status.component.html',
-    styleUrls: ['./manage-user-bulk-upload-migration-status.component.scss']
+    styleUrls: ['./manage-user-bulk-upload-migration-status.component.scss'],
+    standalone: false
 })
 export class ManageUserBulkUploadMigrationStatusComponent implements OnInit {
     private id!: string;
