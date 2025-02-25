@@ -4,9 +4,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-data-migration-summary',
-  templateUrl: './data-migration-summary.component.html',
-  styleUrls: ['./data-migration-summary.component.scss']
+    selector: 'app-data-migration-summary',
+    templateUrl: './data-migration-summary.component.html',
+    styleUrls: ['./data-migration-summary.component.scss'],
+    standalone: false
 })
 export class DataMigrationSummaryComponent implements OnInit {
 

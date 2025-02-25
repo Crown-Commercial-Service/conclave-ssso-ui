@@ -23,9 +23,10 @@ import { SessionService } from 'src/app/shared/session.service';
 import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
-  selector: 'app-manage-organisation-profile-site-edit',
-  templateUrl: './manage-organisation-profile-site-edit.component.html',
-  styleUrls: ['./manage-organisation-profile-site-edit.component.scss']
+    selector: 'app-manage-organisation-profile-site-edit',
+    templateUrl: './manage-organisation-profile-site-edit.component.html',
+    styleUrls: ['./manage-organisation-profile-site-edit.component.scss'],
+    standalone: false
 })
 export class ManageOrganisationSiteEditComponent extends FormBaseComponent implements OnInit {
   submitted!: boolean;

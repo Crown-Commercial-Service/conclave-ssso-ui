@@ -15,7 +15,8 @@ import { environment } from "src/environments/environment";
 @Component({
     selector: 'app-manage-reg-organisation-not-registered',
     templateUrl: './manage-reg-organisation-not-registered.component.html',
-    styleUrls: ['./manage-reg-organisation-not-registered.component.scss']
+    styleUrls: ['./manage-reg-organisation-not-registered.component.scss'],
+    standalone: false
 })
 
 export class ManageOrgRegNotRegisteredComponent extends BaseComponent {

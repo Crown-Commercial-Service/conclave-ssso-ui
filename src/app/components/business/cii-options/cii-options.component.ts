@@ -21,9 +21,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 
 @Component({
-  selector: 'app-cii-options',
-  templateUrl: './cii-options.component.html',
-  styleUrls: ['./cii-options.component.scss'],
+    selector: 'app-cii-options',
+    templateUrl: './cii-options.component.html',
+    styleUrls: ['./cii-options.component.scss'],
+    standalone: false
 })
 export class CIIOptions extends BaseComponent implements OnInit {
   private specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;

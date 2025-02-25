@@ -6,9 +6,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-delegated-user-activation',
-  templateUrl: './delegated-user-activation.component.html',
-  styleUrls: ['./delegated-user-activation.component.scss'],
+    selector: 'app-delegated-user-activation',
+    templateUrl: './delegated-user-activation.component.html',
+    styleUrls: ['./delegated-user-activation.component.scss'],
+    standalone: false
 })
 export class DelegatedUserActivationComponent implements OnInit {
   

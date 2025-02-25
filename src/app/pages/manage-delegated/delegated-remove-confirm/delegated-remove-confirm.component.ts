@@ -5,9 +5,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-delegated-remove-confirm',
-  templateUrl: './delegated-remove-confirm.component.html',
-  styleUrls: ['./delegated-remove-confirm.component.scss'],
+    selector: 'app-delegated-remove-confirm',
+    templateUrl: './delegated-remove-confirm.component.html',
+    styleUrls: ['./delegated-remove-confirm.component.scss'],
+    standalone: false
 })
 export class DelegatedRemoveConfirmComponent implements OnInit {
   public organisationId: string;

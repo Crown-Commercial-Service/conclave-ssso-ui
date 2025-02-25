@@ -6,9 +6,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-remove-right-to-buy',
-  templateUrl: './remove-right-to-buy.component.html',
-  styleUrls: ['./remove-right-to-buy.component.scss']
+    selector: 'app-remove-right-to-buy',
+    templateUrl: './remove-right-to-buy.component.html',
+    styleUrls: ['./remove-right-to-buy.component.scss'],
+    standalone: false
 })
 export class RemoveRightToBuyComponent implements OnInit {
 

@@ -8,7 +8,8 @@ import { environment } from 'src/environments/environment';
 @Component({
     selector: 'app-manage-reg-organisation-status-exists',
     templateUrl: './manage-reg-organisation-status-exists.component.html',
-    styleUrls: ['./manage-reg-organisation-status-exists.component.scss']
+    styleUrls: ['./manage-reg-organisation-status-exists.component.scss'],
+    standalone: false
 })
 
 export class ManageOrgRegSearchStatusExistsComponent implements OnInit{

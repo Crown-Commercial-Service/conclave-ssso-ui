@@ -20,7 +20,8 @@ import { SessionService } from "src/app/shared/session.service";
             close: { 'transform': 'translateX(12.5rem)' },
             open: { left: '-12.5rem' }
         })
-    ]
+    ],
+    standalone: false
 })
 export class ContactAssignSelectionComponent extends BaseComponent implements OnInit {
     submitted!: boolean;

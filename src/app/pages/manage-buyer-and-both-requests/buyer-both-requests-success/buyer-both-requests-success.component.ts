@@ -5,9 +5,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-buyer-both-requests-success',
-  templateUrl: './buyer-both-requests-success.component.html',
-  styleUrls: ['./buyer-both-requests-success.component.scss'],
+    selector: 'app-buyer-both-requests-success',
+    templateUrl: './buyer-both-requests-success.component.html',
+    styleUrls: ['./buyer-both-requests-success.component.scss'],
+    standalone: false
 })
 export class BuyerBothRequestsSuccessComponent implements OnInit {
   public routeDetails: any = {};
