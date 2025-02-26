@@ -21,7 +21,9 @@
                 {
                     "containerPort": 80,
                     "hostPort": 80,
-                    "protocol": "tcp"
+                    "protocol": "tcp",
+                    "name" : "%SPACE%-angular",
+                    "appProtocol": "http"
                 }
             ],
             "essential": true,
