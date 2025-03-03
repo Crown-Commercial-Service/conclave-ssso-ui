@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'scheme'
+    name: 'scheme',
+    standalone: false
 })
 export class SchemePipe implements PipeTransform {
   public schemeOrder = [

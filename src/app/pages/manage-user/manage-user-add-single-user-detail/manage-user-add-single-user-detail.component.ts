@@ -33,9 +33,10 @@ import { SessionService } from 'src/app/shared/session.service';
 import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
-  selector: 'app-manage-user-add-single-user-detail',
-  templateUrl: './manage-user-add-single-user-detail.component.html',
-  styleUrls: ['./manage-user-add-single-user-detail.component.scss'],
+    selector: 'app-manage-user-add-single-user-detail',
+    templateUrl: './manage-user-add-single-user-detail.component.html',
+    styleUrls: ['./manage-user-add-single-user-detail.component.scss'],
+    standalone: false
 })
 export class ManageUserAddSingleUserDetailComponent
   extends FormBaseComponent

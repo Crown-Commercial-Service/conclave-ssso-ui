@@ -21,17 +21,18 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-confirm-org-service',
-  templateUrl: './confirm-org-service.component.html',
-  styleUrls: ['./confirm-org-service.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { transform: 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' },
-    }),
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-confirm-org-service',
+    templateUrl: './confirm-org-service.component.html',
+    styleUrls: ['./confirm-org-service.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { transform: 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' },
+        }),
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ConfirmOrgServiceComponent extends BaseComponent {
   public org: any;

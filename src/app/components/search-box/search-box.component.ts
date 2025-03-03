@@ -7,9 +7,10 @@ import { BaseComponent } from '../base/base.component';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
-  selector: 'app-search-box',
-  templateUrl: './search-box.component.html',
-  styleUrls: ['./search-box.component.scss']
+    selector: 'app-search-box',
+    templateUrl: './search-box.component.html',
+    styleUrls: ['./search-box.component.scss'],
+    standalone: false
 })
 export class SearchBoxComponent extends BaseComponent implements OnInit {
 

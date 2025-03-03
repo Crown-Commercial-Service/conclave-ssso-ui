@@ -15,17 +15,18 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-organisation-profile-registry-error-details-wrong',
-  templateUrl: './manage-organisation-profile-registry-error-details-wrong.component.html',
-  styleUrls: ['./manage-organisation-profile-registry-error-details-wrong.component.scss'],
-  animations: [
-      slideAnimation({
-          close: { 'transform': 'translateX(12.5rem)' },
-          open: { left: '-12.5rem' }
-      })
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-manage-organisation-profile-registry-error-details-wrong',
+    templateUrl: './manage-organisation-profile-registry-error-details-wrong.component.html',
+    styleUrls: ['./manage-organisation-profile-registry-error-details-wrong.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrganisationRegistryDetailsWrongComponent extends BaseComponent implements OnInit {
 

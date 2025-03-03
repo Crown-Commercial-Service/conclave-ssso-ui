@@ -14,16 +14,17 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-buyer-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-buyer-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class BuyerSearchComponent extends BaseComponent implements OnInit {
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole

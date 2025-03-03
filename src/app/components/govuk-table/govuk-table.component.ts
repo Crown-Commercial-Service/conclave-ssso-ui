@@ -10,9 +10,10 @@ import { PaginationService } from 'src/app/shared/pagination.service';
 import { HelperService } from 'src/app/shared/helper.service';
 
 @Component({
-  selector: 'app-govuk-table',
-  templateUrl: './govuk-table.component.html',
-  styleUrls: ['./govuk-table.component.scss']
+    selector: 'app-govuk-table',
+    templateUrl: './govuk-table.component.html',
+    styleUrls: ['./govuk-table.component.scss'],
+    standalone: false
 })
 export class GovUKTableComponent extends BaseComponent implements OnInit {
 

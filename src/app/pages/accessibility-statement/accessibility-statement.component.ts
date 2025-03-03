@@ -4,9 +4,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-accessibility-statement',
-  templateUrl: './accessibility-statement.component.html',
-  styleUrls: ['./accessibility-statement.component.scss']
+    selector: 'app-accessibility-statement',
+    templateUrl: './accessibility-statement.component.html',
+    styleUrls: ['./accessibility-statement.component.scss'],
+    standalone: false
 })
 export class AccessibilityStatementComponent implements OnInit {
 

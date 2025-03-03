@@ -16,9 +16,10 @@ import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-manage-organisation-registration-confirm',
-  templateUrl: './manage-organisation-registration-confirm.component.html',
-  styleUrls: ['./manage-organisation-registration-confirm.component.scss']
+    selector: 'app-manage-organisation-registration-confirm',
+    templateUrl: './manage-organisation-registration-confirm.component.html',
+    styleUrls: ['./manage-organisation-registration-confirm.component.scss'],
+    standalone: false
 })
 export class ManageOrgRegConfirmComponent extends BaseComponent implements OnInit {
   public pageAccessMode:any;

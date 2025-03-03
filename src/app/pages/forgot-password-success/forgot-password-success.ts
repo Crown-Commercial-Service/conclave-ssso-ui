@@ -19,7 +19,8 @@ import { DetailsToggleService } from 'src/app/shared/shared-details-toggle.servi
 @Component({
     selector: 'app-forget-password-success',
     templateUrl: './forgot-password-success.html',
-    styleUrls: ['./forgot-password-success.scss']
+    styleUrls: ['./forgot-password-success.scss'],
+    standalone: false
 })
 export class ForgotPasswordSuccessComponent extends BaseComponent implements OnInit{
 

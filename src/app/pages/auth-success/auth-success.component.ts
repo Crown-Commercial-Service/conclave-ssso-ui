@@ -34,7 +34,8 @@ import { SessionService } from 'src/app/shared/session.service';
         })
     ],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AuthSuccessComponent extends BaseComponent implements OnInit {
     public isTwoMfaEnabled : boolean = environment.appSetting.customMfaEnabled;

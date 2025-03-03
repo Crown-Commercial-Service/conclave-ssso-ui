@@ -13,9 +13,10 @@ import { SessionService } from 'src/app/shared/session.service';
 
 
 @Component({
-  selector: 'mfa-reset-notification-success',
-  templateUrl: './send-mfa-reset-notification-success.html',
-  styleUrls: ['./send-mfa-reset-notification-success.scss']
+    selector: 'mfa-reset-notification-success',
+    templateUrl: './send-mfa-reset-notification-success.html',
+    styleUrls: ['./send-mfa-reset-notification-success.scss'],
+    standalone: false
 })
 export class SendMFAResetNotificationSuccessComponent extends BaseComponent implements OnInit {
   userName: string = '';

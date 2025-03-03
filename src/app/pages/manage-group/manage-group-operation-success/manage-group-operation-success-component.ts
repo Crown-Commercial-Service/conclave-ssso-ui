@@ -19,15 +19,16 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-group-operation-success',
-  templateUrl: './manage-group-operation-success-component.html',
-  styleUrls: ['./manage-group-operation-success-component.scss'],
-  animations: [
-    slideAnimation({
-      close: { transform: 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' },
-    }),
-  ],
+    selector: 'app-manage-group-operation-success',
+    templateUrl: './manage-group-operation-success-component.html',
+    styleUrls: ['./manage-group-operation-success-component.scss'],
+    animations: [
+        slideAnimation({
+            close: { transform: 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' },
+        }),
+    ],
+    standalone: false
 })
 export class ManageGroupOperationSuccessComponent
   extends BaseComponent

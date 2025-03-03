@@ -27,7 +27,8 @@ import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicat
 @Component({
     selector: 'app-manage-organisation-profile',
     templateUrl: './manage-organisation-profile.component.html',
-    styleUrls: ['./manage-organisation-profile.component.scss']
+    styleUrls: ['./manage-organisation-profile.component.scss'],
+    standalone: false
 })
 export class ManageOrganisationProfileComponent extends BaseComponent implements OnInit {
 

@@ -8,9 +8,10 @@ import { DetailsToggleService } from 'src/app/shared/shared-details-toggle.servi
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-delegated-user-confirm',
-  templateUrl: './delegated-user-confirm.component.html',
-  styleUrls: ['./delegated-user-confirm.component.scss']
+    selector: 'app-delegated-user-confirm',
+    templateUrl: './delegated-user-confirm.component.html',
+    styleUrls: ['./delegated-user-confirm.component.scss'],
+    standalone: false
 })
 export class DelegatedUserConfirmComponent implements OnInit {
   public userInfo: any = {}

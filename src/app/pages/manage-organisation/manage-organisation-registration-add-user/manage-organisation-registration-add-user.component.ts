@@ -16,9 +16,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-organisation-registration-add-user',
-  templateUrl: './manage-organisation-registration-add-user.component.html',
-  styleUrls: ['./manage-organisation-registration-add-user.component.scss']
+    selector: 'app-manage-organisation-registration-add-user',
+    templateUrl: './manage-organisation-registration-add-user.component.html',
+    styleUrls: ['./manage-organisation-registration-add-user.component.scss'],
+    standalone: false
 })
 export class ManageOrgRegAddUserComponent extends BaseComponent implements OnInit {
 

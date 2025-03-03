@@ -11,9 +11,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-delegated-user-status',
-  templateUrl: './delegated-user-status.component.html',
-  styleUrls: ['./delegated-user-status.component.scss'],
+    selector: 'app-delegated-user-status',
+    templateUrl: './delegated-user-status.component.html',
+    styleUrls: ['./delegated-user-status.component.scss'],
+    standalone: false
 })
 export class DelegatedUserStatusComponent implements OnInit {
   public formGroup: FormGroup | any;

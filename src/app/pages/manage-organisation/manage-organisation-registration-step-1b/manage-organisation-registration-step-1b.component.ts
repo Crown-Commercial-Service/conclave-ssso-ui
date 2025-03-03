@@ -11,17 +11,18 @@ import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-manage-organisation-registration-step-1b',
-  templateUrl: './manage-organisation-registration-step-1b.component.html',
-  styleUrls: ['./manage-organisation-registration-step-1b.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-manage-organisation-registration-step-1b',
+    templateUrl: './manage-organisation-registration-step-1b.component.html',
+    styleUrls: ['./manage-organisation-registration-step-1b.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrgRegStep1BComponent extends BaseComponent implements OnInit {
   ccsContactUrl: string = environment.uri.ccsContactUrl;

@@ -15,9 +15,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-buyer-details',
-  templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss']
+    selector: 'app-buyer-details',
+    templateUrl: './details.component.html',
+    styleUrls: ['./details.component.scss'],
+    standalone: false
 })
 export class BuyerDetailsComponent extends BaseComponent implements OnInit {
 

@@ -15,7 +15,7 @@ import { DetailsToggleService } from "src/app/shared/shared-details-toggle.servi
 
 @Component({
     selector: 'app-manage-reg-organisation-mfa',
-    templateUrl:'./manage-reg-organisation-mfa.component.html',
+    templateUrl: './manage-reg-organisation-mfa.component.html',
     styleUrls: ['./manage-reg-organisation-mfa.component.scss'],
     animations: [
         slideAnimation({
@@ -24,7 +24,8 @@ import { DetailsToggleService } from "src/app/shared/shared-details-toggle.servi
         })
     ],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrgRegMfaComponent extends BaseComponent implements OnInit {
 

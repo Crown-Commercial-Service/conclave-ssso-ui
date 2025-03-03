@@ -27,7 +27,7 @@ import { SessionService } from "src/app/shared/session.service";
             open: { left: '-12.5rem' }
         })
     ],
-                                      
+    standalone: false
 })
 export class MfaMessageStep1Component extends BaseComponent implements OnInit {
  formGroup: FormGroup;

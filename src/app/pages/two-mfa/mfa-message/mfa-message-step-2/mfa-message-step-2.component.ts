@@ -24,6 +24,7 @@ import { environment } from "src/environments/environment";
         })
     ],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class MfaMessageStep2Component extends BaseComponent implements OnInit {
     formGroup: FormGroup;

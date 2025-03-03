@@ -8,9 +8,10 @@ import { SessionService } from 'src/app/shared/session.service';
 import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
-  selector: 'app-delegated-organisation',
-  templateUrl: './delegated-organisation.component.html',
-  styleUrls: ['./delegated-organisation.component.scss'],
+    selector: 'app-delegated-organisation',
+    templateUrl: './delegated-organisation.component.html',
+    styleUrls: ['./delegated-organisation.component.scss'],
+    standalone: false
 })
 export class DelegatedOrganisationComponent implements OnInit {
   public organisationList: any = [];

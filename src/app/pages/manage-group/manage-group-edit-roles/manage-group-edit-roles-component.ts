@@ -25,7 +25,8 @@ import { SessionService } from "src/app/shared/session.service";
             close: { 'transform': 'translateX(12.5rem)' },
             open: { left: '-12.5rem' }
         })
-    ]
+    ],
+    standalone: false
 })
 export class ManageGroupEditRolesComponent extends BaseComponent implements OnInit {
     public submitted!: boolean;

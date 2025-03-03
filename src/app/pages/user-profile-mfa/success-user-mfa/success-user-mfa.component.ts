@@ -4,9 +4,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-success-user-mfa',
-  templateUrl: './success-user-mfa.component.html',
-  styleUrls: ['./success-user-mfa.component.scss']
+    selector: 'app-success-user-mfa',
+    templateUrl: './success-user-mfa.component.html',
+    styleUrls: ['./success-user-mfa.component.scss'],
+    standalone: false
 })
 export class SuccessUserMfaComponent implements OnInit {
   public decodedData: any = {};

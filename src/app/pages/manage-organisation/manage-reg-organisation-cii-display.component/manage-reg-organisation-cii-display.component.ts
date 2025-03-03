@@ -12,8 +12,9 @@ import { UIState } from "src/app/store/ui.states";
 @Component({
     selector: 'app-manage-reg-organisation-cii-display',
     templateUrl: './manage-reg-organisation-cii-display.component.html',
-    styleUrls: ['./manage-reg-organisation-cii-display.component.scss']
-  })
+    styleUrls: ['./manage-reg-organisation-cii-display.component.scss'],
+    standalone: false
+})
   
 export class ManageOrgRegCIIOrgDisplayComponent extends BaseComponent implements OnInit {
 

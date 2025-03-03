@@ -19,7 +19,8 @@ import { SessionService } from "src/app/shared/session.service";
             close: { 'transform': 'translateX(12.5rem)' },
             open: { left: '-12.5rem' }
         })
-    ]
+    ],
+    standalone: false
 })
 export class ContactAssignErrorComponent extends BaseComponent implements OnInit {
     assigningSiteId: number = 0;

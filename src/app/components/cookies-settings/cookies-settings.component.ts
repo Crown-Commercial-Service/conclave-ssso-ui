@@ -6,9 +6,10 @@ import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-cookies-settings',
-  templateUrl: './cookies-settings.component.html',
-  styleUrls: ['./cookies-settings.component.scss'],
+    selector: 'app-cookies-settings',
+    templateUrl: './cookies-settings.component.html',
+    styleUrls: ['./cookies-settings.component.scss'],
+    standalone: false
 })
 export class CookiesSettingsComponent implements OnInit {
   public cookiesUpdated: boolean = false;

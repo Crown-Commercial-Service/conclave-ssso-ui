@@ -6,9 +6,10 @@ import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-data-migration-error',
-  templateUrl: './data-migration-error.component.html',
-  styleUrls: ['./data-migration-error.component.scss']
+    selector: 'app-data-migration-error',
+    templateUrl: './data-migration-error.component.html',
+    styleUrls: ['./data-migration-error.component.scss'],
+    standalone: false
 })
 export class DataMigrationErrorComponent implements OnInit {
   private organisationId: string ='';

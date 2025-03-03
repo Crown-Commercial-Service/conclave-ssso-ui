@@ -12,9 +12,10 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UserListInfo } from 'src/app/models/user';
 
 @Component({
-  selector: 'app-delegated-user-list',
-  templateUrl: './delegated-user-list.component.html',
-  styleUrls: ['./delegated-user-list.component.scss'],
+    selector: 'app-delegated-user-list',
+    templateUrl: './delegated-user-list.component.html',
+    styleUrls: ['./delegated-user-list.component.scss'],
+    standalone: false
 })
 export class DelegatedUserListComponent implements OnInit ,OnDestroy {
   public searchText: string = '';

@@ -19,7 +19,8 @@ import { SessionService } from "src/app/shared/session.service";
 @Component({
     selector: 'app-manage-reg-organisation-search.component',
     templateUrl: './manage-reg-organisation-search.component.html',
-    styleUrls: ['./manage-reg-organisation-search.component.scss']
+    styleUrls: ['./manage-reg-organisation-search.component.scss'],
+    standalone: false
 })
 
 export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit {

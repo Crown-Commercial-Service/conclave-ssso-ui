@@ -18,15 +18,16 @@ import { SessionService } from 'src/app/shared/session.service';
 import { ValidatorFn } from '@angular/forms';
 
 @Component({
-  selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ]
+    selector: 'app-change-password',
+    templateUrl: './change-password.component.html',
+    styleUrls: ['./change-password.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    standalone: false
 })
 export class ChangePasswordComponent extends BaseComponent implements OnInit {
 

@@ -7,9 +7,10 @@ import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-contact-admin',
-  templateUrl: './contact-admin.component.html',
-  styleUrls: ['./contact-admin.component.scss'],
+    selector: 'app-contact-admin',
+    templateUrl: './contact-admin.component.html',
+    styleUrls: ['./contact-admin.component.scss'],
+    standalone: false
 })
 export class ContactAdminComponent implements OnInit {
   private organisationId: string = '';

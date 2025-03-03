@@ -25,6 +25,7 @@ import { environment } from "src/environments/environment";
         })
     ],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnInit {
     formGroup: FormGroup;

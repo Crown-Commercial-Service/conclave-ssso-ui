@@ -42,9 +42,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-user-contact-edit',
-  templateUrl: './user-contact-edit.component.html',
-  styleUrls: ['./user-contact-edit.component.scss'],
+    selector: 'app-user-contact-edit',
+    templateUrl: './user-contact-edit.component.html',
+    styleUrls: ['./user-contact-edit.component.scss'],
+    standalone: false
 })
 export class UserContactEditComponent
   extends FormBaseComponent

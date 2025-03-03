@@ -25,7 +25,8 @@ import { ContactHelper } from "src/app/services/helper/contact-helper.service";
             close: { 'transform': 'translateX(12.5rem)' },
             open: { left: '-12.5rem' }
         })
-    ]
+    ],
+    standalone: false
 })
 export class ContactAssignConfirmComponent extends BaseComponent implements OnInit {
     organisationId: string;

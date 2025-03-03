@@ -5,9 +5,10 @@ import { SessionService } from 'src/app/shared/session.service';
 import { environment } from "src/environments/environment";
 
 @Component({
-  selector: 'app-manage-organisation-registeration-cii',
-  templateUrl: './manage-organisation-registeration-cii.component.html',
-  styleUrls: ['./manage-organisation-registeration-cii.component.scss']
+    selector: 'app-manage-organisation-registeration-cii',
+    templateUrl: './manage-organisation-registeration-cii.component.html',
+    styleUrls: ['./manage-organisation-registeration-cii.component.scss'],
+    standalone: false
 })
 export class ManageOrganisationRegisterationCiiComponent implements OnInit {
   public buyerFlow:any

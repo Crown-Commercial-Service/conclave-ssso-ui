@@ -12,9 +12,10 @@ import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-nominate-success',
-  templateUrl: './nominate-success.component.html',
-  styleUrls: ['./nominate-success.component.scss'],
+    selector: 'app-nominate-success',
+    templateUrl: './nominate-success.component.html',
+    styleUrls: ['./nominate-success.component.scss'],
+    standalone: false
 })
 export class NominateSuccessComponent extends BaseComponent implements OnDestroy
 {

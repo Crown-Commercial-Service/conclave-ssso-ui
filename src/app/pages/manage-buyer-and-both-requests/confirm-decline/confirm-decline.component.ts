@@ -11,9 +11,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-confirm-decline',
-  templateUrl: './confirm-decline.component.html',
-  styleUrls: ['./confirm-decline.component.scss'],
+    selector: 'app-confirm-decline',
+    templateUrl: './confirm-decline.component.html',
+    styleUrls: ['./confirm-decline.component.scss'],
+    standalone: false
 })
 export class ConfirmDeclineComponent implements OnInit {
   private organisationId: string;

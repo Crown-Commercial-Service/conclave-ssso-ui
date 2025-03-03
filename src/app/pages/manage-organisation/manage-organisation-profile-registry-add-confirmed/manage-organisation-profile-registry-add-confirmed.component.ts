@@ -14,17 +14,18 @@ import { SessionService } from 'src/app/shared/session.service';
 import { UIState } from 'src/app/store/ui.states';
 
 @Component({
-  selector: 'app-manage-organisation-profile-registry-add-confirmed',
-  templateUrl: './manage-organisation-profile-registry-add-confirmed.component.html',
-  styleUrls: ['./manage-organisation-profile-registry-add-confirmed.component.scss'],
-  animations: [
-      slideAnimation({
-          close: { 'transform': 'translateX(12.5rem)' },
-          open: { left: '-12.5rem' }
-      })
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-manage-organisation-profile-registry-add-confirmed',
+    templateUrl: './manage-organisation-profile-registry-add-confirmed.component.html',
+    styleUrls: ['./manage-organisation-profile-registry-add-confirmed.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrganisationRegistryAddConfirmationComponent extends BaseComponent implements OnInit {
 

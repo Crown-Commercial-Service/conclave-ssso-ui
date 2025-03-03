@@ -15,17 +15,18 @@ import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-manage-organisation-registration-error-details-wrong',
-  templateUrl: './manage-organisation-registration-error-details-wrong.component.html',
-  styleUrls: ['./manage-organisation-registration-error-details-wrong.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-manage-organisation-registration-error-details-wrong',
+    templateUrl: './manage-organisation-registration-error-details-wrong.component.html',
+    styleUrls: ['./manage-organisation-registration-error-details-wrong.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrgRegDetailsWrongComponent extends BaseComponent {
   public buyerFlow:any;

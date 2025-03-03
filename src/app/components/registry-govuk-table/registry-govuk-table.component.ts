@@ -7,9 +7,10 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-registry-govuk-table',
-  templateUrl: './registry-govuk-table.component.html',
-  styleUrls: ['./registry-govuk-table.component.scss']
+    selector: 'app-registry-govuk-table',
+    templateUrl: './registry-govuk-table.component.html',
+    styleUrls: ['./registry-govuk-table.component.scss'],
+    standalone: false
 })
 export class RegistryGovukTableComponent implements OnInit, OnChanges {
   @Input() headerText!: string[];

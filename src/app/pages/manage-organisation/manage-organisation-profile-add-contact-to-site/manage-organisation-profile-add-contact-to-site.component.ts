@@ -7,9 +7,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-organisation-profile-add-contact-to-site',
-  templateUrl: './manage-organisation-profile-add-contact-to-site.component.html',
-  styleUrls: ['./manage-organisation-profile-add-contact-to-site.component.scss']
+    selector: 'app-manage-organisation-profile-add-contact-to-site',
+    templateUrl: './manage-organisation-profile-add-contact-to-site.component.html',
+    styleUrls: ['./manage-organisation-profile-add-contact-to-site.component.scss'],
+    standalone: false
 })
 export class ManageOrganisationProfileAddContactToSiteComponent implements OnInit {
 

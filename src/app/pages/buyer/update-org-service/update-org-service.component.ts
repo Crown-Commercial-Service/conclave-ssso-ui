@@ -19,9 +19,10 @@ import { SessionService } from 'src/app/shared/session.service';
 import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
-  selector: 'app-update-org-service',
-  templateUrl: './update-org-service.component.html',
-  styleUrls: ['./update-org-service.component.scss']
+    selector: 'app-update-org-service',
+    templateUrl: './update-org-service.component.html',
+    styleUrls: ['./update-org-service.component.scss'],
+    standalone: false
 })
 export class UpdateOrgServiceComponent implements OnInit {
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole

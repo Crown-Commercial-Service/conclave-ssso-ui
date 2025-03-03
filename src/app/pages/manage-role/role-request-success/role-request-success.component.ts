@@ -5,9 +5,10 @@ import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-role-request-success',
-  templateUrl: './role-request-success.component.html',
-  styleUrls: ['./role-request-success.component.scss']
+    selector: 'app-role-request-success',
+    templateUrl: './role-request-success.component.html',
+    styleUrls: ['./role-request-success.component.scss'],
+    standalone: false
 })
 export class RoleRequestSuccessComponent implements OnInit {
 

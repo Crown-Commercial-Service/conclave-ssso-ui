@@ -4,9 +4,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-role-request-failed',
-  templateUrl: './role-request-failed.component.html',
-  styleUrls: ['./role-request-failed.component.scss']
+    selector: 'app-role-request-failed',
+    templateUrl: './role-request-failed.component.html',
+    styleUrls: ['./role-request-failed.component.scss'],
+    standalone: false
 })
 export class RoleRequestFailedComponent implements OnInit {
 

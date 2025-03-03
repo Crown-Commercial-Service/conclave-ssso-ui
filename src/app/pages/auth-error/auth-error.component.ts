@@ -24,7 +24,8 @@ import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
     selector: 'app-auth-error',
-    templateUrl: './auth-error.component.html'
+    templateUrl: './auth-error.component.html',
+    standalone: false
 })
 export class AuthErrorComponent extends BaseComponent implements OnInit {
 

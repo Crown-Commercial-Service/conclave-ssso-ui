@@ -3,9 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
-  selector: 'app-accordion',
-  templateUrl: './accordion.component.html',
-  styleUrls: ['./accordion.component.scss']
+    selector: 'app-accordion',
+    templateUrl: './accordion.component.html',
+    styleUrls: ['./accordion.component.scss'],
+    standalone: false
 })
 export class AccordionComponent implements OnInit, OnChanges {
 

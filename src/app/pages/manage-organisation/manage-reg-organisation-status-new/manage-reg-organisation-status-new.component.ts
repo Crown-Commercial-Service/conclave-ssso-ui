@@ -6,7 +6,8 @@ import { SessionService } from "src/app/shared/session.service";
 @Component({
     selector: 'app-manage-reg-organisation-status-new',
     templateUrl: './manage-reg-organisation-status-new.component.html',
-    styleUrls: ['./manage-reg-organisation-status-new.component.scss']
+    styleUrls: ['./manage-reg-organisation-status-new.component.scss'],
+    standalone: false
 })
 
 export class ManageOrgRegSearchStatusNewComponent {

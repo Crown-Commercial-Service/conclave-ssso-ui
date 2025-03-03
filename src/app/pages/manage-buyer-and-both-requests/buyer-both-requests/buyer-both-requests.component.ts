@@ -9,9 +9,10 @@ import { SessionService } from 'src/app/shared/session.service';
 import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
-  selector: 'app-buyer-both-requests',
-  templateUrl: './buyer-both-requests.component.html',
-  styleUrls: ['./buyer-both-requests.component.scss'],
+    selector: 'app-buyer-both-requests',
+    templateUrl: './buyer-both-requests.component.html',
+    styleUrls: ['./buyer-both-requests.component.scss'],
+    standalone: false
 })
 export class BuyerBothRequestsComponent implements OnInit {
   public searchText: string = '';

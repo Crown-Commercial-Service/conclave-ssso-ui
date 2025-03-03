@@ -5,9 +5,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-verify-user-status',
-  templateUrl: './verify-user-status.component.html',
-  styleUrls: ['./verify-user-status.component.scss']
+    selector: 'app-verify-user-status',
+    templateUrl: './verify-user-status.component.html',
+    styleUrls: ['./verify-user-status.component.scss'],
+    standalone: false
 })
 export class VerifyUserStatusComponent implements OnInit {
   public isOrgAdmin: boolean = false;

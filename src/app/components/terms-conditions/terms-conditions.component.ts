@@ -5,9 +5,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-terms-conditions',
-  templateUrl: './terms-conditions.component.html',
-  styleUrls: ['./terms-conditions.component.scss'],
+    selector: 'app-terms-conditions',
+    templateUrl: './terms-conditions.component.html',
+    styleUrls: ['./terms-conditions.component.scss'],
+    standalone: false
 })
 export class TermsConditionsComponent implements OnInit {
   public userName = ''

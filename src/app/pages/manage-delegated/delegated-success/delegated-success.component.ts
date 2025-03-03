@@ -5,9 +5,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-delegated-success',
-  templateUrl: './delegated-success.component.html',
-  styleUrls: ['./delegated-success.component.scss'],
+    selector: 'app-delegated-success',
+    templateUrl: './delegated-success.component.html',
+    styleUrls: ['./delegated-success.component.scss'],
+    standalone: false
 })
 export class DelegatedSuccessComponent implements OnInit {
   public userInfo: any = {};

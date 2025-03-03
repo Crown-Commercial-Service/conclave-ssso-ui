@@ -12,7 +12,8 @@ import { environment } from 'src/environments/environment';
 @Component({
     selector: 'app-manage-org-notify-admin',
     templateUrl: './manage-reg-organisation-admin-notify.component.html',
-    styleUrls: ['./manage-reg-organisation-admin-notify.component.scss']
+    styleUrls: ['./manage-reg-organisation-admin-notify.component.scss'],
+    standalone: false
 })
 
 export class ManageOrgRegNotifyAdminComponent implements OnInit {

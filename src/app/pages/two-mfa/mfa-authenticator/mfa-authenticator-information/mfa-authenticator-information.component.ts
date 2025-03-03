@@ -12,7 +12,7 @@ import { UIState } from "src/app/store/ui.states";
 
 @Component({
     selector: 'app-mfa-authenticator-information',
-    templateUrl:'./mfa-authenticator-information.component.html',
+    templateUrl: './mfa-authenticator-information.component.html',
     styleUrls: ['./mfa-authenticator-information.component.scss'],
     animations: [
         slideAnimation({
@@ -21,6 +21,7 @@ import { UIState } from "src/app/store/ui.states";
         })
     ],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class MfaInformationComponent extends BaseComponent implements OnInit{
     auth0token: string = "";

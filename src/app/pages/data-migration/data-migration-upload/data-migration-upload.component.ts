@@ -12,7 +12,8 @@ import { environment } from 'src/environments/environment';
 @Component({
     selector: 'app-data-migration-upload',
     templateUrl: './data-migration-upload.component.html',
-    styleUrls: ['./data-migration-upload.component.scss']
+    styleUrls: ['./data-migration-upload.component.scss'],
+    standalone: false
 })
 export class DataMigrationUploadComponent implements OnInit {
     submitted: boolean = false;

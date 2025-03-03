@@ -45,9 +45,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-organisation-contact-edit',
-  templateUrl: './manage-organisation-contact-edit.component.html',
-  styleUrls: ['./manage-organisation-contact-edit.component.scss'],
+    selector: 'app-manage-organisation-contact-edit',
+    templateUrl: './manage-organisation-contact-edit.component.html',
+    styleUrls: ['./manage-organisation-contact-edit.component.scss'],
+    standalone: false
 })
 export class ManageOrganisationContactEditComponent
   extends FormBaseComponent
