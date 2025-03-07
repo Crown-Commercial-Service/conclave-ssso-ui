@@ -33,6 +33,7 @@ export class DelegatedAccessUserComponent implements OnInit {
   private RoleInfo: any = []
   private userSelectedFormData: any;
   public hideSimplifyRole = environment.appSetting.hideSimplifyRole;
+  public excludedForDelegation = environment.appSetting.excludedForDelegation;
   private userId:number= 0
   public eventLogForActiveUser: any = {
     delegationAuditEventDetails: {
@@ -245,14 +246,7 @@ export class DelegatedAccessUserComponent implements OnInit {
     this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise().then((orgRoles: Role[]) => {
       orgRoles.forEach((element) => {
 
-        let orgAdmin = "ORG_ADMINISTRATOR"
-        let defaultUser = "ORG_DEFAULT_USER"
-        let userSupport = "ORG_USER_SUPPORT"
-        let manageSubscription = "MANAGE_SUBSCRIPTIONS"
-        let dataMigration = "DATA_MIGRATION"
-
-        if (element.roleKey != orgAdmin && element.roleKey != defaultUser && element.roleKey != userSupport 
-          && element.roleKey != manageSubscription && element.roleKey != dataMigration) {
+        if (!this.excludedForDelegation.some(x => x === element.roleKey)) {
           this.roleDataList.push({
             roleId: element.roleId,
             roleKey: element.roleKey,
