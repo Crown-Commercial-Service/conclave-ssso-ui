@@ -25,8 +25,8 @@ export const environment = {
       dashboard: 'http://localhost:4200',
       name: "DEV"
     },
-      ccsContactUrl: "https://webdev.crowncommercial.gov.uk/contact",
-      ccsDashboardUrl: "https://webdev.crowncommercial.gov.uk"
+    ccsContactUrl: "https://webdev.crowncommercial.gov.uk/contact",
+    ccsDashboardUrl: "https://webdev.crowncommercial.gov.uk"
   },
   googleTagMangerId: 'GTM-1',
   cookieExpirationTimeInMinutes: 10,// 525600 => 365 Days
@@ -69,7 +69,8 @@ export const environment = {
     hideAutoValidation: false,
     hideSimplifyRole: false,
     blockedScheme: ['GB-EDU', "GB-PPG"],
-    isMaintenance: false,    
-    customMfaEnabled : false,
+    isMaintenance: false,
+    customMfaEnabled: false,
+    excludedForDelegation: ['ORG_ADMINISTRATOR', 'ORG_DEFAULT_USER', 'ORG_USER_SUPPORT', 'MANAGE_SUBSCRIPTIONS', 'DATA_MIGRATION', 'CAT_ADMIN'],
   },
 };
