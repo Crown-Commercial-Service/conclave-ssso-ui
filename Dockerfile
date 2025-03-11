@@ -6,10 +6,16 @@ RUN npm install --legacy-peer-deps && npm cache clean --force
 COPY . ./
 RUN npm run build
 
+# Debugging: List files in the build directory
+RUN echo "Listing files in /app/dist:" && ls -alh /app/dist
+
 FROM nginx:stable-alpine3.20-slim AS runtime
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-COPY --from=build /app/dist .
+COPY --from=build /app/dist ./
+
+# Debugging: List files in the Nginx html directory after copying the build
+RUN echo "Listing files in /usr/share/nginx/html:" && ls -alh /usr/share/nginx/html
 
 #COPY nginx.conf /etc/nginx/sites-enabled/default
 COPY nginxangular.conf /etc/nginx/conf.d/default.conf
