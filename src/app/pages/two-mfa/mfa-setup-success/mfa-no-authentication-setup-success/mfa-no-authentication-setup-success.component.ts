@@ -13,7 +13,7 @@ import { environment } from "src/environments/environment";
 
 @Component({
     selector: 'app-mfa-no-authentication-setup-success',
-    templateUrl:'./mfa-no-authentication-setup-success.component.html',
+    templateUrl: './mfa-no-authentication-setup-success.component.html',
     styleUrls: ['./mfa-no-authentication-setup-success.component.scss'],
     animations: [
         slideAnimation({
@@ -22,6 +22,7 @@ import { environment } from "src/environments/environment";
         })
     ],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class MfaNoAuthenticationSetupSuccessComponent extends BaseComponent implements OnInit {
     constructor(private activatedRoute: ActivatedRoute,private sessionService:SessionService,private router:Router, private authService: AuthService,

@@ -27,6 +27,7 @@ import { SessionService } from "src/app/shared/session.service";
         })
     ],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class MfaSelectionComponent extends BaseComponent implements OnInit {
     public formValue: string = 'SMS'

@@ -10,9 +10,10 @@ import { BaseComponent } from '../../base/base.component';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-cii-org-details',
-  templateUrl: './cii-details.component.html',
-  styleUrls: ['./cii-details.component.scss']
+    selector: 'app-cii-org-details',
+    templateUrl: './cii-details.component.html',
+    styleUrls: ['./cii-details.component.scss'],
+    standalone: false
 })
 export class CIIOrgDetails extends BaseComponent implements OnInit {
   

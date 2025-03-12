@@ -20,17 +20,18 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { UIState } from 'src/app/store/ui.states';
 
 @Component({
-  selector: 'app-manage-organisation-registration-step-1',
-  templateUrl: './manage-organisation-registration-step-1.component.html',
-  styleUrls: ['./manage-organisation-registration-step-1.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { transform: 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' },
-    }),
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-manage-organisation-registration-step-1',
+    templateUrl: './manage-organisation-registration-step-1.component.html',
+    styleUrls: ['./manage-organisation-registration-step-1.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { transform: 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' },
+        }),
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrgRegStep1Component
   extends BaseComponent

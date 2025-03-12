@@ -13,7 +13,7 @@ import { environment } from "src/environments/environment";
 
 @Component({
     selector: 'app-mfa-authentication-setup-sucess',
-    templateUrl:'./mfa-authentication-setup-sucess.component.html',
+    templateUrl: './mfa-authentication-setup-sucess.component.html',
     styleUrls: ['./mfa-authentication-setup-sucess.component.scss'],
     animations: [
         slideAnimation({
@@ -22,6 +22,7 @@ import { environment } from "src/environments/environment";
         })
     ],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class MfaAuthenticationSetupSuccessComponent extends BaseComponent implements OnInit {
     constructor(private activatedRoute: ActivatedRoute,private router:Router,private sessionService:SessionService, private authService: AuthService,

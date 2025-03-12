@@ -17,9 +17,10 @@ import { SessionService } from 'src/app/shared/session.service';
 import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
-  selector: 'app-view-pending-verification',
-  templateUrl: './view-pending-verification.component.html',
-  styleUrls: ['./view-pending-verification.component.scss'],
+    selector: 'app-view-pending-verification',
+    templateUrl: './view-pending-verification.component.html',
+    styleUrls: ['./view-pending-verification.component.scss'],
+    standalone: false
 })
 export class ViewPendingVerificationComponent implements OnInit {
   private organisationId: string = '';

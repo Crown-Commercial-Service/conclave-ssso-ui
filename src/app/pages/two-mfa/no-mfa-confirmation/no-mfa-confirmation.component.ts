@@ -24,6 +24,7 @@ import { SessionService } from "src/app/shared/session.service";
         })
     ],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit {
     userName = this.sessionService.decrypt('user_name')

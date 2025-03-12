@@ -5,9 +5,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-user-role',
-  templateUrl: './manage-user-role.component.html',
-  styleUrls: ['./manage-user-role.component.scss']
+    selector: 'app-manage-user-role',
+    templateUrl: './manage-user-role.component.html',
+    styleUrls: ['./manage-user-role.component.scss'],
+    standalone: false
 })
 export class ManageUserRoleComponent implements OnInit {
 public userDetails:any

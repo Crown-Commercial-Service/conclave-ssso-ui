@@ -14,9 +14,10 @@ import { SessionService } from 'src/app/shared/session.service';
 
 
 @Component({
-  selector: 'mfa-reset-notification',
-  templateUrl: './send-mfa-reset-notification.html',
-  styleUrls: ['./send-mfa-reset-notification.scss']
+    selector: 'mfa-reset-notification',
+    templateUrl: './send-mfa-reset-notification.html',
+    styleUrls: ['./send-mfa-reset-notification.scss'],
+    standalone: false
 })
 export class SendMFAResetNotificationComponent extends BaseComponent implements OnInit {
   sendError: boolean = false;

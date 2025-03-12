@@ -4,9 +4,10 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-success-right-to-buy',
-  templateUrl: './success-right-to-buy.component.html',
-  styleUrls: ['./success-right-to-buy.component.scss']
+    selector: 'app-success-right-to-buy',
+    templateUrl: './success-right-to-buy.component.html',
+    styleUrls: ['./success-right-to-buy.component.scss'],
+    standalone: false
 })
 export class SuccessRightToBuyComponent implements OnInit {
 

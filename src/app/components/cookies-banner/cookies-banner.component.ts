@@ -4,9 +4,10 @@ import { environment } from 'src/environments/environment';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
-  selector: 'app-cookies-banner',
-  templateUrl: './cookies-banner.component.html',
-  styleUrls: ['./cookies-banner.component.scss'],
+    selector: 'app-cookies-banner',
+    templateUrl: './cookies-banner.component.html',
+    styleUrls: ['./cookies-banner.component.scss'],
+    standalone: false
 })
 export class CookiesBannerComponent implements OnInit , AfterViewInit {
   public  cookieExpirationTimeInMinutes = environment.cookieExpirationTimeInMinutes

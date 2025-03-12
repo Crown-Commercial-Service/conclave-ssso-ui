@@ -9,9 +9,10 @@ import { PatternService } from 'src/app/shared/pattern.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-find-delegated-user',
-  templateUrl: './find-delegated-user.component.html',
-  styleUrls: ['./find-delegated-user.component.scss'],
+    selector: 'app-find-delegated-user',
+    templateUrl: './find-delegated-user.component.html',
+    styleUrls: ['./find-delegated-user.component.scss'],
+    standalone: false
 })
 export class FindDelegatedUserComponent implements OnInit {
   public formGroup!: FormGroup;

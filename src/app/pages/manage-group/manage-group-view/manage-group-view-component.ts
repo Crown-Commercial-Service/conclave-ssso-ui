@@ -16,15 +16,16 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-group-view',
-  templateUrl: './manage-group-view-component.html',
-  styleUrls: ['./manage-group-view-component.scss'],
-  animations: [
-    slideAnimation({
-      close: { transform: 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' },
-    }),
-  ],
+    selector: 'app-manage-group-view',
+    templateUrl: './manage-group-view-component.html',
+    styleUrls: ['./manage-group-view-component.scss'],
+    animations: [
+        slideAnimation({
+            close: { transform: 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' },
+        }),
+    ],
+    standalone: false
 })
 export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   public showRoleView: boolean = environment.appSetting.hideSimplifyRole
