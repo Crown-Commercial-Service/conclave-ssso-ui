@@ -21,7 +21,7 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 
 # Copy Angular build output
-COPY --from=build /app/dist/browser/* ./
+COPY --from=build /app/dist/browser /usr/share/nginx/html
 
 # Change ownership & permissions
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
