@@ -27,6 +27,9 @@ COPY --from=build /app/dist/browser/* ./
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
     chmod -R 755 /usr/share/nginx/html
 
+RUN echo "Listing files in /usr/share/nginx/html:" && ls -alh /usr/share/nginx/html
+
+
 # Copy Nginx configuration
 COPY nginxangular.conf /etc/nginx/conf.d/default.conf
 
