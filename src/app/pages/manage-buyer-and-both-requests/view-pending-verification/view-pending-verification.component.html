@@ -37,8 +37,8 @@
                 </p>
                 <p class="govuk-body">
                     Date of registration:<strong
-                        class="govuk-!-margin-left-2 govuk-!-display-inline-block govuk-valign-top">{{routeDetails.dateOfRegistration
-                        | date: 'dd/MM/yyyy'}} <br>{{routeDetails.dateOfRegistration | date: 'HH:mm'}}</strong>
+                        class="govuk-!-margin-left-2 govuk-!-display-inline-block govuk-valign-top">{{helperService.convertToLocalDateTime(routeDetails.dateOfRegistration)
+                        | date: 'dd/MM/yyyy'}} <br>{{helperService.convertToLocalDateTime(routeDetails.dateOfRegistration) | date: 'HH:mm'}}</strong>
                 </p>
             </div>
             <div class="span-group govuk-!-margin-top-4">
@@ -48,8 +48,8 @@
                         <div class="user-table">
                             <app-govuk-table [headerTextKeys]="organisationAdministrator.usersTableHeaders"
                                 [data]="organisationAdministrator.userListResponse.userList"
-                                [dataKeys]="organisationAdministrator.usersColumnsToDisplay" [isHyperLinkVisible]="true"
-                                (hyperLinkClickEvent)="openEmailWindow($event)" [useServerPagination]="true"
+                                [dataKeys]="organisationAdministrator.usersColumnsToDisplay"
+                                [useServerPagination]="true" [isHyperLinkVisible]="false"
                                 [serverPageCount]="organisationAdministrator.pageCount"
                                 [serverPageCurrentPage]="organisationAdministrator.currentPage"
                                 (changeCurrentPageEvent)="setPageOrganisationAdministrator($event)"
@@ -60,37 +60,10 @@
             </div>
             <div class="span-group govuk-!-margin-top-4">
                 <h2 class="govuk-heading-m">Organisation registries</h2>
-                <div class="govuk-grid-row" *ngIf="additionalIdentifiers != undefined">
-                    <div class="govuk-grid-column-full">
-                        <div class="user-table">
-                            <table class="govuk-table">
-                                <thead class="govuk-table__head">
-                                    <tr class="govuk-table__row">
-                                        <th scope="row" class="govuk-table__header">Registry</th>
-                                        <th scope="col" class="govuk-table__header">ID</th>
-                                        <th scope="col" class="govuk-table__header remove_element">.</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="govuk-table__body">
-                                    <tr class="govuk-table__row">
-                                        <th scope="row" class="govuk-table__header">{{
-                                            getSchemaName(registries.identifier?.scheme||'') }}</th>
-                                        <td class="govuk-table__cell">{{ registries.identifier?.id}}</td>
-                                        <td class="govuk-table__cell">Primary</td>
-                                    </tr>
-                                    <tr class="govuk-table__row" *ngFor="let row of additionalIdentifiers">
-                                        <th scope="row" class="govuk-table__header">{{ getSchemaName(row.scheme) }}</th>
-                                        <td class="govuk-table__cell">{{ getId(row.id, row.scheme) }}</td>
-                                        <td class="govuk-table__cell"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <div>
+                    <app-registry-govuk-table [pageName]="'MBSR'" [orgId]="routeDetails.organisationId"></app-registry-govuk-table>
                 </div>
-                <p class="govuk-body govuk-!-font-weight-bold" *ngIf="additionalIdentifiers == undefined">
-                    There are no matching results.
-                </p>
+           
             </div>
             <div class="span-group govuk-!-margin-top-4">
                 <h2 class="govuk-heading-m">Event log</h2>
@@ -109,12 +82,12 @@
             </div>
             <br>
             <div class="govuk-button-group" *ngIf="!isDeletedOrg">
-                <button type="submit" class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button"
-                    data-module="govuk-button" (click)="acceptRightToBuy()">Accept right to buy status</button>
+               <button type="submit" class="govuk-button"
+                    data-module="govuk-button" (click)="acceptRightToBuy('Accept right to buy status')">Accept right to buy status</button>
                 <button type="button" class="govuk-button govuk-button--warning" data-module="govuk-button"
-                    (click)="declineRightToBuy()">Decline right to buy status</button>
+                    (click)="declineRightToBuy('Decline right to buy status')">Decline right to buy status</button>
             </div>
             <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
-                (click)="goBack()">Cancel</button>
+              routerLink="/manage-buyer-both"  (click)="goBack('Cancel')">Cancel</button>
         </div>
     </div>

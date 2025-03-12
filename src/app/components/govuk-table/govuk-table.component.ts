@@ -6,11 +6,14 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 import { BaseComponent } from '../base/base.component';
+import { PaginationService } from 'src/app/shared/pagination.service';
+import { HelperService } from 'src/app/shared/helper.service';
 
 @Component({
-  selector: 'app-govuk-table',
-  templateUrl: './govuk-table.component.html',
-  styleUrls: ['./govuk-table.component.scss']
+    selector: 'app-govuk-table',
+    templateUrl: './govuk-table.component.html',
+    styleUrls: ['./govuk-table.component.scss'],
+    standalone: false
 })
 export class GovUKTableComponent extends BaseComponent implements OnInit {
 
@@ -32,23 +35,33 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Output() checkBoxClickEvent = new EventEmitter<any>();
   @Output() radioClickEvent = new EventEmitter<any>();
   @Output() changeCurrentPageEvent = new EventEmitter<number>();
+  @Input() isRadioDisabled?: (dataRow: any) => boolean;
+  @Input() isHyperLinkRowVisible?: (dataRow: any) => boolean;
+  @Input() isNavigate?: boolean;
 
-  pageCount?: number;
+  pageCount?: number | any;
   currentPage: number = 1;
   totalPagesArray: number[] = [];
   pageSize: number = environment.listPageSize;
-  tableVisibleData!: any[];
+  tableVisibleData: any[] = [];
   selectedRadioId: string = 'table-radio-id-non';
-  constructor(
+  public maxVisibleDots = 5
+   constructor(
     // private translateService: TranslateService,
+    private PaginationService:PaginationService,public helperservice:HelperService,
     protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
   ngOnInit() {
+   
   }
 
   ngOnChanges() {
+    if (this.isRadioVisible) { // Emit the event to remove the radio selection 
+      this.selectedRadioId = 'table-radio-id-non';
+      this.radioClickEvent.emit(null);
+    }
     if (this.useClientPagination) {
       this.pageCount = Math.ceil(this.data.length / this.pageSize);
       this.totalPagesArray = Array(this.pageCount).fill(0).map((x, i) => i + 1);
@@ -63,29 +76,46 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
     }
   }
 
+ public getPaginationData(): Array<any> {
+   return this.PaginationService.getVisibleDots(this.currentPage,this.pageCount)
+  }
+  
+
   onRowClick(dataRow: any, index: number,event:any) {
-    if (this.isCheckBoxVisible) {
+    if (this.isCheckBoxVisible && !dataRow.isDisable) {
       dataRow.isChecked = !dataRow.isChecked;
       this.checkBoxClickEvent.emit(dataRow);
     }
     else if (this.isRadioVisible) {
-      this.selectedRadioId = 'table-radio-id-' + index;
-      this.radioClickEvent.emit(dataRow);
+      if (!dataRow.isDormant) {
+        this.selectedRadioId = 'table-radio-id-' + index;
+        this.radioClickEvent.emit(dataRow);
+      }
+      else if (this.pageName ==='OUS')
+      {
+        this.selectedRadioId = 'table-radio-id-' + index;
+        this.radioClickEvent.emit(dataRow);
+      }
     }
     else if (this.isHyperLinkVisible || this.hyperArrayVisible) {
+      if(dataRow.contactReason!='REGISTRY')
+      {
       if(this.hyperArrayVisible){
         dataRow.event=event
         this.hyperLinkClickEvent.emit(dataRow);
       }else{
         this.hyperLinkClickEvent.emit(dataRow);
-
       }
+    }
     }
     else {
     }
   }
 
-  onSetPageClick(pageNumber: number) {
+  onSetPageClick(pageNumber: any) {
+    if(pageNumber === '...') {
+      return
+    }
     if (this.isRadioVisible) { // Emit the event to remove the radio selection 
       this.selectedRadioId = 'table-radio-id-non';
       this.radioClickEvent.emit(null);

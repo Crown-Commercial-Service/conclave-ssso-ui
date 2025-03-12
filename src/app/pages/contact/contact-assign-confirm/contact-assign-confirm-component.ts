@@ -12,6 +12,9 @@ import { WrapperSiteContactService } from "src/app/services/wrapper/wrapper-site
 import { AssignedContactType } from "src/app/constants/enum";
 import { WrapperOrganisationContactService } from "src/app/services/wrapper/wrapper-org-contact-service";
 import { SessionStorageKey } from "src/app/constants/constant";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
+import { ContactHelper } from "src/app/services/helper/contact-helper.service";
 
 @Component({
     selector: 'app-contact-assign-confirm-component',
@@ -22,7 +25,8 @@ import { SessionStorageKey } from "src/app/constants/constant";
             close: { 'transform': 'translateX(12.5rem)' },
             open: { left: '-12.5rem' }
         })
-    ]
+    ],
+    standalone: false
 })
 export class ContactAssignConfirmComponent extends BaseComponent implements OnInit {
     organisationId: string;
@@ -37,19 +41,19 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
     selectedContactIds: number[] = [];
     siteCreate: any;
 
-    constructor(private siteContactService: WrapperSiteContactService, private orgContactService: WrapperOrganisationContactService,
+    constructor(private siteContactService: WrapperSiteContactService,private sessionService:SessionService, private orgContactService: WrapperOrganisationContactService,
         protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService, private contactHelper: ContactHelper) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
-            let routeData = JSON.parse(queryParams.data);
-            this.assigningSiteId = routeData['assigningSiteId'] || 0;
-            this.assigningOrgId = routeData['assigningOrgId'] || "";
-            this.contactUserName = sessionStorage.getItem(SessionStorageKey.ContactAssignUsername) ?? "";
-            this.contactSiteId = routeData['contactSiteId'] || 0;
-            this.siteCreate=routeData['siteCreate'] || false;
+            let routeData = this.contactHelper.parseRouteData(queryParams.data);
+            this.assigningSiteId = routeData.assigningSiteId;
+            this.assigningOrgId = routeData.assigningOrgId;
+            this.contactUserName = routeData.contactUserName;
+            this.contactSiteId = routeData.contactSiteId;
+            this.siteCreate = routeData.siteCreate
         }
         let selectedContactString = sessionStorage.getItem("assigning-contact-list");
         if (selectedContactString) {
@@ -59,15 +63,17 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
     }
 
     ngOnInit() {
+        this.dataLayerService.pushPageViewEvent();
     }
 
-    onConfirmClick() {
+    onConfirmClick(buttonText:string) {
         if (this.assigningSiteId && this.assigningSiteId != 0) {
             this.assignToSiteContacts();
         }
         else {
             this.assignToOrgContacts()
         }
+        this.pushDataLayerEvent(buttonText);
     }
 
     assignToSiteContacts() {
@@ -126,8 +132,9 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         this.router.navigateByUrl('contact-assign/error?data=' + JSON.stringify(data));
     }
 
-    onCancelClick() {
+    onCancelClick(buttonText:string) {
         window.history.back();
+        this.pushDataLayerEvent(buttonText);
     }
 
     onNavigateToHomeClick() {
@@ -150,5 +157,17 @@ export class ContactAssignConfirmComponent extends BaseComponent implements OnIn
         };
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
+
+    getEditQueryData(): string {
+        let data = {
+          isEdit: true,
+          siteId: this.assigningSiteId
+        };
+        return JSON.stringify(data);
+      }
+
+    pushDataLayerEvent(buttonText:string) {
+        this.dataLayerService.pushClickEvent(buttonText)
+      }
 
 }

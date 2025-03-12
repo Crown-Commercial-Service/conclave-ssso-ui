@@ -1,21 +1,23 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CookiesService } from 'src/app/shared/cookies.service';
 import { environment } from 'src/environments/environment';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
 
 @Component({
-  selector: 'app-cookies-banner',
-  templateUrl: './cookies-banner.component.html',
-  styleUrls: ['./cookies-banner.component.scss'],
+    selector: 'app-cookies-banner',
+    templateUrl: './cookies-banner.component.html',
+    styleUrls: ['./cookies-banner.component.scss'],
+    standalone: false
 })
 export class CookiesBannerComponent implements OnInit , AfterViewInit {
-  private  cookieExpirationTimeInMinutes = environment.cookieExpirationTimeInMinutes
+  public  cookieExpirationTimeInMinutes = environment.cookieExpirationTimeInMinutes
   public cookiesData:any = {
-    coockiebanner: true,
+    coockiebanner: false,
     acceptAnalyticsCookies: false,
     rejectAnalyticsCookies: false,
   };
   initDeleteCookieeArray=['_gid','_ga','_gat_UA','_ga_624NHLKTKL','_cls_v','_cls_s']
-  constructor(private CookiesService:CookiesService) {}
+  constructor(private CookiesService:CookiesService, public dataLayerService: DataLayerService) {}
 
 
   ngAfterViewInit(): void {
@@ -49,6 +51,7 @@ export class CookiesBannerComponent implements OnInit , AfterViewInit {
         this.CookiesService.deleteGlassBoxCookies();  
       }
     } else {
+      this.cookiesData.coockiebanner = true;
       this.CookiesService.deleteAdditionalCookies();
       this.CookiesService.deleteGlassBoxCookies(); 
       this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false,"glassbox":false}', this.cookieExpirationTimeInMinutes);
@@ -56,27 +59,32 @@ export class CookiesBannerComponent implements OnInit , AfterViewInit {
    }
 
 
-  public acceptCookies(): void {
+  public acceptCookies(buttonText: string): void {
     this.cookiesData.coockiebanner = false;
     this.cookiesData.acceptAnalyticsCookies = true;
     this.cookiesData.rejectAnalyticsCookies = false;
     this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":true,"glassbox":true}', this.cookieExpirationTimeInMinutes);
     this.CookiesService.setCookie("ppg_cookies_preferences_set", 'true', this.cookieExpirationTimeInMinutes);
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
-  public rejectCookies(): void {
+  public rejectCookies(buttonText: string): void {
     this.cookiesData.coockiebanner = false;
     this.cookiesData.acceptAnalyticsCookies = false;
     this.cookiesData.rejectAnalyticsCookies = true;
     this.CookiesService.setCookie("ppg_cookies_policy", '{"essential":true,"additional":false,"glassbox":false}', this.cookieExpirationTimeInMinutes);
     this.CookiesService.setCookie("ppg_cookies_preferences_set", 'true', this.cookieExpirationTimeInMinutes);
-    this.CookiesService.deleteAdditionalCookies()
+    this.CookiesService.deleteAdditionalCookies();
+    this.dataLayerService.pushClickEvent(buttonText);
   }
 
-  public hideCookies(): void {
+  public hideCookies(buttonText: string = ""): void {
     this.cookiesData.coockiebanner = false;
     this.cookiesData.acceptAnalyticsCookies = false;
     this.cookiesData.rejectAnalyticsCookies = false;
+    if(buttonText != ""){
+      this.dataLayerService.pushClickEvent(buttonText);
+    }
   }
 
 }

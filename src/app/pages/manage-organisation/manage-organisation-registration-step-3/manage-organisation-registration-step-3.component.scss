@@ -19,7 +19,8 @@ app-manage-organisation-registration-step-3 {
   border-width: 2px;
   height: 38px;
   padding-top: 6px;
-  padding-left: 3px;
+  padding-left: 0px;
+  display: inline-block !important;
 }
 
 .form-field-country.form-field-required {
@@ -48,3 +49,34 @@ app-manage-organisation-registration-step-3 {
   width: auto;
   margin-bottom: 30px;
 }
+
+.govuk-heading-xl  {
+  margin-top: 30px !important;
+  margin-bottom: 30px !important;
+}
+
+.custom-select{
+  height: 30px !important;
+  font-size: 1rem !important;
+}
+
+.mat-mdc-form-field .mdc-text-field--filled .mdc-line-ripple {    
+  display: none;
+}
+
+.mat-divider{
+  border-top-style:hidden !important;
+  border-bottom: 1px solid;
+}
+
+.form-field-country .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-form-field-infix{
+  padding-top: 0px;
+}
+
+.form-field-country .mat-mdc-text-field-wrapper{
+  height: 30px;
+}
+
+#country-code-panel{
+  margin-left: 0px !important;
+} 

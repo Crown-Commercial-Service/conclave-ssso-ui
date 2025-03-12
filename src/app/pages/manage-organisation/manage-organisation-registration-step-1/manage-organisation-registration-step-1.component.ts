@@ -14,21 +14,24 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { Data } from 'src/app/models/data';
 import { dataService } from 'src/app/services/data/data.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { UIState } from 'src/app/store/ui.states';
 
 @Component({
-  selector: 'app-manage-organisation-registration-step-1',
-  templateUrl: './manage-organisation-registration-step-1.component.html',
-  styleUrls: ['./manage-organisation-registration-step-1.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { transform: 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' },
-    }),
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-manage-organisation-registration-step-1',
+    templateUrl: './manage-organisation-registration-step-1.component.html',
+    styleUrls: ['./manage-organisation-registration-step-1.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { transform: 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' },
+        }),
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrgRegStep1Component
   extends BaseComponent
@@ -71,12 +74,16 @@ export class ManageOrgRegStep1Component
     protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
-    private SharedDataService:SharedDataService
+    private SharedDataService:SharedDataService,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
+  }
 
   public onClick() {
     this.router.navigateByUrl(`manage-org/register/initial-search`);
