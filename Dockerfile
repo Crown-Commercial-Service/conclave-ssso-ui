@@ -11,8 +11,7 @@ COPY . ./
 RUN npm run build
 
 # Debugging: List files in the build directory
-RUN echo "Listing files in /app/dist:" && ls -alh /app/dist && \
-    echo "Listing files in /app/dist/browser:" && ls -alh /app/dist/browser
+RUN echo "Listing files in /app/dist/browser:" && ls -alh /app/dist/browser
 
 # Stage 2: Deploy using Nginx
 FROM nginx:stable-alpine3.20-slim AS runtime
@@ -21,11 +20,12 @@ WORKDIR /usr/share/nginx/html
 # Remove default HTML files
 RUN rm -rf ./*
 
-# Copy the Angular build output (updated path)
-COPY --from=build /app/dist/browser ./
+# Copy Angular build output
+COPY --from=build /app/dist/browser/* ./
 
-# Debugging: List files in Nginx html directory after copying the build
-RUN echo "Listing files in /usr/share/nginx/html:" && ls -alh /usr/share/nginx/html
+# Change ownership & permissions
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+    chmod -R 755 /usr/share/nginx/html
 
 # Copy Nginx configuration
 COPY nginxangular.conf /etc/nginx/conf.d/default.conf
