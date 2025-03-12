@@ -9,7 +9,7 @@ RUN npm run build
 FROM nginx:mainline-alpine3.20 AS runtime
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-COPY --from=build /app/dist .
+COPY --from=build /app/dist/browser .
 
 #COPY nginx.conf /etc/nginx/sites-enabled/default
 COPY nginxangular.conf /etc/nginx/conf.d/default.conf
