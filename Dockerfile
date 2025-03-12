@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install the dependencies
-RUN npm install
+RUN npm install --legacy-peer-deps && npm cache clean --force
 
 # Copy the Angular source files
 COPY . .
