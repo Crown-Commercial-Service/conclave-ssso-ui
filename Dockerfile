@@ -9,7 +9,9 @@ RUN npm run build
 FROM nginx:stable-alpine3.20-slim AS runtime
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-COPY --from=build /app/dist .
+COPY --from=build /app/dist/browser .
+
+RUN echo "Listing files in /usr/share/nginx/html:" && ls -alh /usr/share/nginx/html
 
 #COPY nginx.conf /etc/nginx/sites-enabled/default
 COPY nginxangular.conf /etc/nginx/conf.d/default.conf
