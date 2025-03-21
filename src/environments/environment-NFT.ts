@@ -103,5 +103,6 @@ export const environment = {
     blockedScheme: ["GB-PPG"],
     customMfaEnabled: true,
     isMaintenance: false,
+    excludedForDelegation: ['ORG_ADMINISTRATOR', 'ORG_DEFAULT_USER', 'ORG_USER_SUPPORT', 'MANAGE_SUBSCRIPTIONS', 'DATA_MIGRATION', 'CAT_ADMIN'],
    },
 };
