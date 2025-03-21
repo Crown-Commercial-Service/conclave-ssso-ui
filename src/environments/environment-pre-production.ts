@@ -109,9 +109,14 @@ export const environment = {
       },
   },
   appSetting: {
-   hideIDP:false,
-   hideDelegation:false,
-   hideBulkupload:false,
-   hideAutoValidation:false,
+     hideIDP:true,
+     hideDelegation:false,
+     hideBulkupload:false,
+     hideAutoValidation:false,
+     hideSimplifyRole: false,
+     blockedScheme: ["GB-PPG"],
+     customMfaEnabled: true,
+     isMaintenance: false,
+     excludedForDelegation: ['ORG_ADMINISTRATOR', 'ORG_DEFAULT_USER', 'ORG_USER_SUPPORT', 'MANAGE_SUBSCRIPTIONS', 'DATA_MIGRATION', 'CAT_ADMIN'],
   },
 };
