@@ -19,6 +19,12 @@ def parse_arguments():
         required=False,
     )
     parser.add_argument(
+      "--aws-account-id",
+      help="The AWS Account ID for the environment in which the deployment is to occur",
+      dest="aws_account_id",
+      required=True,
+    )
+    parser.add_argument(
         "--environment-prefix",
         help="The prefix for the name of the environment that the PPG application will be deployed to",
         dest="environment_prefix",
@@ -84,6 +90,7 @@ def update_angular_app_config(
 def angular_app_config_update_handler():
     (
         angular_app_github_repository_path,
+        aws_account_id,
         environment_prefix,
         idam_client_id_parameter_path,
         region_name,
@@ -92,8 +99,10 @@ def angular_app_config_update_handler():
     boto3_ssm_client = create_ssm_boto3_client(region_name=region_name)
     environment_name = get_environment_name(environment_prefix)
     dict_of_ssm_parameter_values = get_ssm_parameter_values(
+        aws_account_id=aws_account_id,
         boto3_ssm_client=boto3_ssm_client,
         idam_client_id_parameter_path=idam_client_id_parameter_path,
+        region_name=region_name,
         rollbar_token_parameter_path=rollbar_token_parameter_path,
     )
     update_angular_app_config(
@@ -153,13 +162,13 @@ def get_environment_name(environment_prefix):
     return environment_name
 
 
-def get_ssm_parameter_value(boto3_ssm_client, ssm_parameter_name):
+def get_ssm_parameter_value(aws_account_id, boto3_ssm_client, region_name, ssm_parameter_name):
     try:
         logging.info(
             f"Attempting to get SSM Parameter value for SSM Parameter Name: {ssm_parameter_name}"
         )
         ssm_parameter_data = boto3_ssm_client.get_parameter(
-            Name=ssm_parameter_name, WithDecryption=True
+            Name=f"arn:aws:ssm:{region_name}:{aws_account_id}:parameter{ssm_parameter_name}", WithDecryption=True
         )
         ssm_parameter_value = ssm_parameter_data["Parameter"]["Value"]
         logging.info(
@@ -174,7 +183,7 @@ def get_ssm_parameter_value(boto3_ssm_client, ssm_parameter_name):
 
 
 def get_ssm_parameter_values(
-    boto3_ssm_client, idam_client_id_parameter_path, rollbar_token_parameter_path
+  aws_account_id, boto3_ssm_client, idam_client_id_parameter_path, region_name, rollbar_token_parameter_path
 ):
     list_of_ssm_parameter_names = [
         idam_client_id_parameter_path,
@@ -183,7 +192,7 @@ def get_ssm_parameter_values(
     dict_of_ssm_parameter_values = {}
     for ssm_parameter_name in list_of_ssm_parameter_names:
         ssm_parameter_value = get_ssm_parameter_value(
-            boto3_ssm_client=boto3_ssm_client, ssm_parameter_name=ssm_parameter_name
+            aws_account_id=aws_account_id, boto3_ssm_client=boto3_ssm_client, region_name=region_name, ssm_parameter_name=ssm_parameter_name
         )
         dict_of_ssm_parameter_values[ssm_parameter_name] = ssm_parameter_value
 
