@@ -125,15 +125,15 @@ def create_ssm_boto3_client(region_name):
 
 
 def get_args(args=parse_arguments()):
-    aws_account_id = args.aws_account_id
     angular_app_github_repository_path = args.angular_app_github_repository_path
+    aws_account_id = args.aws_account_id
     environment_prefix = args.environment_prefix
     idam_client_id_parameter_path = args.idam_client_id_parameter_path
     region_name = args.region_name
     rollbar_token_parameter_path = args.rollbar_token_parameter_path
     return (
-        aws_account_id,
         angular_app_github_repository_path,
+        aws_account_id,
         environment_prefix,
         idam_client_id_parameter_path,
         region_name,
