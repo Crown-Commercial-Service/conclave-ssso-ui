@@ -96,7 +96,15 @@ def angular_app_config_update_handler():
         region_name,
         rollbar_token_parameter_path,
     ) = get_args()
-    boto3_ssm_client = create_ssm_boto3_client(region_name=region_name)
+    boto3_sts_client = create_sts_boto3_client()
+    sts_assume_role_credentials = get_sts_assume_role_credentials(
+      aws_account_id=aws_account_id,
+      boto3_sts_client=boto3_sts_client
+    )
+    boto3_ssm_client = create_ssm_boto3_client(
+      region_name=region_name,
+      sts_assume_role_credentials=sts_assume_role_credentials
+    )
     environment_name = get_environment_name(environment_prefix)
     dict_of_ssm_parameter_values = get_ssm_parameter_values(
         aws_account_id=aws_account_id,
@@ -114,14 +122,29 @@ def angular_app_config_update_handler():
     )
 
 
-def create_ssm_boto3_client(region_name):
+def create_ssm_boto3_client(region_name, sts_assume_role_credentials):
     logging.debug("Creating SSM Boto3 Client")
     try:
-        ssm_client = boto3.client("ssm", region_name=region_name)
+        ssm_client = boto3.client(
+          "ssm",
+          aws_access_key_id=sts_assume_role_credentials['AccessKeyId'],
+          aws_secret_access_key=sts_assume_role_credentials['SecretAccessKey'],
+          aws_session_token=sts_assume_role_credentials['SessionToken'],
+          region_name=region_name)
         return ssm_client
     except botocore.exceptions.ClientError as e:
         logging.error(f"Unable to create SSM Client: {e}")
         exit(1)
+
+
+def create_sts_boto3_client():
+  logging.debug("Creating STS Boto3 Client")
+  try:
+    ssm_client = boto3.client("sts")
+    return ssm_client
+  except botocore.exceptions.ClientError as e:
+    logging.error(f"Unable to create SSM Client: {e}")
+    exit(1)
 
 
 def get_args(args=parse_arguments()):
@@ -199,6 +222,21 @@ def get_ssm_parameter_values(
         dict_of_ssm_parameter_values[ssm_parameter_name] = ssm_parameter_value
 
     return dict_of_ssm_parameter_values
+
+
+def get_sts_assume_role_credentials(aws_account_id, boto3_sts_client):
+    try:
+        logging.info("Obtaining assume role credentials for retrieving SSM Parameters")
+        sts_assume_role_response = boto3_sts_client.assume_role(
+            RoleArn=f"arn:aws:iam::{aws_account_id}:role/cicd_angular_ssm_parameters_role",
+            RoleSessionName='cicd_angular_ssm_parameters_assume_role'
+        )
+        sts_assume_role_credentials = sts_assume_role_response['Credentials']
+        logging.info("Successfully obtained assume role credentials for retrieving SSM Parameters")
+        return sts_assume_role_credentials
+    except Exception as e:
+        logging.error(f"Failed to obtain assume role credentials: {e}")
+        exit(1)
 
 
 angular_app_config_update_handler()
