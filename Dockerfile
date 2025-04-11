@@ -17,13 +17,19 @@ COPY . .
 RUN npm run build
 
 # Step 2: Set up NGINX to serve the app
-FROM nginx:alpine
+FROM nginx:alpine AS runtime
+
+# Set the working directory
+WORKDIR /usr/share/nginx/html
 
 # Remove the default NGINX welcome page
-RUN rm -rf /usr/share/nginx/html/*
+RUN rm -rf ./*
 
 # Copy the Angular build output to NGINX's HTML folder
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist .
+
+#Copy the nginx config  to the Docker Image nginx config directory
+COPY nginxangular.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80 to be accessible outside the container
 EXPOSE 80
