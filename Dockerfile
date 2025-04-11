@@ -23,7 +23,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy the Angular build output to NGINX's HTML folder
-COPY --from=build /app/dist/browser /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Expose port 80 to be accessible outside the container
 EXPOSE 80
