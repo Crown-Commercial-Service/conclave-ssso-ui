@@ -2,6 +2,7 @@ import argparse
 import boto3
 import botocore.exceptions
 import logging
+import os
 
 logging.basicConfig(level=logging.INFO)
 
@@ -63,6 +64,7 @@ def update_angular_app_config(
     rollbar_token_parameter_path,
 ):
     src_environment_ts_filepath = f"{angular_app_github_repository_path}src/environments/environment-{environment_name}.ts"
+    src_updated_ts_filepath = f"{angular_app_github_repository_path}src/environments/environment.ts"
     try:
         logging.info(
             f"Attempting to update angular app config at path: {src_environment_ts_filepath}"
@@ -80,6 +82,8 @@ def update_angular_app_config(
         logging.info(
             f"Angular app config updated at path: {src_environment_ts_filepath}"
         )
+        logging.info(f"Renaming the file from {src_environment_ts_filepath} to {src_updated_ts_filepath}")
+        os.rename(src_environment_ts_filepath, src_updated_ts_filepath)
     except Exception as e:
         logging.error(
             f"Failed to updated Angular app config at path: {src_ts_file_updated_config}: {e}"
