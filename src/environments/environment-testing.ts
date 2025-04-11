@@ -42,8 +42,8 @@ export const environment = {
   mailDecryptKey:'conclavesimpleemailencrypt',
   rollbar: {
         key: '%ROLLBAR%',
-        enable : false,
-        security_log:false,
+        enable : true,
+        security_log:true,
         environment: 'test-ccs-sso'
   },
   cookies_policy: {
@@ -75,5 +75,6 @@ export const environment = {
    blockedScheme: ["GB-PPG"],
    isMaintenance: false,    
    customMfaEnabled : true,
+   excludedForDelegation: ['ORG_ADMINISTRATOR', 'ORG_DEFAULT_USER', 'ORG_USER_SUPPORT', 'MANAGE_SUBSCRIPTIONS', 'DATA_MIGRATION', 'CAT_ADMIN'],
   },
 };
