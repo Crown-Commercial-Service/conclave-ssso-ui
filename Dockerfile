@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Step 2: Set up NGINX to serve the app
-FROM nginx:alpine AS runtime
+FROM nginx:mainline-alpine3.21 AS runtime
 
 # Set the working directory
 WORKDIR /usr/share/nginx/html
