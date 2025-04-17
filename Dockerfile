@@ -16,10 +16,9 @@ COPY . .
 # Build the Angular app
 RUN npm run build
 
-# Step 2: Set up NGINX to serve the app
-FROM nginx:mainline-alpine3.21 AS runtime
-
 # Set the working directory
+FROM nginx:stable-alpine3.20-slim AS runtime
+
 WORKDIR /usr/share/nginx/html
 
 # Remove the default NGINX welcome page
