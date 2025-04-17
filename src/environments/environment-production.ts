@@ -1,50 +1,78 @@
 export const environment = {
+
   production: true,
-  idam_client_id:'IDAM_ID',
+
+  idam_client_id: '%IDAM%',
+
   uri: {
+
     api: {
+
       isApiGateWayEnabled: true,
-      //security: 'https://dev.security.conclave.crowncommercial.gov.uk',
+
       security: 'https://api.crowncommercial.gov.uk',
-      //postgres: 'https://dev.core.conclave.crowncommercial.gov.uk',
+
       postgres: 'https://api.crowncommercial.gov.uk/dashboard-wrapper',
+
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
+
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://api.crowncommercial.gov.uk/user-profiles',
-          organisation: 'https://api.crowncommercial.gov.uk/organisation-profiles',
-          contact: 'https://api.crowncommercial.gov.uk/contacts',
-          configuration: 'https://api.crowncommercial.gov.uk/configurations',
+          user: 'https://api.crowncommercial.gov.uk/user-profile',
+          organisation: 'https://api.crowncommercial.gov.uk/organisation-profile',
+          contact: 'https://api.crowncommercial.gov.uk/contact-service',
+          configuration: 'https://api.crowncommercial.gov.uk/configuration-service',
+          dataMigration: 'https://api.crowncommercial.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
-          user: 'https://prod-api-wrapper.london.cloudapps.digital/users',
-          organisation: 'https://prod-api-wrapper.london.cloudapps.digital/organisations',
-          contact: 'https://prod-api-wrapper.london.cloudapps.digital/contacts',
-          configuration: 'https://prod-api-wrapper.london.cloudapps.digital/configurations',
+          user: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/user-profile',
+          organisation: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
+          contact: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/contact-service',
+          configuration: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
+          dataMigration: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/datamigration',
         }
       }
+
     },
+
     web: {
-      //dashboard: 'https://dev.sso.conclave.crowncommercial.gov.uk'
+
       dashboard: 'https://identify.crowncommercial.gov.uk',
-      name: "",   // <= name should not be any value in production
+      name: ""
+
     },
+
     ccsContactUrl: "https://www.crowncommercial.gov.uk/contact",
-    ccsDashboardUrl: "https://www.crowncommercial.gov.uk"
+    ccsDashboardUrl: "https://identify.crowncommercial.gov.uk"
+
   },
-  googleTagMangerId: 'GTM',
+
+  googleTagMangerId: 'GTM-TZCX5VP',
+
   cookieExpirationTimeInMinutes: 525600,
+
   bulkUploadPollingFrequencyInSeconds: 5,
+
   bulkUploadMaxFileSizeInBytes:1048576,
-  bulkUploadTemplateFileUrl: 'BUCKET_URL', // Put the publicly accessible url of the template file
+
+  bulkUploadTemplateFileUrl: 'https://api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
+
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
+
   listPageSize: 10,
-  mailDecryptKey:'conclavesimpleemailencrypt',  
+
+  mailDecryptKey:'conclavesimpleemailencrypt',
+
   rollbar: {
-    key: 'ROLLBAR',
-    enable : false,
-    security_log:false,
+
+    key: '%ROLLBAR%',
+
+    enable: false,
+
+    security_log: false,
+    
     environment: 'prod-ccs-sso'
+
   },
   cookies_policy: {
     essentialcookies: {
@@ -67,11 +95,14 @@ export const environment = {
     },
   },
   appSetting: {
-   hideIDP:true,
-   hideDelegation:true,
-   hideBulkupload:true,
-   hideAutoValidation:false,
-   hideSimplifyRole:false,
-   blockedScheme: ["GB-PPG"],
-  },
+    hideIDP:true,
+    hideDelegation:true,
+    hideBulkupload:true,
+    hideAutoValidation:false,
+    hideSimplifyRole: false,
+    blockedScheme: ["GB-PPG"],
+    customMfaEnabled: true,
+    isMaintenance: false,
+    excludedForDelegation: ['ORG_ADMINISTRATOR', 'ORG_DEFAULT_USER', 'ORG_USER_SUPPORT', 'MANAGE_SUBSCRIPTIONS', 'DATA_MIGRATION', 'CAT_ADMIN'],
+   },
 };
