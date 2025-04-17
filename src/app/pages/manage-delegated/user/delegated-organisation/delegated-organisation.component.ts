@@ -3,27 +3,37 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { environment } from 'src/environments/environment';
 import { ManageDelegateService } from '../../service/manage-delegate.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { LoadingIndicatorService } from 'src/app/services/helper/loading-indicator.service';
 
 @Component({
-  selector: 'app-delegated-organisation',
-  templateUrl: './delegated-organisation.component.html',
-  styleUrls: ['./delegated-organisation.component.scss'],
+    selector: 'app-delegated-organisation',
+    templateUrl: './delegated-organisation.component.html',
+    styleUrls: ['./delegated-organisation.component.scss'],
+    standalone: false
 })
 export class DelegatedOrganisationComponent implements OnInit {
   public organisationList: any = [];
   public userDetails: any = {};
   public primaryRoleSelected: any;
   public secondaryRoleSelected: any;
-  private roleData:any;
-  private roleInfo: any;
+  public roleData:any;
+  public roleInfo: any;
   private isDeleagation:boolean=environment.appSetting.hideDelegation
+  public isOrgAdmin: boolean = false; 
 
   constructor(
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private delegatedService: WrapperUserDelegatedService,
     private DelegateService: ManageDelegateService,
+    private router: Router,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
+     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     if(this.isDeleagation === true){
       this.route.navigateByUrl('/home');
       return
@@ -38,6 +48,7 @@ export class DelegatedOrganisationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataLayerService.pushPageViewEvent();
     if (
       this.DelegateService.getDelegatedOrg == '0' ||
       this.DelegateService.getDelegatedOrg == null || this.DelegateService.getDelegatedOrg == ''
@@ -61,7 +72,7 @@ export class DelegatedOrganisationComponent implements OnInit {
       }
     }
 
-  private getDelegatedOrganisation(): void {
+  public getDelegatedOrganisation(): void {
     this.delegatedService.getDeligatedOrg().subscribe({
       next: (data: any) => {
         let orgDetails = data.detail.delegatedOrgs.find((element: { delegatedOrgId: string; })=> element.delegatedOrgId == localStorage.getItem('permission_organisation_id') || "" )
@@ -86,10 +97,24 @@ export class DelegatedOrganisationComponent implements OnInit {
     this.primaryRoleSelected = null;
     this.roleInfo = orgDetails.delegatedOrgId;
   }
-  onSubmit() {
-    this.DelegateService.setDelegatedOrg(this.roleInfo,'home');
+  onSubmit(buttonText:string) {
+    try {
+      this.loadingIndicatorService.isLoading.next(true);
+      this.loadingIndicatorService.isCustomLoading.next(true);
+      this.DelegateService.setDelegatedOrg(this.roleInfo,'home');
+      this.pushDataLayerEvent(buttonText);
+    }
+    catch (err) {
+      this.loadingIndicatorService.isLoading.next(false);
+      this.loadingIndicatorService.isCustomLoading.next(false);
+    }
   }
-  public Cancel() {
+  public Cancel(buttonText:string) {
     window.history.back();
+    this.pushDataLayerEvent(buttonText);
   }
+
+  pushDataLayerEvent(buttonText:string) {
+	this.dataLayerService.pushClickEvent(buttonText);
+	  }
 }

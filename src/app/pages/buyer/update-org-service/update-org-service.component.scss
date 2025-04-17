@@ -16,5 +16,9 @@
     top: 4px;
   }
   .govuk-item-custom .govuk-checkboxes__input + .govuk-checkboxes__label::after {
-    top: 18px;
+    top: 15px;
+  }
+  .govuk-heading-xl {
+    margin-top: 30px !important;
+    margin-bottom: 30px !important;
   }

@@ -15,7 +15,7 @@
             <h1 class="govuk-heading-xl page-title">{{ 'MANAGE_YOUR_ORGANISATION_USER_ACCOUNTS' | translate }}</h1>
             <p class="govuk-heading-s ">{{ 'MANAGE_USER_DESCRIPTION' | translate }}</p>
 
-            <button type="button" (click)="onAddClick()" class="govuk-button govuk-button--secondary"
+            <button type="button" (click)="onAddClick('Add user')" class="govuk-button govuk-button--secondary"
                 data-module="govuk-button">
                 {{ isBulkUpload ? 'Add user' : 'ADD_USERS_BTN' | translate }}
             </button>
@@ -26,7 +26,7 @@
                 *ngIf="searchSumbited && searchingUserName ===''">
                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a user’s name or email address
               </span>
-                <app-search-box [(searchText)]="searchingUserName" (onSearchClickEvent)="onSearchClick()">
+                <app-search-box [(searchText)]="searchingUserName" (onSearchClickEvent)="onSearchClick()" [pageName]="'Manage User Accounts'">
                 </app-search-box>
             </div>
         </div>

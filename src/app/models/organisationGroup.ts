@@ -1,10 +1,12 @@
 export interface Group {
   serviceRoleGroups: any;
-  checked ?: boolean;
+  checked?: boolean;
   groupId: number;
   mfaEnabled: boolean;
   groupName: string;
   createdDate?: string;
+  routeLink?: string;
+  routeData?: any;
 }
 
 export interface GroupList {
@@ -72,6 +74,7 @@ export interface OrganisationGroupResponseInfo extends Group {
   roles: GroupRole[];
   users: GroupUser[];
   serviceRoleGroups: GroupRole[];
+  groupType: any;
 }
 
 export interface GroupRole {

@@ -13,6 +13,8 @@ import { ContactHelper } from "src/app/services/helper/contact-helper.service";
 import { WrapperSiteContactService } from "src/app/services/wrapper/wrapper-site-contact-service";
 import { ContactAssignedStatus } from "src/app/constants/enum";
 import { SessionStorageKey } from "src/app/constants/constant";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-contact-assign-component',
@@ -23,7 +25,8 @@ import { SessionStorageKey } from "src/app/constants/constant";
             close: { 'transform': 'translateX(12.5rem)' },
             open: { left: '-12.5rem' }
         })
-    ]
+    ],
+    standalone: false
 })
 export class ContactAssignComponent extends BaseComponent implements OnInit {
     organisationId: string;
@@ -37,20 +40,20 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
     selectedContacts: ContactGridInfo[] = [];
     siteCreate: any;
 
-    constructor(private userContactService: WrapperUserContactService, private siteContactService: WrapperSiteContactService,
+    constructor(public userContactService: WrapperUserContactService,private sessionService:SessionService, public siteContactService: WrapperSiteContactService,
         private contactHelper: ContactHelper,
-        protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected uiStore: Store<UIState>, public router: Router, private activatedRoute: ActivatedRoute,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
-            let routeData = JSON.parse(queryParams.data);
-            this.assigningSiteId = routeData['assigningSiteId'] || 0;
-            this.assigningOrgId = routeData['assigningOrgId'] || "";
-            this.contactUserName = sessionStorage.getItem(SessionStorageKey.ContactAssignUsername) ?? "";
-            this.contactSiteId = routeData['contactSiteId'] || 0;
-            this.siteCreate=routeData['siteCreate'] || false;
+            let routeData = this.contactHelper.parseRouteData(queryParams.data);
+            this.assigningSiteId = routeData.assigningSiteId;
+            this.assigningOrgId = routeData.assigningOrgId;
+            this.contactUserName = routeData.contactUserName;
+            this.contactSiteId = routeData.contactSiteId;
+            this.siteCreate = routeData.siteCreate
         }
         let selectedContactString = sessionStorage.getItem("assigning-contact-list");
         if (selectedContactString) {
@@ -59,6 +62,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.dataLayerService.pushPageViewEvent();
         if (this.contactSiteId && this.contactSiteId != 0) {
             this.getSiteContacts();
         }
@@ -116,7 +120,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
         }
     }
 
-    onContinueClick() {
+    onContinueClick(buttonText:string) {
         let contactString = JSON.stringify(this.selectedContacts);
         sessionStorage.setItem("assigning-contact-list", contactString);
         let data = {
@@ -126,6 +130,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
             'siteCreate':this.siteCreate
         };
         this.router.navigateByUrl('contact-assign/confirm?data=' + JSON.stringify(data));
+        this.pushDataLayerEvent(buttonText);
     }
 
     onNavigateToHomeClick() {
@@ -150,9 +155,18 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
-    onCancelClick() {
+    getEditQueryData(): string {
+        let data = {
+          isEdit: true,
+          siteId: this.assigningSiteId
+        };
+        return JSON.stringify(data);
+      }
+
+    onCancelClick(buttonText:string) {
         sessionStorage.removeItem("assigning-contact-list");
         window.history.back();
+        this.pushDataLayerEvent(buttonText);
         // let data = {
         //     'assigningSiteId': this.assigningSiteId,
         //     'assigningOrgId': this.assigningOrgId,
@@ -165,4 +179,8 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
         //     this.router.navigateByUrl('contact-assign/user- ?data=' + JSON.stringify(data));
         // }
     }
+
+    pushDataLayerEvent(buttonText:string) {
+       this.dataLayerService.pushClickEvent(buttonText)
+      }
 }

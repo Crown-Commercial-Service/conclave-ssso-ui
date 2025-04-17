@@ -37,15 +37,15 @@ export class PatternService {
       return true;
     }
     //first part
-    if (data.split('@')[0].length >= 65) {
+    if (data.split('@')[0]?.length >= 65) {
       return true;
     }
     //secound part
-    if (data.split('@')[1].split('.')[0].length >= 64) {
+    if (data.split('@')[1]?.split('.')[0].length >= 64) {
       return true;
     }
     //third part
-    if (data.split('@')[1].split('.')[1].length >= 64) {
+    if (data.split('@')[1]?.split('.')[1].length >= 64) {
       return true;
       // default part
     } else {

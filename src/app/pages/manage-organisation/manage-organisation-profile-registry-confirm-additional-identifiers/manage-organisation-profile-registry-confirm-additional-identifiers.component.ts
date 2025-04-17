@@ -14,19 +14,22 @@ import { User } from 'src/app/models/user';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-organisation-profile-registry-confirm-additional-identifiers',
-  templateUrl: './manage-organisation-profile-registry-confirm-additional-identifiers.component.html',
-  styleUrls: ['./manage-organisation-profile-registry-confirm-additional-identifiers.component.scss'],
-  animations: [
-    slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-manage-organisation-profile-registry-confirm-additional-identifiers',
+    templateUrl: './manage-organisation-profile-registry-confirm-additional-identifiers.component.html',
+    styleUrls: ['./manage-organisation-profile-registry-confirm-additional-identifiers.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends BaseComponent implements OnInit {
 
@@ -39,7 +42,7 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
   public user!: User;
   public orgId!: string;
 
-  constructor(private ciiService: ciiService, private wrapperService: WrapperUserService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  constructor(private ciiService: ciiService,private sessionService:SessionService, private wrapperService: WrapperUserService, private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>, private readonly tokenService: TokenService, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
     this.organisationId = JSON.parse(localStorage.getItem('organisation_id') + '');
     this.orgId = JSON.parse(localStorage.getItem('organisation_id') + '');
@@ -91,13 +94,20 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
         });
       }
     });
+    
+    this.dataLayerService.pushPageViewEvent({
+      scheme: this.routeParams.scheme,
+       id: this.routeParams.id,
+       organisationId: this.routeParams.this.organisationId,
+    });
   }
 
-  public goBack() {
+  public goBack(buttonText:string) {
     this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/search/' + this.routeParams.scheme + '/' + this.routeParams.id);
+    this.pushDataLayerEvent(buttonText);
   }
 
-  public onSubmit() {
+  public onSubmit(buttonText:string) {
     let organisation = JSON.parse(localStorage.getItem('cii_organisation') + '');
     organisation.additionalIdentifiers = this.selectedIdentifiers;
     localStorage.setItem('cii_organisation', JSON.stringify(organisation));
@@ -107,7 +117,12 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
       (error) => {
         console.log(error);
       });
+      this.pushDataLayerEvent(buttonText);
   }
+
+  pushDataLayerEvent(buttonText:string) {
+		this.dataLayerService.pushClickEvent(buttonText)
+	  }
 
   public onChange(event: any, additionalIdentifier: any) {
     if (event.currentTarget.checked) {

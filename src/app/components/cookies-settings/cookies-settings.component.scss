@@ -152,3 +152,17 @@ table th{
 a {
     text-decoration: underline;
 }
+@media (max-width: 767px) {
+.govuk-table__cell {
+ word-wrap: break-word;
+ word-break: break-word; 
+ overflow-wrap: break-word;
+}
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+.govuk-table__cell {
+ word-wrap: break-word;
+ word-break: break-word; 
+ overflow-wrap: break-word;
+}
+}   

@@ -5,19 +5,24 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { UIState } from 'src/app/store/ui.states';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-nominate-success',
-  templateUrl: './nominate-success.component.html',
-  styleUrls: ['./nominate-success.component.scss'],
+    selector: 'app-nominate-success',
+    templateUrl: './nominate-success.component.html',
+    styleUrls: ['./nominate-success.component.scss'],
+    standalone: false
 })
 export class NominateSuccessComponent extends BaseComponent implements OnDestroy
 {
   private subscription: Subscription | undefined;
   public emailAddress: any;
   public pageAccessMode:any;
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
   constructor(
     private route: ActivatedRoute,
     private dataService: SharedDataService,
@@ -25,7 +30,9 @@ export class NominateSuccessComponent extends BaseComponent implements OnDestroy
     protected viewportScroller: ViewportScroller,
     protected scrollHelper: ScrollHelper,
     private ActivatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     this.dataService.NominiData.subscribe((data) => {
@@ -39,6 +46,10 @@ export class NominateSuccessComponent extends BaseComponent implements OnDestroy
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.pageAccessMode = JSON.parse(atob(para.data));
     });
+  }
+
+  ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
   }
 
   ngOnDestroy(): void {

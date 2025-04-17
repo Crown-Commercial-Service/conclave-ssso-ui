@@ -9,28 +9,34 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { Data } from 'src/app/models/data';
 import { dataService } from 'src/app/services/data/data.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { UIState } from 'src/app/store/ui.states';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-manage-organisation-registration-error-username-already-exists',
-  templateUrl: './manage-organisation-registration-error-username-already-exists.component.html',
-  styleUrls: ['./manage-organisation-registration-error-username-already-exists.component.scss'],
-  animations: [
-      slideAnimation({
-          close: { 'transform': 'translateX(12.5rem)' },
-          open: { left: '-12.5rem' }
-      })
-  ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-manage-organisation-registration-error-username-already-exists',
+    templateUrl: './manage-organisation-registration-error-username-already-exists.component.html',
+    styleUrls: ['./manage-organisation-registration-error-username-already-exists.component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ManageOrgRegErrorUsernameExistsComponent extends BaseComponent implements OnInit {
-
-  constructor(private dataService: dataService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+  public isCustomMfaEnabled=environment.appSetting.customMfaEnabled;
+  constructor(private dataService: dataService,private sessionService:SessionService, private router: Router, protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
     super(uiStore,viewportScroller,scrollHelper);
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.dataLayerService.pushPageViewEvent();
+  }
 
   goBack(){
     window.history.back();
