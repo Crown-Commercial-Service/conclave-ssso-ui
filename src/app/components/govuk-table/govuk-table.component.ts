@@ -122,17 +122,17 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
       this.radioClickEvent.emit(null);
     }
     this.currentPage = pageNumber;
-    if (this.useClientPagination) {
+    // Scroll to top of table
+    this.tableContainer.nativeElement.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
+    if (this.useClientPagination) {      
       let startIndex = this.pageSize * (this.currentPage - 1);
       let endIndex = startIndex + this.pageSize;
       this.tableVisibleData = this.data.slice(startIndex, endIndex);
     }
     else {
-      // Scroll to top of table
-      this.tableContainer.nativeElement.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
-      });
       this.changeCurrentPageEvent.emit(pageNumber);
     }
   }

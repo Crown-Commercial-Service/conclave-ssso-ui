@@ -78,8 +78,6 @@ a {
 ::ng-deep #country-code-panel{
     margin-left: 0px !important;
 }
-
-.mat-mdc-option:focus.mdc-list-item, .mat-mdc-option.mat-mdc-option-active.mdc-list-item
-{
-    background-color: silver !important;
+.mat-mdc-option:focus.mdc-list-item, .mat-mdc-option.mat-mdc-option-active.mdc-list-item {
+  background-color: #f5f5f5 !important;
 }

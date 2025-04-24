@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { CiiAdditionalIdentifier, CiiOrgIdentifiersDto } from 'src/app/models/org';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { ciiService } from 'src/app/services/cii/cii.service';
@@ -31,6 +31,7 @@ export class RegistryGovukTableComponent implements OnInit, OnChanges {
   schemeData: any[] = [];
   ciiOrganisationId: string;
   public includeHiddenIdentifiers:boolean=false;
+  @ViewChild('tableContainer') tableContainer!: ElementRef;
 
   public registries: CiiOrgIdentifiersDto;
   public additionalIdentifiers: CiiAdditionalIdentifier[];
@@ -94,6 +95,11 @@ export class RegistryGovukTableComponent implements OnInit, OnChanges {
       return
     }
     this.currentPage = pageNumber;
+    // Scroll to top of table
+    this.tableContainer.nativeElement.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
     if (this.useClientPagination) {
       let startIndex = this.pageSize * (this.currentPage - 1);
       let endIndex = startIndex + this.pageSize;
