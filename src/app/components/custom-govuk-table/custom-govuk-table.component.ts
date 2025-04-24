@@ -1,5 +1,5 @@
 import { ViewportScroller } from '@angular/common';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
@@ -34,6 +34,7 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   @Output() checkBoxClickEvent = new EventEmitter<any>();
   @Output() radioClickEvent = new EventEmitter<any>();
   @Output() changeCurrentPageEvent = new EventEmitter<number>();
+  @ViewChild('tableContainer') tableContainer!: ElementRef;
 
   pageCount?: number | any;
   currentPage: number = 1;
@@ -68,6 +69,11 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
     if(pageNumber === '...') {
       return
     }
+    // Scroll to top of table
+    this.tableContainer.nativeElement.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
       this.changeCurrentPageEvent.emit(pageNumber);
   }
 
