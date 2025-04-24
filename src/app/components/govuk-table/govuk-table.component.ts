@@ -132,7 +132,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
       let endIndex = startIndex + this.pageSize;
       this.tableVisibleData = this.data.slice(startIndex, endIndex);
     }
-    else {            
+    else {
       this.changeCurrentPageEvent.emit(pageNumber);
     }
   }
