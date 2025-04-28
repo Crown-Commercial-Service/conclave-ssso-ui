@@ -1,5 +1,5 @@
 import { ViewportScroller } from '@angular/common';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
@@ -38,6 +38,7 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
   @Input() isRadioDisabled?: (dataRow: any) => boolean;
   @Input() isHyperLinkRowVisible?: (dataRow: any) => boolean;
   @Input() isNavigate?: boolean;
+  @ViewChild('tableContainer') tableContainer!: ElementRef;
 
   pageCount?: number | any;
   currentPage: number = 1;
@@ -121,7 +122,12 @@ export class GovUKTableComponent extends BaseComponent implements OnInit {
       this.radioClickEvent.emit(null);
     }
     this.currentPage = pageNumber;
-    if (this.useClientPagination) {
+    // Scroll to top of table
+    this.tableContainer.nativeElement.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
+    if (this.useClientPagination) {      
       let startIndex = this.pageSize * (this.currentPage - 1);
       let endIndex = startIndex + this.pageSize;
       this.tableVisibleData = this.data.slice(startIndex, endIndex);
