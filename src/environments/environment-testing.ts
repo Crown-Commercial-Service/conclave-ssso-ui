@@ -42,8 +42,8 @@ export const environment = {
   mailDecryptKey:'conclavesimpleemailencrypt',
   rollbar: {
         key: '%ROLLBAR%',
-        enable : true,
-        security_log:true,
+        enable : false,
+        security_log:false,
         environment: 'test-ccs-sso'
   },
   cookies_policy: {
