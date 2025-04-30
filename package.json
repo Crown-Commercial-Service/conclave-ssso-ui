@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.1.7",
-    "@angular/cli": "^19.1.7",
+    "@angular/cli": "^19.2.10",
     "@angular/compiler-cli": "^19.1.6",
     "@ngrx/effects": "^19.0.1",
     "@ngrx/router-store": "^19.0.1",
