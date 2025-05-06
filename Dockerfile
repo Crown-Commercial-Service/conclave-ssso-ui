@@ -1,5 +1,7 @@
+# ---------- Step 1: Build the Angular App ----------
+
 # Step 1: Build the Angular app
-FROM node:20 AS build
+FROM node:20.10.0 AS build
 
 # Set the working directory
 WORKDIR /app
@@ -15,6 +17,8 @@ COPY . .
 
 # Build the Angular app
 RUN npm run build
+
+# ---------- Step 2: Serve with NGINX ----------
 
 # Set the working directory
 FROM nginx:stable-alpine3.20-slim AS runtime
