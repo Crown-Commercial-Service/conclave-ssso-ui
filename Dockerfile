@@ -12,6 +12,9 @@ COPY package*.json ./
 # Install the dependencies
 RUN npm install --legacy-peer-deps && npm cache clean --force
 
+# OPTIONAL: Ensure webpack is present (safety)
+RUN npm install --save-dev webpack webpack-cli
+
 # Copy the Angular source files
 COPY . .
 
