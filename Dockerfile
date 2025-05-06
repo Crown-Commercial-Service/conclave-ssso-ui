@@ -1,7 +1,7 @@
 # ---------- Step 1: Build the Angular App ----------
 
 # Step 1: Build the Angular app
-FROM node:20.10.0 AS build
+FROM node:22.0.0 AS build
 
 # Set the working directory
 WORKDIR /app
