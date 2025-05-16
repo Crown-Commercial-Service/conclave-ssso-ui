@@ -43,11 +43,11 @@
                 <h1 class="govuk-heading page-title">Additional security reset email has been sent to {{decodedData.data}}.</h1>
             </div>
             <div class="gov-uk-return-links" *ngIf="!decodedData.IsUser">
-                <a href="javascript:;" class="navigation-text" routerLink="/profile">
+                <a href="javascript:;" class="navigation-text" [routerLink]="['/profile']" [queryParams]="{isNewTab:true}">
                     {{ 'RETURN_TO_MANAGE_MY_ACCOUNT' | translate }}</a>
             </div>
             <div class="gov-uk-return-links" *ngIf="decodedData.IsUser">
-                <a href="javascript:;" class="navigation-text" routerLink="/manage-users">
+                <a href="javascript:;" class="navigation-text" [routerLink]="['/manage-users']" [queryParams]="{isNewTab:true}">
                     {{ 'RETURN_MANAGE_YOUR_USER_ACCOUNTS' | translate }}</a>
             </div>
             <br>

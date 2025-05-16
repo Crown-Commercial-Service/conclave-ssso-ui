@@ -41,11 +41,14 @@ import { FormBaseComponent } from 'src/app/components/form-base/form-base.compon
 import { PatternService } from 'src/app/shared/pattern.service';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
 import { OrganisationSiteResponse } from 'src/app/models/site';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-organisation-contact-edit',
-  templateUrl: './manage-organisation-contact-edit.component.html',
-  styleUrls: ['./manage-organisation-contact-edit.component.scss'],
+    selector: 'app-manage-organisation-contact-edit',
+    templateUrl: './manage-organisation-contact-edit.component.html',
+    styleUrls: ['./manage-organisation-contact-edit.component.scss'],
+    standalone: false
 })
 export class ManageOrganisationContactEditComponent
   extends FormBaseComponent
@@ -58,6 +61,7 @@ export class ManageOrganisationContactEditComponent
   default: string = '';
   contactReasons: ContactReason[] = [];
   isEdit: boolean = false;
+  contactAddAnother :boolean = false;
   isAssignedContact: boolean = false;
   contactId: number = 0;
   siteId: number = 0;
@@ -69,6 +73,7 @@ export class ManageOrganisationContactEditComponent
     CountryISO.UnitedStates,
     CountryISO.UnitedKingdom,
   ];
+  public formId : string = 'Manage_your_organisation Edit_contact_details';
   public contact_error: boolean = false;
   public toggleInput: any = [
     {
@@ -110,7 +115,9 @@ export class ManageOrganisationContactEditComponent
     private contactHelper: ContactHelper,
     private externalContactService: WrapperContactService,
     private siteContactService: WrapperSiteContactService,
-    private orgSiteService: WrapperOrganisationSiteService
+    private orgSiteService: WrapperOrganisationSiteService,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     super(
       viewportScroller,
@@ -157,6 +164,7 @@ export class ManageOrganisationContactEditComponent
       this.siteId = routeData['siteId'] || 0;
       this.siteCreate = routeData['siteCreate'] || false;
       this.ContactAdd = routeData['ContactAdd'] || false;
+      this.contactAddAnother = routeData['contactAddAnother'] ; 
     }
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.formGroup.setValidators(this.validateForSufficientDetails());
@@ -166,6 +174,7 @@ export class ManageOrganisationContactEditComponent
   }
 
   ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
     if (this.siteCreate) {
       this.getSiteDetails();
     }
@@ -193,6 +202,7 @@ export class ManageOrganisationContactEditComponent
         console.log(error);
       },
     });
+    this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
   }
 
   getOrganisationContact() {
@@ -356,6 +366,8 @@ export class ManageOrganisationContactEditComponent
         this.contactData.contacts =
           this.contactHelper.getContactListFromForm(form);
 
+        this.dataLayerService.pushFormSubmitEvent(this.formId);
+
         if (this.siteId == 0) {
           // If organisation contact
           if (this.isEdit) {
@@ -373,9 +385,11 @@ export class ManageOrganisationContactEditComponent
         }
       } else {
         this.scrollHelper.scrollToFirst('error-summary-title');
+        this.dataLayerService.pushFormErrorEvent(this.formId);
       }
     } else {
       this.scrollHelper.scrollToFirst('error-summary');
+    this.dataLayerService.pushFormErrorEvent(this.formId);
     }
   }
 
@@ -485,12 +499,21 @@ export class ManageOrganisationContactEditComponent
     errorObject[errorString] = true;
     form.controls[control].setErrors(errorObject);
     this.scrollHelper.scrollToFirst('error-summary');
+    this.dataLayerService.pushFormErrorEvent(this.formId);
   }
 
   formValid(form: FormGroup): Boolean {
     if (form == null) return false;
     if (form.controls == null) return false;
     return form.valid;
+  }
+
+  getEditQueryData(): string {
+    let data = {
+      isEdit: true,
+      siteId: this.siteId,
+    };
+    return JSON.stringify(data);
   }
 
   onCancelClick(click: string) {
@@ -504,6 +527,7 @@ export class ManageOrganisationContactEditComponent
       );
     } else {
       window.history.back();
+      this.pushDataLayerEvent(click);
     }
     // if (this.siteId == 0) {
     //   this.router.navigateByUrl('manage-org/profile');
@@ -531,6 +555,21 @@ export class ManageOrganisationContactEditComponent
     );
   }
 
+  public generateDeleteClickRoute(): string {
+    return `/manage-org/profile/${
+      this.siteId == 0 ? '' : 'site/'
+    }contact-delete`
+  }
+
+  getQueryData(): string {
+    const data = {
+      organisationId: this.organisationId,
+      contactId: this.contactId,
+      siteId: this.siteId,
+    };
+    return JSON.stringify(data);
+  }
+
   onUnassignClick() {
     let data = {
       unassignOrgId: this.organisationId,
@@ -540,6 +579,15 @@ export class ManageOrganisationContactEditComponent
     this.router.navigateByUrl(
       'contact-unassign/confirm?data=' + JSON.stringify(data)
     );
+  }
+
+  getUnassignQueryData(): string {
+    let data = {
+      unassignOrgId: this.organisationId,
+      unassignSiteId: this.siteId,
+      contactId: this.contactId,
+    };
+    return JSON.stringify(data);
   }
 
   public checkBoxClick(checkboxData: string): void {
@@ -582,6 +630,10 @@ export class ManageOrganisationContactEditComponent
     this.contact_error = true;
     return true;
   }
+
+  pushDataLayerEvent(buttonText: string) {
+		this.dataLayerService.pushClickEvent(buttonText);
+	  }
 
   private getSiteDetails(): void {
     this.orgSiteService

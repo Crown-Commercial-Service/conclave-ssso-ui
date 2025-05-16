@@ -5,11 +5,11 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root'
 })
 export class CookiesService {
-    private  cookieExpirationTimeInMinutes = environment.cookieExpirationTimeInMinutes
+    public  cookieExpirationTimeInMinutes = environment.cookieExpirationTimeInMinutes
 
     constructor() { }
-    private googleAnalyticsCookies=['_gat_gtag_UA_47046847_23','_gid','_ga','_gat_UA','_ga_624NHLKTKL']
-    private glassBoxCookies=['_cls_v','_cls_s']
+    public googleAnalyticsCookies=['_gat_gtag_UA_47046847_23','_gid','_ga','_gat_UA','_ga_624NHLKTKL']
+    public glassBoxCookies=['_cls_v','_cls_s']
 
 
     /**
