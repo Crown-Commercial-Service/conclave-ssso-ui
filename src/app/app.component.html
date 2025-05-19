@@ -1,5 +1,6 @@
 <app-environment-banner></app-environment-banner>
 <app-cookies-banner></app-cookies-banner>
+<a (click)="onSkipMainContent()" href="javascript:;" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 <header class="header-global" id="totop">
     <div class="ccs-width-container">
         <div class="nav-wrapper">
@@ -38,7 +39,7 @@
         </p>
     </div>
     <br>
-    <main class="govuk-main-wrapper">
+    <main #mainContent class="govuk-main-wrapper">
         <div style="margin-top: -35px;">
             <router-outlet>
                 <div *ngIf="loadingIndicatorService.isLoading | async" class="overlay">

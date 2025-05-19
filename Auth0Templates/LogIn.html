@@ -587,6 +587,13 @@
     width: 1px;
     overflow: hidden;
 }  
+
+.govuk-skip-link:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+  padding-left: 45px !important;
+}
 </style>
 
 <body class="govuk-template__body show-flourishes pillar--none js-enabled">
@@ -675,6 +682,7 @@
             </div>
         </div>
     </div>
+    <a href="javascript:;" onclick="skipToMainContent();" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
     <header class="header-global">
         <div class="ccs-width-container">
 
@@ -704,7 +712,7 @@
     </div>
     <div class="govuk-main-wrapper login-container">
       
-  <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+  <div id="mainDiv" class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
   <div class="govuk-notification-banner__header">
     <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
       Terms of use
@@ -1220,6 +1228,10 @@
                 dataLayer.push({event : 'form_start', form_id : 'login'});
               }
         });
+        function skipToMainContent(){
+            document.getElementById('mainDiv').scrollIntoView({ behavior: 'smooth' }); return false;
+            
+        }
     </script>
 </body>
 </html> 
