@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, ElementRef, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -24,6 +24,7 @@ import { SessionService } from './shared/session.service';
     standalone: false
 })
 export class AppComponent implements OnInit {
+  @ViewChild('mainContent') tableContainer!: ElementRef;
   public home = environment.uri.ccsDashboardUrl
   @HostBinding('class') className = '';
   public sideNavVisible$: Observable<boolean>;
@@ -136,6 +137,14 @@ export class AppComponent implements OnInit {
 
   public signoutAndRedirect() {
     this.authService.logOutAndRedirect();
+  }
+
+  onSkipMainContent(){
+    // Scroll to main content
+    this.tableContainer.nativeElement.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
   }
 
 

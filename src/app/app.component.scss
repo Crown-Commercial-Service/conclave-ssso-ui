@@ -366,3 +366,8 @@ span.mlp-app-logo {
 .navigation-text{
     text-decoration: underline;
 }
+
+.govuk-skip-link:focus {
+  text-decoration: underline;
+  padding-left: 45px !important;
+}
