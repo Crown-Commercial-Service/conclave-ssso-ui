@@ -39,7 +39,7 @@
         </p>
     </div>
     <br>
-    <main #mainContent class="govuk-main-wrapper">
+    <main #mainContent class="govuk-main-wrapper" tabindex="-1">
         <div style="margin-top: -35px;">
             <router-outlet>
                 <div *ngIf="loadingIndicatorService.isLoading | async" class="overlay">

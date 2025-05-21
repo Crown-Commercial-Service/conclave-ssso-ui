@@ -594,6 +594,14 @@
   background-color: #ffdd00;
   padding-left: 45px !important;
 }
+
+#mainDiv {  
+  scroll-margin-top: 60px;
+}
+
+#mainDiv:focus {
+  outline: none;  
+}
 </style>
 
 <body class="govuk-template__body show-flourishes pillar--none js-enabled">
@@ -712,7 +720,7 @@
     </div>
     <div class="govuk-main-wrapper login-container">
       
-  <div id="mainDiv" class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+  <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
   <div class="govuk-notification-banner__header">
     <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
       Terms of use
@@ -725,7 +733,9 @@
     </p>
   </div>
 </div>
+        <div id="mainDiv">
         <h1 class="govuk-heading-xl">Sign in to the Public Procurement Gateway</h1>
+        </div>
 
         <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
             id="error-summary" data-module="govuk-error-summary" style="display: none">
@@ -752,6 +762,7 @@
                 </ul>
             </div>
         </div>
+       
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
@@ -1229,8 +1240,20 @@
               }
         });
         function skipToMainContent(){
-            document.getElementById('mainDiv').scrollIntoView({ behavior: 'smooth' }); return false;
-            
+            const el = document.getElementById('mainDiv');
+    
+            if (el) {            
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Ensure the element can receive focus
+                if (!el.hasAttribute('tabindex')) {
+                    el.setAttribute('tabindex', '-1');
+                }
+                
+                setTimeout(() => {
+                    el.focus({ preventScroll: true });
+                }, 300);
+            }
+            return false;            
         }
     </script>
 </body>
