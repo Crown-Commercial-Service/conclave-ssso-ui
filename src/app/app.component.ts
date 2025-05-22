@@ -140,24 +140,21 @@ export class AppComponent implements OnInit {
   }
 
   onSkipMainContent(){
-    const container = this.tableContainer.nativeElement;
-    
-    const breadcrumbs = this.tableContainer.nativeElement.querySelector('.govuk-breadcrumbs');
+    const container = this.tableContainer.nativeElement;     
+    const mainTitle = this.tableContainer.nativeElement.querySelector('.govuk-heading-xl');
 
-    if(breadcrumbs){      
-      let nextFocusable = breadcrumbs?.nextElementSibling as HTMLElement;
-      
-      // If the next sibling isn't focusable, set tabindex
-      if (nextFocusable && !nextFocusable.hasAttribute('tabindex')) {
-        nextFocusable.setAttribute('tabindex', '-1');
+    if(mainTitle){           
+      if (!mainTitle.hasAttribute('tabindex')) {
+        mainTitle.setAttribute('tabindex', '-1');
       }
       
-      breadcrumbs?.scrollIntoView({ 
+      (mainTitle as HTMLElement).style.scrollMarginTop = '50px';
+      mainTitle?.scrollIntoView({ 
         behavior: 'smooth', 
         block: 'start' 
       });
       setTimeout(() =>{
-        nextFocusable?.focus({ preventScroll: false });
+        mainTitle?.focus({ preventScroll: true });
       }, 300)
       
     }
