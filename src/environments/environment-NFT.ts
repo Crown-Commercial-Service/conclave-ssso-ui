@@ -2,7 +2,7 @@ export const environment = {
 
   production: true,
 
-  idam_client_id: 'IDAM',
+  idam_client_id: '%IDAM%',
 
   uri: {
 
@@ -12,55 +12,42 @@ export const environment = {
 
       security: 'https://nft.api.crowncommercial.gov.uk',
 
-      postgres: 'https://nft.api.crowncommercial.gov.uk/core',
+      postgres: 'https://nft.api.crowncommercial.gov.uk/dashboard-wrapper',
 
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
 
       wrapper: {
-
         apiGatewayEnabled: {
-
-          user: 'https://nft.api.crowncommercial.gov.uk/user-profiles',
-
-          organisation: 'https://nft.api.crowncommercial.gov.uk/organisation-profiles',
-
-          contact: 'https://nft.api.crowncommercial.gov.uk/contacts',
-
-          configuration: 'https://nft.api.crowncommercial.gov.uk/configurations',
-
-          dataMigration: 'https://nft.api.crowncommercial.gov.uk/datamigration',
-
+          user: 'https://nft.api.crowncommercial.gov.uk/user-profile',
+          organisation: 'https://nft.api.crowncommercial.gov.uk/organisation-profile',
+          contact: 'https://nft.api.crowncommercial.gov.uk/contact-service',
+          configuration: 'https://nft.api.crowncommercial.gov.uk/configuration-service',
+          dataMigration: 'https://nft.api.crowncommercial.gov.uk/organisation-profile/datamigration',
         },
-
         apiGatewayDisabled: {
-
-          user: 'https://NFT-api-wrapper.london.cloudapps.digital/users',
-
-          organisation: 'https://NFT-api-wrapper.london.cloudapps.digital/organisations',
-
-          contact: 'https://NFT-api-wrapper.london.cloudapps.digital/contacts',
-
-          configuration: 'https://NFT-api-wrapper.london.cloudapps.digital/configurations',
-
-          dataMigration: 'https://NFT-api-wrapper.london.cloudapps.digital/datamigration',
-
+          user: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/user-profile',
+          organisation: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
+          contact: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/contact-service',
+          configuration: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
+          dataMigration: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/datamigration',
         }
-
       }
 
     },
 
     web: {
 
-      dashboard: 'https://nft.identify.crowncommercial.gov.uk'
+      dashboard: 'https://nft.identify.crowncommercial.gov.uk',
+      name: "NFT"
 
     },
 
-    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
+    ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
 
   },
 
-  googleTagMangerId: 'GTM',
+  googleTagMangerId: 'GTM-TZCX5VP',
 
   cookieExpirationTimeInMinutes: 525600,
 
@@ -68,7 +55,7 @@ export const environment = {
 
   bulkUploadMaxFileSizeInBytes:1048576,
 
-  bulkUploadTemplateFileUrl: 'BUCKET_URL',
+  bulkUploadTemplateFileUrl: 'https://nft.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
 
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
 
@@ -78,13 +65,13 @@ export const environment = {
 
   rollbar: {
 
-    key: 'ROLLBAR',
+    key: '%ROLLBAR%',
 
     enable: false,
 
     security_log: false,
     
-    environment: 'nft'
+    environment: 'nft-ccs-sso'
 
   },
   cookies_policy: {
@@ -108,10 +95,14 @@ export const environment = {
     },
   },
   appSetting: {
-   hideIDP:false,
-   hideDelegation:false,
-   hideBulkupload:false,
-   hideAutoValidation:false,
-  },
-
+    hideIDP:true,
+    hideDelegation:false,
+    hideBulkupload:false,
+    hideAutoValidation:false,
+    hideSimplifyRole: false,
+    blockedScheme: ["GB-PPG"],
+    customMfaEnabled: true,
+    isMaintenance: false,
+    excludedForDelegation: ['ORG_ADMINISTRATOR', 'ORG_DEFAULT_USER', 'ORG_USER_SUPPORT', 'MANAGE_SUBSCRIPTIONS', 'DATA_MIGRATION', 'CAT_ADMIN'],
+   },
 };

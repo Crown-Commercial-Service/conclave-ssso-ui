@@ -26,7 +26,8 @@
     <br>
     <div *ngIf="operation === operationEnum.UserCreate">
         <p class="govuk-body-l">{{ 'THE_USER' | translate }}{{ userName }}{{ messageKey | translate }}</p>
-        <a href="javascript:;" class="navigation-text" (click)="onNavigateToManageUserClick()"> {{ 'MANAGE_YOUR_USER_ACCOUNTS' | translate
+       
+        <a routerLink="/manage-users" class="navigation-text" (click)="onNavigateToManageUserClick()"> {{ 'MANAGE_YOUR_USER_ACCOUNTS' | translate
         }}</a>
     </div>
     <br>

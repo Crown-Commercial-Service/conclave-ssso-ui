@@ -7,9 +7,10 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { BaseComponent } from '../../base/base.component';
 
 @Component({
-  selector: 'app-reg-org-details',
-  templateUrl: './reg-org-details.component.html',
-  styleUrls: ['./reg-org-details.component.scss']
+    selector: 'app-reg-org-details',
+    templateUrl: './reg-org-details.component.html',
+    styleUrls: ['./reg-org-details.component.scss'],
+    standalone: false
 })
 export class OrgRegDetails extends BaseComponent implements OnInit, OnChanges {
 
