@@ -48,9 +48,11 @@
 
   <div class="govuk-form-group" *ngIf="idps" [class.govuk-form-group--error]="!isValid && submitted">
     <fieldset class="govuk-fieldset">
-      <h2 class="govuk-heading-s">
-        {{ 'SIGN_IN_PROVIDER'| translate }}
-      </h2>
+      <legend>
+        <h2 class="govuk-heading-s">
+          {{ 'SIGN_IN_PROVIDER'| translate }}
+        </h2>
+      </legend>
       <div id="signin-hint" class="govuk-hint" style="color: black;">
         {{ idpStatus == false ? 'A sign in provider gives users the option to use a different service to sign in. Sign in providers are set at an
         organisational level. Any updates applied here will apply to all of your organisation’s users' : (idpStatus == true ? 'Users can only use a User ID and password to sign in. You may be able to allow additional sign-in methods in the future.' : '')}}
@@ -73,8 +75,10 @@
 
   <div class = "govuk-form-group">
     <fieldset class="govuk-fieldset">
+      <legend>
         <h2 class="govuk-heading-s">
         {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}</h2>
+      </legend>
         <p class="govuk-hint" style="color: black;">{{'MFA_HELP_TEXT' | translate}}</p>
         <div>
           <details class="govuk-details" data-module="govuk-details">

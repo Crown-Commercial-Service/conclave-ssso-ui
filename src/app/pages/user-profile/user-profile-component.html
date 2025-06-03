@@ -118,9 +118,11 @@
 
                                 <div class="govuk-form-group" *ngIf="isCustomMfaEnabled">
                                     <fieldset class="govuk-fieldset">
-                                        <h2 class="govuk-heading-s">
-                                            {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}
-                                        </h2>
+                                        <legend>
+                                            <h2 class="govuk-heading-s">
+                                                {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}
+                                            </h2>
+                                        </legend>
                                         <p *ngIf="isMfaEnabledForUser" class="govuk-hint" style="color: black;">
                                             Currently <strong>On</strong> for this account using the
                                             <strong>{{authenticationType}}.</strong></p>
