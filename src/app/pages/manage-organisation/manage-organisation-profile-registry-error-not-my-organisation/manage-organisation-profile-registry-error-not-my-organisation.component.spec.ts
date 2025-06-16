@@ -20,6 +20,7 @@ describe('ManageOrganisationRegistryOrgNotFoundComponent', () => {
           get: () => '123',
         },
       },
+      params: of({ organisationId: '123' }) 
     };
     mockStore = jasmine.createSpyObj('Store', ['dispatch']);
 

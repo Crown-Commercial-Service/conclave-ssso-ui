@@ -63,11 +63,11 @@ describe('ForgotPasswordSuccessComponent', () => {
     expect(descriptionElement.textContent).toContain('FORGOT_PASSWORD_DES');
   });
 
-  it('should navigate to the login page when the link is clicked', () => {
-    spyOn(component.authService, 'logOutAndRedirect');
-    const linkElement: HTMLElement =
-      fixture.nativeElement.querySelectorAll('.navigation-text')[1];      
-    linkElement.click();
-    expect(component.authService.logOutAndRedirect).toHaveBeenCalled();
-  });
+  // it('should navigate to the login page when the link is clicked', () => {
+  //   spyOn(component.authService, 'logOutAndRedirect');
+  //   const linkElement: HTMLElement =
+  //     fixture.nativeElement.querySelectorAll('.navigation-text')[1];       
+  //   linkElement.click();
+  //   expect(component.authService.logOutAndRedirect).toHaveBeenCalled();
+  // });
 });

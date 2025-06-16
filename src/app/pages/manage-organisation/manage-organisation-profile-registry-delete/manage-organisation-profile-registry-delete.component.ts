@@ -69,9 +69,9 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
       }
     });
     this.dataLayerService.pushPageViewEvent({
-      organisationId: this.routeParams.this.organisationId,
-      scheme: this.routeParams.this.scheme,
-      id: this.routeParams.this.id
+      organisationId: this.routeParams.organisationId,
+      scheme: this.routeParams.scheme,
+      id: this.routeParams.id
     });
   }
 

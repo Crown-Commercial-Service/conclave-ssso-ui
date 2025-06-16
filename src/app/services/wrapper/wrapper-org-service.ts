@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { UserListResponse } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
