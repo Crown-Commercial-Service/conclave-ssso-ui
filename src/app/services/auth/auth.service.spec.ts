@@ -1,4 +1,4 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, waitForAsync, inject } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -50,7 +50,7 @@ describe('AuthService', () => {
     expect(isAuthenticated).toBe(true);
   });
 
-  it('should check if in-memory token exists', async(() => {
+  it('should check if in-memory token exists', waitForAsync(() => {
     spyOn(authService.workerService, 'checkAccessToken').and.returnValue(
       Promise.resolve(true)
     );

@@ -31,6 +31,7 @@ describe('ManageOrgRegStep1Component', () => {
     const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
       'setOffset',
     ]);
+    mockScrollHelper = jasmine.createSpyObj('ScrollHelper', ['scrollTo', 'scrollToTop']);
 
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],

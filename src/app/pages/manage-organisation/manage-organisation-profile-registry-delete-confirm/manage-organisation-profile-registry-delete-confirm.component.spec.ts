@@ -1,45 +1,59 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ViewportScroller } from '@angular/common';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { ManageOrganisationRegistryDeleteConfirmationComponent } from './manage-organisation-profile-registry-delete-confirm.component';
 import { dataService } from 'src/app/services/data/data.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ManageOrganisationRegistryDeleteConfirmationComponent', () => {
   let component: ManageOrganisationRegistryDeleteConfirmationComponent;
   let fixture: ComponentFixture<ManageOrganisationRegistryDeleteConfirmationComponent>;
   let mockDataService: jasmine.SpyObj<dataService>;
   let mockRouter: jasmine.SpyObj<Router>;
-  let mockActivatedRoute: jasmine.SpyObj<ActivatedRoute>;
+  let mockActivatedRoute: any;
   let mockStore: jasmine.SpyObj<Store<UIState>>;
+  let mockDataLayerService: jasmine.SpyObj<DataLayerService>;
 
   beforeEach(async () => {
     mockDataService = jasmine.createSpyObj('DataService', ['']);
-    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
-    mockActivatedRoute = jasmine.createSpyObj('ActivatedRoute', [], {
-      snapshot: { paramMap: { get: () => '1' } },
-      params: of({ scheme: 'test' }),
-    });
+    mockRouter = jasmine.createSpyObj('Router', ['navigate','createUrlTree']);
     mockStore = jasmine.createSpyObj('Store', ['dispatch']);
+    mockDataLayerService = jasmine.createSpyObj('DataLayerService', ['pushPageViewEvent']);
+    // mockActivatedRoute = jasmine.createSpyObj('ActivatedRoute', [], {
+    //   snapshot: { paramMap: { get: () => '1' } },
+    //   params: of({ scheme: 'test', organisationId: '123', id: '123' }),
+    // });
+    mockActivatedRoute = {
+      snapshot: {
+        paramMap: {
+          get: () => '1',
+        },
+      },
+      params: of({ scheme: 'test', organisationId: '123', id: '123' }),
+    };
+    
     const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
       'setOffset',
     ]);
 
     await TestBed.configureTestingModule({
       declarations: [ManageOrganisationRegistryDeleteConfirmationComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule],
+      imports: [TranslateModule.forRoot(),  RouterTestingModule.withRoutes([]), HttpClientTestingModule],
       providers: [
         { provide: dataService, useValue: mockDataService },
-        { provide: Router, useValue: mockRouter },
+        // { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Store, useValue: mockStore },
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
+        { provide: DataLayerService, useValue: mockDataLayerService },
       ],
     }).compileComponents();
   });
@@ -48,6 +62,8 @@ describe('ManageOrganisationRegistryDeleteConfirmationComponent', () => {
     fixture = TestBed.createComponent(
       ManageOrganisationRegistryDeleteConfirmationComponent
     );
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

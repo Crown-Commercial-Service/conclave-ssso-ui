@@ -6,12 +6,15 @@ import { ManageOrganisationRegistryConfirmComponent } from './manage-organisatio
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store } from '@ngrx/store';
 import { TokenService } from 'src/app/services/auth/token.service';
+import { ciiService } from 'src/app/services/cii/cii.service';
 
 describe('ManageOrganisationRegistryConfirmComponent', () => {
   let component: ManageOrganisationRegistryConfirmComponent;
   let fixture: ComponentFixture<ManageOrganisationRegistryConfirmComponent>;
   let router: Router;
   let activatedRouteStub: Partial<ActivatedRoute>;
+  let ciiServiceMock: jasmine.SpyObj<ciiService>;;
+  
   let localStore: any = {
     scheme_name: 'test-scheme-name',
     cii_organisation_id: 'test-org-id',
@@ -19,9 +22,16 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
 
   beforeEach(async () => {
     activatedRouteStub = jasmine.createSpyObj('ActivatedRoute', [], {
-      snapshot: { queryParams: { id: '123' } },
+      snapshot: { queryParams: { id: '123', organisationId:'test-org-id' } },
       params: of({ scheme: 'GB-COH' }),
     });
+
+    ciiServiceMock = jasmine.createSpyObj('ciiService', [
+      'getOrganisationIdentifierDetails',
+      'addRegistry'
+    ]);
+    ciiServiceMock.getOrganisationIdentifierDetails.and.returnValue(of({}));
+    ciiServiceMock.addRegistry.and.returnValue(of({}));
 
     spyOn(localStorage, 'getItem').and.callFake((key) =>
       key in localStore ? localStore[key] : null
@@ -34,6 +44,7 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
         { provide: Store, useFactory: () => ({}) },
         TokenService,
         { provide: ActivatedRoute, useValue: activatedRouteStub },
+        { provide: ciiService, useValue: ciiServiceMock },
       ],
     }).compileComponents();
   });
@@ -44,12 +55,13 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
     );
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-
-    spyOn(
-      component.ciiService,
-      'getOrganisationIdentifierDetails'
-    ).and.returnValue(of({}));
-    spyOn(component.ciiService, 'addRegistry').and.returnValue(of({}));
+    console.log(component.ciiService);
+    
+    // spyOn(
+    //   ciiServicee,
+    //   'getOrganisationIdentifierDetails'
+    // ).and.returnValue(of({}));
+    // spyOn(ciiServicee, 'addRegistry').and.returnValue(of({}));
 
     fixture.detectChanges();
   });
@@ -59,6 +71,7 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
   });
 
   it('should initialize the component', () => {
+    console.log(component.organisationId);
     expect(component.organisationId).toBe('test-org-id');
     expect(component.id).toBe('123');
     expect(component.schemeName).toBe('test-scheme-name');

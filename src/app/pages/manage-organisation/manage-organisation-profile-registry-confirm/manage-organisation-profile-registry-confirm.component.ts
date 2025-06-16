@@ -79,7 +79,7 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
     });
     this.dataLayerService.pushPageViewEvent({
       scheme: this.routeParams.scheme,
-       organisationId: this.routeParams.this.organisationId,
+       organisationId: this.routeParams.organisationId,
     });
   }
 

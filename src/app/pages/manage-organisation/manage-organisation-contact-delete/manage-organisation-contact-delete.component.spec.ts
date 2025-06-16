@@ -12,6 +12,7 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { UIState } from 'src/app/store/ui.states';
 import { OperationEnum } from 'src/app/constants/enum';
 import { ManageOrganisationContactDeleteComponent } from './manage-organisation-contact-delete.component';
+import { of } from 'rxjs';
 
 describe('ManageOrganisationContactDeleteComponent', () => {
   let component: ManageOrganisationContactDeleteComponent;
@@ -65,6 +66,7 @@ describe('ManageOrganisationContactDeleteComponent', () => {
                 data: JSON.stringify({ contactId: 123, siteId: 456 }),
               },
             },
+            queryParams: of({ isNewTab: 'false' })
           },
         },
       ],
@@ -100,8 +102,8 @@ describe('ManageOrganisationContactDeleteComponent', () => {
     expect(breadcrumbsLinks[1].nativeElement.getAttribute('routerLink')).toBe(
       '/manage-org/profile'
     );
-    expect(breadcrumbsLinks[2].nativeElement.getAttribute('href')).toBe(
-      'javascript:;'
+    expect(breadcrumbsLinks[2].nativeElement.getAttribute('ng-reflect-router-link')).toBe(
+      '/manage-org/profile/contact-ed'
     );
     expect(breadcrumbsLinks[3].nativeElement.textContent).toBe(
       'DELETE_CONTACT'
