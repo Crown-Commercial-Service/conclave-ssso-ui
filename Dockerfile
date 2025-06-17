@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install the dependencies
-RUN npm install --force && npm cache clean --force
+RUN npm install
 
 # Copy the Angular source files
 COPY . .
