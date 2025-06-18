@@ -42,7 +42,7 @@
     "ng-zorro-antd": "^19.0.2",
     "ngrx-store-freeze": "^0.2.4",
     "ngx-bootstrap": "^19.0.2",
-    "ngx-intl-tel-input": "^3.2.1",
+    "ngx-intl-tel-input": "^17.0.0",
     "ngx-mat-select-search": "^7.0.10",
     "rollbar": "^2.26.4",
     "rxjs": "^6.6.7",
