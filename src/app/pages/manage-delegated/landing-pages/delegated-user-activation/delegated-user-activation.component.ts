@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserListResponse } from 'src/app/models/user';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-delegated-user-activation',
-  templateUrl: './delegated-user-activation.component.html',
-  styleUrls: ['./delegated-user-activation.component.scss'],
+    selector: 'app-delegated-user-activation',
+    templateUrl: './delegated-user-activation.component.html',
+    styleUrls: ['./delegated-user-activation.component.scss'],
+    standalone: false
 })
 export class DelegatedUserActivationComponent implements OnInit {
   
@@ -15,7 +18,9 @@ export class DelegatedUserActivationComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private DelegatedService: WrapperUserDelegatedService
+    private DelegatedService: WrapperUserDelegatedService,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
   ) {}
 
   ngOnInit(): void {
@@ -29,5 +34,6 @@ export class DelegatedUserActivationComponent implements OnInit {
         },
       });
     });
+    this.dataLayerService.pushPageViewEvent();
   }
 }

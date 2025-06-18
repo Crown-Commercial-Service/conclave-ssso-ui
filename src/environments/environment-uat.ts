@@ -1,52 +1,53 @@
 export const environment = {
   production: true,
-  idam_client_id: 'IDAM_ID',
+  idam_client_id: '%IDAM%',
   uri: {
     api: {
       isApiGateWayEnabled: true,
       //security: 'https://uat-api-security.london.cloudapps.digital',
       security: 'https://uat.api.crowncommercial.gov.uk',
       //postgres: 'https://uat-api-core.london.cloudapps.digital',
-      postgres: 'https://uat.api.crowncommercial.gov.uk/core',
+      postgres: 'https://uat.api.crowncommercial.gov.uk/dashboard-wrapper',
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://uat.api.crowncommercial.gov.uk/user-profiles',
-          organisation: 'https://uat.api.crowncommercial.gov.uk/organisation-profiles',
-          contact: 'https://uat.api.crowncommercial.gov.uk/contacts',
-          configuration: 'https://uat.api.crowncommercial.gov.uk/configurations',
-          dataMigration: 'https://uat.api.crowncommercial.gov.uk//datamigration',
+          user: 'https://uat.api.crowncommercial.gov.uk/user-profile',
+          organisation: 'https://uat.api.crowncommercial.gov.uk/organisation-profile',
+          contact: 'https://uat.api.crowncommercial.gov.uk/contact-service',
+          configuration: 'https://uat.api.crowncommercial.gov.uk/configuration-service',
+          dataMigration: 'https://uat.api.crowncommercial.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
-          user: 'https://uat-api-wrapper.london.cloudapps.digital/users',
-          organisation: 'https://uat-api-wrapper.london.cloudapps.digital/organisations',
-          contact: 'https://uat-api-wrapper.london.cloudapps.digital/contacts',
-          configuration: 'https://uat-api-wrapper.london.cloudapps.digital/configurations',
-          dataMigration: 'https://uat-api-wrapper.london.cloudapps.digitaldatamigration',
-
+          user: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/user-profile',
+          organisation: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
+          contact: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/contact-service',
+          configuration: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
+          dataMigration: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/datamigration',
         }
       }
     },
     web: {
       //dashboard: 'https://uat-ccs-sso.london.cloudapps.digital'
-      dashboard: 'https://uat.identify.crowncommercial.gov.uk'
+      dashboard: 'https://uat.identify.crowncommercial.gov.uk',
+      name: "UAT"
     },
-    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact"
+    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
+    ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
   },
 
-  googleTagMangerId: 'GTM',
+  googleTagMangerId: 'GTM-TZCX5VP',
   cookieExpirationTimeInMinutes: 525600,
   bulkUploadPollingFrequencyInSeconds: 5,
   bulkUploadMaxFileSizeInBytes:1048576,
-  bulkUploadTemplateFileUrl: 'BUCKET_URL',
+  bulkUploadTemplateFileUrl: 'https://uat.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
   mailDecryptKey:'conclavesimpleemailencrypt',
   rollbar: {
-    key: 'ROLLBAR',
+    key: '%ROLLBAR%',
     enable: false,
     security_log:false,
-    environment: 'uat'
+    environment: 'uat-ccs-sso'
   },
   cookies_policy: {
     essentialcookies: {
@@ -69,9 +70,14 @@ export const environment = {
     },
   },
   appSetting: {
-   hideIDP:false,
+   hideIDP:true,
    hideDelegation:false,
    hideBulkupload:false,
    hideAutoValidation:false,
+   hideSimplifyRole: false,
+   blockedScheme: ["GB-PPG"],
+   customMfaEnabled: true,
+   isMaintenance: false,
+   excludedForDelegation: ['ORG_ADMINISTRATOR', 'ORG_DEFAULT_USER', 'ORG_USER_SUPPORT', 'MANAGE_SUBSCRIPTIONS', 'DATA_MIGRATION', 'CAT_ADMIN'],
   },
 };

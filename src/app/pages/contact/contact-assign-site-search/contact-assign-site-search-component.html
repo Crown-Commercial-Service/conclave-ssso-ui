@@ -30,7 +30,7 @@
                 *ngIf="searchSumbited && searchSiteName ===''">
                 <span class="govuk-visually-hidden">{{ 'ERROR_PREFIX' | translate }}</span> Enter a site name
               </span>
-                <app-search-box [(searchText)]="searchSiteName" (onSearchClickEvent)="onSearchClick()">
+                <app-search-box [(searchText)]="searchSiteName" (onSearchClickEvent)="onSearchClick()" [pageName]="'Assign a site s contacts to your organisation account'">
                 </app-search-box>
             </div>
         </div>
@@ -48,10 +48,10 @@
 
     <div class="govuk-button-group continue-button-group">
         <button type="button" [disabled]="selectedSiteId == 0" class="govuk-button" data-module="govuk-button"
-            (click)="onContinue()">
+            (click)="onContinue('Continue')">
             {{ 'CONTINUE_BTN' | translate }}
         </button>
-        <button type="button" (click)="onBack()" class="govuk-button govuk-button--secondary"
+        <button type="button" (click)="onBack('Cancel')" class="govuk-button govuk-button--secondary"
             data-module="govuk-button">
             {{ 'CANCEL_BTN' | translate }}
         </button>

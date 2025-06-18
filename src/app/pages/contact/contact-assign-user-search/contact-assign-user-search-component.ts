@@ -11,6 +11,8 @@ import { WrapperOrganisationService } from "src/app/services/wrapper/wrapper-org
 import { UserListInfo, UserListResponse } from "src/app/models/user";
 import { environment } from "src/environments/environment";
 import { SessionStorageKey } from "src/app/constants/constant";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 @Component({
     selector: 'app-contact-assign-user-search-component',
@@ -21,7 +23,8 @@ import { SessionStorageKey } from "src/app/constants/constant";
             close: { 'transform': 'translateX(12.5rem)' },
             open: { left: '-12.5rem' }
         })
-    ]
+    ],
+    standalone: false
 })
 export class ContactAssignUserSearchComponent extends BaseComponent implements OnInit {
     userList: UserListResponse;
@@ -38,8 +41,8 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
     searchSumbited:boolean=false;
     siteCreate: any;
     constructor(private wrapperOrganisationService: WrapperOrganisationService,
-        protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+        protected uiStore: Store<UIState>, private router: Router, private activatedRoute: ActivatedRoute,private sessionService:SessionService,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private dataLayerService: DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
         this.organisationId = localStorage.getItem('cii_organisation_id') || '';
         this.userList = {
@@ -61,6 +64,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
 
     ngOnInit() {
         this.getOrganisationUsers();
+        this.dataLayerService.pushPageViewEvent();
     }
 
     getOrganisationUsers() {
@@ -95,7 +99,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
         this.selectedUserName = dataRow?.userName ?? '';
     }
 
-    onContinue() {
+    onContinue(buttonText:string) {
         if (this.selectedUserName != "") {
             sessionStorage.removeItem("assigning-contact-list");
             sessionStorage.setItem(SessionStorageKey.ContactAssignUsername, this.selectedUserName);
@@ -106,6 +110,7 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
             };
             this.router.navigateByUrl('contact-assign?data=' + JSON.stringify(data));
         }
+        this.pushDataLayerEvent(buttonText);
     }
 
     onNavigateToSiteClick(){
@@ -116,8 +121,12 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
         this.router.navigateByUrl('manage-org/profile/site/edit?data=' + JSON.stringify(data));
     }
 
-    onCancelClick(){
+    onCancelClick(buttonText:string){
         window.history.back();
+        if(buttonText==='Cancel')
+        {
+        this.pushDataLayerEvent(buttonText);
+        }
         // let data = {
         //     'assigningSiteId': this.assigningSiteId,
         //     'assigningOrgId': this.assigningOrgId,
@@ -125,4 +134,12 @@ export class ContactAssignUserSearchComponent extends BaseComponent implements O
         // };
         // this.router.navigateByUrl('contact-assign/select?data=' + JSON.stringify(data));
     }
+
+    pushDataLayerEvent(buttonText:string) {
+       this.dataLayerService.pushClickEvent(buttonText)
+      }
+
+      isRadioDisabled(dataRow: any): boolean {
+        return dataRow['isDormant'] === true;
+      }
 }

@@ -53,7 +53,7 @@ export class WrapperOrganisationService {
   }
 
   getAutoValidationStatus(organisationId: string) {
-    const url = `${this.url}/${organisationId}/autovalidate`;
+    const url = `${this.url}/${organisationId}/validation/auto`;
     return this.http.get<OrganisationDto>(url).pipe(
       map((data: OrganisationDto) => {
         return data;
@@ -62,4 +62,28 @@ export class WrapperOrganisationService {
       })
     );
   }
+  getOrganisationMfaStatus(organisationId: string):Observable<any> {
+    const mfaRequired = true;
+    const url = `${this.url}/${organisationId}/details?is-mfa-required=${mfaRequired}`;
+    return this.http.get<string>(url).pipe(
+      map((data: any) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  updateOrganisationMfaSettings(organisationId: string,isMfaRequired:boolean): Observable<any> {
+    const url = `${this.url}/${organisationId}/mfa?isMFARequired=${isMfaRequired}`;
+    return this.http.put(url, null).pipe(
+      map((data: any) => {
+        return true;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+  
 }
