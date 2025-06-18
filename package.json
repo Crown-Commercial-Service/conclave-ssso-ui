@@ -26,7 +26,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "@types/lodash": "^4.17.15",
     "angular-google-tag-manager": "^1.11.0",
-    "angularx-qrcode": "^13.0.15",
+    "angularx-qrcode": "^20.0.0",
     "bootstrap": "^5.0.0",
     "core-js": "^3.40.0",
     "crypto": "^1.0.1",
