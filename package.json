@@ -28,7 +28,7 @@
     "angular-google-tag-manager": "^1.11.0",
     "angularx-qrcode": "^13.0.15",
     "bootstrap": "^5.0.0",
-    "core-js": "^3.40.0",
+    "core-js": "^3.43.0",
     "crypto": "^1.0.1",
     "crypto-js": "^4.2.0",
     "express": "^4.21.2",
