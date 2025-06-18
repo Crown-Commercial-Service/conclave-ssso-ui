@@ -58,7 +58,7 @@
     "@angular/compiler-cli": "^19.2.8",
     "@ngrx/effects": "^19.0.1",
     "@ngrx/router-store": "^19.0.1",
-    "@ngrx/store": "^19.0.1",
+    "@ngrx/store": "^19.2.1",
     "@ngrx/store-devtools": "^19.0.1",
     "@types/crypto-js": "^4.2.1",
     "@types/jasmine": "^5.1.7",
