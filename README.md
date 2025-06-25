@@ -1,27 +1,50 @@
-# ccs-sso
+PPG UI Application
+===========
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
+Overview
+--------
+This is the code for the UI of Crown Commercial Service's (_CCS_)
+Public Procurement Gateway (_PPG_).
 
-## Development server
+Technology Overview
+---------
+The project is implemented as an [Angular CLI](https://github.com/angular/angular-cli) web application, implemented using NPM.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The core technologies for the project are:
 
-## Code scaffolding
+* [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2
+* NPM for package management
+* [Karma](https://karma-runner.github.io) for unit testing
+* [Protractor](http://www.protractortest.org/) for end-to-end testing
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Building and Running Locally
+----------------------------
+To run the application locally, you will first need to ensure that the following APIs are running locally:
+* Security API
+* Core API – Dashboard API
+* Notification API
+* Buyer Validation API
+* Configuration API
+* Contact API
+* User API
+* Organisation API
 
-## Build
+You will need to be supplied with a local secrets file (`environment.ts`) to enable the project to run, which can be supplied by any member of the development team.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+As a pre-requisite to running you will need to run **npm install** to install the application's dependencies.
 
-## Running unit tests
+Once the above has been completed, you can run the application by running **npm start**.  It can then be accessed via the URL and port reported in the command's output - generally this is http://localhost:4200/.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Branches
+--------
+When picking up tickets, branches should be created using the **_feature/*_** format.
 
-## Running end-to-end tests
+When completed, these branches should be pull requested against _**develop**_ for review and approval.  _**develop**_ is then built out onto the **Development** environment.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+The **Test** and **Pre-Production** environments are controlled via means of release and hotfix branches.
 
-## Further help
+Release branches should be created from _**develop**_ using the **_release/*_** format, whilst hotfixes should be created from _**main**_ using the **_hotfix/*_** format.  These branches can then be built out to **Test** and **Pre-Production** as appropriate.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+When releases/hotfixes are ready for deployment to **Production**, the **_release/*_** or **_hotfix/*_** branch in question should be pull requested against the _**main**_ branch for review and approval.  This branch should then be built out to **Production**.
+
+Once a release/hotfix has been completed you should be sure to merge _**main**_ back down into _**develop**_.
