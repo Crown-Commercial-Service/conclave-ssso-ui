@@ -5,7 +5,8 @@ import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/
     templateUrl: './footer.component.html',
     styleUrls: ['./footer.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class FooterComponent {
 

@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, from } from "rxjs";
 import { TokenInfo } from "../models/auth";
-import 'rxjs/add/observable/fromPromise';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +9,7 @@ export class WorkerService {
     private worker: any;
 
     getAccessToken(): Observable<string> {
-        return Observable.fromPromise(this._getAccessToken());
+        return from(this._getAccessToken());
     }
 
   private _getAccessToken(): Promise<string> {
@@ -42,6 +41,8 @@ export class WorkerService {
     }
 
     storeTokenInWorker(tokenInfo: TokenInfo) {
+        localStorage.setItem('STORE_TOKEN_ACCESS_TOKEN', tokenInfo.access_token);
+        localStorage.setItem('STORE_TOKEN_REFRESH_TOKEN', tokenInfo.refresh_token);
         if (typeof Worker !== 'undefined') {
             // Create a new
             if (this.worker == undefined) {

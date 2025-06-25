@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { UserListResponse } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
@@ -53,7 +52,7 @@ export class WrapperOrganisationService {
   }
 
   getAutoValidationStatus(organisationId: string) {
-    const url = `${this.url}/${organisationId}/autovalidate`;
+    const url = `${this.url}/${organisationId}/validation/auto`;
     return this.http.get<OrganisationDto>(url).pipe(
       map((data: OrganisationDto) => {
         return data;
@@ -62,4 +61,28 @@ export class WrapperOrganisationService {
       })
     );
   }
+  getOrganisationMfaStatus(organisationId: string):Observable<any> {
+    const mfaRequired = true;
+    const url = `${this.url}/${organisationId}/details?is-mfa-required=${mfaRequired}`;
+    return this.http.get<string>(url).pipe(
+      map((data: any) => {
+        return data;
+      }), catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  updateOrganisationMfaSettings(organisationId: string,isMfaRequired:boolean): Observable<any> {
+    const url = `${this.url}/${organisationId}/mfa?isMFARequired=${isMfaRequired}`;
+    return this.http.put(url, null).pipe(
+      map((data: any) => {
+        return true;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+  
 }

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { Observable } from 'rxjs';
+import { Observable , throwError} from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { OrganisationSiteInfo, OrganisationSiteInfoList, OrganisationSiteResponse } from 'src/app/models/site';
@@ -12,7 +11,7 @@ import { OrganisationSiteInfo, OrganisationSiteInfoList, OrganisationSiteRespons
 })
 export class WrapperOrganisationSiteService {
   url: string = `${environment.uri.api.isApiGateWayEnabled ?
-    environment.uri.api.wrapper.apiGatewayEnabled.organisation : environment.uri.api.wrapper.apiGatewayDisabled.organisation}`;
+    environment.uri.api.wrapper.apiGatewayEnabled.contact : environment.uri.api.wrapper.apiGatewayDisabled.contact}/organisations`;
 
   constructor(private http: HttpClient) {
   }
@@ -29,7 +28,7 @@ export class WrapperOrganisationSiteService {
   }
 
   getOrganisationSites(organisationId: string, searchString: string =""): Observable<any> {
-    const url = `${this.url}/${organisationId}/sites?search-string=${searchString}`;
+    const url = `${this.url}/${organisationId}/sites?search-string=${encodeURIComponent(searchString)}`;
     return this.http.get<OrganisationSiteInfoList>(url).pipe(
       map((data: OrganisationSiteInfoList) => {
         return data;

@@ -1,14 +1,18 @@
 import { ViewportScroller } from '@angular/common';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { environment } from 'src/environments/environment';
 import { BaseComponent } from '../base/base.component';
+import { HelperService } from 'src/app/shared/helper.service';
+import { PaginationService } from 'src/app/shared/pagination.service';
+
 @Component({
-  selector: 'app-custom-govuk-table',
-  templateUrl: './custom-govuk-table.component.html',
-  styleUrls: ['./custom-govuk-table.component.scss']
+    selector: 'app-custom-govuk-table',
+    templateUrl: './custom-govuk-table.component.html',
+    styleUrls: ['./custom-govuk-table.component.scss'],
+    standalone: false
 })
 export class CustomGovukTableComponent extends BaseComponent implements OnInit {
 
@@ -30,14 +34,15 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
   @Output() checkBoxClickEvent = new EventEmitter<any>();
   @Output() radioClickEvent = new EventEmitter<any>();
   @Output() changeCurrentPageEvent = new EventEmitter<number>();
+  @ViewChild('tableContainer') tableContainer!: ElementRef;
 
-  pageCount?: number;
+  pageCount?: number | any;
   currentPage: number = 1;
   totalPagesArray: number[] = [];
   pageSize: number = environment.listPageSize;
-  tableVisibleData!: any[];
+  tableVisibleData: any[] = [];
   constructor(
-    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,public helperservice:HelperService,private PaginationService:PaginationService) {
     super(uiStore, viewportScroller, scrollHelper);
   }
 
@@ -60,7 +65,19 @@ export class CustomGovukTableComponent extends BaseComponent implements OnInit {
     this.hyperLinkClickEvent.emit(dataRow);
   }
 
-  public onSetPageClick(pageNumber: number) {
+  public onSetPageClick(pageNumber: any) {
+    if(pageNumber === '...') {
+      return
+    }
+    // Scroll to top of table
+    this.tableContainer.nativeElement.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
       this.changeCurrentPageEvent.emit(pageNumber);
   }
+
+  public getPaginationDataForCustom(): Array<any> {
+    return this.PaginationService.getVisibleDots(this.currentPage,this.pageCount)
+   }
 }

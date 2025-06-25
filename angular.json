@@ -20,13 +20,21 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "qrcode",
+              "angularx-qrcode",
+              "google-libphonenumber",
+              "intl-tel-input",
+              "crypto-js",
+              "rollbar"
+            ],
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
+              "src/faviconnew.ico",
               "src/assets",
               {
                 "glob": "**/*",
@@ -194,18 +202,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ccs-sso-web:build"
+            "buildTarget": "ccs-sso-web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ccs-sso-web:build:production"
+              "buildTarget": "ccs-sso-web:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ccs-sso-web:build"
+            "buildTarget": "ccs-sso-web:build"
           }
         },
         "test": {
@@ -216,7 +224,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
+              "src/faviconnew.ico",
               "src/assets"
             ],
             "styles": [
@@ -240,7 +248,6 @@
       }
     }
   },
-  "defaultProject": "ccs-sso-web",
   "cli": {
     "analytics": "e7c60950-35da-4072-b4d9-afda47dcf5f6"
   }

@@ -16,17 +16,20 @@ import {
 import { environment } from 'src/environments/environment';
 import { Title } from '@angular/platform-browser';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-manage-group-edit-users',
-  templateUrl: './manage-group-edit-users-component.html',
-  styleUrls: ['./manage-group-edit-users-component.scss'],
-  animations: [
-    slideAnimation({
-      close: { transform: 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' },
-    }),
-  ],
+    selector: 'app-manage-group-edit-users',
+    templateUrl: './manage-group-edit-users-component.html',
+    styleUrls: ['./manage-group-edit-users-component.scss'],
+    animations: [
+        slideAnimation({
+            close: { transform: 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' },
+        }),
+    ],
+    standalone: false
 })
 export class ManageGroupEditUsersComponent
   extends BaseComponent
@@ -47,7 +50,10 @@ export class ManageGroupEditUsersComponent
   usersTableHeaders = ['NAME', 'EMAIL', 'SELECT_USER'];
   usersColumnsToDisplay = ['name', 'userName'];
   userGridSource: CheckBoxUserListGridSource[] = [];
+  public userName = ''
   public showRoleView:boolean = environment.appSetting.hideSimplifyRole
+  groupType: number = 0;
+  public isDataChanged : boolean = false;
   constructor(
     protected uiStore: Store<UIState>,
     private router: Router,
@@ -56,16 +62,19 @@ export class ManageGroupEditUsersComponent
     protected scrollHelper: ScrollHelper,
     private titleService: Title,
     private wrapperOrganisationService: WrapperOrganisationService,
-    private SharedDataService: SharedDataService
+    private SharedDataService: SharedDataService,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService
   ) {
     super(uiStore, viewportScroller, scrollHelper);
     let queryParams = this.activatedRoute.snapshot.queryParams;
     if (queryParams.data) {
       let routeData = JSON.parse(queryParams.data);
       this.isEdit = routeData['isEdit'];
-      console.log("this.isEdit",this.isEdit)
       this.editingGroupId = routeData['groupId'];
+      this.groupType = routeData['groupType'];
       this.groupName = sessionStorage.getItem('Gname') || '';
+      this.userName = this.sessionService.decrypt('user_name')
     }
     var existingUsersString = sessionStorage.getItem('group_existing_users');
     var addingUsersString = sessionStorage.getItem('group_added_users');
@@ -83,8 +92,9 @@ export class ManageGroupEditUsersComponent
   }
 
   ngOnInit() {
+    this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(
-      `${this.isEdit ? 'Add/Remove Users' : 'Add Users'}  - Manage Groups - CCS`
+      `${this.isEdit ? 'Add/Remove Users' : 'Add Users'} - Manage Groups - CCS`
     );
     this.getOrganisationUsers();
   }
@@ -115,14 +125,27 @@ export class ManageGroupEditUsersComponent
                   (user) => user.userName == orgUser.userName
                 ) == -1;
 
+              let isDisabledForAdding =  orgUser.isDormant; 
               let userGridSourceObject: CheckBoxUserListGridSource = {
                 name: orgUser.name,
                 userName: orgUser.userName,
                 isChecked: isChecked,
-                isAdmin: orgUser.isAdmin
+                isAdmin: orgUser.isAdmin,
+                isDormant: orgUser.isDormant,
+                isDisable: this.isAdminGroupAndUser(orgUser.userName) || isDisabledForAdding,
               };
               this.userGridSource.push(userGridSourceObject);
             });
+            
+            if (userListResponse.userList.length > 0 && (this.addingUsers.length > 0 || this.removingUsers.length > 0))
+            {
+              this.isDataChanged = true;
+            }
+            else{
+              this.isDataChanged = false;
+        
+            }
+
           }
         },
         error: (error: any) => {},
@@ -142,8 +165,11 @@ export class ManageGroupEditUsersComponent
   }
 
   onSearchClick() {
+    this.addingUsers = [];
+   // this.removingUsers =[];
     this.searchSumbited=true
     this.currentPage = 1;
+    this.isDataChanged = false;
     this.getOrganisationUsers();
   }
 
@@ -164,7 +190,8 @@ export class ManageGroupEditUsersComponent
         let userInfo: UserListInfo = {
           name: dataRow.name,
           userName: dataRow.userName,
-          isAdmin: dataRow.isAdmin
+          isAdmin: dataRow.isAdmin,
+          isDormant: dataRow.isDormant
         };
         this.addingUsers.push(userInfo);
       }
@@ -179,14 +206,24 @@ export class ManageGroupEditUsersComponent
         let userInfo: UserListInfo = {
           name: dataRow.name,
           userName: dataRow.userName,
-          isAdmin: dataRow.isAdmin
+          isAdmin: dataRow.isAdmin,
+          isDormant: dataRow.isDormant
         };
         this.removingUsers.push(userInfo);
-      }
+      }     
     }
+    if (this.addingUsers.length > 0 || this.removingUsers.length > 0)
+    {
+      this.isDataChanged = true;
+    }
+    else{
+      this.isDataChanged = false;
+
+    }
+
   }
 
-  onContinueClick() {
+  onContinueClick(buttonText:string) {
     sessionStorage.setItem(
       'group_existing_users',
       JSON.stringify(this.userNames)
@@ -207,9 +244,26 @@ export class ManageGroupEditUsersComponent
     this.router.navigateByUrl(
       'manage-groups/edit-users-confirm?data=' + JSON.stringify(data)
     );
+    this.pushDataLayerEvent(buttonText);
   }
 
-  onCancelClick() {
+  pushDataLayerEvent(buttonText:string) {
+	this.dataLayerService.pushClickEvent(buttonText);
+	  }
+
+  getQueryData(){
+    let data = {
+      isEdit: true,
+      groupId: this.editingGroupId,
+    };
+    sessionStorage.removeItem('group_existing_users');
+    sessionStorage.removeItem('group_added_users');
+    sessionStorage.removeItem('group_removed_users');
+    return JSON.stringify(data);
+  }
+  
+
+  onCancelClick(buttonText:string) {
     let data = {
       isEdit: true,
       groupId: this.editingGroupId,
@@ -220,5 +274,26 @@ export class ManageGroupEditUsersComponent
     this.router.navigateByUrl(
       'manage-groups/view?data=' + JSON.stringify(data)
     );
+    if(buttonText!="Edit group")
+    {
+    if(this.showRoleView)
+    {
+      buttonText=buttonText+'roles';
+    }
+    else if(!this.showRoleView)
+    {
+      buttonText=buttonText+'services';
+    }
+    this.pushDataLayerEvent(buttonText);
+  }
+  }
+
+  public isAdminGroupAndUser(totalUserName:string){
+    let isAdmin =  totalUserName === this.userName
+    if(isAdmin && this.groupType == 1){
+      return true
+    } else {
+      return false
+    }
   }
 }

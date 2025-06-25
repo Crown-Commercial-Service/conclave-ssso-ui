@@ -28,9 +28,7 @@ input[type=radio] {
   }
 }
 
-h1{
-  margin-top: 38px;
-}
+
 .input-text-group span {
   display: inline-block;
   position: relative;
@@ -70,4 +68,9 @@ label[for="input3"]
 
 .govuk-radios__item.custom_radio {
   min-height: auto;
+}
+
+.govuk-heading-xl {
+  margin-top: 30px !important;
+  margin-bottom: 30px !important;
 }

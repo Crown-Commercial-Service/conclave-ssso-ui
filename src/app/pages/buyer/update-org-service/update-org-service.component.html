@@ -8,7 +8,7 @@
           }}</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
-          <a class="govuk-breadcrumbs__link" routerLink="/buyer/search"
+          <a class="govuk-breadcrumbs__link" routerLink="/buyer-supplier/search"
             >Manage service eligibility</a
           >
         </li>
@@ -36,8 +36,10 @@
     </div>
     <div class="govuk-form-group">
       <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend">
-          Update organisation type
+        <legend>
+          <h2 class="govuk-heading-s">
+            Update organisation type
+          </h2>
         </legend>
           <div class="govuk-radios">
               <div class="govuk-radios__item" id="orgAdminRadioSelection" >
@@ -69,8 +71,10 @@
     style="margin-top: 30px"
   >
     <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend">
-        Services for this organisation, select/unselect where appropriate
+      <legend>
+        <h2 class="govuk-heading-s">
+          Services for this organisation, select/unselect where appropriate
+        </h2>
       </legend>
       <div class="govuk-checkboxes" *ngIf="orgEligableRoles$ | async as o">
         <ng-container *ngFor="let role of roles">
@@ -102,7 +106,7 @@
         type="button"
         class="govuk-button"
         data-module="govuk-button"
-        (click)="onSubmitClick()"
+        (click)="onSubmitClick('Continue')"
       >
         Continue
       </button>
@@ -110,7 +114,7 @@
         type="button"
         class="govuk-button govuk-button--secondary"
         data-module="govuk-button"
-        (click)="onCancelClick()"
+        (click)="onCancelClick('Cancel')"
       >
         Cancel
       </button>

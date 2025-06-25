@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 import {
   acceptRejectRequestDetail,
@@ -64,7 +63,7 @@ export class WrapperUserService {
  
   // Commented below code to remove usage of api. This will be handled with user update api.
   createPendingApproveRole(userRequest: PendingApproveRole): Observable<any> {
-    // const url = `${this.url}/approve/roles`;
+    // const url = `${this.url}/approval/roles`;
     // return this.http
     //   .post<UserEditResponseInfo>(url, userRequest, this.options)
     //   .pipe(
@@ -75,7 +74,7 @@ export class WrapperUserService {
     //       return throwError(error);
     //     })
     //   );
-    return Observable.of(true);
+    return of(true);
   }
 
   deleteUser(userName: string): Observable<any> {
@@ -127,7 +126,7 @@ export class WrapperUserService {
   getPendingApprovalUserRole(userName: string): Observable<UserProfileResponseInfo> {
     if(!environment.appSetting.hideSimplifyRole){
       let roleInfo: any=[]
-      const url = `${this.url}/approve/servicerolegroups?user-id=${encodeURIComponent(userName)}`;
+      const url = `${this.url}/approval/service-role-groups?user-id=${encodeURIComponent(userName)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           data.forEach((role:any)=>{
@@ -146,7 +145,7 @@ export class WrapperUserService {
         })
       );
     } else {
-      const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}`;
+      const url = `${this.url}/approval/roles?user-id=${encodeURIComponent(userName)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           return data;
@@ -160,7 +159,7 @@ export class WrapperUserService {
 
   userTokenVerify(encryptedToken: string): Observable<UserProfileResponseInfo> {
     if(!environment.appSetting.hideSimplifyRole){
-      const url = `${this.url}/approve/servicerolegroup/verify?token=${encodeURIComponent(encryptedToken)}`;
+      const url = `${this.url}/approval/service-role-group/verification?token=${encodeURIComponent(encryptedToken)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           return data
@@ -170,7 +169,7 @@ export class WrapperUserService {
         })
       );
     } else {
-      const url = `${this.url}/approve/verify?token=${encodeURIComponent(encryptedToken)}`;
+      const url = `${this.url}/approval/verification?token=${encodeURIComponent(encryptedToken)}`;
       return this.http.get<UserProfileResponseInfo>(url, this.options).pipe(
         map((data: any) => {
           return data
@@ -230,7 +229,7 @@ export class WrapperUserService {
 
   // Commented below code to remove usage of api. This will be handled with user update api.
   deleteApprovePendingRole(userName: string, roleIds: number): Observable<any> {
-    // const url = `${this.url}/approve/roles?user-id=${encodeURIComponent(userName)}&roles=${roleIds}`;
+    // const url = `${this.url}/approval/roles?user-id=${encodeURIComponent(userName)}&roles=${roleIds}`;
     // return this.http.delete(url).pipe(
     //   map(() => {
     //     return true;
@@ -238,11 +237,11 @@ export class WrapperUserService {
     //     return throwError(error);
     //   })
     // );
-    return Observable.of(true);
+    return of(true);
   }
 
   acceptRejectRequest(userRequest: acceptRejectRequestDetail): Observable<any> {
-    const url = `${this.url}/approve/roles`;
+    const url = `${this.url}/approval/roles`;
     return this.http
       .put<UserEditResponseInfo>(url, userRequest, this.options)
       .pipe(
@@ -288,6 +287,41 @@ export class WrapperUserService {
       userName
     )}`;
     return this.http.put(url, {}, this.options).pipe(
+      map(() => {
+        return true;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+  resetMfaopted(userName: string, mfaOpted: boolean): Observable<any> {
+    const url = `${this.url}/reset-mfa-opted?user-id=${encodeURIComponent(
+      userName
+    )}&ismfaopted=${mfaOpted}`;
+    return this.http.put(url, null).pipe(
+      map(() => {
+        return true;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+  deActivateUser(userName: string,dormantBy:string,fromPage:string): Observable<any> {
+    const url = `${this.url}/deactivation?user-id=${encodeURIComponent(userName)}&dormant-by=${dormantBy}&from-page=${fromPage}`;
+    return this.http.put(url, this.options).pipe(
+      map(() => {
+        return true;
+      }),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+  reActivateUser(userName:string,fromPage:string): Observable<any> {
+    const url = `${this.url}/activation?user-id=${encodeURIComponent(userName)}&from-page=${fromPage}`;
+    return this.http.put(url, this.options).pipe(
       map(() => {
         return true;
       }),

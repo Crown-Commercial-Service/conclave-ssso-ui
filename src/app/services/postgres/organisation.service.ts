@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { OrganisationUserDto } from 'src/app/models/user';
@@ -72,7 +71,7 @@ export class OrganisationService {
 
 
   requestOrgAdminToJoinOrg(orgId: string, firstName: string, lastName: string, email: string): Observable<any> {
-    const url = `${this.url}/org-admin-join-notification`;
+    const url = `${this.url}/admin/join-notification`;
     return this.http.post(url, { 'firstName': firstName, 'lastName': lastName, 'email': email, 'ciiOrgId': orgId }).pipe(
       map(() => {
         return true;

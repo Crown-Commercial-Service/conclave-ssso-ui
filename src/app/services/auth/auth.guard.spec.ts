@@ -1,54 +1,56 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import {HttpClient} from '@angular/common/http';
-import { of } from 'rxjs';
-import {AuthGuard} from './auth.guard';
-
-
-class HttpClientMock {
-  public get() {
-    return 'response';
-  }
-}
+import { Observable, of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 describe('AuthGuard', () => {
+  let guard: AuthGuard;
+  let authService: jasmine.SpyObj<AuthService>;
+  let router: jasmine.SpyObj<Router>;
+
   beforeEach(() => {
+    const authServiceSpy = jasmine.createSpyObj('AuthService', [
+      'isAuthenticated',
+      'getAuthorizedEndpoint',
+    ]);
+    const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+
     TestBed.configureTestingModule({
-      imports: [ ],
+      imports: [ RouterTestingModule],
       providers: [
-        AuthService,
-        { provide: HttpClient, useClass: HttpClientMock },
-      ]
+        AuthGuard,
+        { provide: AuthService, useValue: authServiceSpy },
+        { provide: Router, useValue: routerSpy}
+      ],
+    });
+
+    guard = TestBed.inject(AuthGuard);
+    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
+    router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+  });
+  
+  it('should return true if the user is authenticated and MFA is opted', (done) => {
+    authService.isAuthenticated.and.returnValue(of(true));
+    localStorage.setItem('mfa_opted', JSON.stringify(true));
+
+    guard.canActivate().subscribe((result) => {
+      expect(result).toBe(true);
+      done();
     });
   });
 
-  it('should exist', inject([AuthGuard], (guard: AuthGuard) => {
-    expect(guard).toBeTruthy();
-  }));
-
-  it('should exist', inject([AuthGuard], (guard: AuthGuard) => {
-    expect(guard.canActivate).toBeDefined();
-  }));
+  it('should navigate to "force-logout" if MFA is not opted and user is authenticated', (done) => {
+    authService.isAuthenticated.and.returnValue(of(true));
+    localStorage.setItem('mfa_opted', JSON.stringify(false));
+    
+    guard.canActivate().subscribe((result) => {
+      expect(router.navigateByUrl).toHaveBeenCalledWith('force-logout');
+      expect(result).toBe(false);
+      done();
+    });
+  });
+ 
 });
-
-// describe('AuthGuard', () => {
-//   it('canActivate true', () => {
-//     const service = jasmine.createSpyObj('service', ['loginRedirect', 'isAuthenticated']);
-//     service.isAuthenticated.and.returnValue(of(true));
-//     const guard = new AuthGuard(service);
-//     const canActivate = guard.canActivate();
-//     canActivate.subscribe(isAct => expect(isAct).toBeTruthy());
-//     expect(service.isAuthenticated).toHaveBeenCalled();
-//     expect(service.loginRedirect).not.toHaveBeenCalled();
-//   });
-
-//   it('canActivate false', () => {
-//     const service = jasmine.createSpyObj('service', ['loginRedirect', 'isAuthenticated']);
-//     service.isAuthenticated.and.returnValue(of(false));
-//     const guard = new AuthGuard(service);
-//     const canActivate = guard.canActivate();
-//     canActivate.subscribe(isAct => expect(isAct).toBeFalsy());
-//     expect(service.isAuthenticated).toHaveBeenCalled();
-//     expect(service.loginRedirect).toHaveBeenCalled();
-//   });
-// });

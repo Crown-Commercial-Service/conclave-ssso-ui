@@ -17,6 +17,9 @@
         <li class="govuk-breadcrumbs__list-item">
           <a class="govuk-breadcrumbs__link" routerLink="/manage-org/register/newreg">{{ 'ORG_ADMIN' | translate }}</a>
       </li>
+      <li class="govuk-breadcrumbs__list-item" [hidden]="!isCustomMfaEnabled">
+        <a class="govuk-breadcrumbs__link" routerLink="/manage-reg-organisation-mfa">{{ '2FA_SETUP' | translate }}</a>
+    </li>
         <li class="govuk-breadcrumbs__list-item">
             <span class="govuk-breadcrumbs__link"> {{ 'ORG_TYPE' | translate }}</span>
         </li>
@@ -28,10 +31,10 @@
       <form class="govuk-!-width-four-quarters">
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend">
-              <p>
-                <b> Select the organisation you work for</b>
-              </p>
+            <legend>
+              <h2 class="govuk-heading-m">
+                  Select the organisation you work for
+              </h2>
             </legend>
             <div class="govuk-radios">
               <div class="govuk-radios__item" id="supplierRadioSelection">
@@ -69,7 +72,7 @@
         </div>
         <div class="govuk-details__text detail-text govuk-!-margin-bottom-5 detail-text-bg" *ngIf="defaultChoice=='both'">
           <legend class="govuk-fieldset__legend">          
-              <strong> Be clear on how we define both</strong>         
+              <strong> How we define both</strong>         
           </legend>
           <p class="govuk-!-margin-0">        
               An example of both may be:
@@ -78,13 +81,13 @@
           <p class="govuk-!-margin-0">        
             You are <strong>not</strong> both if:
           </p>          
-            <ul><li class="govuk-!-margin-left-5"><p class="govuk-!-margin-bottom-0">You supply to a CCS buyer, but you buy from thrid parties to meet the agreement. In other words,</p>
+            <ul><li class="govuk-!-margin-left-5"><p class="govuk-!-margin-bottom-0">You supply to a CCS buyer, but you buy from third parties to meet the agreement. In other words,</p>
             <p class="govuk-!-margin-top-0"> periphery arrangements with third parties or subcontractors for example, are <strong>not</strong> relevant to this definition.</p>
             </li></ul>        
         </div>
         <div class="govuk-form-group">
           <button id="continueButton" type="button" class="govuk-button" data-module="govuk-button"
-            (click)="onSubmit()">Continue</button>
+            (click)="onSubmit('Continue')">Continue</button>
         </div>
       </form>
     </div>

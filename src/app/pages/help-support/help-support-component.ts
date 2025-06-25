@@ -7,22 +7,26 @@ import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { Router } from '@angular/router';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
-  selector: 'app-help-support-component',
-  templateUrl: './help-support-component.html',
-  styleUrls: ['./help-support-component.scss'],
-  animations: [
-    slideAnimation({
-      close: { 'transform': 'translateX(12.5rem)' },
-      open: { left: '-12.5rem' }
-    })
-  ]
+    selector: 'app-help-support-component',
+    templateUrl: './help-support-component.html',
+    styleUrls: ['./help-support-component.scss'],
+    animations: [
+        slideAnimation({
+            close: { 'transform': 'translateX(12.5rem)' },
+            open: { left: '-12.5rem' }
+        })
+    ],
+    standalone: false
 })
 export class HelpAndSupportComponent extends BaseComponent implements OnInit {
   isAuthenticated: boolean = false;
   constructor(protected uiStore: Store<UIState>, protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,
-    private authService: AuthService) {
+    public authService: AuthService, private router: Router, private dataLayerService: DataLayerService,private sessionService:SessionService) {
     super(uiStore,viewportScroller,scrollHelper);
   }
 
@@ -30,6 +34,7 @@ export class HelpAndSupportComponent extends BaseComponent implements OnInit {
     this.authService.isAuthenticated().subscribe({
       next: (result) => {this.isAuthenticated = result}
     });
+    this.dataLayerService.pushPageViewEvent();
   }
 
 }

@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } fro
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { BaseComponent } from "src/app/components/base/base.component";
 import { OrganisationRegBasicInfo, OrganisationSearchDto } from "src/app/models/organisation";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
@@ -12,12 +12,15 @@ import { UIState } from "src/app/store/ui.states";
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { PatternService } from "src/app/shared/pattern.service";
+import { DataLayerService } from "src/app/shared/data-layer.service";
+import { SessionService } from "src/app/shared/session.service";
 
 
 @Component({
     selector: 'app-manage-reg-organisation-search.component',
     templateUrl: './manage-reg-organisation-search.component.html',
-    styleUrls: ['./manage-reg-organisation-search.component.scss']
+    styleUrls: ['./manage-reg-organisation-search.component.scss'],
+    standalone: false
 })
 
 export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit {
@@ -32,9 +35,10 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     @ViewChild(MatAutocompleteTrigger) autocomplete!: MatAutocompleteTrigger;
     panelShowTimeout: any;
     searchOrgName: string = '';
+    public formId : string = 'Enter_detail _create_account';
 
-    constructor(private organisationService: OrganisationService,private PatternService:PatternService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
-        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper) {
+    constructor(private sessionService:SessionService,private organisationService: OrganisationService,private PatternService:PatternService, private formBuilder: FormBuilder, private router: Router, protected uiStore: Store<UIState>,
+        protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper,private dataLayerService:DataLayerService) {
         super(uiStore, viewportScroller, scrollHelper);
 
         let orgInfoExists = sessionStorage.getItem('orgreginfo') != null;
@@ -59,6 +63,8 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     }
 
     ngOnInit() {
+        this.dataLayerService.pushPageViewEvent();
+          this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
     }
 
     async onSearchTextChange(value: any) {
@@ -82,15 +88,16 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             return result$;
         }
         else {
-            return Observable.of([]);
+            return of([]);
         }
     }
 
-    showMoreClicked() {
+    showMoreClicked(buttonText: string) {
         this.showMoreOptionsVisible = true;
         this.panelShowTimeout = setTimeout(() => {
             this.autocomplete.openPanel();
         }, 30);
+        this.pushDataLayerEvent(buttonText);
     }
 
 
@@ -130,15 +137,18 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     async onSubmit(form: FormGroup) {
         this.submitted = true;
         if(this.PatternService.emailValidator(form.get('email')?.value)){
-            this.formGroup.controls['email'].setErrors({ 'incorrect': true})
+            this.formGroup.controls['email'].setErrors({ 'incorrect': true});
+            this.dataLayerService.pushFormErrorEvent(this.formId);
         }
         if (this.formValid(form)) {
+            this.dataLayerService.pushFormSubmitEvent(this.formId);
             let organisationRegisterDto: OrganisationRegBasicInfo = {
                 adminEmail: form.get('email')?.value,
                 adminUserFirstName: form.get('firstName')?.value,
                 adminUserLastName: form.get('lastName')?.value,
                 orgName: form.get('organisation')?.value,
-                ciiOrgId: ''
+                ciiOrgId: '',
+                isMfaRequired:false
             };
             sessionStorage.setItem('orgreginfo', JSON.stringify(organisationRegisterDto));
             sessionStorage.setItem('RegExistsingOrgName', organisationRegisterDto.orgName);
@@ -159,7 +169,10 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
                 //Multiple Orgs exists
                 this.router.navigateByUrl(`manage-org/register/initial-search-status/duplicate`);
             }
+        } else {
+               this.dataLayerService.pushFormErrorEvent(this.formId);
         }
+        this.pushDataLayerEvent('Continue');
     }
 
     goBack() {
@@ -171,4 +184,8 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             clearTimeout(this.panelShowTimeout);
         }
     }
+
+    pushDataLayerEvent(buttonText:string) {
+      this.dataLayerService.pushClickEvent(buttonText);
+	  }
 }

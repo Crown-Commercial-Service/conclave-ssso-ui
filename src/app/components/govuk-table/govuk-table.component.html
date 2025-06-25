@@ -1,4 +1,4 @@
-<div class="table-scroll">
+<div #tableContainer class="table-scrolls" tabindex="0">
   <table class="govuk-table" *ngIf="tableVisibleData.length != 0; else no_results">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
@@ -13,7 +13,7 @@
     </thead>
     <tbody class="govuk-table__body">
       <tr (click)="onRowClick(dataRow, index,$event)" class="govuk-table__row" [class.clickable]="
-          isCheckBoxVisible || isHyperLinkVisible || isRadioVisible || hyperArrayVisible
+        isCheckBoxVisible || (isHyperLinkVisible && isHyperLinkRowVisible? isHyperLinkRowVisible(dataRow):true )|| isRadioVisible || hyperArrayVisible 
         " *ngFor="let dataRow of tableVisibleData; let index = index">
         <td class="govuk-table__cell" *ngFor="let dataKey of dataKeys" [ngClass]="[
             pageName === 'Contactadmin' && dataKey ==='email'
@@ -21,8 +21,8 @@
               : ''
           ]" [ngClass]="{'isDisabled': dataRow['isDisable']  == true}" [ngClass]="[ dataRow['serviceView'] == true ? 'role_group_table' : '']">
           <span *ngIf="findDateKey(dataKey)">
-            {{dataRow[dataKey] | date: 'dd/MM/yyyy'}} <br>
-            <span *ngIf="findDateKey(dataKey) && pageName != 'Delegatedaccess'">{{ dataRow[dataKey] | date: 'HH:mm'}}</span>
+            {{ helperservice.convertToLocalDateTime(dataRow[dataKey]) | date: 'dd/MM/yyyy'}} <br>
+            <span *ngIf="findDateKey(dataKey) && pageName != 'Delegatedaccess'">{{ helperservice.convertToLocalDateTime(dataRow[dataKey]) | date: 'HH:mm'}}</span>
           </span>
           <span *ngIf="dataKey == 'owner'">
             <span *ngIf="dataRow['defaultOwnerChanges'] == false">
@@ -48,29 +48,50 @@
             (dataKey === 'userId' && dataRow['isAdmin'])">
               Admin
             </strong>
+            <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'userName' && dataRow['isDormant']) ||
+            (dataKey === 'userId' && dataRow['isDormant']) || (dataKey === 'email' && dataRow['isDormant'])">
+              INACTIVE
+            </strong>
+            <strong class="govuk-tag govuk-!-margin-left-1" *ngIf="(dataKey === 'groupName' && dataRow['groupType'] == '1') ">
+              Default Group
+            </strong>
           </span>
           <br>
-        </td>
+        </td>      
         <td class="govuk-table__cell" *ngIf="isHyperLinkVisible == true">
-          <a class="navigation-text" href="javascript:;">
+          <a class="navigation-text" [routerLink] = "dataRow.routeLink" [queryParams] ="dataRow.routeData"
+          [ngClass]="{'navigation-text-empty':hyperLinkText==='.'}" *ngIf="isHyperLinkRowVisible? isHyperLinkRowVisible(dataRow):true">
             {{ hyperLinkText || "" | translate }}</a>
         </td>
-        <td *ngIf="hyperArrayVisible == true" class="govuk-table__cell">
+
+        <td *ngIf="hyperArrayVisible && !isNavigate" class="govuk-table__cell">
           <div class="govuk-table_action-links">
             <span *ngFor="let hypertex of hyperLinkArray">
-              <a class="navigation-text" href="javascript:;"
+              <a class="navigation-text" [routerLink] = "dataRow.routeLink" [queryParams] ="dataRow.routeData"
                 [ngClass]="{'navigation-text-red': hypertex == 'Remove' || hypertex == 'Decline' }">
                 {{ hypertex }}</a>
             </span>
           </div>
         </td>
 
+        <td *ngIf="hyperArrayVisible && isNavigate"  class="govuk-table__cell">
+          <div class="govuk-table_action-links">
+            <span *ngFor="let hypertex of hyperLinkArray">
+              <a class="navigation-text"   [routerLink] = "dataRow.routeLink" [queryParams] ="dataRow.routeData" *ngIf="(hypertex != 'Remove' && hypertex != 'Decline') == true ; else decline_link">
+                {{ hypertex }}</a>    
+                <ng-template #decline_link>
+                  <a class="navigation-text" [routerLink] = "dataRow.declineRouteLink" [queryParams] ="dataRow.declineRouteData"
+                  [ngClass]="{'navigation-text-red': hypertex == 'Remove' || hypertex == 'Decline' }">
+                  {{ hypertex }}</a></ng-template>                            
+            </span>
+          </div>
+        </td>
         <td class="govuk-table__cell" *ngIf="isCheckBoxVisible == true"
           [ngClass]="{'isDisabled': dataRow['isDisable']  == true}">
           <div class="govuk-checkboxes" data-module="govuk-checkboxes">
             <div class="govuk-checkboxes__item">
               <input class="govuk-checkboxes__input" id="{{ 'table-chk-id-' + index }}" type="checkbox"
-                [checked]="dataRow['isChecked'] == true" />
+                [checked]="dataRow['isChecked'] == true" [disabled]="dataRow['isDisable'] == true" />
               <label class="govuk-label govuk-checkboxes__label" title="select one option"
                 for="{{ 'table-chk-id-' + index }}">
                 <span style="display: none; visibility: hidden">Select the option</span>
@@ -78,7 +99,8 @@
             </div>
           </div>
         </td>
-        <td class="govuk-table__cell" *ngIf="isRadioVisible == true">
+        <td class="govuk-table__cell" *ngIf="isRadioVisible == true"
+          [ngClass]="{'isDisabled': isRadioDisabled && isRadioDisabled(dataRow)}">
           <fieldset class="govuk-fieldset">
             <legend style="display: none; visibility: hidden" class="govuk-fieldset__legend"></legend>
             <div class="govuk-radios">
@@ -94,9 +116,9 @@
             </div>
           </fieldset>
         </td>
-        <td class="tablular" *ngIf="!isHyperLinkVisible">
+        <!-- <td class="tablular" *ngIf="!isHyperLinkVisible">
           <a class="tablular govuk-table__cell" tabindex="0">.</a>
-        </td>
+        </td> -->
       </tr>
     </tbody>
   </table>
@@ -106,33 +128,34 @@
     There are no matching results.
   </p>
 </ng-template>
-<div *ngIf="
+<nav *ngIf="
     (useServerPagination == true || useClientPagination == true) &&
     pageCount &&
     pageCount > 1 &&
     tableVisibleData.length != 0
   " class="pagination-area" aria-label="Pagination">
   <ul>
-    <li>
-      <a *ngIf="currentPage != 1" href="javascript:;" (click)="onSetPageClick(currentPage - 1)" aria-label="Previous">
-        <span>{{ "PREVIOUS" | translate }}</span>
-      </a>
-      <a *ngIf="currentPage == 1" class="disabled" aria-label="Previous">
+    <li (click)="onSetPageClick(currentPage - 1)" *ngIf="currentPage != 1">
+      <a  href="javascript:;"  aria-label="Previous" class="govuk-pagination__link-title">
+        <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+          <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+        </svg>
         <span>{{ "PREVIOUS" | translate }}</span>
       </a>
     </li>
-    <li *ngFor="let page of totalPagesArray">
-      <a href="javascript:;" [class.active]="page == currentPage" (click)="onSetPageClick(page)">
+    <li *ngFor="let page of getPaginationData(); let i = index"  [class.active]="page == currentPage" [ngClass]="{'custom-listing': page === '...'}" (click)="onSetPageClick(page)">
+      <a *ngIf="page !== '...'" href="javascript:;"  >
         {{ page }}</a>
+        <span  *ngIf="page === '...'">{{ page }}</span>
     </li>
-    <li class="inline-list">
-      <a *ngIf="currentPage != pageCount" href="javascript:;" (click)="onSetPageClick(currentPage + 1)"
-        aria-label="Next">
+    <li class="inline-list" *ngIf="currentPage != pageCount" (click)="onSetPageClick(currentPage + 1)">
+      <a  href="javascript:;" 
+        aria-label="Next" class="govuk-pagination__link-title">
         <span>{{ "NEXT" | translate }}</span>
-      </a>
-      <a *ngIf="currentPage == pageCount" class="disabled" aria-label="Next">
-        <span>{{ "NEXT" | translate }}</span>
+        <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+          <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+        </svg>
       </a>
     </li>
   </ul>
-</div>
+</nav>

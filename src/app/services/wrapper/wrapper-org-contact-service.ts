@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { ContactAssignmentInfo, ContactPoint, OrganisationContactInfo, OrganisationContactInfoList } from 'src/app/models/contactInfo';
@@ -12,7 +11,7 @@ import { ContactAssignmentInfo, ContactPoint, OrganisationContactInfo, Organisat
 })
 export class WrapperOrganisationContactService {
   url: string = `${environment.uri.api.isApiGateWayEnabled ?
-    environment.uri.api.wrapper.apiGatewayEnabled.organisation : environment.uri.api.wrapper.apiGatewayDisabled.organisation}`;
+    environment.uri.api.wrapper.apiGatewayEnabled.contact : environment.uri.api.wrapper.apiGatewayDisabled.contact}/organisations`;
 
   private options = {
     headers: new HttpHeaders(),
@@ -23,7 +22,7 @@ export class WrapperOrganisationContactService {
   }
 
   assignOrgContact(organisationId: string, contactInfo: ContactAssignmentInfo): Observable<any> {
-    const url = `${this.url}/${organisationId}/assigned-contacts`;
+    const url = `${this.url}/${organisationId}/contacts/assignment`;
     return this.http.post<number[]>(url, contactInfo, this.options).pipe(
       map((data: number[]) => {
         return data;
@@ -78,7 +77,7 @@ export class WrapperOrganisationContactService {
   }
 
   unassignOrgContact(organisationId: string, contactPointIds: number[]): Observable<any> {
-    var url = `${this.url}/${organisationId}/assigned-contacts?contact-point-ids=${contactPointIds[0]}`;
+    var url = `${this.url}/${organisationId}/contacts/assignment?contact-point-ids=${contactPointIds[0]}`;
     contactPointIds.splice(0, 1).forEach((id) => {
       url = url + `&contactPointIds=${id}`;
     });

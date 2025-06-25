@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { User, UserProfileRequestInfo } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
@@ -50,7 +49,7 @@ export class WrapperConfigurationService {
   getRoles(): Observable<any> {
     if(!environment.appSetting.hideSimplifyRole){
       const structureData:any = []
-      const url = `${this.url}/servicerolegroups`;
+      const url = `${this.url}/service-role-groups`;
       return this.http.get<any[]>(url, this.options).pipe(
         map((data: any[]) => {
           data.forEach((f)=>{

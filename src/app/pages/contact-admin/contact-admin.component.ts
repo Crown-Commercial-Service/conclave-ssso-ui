@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { Router,ActivatedRoute } from '@angular/router';
 import { AdminUserListResponse, UserListResponse } from 'src/app/models/user';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
+import { DataLayerService } from 'src/app/shared/data-layer.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-contact-admin',
-  templateUrl: './contact-admin.component.html',
-  styleUrls: ['./contact-admin.component.scss'],
+    selector: 'app-contact-admin',
+    templateUrl: './contact-admin.component.html',
+    styleUrls: ['./contact-admin.component.scss'],
+    standalone: false
 })
 export class ContactAdminComponent implements OnInit {
   private organisationId: string = '';
@@ -20,7 +24,11 @@ export class ContactAdminComponent implements OnInit {
   isOrgAdmin: boolean = false;
   
   constructor(
-    private WrapperOrganisationGroupService: WrapperOrganisationGroupService
+    private WrapperOrganisationGroupService: WrapperOrganisationGroupService,
+    private router: Router,
+    private dataLayerService: DataLayerService,
+    private sessionService:SessionService,
+    public route: ActivatedRoute
   ) {
     this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     this.userListResponse = {
@@ -35,6 +43,14 @@ export class ContactAdminComponent implements OnInit {
   ngOnInit(): void {
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.getOrganisationUsers();
+    this.dataLayerService.pushPageViewEvent();
+    this.route.queryParams.subscribe(params => {
+      if (params['isNewTab'] === 'true') {
+        const urlTree = this.router.parseUrl(this.router.url);
+        delete urlTree.queryParams['isNewTab'];
+        this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
+      }
+    });
   }
 
   public openEmailWindow(data: any): void {
@@ -46,7 +62,9 @@ export class ContactAdminComponent implements OnInit {
     this.WrapperOrganisationGroupService.getUsersAdmin(
       this.organisationId,
       this.currentPage,
-      this.pageSize
+      this.pageSize,
+      false,
+      true
     ).subscribe({
       next: (response: any) => {
         if (response != null) {
@@ -67,7 +85,8 @@ export class ContactAdminComponent implements OnInit {
     this.currentPage = pageNumber;
     this.getOrganisationUsers();
   }
-  goBack() {
-    window.history.back();
+  goBack(buttonText:string) {
+    this.router.navigateByUrl('profile');
+   this.dataLayerService.pushClickEvent(buttonText);
   }
 }
