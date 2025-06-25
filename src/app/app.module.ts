@@ -212,7 +212,7 @@ import { ManageOrgRegErrorAddressDetailsComponent } from './pages/manage-organis
 import { MfaSelectionComponent } from './pages/two-mfa/mfa-selection/mfa-selection.component';
 import { MfaInformationComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-information/mfa-authenticator-information.component';
 import { MfaAuthenticatorSetupComponent } from './pages/two-mfa/mfa-authenticator/mfa-authenticator-setup/mfa-authenticator-setup.component';
-import { QRCodeModule } from 'angularx-qrcode'; 
+import { QRCodeComponent } from 'angularx-qrcode'; 
 import { MfaMessageStep1Component } from './pages/two-mfa/mfa-message/mfa-message-step-1/mfa-message-step-1.component';
 import { MfaMessageStep2Component } from './pages/two-mfa/mfa-message/mfa-message-step-2/mfa-message-step-2.component';
 import { NoMfaConfiramtionComponent } from './pages/two-mfa/no-mfa-confirmation/no-mfa-confirmation.component';
@@ -460,7 +460,7 @@ export function createTranslateLoader(http: HttpClient) {
         ComponentsModule,
         MatTableModule,
         NgxIntlTelInputModule,
-        QRCodeModule], providers: [
+        QRCodeComponent], providers: [
         AuthService,
         MFAService,
         TokenService,

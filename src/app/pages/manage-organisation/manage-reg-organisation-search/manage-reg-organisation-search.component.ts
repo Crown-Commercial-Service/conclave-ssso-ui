@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } fro
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { BaseComponent } from "src/app/components/base/base.component";
 import { OrganisationRegBasicInfo, OrganisationSearchDto } from "src/app/models/organisation";
 import { ScrollHelper } from "src/app/services/helper/scroll-helper.services";
@@ -88,7 +88,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             return result$;
         }
         else {
-            return Observable.of([]);
+            return of([]);
         }
     }
 

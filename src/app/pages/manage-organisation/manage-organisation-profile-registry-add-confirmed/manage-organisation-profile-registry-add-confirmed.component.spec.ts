@@ -31,7 +31,10 @@ describe('ManageOrganisationRegistryAddConfirmationComponent', () => {
         { provide: Router, useValue: routerStub },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { paramMap: { get: () => '1' } } },
+          useValue: { 
+            snapshot: { paramMap: { get: () => '1' } },
+            params: of({ scheme: 'test', organisationId: '123', id: '123' }), 
+          },
         },
         { provide: Store, useValue: storeSpy },
       ],
@@ -53,7 +56,7 @@ describe('ManageOrganisationRegistryAddConfirmationComponent', () => {
   it('should display success message', () => {
     const successMsg = fixture.nativeElement.querySelector('.success_msg');
     expect(successMsg.textContent).toContain(
-      'You have successfully added to your organisation'
+      'You have successfully added additional registries to your organisation'
     );
   });
 });

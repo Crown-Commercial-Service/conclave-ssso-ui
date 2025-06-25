@@ -183,9 +183,11 @@
                     </div>
                     <div class="govuk-form-group" *ngIf="isCustomMfaEnabled && isEdit">
                         <fieldset class="govuk-fieldset">
-                            <h2 class="govuk-heading-s">
-                                {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}
-                            </h2>
+                            <legend>
+                                <h2 class="govuk-heading-s">
+                                    {{'TWO_FACTOR_AUTHENTICATION_ORG_REGISTERATION' | translate}}
+                                </h2>
+                            </legend>
                             <p *ngIf="isMfaEnabledForUser && isUserMfaOpted" class="govuk-hint" style="color: black;">
                                 Currently <strong>{{'ON' | translate}}</strong> for this account.
                                  <!-- using the <strong>{{authenticationType}}.</strong> -->
@@ -238,9 +240,11 @@
                         </button>
                     </div>
                     <fieldset class="govuk-fieldset">
-                        <h2 class="govuk-heading-s" id="GROUPS">
-                            {{ 'GROUPS'| translate }} (optional)
-                        </h2>
+                        <legend>
+                            <h2 class="govuk-heading-s" id="GROUPS">
+                                {{ 'GROUPS'| translate }} (optional)
+                            </h2>
+                        </legend>
                         <app-details [detailsData]="detailsData[1]"></app-details>
                     </fieldset>
                     <div *ngIf="isEdit" class="sadf">
@@ -390,9 +394,11 @@
                     </div>
                     <div class="govuk-form-group" id="user-role-form-group" *ngIf="!showRoleView">
                         <fieldset class="govuk-fieldset">
-                            <h2 class="govuk-heading-s">
-                                {{ 'SERVICES'| translate }}
-                            </h2>
+                            <legend>
+                                <h2 class="govuk-heading-s">
+                                    {{ 'SERVICES'| translate }}
+                                </h2>
+                            </legend>
                             <p class="govuk-hints">{{ 'ACCESS_TO_USER_ROLE'| translate }}</p>
 
                             <div class="govuk-tabs" data-module="govuk-tabs">
@@ -490,9 +496,11 @@
                     <div class="govuk-form-group" id="signin-provider-form-group"
                         [class.govuk-form-group--error]="submitted && formGroup.hasError('identityProviderRequired')">
                         <fieldset class="govuk-fieldset">
-                            <h2 class="govuk-heading-s">
-                                {{ 'SIGN_IN_PROVIDER'| translate }}
-                            </h2>
+                            <legend>
+                                <h2 class="govuk-heading-s">
+                                    {{ 'SIGN_IN_PROVIDER'| translate }}
+                                </h2>
+                            </legend>
                             <span class="sign_in_prov">
                                 {{ idpStatus == false ? 'A sign in provider gives users the option to use a different
                                 service to sign in. Sign in

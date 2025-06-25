@@ -46,6 +46,12 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             params: of({ id: '123', scheme: 'XYZ' }),
+            queryParams: of({ isNewTab: 'true' }),
+            snapshot: {
+              queryParams: {
+                isNewTab: 'true',
+              },
+            },
           },
         },
         {

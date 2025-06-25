@@ -19,11 +19,21 @@ describe('ManageOrganisationRegistryDetailsWrongComponent', () => {
   let store: Store<UIState>;
   let viewportScroller: ViewportScroller;
   let scrollHelper: ScrollHelper;
+  let mockActivatedRoute;
 
   beforeEach(async () => {
     const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
       'setOffset',
     ]);
+
+    mockActivatedRoute = {
+          snapshot: {
+            paramMap: {
+              get: () => '123',
+            },
+          },
+          params: of({ organisationId: '123' }) 
+        };
 
     await TestBed.configureTestingModule({
       declarations: [ManageOrganisationRegistryDetailsWrongComponent],
@@ -37,7 +47,7 @@ describe('ManageOrganisationRegistryDetailsWrongComponent', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { paramMap: { get: () => '123' } } },
+          useValue: mockActivatedRoute         
         },
         {
           provide: Store,

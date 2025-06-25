@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 describe('ManageOrganisationSiteEditComponent', () => {
   let component: ManageOrganisationSiteEditComponent;
@@ -26,6 +27,7 @@ describe('ManageOrganisationSiteEditComponent', () => {
         FormsModule,
         RouterTestingModule,
         MatSelectModule,
+        NgxMatSelectSearchModule,
         MatInputModule,
         MatFormFieldModule,
         BrowserAnimationsModule,

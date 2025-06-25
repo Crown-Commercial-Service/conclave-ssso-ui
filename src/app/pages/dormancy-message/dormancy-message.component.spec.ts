@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DormancyMessageComponent } from './dormancy-message.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('DormancyMessageComponent', () => {
   let component: DormancyMessageComponent;
@@ -8,7 +9,8 @@ describe('DormancyMessageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DormancyMessageComponent ]
+      declarations: [ DormancyMessageComponent ],
+      imports: [TranslateModule.forRoot()],
     })
     .compileComponents();
   });

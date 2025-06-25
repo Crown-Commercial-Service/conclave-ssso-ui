@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { UIState } from 'src/app/store/ui.states';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('BuyerSuccessComponent', () => {
   let component: BuyerSuccessComponent;
@@ -16,6 +17,7 @@ describe('BuyerSuccessComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [BuyerSuccessComponent],
+      imports:[RouterTestingModule],
       providers: [
         { provide: Store, useValue: {} },
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
@@ -51,7 +53,7 @@ describe('BuyerSuccessComponent', () => {
       'Manage service eligibility'
     );
     expect(secondBreadcrumbLink.getAttribute('routerLink')).toBe(
-      '/buyer/search'
+      '/buyer-supplier/search'
     );
 
     const thirdBreadcrumbLink = breadcrumbElements[2];
@@ -72,6 +74,6 @@ describe('BuyerSuccessComponent', () => {
     expect(returnLinkElement.textContent).toContain(
       'Return to Manage service eligibility'
     );
-    expect(returnLinkElement.getAttribute('routerLink')).toBe('/buyer/search');
+    expect(returnLinkElement.getAttribute('ng-reflect-router-link')).toBe('/buyer-supplier/search');
   });
 });

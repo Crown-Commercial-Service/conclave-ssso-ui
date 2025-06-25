@@ -1,10 +1,10 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from, Observable, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
 import { WorkerService } from '../services/worker.service';
-import 'rxjs/add/operator/mergeMap';
+
 
 @Injectable()
 export class HttpJwtAuthInterceptor implements HttpInterceptor {
@@ -14,7 +14,7 @@ export class HttpJwtAuthInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: any): Observable<any> {
-        return this.workerService.getAccessToken().mergeMap((token: string) => {
+        return this.workerService.getAccessToken().pipe(mergeMap((token: string) => {
             if (token.length > 0) {
                 request = request.clone({
                     setHeaders: {
@@ -50,7 +50,7 @@ export class HttpJwtAuthInterceptor implements HttpInterceptor {
                     }
                     return throwError(error);
                 }));
-        });
+        }));
     }
 
     getXsrfCookie() {

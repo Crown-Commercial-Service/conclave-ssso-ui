@@ -6,10 +6,9 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-// import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { LoadingIndicatorService } from '../services/helper/loading-indicator.service';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable()
 export class LoadingIndicatorInterceptor implements HttpInterceptor {

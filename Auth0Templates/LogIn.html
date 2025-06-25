@@ -587,6 +587,21 @@
     width: 1px;
     overflow: hidden;
 }  
+
+.govuk-skip-link:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+  padding-left: 45px !important;
+}
+
+#mainDiv {  
+  scroll-margin-top: 60px;
+}
+
+#mainDiv:focus {
+  outline: none;  
+}
 </style>
 
 <body class="govuk-template__body show-flourishes pillar--none js-enabled">
@@ -675,6 +690,7 @@
             </div>
         </div>
     </div>
+    <a href="javascript:;" onclick="skipToMainContent();" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
     <header class="header-global">
         <div class="ccs-width-container">
 
@@ -717,7 +733,9 @@
     </p>
   </div>
 </div>
+        <div id="mainDiv">
         <h1 class="govuk-heading-xl">Sign in to the Public Procurement Gateway</h1>
+        </div>
 
         <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
             id="error-summary" data-module="govuk-error-summary" style="display: none">
@@ -744,6 +762,7 @@
                 </ul>
             </div>
         </div>
+       
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
@@ -1220,6 +1239,22 @@
                 dataLayer.push({event : 'form_start', form_id : 'login'});
               }
         });
+        function skipToMainContent(){
+            const el = document.getElementById('mainDiv');
+    
+            if (el) {            
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Ensure the element can receive focus
+                if (!el.hasAttribute('tabindex')) {
+                    el.setAttribute('tabindex', '-1');
+                }
+                
+                setTimeout(() => {
+                    el.focus({ preventScroll: true });
+                }, 300);
+            }
+            return false;            
+        }
     </script>
 </body>
 </html> 

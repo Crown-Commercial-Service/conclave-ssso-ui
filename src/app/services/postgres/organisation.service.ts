@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { OrganisationUserDto } from 'src/app/models/user';
