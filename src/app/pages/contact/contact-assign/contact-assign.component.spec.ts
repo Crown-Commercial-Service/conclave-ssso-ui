@@ -13,6 +13,7 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ContactAssignComponent', () => {
   let component: ContactAssignComponent;
@@ -63,6 +64,7 @@ describe('ContactAssignComponent', () => {
         { provide: SessionService, useValue: sessionService },        
         ViewportScroller, ScrollHelper
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(ContactAssignComponent);

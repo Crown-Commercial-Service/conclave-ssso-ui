@@ -20,6 +20,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { DetailsComponent } from 'src/app/components/details/details.component';
 import { GovUKTableComponent } from 'src/app/components/govuk-table/govuk-table.component';
 import { RegistryGovukTableComponent } from 'src/app/components/registry-govuk-table/registry-govuk-table.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationProfileComponent', () => {
   let component: ManageOrganisationProfileComponent;
@@ -104,6 +105,7 @@ describe('ManageOrganisationProfileComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

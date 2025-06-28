@@ -8,6 +8,7 @@ import { OrganisationService } from 'src/app/services/postgres/organisation.serv
 import { PatternService } from 'src/app/shared/pattern.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegAddUserComponent', () => {
   let component: ManageOrgRegAddUserComponent;
@@ -42,6 +43,7 @@ describe('ManageOrgRegAddUserComponent', () => {
         },
         { provide: Store, useFactory: () => ({}) },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

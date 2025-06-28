@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { ResendLinkSuccessComponent } from './resend-link-success';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ResendLinkSuccessComponent', () => {
   let component: ResendLinkSuccessComponent;
@@ -31,6 +32,7 @@ describe('ResendLinkSuccessComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

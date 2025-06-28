@@ -9,6 +9,9 @@ import { ContactAssignUserSearchComponent } from './contact-assign-user-search-c
 import { TranslateModule } from '@ngx-translate/core';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { SearchBoxComponent } from 'src/app/components/search-box/search-box.component';
+import { CustomGovukTableComponent } from 'src/app/components/custom-govuk-table/custom-govuk-table.component';
 
 describe('ContactAssignUserSearchComponent', () => {
   let component: ContactAssignUserSearchComponent;
@@ -30,6 +33,7 @@ describe('ContactAssignUserSearchComponent', () => {
         { provide: Store, useFactory: () => ({}) },
         { provide: WrapperOrganisationService, useClass: MockWrapperOrganisationService },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

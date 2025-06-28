@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ViewportScroller } from '@angular/common';
 import { TermsConditionsComponent } from './terms-conditions.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('TermsConditionsComponent', () => {
   let component: TermsConditionsComponent;
@@ -21,6 +22,7 @@ describe('TermsConditionsComponent', () => {
       imports: [RouterTestingModule, TranslateModule.forRoot()],
       declarations: [TermsConditionsComponent],
       providers: [ViewportScroller],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

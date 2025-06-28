@@ -4,6 +4,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { ViewPendingVerificationComponent } from './view-pending-verification.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ViewPendingVerificationComponent', () => {
   let component: ViewPendingVerificationComponent;
@@ -28,6 +29,7 @@ describe('ViewPendingVerificationComponent', () => {
         { provide: Router, useValue: routerMock },
         TranslateService,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

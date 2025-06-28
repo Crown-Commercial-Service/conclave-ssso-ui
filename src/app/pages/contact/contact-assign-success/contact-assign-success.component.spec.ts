@@ -8,6 +8,7 @@ import { ContactAssignSuccessComponent } from './contact-assign-success-componen
 import { TranslateModule } from '@ngx-translate/core';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'; 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ContactAssignSuccessComponent', () => {
   let component: ContactAssignSuccessComponent;
@@ -25,7 +26,8 @@ describe('ContactAssignSuccessComponent', () => {
         HttpClientTestingModule, 
       ],
       declarations: [ContactAssignSuccessComponent],
-        providers: [{ provide: Store, useFactory: () => ({}) }],
+      providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

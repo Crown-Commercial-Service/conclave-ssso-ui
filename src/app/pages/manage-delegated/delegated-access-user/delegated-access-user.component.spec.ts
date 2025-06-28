@@ -8,6 +8,7 @@ import { RollbarErrorService } from '../../../shared/rollbar-error.service';
 import { RollbarService, rollbarFactory } from '../../../logging/rollbar';
 import { TokenService } from '../../../services/auth/token.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DelegatedAccessUserComponent', () => {
   let component: DelegatedAccessUserComponent;
@@ -29,6 +30,7 @@ describe('DelegatedAccessUserComponent', () => {
         TokenService,
         { provide: RollbarService, useValue: rollbarFactory() },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

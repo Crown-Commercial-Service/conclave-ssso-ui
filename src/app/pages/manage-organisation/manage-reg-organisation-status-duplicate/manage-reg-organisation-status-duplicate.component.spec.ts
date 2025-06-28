@@ -4,6 +4,7 @@ import { ManageOrgRegSearchStatusDuplicateComponent } from './manage-reg-organis
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegSearchStatusDuplicateComponent', () => {
   let component: ManageOrgRegSearchStatusDuplicateComponent;
@@ -17,6 +18,7 @@ describe('ManageOrgRegSearchStatusDuplicateComponent', () => {
         HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -39,6 +40,7 @@ describe('UserProfileComponent', () => {
         TokenService,
         { provide: RollbarService, useValue: rollbarFactory() },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

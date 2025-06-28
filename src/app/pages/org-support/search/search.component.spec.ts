@@ -7,6 +7,7 @@ import { OrgSupportSearchComponent } from './search.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { Store } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OrgSupportSearchComponent', () => {
   let component: OrgSupportSearchComponent;
@@ -35,6 +36,7 @@ describe('OrgSupportSearchComponent', () => {
         TokenService,
         { provide: Store, useFactory: () => ({}) },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

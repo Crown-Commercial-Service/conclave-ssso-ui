@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FindyouradministratorComponent } from './find-your-administrator.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('FindyouradministratorComponent', () => {
   let component: FindyouradministratorComponent;
@@ -11,6 +12,7 @@ describe('FindyouradministratorComponent', () => {
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule],
       declarations: [FindyouradministratorComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

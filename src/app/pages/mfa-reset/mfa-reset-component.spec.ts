@@ -16,6 +16,7 @@ import {
   INITIAL_REDUCERS,
   REDUCER_FACTORY,
 } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('MFAResetComponent', () => {
   let component: MFAResetComponent;
@@ -59,6 +60,7 @@ describe('MFAResetComponent', () => {
         { provide: INITIAL_REDUCERS, useValue: initialReducers },
         { provide: REDUCER_FACTORY, useValue: reducerFactory },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

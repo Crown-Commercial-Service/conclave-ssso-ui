@@ -5,6 +5,7 @@ import { ContactAssignSelectionComponent } from './contact-assign-selection-comp
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ContactAssignSelectionComponent', () => {
   let component: ContactAssignSelectionComponent;
@@ -21,6 +22,7 @@ describe('ContactAssignSelectionComponent', () => {
       ],
       declarations: [ContactAssignSelectionComponent],
       providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ManageOrganisationRegistryOrgNotFoundComponent } from './manage-organisation-profile-registry-error-not-my-organisation.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryOrgNotFoundComponent', () => {
   let component: ManageOrganisationRegistryOrgNotFoundComponent;
@@ -31,6 +32,7 @@ describe('ManageOrganisationRegistryOrgNotFoundComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Store, useValue: mockStore },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -8,6 +8,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { OrgSupportSuccessComponent } from './success.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OrgSupportSuccessComponent', () => {
   let component: OrgSupportSuccessComponent;
@@ -53,6 +54,7 @@ describe('OrgSupportSuccessComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

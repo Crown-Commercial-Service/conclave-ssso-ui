@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DelegatedUserConfirmComponent', () => {
   let component: DelegatedUserConfirmComponent;
@@ -17,6 +18,7 @@ describe('DelegatedUserConfirmComponent', () => {
         TranslateModule.forRoot(),
       ],
       declarations: [DelegatedUserConfirmComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DelegatedUserConfirmComponent);

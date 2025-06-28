@@ -4,6 +4,7 @@ import { ManageOrganisationContactOperationSuccessComponent } from './manage-org
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationContactOperationSuccessComponent', () => {
   let component: ManageOrganisationContactOperationSuccessComponent;
@@ -18,6 +19,7 @@ describe('ManageOrganisationContactOperationSuccessComponent', () => {
       ],
       declarations: [ManageOrganisationContactOperationSuccessComponent],
       providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

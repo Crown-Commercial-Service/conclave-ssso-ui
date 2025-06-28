@@ -8,6 +8,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ContactAdminComponent', () => {
   let component: ContactAdminComponent;
@@ -29,6 +30,7 @@ describe('ContactAdminComponent', () => {
       ],
       providers: [{ provide: Store, useFactory: () => ({}) }
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

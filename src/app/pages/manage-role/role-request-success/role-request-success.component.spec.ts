@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RoleRequestSuccessComponent } from './role-request-success.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('RoleRequestSuccessComponent', () => {
   let component: RoleRequestSuccessComponent;
@@ -30,6 +31,7 @@ describe('RoleRequestSuccessComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

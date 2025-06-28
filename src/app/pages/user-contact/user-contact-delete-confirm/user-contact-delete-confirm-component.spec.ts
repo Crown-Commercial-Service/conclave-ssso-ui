@@ -13,6 +13,7 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { OperationEnum } from 'src/app/constants/enum';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UserContactDeleteConfirmComponent', () => {
   let component: UserContactDeleteConfirmComponent;
@@ -65,6 +66,7 @@ describe('UserContactDeleteConfirmComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

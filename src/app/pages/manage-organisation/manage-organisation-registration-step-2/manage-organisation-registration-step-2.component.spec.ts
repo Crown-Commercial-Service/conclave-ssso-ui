@@ -10,6 +10,7 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { SchemePipe } from 'src/app/pipes/scheme.pipe';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegStep2Component', () => {
   let component: ManageOrgRegStep2Component;
@@ -42,6 +43,7 @@ describe('ManageOrgRegStep2Component', () => {
         { provide: SharedDataService, useValue: sharedDataServiceMock },
         { provide: Store, useFactory: () => ({}) },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

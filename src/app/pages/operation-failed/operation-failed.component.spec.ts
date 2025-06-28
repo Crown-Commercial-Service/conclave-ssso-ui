@@ -8,6 +8,7 @@ import { RollbarService, rollbarFactory } from '../../logging/rollbar';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TokenService } from '../../services/auth/token.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OperationFailedComponent', () => {
   let component: OperationFailedComponent;
@@ -28,6 +29,7 @@ describe('OperationFailedComponent', () => {
         TokenService,
         { provide: RollbarService, useValue: rollbarFactory() },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

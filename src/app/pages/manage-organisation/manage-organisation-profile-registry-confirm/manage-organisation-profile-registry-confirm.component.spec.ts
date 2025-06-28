@@ -7,6 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store } from '@ngrx/store';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { ciiService } from 'src/app/services/cii/cii.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryConfirmComponent', () => {
   let component: ManageOrganisationRegistryConfirmComponent;
@@ -46,6 +47,7 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         { provide: ciiService, useValue: ciiServiceMock },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

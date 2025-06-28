@@ -10,6 +10,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { FormsModule } from '@angular/forms';
 import { Observable, of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OrgSupportDetailsComponent', () => {
   let component: OrgSupportDetailsComponent;
@@ -72,6 +73,7 @@ describe('OrgSupportDetailsComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

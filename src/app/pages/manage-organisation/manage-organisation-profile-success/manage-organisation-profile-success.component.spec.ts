@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { ManageOrganisationProfileSuccessComponent } from './manage-organisation-profile-success.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationProfileSuccessComponent', () => {
   let component: ManageOrganisationProfileSuccessComponent;
@@ -16,6 +17,7 @@ describe('ManageOrganisationProfileSuccessComponent', () => {
         HttpClientTestingModule,
       ],
       declarations: [ManageOrganisationProfileSuccessComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

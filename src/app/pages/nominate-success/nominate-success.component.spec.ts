@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { UIState } from 'src/app/store/ui.states';
 import { NominateSuccessComponent } from './nominate-success.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('NominateSuccessComponent', () => {
   let component: NominateSuccessComponent;
@@ -39,6 +40,7 @@ describe('NominateSuccessComponent', () => {
         { provide: SharedDataService, useValue: sharedDataServiceSpy },
         { provide: Store, useValue: storeSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

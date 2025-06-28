@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { ManageOrganisationSiteDeleteComponent } from './manage-organisation-profile-site-delete.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationSiteDeleteComponent', () => {
   let component: ManageOrganisationSiteDeleteComponent;
@@ -25,6 +26,7 @@ describe('ManageOrganisationSiteDeleteComponent', () => {
       ],
       declarations: [ManageOrganisationSiteDeleteComponent],
       providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

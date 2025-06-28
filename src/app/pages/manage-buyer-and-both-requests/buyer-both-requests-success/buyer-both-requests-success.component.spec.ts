@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BuyerBothRequestsSuccessComponent } from './buyer-both-requests-success.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('BuyerBothRequestsSuccessComponent', () => {
   let component: BuyerBothRequestsSuccessComponent;
@@ -36,6 +37,7 @@ describe('BuyerBothRequestsSuccessComponent', () => {
         },
         TranslateService,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -9,6 +9,7 @@ import { ManageGroupEditUsersConfirmComponent } from './manage-group-edit-users-
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { of } from 'rxjs';
 import { OperationEnum } from 'src/app/constants/enum';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupEditUsersConfirmComponent', () => {
   let component: ManageGroupEditUsersConfirmComponent;
@@ -58,6 +59,7 @@ describe('ManageGroupEditUsersConfirmComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -4,6 +4,7 @@ import { ViewportScroller } from '@angular/common';
 import {
   Component,
   ElementRef,
+  NO_ERRORS_SCHEMA,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -35,6 +36,7 @@ describe('ManageUserBulkUploadComponent', () => {
       ],
       declarations: [ManageUserBulkUploadComponent],
       providers: [BulkUploadService, ViewportScroller, ScrollHelper],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

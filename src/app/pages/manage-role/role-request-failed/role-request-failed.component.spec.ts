@@ -4,6 +4,7 @@ import { RoleRequestFailedComponent } from './role-request-failed.component';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('RoleRequestFailedComponent', () => {
   let component: RoleRequestFailedComponent;
@@ -31,6 +32,7 @@ describe('RoleRequestFailedComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -8,6 +8,7 @@ import { TokenService } from 'src/app/services/auth/token.service';
 import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('SideNavComponent', () => {
   let component: SideNavComponent;
@@ -28,6 +29,7 @@ describe('SideNavComponent', () => {
         HttpClientTestingModule,
         BrowserAnimationsModule,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

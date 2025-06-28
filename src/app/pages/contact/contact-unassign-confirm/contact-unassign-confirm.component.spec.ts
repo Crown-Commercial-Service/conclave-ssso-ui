@@ -9,6 +9,7 @@ import { ContactUnassignConfirmComponent } from './contact-unassign-confirm-comp
 import { TranslateModule } from '@ngx-translate/core';
 import { WrapperOrganisationContactService } from "src/app/services/wrapper/wrapper-org-contact-service";
 import { WrapperSiteContactService } from "src/app/services/wrapper/wrapper-site-contact-service";
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 
 describe('ContactUnassignConfirmComponent', () => {
@@ -28,6 +29,7 @@ describe('ContactUnassignConfirmComponent', () => {
       ],
       declarations: [ContactUnassignConfirmComponent],
       providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -6,6 +6,7 @@ import { TokenComponent } from './token.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('TokenComponent', () => {
   let component: TokenComponent;
@@ -20,6 +21,7 @@ describe('TokenComponent', () => {
       imports: [HttpClientTestingModule, BrowserAnimationsModule, RouterTestingModule],
       declarations: [TokenComponent],
       providers: [{ provide: Store, useValue: storeMock }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

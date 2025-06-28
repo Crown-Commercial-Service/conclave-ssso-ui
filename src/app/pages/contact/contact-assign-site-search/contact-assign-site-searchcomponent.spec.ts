@@ -10,6 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { TranslateModule } from '@ngx-translate/core';
 import { SiteGridInfo } from 'src/app/models/site';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ContactAssignSiteSearchComponent', () => {
   let component: ContactAssignSiteSearchComponent;
@@ -32,6 +33,7 @@ describe('ContactAssignSiteSearchComponent', () => {
       ],
       declarations: [ContactAssignSiteSearchComponent],
       providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

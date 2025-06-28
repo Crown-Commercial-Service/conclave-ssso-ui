@@ -8,6 +8,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ContactAssignErrorComponent } from './contact-assign-error-component';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ContactAssignErrorComponent', () => {
   let component: ContactAssignErrorComponent;
@@ -40,6 +41,7 @@ describe('ContactAssignErrorComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

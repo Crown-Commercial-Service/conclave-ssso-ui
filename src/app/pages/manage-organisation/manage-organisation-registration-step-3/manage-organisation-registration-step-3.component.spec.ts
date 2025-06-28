@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { ManageOrgRegStep3Component } from './manage-organisation-registration-step-3.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegStep3Component', () => {
   let component: ManageOrgRegStep3Component;
@@ -46,6 +47,7 @@ describe('ManageOrgRegStep3Component', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Store, useValue: mockStore },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

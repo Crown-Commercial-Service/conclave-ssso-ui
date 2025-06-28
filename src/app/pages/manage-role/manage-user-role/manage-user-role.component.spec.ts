@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ManageUserRoleComponent } from './manage-user-role.component';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { of, throwError } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageUserRoleComponent', () => {
   let component: ManageUserRoleComponent;
@@ -28,6 +29,7 @@ describe('ManageUserRoleComponent', () => {
         { provide: Router, useValue: routerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ManageUserRoleComponent);

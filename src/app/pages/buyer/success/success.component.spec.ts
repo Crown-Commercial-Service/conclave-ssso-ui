@@ -5,6 +5,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('BuyerSuccessComponent', () => {
   let component: BuyerSuccessComponent;
@@ -23,6 +24,7 @@ describe('BuyerSuccessComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

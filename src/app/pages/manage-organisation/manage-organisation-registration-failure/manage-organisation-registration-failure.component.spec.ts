@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ManageOrgRegFailureComponent } from './manage-organisation-registration-failure.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegFailureComponent', () => {
   let component: ManageOrgRegFailureComponent;
@@ -16,6 +17,7 @@ describe('ManageOrgRegFailureComponent', () => {
       declarations: [ManageOrgRegFailureComponent],
       imports: [RouterTestingModule, HttpClientTestingModule],
       providers: [{ provide: Store, useValue: mockStore }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

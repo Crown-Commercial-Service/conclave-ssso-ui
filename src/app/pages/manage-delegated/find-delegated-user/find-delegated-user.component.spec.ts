@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FindDelegatedUserComponent } from './find-delegated-user.component';
 import { of, throwError } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('FindDelegatedUserComponent', () => {
   let component: FindDelegatedUserComponent;
@@ -20,6 +21,7 @@ describe('FindDelegatedUserComponent', () => {
         HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

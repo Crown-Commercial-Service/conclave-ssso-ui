@@ -4,6 +4,7 @@ import { ManageGroupEditRolesConfirmComponent } from './manage-group-edit-roles-
 import { Store } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupEditRolesConfirmComponent', () => {
   let component: ManageGroupEditRolesConfirmComponent;
@@ -18,6 +19,7 @@ describe('ManageGroupEditRolesConfirmComponent', () => {
         HttpClientTestingModule,
       ],
       providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

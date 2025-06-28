@@ -5,6 +5,7 @@ import { ManageOrgRegErrorNotFoundComponent } from './manage-organisation-regist
 import { Router } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegErrorNotFoundComponent', () => {
   let component: ManageOrgRegErrorNotFoundComponent;
@@ -19,6 +20,7 @@ describe('ManageOrgRegErrorNotFoundComponent', () => {
         HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

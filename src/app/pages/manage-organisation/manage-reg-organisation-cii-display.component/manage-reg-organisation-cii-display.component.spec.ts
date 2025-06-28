@@ -9,6 +9,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { of } from 'rxjs';
 import { OrganisationSearchDto } from 'src/app/models/organisation';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegCIIOrgDisplayComponent', () => {
   let component: ManageOrgRegCIIOrgDisplayComponent;
@@ -23,6 +24,7 @@ describe('ManageOrgRegCIIOrgDisplayComponent', () => {
         HttpClientTestingModule,
       ],
       providers: [OrganisationService, ViewportScroller, ScrollHelper],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

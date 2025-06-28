@@ -5,6 +5,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ManageOrgRegRightToBuyComponent } from './manage-organisation-registration-type.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegRightToBuyComponent', () => {
   let component: ManageOrgRegRightToBuyComponent;
@@ -19,6 +20,7 @@ describe('ManageOrgRegRightToBuyComponent', () => {
         ViewportScroller,
         ScrollHelper,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

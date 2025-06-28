@@ -8,6 +8,7 @@ import { CIIOptions } from './cii-options.component';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { SchemePipe } from 'src/app/pipes/scheme.pipe';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CIIOptionsComponent', () => {
   let component: CIIOptions;
@@ -31,6 +32,7 @@ describe('CIIOptionsComponent', () => {
         { provide: ciiService, useValue: mockCiiService },
         { provide: Store, useValue: mockStore },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

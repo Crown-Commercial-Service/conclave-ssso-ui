@@ -13,6 +13,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { OperationEnum } from 'src/app/constants/enum';
 import { ManageOrganisationContactDeleteComponent } from './manage-organisation-contact-delete.component';
 import { of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationContactDeleteComponent', () => {
   let component: ManageOrganisationContactDeleteComponent;
@@ -70,6 +71,7 @@ describe('ManageOrganisationContactDeleteComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

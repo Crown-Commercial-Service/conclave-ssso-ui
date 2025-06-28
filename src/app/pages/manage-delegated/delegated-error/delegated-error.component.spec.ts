@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DelegatedErrorComponent } from './delegated-error.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DelegatedErrorComponent', () => {
   let component: DelegatedErrorComponent;
@@ -11,6 +12,7 @@ describe('DelegatedErrorComponent', () => {
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule],
       declarations: [DelegatedErrorComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

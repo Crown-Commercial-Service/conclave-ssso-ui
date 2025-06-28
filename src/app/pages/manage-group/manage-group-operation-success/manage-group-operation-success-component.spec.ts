@@ -12,6 +12,7 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { OperationEnum } from 'src/app/constants/enum';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupOperationSuccessComponent', () => {
   let component: ManageGroupOperationSuccessComponent;
@@ -47,6 +48,7 @@ describe('ManageGroupOperationSuccessComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

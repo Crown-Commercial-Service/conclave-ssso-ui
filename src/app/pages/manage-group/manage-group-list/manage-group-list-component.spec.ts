@@ -10,6 +10,7 @@ import { ManageGroupListComponent } from './manage-group-list-component';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { Group, GroupList } from 'src/app/models/organisationGroup';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupListComponent', () => {
   let component: ManageGroupListComponent;
@@ -38,6 +39,7 @@ describe('ManageGroupListComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

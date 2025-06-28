@@ -5,6 +5,7 @@ import { OrgSupportConfirmComponent } from './confirm.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { Store } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OrgSupportConfirmComponent', () => {
   let component: OrgSupportConfirmComponent;
@@ -31,6 +32,7 @@ describe('OrgSupportConfirmComponent', () => {
         MFAService,
         { provide: Store, useFactory: () => ({}) },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -13,6 +13,7 @@ import { ManageGroupEditNameComponent } from './manage-group-edit-name-component
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { OperationEnum } from 'src/app/constants/enum';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupEditNameComponent', () => {
   let component: ManageGroupEditNameComponent;
@@ -36,6 +37,7 @@ describe('ManageGroupEditNameComponent', () => {
         Title,
         SharedDataService,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

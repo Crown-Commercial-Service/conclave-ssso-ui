@@ -7,6 +7,7 @@ import { ManageOrganisationRemoveIdpConfirmComponent } from './manage-organisati
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRemoveIdpConfirmComponent', () => {
   let component: ManageOrganisationRemoveIdpConfirmComponent;
@@ -39,6 +40,7 @@ describe('ManageOrganisationRemoveIdpConfirmComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         TokenService,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     mockStore = TestBed.inject(Store) as jasmine.SpyObj<Store<any>>;

@@ -9,6 +9,7 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { Store } from '@ngrx/store';
 import { SchemePipe } from 'src/app/pipes/scheme.pipe';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistrySearchComponent', () => {
   let component: ManageOrganisationRegistrySearchComponent;
@@ -36,6 +37,7 @@ describe('ManageOrganisationRegistrySearchComponent', () => {
         { provide: SharedDataService, useValue: sharedDataServiceMock },
         { provide: Store, useFactory: () => ({}) },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

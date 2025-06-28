@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SuccessUserMfaComponent } from './success-user-mfa.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('SuccessUserMfaComponent', () => {
   let component: SuccessUserMfaComponent;
@@ -33,6 +34,7 @@ describe('SuccessUserMfaComponent', () => {
       imports: [TranslateModule.forRoot(), RouterTestingModule],
       declarations: [SuccessUserMfaComponent],
       providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

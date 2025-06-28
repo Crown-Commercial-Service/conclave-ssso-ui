@@ -10,6 +10,7 @@ import { TokenService } from 'src/app/services/auth/token.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryDeleteComponent', () => {
   let component: ManageOrganisationRegistryDeleteComponent;
@@ -62,6 +63,7 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

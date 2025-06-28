@@ -3,6 +3,7 @@ import { ManageOrganisationRegistryErrorComponent } from './manage-organisation-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryErrorComponent', () => {
   let component: ManageOrganisationRegistryErrorComponent;
@@ -13,6 +14,7 @@ describe('ManageOrganisationRegistryErrorComponent', () => {
       declarations: [ManageOrganisationRegistryErrorComponent],
       imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -11,6 +11,7 @@ import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupErrorComponent', () => {
   let component: ManageGroupErrorComponent;
@@ -64,6 +65,7 @@ describe('ManageGroupErrorComponent', () => {
         TokenService,
         { provide: RollbarService, useValue: rollbarFactory() },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

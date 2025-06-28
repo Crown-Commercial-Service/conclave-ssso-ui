@@ -13,7 +13,7 @@ import {
   REDUCER_FACTORY,
 } from '@ngrx/store';
 import { FormBuilder } from '@angular/forms';
-import { QueryList, ElementRef } from '@angular/core';
+import { QueryList, ElementRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -47,6 +47,7 @@ describe('ManageUserAddSelectionComponent', () => {
         FormBuilder,
         ScrollHelper,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

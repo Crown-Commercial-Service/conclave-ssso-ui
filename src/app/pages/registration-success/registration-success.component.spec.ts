@@ -12,6 +12,7 @@ import {
   INITIAL_REDUCERS,
   REDUCER_FACTORY,
 } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('RegistrationSuccessComponent', () => {
   let component: RegistrationSuccessComponent;
@@ -31,6 +32,7 @@ describe('RegistrationSuccessComponent', () => {
         { provide: INITIAL_REDUCERS, useValue: {} },
         { provide: REDUCER_FACTORY, useValue: () => {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -8,6 +8,7 @@ import { dataService } from 'src/app/services/data/data.service';
 import { UIState } from 'src/app/store/ui.states';
 import { ViewportScroller, Location } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryDetailsWrongComponent', () => {
   let component: ManageOrganisationRegistryDetailsWrongComponent;
@@ -59,6 +60,7 @@ describe('ManageOrganisationRegistryDetailsWrongComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

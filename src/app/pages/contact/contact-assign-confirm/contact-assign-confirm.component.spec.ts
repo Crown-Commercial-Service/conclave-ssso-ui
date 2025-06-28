@@ -11,6 +11,7 @@ import { WrapperOrganisationContactService } from 'src/app/services/wrapper/wrap
 import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 
 describe('ContactAssignConfirmComponent', () => {
@@ -49,6 +50,7 @@ describe('ContactAssignConfirmComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
   beforeEach(() => {

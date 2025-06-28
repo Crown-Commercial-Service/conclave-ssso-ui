@@ -9,6 +9,7 @@ import { ManageGroupViewComponent } from './manage-group-view-component';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupViewComponent', () => {
   let component: ManageGroupViewComponent;
@@ -80,6 +81,7 @@ describe('ManageGroupViewComponent', () => {
         { provide: Store, useValue: {} },
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

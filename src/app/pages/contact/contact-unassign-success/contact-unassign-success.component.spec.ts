@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ContactUnassignSuccessComponent } from './contact-unassign-success-component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ContactUnassignSuccessComponent', () => {
   let component: ContactUnassignSuccessComponent;
@@ -23,6 +24,7 @@ describe('ContactUnassignSuccessComponent', () => {
       ],
       declarations: [ContactUnassignSuccessComponent],
       providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

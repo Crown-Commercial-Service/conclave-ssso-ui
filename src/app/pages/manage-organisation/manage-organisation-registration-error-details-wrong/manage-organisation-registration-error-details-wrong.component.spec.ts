@@ -6,6 +6,7 @@ import { ManageOrgRegDetailsWrongComponent } from './manage-organisation-registr
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegDetailsWrongComponent', () => {
   let component: ManageOrgRegDetailsWrongComponent;
@@ -24,6 +25,7 @@ describe('ManageOrgRegDetailsWrongComponent', () => {
       ],
       declarations: [ManageOrgRegDetailsWrongComponent],
       providers: [{ provide: Store, useValue: mockStore }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

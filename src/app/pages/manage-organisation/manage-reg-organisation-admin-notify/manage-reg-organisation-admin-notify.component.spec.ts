@@ -9,6 +9,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { ManageOrgRegNotifyAdminComponent } from './manage-reg-organisation-admin-notify.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegNotifyAdminComponent', () => {
   let component: ManageOrgRegNotifyAdminComponent;
@@ -36,6 +37,7 @@ describe('ManageOrgRegNotifyAdminComponent', () => {
         { provide: ScrollHelper, useValue: scrollHelperSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

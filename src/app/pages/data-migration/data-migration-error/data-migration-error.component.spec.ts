@@ -6,6 +6,7 @@ import { DataMigrationErrorComponent } from './data-migration-error.component';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DataMigrationErrorComponent', () => {
   let component: DataMigrationErrorComponent;
@@ -29,6 +30,7 @@ describe('DataMigrationErrorComponent', () => {
           useValue: { queryParams: { subscribe: () => {} } },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

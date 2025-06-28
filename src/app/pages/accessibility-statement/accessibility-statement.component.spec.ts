@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AccessibilityStatementComponent } from './accessibility-statement.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AccessibilityStatementComponent', () => {
   let component: AccessibilityStatementComponent;
@@ -12,6 +13,7 @@ describe('AccessibilityStatementComponent', () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, TranslateModule.forRoot()],
       declarations: [AccessibilityStatementComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -8,6 +8,7 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { OrganisationGroupResponseInfo } from 'src/app/models/organisationGroup';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupDeleteConfirmComponent', () => {
   let component: ManageGroupDeleteConfirmComponent;
@@ -51,6 +52,7 @@ describe('ManageGroupDeleteConfirmComponent', () => {
         { provide: SharedDataService, useValue: mockSharedDataService },
         { provide: Store, useValue: mockStore },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

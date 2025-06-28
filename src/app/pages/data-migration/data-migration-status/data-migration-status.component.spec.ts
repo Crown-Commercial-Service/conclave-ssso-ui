@@ -4,6 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DataMigrationStatusComponent (Template)', () => {
   let component: DataMigrationStatusComponent;
@@ -19,6 +20,7 @@ describe('DataMigrationStatusComponent (Template)', () => {
           useValue: { queryParams: { subscribe: () => {} } },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

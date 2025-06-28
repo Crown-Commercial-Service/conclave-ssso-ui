@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { ManageOrgRegErrorGenericComponent } from './manage-organisation-registration-error-generic.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegErrorGenericComponent', () => {
   let component: ManageOrgRegErrorGenericComponent;
@@ -16,6 +17,7 @@ describe('ManageOrgRegErrorGenericComponent', () => {
         HttpClientTestingModule,
       ],
       declarations: [ManageOrgRegErrorGenericComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

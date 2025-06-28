@@ -4,6 +4,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { ViewVerifiedOrgComponent } from './view-verified-org.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ViewVerifiedOrgComponent', () => {
   let component: ViewVerifiedOrgComponent;
@@ -39,6 +40,7 @@ describe('ViewVerifiedOrgComponent', () => {
         { provide: Router, useValue: mockRouter },
         TranslateService,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -5,6 +5,7 @@ import { ManageOrgRegErrorUsernameExistsComponent } from './manage-organisation-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegErrorUsernameExistsComponent', () => {
   let component: ManageOrgRegErrorUsernameExistsComponent;
@@ -19,6 +20,7 @@ describe('ManageOrgRegErrorUsernameExistsComponent', () => {
         HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

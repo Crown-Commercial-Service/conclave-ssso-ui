@@ -9,6 +9,7 @@ import { TokenService } from 'src/app/services/auth/token.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { StoreModule } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryConfirmAdditionalDetailsComponent', () => {
   let component: ManageOrganisationRegistryConfirmAdditionalDetailsComponent;
@@ -50,6 +51,7 @@ describe('ManageOrganisationRegistryConfirmAdditionalDetailsComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

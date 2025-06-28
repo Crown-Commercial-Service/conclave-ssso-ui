@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { BuyerBothRequestsComponent } from './buyer-both-requests.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('BuyerBothRequestsComponent', () => {
   let component: BuyerBothRequestsComponent;
@@ -20,6 +21,7 @@ describe('BuyerBothRequestsComponent', () => {
         HttpClientTestingModule,
       ],
       providers: [WrapperBuyerBothService, TranslateService],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

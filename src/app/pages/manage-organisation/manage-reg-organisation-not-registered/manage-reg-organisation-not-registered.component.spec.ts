@@ -6,6 +6,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ManageOrgRegNotRegisteredComponent } from './manage-reg-organisation-not-registered.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegNotRegisteredComponent', () => {
   let component: ManageOrgRegNotRegisteredComponent;
@@ -25,6 +26,7 @@ describe('ManageOrgRegNotRegisteredComponent', () => {
         ViewportScroller,
         ScrollHelper,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

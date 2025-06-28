@@ -11,6 +11,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryDeleteConfirmationComponent', () => {
   let component: ManageOrganisationRegistryDeleteConfirmationComponent;
@@ -55,6 +56,7 @@ describe('ManageOrganisationRegistryDeleteConfirmationComponent', () => {
         { provide: ScrollHelper, useValue: {} },
         { provide: DataLayerService, useValue: mockDataLayerService },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

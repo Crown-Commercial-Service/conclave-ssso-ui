@@ -9,6 +9,7 @@ import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OperationSuccessComponent', () => {
   let component: OperationSuccessComponent;
@@ -29,8 +30,9 @@ describe('OperationSuccessComponent', () => {
         TokenService,
         RollbarErrorService,
         { provide: RollbarService, useValue: rollbarFactory() }
-      ]
-    })
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    })    
     .compileComponents();
   });
 

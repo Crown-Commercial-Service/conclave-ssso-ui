@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegBuyerTypeComponent', () => {
   let component: ManageOrgRegBuyerTypeComponent;
@@ -15,6 +16,7 @@ describe('ManageOrgRegBuyerTypeComponent', () => {
       declarations: [ManageOrgRegBuyerTypeComponent],
       imports: [RouterTestingModule, FormsModule, TranslateModule.forRoot()],
       providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

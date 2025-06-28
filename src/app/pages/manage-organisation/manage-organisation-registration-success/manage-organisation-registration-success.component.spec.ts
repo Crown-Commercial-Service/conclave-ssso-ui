@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { ManageOrgRegSuccessComponent } from './manage-organisation-registration-success.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegSuccessComponent', () => {
   let component: ManageOrgRegSuccessComponent;
@@ -16,6 +17,7 @@ describe('ManageOrgRegSuccessComponent', () => {
         StoreModule.forRoot({}),
         HttpClientTestingModule,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

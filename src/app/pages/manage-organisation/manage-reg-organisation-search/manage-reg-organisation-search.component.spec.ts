@@ -11,6 +11,7 @@ import { Observable, of } from 'rxjs';
 import { ManageOrgRegSearchComponent } from './manage-reg-organisation-search.component';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { PatternService } from 'src/app/shared/pattern.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegSearchComponent', () => {
   let component: ManageOrgRegSearchComponent;
@@ -30,6 +31,7 @@ describe('ManageOrgRegSearchComponent', () => {
       ],
       declarations: [ManageOrgRegSearchComponent],
       providers: [OrganisationService, PatternService],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

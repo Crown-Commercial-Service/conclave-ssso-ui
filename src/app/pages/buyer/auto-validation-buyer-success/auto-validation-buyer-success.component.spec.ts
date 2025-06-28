@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AutoValidationBuyerSuccessComponent', () => {
   let component: AutoValidationBuyerSuccessComponent;
@@ -52,6 +53,7 @@ describe('AutoValidationBuyerSuccessComponent', () => {
         { provide: ScrollHelper, useValue: mockScrollHelper },
         ViewportScroller,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

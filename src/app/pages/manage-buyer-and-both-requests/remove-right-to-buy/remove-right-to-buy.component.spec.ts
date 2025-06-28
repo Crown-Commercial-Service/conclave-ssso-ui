@@ -4,6 +4,7 @@ import { RemoveRightToBuyComponent } from './remove-right-to-buy.component';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { of, throwError } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('RemoveRightToBuyComponent', () => {
   let component: RemoveRightToBuyComponent;
@@ -34,6 +35,7 @@ describe('RemoveRightToBuyComponent', () => {
         },
         TranslateService,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

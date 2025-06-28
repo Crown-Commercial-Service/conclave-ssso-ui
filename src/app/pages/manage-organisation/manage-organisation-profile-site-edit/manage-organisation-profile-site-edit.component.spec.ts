@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationSiteEditComponent', () => {
   let component: ManageOrganisationSiteEditComponent;
@@ -47,6 +48,7 @@ describe('ManageOrganisationSiteEditComponent', () => {
         },
         { provide: Store, useFactory: () => ({}) },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

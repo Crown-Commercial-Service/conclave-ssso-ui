@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BuyerErrorComponent } from './error.component';
 import { Store } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('BuyerErrorComponent', () => {
   let component: BuyerErrorComponent;
@@ -12,6 +13,7 @@ describe('BuyerErrorComponent', () => {
       imports: [RouterTestingModule],
       declarations: [BuyerErrorComponent],
       providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

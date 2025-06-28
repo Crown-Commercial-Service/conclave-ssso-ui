@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { UserContactEditComponent } from './user-contact-edit.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UserContactEditComponent', () => {
   let component: UserContactEditComponent;
@@ -24,6 +25,7 @@ describe('UserContactEditComponent', () => {
       ],
       declarations: [UserContactEditComponent],
       providers: [{ provide: Store, useValue: storeMock }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

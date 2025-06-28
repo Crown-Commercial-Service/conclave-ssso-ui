@@ -8,6 +8,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OrgSupportErrorComponent', () => {
   let component: OrgSupportErrorComponent;
@@ -41,6 +42,7 @@ describe('OrgSupportErrorComponent', () => {
         { provide: ScrollHelper, useValue: {} },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

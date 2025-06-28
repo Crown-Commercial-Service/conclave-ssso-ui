@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { rollbarFactory, RollbarService } from 'src/app/logging/rollbar';
 import { TokenService } from 'src/app/services/auth/token.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DelegatedUserListComponent', () => {
   let component: DelegatedUserListComponent;
@@ -37,6 +38,7 @@ describe('DelegatedUserListComponent', () => {
         { provide: RollbarService, useValue: rollbarFactory() },
         { provide: TokenService, useValue: mockTokenService},
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

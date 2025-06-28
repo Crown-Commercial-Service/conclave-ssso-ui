@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { ManageOrgRegSearchStatusExistsComponent } from './manage-reg-organisation-status-exists.component';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegSearchStatusExistsComponent', () => {
   let component: ManageOrgRegSearchStatusExistsComponent;
@@ -32,6 +33,7 @@ describe('ManageOrgRegSearchStatusExistsComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

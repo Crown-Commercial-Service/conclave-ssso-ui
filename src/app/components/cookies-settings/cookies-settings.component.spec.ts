@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CookiesSettingsComponent } from './cookies-settings.component';
 import { CookiesService } from 'src/app/shared/cookies.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CookiesSettingsComponent', () => {
   let component: CookiesSettingsComponent;
@@ -20,6 +21,7 @@ describe('CookiesSettingsComponent', () => {
       declarations: [CookiesSettingsComponent],
       imports: [RouterTestingModule, TranslateModule.forRoot()],
       providers: [CookiesService],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     cookiesService = TestBed.inject(CookiesService);

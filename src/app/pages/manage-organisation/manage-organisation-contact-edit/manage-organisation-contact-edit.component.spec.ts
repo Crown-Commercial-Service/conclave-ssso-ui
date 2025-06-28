@@ -7,6 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationContactEditComponent', () => {
   let component: ManageOrganisationContactEditComponent;
@@ -30,6 +31,7 @@ describe('ManageOrganisationContactEditComponent', () => {
         TranslateModule.forRoot(),
       ],
       providers: [{ provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
