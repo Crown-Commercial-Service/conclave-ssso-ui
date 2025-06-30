@@ -4,21 +4,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ManageUserAddSingleUserDetailComponent } from './manage-user-add-single-user-detail.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  Store,
-  StateObservable,
-  ActionsSubject,
-  ReducerManager,
-  ReducerManagerDispatcher,
-  INITIAL_STATE,
-  INITIAL_REDUCERS,
-  REDUCER_FACTORY,
-} from '@ngrx/store';
 import { AuthService } from '../../../services/auth/auth.service';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('ManageUserAddSingleUserDetailComponent', () => {
   let component: ManageUserAddSingleUserDetailComponent;
@@ -36,15 +27,10 @@ describe('ManageUserAddSingleUserDetailComponent', () => {
         HttpClientTestingModule,
       ],
       declarations: [ManageUserAddSingleUserDetailComponent],
-      providers: [
-        Store,
-        StateObservable,
-        ActionsSubject,
-        ReducerManager,
-        ReducerManagerDispatcher,
-        { provide: INITIAL_STATE, useValue: initialState },
-        { provide: INITIAL_REDUCERS, useValue: initialReducers },
-        { provide: REDUCER_FACTORY, useValue: reducerFactory },
+      providers: [        
+        provideMockStore({
+          initialState: {}, 
+        }),
         AuthService,
         RollbarErrorService,
         TokenService,

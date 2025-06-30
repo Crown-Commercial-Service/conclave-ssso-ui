@@ -36,7 +36,7 @@ export class WebsiteService {
             return data;
           }),
           catchError(error => {
-            console.log(error);
+            
             return throwError(error);
           })
         );

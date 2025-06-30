@@ -24,7 +24,7 @@ export class ManageUserReactivateConfirmComponent extends BaseComponent implemen
       this.userName = sessionStorage.getItem(SessionStorageKey.ManageUserUserName) ?? '';
       this.userName = localStorage.getItem('ManageUserUserName') ?? '';
     //   const previousRoute = this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
-    // console.log('Previous Route:', previousRoute);
+    
   }
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class ManageUserReactivateConfirmComponent extends BaseComponent implemen
 
         },
         error:(err) =>{
-          console.log(err);
+          
           
         }
 

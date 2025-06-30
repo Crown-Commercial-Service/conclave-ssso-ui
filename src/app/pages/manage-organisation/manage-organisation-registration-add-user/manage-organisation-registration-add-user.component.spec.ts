@@ -14,17 +14,23 @@ describe('ManageOrgRegAddUserComponent', () => {
   let component: ManageOrgRegAddUserComponent;
   let fixture: ComponentFixture<ManageOrgRegAddUserComponent>;
   let mockOrganisationService: jasmine.SpyObj<OrganisationService>;
-  let mockPatternService: jasmine.SpyObj<PatternService>;
+  // let mockPatternService: jasmine.SpyObj<PatternService>;
+  let mockPatternService: Partial<PatternService>;
 
   beforeEach(async () => {
     mockOrganisationService = jasmine.createSpyObj('OrganisationService', [
       'registerOrganisation',
     ]);
-    mockPatternService = jasmine.createSpyObj('PatternService', [
-      'NameValidator',
-      'emailPattern',
-    ]);
+    // mockPatternService = jasmine.createSpyObj('PatternService', [
+    //   'NameValidator',
+    //   'emailPattern',
+    // ]);
 
+    mockPatternService = {
+      NameValidator: "^[a-zA-Z][a-z A-Z,.'-]*(?:\s+[a-zA-Z]+)?$",
+      emailPattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    };
+    
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -53,8 +59,9 @@ describe('ManageOrgRegAddUserComponent', () => {
     fixture.detectChanges();
   });
 
-  afterEach(() => {
+  afterEach(() => {    
     TestBed.resetTestingModule();
+    localStorage.clear(); 
   });
 
   it('should create the component', () => {

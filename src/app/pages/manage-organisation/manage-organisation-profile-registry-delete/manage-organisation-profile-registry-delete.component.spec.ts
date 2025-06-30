@@ -25,10 +25,12 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
       'setOffset',
     ]);
 
-    const ciiServiceSpy = jasmine.createSpyObj('ciiService', [
+    ciiServiceMock = jasmine.createSpyObj('ciiService', [
       'getOrganisationIdentifierDetails',
       'deleteRegistry',
+      'getSchemes'
     ]);
+    ciiServiceMock.getSchemes.and.returnValue(of([]));
     const wrapperServiceSpy = jasmine.createSpyObj('WrapperUserService', ['']);
     const tokenServiceSpy = jasmine.createSpyObj('TokenService', [
       'getCiiOrgId',
@@ -38,7 +40,7 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
       declarations: [ManageOrganisationRegistryDeleteComponent],
       imports: [RouterTestingModule, TranslateModule.forRoot()],
       providers: [
-        { provide: ciiService, useValue: ciiServiceSpy },
+        { provide: ciiService, useValue: ciiServiceMock },
         { provide: WrapperUserService, useValue: wrapperServiceSpy },
         { provide: TokenService, useValue: tokenServiceSpy },
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
@@ -73,7 +75,7 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
     );
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    ciiServiceMock = TestBed.inject(ciiService) as jasmine.SpyObj<ciiService>;
+    // ciiServiceMock = TestBed.inject(ciiService) as jasmine.SpyObj<ciiService>;
     wrapperServiceMock = TestBed.inject(
       WrapperUserService
     ) as jasmine.SpyObj<WrapperUserService>;

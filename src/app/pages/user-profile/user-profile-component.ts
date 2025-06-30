@@ -224,7 +224,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
             }
           }
         }).catch((error) => {
-          console.log('Error', error)
+          
         });
 
       }
@@ -515,7 +515,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   onRequestRoleChangeClick() {
-    console.log('RoleChange');
+    
   }
 
   onContactEditRow(dataRow: ContactGridInfo) {
@@ -543,7 +543,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   onContactAssignRemoveClick() {
-    console.log('Assign');
+    
   }
 
   onSubmit(form: FormGroup) {
@@ -698,7 +698,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
           this.checkDeleteStatusForPendingRole()
         },
         error: (err: any) => {
-          console.log(err)
+          
         },
       });
     } else {
@@ -739,8 +739,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         );
       },
       (error) => {
-        console.log(error);
-        console.log(error.error);
+        
       }
     );
   }
@@ -776,7 +775,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
         this.updateUser()
       },
       error: (err: any) => {
-        console.log("err", err)
+        
       },
     });
   }
@@ -953,7 +952,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   public onUserTypeChanged(event: any) {
-    console.log("disable event")
+    
   }
 
   private removeDefaultUserRoleFromServiceRole() {

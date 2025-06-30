@@ -63,7 +63,7 @@ export class ContactUnassignConfirmComponent extends BaseComponent implements On
                     this.router.navigateByUrl(`contact-unassign/success?data=` + JSON.stringify(data));            
                 },
                 error: (error) => {
-                    console.log(error);
+                    
                 }
             });
         }
@@ -76,7 +76,7 @@ export class ContactUnassignConfirmComponent extends BaseComponent implements On
                     this.router.navigateByUrl(`contact-unassign/success?data=` + JSON.stringify(data));           
                 },
                 error: (error) => {
-                    console.log(error);
+                    
                 }
             });
         }

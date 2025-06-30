@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+// import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { SendMFAResetNotificationComponent } from './send-mfa-reset-notification';
 import { MFAService } from '../../../services/auth/mfa.service';
@@ -11,6 +11,7 @@ import { RollbarService, rollbarFactory } from '../../../logging/rollbar';
 import { TokenService } from '../../../services/auth/token.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('SendMFAResetNotificationComponent', () => {
   let component: SendMFAResetNotificationComponent;
@@ -38,12 +39,15 @@ describe('SendMFAResetNotificationComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Router, useValue: mockRouter },
-        { provide: Store, useValue: mockStore },
+        // { provide: Store, useValue: mockStore },
         MFAService,
         AuthService,
         RollbarErrorService,
         TokenService,
         { provide: RollbarService, useValue: rollbarFactory() },
+        provideMockStore({
+          initialState: {}, 
+        }),
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

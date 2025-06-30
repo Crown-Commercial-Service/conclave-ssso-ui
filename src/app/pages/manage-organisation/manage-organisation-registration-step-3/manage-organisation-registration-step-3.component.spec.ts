@@ -106,11 +106,19 @@ describe('ManageOrgRegStep3Component', () => {
   });
 
   it('should set focus on mat select box', () => {
+    // component.setFocus();
+    const mockFocus = jasmine.createSpy('focus');
+    component.matselect = { focus: mockFocus } as any;
+
     component.setFocus();
-  });
+
+    expect(mockFocus).toHaveBeenCalled();
+    });
 
   it('should handle onChangecountry event correctly', () => {
+    component.isInvalid = true; 
     const event = 'US';
     component.onChangecountry(event);
+    expect(component.isInvalid).toBeFalse();
   });
 });

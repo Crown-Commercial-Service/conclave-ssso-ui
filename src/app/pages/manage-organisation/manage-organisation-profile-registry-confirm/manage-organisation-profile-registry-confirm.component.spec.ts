@@ -57,8 +57,7 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
     );
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    console.log(component.ciiService);
-    
+        
     // spyOn(
     //   ciiServicee,
     //   'getOrganisationIdentifierDetails'
@@ -72,8 +71,7 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the component', () => {
-    console.log(component.organisationId);
+  it('should initialize the component', () => {    
     expect(component.organisationId).toBe('test-org-id');
     expect(component.id).toBe('123');
     expect(component.schemeName).toBe('test-scheme-name');

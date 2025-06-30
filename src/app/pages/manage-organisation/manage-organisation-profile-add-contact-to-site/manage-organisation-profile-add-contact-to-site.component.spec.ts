@@ -108,6 +108,7 @@ describe('ManageOrganisationProfileAddContactToSiteComponent', () => {
     it('should log error if orgSiteService returns an error', () => {
       const error = 'Test error';
       spyOn(console, 'log');
+      // spyOn(console, 'log').and.callFake(() => {});
       orgSiteServiceSpy.getOrganisationSite.and.returnValue(throwError(error));
 
       component.getSiteDetails();

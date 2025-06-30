@@ -66,10 +66,10 @@ describe('ContactAdminComponent', () => {
   });
 
   it('should open email window when openEmailWindow is called', () => {
-    const userData = { userName: 'test@example.com' };
-    const windowOpenSpy = spyOn(window, 'open');
-    component.openEmailWindow(userData);
-    expect(windowOpenSpy).toBeTruthy();
+    const userData = { userName: 'test@example.com' };    
+    spyOn(component, 'navigateToMailto');
+    component.openEmailWindow(userData);    
+    expect(component.navigateToMailto).toHaveBeenCalledWith('test@example.com');
   });
 
   it('should set currentPage and call getOrganisationUsers when setPage is called', () => {

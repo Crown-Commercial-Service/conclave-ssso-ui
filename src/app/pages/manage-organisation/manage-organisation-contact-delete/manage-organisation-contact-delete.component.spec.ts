@@ -129,7 +129,11 @@ describe('ManageOrganisationContactDeleteComponent', () => {
       By.css('.govuk-button--secondary')
     );
 
-    cancelBtn.triggerEventHandler('click', null);
+    expect(cancelBtn).toBeTruthy();
+    // cancelBtn.triggerEventHandler('click', null);
+
+    cancelBtn.nativeElement.click(); 
+    fixture.detectChanges();
 
     expect(component.onBack).toHaveBeenCalled();
   });

@@ -21,7 +21,7 @@ export class OrganisationService {
       map((data: any) => {
         return data;
       }), catchError(error => {
-        console.log(error);
+        
         return throwError(error);
       })
     )
@@ -36,7 +36,7 @@ export class OrganisationService {
       map((data: OrganisationSearchDto[]) => {
         return data;
       }), catchError(error => {
-        console.log(error);
+        
         return throwError(error);
       })
     )
@@ -49,7 +49,7 @@ export class OrganisationService {
       map((data: any) => {
         return data;
       }), catchError(error => {
-        console.log(error);
+        
         return throwError(error);
       })
     )
@@ -62,7 +62,7 @@ export class OrganisationService {
       map((data: OrganisationUserDto[]) => {
         return data;
       }), catchError(error => {
-        console.log(error);
+        
         return throwError(error);
       })
     )

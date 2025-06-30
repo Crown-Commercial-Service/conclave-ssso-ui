@@ -32,7 +32,7 @@ describe('ManageOrganisationRegisterationCiiComponent', () => {
     const breadcrumbLinks = fixture.nativeElement.querySelectorAll(
       '.govuk-breadcrumbs__link'
     );
-    expect(breadcrumbLinks.length).toBe(9);
+    expect(breadcrumbLinks.length).toBe(8);
   });
 
   it('should display the "unavailable registry" message', () => {

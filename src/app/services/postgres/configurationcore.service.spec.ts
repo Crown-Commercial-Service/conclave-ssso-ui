@@ -50,7 +50,7 @@ describe('ConfigurationCore', () => {
       service.getCountryDetails().subscribe(
         () => {},
         (error) => {
-          console.log(error.message);
+          
         }
       );
 

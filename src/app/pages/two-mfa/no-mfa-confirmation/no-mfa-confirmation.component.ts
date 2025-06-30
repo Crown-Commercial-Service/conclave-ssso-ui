@@ -56,7 +56,7 @@ export class NoMfaConfiramtionComponent extends BaseComponent implements OnInit 
                     localStorage.setItem('isDormant', JSON.stringify(this.isDormanted));
                     this.router.navigateByUrl('dormancy-message');
                }
-              console.log(err)
+              
             },
         })
         this.pushDataLayerEvent(buttonText);

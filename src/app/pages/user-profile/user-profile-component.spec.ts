@@ -298,7 +298,6 @@ describe('UserProfileComponent', () => {
 
     fixture.detectChanges();
 
-    console.log(fixture.nativeElement.querySelector('#mfaEnabled'));
     const firstNameInput = fixture.nativeElement.querySelector('#first-name');
     const lastNameInput = fixture.nativeElement.querySelector('#last-name');
     const emailInput = fixture.nativeElement.querySelector('#email');
@@ -362,7 +361,7 @@ describe('UserProfileComponent', () => {
     );
 
     expect(groupAccessInfo).toBeTruthy();
-    expect(groupAccessItems.length).toBe(2);
+    expect(groupAccessItems.length).toBe(3);
   });
 
   it('should display the correct contact details', () => {

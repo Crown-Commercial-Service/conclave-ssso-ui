@@ -52,8 +52,7 @@ export class ForgotPasswordComponent extends BaseComponent implements OnInit {
     * @memberof ForgotPasswordComponent
     */
     ngOnInit() {
-        // console.log("storage",localStorage.getItem('lastUserEmail'));
-        // console.log("mail", this.route.snapshot.queryParamMap.get('email'));
+        
         this.resetForm.setValue({
             userName : this.route.snapshot.queryParamMap.get('email')
         }) ;

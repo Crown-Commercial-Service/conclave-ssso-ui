@@ -22,7 +22,7 @@ export class VerifyUserStatusComponent implements OnInit {
     this.dataLayerService.pushPageViewEvent();
     this.ActivatedRoute.queryParams.subscribe((para: any) => {
       this.userInfo = JSON.parse(atob(para.data));
-      console.log("this.userInfo",this.userInfo)
+      
       switch (this.userInfo.status) {
         case "ERROR_USER_ALREADY_EXISTS": {
           this.userStatus = 0

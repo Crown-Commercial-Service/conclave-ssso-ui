@@ -71,7 +71,7 @@ export class DelegatedUserStatusComponent implements OnInit {
     this.route.queryParams.subscribe((para: any) => {
       let RouteData: any = JSON.parse(decodeURIComponent(atob(para.data)));
       if (RouteData.event) {
-        console.log('RouteData.event', RouteData.event);
+        
         // RouteData.event.userName = decodeURIComponent(
         //   unescape(RouteData.event.userName)
         // );

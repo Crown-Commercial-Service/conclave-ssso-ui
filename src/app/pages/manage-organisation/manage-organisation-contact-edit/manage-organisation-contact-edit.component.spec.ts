@@ -177,8 +177,7 @@ describe('ManageOrganisationContactEditComponent', () => {
     component.isEdit = true;
     component.isAssignedContact = false;
     fixture.detectChanges();
-    const deleteLink = fixture.nativeElement.querySelector('.delete-link');
-    console.log(deleteLink);
+    const deleteLink = fixture.nativeElement.querySelector('.delete-link');    
     deleteLink.click();
     expect(component.generateDeleteClickRoute).toHaveBeenCalled();
   });

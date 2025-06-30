@@ -133,8 +133,7 @@ export class ConfirmOrgServiceComponent extends BaseComponent {
           `org-service/success/${this.org.ciiOrganisationId}`
         );
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((error) => {        
         this.router.navigateByUrl(`buyer/error`);
       });
       this.pushDataLayerEvent(buttonText);

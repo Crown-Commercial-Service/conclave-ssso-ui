@@ -148,8 +148,7 @@ describe('ManageUserProfilesComponent', () => {
 
   it('should navigate to the correct URL on onAddClick', () => {    
     component.isBulkUpload = false;
-    component.onAddClick('Add');
-    console.log(router);
+    component.onAddClick('Add');    
    expect(router.navigateByUrl).toHaveBeenCalledWith('manage-users/add-user-selection');
 
     component.isBulkUpload = true;
