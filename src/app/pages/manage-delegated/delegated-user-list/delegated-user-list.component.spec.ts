@@ -26,6 +26,7 @@ describe('DelegatedUserListComponent', () => {
     spyOn(localStorage, 'getItem').and.callFake((key) =>
       key in localStore ? localStore[key] : null
     );
+    spyOn(sessionStorage, 'getItem').withArgs('activetab').and.returnValue(null);
 
     await TestBed.configureTestingModule({
       imports: [

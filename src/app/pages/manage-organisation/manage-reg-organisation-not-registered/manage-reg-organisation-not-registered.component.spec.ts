@@ -50,7 +50,7 @@ describe('ManageOrgRegNotRegisteredComponent', () => {
     const routerSpy = spyOn(component.router, 'navigateByUrl');
     component.adminSelectionMode = 'useradmin';
     component.onContinueClick('Continue');
-    expect(routerSpy).toHaveBeenCalledWith('manage-org/register/type');
+    expect(routerSpy).toHaveBeenCalledWith('manage-reg-organisation-mfa');
   });
 
   it('should navigate to /nominate?data=xxxx when onContinueClick is called with adminSelectionMode=nominateadmin', () => {

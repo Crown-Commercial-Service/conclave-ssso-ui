@@ -25,6 +25,7 @@ describe('UserContactDeleteConfirmComponent', () => {
   let store: Store<UIState>;
 
   beforeEach(async () => {
+    sessionStorage.clear(); 
     const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
       'setOffset',
     ]);
@@ -44,6 +45,7 @@ describe('UserContactDeleteConfirmComponent', () => {
               queryParams: {
                 data: JSON.stringify({
                   contactId: 1,
+                  userName: 'testuser'
                 }),
               },
             },

@@ -26,8 +26,7 @@ describe('CommonAttributesService', () => {
     const otherDetails = Array.from(details).filter(
       (detail) => detail !== targetDetail
     );
-
-    console.log(otherDetails);
+    
     otherDetails.forEach((detail) => {
       expect(detail.hasAttribute('open')).toBe(false);
     });

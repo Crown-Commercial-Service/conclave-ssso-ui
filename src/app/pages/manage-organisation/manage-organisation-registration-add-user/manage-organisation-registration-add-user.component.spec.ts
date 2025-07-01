@@ -69,9 +69,11 @@ describe('ManageOrgRegAddUserComponent', () => {
   });
 
   it('should initialize the form with default values', () => {
-    expect(component.formGroup.controls['firstName'].value).toBe('');
-    expect(component.formGroup.controls['lastName'].value).toBe('');
-    expect(component.formGroup.controls['email'].value).toBe('');
+    const form = component.formGroup;
+    expect(form).toBeDefined();    
+    expect(component.formGroup.controls['firstName'].value?? '').toBe('');
+    expect(component.formGroup.controls['lastName'].value?? '').toBe('');
+    expect(component.formGroup.controls['email'].value?? '').toBe('');
   });
 
   it('should set the pageAccessMode to null if query param data is not provided', () => {

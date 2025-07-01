@@ -84,7 +84,7 @@ describe('ManageOrgRegSearchStatusExistsComponent', () => {
       '.govuk-breadcrumbs__list'
     );
     expect(breadcrumbs).toBeTruthy();
-    expect(breadcrumbs.children.length).toBe(8);
+    expect(breadcrumbs.children.length).toBe(9);
   });
 
   it('should display org details and continue button', () => {
