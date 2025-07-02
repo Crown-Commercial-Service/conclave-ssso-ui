@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { ManageOrgRegAdditionalIdentifiersComponent } from './manage-organisation-registration-additional-identifiers.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ManageOrgRegAdditionalIdentifiersComponent', () => {
   let component: ManageOrgRegAdditionalIdentifiersComponent;
@@ -16,11 +16,12 @@ describe('ManageOrgRegAdditionalIdentifiersComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegAdditionalIdentifiersComponent],
       imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
           useValue: {

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { OrgSupportDetailsComponent } from './details.component';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
@@ -62,8 +61,9 @@ describe('OrgSupportDetailsComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [OrgSupportDetailsComponent],
-      imports: [RouterTestingModule, FormsModule, StoreModule.forRoot({})],
+      imports: [ FormsModule, StoreModule.forRoot({})],
       providers: [
+        provideRouter([]),
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: WrapperUserService, useValue: mockWrapperUserService },
         {

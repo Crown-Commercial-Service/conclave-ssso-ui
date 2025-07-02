@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RollbarErrorService } from '../../../shared/rollbar-error.service';
 import { RollbarService, rollbarFactory } from '../../../logging/rollbar';
 import { TokenService } from '../../../services/auth/token.service';
@@ -12,6 +10,9 @@ import { Store } from '@ngrx/store';
 import { UIState } from 'src/app/store/ui.states';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -27,11 +28,12 @@ describe('LoginComponent', () => {
       declarations: [LoginComponent],
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
       ],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
         AuthService,
         Location,
         RollbarErrorService,

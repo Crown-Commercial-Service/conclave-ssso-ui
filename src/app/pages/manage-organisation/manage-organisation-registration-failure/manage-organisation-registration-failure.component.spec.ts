@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ManageOrgRegFailureComponent } from './manage-organisation-registration-failure.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrgRegFailureComponent', () => {
   let component: ManageOrgRegFailureComponent;
@@ -15,8 +16,12 @@ describe('ManageOrgRegFailureComponent', () => {
     mockStore = jasmine.createSpyObj('Store', ['select']);
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegFailureComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule],
-      providers: [{ provide: Store, useValue: mockStore }],
+      imports: [],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: Store, useValue: mockStore }],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

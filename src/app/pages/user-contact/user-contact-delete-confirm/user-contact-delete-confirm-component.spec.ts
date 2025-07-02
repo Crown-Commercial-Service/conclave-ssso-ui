@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
@@ -31,13 +30,13 @@ describe('UserContactDeleteConfirmComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
+      imports: [        
         StoreModule.forRoot({}),
         TranslateModule.forRoot(),
       ],
       declarations: [UserContactDeleteConfirmComponent],
       providers: [
+        provideRouter([]),
         {
           provide: ActivatedRoute,
           useValue: {

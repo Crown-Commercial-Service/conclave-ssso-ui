@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ConfirmOrgServiceComponent } from './confirm-org-service.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { of } from 'rxjs';
@@ -47,9 +46,10 @@ describe('ConfirmOrgServiceComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [],
       declarations: [ConfirmOrgServiceComponent],
       providers: [
+        provideRouter([]),
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: OrganisationService, useValue: mockOrganisationService },
         {

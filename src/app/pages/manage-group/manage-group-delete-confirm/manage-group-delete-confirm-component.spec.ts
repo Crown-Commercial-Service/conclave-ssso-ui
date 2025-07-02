@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ManageGroupDeleteConfirmComponent } from './manage-group-delete-confirm-component';
@@ -42,8 +41,9 @@ describe('ManageGroupDeleteConfirmComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ManageGroupDeleteConfirmComponent],
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [ TranslateModule.forRoot()],
       providers: [
+        provideRouter([]),
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         {
           provide: WrapperOrganisationGroupService,

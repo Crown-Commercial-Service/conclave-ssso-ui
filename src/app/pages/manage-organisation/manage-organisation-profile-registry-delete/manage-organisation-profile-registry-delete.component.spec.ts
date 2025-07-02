@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { ManageOrganisationRegistryDeleteComponent } from './manage-organisation-profile-registry-delete.component';
@@ -38,8 +37,9 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ManageOrganisationRegistryDeleteComponent],
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [ TranslateModule.forRoot()],
       providers: [
+        provideRouter([]),
         { provide: ciiService, useValue: ciiServiceMock },
         { provide: WrapperUserService, useValue: wrapperServiceSpy },
         { provide: TokenService, useValue: tokenServiceSpy },

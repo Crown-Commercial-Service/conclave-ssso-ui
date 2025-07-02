@@ -9,8 +9,9 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { dataService } from 'src/app/services/data/data.service';
 import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ManageOrgRegErrorAddressDetailsComponent', () => {
   let component: ManageOrgRegErrorAddressDetailsComponent;
@@ -29,10 +30,11 @@ describe('ManageOrgRegErrorAddressDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegErrorAddressDetailsComponent],
       imports: [StoreModule.forRoot({}), 
-        HttpClientTestingModule,
         TranslateModule.forRoot(),    
     ],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: dataService },
         { provide: Router, useValue: routerSpy },
         { provide: SessionService},

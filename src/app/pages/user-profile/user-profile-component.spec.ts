@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UserProfileComponent } from './user-profile-component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { RollbarErrorService } from '../../shared/rollbar-error.service';
@@ -14,11 +12,13 @@ import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.servic
 import { of, throwError } from 'rxjs';
 import { OperationEnum } from 'src/app/constants/enum';
 import { WrapperUserContactService } from 'src/app/services/wrapper/wrapper-user-contact.service';
-import { Router } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -29,11 +29,12 @@ describe('UserProfileComponent', () => {
       declarations: [UserProfileComponent],
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
       ],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: Store, useFactory: () => ({}) },
         AuthService,
         RollbarErrorService,

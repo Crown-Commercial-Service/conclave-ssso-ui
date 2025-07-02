@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 
 import { ManageOrgRegSearchStatusExistsComponent } from './manage-reg-organisation-status-exists.component';
@@ -19,9 +18,10 @@ describe('ManageOrgRegSearchStatusExistsComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [ TranslateModule.forRoot()],
       declarations: [ManageOrgRegSearchStatusExistsComponent],
       providers: [
+        provideRouter([]),
         {
           provide: OrganisationService,
           useValue: organisationServiceSpy,

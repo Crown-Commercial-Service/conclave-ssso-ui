@@ -1,14 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { AuthService } from '../../services/auth/auth.service';
 import { OperationFailedComponent } from './operation-failed.component';
 import { RollbarErrorService } from '../../shared/rollbar-error.service';
 import { RollbarService, rollbarFactory } from '../../logging/rollbar';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TokenService } from '../../services/auth/token.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('OperationFailedComponent', () => {
   let component: OperationFailedComponent;
@@ -17,13 +18,14 @@ describe('OperationFailedComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
         StoreModule.forRoot({}),
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [OperationFailedComponent],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         AuthService,
         RollbarErrorService,
         TokenService,

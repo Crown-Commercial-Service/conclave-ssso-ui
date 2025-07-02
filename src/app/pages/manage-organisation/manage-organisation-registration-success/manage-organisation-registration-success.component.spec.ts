@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { ManageOrgRegSuccessComponent } from './manage-organisation-registration-success.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrgRegSuccessComponent', () => {
   let component: ManageOrgRegSuccessComponent;
@@ -13,9 +14,12 @@ describe('ManageOrgRegSuccessComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegSuccessComponent],
       imports: [
-        RouterTestingModule,
         StoreModule.forRoot({}),
-        HttpClientTestingModule,
+      ],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

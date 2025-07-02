@@ -1,14 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DelegatedAccessUserComponent } from './delegated-access-user.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from '../../../services/auth/auth.service';
 import { RollbarErrorService } from '../../../shared/rollbar-error.service';
 import { RollbarService, rollbarFactory } from '../../../logging/rollbar';
 import { TokenService } from '../../../services/auth/token.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('DelegatedAccessUserComponent', () => {
   let component: DelegatedAccessUserComponent;
@@ -20,11 +21,12 @@ describe('DelegatedAccessUserComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
         AuthService,
         RollbarErrorService,
         TokenService,

@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContactAssignSuccessComponent } from './contact-assign-success-component';
 import { TranslateModule } from '@ngx-translate/core';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'; 
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing'; 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ContactAssignSuccessComponent', () => {
   let component: ContactAssignSuccessComponent;
@@ -20,13 +20,15 @@ describe('ContactAssignSuccessComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
+        ReactiveFormsModule,        
         TranslateModule.forRoot(),
-        HttpClientTestingModule, 
       ],
       declarations: [ContactAssignSuccessComponent],
-      providers: [{ provide: Store, useFactory: () => ({}) }],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
+        { provide: Store, useFactory: () => ({}) }],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

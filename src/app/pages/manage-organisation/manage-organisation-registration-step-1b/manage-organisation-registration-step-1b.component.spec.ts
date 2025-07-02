@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { ManageOrgRegStep1BComponent } from './manage-organisation-registration-step-1b.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrgRegStep1BComponent', () => {
   let component: ManageOrgRegStep1BComponent;
@@ -11,7 +11,8 @@ describe('ManageOrgRegStep1BComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegStep1BComponent],
-      imports: [RouterTestingModule, StoreModule.forRoot({})],
+      imports: [ StoreModule.forRoot({})],
+      providers: [provideRouter([]),],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

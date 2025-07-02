@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
@@ -12,6 +11,8 @@ import { ManageOrgRegSearchComponent } from './manage-reg-organisation-search.co
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ManageOrgRegSearchComponent', () => {
   let component: ManageOrgRegSearchComponent;
@@ -21,16 +22,19 @@ describe('ManageOrgRegSearchComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
+        ReactiveFormsModule,        
         MatAutocompleteModule,
-        BrowserAnimationsModule,
-        HttpClientTestingModule,
+        BrowserAnimationsModule,        
         StoreModule.forRoot({}),
         TranslateModule.forRoot(),
+        ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
       ],
       declarations: [ManageOrgRegSearchComponent],
-      providers: [OrganisationService, PatternService],
+      providers: [OrganisationService, PatternService,
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

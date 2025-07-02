@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ContactAssignUserSearchComponent } from './contact-assign-user-search-component';
 import { TranslateModule } from '@ngx-translate/core';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
@@ -12,6 +10,8 @@ import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SearchBoxComponent } from 'src/app/components/search-box/search-box.component';
 import { CustomGovukTableComponent } from 'src/app/components/custom-govuk-table/custom-govuk-table.component';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ContactAssignUserSearchComponent', () => {
   let component: ContactAssignUserSearchComponent;
@@ -24,12 +24,13 @@ describe('ContactAssignUserSearchComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
       ],
       declarations: [ContactAssignUserSearchComponent],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
         { provide: Store, useFactory: () => ({}) },
         { provide: WrapperOrganisationService, useClass: MockWrapperOrganisationService },
       ],

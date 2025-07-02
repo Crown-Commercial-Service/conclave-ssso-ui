@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ManageOrganisationRegistryErrorComponent } from './manage-organisation-profile-registry-error.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrganisationRegistryErrorComponent', () => {
   let component: ManageOrganisationRegistryErrorComponent;
@@ -12,8 +13,12 @@ describe('ManageOrganisationRegistryErrorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ManageOrganisationRegistryErrorComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [{ provide: Store, useFactory: () => ({}) }],
+      imports: [],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: Store, useFactory: () => ({}) }],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { ViewportScroller } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
@@ -22,12 +21,12 @@ describe('ManageGroupEditUsersConfirmComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
         StoreModule.forRoot({}),
         TranslateModule.forRoot(),
       ],
       declarations: [ManageGroupEditUsersConfirmComponent],
       providers: [
+        provideRouter([]),
         ViewportScroller,
         WrapperOrganisationGroupService,
         {

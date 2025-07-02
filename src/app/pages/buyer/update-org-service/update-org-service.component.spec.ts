@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { Router } from '@angular/router';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
@@ -11,7 +11,6 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { UpdateOrgServiceComponent } from './update-org-service.component';
 import { environment } from 'src/environments/environment';
 
@@ -46,10 +45,11 @@ describe('UpdateOrgServiceComponent', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [FormsModule, RouterTestingModule],
+      imports: [FormsModule],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [UpdateOrgServiceComponent],
       providers: [
+        provideRouter([]),
         { provide: FormBuilder, useFactory: formBuilderStub },
         { provide: Store, useFactory: storeStub },
         { provide: ActivatedRoute, useFactory: activatedRouteStub },

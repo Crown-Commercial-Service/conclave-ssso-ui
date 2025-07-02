@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ManageOrgRegRightToBuyComponent } from './manage-organisation-registration-type.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrgRegRightToBuyComponent', () => {
   let component: ManageOrgRegRightToBuyComponent;
@@ -13,9 +13,10 @@ describe('ManageOrgRegRightToBuyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [ TranslateModule.forRoot()],
       declarations: [ManageOrgRegRightToBuyComponent],
       providers: [
+        provideRouter([]),
         { provide: Store, useFactory: () => ({}) },
         ViewportScroller,
         ScrollHelper,

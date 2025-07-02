@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { BehaviorSubject, of } from 'rxjs';
 
 import { ManageOrgRegStep2Component } from './manage-organisation-registration-step-2.component';
@@ -34,11 +33,11 @@ describe('ManageOrgRegStep2Component', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [ManageOrgRegStep2Component, SchemePipe],
       providers: [
+        provideRouter([]),
         { provide: ciiService, useValue: ciiServiceMock },
         { provide: SharedDataService, useValue: sharedDataServiceMock },
         { provide: Store, useFactory: () => ({}) },

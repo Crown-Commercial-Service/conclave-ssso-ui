@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ContactAssignSelectionComponent } from './contact-assign-selection-component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -17,11 +16,12 @@ describe('ContactAssignSelectionComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [ContactAssignSelectionComponent],
-      providers: [{ provide: Store, useFactory: () => ({}) }],
+      providers: [{ provide: Store, useFactory: () => ({}) },
+        provideRouter([]),
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

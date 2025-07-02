@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { ManageOrgRegAddUserComponent } from './manage-organisation-registration-add-user.component';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
@@ -34,11 +33,11 @@ describe('ManageOrgRegAddUserComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [ManageOrgRegAddUserComponent],
       providers: [
+        provideRouter([]),
         { provide: OrganisationService, useValue: mockOrganisationService },
         { provide: PatternService, useValue: mockPatternService },
         {

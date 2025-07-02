@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
+  
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { AuditLoggerService } from './logger.service';
 import { LogInfo } from 'src/app/models/logInfo';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('AuditLoggerService', () => {
   let service: AuditLoggerService;
@@ -12,8 +14,11 @@ describe('AuditLoggerService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [AuditLoggerService],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        AuditLoggerService],
     });
     service = TestBed.inject(AuditLoggerService);
     httpMock = TestBed.inject(HttpTestingController);

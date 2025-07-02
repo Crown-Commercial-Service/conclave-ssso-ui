@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { MFAResetComponent } from './mfa-reset-component';
 import { MFAService } from 'src/app/services/auth/mfa.service';
@@ -23,9 +22,10 @@ describe('MFAResetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [],
       declarations: [MFAResetComponent],
       providers: [
+        provideRouter([]),
         {
           provide: ActivatedRoute,
           useValue: { queryParams: of({ t: 'mock-token' }) },

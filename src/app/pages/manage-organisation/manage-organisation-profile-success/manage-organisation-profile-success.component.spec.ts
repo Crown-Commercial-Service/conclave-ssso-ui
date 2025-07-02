@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { ManageOrganisationProfileSuccessComponent } from './manage-organisation-profile-success.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrganisationProfileSuccessComponent', () => {
   let component: ManageOrganisationProfileSuccessComponent;
@@ -12,9 +13,12 @@ describe('ManageOrganisationProfileSuccessComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
         StoreModule.forRoot({}),
-        HttpClientTestingModule,
+      ],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
       declarations: [ManageOrganisationProfileSuccessComponent],
       schemas: [NO_ERRORS_SCHEMA]

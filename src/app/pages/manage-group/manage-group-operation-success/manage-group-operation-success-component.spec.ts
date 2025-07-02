@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { ViewportScroller } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ManageGroupOperationSuccessComponent } from './manage-group-operation-success-component';
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { OperationEnum } from 'src/app/constants/enum';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ManageGroupOperationSuccessComponent', () => {
   let component: ManageGroupOperationSuccessComponent;
@@ -27,12 +27,13 @@ describe('ManageGroupOperationSuccessComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ManageGroupOperationSuccessComponent],
       imports: [
-        RouterTestingModule,
         StoreModule.forRoot({}),
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
       ],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         Title,
         SharedDataService,
         WrapperOrganisationGroupService,

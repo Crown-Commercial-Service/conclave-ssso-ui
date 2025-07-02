@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { WebsiteService } from './website.service';
 import { Website } from 'src/app/models/website';
 import { environment } from '../../../environments/environment';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('WebsiteService', () => {
   let service: WebsiteService;
@@ -13,8 +14,11 @@ describe('WebsiteService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [WebsiteService],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        WebsiteService],
     });
     service = TestBed.inject(WebsiteService);
     httpMock = TestBed.inject(HttpTestingController);

@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { ManageOrgRegErrorUsernameExistsComponent } from './manage-organisation-registration-error-username-already-exists.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ManageOrgRegErrorUsernameExistsComponent', () => {
   let component: ManageOrgRegErrorUsernameExistsComponent;
@@ -15,11 +15,14 @@ describe('ManageOrgRegErrorUsernameExistsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegErrorUsernameExistsComponent],
       imports: [
-        RouterTestingModule,
         StoreModule.forRoot({}),
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

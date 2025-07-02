@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { BuyerErrorComponent } from './error.component';
 import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('BuyerErrorComponent', () => {
   let component: BuyerErrorComponent;
@@ -10,9 +10,11 @@ describe('BuyerErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [],
       declarations: [BuyerErrorComponent],
-      providers: [{ provide: Store, useFactory: () => ({}) }],
+      providers: [
+        provideRouter([]),
+        { provide: Store, useFactory: () => ({}) }],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

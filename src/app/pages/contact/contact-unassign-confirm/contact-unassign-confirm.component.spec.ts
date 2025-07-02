@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ContactUnassignConfirmComponent } from './contact-unassign-confirm-component';
 import { TranslateModule } from '@ngx-translate/core';
 import { WrapperOrganisationContactService } from "src/app/services/wrapper/wrapper-org-contact-service";
 import { WrapperSiteContactService } from "src/app/services/wrapper/wrapper-site-contact-service";
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 
 describe('ContactUnassignConfirmComponent', () => {
@@ -23,12 +23,14 @@ describe('ContactUnassignConfirmComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
       ],
       declarations: [ContactUnassignConfirmComponent],
-      providers: [{ provide: Store, useFactory: () => ({}) }],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
+        { provide: Store, useFactory: () => ({}) }],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

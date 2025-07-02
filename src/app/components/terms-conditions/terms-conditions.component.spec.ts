@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ViewportScroller } from '@angular/common';
 import { TermsConditionsComponent } from './terms-conditions.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('TermsConditionsComponent', () => {
   let component: TermsConditionsComponent;
@@ -19,9 +19,11 @@ describe('TermsConditionsComponent', () => {
     );
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot()],
       declarations: [TermsConditionsComponent],
-      providers: [ViewportScroller],
+      providers: [ViewportScroller,
+        provideRouter([]),
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { ManageOrgRegErrorNotFoundComponent } from './manage-organisation-registration-error-not-found.component';
-import { Router } from '@angular/router';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideRouter, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ManageOrgRegErrorNotFoundComponent', () => {
   let component: ManageOrgRegErrorNotFoundComponent;
@@ -15,10 +15,13 @@ describe('ManageOrgRegErrorNotFoundComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegErrorNotFoundComponent],
       imports: [
-        RouterTestingModule,
         StoreModule.forRoot({}),
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
+      ],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

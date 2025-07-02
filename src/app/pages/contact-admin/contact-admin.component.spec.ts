@@ -3,12 +3,12 @@ import { ContactAdminComponent } from './contact-admin.component';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('ContactAdminComponent', () => {
   let component: ContactAdminComponent;
@@ -24,11 +24,13 @@ describe('ContactAdminComponent', () => {
       declarations: [ContactAdminComponent],
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
       ],
-      providers: [{ provide: Store, useFactory: () => ({}) }
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
+        { provide: Store, useFactory: () => ({}) }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

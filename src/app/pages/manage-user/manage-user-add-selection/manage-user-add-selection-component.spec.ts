@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ViewportScroller } from '@angular/common';
 import { FormBuilder } from '@angular/forms';
@@ -10,6 +9,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 
 import { ManageUserAddSelectionComponent } from './manage-user-add-selection-component';
+import { provideRouter } from '@angular/router';
 
 describe('ManageUserAddSelectionComponent', () => {
   let component: ManageUserAddSelectionComponent;
@@ -22,11 +22,11 @@ describe('ManageUserAddSelectionComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ManageUserAddSelectionComponent],
       imports: [
-        RouterTestingModule,
         ReactiveFormsModule,
         TranslateModule.forRoot(),
       ],
       providers: [
+        provideRouter([]),
         ViewportScroller,        
         provideMockStore({
           initialState: {}, 

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { AutoValidationBuyerSuccessComponent } from './auto-validation-buyer-success.component';
@@ -40,8 +39,9 @@ describe('AutoValidationBuyerSuccessComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [AutoValidationBuyerSuccessComponent],
-      imports: [RouterTestingModule],
+      imports: [],
       providers: [
+        provideRouter([]),
         { provide: OrganisationService, useValue: mockOrganisationService },
         {
           provide: WrapperOrganisationService,

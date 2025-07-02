@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { Title } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ManageGroupEditNameComponent } from './manage-group-edit-name-component';
@@ -14,6 +12,8 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { OperationEnum } from 'src/app/constants/enum';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ManageGroupEditNameComponent', () => {
   let component: ManageGroupEditNameComponent;
@@ -25,13 +25,14 @@ describe('ManageGroupEditNameComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         StoreModule.forRoot({}),
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [ManageGroupEditNameComponent],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         ViewportScroller,
         WrapperOrganisationGroupService,
         Title,

@@ -15,7 +15,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CheckBoxUserListGridSource, UserListInfo } from "src/app/models/user";
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ManageUserProfilesComponent', () => {
   let component: ManageUserProfilesComponent;

@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { SendMFAResetNotificationComponent } from './send-mfa-reset-notification';
 import { MFAService } from '../../../services/auth/mfa.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from '../../../services/auth/auth.service';
 import { RollbarErrorService } from '../../../shared/rollbar-error.service';
 import { RollbarService, rollbarFactory } from '../../../logging/rollbar';
@@ -12,6 +11,8 @@ import { TokenService } from '../../../services/auth/token.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { provideMockStore } from '@ngrx/store/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('SendMFAResetNotificationComponent', () => {
   let component: SendMFAResetNotificationComponent;
@@ -34,9 +35,11 @@ describe('SendMFAResetNotificationComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [ TranslateModule.forRoot()],
       declarations: [SendMFAResetNotificationComponent],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Router, useValue: mockRouter },
         // { provide: Store, useValue: mockStore },

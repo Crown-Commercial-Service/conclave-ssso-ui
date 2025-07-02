@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { ConfigurationCore } from './configurationcore.service';
 import { ContryDetails } from 'src/app/models/contryDetails';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ConfigurationCore', () => {
   let service: ConfigurationCore;
@@ -12,8 +13,11 @@ describe('ConfigurationCore', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [ConfigurationCore],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        ConfigurationCore],
     });
     service = TestBed.inject(ConfigurationCore);
     httpMock = TestBed.inject(HttpTestingController);

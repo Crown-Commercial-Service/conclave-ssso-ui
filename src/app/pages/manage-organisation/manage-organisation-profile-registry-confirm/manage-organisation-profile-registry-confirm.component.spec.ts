@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ManageOrganisationRegistryConfirmComponent } from './manage-organisation-profile-registry-confirm.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store } from '@ngrx/store';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ManageOrganisationRegistryConfirmComponent', () => {
   let component: ManageOrganisationRegistryConfirmComponent;
@@ -39,9 +39,12 @@ describe('ManageOrganisationRegistryConfirmComponent', () => {
     );
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [],
       declarations: [ManageOrganisationRegistryConfirmComponent],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: Store, useFactory: () => ({}) },
         TokenService,
         { provide: ActivatedRoute, useValue: activatedRouteStub },

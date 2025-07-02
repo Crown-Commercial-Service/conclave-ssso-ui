@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ManageOrganisationRegistryDetailsWrongComponent } from './manage-organisation-profile-registry-error-details-wrong.component';
@@ -38,8 +37,9 @@ describe('ManageOrganisationRegistryDetailsWrongComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ManageOrganisationRegistryDetailsWrongComponent],
-      imports: [RouterTestingModule],
+      imports: [],
       providers: [
+        provideRouter([]),
         { provide: dataService, useValue: {} },
         { provide: Location, useValue: {} },
         {
