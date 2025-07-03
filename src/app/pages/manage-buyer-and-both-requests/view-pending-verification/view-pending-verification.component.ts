@@ -151,7 +151,7 @@ export class ViewPendingVerificationComponent implements OnInit {
           this.organisationAdministrator.userListResponse.userList = []
           this.isDeletedOrg = true;
         }
-        console.log("error",error)
+        
       },
     });
   }
@@ -175,7 +175,7 @@ export class ViewPendingVerificationComponent implements OnInit {
       )
       .subscribe({
         next: (response: any) => {
-          console.log("response",response)
+          
           if (response != null) {
             this.eventLog.organisationAuditEventListResponse = response;
             this.eventLog.organisationAuditEventListResponse.organisationAuditEventList.forEach(
@@ -372,7 +372,7 @@ export class ViewPendingVerificationComponent implements OnInit {
       this.additionalIdentifiers = undefined
       this.isDeletedOrg = true;
       this.getOrganisationUsers();
-      console.log('err', err);
+      
     });
   }
   ngOnDestroy(): void {

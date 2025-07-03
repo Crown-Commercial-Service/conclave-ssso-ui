@@ -220,7 +220,7 @@ export class UserContactEditComponent
                   this.EditCheckbox();
                 },
                 error: (error: any) => {
-                  console.log(error);
+                  
                 },
               });
           } else {
@@ -229,7 +229,7 @@ export class UserContactEditComponent
         }
       },
       error: (error: any) => {
-        console.log(error);
+        
       },
     });
     
@@ -302,8 +302,7 @@ export class UserContactEditComponent
                 this.submitted = false;
               },
               error: (error) => {
-                console.log(error);
-                console.log(error.error);
+                
                 if (error.error == 'INVALID_PHONE_NUMBER') {
                   this.setError(form, 'phone', 'invalid');
                 } else if (error.error == 'INVALID_EMAIL') {
@@ -326,8 +325,7 @@ export class UserContactEditComponent
                 this.submitted = false;
               },
               error: (error) => {
-                console.log(error);
-                console.log(error.error);
+                
                 this.dataLayerService.pushFormErrorEvent(this.formId);
                 if (error.error == 'INVALID_PHONE_NUMBER') {
                   this.setError(form, 'phone', 'invalid');
@@ -371,7 +369,7 @@ export class UserContactEditComponent
   }
 
   onDeleteClick() {
-    console.log('Delete');
+    
     let data = {
       contactId: this.contactId,
     };

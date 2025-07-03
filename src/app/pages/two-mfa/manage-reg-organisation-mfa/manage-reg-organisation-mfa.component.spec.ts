@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { ElementRef } from '@angular/core';
+import { ElementRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 
 import { ManageOrgRegMfaComponent } from './manage-reg-organisation-mfa.component';
@@ -48,7 +48,8 @@ describe('ManageOrgRegMfaComponent', () => {
                 { provide: ScrollHelper },
                 { provide: DetailsToggleService, useValue: detailsToggleServiceSpy },
                 { provide: ElementRef, useValue: elementRefStub }
-            ]
+            ],
+            schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();
 
         fixture = TestBed.createComponent(ManageOrgRegMfaComponent);

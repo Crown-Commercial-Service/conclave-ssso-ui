@@ -43,7 +43,7 @@ export class TokenComponent extends BaseComponent implements OnInit {
         //             this.sampleData = res;
         //         });
         //     },
-        //     err => console.log(err)
+        
         // );
         this.dataLayerService.pushPageViewEvent();
     }

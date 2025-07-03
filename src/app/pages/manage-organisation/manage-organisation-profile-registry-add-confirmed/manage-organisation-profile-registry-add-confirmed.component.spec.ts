@@ -7,6 +7,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { ManageOrganisationRegistryAddConfirmationComponent } from './manage-organisation-profile-registry-add-confirmed.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryAddConfirmationComponent', () => {
   let component: ManageOrganisationRegistryAddConfirmationComponent;
@@ -38,6 +39,7 @@ describe('ManageOrganisationRegistryAddConfirmationComponent', () => {
         },
         { provide: Store, useValue: storeSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

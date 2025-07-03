@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AccordionComponent } from './accordion.component';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('AccordionComponent', () => {
   let component: AccordionComponent;
@@ -8,8 +9,10 @@ describe('AccordionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      
       declarations: [AccordionComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [provideRouter([]),]
     }).compileComponents();
   });
 

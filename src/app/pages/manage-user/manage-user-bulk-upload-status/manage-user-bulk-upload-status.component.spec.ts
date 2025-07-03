@@ -10,6 +10,7 @@ import {
 } from 'src/app/models/bulkUploadResponse';
 import { ManageUserBulkUploadStatusComponent } from './manage-user-bulk-upload-status.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageUserBulkUploadStatusComponent', () => {
   let component: ManageUserBulkUploadStatusComponent;
@@ -36,6 +37,7 @@ describe('ManageUserBulkUploadStatusComponent', () => {
         { provide: BulkUploadService, useValue: bulkUploadServiceSpy },
         ScrollHelper,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ManageUserBulkUploadStatusComponent);

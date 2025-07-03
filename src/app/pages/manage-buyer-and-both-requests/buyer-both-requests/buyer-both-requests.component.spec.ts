@@ -1,10 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { BuyerBothRequestsComponent } from './buyer-both-requests.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('BuyerBothRequestsComponent', () => {
   let component: BuyerBothRequestsComponent;
@@ -15,11 +17,14 @@ describe('BuyerBothRequestsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [BuyerBothRequestsComponent],
       imports: [
-        RouterTestingModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
       ],
-      providers: [WrapperBuyerBothService, TranslateService],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
+        WrapperBuyerBothService, TranslateService],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

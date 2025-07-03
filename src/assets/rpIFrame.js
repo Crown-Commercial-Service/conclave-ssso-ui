@@ -29,7 +29,7 @@ function receiveMessage(e) {
 
 function noticeToParentWindow(stat) {
     if (stat == "changed" || stat == "error") {
-        console.log('changed');
+        
         let secApiURl = this.localStorage.getItem('securityapiurl');
         let redirect_uri = this.localStorage.getItem('redirect_uri') + '/authsuccess';
         let client_id = decrypt('client_id');
@@ -39,7 +39,7 @@ function noticeToParentWindow(stat) {
         window.parent.location.href = secApi;
         return false;
     } else {
-        console.log('not-changed');
+        
     }
 }
 

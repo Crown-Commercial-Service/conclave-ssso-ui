@@ -37,7 +37,7 @@ export class ManageOrganisationSiteDeleteComponent extends BaseComponent impleme
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
-            console.log(routeData);
+            
             this.siteId = routeData['siteId'];
         }
     }
@@ -59,7 +59,7 @@ export class ManageOrganisationSiteDeleteComponent extends BaseComponent impleme
                 this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.DeleteSite}`);           
             },
             error: (error : any) => {
-                console.log(error);
+                
             }
         });
         this.pushDataLayerEvent(buttonText);

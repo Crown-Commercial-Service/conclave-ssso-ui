@@ -6,13 +6,12 @@ import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ContactAssignComponent', () => {
   let component: ContactAssignComponent;
@@ -63,6 +62,7 @@ describe('ContactAssignComponent', () => {
         { provide: SessionService, useValue: sessionService },        
         ViewportScroller, ScrollHelper
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(ContactAssignComponent);

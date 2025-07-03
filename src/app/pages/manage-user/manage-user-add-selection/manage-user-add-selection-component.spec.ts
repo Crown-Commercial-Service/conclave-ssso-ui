@@ -1,23 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ViewportScroller } from '@angular/common';
-import {
-  Store,
-  StateObservable,
-  ActionsSubject,
-  ReducerManager,
-  ReducerManagerDispatcher,
-  INITIAL_STATE,
-  INITIAL_REDUCERS,
-  REDUCER_FACTORY,
-} from '@ngrx/store';
 import { FormBuilder } from '@angular/forms';
-import { QueryList, ElementRef } from '@angular/core';
+import { QueryList, ElementRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { TranslateModule } from '@ngx-translate/core';
+import { provideMockStore } from '@ngrx/store/testing';
+
 
 import { ManageUserAddSelectionComponent } from './manage-user-add-selection-component';
+import { provideRouter } from '@angular/router';
 
 describe('ManageUserAddSelectionComponent', () => {
   let component: ManageUserAddSelectionComponent;
@@ -30,23 +22,19 @@ describe('ManageUserAddSelectionComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ManageUserAddSelectionComponent],
       imports: [
-        RouterTestingModule,
         ReactiveFormsModule,
         TranslateModule.forRoot(),
       ],
       providers: [
-        ViewportScroller,
-        Store,
-        StateObservable,
-        ActionsSubject,
-        ReducerManager,
-        ReducerManagerDispatcher,
-        { provide: INITIAL_STATE, useValue: initialState },
-        { provide: INITIAL_REDUCERS, useValue: initialReducers },
-        { provide: REDUCER_FACTORY, useValue: reducerFactory },
+        provideRouter([]),
+        ViewportScroller,        
+        provideMockStore({
+          initialState: {}, 
+        }),
         FormBuilder,
         ScrollHelper,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

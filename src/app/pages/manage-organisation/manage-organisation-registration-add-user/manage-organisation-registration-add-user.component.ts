@@ -37,7 +37,7 @@ export class ManageOrgRegAddUserComponent extends BaseComponent implements OnIni
 
   constructor(private formBuilder: FormBuilder, private organisationService: OrganisationService,
     private PatternService: PatternService,private sessionService:SessionService,
-    private router: Router, private route: ActivatedRoute, protected uiStore: Store<UIState>,
+    private router: Router, protected uiStore: Store<UIState>,
     protected viewportScroller: ViewportScroller, protected scrollHelper: ScrollHelper, private ActivatedRoute: ActivatedRoute, private dataLayerService: DataLayerService) {
     super(uiStore, viewportScroller, scrollHelper);
 

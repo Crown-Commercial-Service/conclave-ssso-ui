@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataMigrationStatusComponent } from './data-migration-status.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('DataMigrationStatusComponent (Template)', () => {
   let component: DataMigrationStatusComponent;
@@ -11,14 +12,18 @@ describe('DataMigrationStatusComponent (Template)', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, TranslateModule.forRoot(),RouterTestingModule],
+      imports: [ TranslateModule.forRoot()],
       declarations: [DataMigrationStatusComponent],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
         {
           provide: ActivatedRoute,
           useValue: { queryParams: { subscribe: () => {} } },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

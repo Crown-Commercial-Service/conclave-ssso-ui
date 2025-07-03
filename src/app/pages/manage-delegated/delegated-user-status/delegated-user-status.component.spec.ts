@@ -7,6 +7,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 import { ManageDelegateService } from '../service/manage-delegate.service';
 import { DelegatedUserStatusComponent } from './delegated-user-status.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DelegatedUserStatusComponent', () => {
   let component: DelegatedUserStatusComponent;
@@ -57,6 +58,7 @@ describe('DelegatedUserStatusComponent', () => {
           useValue: manageDelegateServiceSpyObj,
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

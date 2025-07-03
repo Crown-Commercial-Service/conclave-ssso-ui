@@ -54,8 +54,11 @@ export class ContactAdminComponent implements OnInit {
   }
 
   public openEmailWindow(data: any): void {
-    let AdminEmail = 'mailto:' + data.userName;
-    window.location.href = AdminEmail;
+    this.navigateToMailto(data.userName);
+  }
+
+  public navigateToMailto(email: string): void {
+    window.location.href = `mailto:${email}`;
   }
 
   getOrganisationUsers() {

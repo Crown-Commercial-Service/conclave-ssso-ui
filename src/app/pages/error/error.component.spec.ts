@@ -10,7 +10,8 @@ import { UserService } from 'src/app/services/postgres/user.service';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
 import { TokenService } from 'src/app/services/auth/token.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ErrorComponent', () => {
   let component: ErrorComponent;
@@ -29,9 +30,10 @@ describe('ErrorComponent', () => {
       imports: [
         ReactiveFormsModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
       ],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
         { provide: Router, useValue: routerMock },
         { provide: Store, useValue: storeMock },

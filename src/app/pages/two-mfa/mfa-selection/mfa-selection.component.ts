@@ -126,7 +126,7 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
         })
         .catch((err) =>
         {
-            console.log('error', err); 
+            
         });
 
     }
@@ -138,7 +138,7 @@ export class MfaSelectionComponent extends BaseComponent implements OnInit {
             localStorage.setItem('auth0_refresh_token', tokeninfo.refresh_Token);
         },
         (err) => {
-            console.log(err);
+            
             this.authService.logOutAndRedirect();
         });
 

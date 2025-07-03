@@ -2,9 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ManageUserReactivateConfirmComponent } from './manage-user-reactivate-confirm.component';
 import { StoreModule } from '@ngrx/store';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('ManageUserReactivateConfirmComponent', () => {
   let component: ManageUserReactivateConfirmComponent;
@@ -15,9 +17,13 @@ describe('ManageUserReactivateConfirmComponent', () => {
       declarations: [ ManageUserReactivateConfirmComponent ],
       imports:[
         StoreModule.forRoot({}),
-        RouterTestingModule,
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ]
     })
     .compileComponents();

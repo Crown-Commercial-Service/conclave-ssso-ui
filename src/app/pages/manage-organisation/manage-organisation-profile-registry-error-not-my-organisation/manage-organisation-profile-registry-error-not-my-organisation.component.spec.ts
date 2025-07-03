@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ManageOrganisationRegistryOrgNotFoundComponent } from './manage-organisation-profile-registry-error-not-my-organisation.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryOrgNotFoundComponent', () => {
   let component: ManageOrganisationRegistryOrgNotFoundComponent;
@@ -25,12 +25,14 @@ describe('ManageOrganisationRegistryOrgNotFoundComponent', () => {
     mockStore = jasmine.createSpyObj('Store', ['dispatch']);
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [],
       declarations: [ManageOrganisationRegistryOrgNotFoundComponent],
       providers: [
+        provideRouter([]),
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Store, useValue: mockStore },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

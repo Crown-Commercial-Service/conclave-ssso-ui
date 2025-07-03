@@ -47,7 +47,8 @@ describe('ManageUserConfirmResetPasswordComponent', () => {
         { provide: ViewportScroller},
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         Store
-      ],    
+      ],   
+      schemas: [NO_ERRORS_SCHEMA] 
     }).compileComponents();
 
     fixture = TestBed.createComponent(ManageUserConfirmResetPasswordComponent);

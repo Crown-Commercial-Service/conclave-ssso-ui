@@ -54,8 +54,7 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
             //   groupName
           },
           (error) => {
-            console.log(error);
-            console.log(error.error);
+            
           }
         );
     }
@@ -67,7 +66,7 @@ export class ManageGroupDeleteConfirmComponent extends BaseComponent implements 
                 this.router.navigateByUrl(`manage-groups/operation-success/${OperationEnum.GroupDelete}`);             
             },
             error: (error) => {
-                console.log(error);
+                
             }
         });
         this.pushDataLayerEvent(buttonText);

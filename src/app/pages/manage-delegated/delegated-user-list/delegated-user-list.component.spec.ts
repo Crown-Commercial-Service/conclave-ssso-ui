@@ -1,13 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { DelegatedUserListComponent } from './delegated-user-list.component';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
 import { of } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { rollbarFactory, RollbarService } from 'src/app/logging/rollbar';
 import { TokenService } from 'src/app/services/auth/token.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('DelegatedUserListComponent', () => {
   let component: DelegatedUserListComponent;
@@ -25,18 +27,21 @@ describe('DelegatedUserListComponent', () => {
     spyOn(localStorage, 'getItem').and.callFake((key) =>
       key in localStore ? localStore[key] : null
     );
+    spyOn(sessionStorage, 'getItem').withArgs('activetab').and.returnValue(null);
 
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [DelegatedUserListComponent],
       providers: [WrapperUserDelegatedService, AuthService,
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: RollbarService, useValue: rollbarFactory() },
         { provide: TokenService, useValue: mockTokenService},
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

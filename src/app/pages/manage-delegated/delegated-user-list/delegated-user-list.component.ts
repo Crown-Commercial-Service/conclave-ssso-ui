@@ -139,7 +139,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
         if (userListResponse != null) {
           this.currentUserstableConfig.userList = userListResponse;
           this.currentUserstableConfig.pageCount = this.currentUserstableConfig.userList.pageCount;
-          console.log(this.currentUserstableConfig);
+          
           Array.from(this.currentUserstableConfig.userList.userList).forEach((f: any) => {        
                   f.pageaccessmode = 'edit';
                   let queryParams = { data: btoa(encodeURIComponent(JSON.stringify(f))),isNewTab:true };
@@ -167,7 +167,7 @@ export class DelegatedUserListComponent implements OnInit ,OnDestroy {
                 }
 
                 let queryDeclineParams = { data: btoa(encodeURIComponent(JSON.stringify(datas))),isNewTab: true };
-                console.log("datas",datas);
+                
                 f.pageaccessmode = 'remove';
                 f.declineRouteLink = `/delegated-remove-confirm`;
                 f.declineRouteData = queryDeclineParams;

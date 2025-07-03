@@ -93,8 +93,7 @@ export class BuyerConfirmChangesComponent extends BaseComponent {
         localStorage.removeItem(`mse_org_${this.org.ciiOrganisationId}`);
         this.router.navigateByUrl(`buyer/success`);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((error) => {        
         this.router.navigateByUrl(`buyer/error`);
       });
       this.pushDataLayerEvent(buttonText);

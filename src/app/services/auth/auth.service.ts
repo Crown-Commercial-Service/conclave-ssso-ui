@@ -435,7 +435,7 @@ export class AuthService {
         return data;
       }),
       catchError(error =>{
-        console.log(error);
+        
         return throwError(error);
       })
     )

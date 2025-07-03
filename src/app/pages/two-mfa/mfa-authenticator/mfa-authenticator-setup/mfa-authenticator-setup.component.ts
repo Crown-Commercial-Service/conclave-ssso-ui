@@ -129,7 +129,7 @@ export class MfaAuthenticatorSetupComponent extends BaseComponent implements OnI
             this.onContinueBtnClick(this.otpValue);       
         },
         (err) => {
-            console.log(err);
+            
             this.authService.logOutAndRedirect();
         });
     

@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { WrapperUserService } from './wrapper-user.service';
 import { environment } from 'src/environments/environment';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('WrapperUserService', () => {
   let service: WrapperUserService;
@@ -12,8 +13,11 @@ describe('WrapperUserService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [WrapperUserService],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        WrapperUserService],
     });
     service = TestBed.inject(WrapperUserService);
     httpMock = TestBed.inject(HttpTestingController);

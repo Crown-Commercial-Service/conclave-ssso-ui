@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { ciiService } from './cii.service';
 import { environment } from '../../../environments/environment';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ciiService', () => {
   let service: ciiService;
@@ -12,8 +13,11 @@ describe('ciiService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [ciiService],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        ciiService],
     });
     service = TestBed.inject(ciiService);
     httpMock = TestBed.inject(HttpTestingController);

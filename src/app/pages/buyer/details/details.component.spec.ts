@@ -6,8 +6,7 @@ import {
   Store,
   StateObservable,
   ActionsSubject,
-  ReducerManager,
-  ReducerManagerDispatcher,
+  ReducerManager,  
   INITIAL_STATE,
   INITIAL_REDUCERS,
   REDUCER_FACTORY,
@@ -19,6 +18,8 @@ import { UIState } from 'src/app/store/ui.states';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('BuyerDetailsComponent', () => {
   let component: BuyerDetailsComponent;
@@ -31,8 +32,7 @@ describe('BuyerDetailsComponent', () => {
   let sharedDataServiceStub: Partial<SharedDataService>;
   let store: Store<UIState>;
   let actionsSubject: ActionsSubject;
-  let reducerManager: ReducerManager;
-  let reducerManagerDispatcher: ReducerManagerDispatcher;
+  let reducerManager: ReducerManager;  
   const initialState = {};
   const initialReducers = {};
   const reducerFactory = () => {};
@@ -90,13 +90,14 @@ describe('BuyerDetailsComponent', () => {
         StateObservable,
         ActionsSubject,
         ReducerManager,
-        ReducerManagerDispatcher,
+        provideMockStore({initialState: {},}),
         ViewportScroller,
         { provide: ActivatedRoute, useValue: { params: of({ id: '1' }) } },
         { provide: INITIAL_STATE, useValue: initialState },
         { provide: INITIAL_REDUCERS, useValue: initialReducers },
         { provide: REDUCER_FACTORY, useValue: reducerFactory },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -106,7 +107,6 @@ describe('BuyerDetailsComponent', () => {
     store = TestBed.inject(Store);
     actionsSubject = TestBed.inject(ActionsSubject);
     reducerManager = TestBed.inject(ReducerManager);
-    reducerManagerDispatcher = TestBed.inject(ReducerManagerDispatcher);
     fixture.detectChanges();
   });
 

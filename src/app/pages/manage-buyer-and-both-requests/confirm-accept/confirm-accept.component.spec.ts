@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { ConfirmAcceptComponent } from './confirm-accept.component';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ConfirmAcceptComponent', () => {
   let component: ConfirmAcceptComponent;
@@ -40,6 +41,7 @@ describe('ConfirmAcceptComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -1,23 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ViewportScroller } from '@angular/common';
 import {
   Component,
   ElementRef,
+  NO_ERRORS_SCHEMA,
   QueryList,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { BulkUploadResponse } from 'src/app/models/bulkUploadResponse';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { BulkUploadService } from 'src/app/services/postgres/bulk-upload.service';
 import { environment } from 'src/environments/environment';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ManageUserBulkUploadComponent } from './manage-user-bulk-upload.component';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ManageUserBulkUploadComponent', () => {
   let component: ManageUserBulkUploadComponent;
@@ -28,13 +29,16 @@ describe('ManageUserBulkUploadComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
         FormsModule,
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [ManageUserBulkUploadComponent],
-      providers: [BulkUploadService, ViewportScroller, ScrollHelper],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        BulkUploadService, ViewportScroller, ScrollHelper],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
