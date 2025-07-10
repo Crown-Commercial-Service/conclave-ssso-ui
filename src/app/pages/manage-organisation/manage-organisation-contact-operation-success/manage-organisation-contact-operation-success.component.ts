@@ -115,7 +115,7 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
             this.siteInfo=siteInfo
             },
             error: (error: any) => {
-              console.log(error);
+              
             }
           });
        }

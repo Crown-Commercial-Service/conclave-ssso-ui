@@ -8,7 +8,6 @@ import {
   StateObservable,
   ActionsSubject,
   ReducerManager,
-  ReducerManagerDispatcher,
   INITIAL_STATE,
   INITIAL_REDUCERS,
   REDUCER_FACTORY,
@@ -17,6 +16,8 @@ import { UIState } from 'src/app/store/ui.states';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { Observable, of } from 'rxjs';
+import { provideMockStore } from '@ngrx/store/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ConfirmOrgTypeComponent', () => {
   let component: ConfirmOrgTypeComponent;
@@ -29,8 +30,7 @@ describe('ConfirmOrgTypeComponent', () => {
   let mockScrollHelper: any;
   let store: Store<UIState>;
   let actionsSubject: ActionsSubject;
-  let reducerManager: ReducerManager;
-  let reducerManagerDispatcher: ReducerManagerDispatcher;
+  let reducerManager: ReducerManager;  
   const initialState = {};
   const initialReducers = {};
   const reducerFactory = () => {};
@@ -59,11 +59,12 @@ describe('ConfirmOrgTypeComponent', () => {
         StateObservable,
         ActionsSubject,
         ReducerManager,
-        ReducerManagerDispatcher,
+        provideMockStore({initialState: {},}),
         { provide: INITIAL_STATE, useValue: initialState },
         { provide: INITIAL_REDUCERS, useValue: initialReducers },
         { provide: REDUCER_FACTORY, useValue: reducerFactory },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -72,8 +73,7 @@ describe('ConfirmOrgTypeComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
     actionsSubject = TestBed.inject(ActionsSubject);
-    reducerManager = TestBed.inject(ReducerManager);
-    reducerManagerDispatcher = TestBed.inject(ReducerManagerDispatcher);
+    reducerManager = TestBed.inject(ReducerManager);    
     fixture.detectChanges();
   });
 

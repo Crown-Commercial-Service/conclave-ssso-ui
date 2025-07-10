@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
@@ -9,6 +8,8 @@ import { ciiService } from 'src/app/services/cii/cii.service';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { Store } from '@ngrx/store';
 import { SchemePipe } from 'src/app/pipes/scheme.pipe';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrganisationRegistrySearchComponent', () => {
   let component: ManageOrganisationRegistrySearchComponent;
@@ -24,7 +25,6 @@ describe('ManageOrganisationRegistrySearchComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
         ReactiveFormsModule,
         TranslateModule.forRoot(),
         ReactiveFormsModule,
@@ -32,10 +32,12 @@ describe('ManageOrganisationRegistrySearchComponent', () => {
       ],
       declarations: [ManageOrganisationRegistrySearchComponent, SchemePipe],
       providers: [
+        provideRouter([]),
         { provide: ciiService, useValue: ciiServiceMock },
         { provide: SharedDataService, useValue: sharedDataServiceMock },
         { provide: Store, useFactory: () => ({}) },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

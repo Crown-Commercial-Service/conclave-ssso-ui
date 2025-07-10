@@ -319,7 +319,7 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
 
     private getSchema(schemaName: string){
         let selecedSchemeName = this.schemeData.find(s => s.schemeName === schemaName);
-        console.log("selecedSchemeName?.scheme",selecedSchemeName?.scheme)
+        
         return selecedSchemeName?.scheme;
     }
 
@@ -338,11 +338,11 @@ export class ManageOrganisationProfileComponent extends BaseComponent implements
           if (idpResponse && mfaResponse) {
             this.router.navigateByUrl('manage-org-mfa-update-success?data=' + JSON.stringify(this.selectedOption));
           } else {
-            console.log('One or more API calls failed.');
+            
           }
         } catch (error) {
 
-          console.log('An error occurred during API calls:', error);
+          
         }
       }
       

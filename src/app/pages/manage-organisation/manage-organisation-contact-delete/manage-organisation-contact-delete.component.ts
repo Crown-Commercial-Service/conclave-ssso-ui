@@ -38,7 +38,7 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
-            console.log(routeData);
+            
             this.contactId = routeData['contactId'];
             this.siteId = routeData['siteId'] || 0;
         }
@@ -62,7 +62,7 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
                     this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.DeleteOrgContact}`);           
                 },
                 error: (error) => {
-                    console.log(error);
+                    
                 }
             });
         }
@@ -75,7 +75,7 @@ export class ManageOrganisationContactDeleteComponent extends BaseComponent impl
                     this.router.navigateByUrl(`manage-org/profile/contact-operation-success/${OperationEnum.DeleteSiteContact}?data=` + JSON.stringify(data));           
                 },
                 error: (error) => {
-                    console.log(error);
+                    
                 }
             });
         }

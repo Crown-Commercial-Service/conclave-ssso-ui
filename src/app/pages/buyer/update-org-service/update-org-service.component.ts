@@ -454,7 +454,7 @@ export class UpdateOrgServiceComponent implements OnInit {
         }
         this.router.navigateByUrl(`update-org-services/confirm-changes?data=` + btoa(JSON.stringify(data)))
       }).catch(error => {
-        console.log(error);
+        
       });
     } else {
       let data = {
@@ -499,12 +499,12 @@ export class UpdateOrgServiceComponent implements OnInit {
             }, 100);
           },
           error: (err: any) => {
-            console.log(err)
+            
           }
         });
       },
       error: (err: any) => {
-        console.log(err)
+        
       }
     });
   }

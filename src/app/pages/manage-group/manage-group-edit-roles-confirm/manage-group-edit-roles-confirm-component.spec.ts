@@ -2,8 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ManageGroupEditRolesConfirmComponent } from './manage-group-edit-roles-confirm-component';
 import { Store } from '@ngrx/store';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('ManageGroupEditRolesConfirmComponent', () => {
   let component: ManageGroupEditRolesConfirmComponent;
@@ -14,10 +16,13 @@ describe('ManageGroupEditRolesConfirmComponent', () => {
       declarations: [ManageGroupEditRolesConfirmComponent],
       imports: [
         TranslateModule.forRoot(),
-        RouterTestingModule,
-        HttpClientTestingModule,
       ],
-      providers: [{ provide: Store, useFactory: () => ({}) }],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

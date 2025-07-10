@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { WrapperOrganisationContactService } from './wrapper-org-contact-service';
@@ -9,6 +8,8 @@ import {
   ContactPoint,
   OrganisationContactInfoList,
 } from 'src/app/models/contactInfo';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('WrapperOrganisationContactService', () => {
   let service: WrapperOrganisationContactService;
@@ -16,8 +17,11 @@ describe('WrapperOrganisationContactService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [WrapperOrganisationContactService],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        WrapperOrganisationContactService],
     });
     service = TestBed.inject(WrapperOrganisationContactService);
     httpMock = TestBed.inject(HttpTestingController);

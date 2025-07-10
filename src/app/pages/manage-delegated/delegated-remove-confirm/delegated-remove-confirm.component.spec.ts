@@ -4,6 +4,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 import { DelegatedRemoveConfirmComponent } from './delegated-remove-confirm.component';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DelegatedRemoveConfirmComponent', () => {
   let component: DelegatedRemoveConfirmComponent;
@@ -33,6 +34,7 @@ describe('DelegatedRemoveConfirmComponent', () => {
           useValue: delegatedServiceMock,
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { OrgSupportConfirmComponent } from './confirm.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { Store } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('OrgSupportConfirmComponent', () => {
   let component: OrgSupportConfirmComponent;
@@ -12,9 +13,12 @@ describe('OrgSupportConfirmComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [],
       declarations: [OrgSupportConfirmComponent],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -31,6 +35,7 @@ describe('OrgSupportConfirmComponent', () => {
         MFAService,
         { provide: Store, useFactory: () => ({}) },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

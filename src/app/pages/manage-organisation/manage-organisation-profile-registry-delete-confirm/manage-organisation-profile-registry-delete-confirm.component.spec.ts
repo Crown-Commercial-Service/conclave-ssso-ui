@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, provideRouter, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ViewportScroller } from '@angular/common';
 import { BehaviorSubject, of } from 'rxjs';
@@ -10,7 +9,9 @@ import { dataService } from 'src/app/services/data/data.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { DataLayerService } from 'src/app/shared/data-layer.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('ManageOrganisationRegistryDeleteConfirmationComponent', () => {
   let component: ManageOrganisationRegistryDeleteConfirmationComponent;
@@ -45,8 +46,11 @@ describe('ManageOrganisationRegistryDeleteConfirmationComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ManageOrganisationRegistryDeleteConfirmationComponent],
-      imports: [TranslateModule.forRoot(),  RouterTestingModule.withRoutes([]), HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(),],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: dataService, useValue: mockDataService },
         // { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
@@ -55,6 +59,7 @@ describe('ManageOrganisationRegistryDeleteConfirmationComponent', () => {
         { provide: ScrollHelper, useValue: {} },
         { provide: DataLayerService, useValue: mockDataLayerService },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

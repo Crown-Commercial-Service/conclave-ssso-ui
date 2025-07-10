@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { CookiesSettingsComponent } from './cookies-settings.component';
 import { CookiesService } from 'src/app/shared/cookies.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('CookiesSettingsComponent', () => {
   let component: CookiesSettingsComponent;
@@ -18,8 +19,11 @@ describe('CookiesSettingsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CookiesSettingsComponent],
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
-      providers: [CookiesService],
+      imports: [ TranslateModule.forRoot()],
+      providers: [CookiesService,
+        provideRouter([]),
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     cookiesService = TestBed.inject(CookiesService);

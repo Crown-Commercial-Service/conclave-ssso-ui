@@ -252,7 +252,7 @@ export class ManageUserAddSingleUserDetailComponent
         this.hasGroupViewPermission = hasPermission;
       },
       error: (error: any) => {
-        console.log(error);
+        
       },
     });
     if (this.isEdit) {
@@ -709,7 +709,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
         }
       },
       error: (err: any) => {
-        console.log(err)
+        
       },
     });
   }
@@ -773,7 +773,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
               }`
             );
           } else {
-            console.log('Update not success');
+            
           }
         },
         error: (err: any) => {
@@ -826,7 +826,7 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
       next: (userDeleteResponseInfo: UserEditResponseInfo) => {
       },
       error: (err: any) => {
-        console.log("err", err)
+        
       },
     });
   }

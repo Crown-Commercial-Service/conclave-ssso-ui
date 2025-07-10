@@ -1,10 +1,11 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { MFAService } from './mfa.service';
 import { environment } from 'src/environments/environment';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('MFAService', () => {
   let service: MFAService;
@@ -12,8 +13,11 @@ describe('MFAService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [MFAService],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        MFAService],
     });
     service = TestBed.inject(MFAService);
     httpMock = TestBed.inject(HttpTestingController);

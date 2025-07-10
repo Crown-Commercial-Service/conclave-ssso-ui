@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -22,12 +22,16 @@ describe('NominateComponent', () => {
   let dataLayerService: jasmine.SpyObj<DataLayerService>;
   let sharedDataService: jasmine.SpyObj<SharedDataService>;
   let router: jasmine.SpyObj<Router>;
+  const nominiDataSubject = new BehaviorSubject<any>(null);
 
   beforeEach(waitForAsync(() => {
     authService = jasmine.createSpyObj('AuthService', ['nominate']);
     patternService = jasmine.createSpyObj('PatternService', ['NameValidator', 'emailPattern', 'emailValidator']);
     dataLayerService = jasmine.createSpyObj('DataLayerService', ['pushPageViewEvent', 'pushFormStartEvent', 'pushFormSubmitEvent', 'pushFormErrorEvent', 'pushClickEvent']);
     sharedDataService = jasmine.createSpyObj('SharedDataService', ['NominiData']);
+    const sharedDataServiceMock = {
+      NominiData: nominiDataSubject
+    };
     router = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
     TestBed.configureTestingModule({
@@ -42,7 +46,7 @@ describe('NominateComponent', () => {
         { provide: AuthService, useValue: authService },
         { provide: PatternService, useValue: patternService },
         { provide: DataLayerService, useValue: dataLayerService },
-        { provide: SharedDataService, useValue: sharedDataService },
+        { provide: SharedDataService, useValue: sharedDataServiceMock },
         { provide: Router, useValue: router },
         {
           provide: ActivatedRoute,

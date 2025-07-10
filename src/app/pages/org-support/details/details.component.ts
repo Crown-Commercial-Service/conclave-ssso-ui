@@ -159,7 +159,7 @@ export class OrgSupportDetailsComponent extends BaseComponent implements OnInit 
         });
       },
       error: (err: any) => {
-        console.log(err)
+        
       }
     });
   }

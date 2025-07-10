@@ -136,7 +136,7 @@ export class ManageUserProfilesComponent extends BaseComponent implements OnInit
     }
 
     onEditRow(dataRow: UserListInfo) {
-        console.log(dataRow);
+        
          let  data = {
                 'rowData':dataRow.userName
         };

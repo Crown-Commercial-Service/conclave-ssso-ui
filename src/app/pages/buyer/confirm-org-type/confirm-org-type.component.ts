@@ -63,7 +63,7 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
             this.changes = JSON.parse(
               localStorage.getItem(`mse_org_${this.org.ciiOrganisationId}`) + ''
             );
-            console.log('this.changes', this.changes);
+            
           },
         });
       }
@@ -96,7 +96,7 @@ export class ConfirmOrgTypeComponent extends BaseComponent {
         );
       })
       .catch((error) => {
-        console.log(error);
+        
         this.router.navigateByUrl(`buyer/error`);
       });
       this.pushDataLayerEvent(buttonText);

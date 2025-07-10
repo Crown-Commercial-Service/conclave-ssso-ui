@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ManageGroupDeleteConfirmComponent } from './manage-group-delete-confirm-component';
@@ -8,6 +7,7 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { OrganisationGroupResponseInfo } from 'src/app/models/organisationGroup';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupDeleteConfirmComponent', () => {
   let component: ManageGroupDeleteConfirmComponent;
@@ -41,8 +41,9 @@ describe('ManageGroupDeleteConfirmComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ManageGroupDeleteConfirmComponent],
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [ TranslateModule.forRoot()],
       providers: [
+        provideRouter([]),
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         {
           provide: WrapperOrganisationGroupService,
@@ -51,6 +52,7 @@ describe('ManageGroupDeleteConfirmComponent', () => {
         { provide: SharedDataService, useValue: mockSharedDataService },
         { provide: Store, useValue: mockStore },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

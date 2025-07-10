@@ -4,6 +4,7 @@ import { ConfirmDeclineComponent } from './confirm-decline.component';
 import { WrapperBuyerBothService } from 'src/app/services/wrapper/wrapper-buyer-both.service';
 import { of, throwError } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ConfirmDeclineComponent', () => {
   let component: ConfirmDeclineComponent;
@@ -32,6 +33,7 @@ describe('ConfirmDeclineComponent', () => {
         { provide: Router, useValue: mockRouter },
         { provide: WrapperBuyerBothService, useValue: mockWrapperService },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

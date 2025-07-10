@@ -7,7 +7,6 @@ import { ActivatedRoute,Router, RouterModule } from '@angular/router';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { BuyerSearchComponent } from './search.component';
 import { environment } from 'src/environments/environment';

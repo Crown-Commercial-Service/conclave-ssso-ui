@@ -115,7 +115,7 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
       this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/confirmation/' + this.routeParams.scheme + '/' + this.routeParams.id);
     },
       (error) => {
-        console.log(error);
+        
       });
       this.pushDataLayerEvent(buttonText);
   }

@@ -1,23 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ManageUserAddSingleUserDetailComponent } from './manage-user-add-single-user-detail.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  Store,
-  StateObservable,
-  ActionsSubject,
-  ReducerManager,
-  ReducerManagerDispatcher,
-  INITIAL_STATE,
-  INITIAL_REDUCERS,
-  REDUCER_FACTORY,
-} from '@ngrx/store';
 import { AuthService } from '../../../services/auth/auth.service';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('ManageUserAddSingleUserDetailComponent', () => {
   let component: ManageUserAddSingleUserDetailComponent;
@@ -30,25 +23,22 @@ describe('ManageUserAddSingleUserDetailComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
       ],
       declarations: [ManageUserAddSingleUserDetailComponent],
-      providers: [
-        Store,
-        StateObservable,
-        ActionsSubject,
-        ReducerManager,
-        ReducerManagerDispatcher,
-        { provide: INITIAL_STATE, useValue: initialState },
-        { provide: INITIAL_REDUCERS, useValue: initialReducers },
-        { provide: REDUCER_FACTORY, useValue: reducerFactory },
+      providers: [    
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),    
+        provideMockStore({
+          initialState: {}, 
+        }),
         AuthService,
         RollbarErrorService,
         TokenService,
         { provide: RollbarService, useValue: rollbarFactory() },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

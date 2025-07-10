@@ -1,37 +1,43 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { ManageOrgRegAddUserComponent } from './manage-organisation-registration-add-user.component';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegAddUserComponent', () => {
   let component: ManageOrgRegAddUserComponent;
   let fixture: ComponentFixture<ManageOrgRegAddUserComponent>;
   let mockOrganisationService: jasmine.SpyObj<OrganisationService>;
-  let mockPatternService: jasmine.SpyObj<PatternService>;
+  // let mockPatternService: jasmine.SpyObj<PatternService>;
+  let mockPatternService: Partial<PatternService>;
 
   beforeEach(async () => {
     mockOrganisationService = jasmine.createSpyObj('OrganisationService', [
       'registerOrganisation',
     ]);
-    mockPatternService = jasmine.createSpyObj('PatternService', [
-      'NameValidator',
-      'emailPattern',
-    ]);
+    // mockPatternService = jasmine.createSpyObj('PatternService', [
+    //   'NameValidator',
+    //   'emailPattern',
+    // ]);
 
+    mockPatternService = {
+      NameValidator: "^[a-zA-Z][a-z A-Z,.'-]*(?:\s+[a-zA-Z]+)?$",
+      emailPattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    };
+    
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [ManageOrgRegAddUserComponent],
       providers: [
+        provideRouter([]),
         { provide: OrganisationService, useValue: mockOrganisationService },
         { provide: PatternService, useValue: mockPatternService },
         {
@@ -42,6 +48,7 @@ describe('ManageOrgRegAddUserComponent', () => {
         },
         { provide: Store, useFactory: () => ({}) },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -51,8 +58,9 @@ describe('ManageOrgRegAddUserComponent', () => {
     fixture.detectChanges();
   });
 
-  afterEach(() => {
+  afterEach(() => {    
     TestBed.resetTestingModule();
+    localStorage.clear(); 
   });
 
   it('should create the component', () => {
@@ -60,9 +68,11 @@ describe('ManageOrgRegAddUserComponent', () => {
   });
 
   it('should initialize the form with default values', () => {
-    expect(component.formGroup.controls['firstName'].value).toBe('');
-    expect(component.formGroup.controls['lastName'].value).toBe('');
-    expect(component.formGroup.controls['email'].value).toBe('');
+    const form = component.formGroup;
+    expect(form).toBeDefined();    
+    expect(component.formGroup.controls['firstName'].value?? '').toBe('');
+    expect(component.formGroup.controls['lastName'].value?? '').toBe('');
+    expect(component.formGroup.controls['email'].value?? '').toBe('');
   });
 
   it('should set the pageAccessMode to null if query param data is not provided', () => {

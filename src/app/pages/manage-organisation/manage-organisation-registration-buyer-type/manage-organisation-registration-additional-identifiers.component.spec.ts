@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ManageOrgRegBuyerTypeComponent } from './manage-organisation-registration-buyer-type.component';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrgRegBuyerTypeComponent', () => {
   let component: ManageOrgRegBuyerTypeComponent;
@@ -13,8 +14,11 @@ describe('ManageOrgRegBuyerTypeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegBuyerTypeComponent],
-      imports: [RouterTestingModule, FormsModule, TranslateModule.forRoot()],
-      providers: [{ provide: Store, useFactory: () => ({}) }],
+      imports: [ FormsModule, TranslateModule.forRoot()],
+      providers: [
+        provideRouter([]),
+        { provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -15,7 +15,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CheckBoxUserListGridSource, UserListInfo } from "src/app/models/user";
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ManageUserProfilesComponent', () => {
   let component: ManageUserProfilesComponent;
@@ -148,8 +147,7 @@ describe('ManageUserProfilesComponent', () => {
 
   it('should navigate to the correct URL on onAddClick', () => {    
     component.isBulkUpload = false;
-    component.onAddClick('Add');
-    console.log(router);
+    component.onAddClick('Add');    
    expect(router.navigateByUrl).toHaveBeenCalledWith('manage-users/add-user-selection');
 
     component.isBulkUpload = true;

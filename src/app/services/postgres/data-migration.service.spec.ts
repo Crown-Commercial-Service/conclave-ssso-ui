@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { DataMigrationService } from './data-migration.service';
 import { BulkUploadResponse } from 'src/app/models/bulkUploadResponse';
 import { dataMigrationReportDetailsResponce } from 'src/app/models/data-migration.model';
 import { environment } from 'src/environments/environment';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('DataMigrationService', () => {
   let service: DataMigrationService;
@@ -14,8 +15,11 @@ describe('DataMigrationService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [DataMigrationService],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        DataMigrationService],
     });
     service = TestBed.inject(DataMigrationService);
     httpMock = TestBed.inject(HttpTestingController);

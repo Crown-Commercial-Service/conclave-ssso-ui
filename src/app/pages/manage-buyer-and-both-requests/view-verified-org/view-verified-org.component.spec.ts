@@ -3,7 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { ViewVerifiedOrgComponent } from './view-verified-org.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ViewVerifiedOrgComponent', () => {
   let component: ViewVerifiedOrgComponent;
@@ -33,12 +35,15 @@ describe('ViewVerifiedOrgComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ViewVerifiedOrgComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [TranslateModule.forRoot()],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Router, useValue: mockRouter },
         TranslateService,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

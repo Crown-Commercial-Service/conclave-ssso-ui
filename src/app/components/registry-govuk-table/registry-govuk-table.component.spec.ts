@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegistryGovukTableComponent } from './registry-govuk-table.component';
 import { TokenService } from 'src/app/services/auth/token.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { of } from 'rxjs';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('RegistryGovukTableComponent', () => {
   let component: RegistryGovukTableComponent;
@@ -30,8 +31,10 @@ describe('RegistryGovukTableComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RegistryGovukTableComponent],
-      imports:[HttpClientTestingModule],
+      imports:[],
        providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       { provide: TokenService, useValue: mockTokenService},
       { provide: ciiService, useValue: ciiServiceStub },
     ]

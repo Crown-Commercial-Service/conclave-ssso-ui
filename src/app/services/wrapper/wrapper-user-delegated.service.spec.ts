@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { WrapperUserDelegatedService } from './wrapper-user-delegated.service';
 import { environment } from 'src/environments/environment';
 import { SessionService } from 'src/app/shared/session.service';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('WrapperUserDelegatedService', () => {
   let service: WrapperUserDelegatedService;
@@ -29,8 +30,11 @@ describe('WrapperUserDelegatedService', () => {
     sessionServiceMock.decrypt.and.returnValue(mockUsername); 
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [WrapperUserDelegatedService,
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        WrapperUserDelegatedService,
         { provide: SessionService, useValue: sessionServiceMock },
       ],
     });

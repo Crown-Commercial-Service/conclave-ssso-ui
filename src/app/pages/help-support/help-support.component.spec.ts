@@ -5,11 +5,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { of } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
 import { TokenService } from 'src/app/services/auth/token.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('HelpAndSupportComponent', () => {
   let component: HelpAndSupportComponent;
@@ -21,10 +22,11 @@ describe('HelpAndSupportComponent', () => {
       imports: [
         StoreModule.forRoot({}),
         BrowserAnimationsModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
       ],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
         AuthService,
         RollbarErrorService,
         TokenService,

@@ -83,7 +83,7 @@ export class DelegatedOrganisationComponent implements OnInit {
         this.organisationList = data.detail.delegatedOrgs;
       },
       error: (error: any) => {
-        console.log('error', error);
+        
       },
     });
   }

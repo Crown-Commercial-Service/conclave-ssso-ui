@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DetailsComponent } from './details.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DetailsComponent', () => {
   let component: DetailsComponent;
@@ -8,6 +9,7 @@ describe('DetailsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DetailsComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

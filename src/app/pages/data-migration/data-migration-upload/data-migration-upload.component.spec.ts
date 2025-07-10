@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ViewportScroller } from '@angular/common';
-import { Router } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { ElementRef, QueryList } from '@angular/core';
+import { ElementRef, NO_ERRORS_SCHEMA, QueryList } from '@angular/core';
 import { DataMigrationUploadComponent } from './data-migration-upload.component';
 import { BulkUploadService } from 'src/app/services/postgres/bulk-upload.service';
 import { DataMigrationService } from 'src/app/services/postgres/data-migration.service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { TranslateModule } from '@ngx-translate/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('DataMigrationUploadComponent', () => {
   let component: DataMigrationUploadComponent;
@@ -20,17 +20,19 @@ describe('DataMigrationUploadComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [DataMigrationUploadComponent],
       imports: [
-        RouterTestingModule,
         FormsModule,
-        HttpClientModule,
         TranslateModule.forRoot(),
       ],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
         BulkUploadService,
         DataMigrationService,
         ViewportScroller,
         ScrollHelper,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

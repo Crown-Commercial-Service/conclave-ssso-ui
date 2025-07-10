@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CookiesBannerComponent } from './cookies-banner.component';
 import { CookiesService } from 'src/app/shared/cookies.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CookiesBannerComponent', () => {
   let component: CookiesBannerComponent;
@@ -11,6 +12,7 @@ describe('CookiesBannerComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [CookiesBannerComponent],
       providers: [CookiesService],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

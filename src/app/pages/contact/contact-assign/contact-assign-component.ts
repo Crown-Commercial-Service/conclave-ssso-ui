@@ -80,7 +80,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
                 }
             },
             error: (error: any) => {
-                console.log(error);
+                
             }
         });
     }
@@ -94,7 +94,7 @@ export class ContactAssignComponent extends BaseComponent implements OnInit {
                 }
             },
             error: (error: any) => {
-                console.log(error);
+                
             }
         });
     }

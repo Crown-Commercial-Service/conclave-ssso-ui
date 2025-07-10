@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { DataMigrationService } from 'src/app/services/postgres/data-migration.service';
 import { environment } from 'src/environments/environment';
 import { DataMigrationErrorComponent } from './data-migration-error.component';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DataMigrationErrorComponent', () => {
   let component: DataMigrationErrorComponent;
@@ -18,17 +18,18 @@ describe('DataMigrationErrorComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(),
-        RouterTestingModule
+      imports: [TranslateModule.forRoot(),        
       ],
       declarations: [DataMigrationErrorComponent],
       providers: [
+        provideRouter([]),
         { provide: DataMigrationService, useValue: mockDataMigrationService },
         {
           provide: ActivatedRoute,
           useValue: { queryParams: { subscribe: () => {} } },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

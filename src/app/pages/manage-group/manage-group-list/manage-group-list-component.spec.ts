@@ -1,15 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ViewportScroller } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideRouter, Router } from '@angular/router';
 import { ManageGroupListComponent } from './manage-group-list-component';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { Group, GroupList } from 'src/app/models/organisationGroup';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ManageGroupListComponent', () => {
   let component: ManageGroupListComponent;
@@ -21,12 +22,13 @@ describe('ManageGroupListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
       ],
       declarations: [ManageGroupListComponent],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         WrapperOrganisationGroupService,
         ViewportScroller,
         ScrollHelper,
@@ -38,6 +40,7 @@ describe('ManageGroupListComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

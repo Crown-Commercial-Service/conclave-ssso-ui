@@ -1,12 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ManageOrganisationRemoveIdpConfirmComponent } from './manage-organisation-remove-idp-confirm';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ManageOrganisationRemoveIdpConfirmComponent', () => {
   let component: ManageOrganisationRemoveIdpConfirmComponent;
@@ -29,16 +30,18 @@ describe('ManageOrganisationRemoveIdpConfirmComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [ManageOrganisationRemoveIdpConfirmComponent],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: Store, useFactory: () => ({}) },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         TokenService,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     mockStore = TestBed.inject(Store) as jasmine.SpyObj<Store<any>>;

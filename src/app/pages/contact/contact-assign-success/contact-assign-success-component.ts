@@ -41,7 +41,7 @@ export class ContactAssignSuccessComponent extends BaseComponent implements OnIn
             this.assigningSiteId = routeData['assigningSiteId'] || 0;
              this.assigningOrgId = routeData['assigningOrgId'] || "";
              this.siteCreate=routeData['siteCreate'] || false;
-             console.log("routeData",routeData)
+            
         }
      this.organisationId = localStorage.getItem('cii_organisation_id') || '';
     }
@@ -60,7 +60,7 @@ export class ContactAssignSuccessComponent extends BaseComponent implements OnIn
             this.siteInfo=siteInfo
             },
             error: (error: any) => {
-              console.log(error);
+              
             }
           });
        }

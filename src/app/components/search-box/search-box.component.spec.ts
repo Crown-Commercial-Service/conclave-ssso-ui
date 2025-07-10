@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { ViewportScroller } from '@angular/common';
 import { SearchBoxComponent } from './search-box.component';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('SearchBoxComponent', () => {
   let component: SearchBoxComponent;
@@ -20,6 +21,7 @@ describe('SearchBoxComponent', () => {
         StoreModule.forRoot({}),
       ],
       providers: [ViewportScroller, ScrollHelper],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

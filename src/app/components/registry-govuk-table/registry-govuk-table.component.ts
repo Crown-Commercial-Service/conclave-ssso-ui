@@ -109,8 +109,7 @@ export class RegistryGovukTableComponent implements OnInit, OnChanges {
   }
 
 
-  onRowClick(dataRow: any) {
-    console.log("dataRow", dataRow)
+  onRowClick(dataRow: any) {    
     this.hyperLinkClickEvent.emit(dataRow);
   }
 

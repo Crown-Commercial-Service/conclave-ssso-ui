@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { OrgSupportDetailsComponent } from './details.component';
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
@@ -10,6 +9,7 @@ import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { FormsModule } from '@angular/forms';
 import { Observable, of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OrgSupportDetailsComponent', () => {
   let component: OrgSupportDetailsComponent;
@@ -61,8 +61,9 @@ describe('OrgSupportDetailsComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [OrgSupportDetailsComponent],
-      imports: [RouterTestingModule, FormsModule, StoreModule.forRoot({})],
+      imports: [ FormsModule, StoreModule.forRoot({})],
       providers: [
+        provideRouter([]),
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: WrapperUserService, useValue: mockWrapperUserService },
         {
@@ -72,6 +73,7 @@ describe('OrgSupportDetailsComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -10,6 +10,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { WrapperUserService } from 'src/app/services/wrapper/wrapper-user.service';
 import { UIState } from 'src/app/store/ui.states';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgMfaUpdateSuccessComponent', () => {
     let component: ManageOrgMfaUpdateSuccessComponent;
@@ -35,7 +36,8 @@ describe('ManageOrgMfaUpdateSuccessComponent', () => {
                 { provide: Store, useValue: {} },
                 { provide: ViewportScroller },
                 { provide: ScrollHelper },
-            ]
+            ],
+            schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();
 
         fixture = TestBed.createComponent(ManageOrgMfaUpdateSuccessComponent);

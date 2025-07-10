@@ -8,6 +8,7 @@ import { ManageUserBulkUploadMigrationStatusComponent } from './manage-user-bulk
 import { RollbarErrorService } from '../../../shared/rollbar-error.service';
 import { RollbarService, rollbarFactory } from '../../../logging/rollbar';
 import { TokenService } from '../../../services/auth/token.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageUserBulkUploadMigrationStatusComponent', () => {
   let component: ManageUserBulkUploadMigrationStatusComponent;
@@ -34,6 +35,7 @@ describe('ManageUserBulkUploadMigrationStatusComponent', () => {
         TokenService,
         { provide: RollbarService, useValue: rollbarFactory() },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

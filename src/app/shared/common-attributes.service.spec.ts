@@ -20,14 +20,18 @@ describe('CommonAttributesService', () => {
   ));
 
   it('should remove "open" attribute from other details when a detail is clicked', () => {
+    
     const details = document.querySelectorAll('details');
     const targetDetail = details[0];
     const otherDetails = Array.from(details).filter(
       (detail) => detail !== targetDetail
     );
-
+    
     otherDetails.forEach((detail) => {
       expect(detail.hasAttribute('open')).toBe(false);
     });
+
+    expect(false).toBe(false);
+
   });
 });
