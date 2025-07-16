@@ -78,7 +78,7 @@ export class ContactAssignSelectionComponent extends BaseComponent implements On
 
             let selection = form.get('selection')?.value;
             if (selection === "userContact"){
-                console.log("userContact");
+                
                 
                 this.router.navigateByUrl("contact-assign/user-search?data=" + JSON.stringify(data));
             }

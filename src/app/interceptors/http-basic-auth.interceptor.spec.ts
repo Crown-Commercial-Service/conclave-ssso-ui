@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 import { HttpBasicAuthInterceptor } from './http-basic-auth.interceptor';
 
@@ -12,8 +13,11 @@ describe('HttpBasicAuthInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [HttpBasicAuthInterceptor],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        HttpBasicAuthInterceptor],
     });
 
     interceptor = TestBed.inject(HttpBasicAuthInterceptor);

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ViewportScroller } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -8,7 +8,7 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { ManageOrgRegNotifyAdminComponent } from './manage-reg-organisation-admin-notify.component';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegNotifyAdminComponent', () => {
   let component: ManageOrgRegNotifyAdminComponent;
@@ -29,13 +29,15 @@ describe('ManageOrgRegNotifyAdminComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegNotifyAdminComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule],
+      imports: [TranslateModule.forRoot()],
       providers: [
+        provideRouter([]),
         { provide: Store, useValue: uiStoreSpy },
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: scrollHelperSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -80,6 +82,7 @@ describe('ManageOrgRegNotifyAdminComponent', () => {
     expect(breadcrumbs[5].textContent.trim()).toBe('2FA_SETUP');
     expect(breadcrumbs[6].textContent.trim()).toBe('ORG_TYPE');
     expect(breadcrumbs[7].textContent.trim()).toBe('ORG_DETAILS');
+    expect(breadcrumbs[8].textContent.trim()).toBe('ORG_ALREADY_REG');
   });
 
   it('should display the correct breadcrumbs when pageAccessMode is 0', () => {

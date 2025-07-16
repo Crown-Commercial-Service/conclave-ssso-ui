@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 import {
   acceptRejectRequestDetail,
@@ -75,7 +74,7 @@ export class WrapperUserService {
     //       return throwError(error);
     //     })
     //   );
-    return Observable.of(true);
+    return of(true);
   }
 
   deleteUser(userName: string): Observable<any> {
@@ -238,7 +237,7 @@ export class WrapperUserService {
     //     return throwError(error);
     //   })
     // );
-    return Observable.of(true);
+    return of(true);
   }
 
   acceptRejectRequest(userRequest: acceptRejectRequestDetail): Observable<any> {

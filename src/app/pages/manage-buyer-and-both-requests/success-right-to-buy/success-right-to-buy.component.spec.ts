@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuccessRightToBuyComponent } from './success-right-to-buy.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('SuccessRightToBuyComponent', () => {
   let component: SuccessRightToBuyComponent;
@@ -25,6 +26,7 @@ describe('SuccessRightToBuyComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         TranslateService,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

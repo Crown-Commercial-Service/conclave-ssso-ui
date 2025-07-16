@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { ManageOrganisationRegistryConfirmAdditionalDetailsComponent } from './manage-organisation-profile-registry-confirm-additional-identifiers.component';
 import { ciiService } from 'src/app/services/cii/cii.service';
@@ -9,6 +8,7 @@ import { TokenService } from 'src/app/services/auth/token.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { StoreModule } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryConfirmAdditionalDetailsComponent', () => {
   let component: ManageOrganisationRegistryConfirmAdditionalDetailsComponent;
@@ -40,8 +40,9 @@ describe('ManageOrganisationRegistryConfirmAdditionalDetailsComponent', () => {
       declarations: [
         ManageOrganisationRegistryConfirmAdditionalDetailsComponent,
       ],
-      imports: [RouterTestingModule, StoreModule.forRoot({})],
+      imports: [ StoreModule.forRoot({})],
       providers: [
+        provideRouter([]),
         { provide: ciiService, useValue: mockCiiService },
         { provide: WrapperUserService, useValue: mockWrapperService },
         { provide: Router, useValue: mockRouter },
@@ -50,6 +51,7 @@ describe('ManageOrganisationRegistryConfirmAdditionalDetailsComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

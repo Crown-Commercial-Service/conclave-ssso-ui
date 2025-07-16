@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { DelegatedSuccessComponent } from './delegated-success.component';
 import { Subscription, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DelegatedSuccessComponent', () => {
   let component: DelegatedSuccessComponent;
@@ -30,6 +31,7 @@ describe('DelegatedSuccessComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Title, useValue: mockTitleService },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

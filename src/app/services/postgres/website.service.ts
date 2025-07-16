@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
+import { throwError } from 'rxjs';
 import { Website } from 'src/app/models/website';
 import { environment } from '../../../environments/environment';
 
@@ -36,7 +36,7 @@ export class WebsiteService {
             return data;
           }),
           catchError(error => {
-            console.log(error);
+            
             return throwError(error);
           })
         );

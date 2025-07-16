@@ -6,7 +6,7 @@ import {
     HttpEvent,
     HttpInterceptor
 } from '@angular/common/http';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -25,10 +25,8 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
                         }
                     },
                     err => {
-                        observer.error(err);
-                        console.log(err);
-                        if (err.status == 400 && err.error == "ERROR_INVALID_INPUT_CHARACTER") {
-                            console.log("ERROR_INVALID_INPUT_CHARACTER");
+                        observer.error(err);                        
+                        if (err.status == 400 && err.error == "ERROR_INVALID_INPUT_CHARACTER") {                            
                             this.router.navigateByUrl("error?error_description=ERROR_INVALID_INPUT_CHARACTER");
                         }
                     },

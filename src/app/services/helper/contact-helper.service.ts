@@ -25,7 +25,7 @@ export class ContactHelper {
         let fax = form.get('fax')?.value;
         let mobileNumber = form.get('mobile')?.value;
         let webUrl = form.get('webUrl')?.value;
-        console.log("contactList",form)
+        
         if (email != '' && email != null) {
             contactList.push({ contactType: VirtualContactType.EMAIL, contactValue: email });
         }

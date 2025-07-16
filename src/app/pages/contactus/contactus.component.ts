@@ -55,11 +55,11 @@ export class ContactUsComponent extends BaseComponent implements OnInit {
     if (this.formValid(form)) {
       this.dataLayerService.pushFormSubmitEvent(this.formId);
       // this.authService.nominate(form.get('firstName')?.value, form.get('lastName')?.value, form.get('email')?.value).toPromise().then((response: any) => {
-      //   console.log(response);
+      
          this.submitted = false;
       //   this.router.navigateByUrl(`nominate/success`);
       // }, (err) => {
-      //   console.log(err);
+      
       // });
     } else {
       this.dataLayerService.pushFormErrorEvent(this.formId);

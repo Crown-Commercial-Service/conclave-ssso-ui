@@ -865,7 +865,38 @@
     width: 1px;
     overflow: hidden;
 }    
-    </style>
+.govuk-skip-link:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+  padding-left: 45px !important;
+}
+#mainDiv {  
+  scroll-margin-top: 40px;
+}
+
+#mainDiv:focus {
+  outline: none;  
+}
+</style>
+<script>
+    function skipToMainContent(){
+        const el = document.getElementById('mainDiv');
+    
+            if (el) {            
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Ensure the element can receive focus
+                if (!el.hasAttribute('tabindex')) {
+                    el.setAttribute('tabindex', '-1');
+                }
+                
+                setTimeout(() => {
+                    el.focus({ preventScroll: true });
+                }, 300);
+            }
+            return false;               
+    }
+</script>
 </head>
 
 <body class="govuk-template__body show-flourishes pillar--none js-enabled">
@@ -947,6 +978,7 @@
             </div>
         </div>
     </div>
+    <a href="javascript:;" onclick="skipToMainContent();" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
     <header class="header-global">
         <div class="ccs-width-container">
             <div class="nav-wrapper">
@@ -986,7 +1018,7 @@
                         </li>
                     </ol>
                 </div>
-                <div class="govuk-grid-row">
+                <div id="mainDiv"  class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
                         <h1 class="govuk-heading-xl" style="margin-top: 20px;margin-bottom: 0px;">Sign in using
                             additional
@@ -1173,7 +1205,7 @@
             </div>
         </div>
     </footer>
-    <script src="//cdn.auth0.com/js/mfa-widget/mfa-widget-1.8.min.js"></script>
+    <script src="//cdn.auth0.com/js/mfa-widget/mfa-widget-1.8.min.js"></script>    
     <script>
         var logoutCallbackUrl = 'https://dev.identify.crowncommercial.gov.uk';
         var clientId = "5G2pNShwaBQzjJNx6fCSqt9ZIAU9sEur";

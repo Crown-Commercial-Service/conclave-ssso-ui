@@ -36,7 +36,7 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
         let queryParams = this.activatedRoute.snapshot.queryParams;
         if (queryParams.data) {
             let routeData = JSON.parse(queryParams.data);
-            console.log(routeData);
+            
             this.userName = this.sessionService.decrypt('UserContactUsername');
             this.contactId = routeData['contactId'];
         }
@@ -53,7 +53,7 @@ export class UserContactDeleteConfirmComponent extends BaseComponent implements 
                 this.router.navigateByUrl(`operation-success/${OperationEnum.MyAccountContactDelete}`);             
             },
             error: (error) => {
-                console.log(error);
+                
             }
         });
         this.pushDataLayerEvent(buttonText);

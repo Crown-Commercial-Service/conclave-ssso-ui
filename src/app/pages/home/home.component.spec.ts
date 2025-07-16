@@ -3,11 +3,12 @@ import { HomeComponent } from './home.component';
 import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -15,9 +16,12 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [],
       declarations: [HomeComponent],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: Store, useFactory: () => ({}) },
         AuthService,
         RollbarErrorService,

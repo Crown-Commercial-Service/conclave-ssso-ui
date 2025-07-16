@@ -88,7 +88,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     this.userName = this.sessionService.decrypt('user_name')
   }
   ngOnInit(): void {
-    console.log("errorCode",this.errorCode)
+    
     var fragment=this.route.snapshot.fragment;
     if(fragment)
     {
@@ -143,12 +143,12 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     }
     if (this.formValid(form)) {
       this.dataLayerService.pushFormSubmitEvent(this.formId);
-      console.log(form.get('userName')?.value);
+      
       this.userService
         .resendUserActivationEmail(form.get('userName')?.value, true, this.isRegUser)
         .toPromise()
         .then(() => {
-          console.log('scuuccess');
+          
           this.router.navigateByUrl(
             `resend-link-success?un= + ${encodeURIComponent(
               form.get('userName')?.value

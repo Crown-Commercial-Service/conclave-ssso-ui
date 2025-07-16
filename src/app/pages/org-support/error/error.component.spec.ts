@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ViewportScroller } from '@angular/common';
 import { OrgSupportErrorComponent } from './error.component';
@@ -7,7 +7,7 @@ import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { environment } from 'src/environments/environment';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OrgSupportErrorComponent', () => {
   let component: OrgSupportErrorComponent;
@@ -33,14 +33,16 @@ describe('OrgSupportErrorComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), RouterTestingModule],
+      imports: [TranslateModule.forRoot()],
       declarations: [OrgSupportErrorComponent],
       providers: [
+        provideRouter([]),
         { provide: Store, useValue: storeMock },
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

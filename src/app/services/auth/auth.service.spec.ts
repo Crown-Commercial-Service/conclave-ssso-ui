@@ -1,9 +1,8 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, waitForAsync, inject } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
 import { AuthService } from './auth.service';
 import { TokenService } from './token.service';
@@ -11,6 +10,8 @@ import { WorkerService } from '../worker.service';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 import { environment } from '../../../environments/environment';
 import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -18,8 +19,11 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule],
+      imports: [],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         AuthService,
         TokenService,
         WorkerService,
@@ -50,7 +54,7 @@ describe('AuthService', () => {
     expect(isAuthenticated).toBe(true);
   });
 
-  it('should check if in-memory token exists', async(() => {
+  it('should check if in-memory token exists', waitForAsync(() => {
     spyOn(authService.workerService, 'checkAccessToken').and.returnValue(
       Promise.resolve(true)
     );

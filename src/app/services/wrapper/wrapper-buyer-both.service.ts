@@ -48,7 +48,7 @@ export class WrapperBuyerBothService {
       const url = `${this.org}/${organisationId}/audit-events/service-role-groups?currentPage=${currentPage}&pageSize=${pageSize}`;
       return this.http.get<OrganisationAuditEventListResponse>(url).pipe(
         map((data: OrganisationAuditEventListResponse) => {
-          console.log("data.organisationAuditEventList",data)
+          
           data.organisationAuditEventList = data.orgAuditEventServiceRoleGroupList
           return  data
         }), catchError(error => {
@@ -59,7 +59,7 @@ export class WrapperBuyerBothService {
       const url = `${this.org}/${organisationId}/audit-events?currentPage=${currentPage}&pageSize=${pageSize}`;
       return this.http.get<OrganisationAuditEventListResponse>(url).pipe(
         map((data: OrganisationAuditEventListResponse) => {
-          console.log("data",data)
+          
           return  data
         }), catchError(error => {
           return throwError(error);

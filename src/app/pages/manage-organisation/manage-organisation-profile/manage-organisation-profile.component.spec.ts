@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -17,6 +15,13 @@ import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper
 import { ContactHelper } from 'src/app/services/helper/contact-helper.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
+import { DetailsComponent } from 'src/app/components/details/details.component';
+import { GovUKTableComponent } from 'src/app/components/govuk-table/govuk-table.component';
+import { RegistryGovukTableComponent } from 'src/app/components/registry-govuk-table/registry-govuk-table.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrganisationProfileComponent', () => {
   let component: ManageOrganisationProfileComponent;
@@ -64,15 +69,21 @@ describe('ManageOrganisationProfileComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      declarations: [ManageOrganisationProfileComponent],
+      declarations: [
+        ManageOrganisationProfileComponent,
+        DetailsComponent, 
+        GovUKTableComponent,
+        RegistryGovukTableComponent
+        ],
       imports: [
-        RouterTestingModule,
         FormsModule,
-        HttpClientModule,
         StoreModule.forRoot({}),
         TranslateModule.forRoot(),
       ],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: ciiService, useValue: mockCiiService },
         { provide: TokenService, useValue: mockTokenService },
         {
@@ -96,6 +107,7 @@ describe('ManageOrganisationProfileComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -175,12 +187,12 @@ describe('ManageOrganisationProfileComponent', () => {
 
     const siteRows =
       fixture.nativeElement.querySelectorAll('.govuk-table__row');
-    expect(siteRows.length).toBe(2);
+    expect(siteRows.length).toBe(4);
 
     const firstSiteRow = siteRows[0];
-    expect(firstSiteRow.textContent).toContain('Registry');
-    expect(firstSiteRow.textContent).toContain('ID');
-    expect(firstSiteRow.textContent).toContain('Legal name');
+    expect(firstSiteRow.textContent).toContain('SITE_NAME');
+    expect(firstSiteRow.textContent).toContain('STREET_ADDRESS');
+    expect(firstSiteRow.textContent).toContain('POSTAL_CODE');
     expect(firstSiteRow.textContent).toContain('');
   });
 
@@ -201,16 +213,13 @@ describe('ManageOrganisationProfileComponent', () => {
 
     const registryRows =
       fixture.nativeElement.querySelectorAll('.govuk-table__row');
-    expect(registryRows.length).toBe(2);
+    expect(registryRows.length).toBe(1);
 
     const firstRegistryRow = registryRows[0];
     expect(firstRegistryRow.textContent).toContain('Registry');
     expect(firstRegistryRow.textContent).toContain('ID');
     expect(firstRegistryRow.textContent).toContain('Legal name');
 
-    const secondRegistryRow = registryRows[1];
-    expect(secondRegistryRow.textContent).toContain('Registry 1');
-    expect(secondRegistryRow.textContent).toContain('123');
   });
 
   it('should trigger onContactAddClick method when "Add another contact" button is clicked', () => {

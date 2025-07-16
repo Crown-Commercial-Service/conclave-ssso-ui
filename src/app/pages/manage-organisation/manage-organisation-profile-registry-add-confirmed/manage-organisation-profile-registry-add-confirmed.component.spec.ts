@@ -7,6 +7,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { UIState } from 'src/app/store/ui.states';
 import { ManageOrganisationRegistryAddConfirmationComponent } from './manage-organisation-profile-registry-add-confirmed.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryAddConfirmationComponent', () => {
   let component: ManageOrganisationRegistryAddConfirmationComponent;
@@ -31,10 +32,14 @@ describe('ManageOrganisationRegistryAddConfirmationComponent', () => {
         { provide: Router, useValue: routerStub },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { paramMap: { get: () => '1' } } },
+          useValue: { 
+            snapshot: { paramMap: { get: () => '1' } },
+            params: of({ scheme: 'test', organisationId: '123', id: '123' }), 
+          },
         },
         { provide: Store, useValue: storeSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -53,7 +58,7 @@ describe('ManageOrganisationRegistryAddConfirmationComponent', () => {
   it('should display success message', () => {
     const successMsg = fixture.nativeElement.querySelector('.success_msg');
     expect(successMsg.textContent).toContain(
-      'You have successfully added to your organisation'
+      'You have successfully added additional registries to your organisation'
     );
   });
 });

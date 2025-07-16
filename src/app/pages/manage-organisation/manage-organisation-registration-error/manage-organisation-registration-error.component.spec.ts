@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ManageOrgRegErrorComponent } from './manage-organisation-registration-error.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrgRegErrorComponent', () => {
   let component: ManageOrgRegErrorComponent;
@@ -15,9 +17,14 @@ describe('ManageOrgRegErrorComponent', () => {
     mockStore.select.and.returnValue(of(false));
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [],
       declarations: [ManageOrgRegErrorComponent],
-      providers: [{ provide: Store, useValue: mockStore }],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: Store, useValue: mockStore }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { BehaviorSubject, of } from 'rxjs';
 
 import { ManageOrgRegStep2Component } from './manage-organisation-registration-step-2.component';
@@ -10,6 +9,7 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { SchemePipe } from 'src/app/pipes/scheme.pipe';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegStep2Component', () => {
   let component: ManageOrgRegStep2Component;
@@ -33,15 +33,16 @@ describe('ManageOrgRegStep2Component', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [ManageOrgRegStep2Component, SchemePipe],
       providers: [
+        provideRouter([]),
         { provide: ciiService, useValue: ciiServiceMock },
         { provide: SharedDataService, useValue: sharedDataServiceMock },
         { provide: Store, useFactory: () => ({}) },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

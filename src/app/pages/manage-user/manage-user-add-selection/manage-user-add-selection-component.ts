@@ -75,7 +75,7 @@ export class ManageUserAddSelectionComponent
       if (selection === 'singleUser') {
         this.router.navigateByUrl('manage-users/add-user/details');
       } else {
-        console.log('Add Multiple Users Selected');
+        
         this.router.navigateByUrl('manage-users/bulk-users');
       }
     } else {

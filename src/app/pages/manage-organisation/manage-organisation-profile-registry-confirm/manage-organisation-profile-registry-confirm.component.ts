@@ -79,7 +79,7 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
     });
     this.dataLayerService.pushPageViewEvent({
       scheme: this.routeParams.scheme,
-       organisationId: this.routeParams.this.organisationId,
+       organisationId: this.routeParams.organisationId,
     });
   }
 
@@ -89,7 +89,7 @@ export class ManageOrganisationRegistryConfirmComponent extends BaseComponent im
         this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/confirmation/' + this.routeParams.scheme + '/' + this.id);
       },
         (error) => {
-          console.log(error);
+          
         });
     } else if (this.detailValidityOption === 'WrongAddress') {
       this.router.navigateByUrl(`manage-org/profile/${this.organisationId}/registry/search/wrong-details`);

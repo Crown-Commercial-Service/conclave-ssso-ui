@@ -62,7 +62,7 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
             this.router.navigateByUrl('mfa-authenticator-setup');
 
           }, error : (err) => {
-            console.log(err);
+            
             if (err.status == 404) {
               this.router.navigateByUrl('error?error_description=USER_NOT_FOUND');
           }
@@ -98,7 +98,7 @@ export class MfaInformationComponent extends BaseComponent implements OnInit{
         this.getQRCode();
     },
     (err) => {
-        console.log(err);
+        
         this.authService.logOutAndRedirect();
     });
 

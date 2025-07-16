@@ -190,7 +190,7 @@ export class ManageOrgRegStep3Component
     this.filteredCountryDetails
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
-        console.log(this.singleSelect);
+        
         // setting the compareWith property to a comparison function
         // triggers initializing the selection according to the initial value of
         // the form control (i.e. _initializeSelection())
@@ -199,7 +199,7 @@ export class ManageOrgRegStep3Component
         if(this.singleSelect){
           this.singleSelect.compareWith = (a: ContryDetails, b: ContryDetails) =>
           a && b && a.id === b.id;
-          console.log('setInitialValue2');
+          
         }
       });
   }

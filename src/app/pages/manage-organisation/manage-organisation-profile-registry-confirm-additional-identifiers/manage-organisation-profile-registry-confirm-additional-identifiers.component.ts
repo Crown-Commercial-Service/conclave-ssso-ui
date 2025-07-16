@@ -98,7 +98,7 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
     this.dataLayerService.pushPageViewEvent({
       scheme: this.routeParams.scheme,
        id: this.routeParams.id,
-       organisationId: this.routeParams.this.organisationId,
+       organisationId: this.routeParams.organisationId,
     });
   }
 
@@ -115,7 +115,7 @@ export class ManageOrganisationRegistryConfirmAdditionalDetailsComponent extends
       this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/confirmation/' + this.routeParams.scheme + '/' + this.routeParams.id);
     },
       (error) => {
-        console.log(error);
+        
       });
       this.pushDataLayerEvent(buttonText);
   }

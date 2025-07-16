@@ -93,7 +93,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
       this.orgSiteService.getOrganisationSite(this.organisationId, this.siteId).subscribe(
         {
           next: (siteInfo: OrganisationSiteResponse) => {
-            console.log("siteInfo",siteInfo)
+            
             this.formGroup.setValue({
               name: siteInfo.siteName,
               streetAddress: siteInfo.address.streetAddress,
@@ -109,7 +109,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
             this.loadingIndicatorService.isCustomLoading.next(false);
           },
           error: (error: any) => {
-            console.log(error);
+            
             
             this.loadingIndicatorService.isLoading.next(false);
             this.loadingIndicatorService.isCustomLoading.next(false);
@@ -199,7 +199,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
         }
       },
       error: (error: any) => {
-        console.log(error);
+        
       }
     });
   }
@@ -269,7 +269,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
               },
               
               error: (error: any) => {
-                console.log(error);
+                
                 // var errorObject: ValidationErrors = {};
                 // errorObject['error'] = true;
                 // form.controls['countryCode'].setErrors(errorObject);

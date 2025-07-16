@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { WrapperBuyerBothService } from './wrapper-buyer-both.service';
@@ -10,6 +9,8 @@ import {
   OrganisationAuditList,
 } from 'src/app/models/organisation';
 import { environment } from 'src/environments/environment';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('WrapperBuyerBothService', () => {
   let service: WrapperBuyerBothService;
@@ -17,8 +18,11 @@ describe('WrapperBuyerBothService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [WrapperBuyerBothService],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        WrapperBuyerBothService],
     });
     service = TestBed.inject(WrapperBuyerBothService);
     httpMock = TestBed.inject(HttpTestingController);

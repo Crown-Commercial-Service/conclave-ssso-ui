@@ -112,7 +112,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         }
       },
       error: (error: any) => {
-        console.log("error", error)
+        
       },
     });
   }
@@ -345,7 +345,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         }
       },
       error: (error: any) => {
-        console.log("error", error)
+        
       },
     });
   }
@@ -356,7 +356,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.orgDetails = data.identifier.legalName
       })
       .catch((err) => {
-        console.log('err', err);
+        
       });
   }
 }

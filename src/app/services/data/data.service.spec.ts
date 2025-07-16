@@ -1,13 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { dataService } from './data.service';
 import { identityService } from '../identity/identity.service';
 import { JwtToken } from '../../models/jwtToken';
 import { Data } from '../../models/data';
 import { of } from 'rxjs';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('dataService', () => {
   let service: dataService;
@@ -20,8 +21,10 @@ describe('dataService', () => {
     ]);
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         dataService,
         { provide: identityService, useValue: identityServiceSpyObj },
       ],

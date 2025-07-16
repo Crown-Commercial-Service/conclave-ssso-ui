@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 
 import { ManageOrgRegSearchStatusExistsComponent } from './manage-reg-organisation-status-exists.component';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegSearchStatusExistsComponent', () => {
   let component: ManageOrgRegSearchStatusExistsComponent;
@@ -18,9 +18,10 @@ describe('ManageOrgRegSearchStatusExistsComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [ TranslateModule.forRoot()],
       declarations: [ManageOrgRegSearchStatusExistsComponent],
       providers: [
+        provideRouter([]),
         {
           provide: OrganisationService,
           useValue: organisationServiceSpy,
@@ -32,6 +33,7 @@ describe('ManageOrgRegSearchStatusExistsComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

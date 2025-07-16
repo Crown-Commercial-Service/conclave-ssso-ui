@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ConfirmOrgServiceComponent } from './confirm-org-service.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
 import { WrapperOrganisationService } from 'src/app/services/wrapper/wrapper-org-service';
 import { of } from 'rxjs';
@@ -10,12 +9,13 @@ import {
   StateObservable,
   ActionsSubject,
   ReducerManager,
-  ReducerManagerDispatcher,
   INITIAL_STATE,
   INITIAL_REDUCERS,
   REDUCER_FACTORY,
 } from '@ngrx/store';
 import { UIState } from 'src/app/store/ui.states';
+import { provideMockStore } from '@ngrx/store/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ConfirmOrgServiceComponent', () => {
   let component: ConfirmOrgServiceComponent;
@@ -25,8 +25,7 @@ describe('ConfirmOrgServiceComponent', () => {
   let mockWrapperOrganisationService: any;
   let store: Store<UIState>;
   let actionsSubject: ActionsSubject;
-  let reducerManager: ReducerManager;
-  let reducerManagerDispatcher: ReducerManagerDispatcher;
+  let reducerManager: ReducerManager;  
   const initialState = {};
   const initialReducers = {};
   const reducerFactory = () => {};
@@ -47,9 +46,10 @@ describe('ConfirmOrgServiceComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [],
       declarations: [ConfirmOrgServiceComponent],
       providers: [
+        provideRouter([]),
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: OrganisationService, useValue: mockOrganisationService },
         {
@@ -60,11 +60,12 @@ describe('ConfirmOrgServiceComponent', () => {
         StateObservable,
         ActionsSubject,
         ReducerManager,
-        ReducerManagerDispatcher,
+        provideMockStore({initialState: {},}),
         { provide: INITIAL_STATE, useValue: initialState },
         { provide: INITIAL_REDUCERS, useValue: initialReducers },
         { provide: REDUCER_FACTORY, useValue: reducerFactory },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -73,8 +74,7 @@ describe('ConfirmOrgServiceComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
     actionsSubject = TestBed.inject(ActionsSubject);
-    reducerManager = TestBed.inject(ReducerManager);
-    reducerManagerDispatcher = TestBed.inject(ReducerManagerDispatcher);
+    reducerManager = TestBed.inject(ReducerManager);    
     fixture.detectChanges();
   });
 

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { GovUKTableComponent } from './govuk-table.component';
 import { Store } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('GovUKTableComponent', () => {
   let component: GovUKTableComponent;
@@ -18,6 +19,7 @@ describe('GovUKTableComponent', () => {
           useFactory: () => ({}),
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -44,7 +44,7 @@ export class ManageUserConfirmResetPasswordComponent extends BaseComponent imple
                 this.router.navigateByUrl(`operation-success/${OperationEnum.UserPasswordChange}`);             
             },
             error: (error) => {
-                console.log(error);
+                
             }
         });
         this.pushDataLayerEvent(buttonText);

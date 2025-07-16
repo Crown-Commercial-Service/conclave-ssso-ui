@@ -51,7 +51,7 @@ export class ManageUserBulkUploadStatusComponent implements OnInit {
     }
 
     checkStatus(docId: string) {
-        console.log("Check Status " + docId);
+        
         this.bulkUploadService.checkBulkUploadStatus(this.organisationId, docId).subscribe({
             next: (response: BulkUploadResponse) => {
                 if (response.bulkUploadStatus !== BulkUploadStatus.processing &&
@@ -63,7 +63,7 @@ export class ManageUserBulkUploadStatusComponent implements OnInit {
                 }
             },
             error: (error) => {
-                console.log(error);
+                
             }
         });
     }

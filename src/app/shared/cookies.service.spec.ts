@@ -18,16 +18,27 @@ describe('CookiesService', () => {
   });
 
   it('should set a cookie with the provided value and expiration time', () => {
+    let fakeCookies = '';
+    Object.defineProperty(document, 'cookie', {
+      get: () => fakeCookies,
+      set: (val) => {
+        // Simulate browser behavior: just append new cookie string
+        const [key, ...rest] = val.split(';');
+        const [k, v] = key.split('=');
+        const kv = `${k.trim()}=${v.trim()}`;
+        fakeCookies = kv;
+      },
+      configurable: true,
+    });
+
     const cname = 'testCookie';
     const cvalue = 'testValue';
     const exmin = 10;
 
     service.setCookie(cname, cvalue, exmin);
 
-    const cookies = document.cookie.split(';');
-    const cookie = cookies.find((c) => c.trim().startsWith(`${cname}=`));
-    expect(cookie).toBeDefined();
-    expect(cookie?.trim()).toContain(`${cname}=${cvalue}`);
+    const result = service.getCookie(cname);
+    expect(result).toEqual(cvalue);
   });
 
   it('should delete additional Google Analytics cookies', (done) => {

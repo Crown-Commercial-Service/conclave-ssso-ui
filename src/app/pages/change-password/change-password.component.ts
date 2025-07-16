@@ -104,7 +104,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
 
       this.authService.changePassword(contactData).toPromise()
         .then((response) => {
-          console.log(response);
+          
          // this.authService.signOut();
           this.router.navigateByUrl(`change-password-success/${OperationEnum.PasswordChanged}`);
         }, (err) => {
@@ -120,7 +120,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
             form.controls['newPassword'].setErrors({ 'recentlyUsedPassword': true });
           }
           else {
-            console.log(err);
+            
           }
         });
     }

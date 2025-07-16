@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ManageOrgRegNotRegisteredComponent } from './manage-reg-organisation-not-registered.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrgRegNotRegisteredComponent', () => {
   let component: ManageOrgRegNotRegisteredComponent;
@@ -15,16 +16,17 @@ describe('ManageOrgRegNotRegisteredComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegNotRegisteredComponent],
       imports: [
-        RouterTestingModule,
         ReactiveFormsModule,
         TranslateModule.forRoot(),
         FormsModule,
       ],
       providers: [
+        provideRouter([]),
         { provide: Store, useFactory: () => ({}) },
         ViewportScroller,
         ScrollHelper,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

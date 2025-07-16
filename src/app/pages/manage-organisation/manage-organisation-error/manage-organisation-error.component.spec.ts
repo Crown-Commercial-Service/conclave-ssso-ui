@@ -8,6 +8,7 @@ import { ManageOrganisationErrorComponent } from './manage-organisation-error.co
 import { dataService } from 'src/app/services/data/data.service';
 import { UIState } from 'src/app/store/ui.states';
 import { of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationErrorComponent', () => {
   let component: ManageOrganisationErrorComponent;
@@ -41,6 +42,7 @@ describe('ManageOrganisationErrorComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

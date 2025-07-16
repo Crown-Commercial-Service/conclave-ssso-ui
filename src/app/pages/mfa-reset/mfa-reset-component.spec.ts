@@ -1,21 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { MFAResetComponent } from './mfa-reset-component';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Title } from '@angular/platform-browser';
-import {
-  Store,
-  StateObservable,
-  ActionsSubject,
-  ReducerManager,
-  ReducerManagerDispatcher,
-  INITIAL_STATE,
-  INITIAL_REDUCERS,
-  REDUCER_FACTORY,
-} from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('MFAResetComponent', () => {
   let component: MFAResetComponent;
@@ -31,9 +22,10 @@ describe('MFAResetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [],
       declarations: [MFAResetComponent],
       providers: [
+        provideRouter([]),
         {
           provide: ActivatedRoute,
           useValue: { queryParams: of({ t: 'mock-token' }) },
@@ -44,21 +36,19 @@ describe('MFAResetComponent', () => {
         },
         { provide: AuthService, useValue: { logOutAndRedirect: () => {} } },
         { provide: Title, useValue: { setTitle: () => {} } },
-        Store,
-        StateObservable,
-        ActionsSubject,
-        ReducerManager,
-        ReducerManagerDispatcher,
+        
+        provideMockStore({
+          initialState: {}, 
+        }),
         {
           provide: ActivatedRoute,
           useValue: {
             params: of({ id: '1' }),
           },
         },
-        { provide: INITIAL_STATE, useValue: initialState },
-        { provide: INITIAL_REDUCERS, useValue: initialReducers },
-        { provide: REDUCER_FACTORY, useValue: reducerFactory },
+        
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

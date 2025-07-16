@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import 'rxjs/add/observable/of';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, throwError, of } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 import { environment } from '../../../environments/environment';
 import { PasswordChangeDetail } from 'src/app/models/passwordChangeDetail';
@@ -54,7 +52,7 @@ export class AuthService {
             return data;
           }));
     }
-    return Observable.of(this.ccsServices);
+    return of(this.ccsServices);
   }
 
   public registerTokenRenewal() {
@@ -129,9 +127,9 @@ export class AuthService {
   public isAuthenticated(): Observable<boolean> {
     const tokens = this.sessionService.decrypt('user_name')
     if (tokens) {
-      return Observable.of(true);
+      return of(true);
     }
-    return Observable.of(false);
+    return of(false);
   }
 
   changePassword(passwordChangeDetail: PasswordChangeDetail): Observable<any> {
@@ -308,7 +306,7 @@ export class AuthService {
         );
     }
     else {
-      return Observable.of(this.servicePermission);
+      return of(this.servicePermission);
     }
   }
 
@@ -437,7 +435,7 @@ export class AuthService {
         return data;
       }),
       catchError(error =>{
-        console.log(error);
+        
         return throwError(error);
       })
     )

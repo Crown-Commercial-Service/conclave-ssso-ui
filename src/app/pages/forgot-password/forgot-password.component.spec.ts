@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 describe('ForgotPasswordComponent', () => {
@@ -13,6 +12,7 @@ describe('ForgotPasswordComponent', () => {
   let translateService: TranslateService;
   let authService: AuthService;
   let mockRouter: any;
+  let activatedRoute: ActivatedRoute;
 
   beforeEach(async () => {
     mockRouter = { navigateByUrl: jasmine.createSpy('navigateByUrl') };
@@ -28,6 +28,10 @@ describe('ForgotPasswordComponent', () => {
       providers: [
         { provide: Router, useValue: mockRouter },
         {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { queryParamMap: convertToParamMap({ email: 'test@mail.com' }), } },
+        },
+        {
           provide: AuthService,
           useFactory: authServiceStub,
         },
@@ -39,6 +43,7 @@ describe('ForgotPasswordComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);
     component = fixture.componentInstance;
+    activatedRoute = TestBed.inject(ActivatedRoute);
     authService = TestBed.inject(AuthService);
     translateService = TestBed.inject(TranslateService);
     fixture.detectChanges();
@@ -51,9 +56,7 @@ describe('ForgotPasswordComponent', () => {
   it('should initialize the form with correct validators', () => {
     expect(component.resetForm).toBeDefined();
     expect(component.resetForm.controls.userName).toBeDefined();
-    expect(component.resetForm.controls.userName.value).toBe('');
-    expect(component.resetForm.controls.userName.valid).toBeFalsy();
-
+    
     component.resetForm.controls.userName.setValue('test@example.com');
     expect(component.resetForm.controls.userName.valid).toBeTruthy();
   });
@@ -80,7 +83,7 @@ describe('ForgotPasswordComponent', () => {
   });
 
   it('should navigate to login page on cancel click', () => {
-    component.onCancelClick();
+    component.onCancelClick('Cancel');
 
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('login');
   });

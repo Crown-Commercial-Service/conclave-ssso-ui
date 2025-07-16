@@ -54,7 +54,7 @@ export class ManageUserBulkUploadMigrationStatusComponent implements OnInit {
                 }
             },
             error: (error) => {
-                console.log(error);
+                
             }
         });
     }

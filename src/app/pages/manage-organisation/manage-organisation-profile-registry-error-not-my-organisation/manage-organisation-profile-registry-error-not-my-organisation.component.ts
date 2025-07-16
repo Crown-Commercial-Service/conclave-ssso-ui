@@ -43,7 +43,7 @@ export class ManageOrganisationRegistryOrgNotFoundComponent extends BaseComponen
       this.routeParams = params;
     });
 
-    this.dataLayerService.pushPageViewEvent({organisationId: this.routeParams.this.organisationId});
+    this.dataLayerService.pushPageViewEvent({organisationId: this.routeParams.organisationId});
    }
 
   public goToSearch() {

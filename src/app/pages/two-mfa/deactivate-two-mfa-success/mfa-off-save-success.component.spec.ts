@@ -12,6 +12,7 @@ import { DataLayerService } from 'src/app/shared/data-layer.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { UIState } from 'src/app/store/ui.states';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('MfaOffSaveSuccessComponent', () => {
     let component: MfaOffSaveSuccessComponent;
@@ -38,7 +39,8 @@ describe('MfaOffSaveSuccessComponent', () => {
                 { provide: ViewportScroller },
                 { provide: ScrollHelper },
                 { provide: DataLayerService, useValue: dataLayerServiceSpy },
-            ]
+            ],
+            schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();
 
         fixture = TestBed.createComponent(MfaOffSaveSuccessComponent);
