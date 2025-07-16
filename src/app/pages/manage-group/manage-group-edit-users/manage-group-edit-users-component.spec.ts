@@ -11,6 +11,7 @@ import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { BehaviorSubject } from 'rxjs';
 import { CheckBoxUserListGridSource, UserListInfo } from 'src/app/models/user';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupEditUsersComponent', () => {
   let component: ManageGroupEditUsersComponent;
@@ -92,6 +93,7 @@ describe('ManageGroupEditUsersComponent', () => {
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
         { provide: ScrollHelper, useValue: scrollHelperSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

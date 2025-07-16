@@ -35,7 +35,7 @@ export class RollbarErrorHandler implements ErrorHandler {
 
       this.rollbar.error(err.originalError || err);
     } else {
-      console.log('logging:' + err);
+      // console.log('logging:' + err);
     }
   }
 }

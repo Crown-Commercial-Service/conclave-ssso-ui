@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { ManageOrgRegStep1Component } from './manage-organisation-registration-step-1.component';
 import { dataService } from 'src/app/services/data/data.service';
@@ -9,6 +8,7 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { UIState } from 'src/app/store/ui.states';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 // import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ManageOrgRegStep1Component', () => {
@@ -44,6 +44,7 @@ describe('ManageOrgRegStep1Component', () => {
         { provide: ScrollHelper, useValue: mockScrollHelper },
         { provide: SharedDataService, useValue: {} },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

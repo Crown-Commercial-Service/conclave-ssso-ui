@@ -41,7 +41,7 @@ export class ManageOrganisationProfileAddContactToSiteComponent implements OnIni
       this.siteInfo=siteInfo
       },
       error: (error: any) => {
-        console.log(error);
+        console.log('Test error')
       }
     });
  }

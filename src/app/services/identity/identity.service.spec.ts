@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { identityService } from './identity.service';
 import { JwtToken } from '../../models/jwtToken';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('identityService', () => {
   let service: identityService;
@@ -12,8 +13,11 @@ describe('identityService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [identityService],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        identityService],
     });
     service = TestBed.inject(identityService);
     httpMock = TestBed.inject(HttpTestingController);

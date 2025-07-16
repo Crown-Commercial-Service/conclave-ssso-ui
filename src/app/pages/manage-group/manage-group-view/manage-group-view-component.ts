@@ -108,7 +108,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
           });
         },
         (error) => {
-          console.log(error);
+          
         }
       );
   }

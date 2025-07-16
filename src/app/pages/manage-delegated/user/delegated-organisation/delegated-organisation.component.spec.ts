@@ -5,6 +5,7 @@ import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-us
 import { ManageDelegateService } from '../../service/manage-delegate.service';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DelegatedOrganisationComponent', () => {
   let component: DelegatedOrganisationComponent;
@@ -40,6 +41,7 @@ describe('DelegatedOrganisationComponent', () => {
         },
         { provide: ManageDelegateService, useValue: delegateServiceSpyObj },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

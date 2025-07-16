@@ -5,10 +5,11 @@ import { ContactUsComponent } from './contactus.component';
 import { ViewportScroller } from '@angular/common';
 import { PatternService } from 'src/app/shared/pattern.service';
 import { of } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('ContactUsComponent', () => {
   let component: ContactUsComponent;
@@ -33,14 +34,16 @@ describe('ContactUsComponent', () => {
       declarations: [ContactUsComponent],
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
       ],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
         { provide: Store, useValue: mockStore },
         { provide: PatternService, useValue: mockPatternService },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { DelegatedUserActivationComponent } from './delegated-user-activation.component';
 import { WrapperUserDelegatedService } from 'src/app/services/wrapper/wrapper-user-delegated.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DelegatedUserActivationComponent', () => {
   let component: DelegatedUserActivationComponent;
@@ -31,6 +32,7 @@ describe('DelegatedUserActivationComponent', () => {
           useValue: mockDelegatedService,
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

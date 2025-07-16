@@ -6,6 +6,7 @@ import { OrganisationSiteResponse } from 'src/app/models/site';
 import { WrapperOrganisationSiteService } from 'src/app/services/wrapper/wrapper-org-site-service';
 import { ManageOrganisationProfileAddContactToSiteComponent } from './manage-organisation-profile-add-contact-to-site.component';
 import { OperationEnum } from 'src/app/constants/enum';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationProfileAddContactToSiteComponent', () => {
   let component: ManageOrganisationProfileAddContactToSiteComponent;
@@ -38,6 +39,7 @@ describe('ManageOrganisationProfileAddContactToSiteComponent', () => {
         },
         { provide: TranslateService, useValue: translateServiceStub },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -106,6 +108,7 @@ describe('ManageOrganisationProfileAddContactToSiteComponent', () => {
     it('should log error if orgSiteService returns an error', () => {
       const error = 'Test error';
       spyOn(console, 'log');
+      // spyOn(console, 'log').and.callFake(() => {});
       orgSiteServiceSpy.getOrganisationSite.and.returnValue(throwError(error));
 
       component.getSiteDetails();

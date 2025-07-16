@@ -1,15 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpTestingController,
-  HttpClientTestingModule,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { AuthService } from '../services/auth/auth.service';
 import { WorkerService } from '../services/worker.service';
 import { HttpJwtAuthInterceptor } from './http-jtw-auth.interceptor';
-import { RouterTestingModule } from '@angular/router/testing';
 import { RollbarErrorService } from '../shared/rollbar-error.service';
 import { RollbarService, rollbarFactory } from '../logging/rollbar';
 import { TokenService } from '../services/auth/token.service';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('HttpJwtAuthInterceptor', () => {
   let interceptor: HttpJwtAuthInterceptor;
@@ -19,8 +20,11 @@ describe('HttpJwtAuthInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule],
+      imports: [],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         HttpJwtAuthInterceptor,
         AuthService,
         WorkerService,

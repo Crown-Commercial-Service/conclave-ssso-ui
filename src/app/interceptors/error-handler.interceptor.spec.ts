@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ErrorHandlerInterceptor } from './error-handler.interceptor';
-import { Router } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('ErrorHandlerInterceptor', () => {
   let interceptor: ErrorHandlerInterceptor;
@@ -14,8 +14,12 @@ describe('ErrorHandlerInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [ErrorHandlerInterceptor],
+      imports: [],
+      providers: [ErrorHandlerInterceptor,
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ],
     });
     interceptor = TestBed.inject(ErrorHandlerInterceptor);
     httpMock = TestBed.inject(HttpTestingController);

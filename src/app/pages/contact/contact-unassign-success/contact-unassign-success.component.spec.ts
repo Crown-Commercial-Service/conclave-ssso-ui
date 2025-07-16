@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ContactUnassignSuccessComponent } from './contact-unassign-success-component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ContactUnassignSuccessComponent', () => {
   let component: ContactUnassignSuccessComponent;
@@ -18,11 +17,13 @@ describe('ContactUnassignSuccessComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [ContactUnassignSuccessComponent],
-      providers: [{ provide: Store, useFactory: () => ({}) }],
+      providers: [
+        provideRouter([]),
+        { provide: Store, useFactory: () => ({}) }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

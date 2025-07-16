@@ -188,7 +188,7 @@ export class ManageGroupOperationSuccessComponent
           this.getListOfUsersGivenAccess();
         },
         (error) => {
-          console.log(error);
+          
         }
       );
   }
@@ -209,7 +209,7 @@ export class ManageGroupOperationSuccessComponent
           this.checkAccordionStatus()
         },
         (error) => {
-          console.log(error);
+          
         }
       );
   }

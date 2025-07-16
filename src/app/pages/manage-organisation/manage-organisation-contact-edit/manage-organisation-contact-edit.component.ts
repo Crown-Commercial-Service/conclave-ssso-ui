@@ -199,7 +199,7 @@ export class ManageOrganisationContactEditComponent
         }
       },
       error: (error: any) => {
-        console.log(error);
+        
       },
     });
     this.dataLayerService.pushFormStartEvent(this.formId, this.formGroup);
@@ -255,7 +255,7 @@ export class ManageOrganisationContactEditComponent
           this.EditCheckbox();
         },
         error: (error: any) => {
-          console.log(error);
+          
         },
       });
   }
@@ -310,7 +310,7 @@ export class ManageOrganisationContactEditComponent
           this.EditCheckbox();
         },
         error: (error: any) => {
-          console.log(error);
+          
         },
       });
   }
@@ -408,7 +408,7 @@ export class ManageOrganisationContactEditComponent
           this.submitted = false;
         },
         error: (error) => {
-          console.log(error);
+          
           this.setError(form, error.error);
         },
       });
@@ -425,7 +425,7 @@ export class ManageOrganisationContactEditComponent
           this.submitted = false;
         },
         error: (error) => {
-          console.log(error);
+          
           this.setError(form, error.error);
         },
       });
@@ -451,7 +451,7 @@ export class ManageOrganisationContactEditComponent
           this.submitted = false;
         },
         error: (error) => {
-          console.log(error);
+          
           this.setError(form, error.error);
         },
       });
@@ -473,7 +473,7 @@ export class ManageOrganisationContactEditComponent
           this.submitted = false;
         },
         error: (error) => {
-          console.log(error);
+          
           this.setError(form, error.error);
         },
       });
@@ -643,7 +643,7 @@ export class ManageOrganisationContactEditComponent
           this.siteInfo = siteInfo;
         },
         error: (error: any) => {
-          console.log(error);
+          
         },
       });
   }

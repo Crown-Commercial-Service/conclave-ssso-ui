@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { ViewportScroller } from '@angular/common';
 import { OrganisationService } from 'src/app/services/postgres/organisation.service';
@@ -8,7 +7,10 @@ import { ManageOrgRegCIIOrgDisplayComponent } from './manage-reg-organisation-ci
 import { UIState } from 'src/app/store/ui.states';
 import { of } from 'rxjs';
 import { OrganisationSearchDto } from 'src/app/models/organisation';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('ManageOrgRegCIIOrgDisplayComponent', () => {
   let component: ManageOrgRegCIIOrgDisplayComponent;
@@ -18,11 +20,14 @@ describe('ManageOrgRegCIIOrgDisplayComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegCIIOrgDisplayComponent],
       imports: [
-        RouterTestingModule,
         StoreModule.forRoot({}),
-        HttpClientTestingModule,
       ],
-      providers: [OrganisationService, ViewportScroller, ScrollHelper],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        OrganisationService, ViewportScroller, ScrollHelper],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -9,6 +9,7 @@ import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrappe
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupEditRolesComponent', () => {
   let component: ManageGroupEditRolesComponent;
@@ -80,6 +81,7 @@ describe('ManageGroupEditRolesComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

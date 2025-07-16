@@ -4,6 +4,7 @@ import { ConfirmMfaResetComponent } from './confirm-mfa-reset.component';
 import { MFAService } from 'src/app/services/auth/mfa.service';
 import { of, throwError } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ConfirmMfaResetComponent', () => {
   let component: ConfirmMfaResetComponent;
@@ -28,6 +29,7 @@ describe('ConfirmMfaResetComponent', () => {
         },
         { provide: MFAService, useValue: mfaServiceSpyObj },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

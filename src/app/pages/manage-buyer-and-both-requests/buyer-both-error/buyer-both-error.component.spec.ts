@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BuyerBothErrorComponent } from './buyer-both-error.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 describe('BuyerBothErrorComponent', () => {
   let component: BuyerBothErrorComponent;
@@ -9,9 +10,12 @@ describe('BuyerBothErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), RouterTestingModule],
+      imports: [TranslateModule.forRoot()],
       declarations: [BuyerBothErrorComponent],
-      providers: [TranslateService],
+      providers: [TranslateService,
+        provideRouter([]),
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { UIState } from 'src/app/store/ui.states';
 import { NominateSuccessComponent } from './nominate-success.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('NominateSuccessComponent', () => {
   let component: NominateSuccessComponent;
@@ -39,6 +40,7 @@ describe('NominateSuccessComponent', () => {
         { provide: SharedDataService, useValue: sharedDataServiceSpy },
         { provide: Store, useValue: storeSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -99,12 +101,13 @@ describe('NominateSuccessComponent', () => {
     expect(breadcrumbItems[4].textContent.trim()).toEqual('ORG_ADMIN');
     expect(breadcrumbItems[5].textContent.trim()).toEqual('2FA_SETUP');
     expect(breadcrumbItems[6].textContent.trim()).toEqual('ORG_TYPE');
-    expect(breadcrumbItems[7].textContent.trim()).toEqual(
-      'ORG_DETAILS'
+    expect(breadcrumbItems[7].textContent.trim()).toEqual('ORG_DETAILS');
+    expect(breadcrumbItems[8].textContent.trim()).toEqual(
+      'CONFIRM_ORG_DETAILS'
     );
-    expect(breadcrumbItems[8].textContent.trim()).toEqual('CONFIRM_ORG_DETAILS');
     expect(breadcrumbItems[9].textContent.trim()).toEqual('CREATE_ADMIN_ACC');
     expect(breadcrumbItems[10].textContent.trim()).toEqual('NOMINATE');
+    expect(breadcrumbItems[11].textContent.trim()).toEqual('SUCCESS');
   });
 
   it('should render the correct email address in the template', () => {

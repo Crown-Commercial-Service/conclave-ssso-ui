@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { BulkUploadService } from './bulk-upload.service';
 import { BulkUploadResponse } from 'src/app/models/bulkUploadResponse';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('BulkUploadService', () => {
   let service: BulkUploadService;
@@ -12,8 +13,11 @@ describe('BulkUploadService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [BulkUploadService],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        BulkUploadService],
     });
     service = TestBed.inject(BulkUploadService);
     httpMock = TestBed.inject(HttpTestingController);

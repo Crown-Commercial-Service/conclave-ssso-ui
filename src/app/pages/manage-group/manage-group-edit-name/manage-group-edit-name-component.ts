@@ -155,8 +155,7 @@ export class ManageGroupEditNameComponent
                   this.scrollHelper.scrollToFirst('error-summary');
                   this.dataLayerService.pushFormErrorEvent(this.formId);
                 }
-                console.log(error);
-                console.log(error.error);
+                
               }
             );
         } else {
@@ -192,8 +191,7 @@ export class ManageGroupEditNameComponent
                   this.scrollHelper.scrollToFirst('error-summary');
                   this.dataLayerService.pushFormErrorEvent(this.formId);
                 }
-                console.log(error);
-                console.log(error.error);
+                
               }
             );
         }

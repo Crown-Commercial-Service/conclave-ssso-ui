@@ -1,16 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangePasswordComponent } from './change-password.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { of } from 'rxjs';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('ChangePasswordComponent', () => {
   let component: ChangePasswordComponent;
@@ -29,12 +30,13 @@ describe('ChangePasswordComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
       declarations: [ChangePasswordComponent],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
         AuthService,
         Location,
         RollbarErrorService,

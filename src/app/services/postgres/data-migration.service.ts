@@ -41,7 +41,7 @@ export class DataMigrationService {
       map((data: any) => { 
         return data;
       }), catchError(error => {
-        console.log(error);
+        
         return throwError(error);
       })
     )
@@ -54,7 +54,7 @@ export class DataMigrationService {
       map((data: any) => { 
         return data;
       }), catchError(error => {
-        console.log(error);
+        
         return throwError(error);
       })
     )

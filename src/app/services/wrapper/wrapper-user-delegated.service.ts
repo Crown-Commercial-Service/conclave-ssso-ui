@@ -224,7 +224,7 @@ export class WrapperUserDelegatedService {
       const url = `${this.Usersurl}/v1/delegate-user/audit-events?user-id=${id}&delegated-organisation-id=${delegatedOrganisationId}&PageSize=${pageSize}&CurrentPage=${currentPage}`;
       return this.http.get<any>(url).pipe(
         map((data: any) => {
-          console.log("data.organisationAuditEventList",data)
+          
           data.organisationAuditEventList = data.orgAuditEventServiceRoleGroupList
           return  data
         }), catchError(error => {

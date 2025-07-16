@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { AutoValidationBuyerSuccessComponent } from './auto-validation-buyer-success.component';
@@ -10,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { UIState } from 'src/app/store/ui.states';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { ViewportScroller } from '@angular/common';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AutoValidationBuyerSuccessComponent', () => {
   let component: AutoValidationBuyerSuccessComponent;
@@ -39,8 +39,9 @@ describe('AutoValidationBuyerSuccessComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [AutoValidationBuyerSuccessComponent],
-      imports: [RouterTestingModule],
+      imports: [],
       providers: [
+        provideRouter([]),
         { provide: OrganisationService, useValue: mockOrganisationService },
         {
           provide: WrapperOrganisationService,
@@ -52,6 +53,7 @@ describe('AutoValidationBuyerSuccessComponent', () => {
         { provide: ScrollHelper, useValue: mockScrollHelper },
         ViewportScroller,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

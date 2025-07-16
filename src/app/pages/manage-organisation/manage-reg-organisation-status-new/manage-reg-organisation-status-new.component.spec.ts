@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ManageOrgRegSearchStatusNewComponent } from './manage-reg-organisation-status-new.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrgRegSearchStatusNewComponent', () => {
   let component: ManageOrgRegSearchStatusNewComponent;
@@ -12,7 +12,9 @@ describe('ManageOrgRegSearchStatusNewComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ManageOrgRegSearchStatusNewComponent],
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [ TranslateModule.forRoot()],
+      providers: [provideRouter([]),],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

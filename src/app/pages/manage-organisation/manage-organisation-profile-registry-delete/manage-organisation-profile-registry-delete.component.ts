@@ -80,7 +80,7 @@ export class ManageOrganisationRegistryDeleteComponent extends BaseComponent imp
       .subscribe((data) => {
         this.router.navigateByUrl('manage-org/profile/' + this.organisationId + '/registry/delete/confirmation/' + this.routeParams.scheme + '/' + this.routeParams.id);
       }, (error) => {
-        console.log(error);
+        
       });
       this.pushDataLayerEvent(buttonText);
   }

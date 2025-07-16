@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { GlobalRouteService } from 'src/app/services/helper/global-route.service';
 import { AuthErrorComponent } from './auth-error.component';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AuthErrorComponent', () => {
   let component: AuthErrorComponent;
@@ -24,9 +23,10 @@ describe('AuthErrorComponent', () => {
 
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [RouterTestingModule],
+      imports: [],
       declarations: [AuthErrorComponent],
       providers: [
+        provideRouter([]),
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
         { provide: Store, useFactory: storeStub },
         { provide: AuthService, useFactory: authServiceStub },

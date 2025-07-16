@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { OrgRegDetails } from './reg-org-details.component';
 import { ciiService } from 'src/app/services/cii/cii.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OrgRegDetailsComponent', () => {
   let component: OrgRegDetails;
@@ -36,6 +37,7 @@ describe('OrgRegDetailsComponent', () => {
           useValue: viewportScrollerSpy,
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

@@ -1,17 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { RegistrationSuccessComponent } from './registration-success.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  Store,
-  StateObservable,
-  ActionsSubject,
-  ReducerManager,
-  ReducerManagerDispatcher,
-  INITIAL_STATE,
-  INITIAL_REDUCERS,
-  REDUCER_FACTORY,
-} from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('RegistrationSuccessComponent', () => {
   let component: RegistrationSuccessComponent;
@@ -19,18 +12,17 @@ describe('RegistrationSuccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [],
       declarations: [RegistrationSuccessComponent],
-      providers: [
-        Store,
-        StateObservable,
-        ActionsSubject,
-        ReducerManager,
-        ReducerManagerDispatcher,
-        { provide: INITIAL_STATE, useValue: {} },
-        { provide: INITIAL_REDUCERS, useValue: {} },
-        { provide: REDUCER_FACTORY, useValue: () => {} },
+      providers: [      
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),  
+        provideMockStore({
+          initialState: {}, 
+        }),
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

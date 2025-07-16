@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { ManageOrganisationRegistryDeleteComponent } from './manage-organisation-profile-registry-delete.component';
@@ -10,6 +9,7 @@ import { TokenService } from 'src/app/services/auth/token.service';
 import { ViewportScroller } from '@angular/common';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageOrganisationRegistryDeleteComponent', () => {
   let component: ManageOrganisationRegistryDeleteComponent;
@@ -24,10 +24,12 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
       'setOffset',
     ]);
 
-    const ciiServiceSpy = jasmine.createSpyObj('ciiService', [
+    ciiServiceMock = jasmine.createSpyObj('ciiService', [
       'getOrganisationIdentifierDetails',
       'deleteRegistry',
+      'getSchemes'
     ]);
+    ciiServiceMock.getSchemes.and.returnValue(of([]));
     const wrapperServiceSpy = jasmine.createSpyObj('WrapperUserService', ['']);
     const tokenServiceSpy = jasmine.createSpyObj('TokenService', [
       'getCiiOrgId',
@@ -35,9 +37,10 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ManageOrganisationRegistryDeleteComponent],
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [ TranslateModule.forRoot()],
       providers: [
-        { provide: ciiService, useValue: ciiServiceSpy },
+        provideRouter([]),
+        { provide: ciiService, useValue: ciiServiceMock },
         { provide: WrapperUserService, useValue: wrapperServiceSpy },
         { provide: TokenService, useValue: tokenServiceSpy },
         { provide: ViewportScroller, useValue: viewportScrollerSpy },
@@ -62,6 +65,7 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -71,7 +75,7 @@ describe('ManageOrganisationRegistryDeleteComponent', () => {
     );
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    ciiServiceMock = TestBed.inject(ciiService) as jasmine.SpyObj<ciiService>;
+    // ciiServiceMock = TestBed.inject(ciiService) as jasmine.SpyObj<ciiService>;
     wrapperServiceMock = TestBed.inject(
       WrapperUserService
     ) as jasmine.SpyObj<WrapperUserService>;

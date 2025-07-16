@@ -154,7 +154,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
                     localStorage.setItem('isDormant', JSON.stringify(this.isDormanted));
                     this.router.navigateByUrl('dormancy-message');
                }
-            } //console.log("Error"),
+            } 
         });
     }
 
@@ -171,7 +171,7 @@ export class MfaMessageStep2Component extends BaseComponent implements OnInit {
             }            
         },
         (err) => {
-            console.log(err);
+            
             this.authService.logOutAndRedirect();
         });
     

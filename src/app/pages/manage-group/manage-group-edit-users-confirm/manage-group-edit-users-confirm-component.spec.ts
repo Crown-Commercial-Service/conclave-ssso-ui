@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { ViewportScroller } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
@@ -9,6 +8,7 @@ import { ManageGroupEditUsersConfirmComponent } from './manage-group-edit-users-
 import { WrapperOrganisationGroupService } from 'src/app/services/wrapper/wrapper-org--group-service';
 import { of } from 'rxjs';
 import { OperationEnum } from 'src/app/constants/enum';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ManageGroupEditUsersConfirmComponent', () => {
   let component: ManageGroupEditUsersConfirmComponent;
@@ -21,12 +21,12 @@ describe('ManageGroupEditUsersConfirmComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
         StoreModule.forRoot({}),
         TranslateModule.forRoot(),
       ],
       declarations: [ManageGroupEditUsersConfirmComponent],
       providers: [
+        provideRouter([]),
         ViewportScroller,
         WrapperOrganisationGroupService,
         {
@@ -58,6 +58,7 @@ describe('ManageGroupEditUsersConfirmComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

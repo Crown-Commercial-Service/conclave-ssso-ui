@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { WrapperOrganisationGroupService } from './wrapper-org--group-service';
@@ -17,6 +16,8 @@ import {
   IdentityProviderSummary,
 } from 'src/app/models/identityProvider';
 import { UserListResponse } from 'src/app/models/user';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('WrapperOrganisationGroupService', () => {
   let service: WrapperOrganisationGroupService;
@@ -24,8 +25,11 @@ describe('WrapperOrganisationGroupService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [WrapperOrganisationGroupService],
+      imports: [],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        WrapperOrganisationGroupService],
     });
     service = TestBed.inject(WrapperOrganisationGroupService);
     httpMock = TestBed.inject(HttpTestingController);

@@ -46,7 +46,7 @@ export class ManageUserDeleteConfirmComponent extends BaseComponent implements O
                 this.router.navigateByUrl(`operation-success/${OperationEnum.UserDelete}`);             
             },
             error: (error) => {
-                console.log(error);
+                
             }
         });
         this.pushDataLayerEvent(buttonText);

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
@@ -13,6 +12,7 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { ScrollHelper } from 'src/app/services/helper/scroll-helper.services';
 import { SessionStorageKey } from 'src/app/constants/constant';
 import { OperationEnum } from 'src/app/constants/enum';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UserContactDeleteConfirmComponent', () => {
   let component: UserContactDeleteConfirmComponent;
@@ -24,18 +24,19 @@ describe('UserContactDeleteConfirmComponent', () => {
   let store: Store<UIState>;
 
   beforeEach(async () => {
+    sessionStorage.clear(); 
     const viewportScrollerSpy = jasmine.createSpyObj('ViewportScroller', [
       'setOffset',
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
+      imports: [        
         StoreModule.forRoot({}),
         TranslateModule.forRoot(),
       ],
       declarations: [UserContactDeleteConfirmComponent],
       providers: [
+        provideRouter([]),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -43,6 +44,7 @@ describe('UserContactDeleteConfirmComponent', () => {
               queryParams: {
                 data: JSON.stringify({
                   contactId: 1,
+                  userName: 'testuser'
                 }),
               },
             },
@@ -65,6 +67,7 @@ describe('UserContactDeleteConfirmComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

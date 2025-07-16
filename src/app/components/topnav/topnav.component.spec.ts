@@ -1,12 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TopNavComponent } from './topnav.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { of } from 'rxjs';
 import { RollbarErrorService } from 'src/app/shared/rollbar-error.service';
 import { TokenService } from 'src/app/services/auth/token.service';
 import { RollbarService, rollbarFactory } from 'src/app/logging/rollbar';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('TopNavComponent', () => {
   let component: TopNavComponent;
@@ -15,14 +17,18 @@ describe('TopNavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [],
       declarations: [TopNavComponent],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         AuthService,
         RollbarErrorService,
         TokenService,
         { provide: RollbarService, useValue: rollbarFactory() },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

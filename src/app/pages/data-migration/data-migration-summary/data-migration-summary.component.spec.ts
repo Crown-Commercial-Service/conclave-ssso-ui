@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataMigrationSummaryComponent } from './data-migration-summary.component';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DataMigrationSummaryComponent', () => {
   let component: DataMigrationSummaryComponent;
@@ -15,6 +16,7 @@ describe('DataMigrationSummaryComponent', () => {
       imports: [TranslateModule.forRoot()],
       declarations: [DataMigrationSummaryComponent],
       providers: [{ provide: Router, useValue: routerSpy }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
