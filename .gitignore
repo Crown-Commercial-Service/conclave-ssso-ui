@@ -82,3 +82,6 @@ testem.log
 .DS_Store
 Thumbs.db
 /api/SecurityApi/CcsSso.Security.Api/CcsSso.Security.Api.xml
+
+# Local Secrets File (files here are only used for local development, and not used in any deployments, so won't break our deployment pipeline)
+/src/environments/environment.ts
