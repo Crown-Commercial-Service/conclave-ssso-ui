@@ -38,7 +38,7 @@ export const environment = {
   mailDecryptKey: '',
   rollbar: {
     key: '',
-    enable: false,
+    enable: true,
     security_log: false,
     environment: 'dev-ccs-sso'
   },
