@@ -5,13 +5,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "CI=false ng test",
-    "test:remote": "CI=true ng test",
+    "test:local": "CI=false ng test",
+    "test": "CI=true ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "type-check": "tsc --noEmit",
-    "test-headless": "CI=false ng test --watch=false --browsers=ChromeHeadless",
-    "test-headless:remote": "CI=true ng test --watch=false --browsers=ChromeHeadless"
+    "test-headless:local": "CI=false ng test --watch=false --browsers=ChromeHeadless",
+    "test-headless": "CI=true ng test --watch=false --browsers=ChromeHeadless"
   },
   "private": true,
   "dependencies": {
