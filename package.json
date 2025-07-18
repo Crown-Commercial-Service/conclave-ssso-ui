@@ -52,7 +52,7 @@
     "rxjs-compat": "^6.6.7",
     "save-dev": "0.0.1-security",
     "tslib": "^2.8.1",
-    "webpack-dev-middleware": "^5.3.4",
+    "webpack-dev-middleware": "^7.4.2",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
