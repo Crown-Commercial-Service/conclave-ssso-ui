@@ -39,7 +39,7 @@
     "google-libphonenumber": "^3.2.42",
     "govuk-frontend": "^3.13.1",
     "intl-tel-input": "^19.0.0",    
-    "jwt-decode": "^3.1.2",
+    "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "ng-zorro-antd": "^19.0.2",
