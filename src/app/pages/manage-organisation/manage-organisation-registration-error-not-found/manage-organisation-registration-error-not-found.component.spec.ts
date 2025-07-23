@@ -7,6 +7,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 
+// This is needed to determine whether the API dependant tests need to run or not.
+const isCI = (window as any).__karma__?.config?.env?.CI === 'true';
+
 describe('ManageOrgRegErrorNotFoundComponent', () => {
   let component: ManageOrgRegErrorNotFoundComponent;
   let fixture: ComponentFixture<ManageOrgRegErrorNotFoundComponent>;
@@ -37,7 +40,7 @@ describe('ManageOrgRegErrorNotFoundComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display the correct breadcrumb links', () => {
+  (isCI ? xit : it)('should display the correct breadcrumb links', () => {
     const breadcrumbLinks = fixture.nativeElement.querySelectorAll(
       '.govuk-breadcrumbs__link'
     );
