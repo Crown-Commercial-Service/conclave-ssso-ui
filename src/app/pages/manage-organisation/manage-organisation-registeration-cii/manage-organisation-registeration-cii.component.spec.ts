@@ -4,6 +4,9 @@ import { ManageOrganisationRegisterationCiiComponent } from './manage-organisati
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
+// This is needed to determine whether the API dependant tests need to run or not.
+const isCI = (window as any).__karma__?.config?.env?.CI === 'true';
+
 describe('ManageOrganisationRegisterationCiiComponent', () => {
   let component: ManageOrganisationRegisterationCiiComponent;
   let fixture: ComponentFixture<ManageOrganisationRegisterationCiiComponent>;
@@ -29,7 +32,7 @@ describe('ManageOrganisationRegisterationCiiComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render the breadcrumb navigation correctly', () => {
+  (isCI ? xit : it)('should render the breadcrumb navigation correctly', () => {
     const breadcrumbLinks = fixture.nativeElement.querySelectorAll(
       '.govuk-breadcrumbs__link'
     );
