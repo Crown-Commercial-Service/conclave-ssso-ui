@@ -70,7 +70,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
     async onSearchTextChange(value: any) {
         if (value.length > 2) {
             let result = await this.organisationService.getByName(value, false).toPromise();
-            this.filteredOptions = result;
+            this.filteredOptions = result ?? [];
         }
         else {
             this.filteredOptions = [];
@@ -155,7 +155,7 @@ export class ManageOrgRegSearchComponent extends BaseComponent implements OnInit
             let data = await this.organisationService.getByName(organisationRegisterDto.orgName).toPromise();
             localStorage.removeItem('scheme');
             localStorage.removeItem('scheme_name');
-            if (data.length == 0) {
+            if (!data || data.length === 0) {
                 //Org does not exist
                 this.router.navigateByUrl(`manage-org/register/initial-search-status/new`);
             }

@@ -76,7 +76,7 @@ export class ManageOrganisationSiteEditComponent extends FormBaseComponent imple
   async ngOnInit() {
     this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(`${this.isEdit ? "Edit" : "Add"} - Site - CCS`);
-    this.countryDetails = await this.wrapperConfigService.getCountryDetails().toPromise();
+    this.countryDetails = (await this.wrapperConfigService.getCountryDetails().toPromise()) ?? [];
     this.setTopCountries(false);
     this.filteredCountryDetails.next(this.countryDetails.slice());
 

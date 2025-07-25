@@ -146,7 +146,8 @@ export class DelegatedUserStatusComponent implements OnInit {
     this.orgRoleService
       .getOrganisationRoles(this.organisationId)
       .toPromise()
-      .then((response: Role[]) => {
+      .then((response) => {
+        if (!response) return;
         let orgRoles = response;
         orgRoles.forEach((f) => {
           roleResponse.event.rolePermissionInfo.forEach((element: any) => {

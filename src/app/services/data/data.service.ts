@@ -14,7 +14,11 @@ export class dataService {
 
     // TODO: Once the token is provided by the identity server we should change this to get the token from the store instead of calling the identityService service
     async getData() {
-        const data:JwtToken = await this.identityService.getToken().toPromise();
+        const tokenData = await this.identityService.getToken().toPromise();
+        if (!tokenData) {
+            throw new Error('Failed to get token');
+        }
+        const data: JwtToken = tokenData;
         return this.http.get<Data[]>(this.dataUrl, { headers: { Authorization: `Bearer ${data.token}`}});
     }
 }

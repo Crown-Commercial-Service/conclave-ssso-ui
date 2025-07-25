@@ -262,7 +262,9 @@ export class ManageUserAddSingleUserDetailComponent
       if (this.state) {
         this.userProfileResponseInfo = this.state;
       } else {
-        this.userProfileResponseInfo = userProfileResponseInfo;
+        if (userProfileResponseInfo) {
+          this.userProfileResponseInfo = userProfileResponseInfo;
+        }
       }
       this.formGroup.controls['userTitle'].setValue(
         this.userProfileResponseInfo.title
@@ -405,7 +407,7 @@ export class ManageUserAddSingleUserDetailComponent
 
 
   async getOrgGroupsForUser() {
-    const orgGrpList = await this.organisationGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise<GroupList>();
+    const orgGrpList = await this.organisationGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise();
     this.orgGroups = orgGrpList.groupList;
     this.getAllGroupDetails()
   }
@@ -456,9 +458,9 @@ private GetAssignedGroups(isGroupOfUser:any,group:any){
  }
 
   async getOrgRoles() {
-    this.orgRoles = await this.organisationGroupService
+    this.orgRoles = (await this.organisationGroupService
       .getOrganisationRoles(this.organisationId)
-      .toPromise();
+      .toPromise()) ?? [];
     this.orgRoles.map((role) => {
       let userRole =
         this.userProfileResponseInfo.detail.rolePermissionInfo &&

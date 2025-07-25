@@ -260,7 +260,9 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
     await this.orgGroupService
       .getOrganisationRoles(this.organisationId)
       .toPromise()
-      .then((orgRoles: Role[]) => {
+      .then((orgRoles) => {
+        if (!orgRoles) return;
+        if (!user) return;
         orgRoles.map((r: Role, index) => {
           let userRole =
             user.detail.rolePermissionInfo &&
@@ -805,7 +807,7 @@ export class UserProfileComponent extends FormBaseComponent implements OnInit {
   }
 
   async getOrgGroups() {
-    const orgGrpList = await this.orgGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise<GroupList>();
+    const orgGrpList = await this.orgGroupService.getOrganisationGroupsWithRoles(this.organisationId).toPromise();
     this.orgGroups = orgGrpList.groupList;
     this.groupsMember.isAdmin = this.isAdminUser;
     this.noneGroupsMember.isAdmin = this.isAdminUser;
