@@ -31,7 +31,8 @@ export class ManageOrgRegCIIOrgDisplayComponent extends BaseComponent implements
         this.dataLayerService.pushPageViewEvent();
         let orgreginfo = sessionStorage.getItem('orgreginfo') ? JSON.parse(sessionStorage.getItem('orgreginfo')!) : {};
         let data = await this.organisationService.getByName(orgreginfo.orgName).toPromise();
-        if (data.length == 0) {
+
+        if (!data || data.length === 0) {
             //Org does not exists
             this.orgNotExists = true;
         }

@@ -31,7 +31,7 @@ To run the application locally, you will first need to ensure that the following
 
 You will need to be supplied with a local secrets file (`environment.ts`) to enable the project to run, which can be supplied by any member of the development team.
 
-As a pre-requisite to running you will need to run **npm install** to install the application's dependencies.
+As a pre-requisite to running you will need to run **npm install** or **npm install --legacy-peer-deps** to install the application's dependencies.
 
 Once the above has been completed, you can run the application by running **npm start**.  It can then be accessed via the URL and port reported in the command's output - generally this is http://localhost:4200/.
 

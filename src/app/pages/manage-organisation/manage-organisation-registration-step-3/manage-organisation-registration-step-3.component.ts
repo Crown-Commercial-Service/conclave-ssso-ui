@@ -118,9 +118,7 @@ export class ManageOrgRegStep3Component
               //Commented the code to revert changes for the Bug-6757(PPG-711)
               //this.checkAddressDetailsEmpty(result.address.streetAddress,result.address.postalCode)
               localStorage.setItem('cii_organisation', JSON.stringify(result));
-              this.countryDetails = await this.configurationCore
-                .getCountryDetails()
-                .toPromise();
+              this.countryDetails = (await this.configurationCore.getCountryDetails().toPromise()) ?? [];
               this.setTopCountries(false);
               this.filteredCountryDetails.next(this.countryDetails.slice());
               // listen for search field value changes

@@ -80,7 +80,8 @@ export class AuthService {
   renewAccessToken(url: string = '') {
     let data: any    
     data = this.getRefreshToken().toPromise().then((refreshToken: any) => {
-    return this.renewToken(refreshToken || '').toPromise().then((tokenInfo: TokenInfo) => {
+    return this.renewToken(refreshToken || '').toPromise().then((tokenInfo) => {
+        if (!tokenInfo) return;
         this.workerService.storeTokenInWorker(tokenInfo);
         return this.createSession(tokenInfo.refresh_token).toPromise().then(() => {
           let decodedAccessToken = this.tokenService.getDecodedToken(tokenInfo.access_token);

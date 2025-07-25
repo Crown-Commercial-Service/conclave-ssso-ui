@@ -243,7 +243,8 @@ export class DelegatedAccessUserComponent implements OnInit {
    * getting roles based on admin organisation
    */
   public getOrgRoles(): void {
-    this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise().then((orgRoles: Role[]) => {
+    this.orgRoleService.getOrganisationRoles(this.organisationId).toPromise().then((orgRoles) => {
+      if (!orgRoles) return;
       orgRoles.forEach((element) => {
 
         if (!this.excludedForDelegation.some(x => x === element.roleKey)) {
