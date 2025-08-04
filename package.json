@@ -24,7 +24,7 @@
     "@angular/forms": "^20.1.2",
     "@angular/material": "^20.1.2",
     "@angular/platform-browser": "^20.1.2",
-    "@angular/platform-browser-dynamic": "^20.1.2",
+    "@angular/platform-browser-dynamic": "^20.1.4",
     "@angular/router": "^20.1.2",
     "@ngx-translate/core": "^16.0.4",
     "@ngx-translate/http-loader": "^16.0.1",
