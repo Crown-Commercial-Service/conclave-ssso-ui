@@ -25,7 +25,7 @@
     "@angular/material": "^20.1.5",
     "@angular/platform-browser": "^20.1.6",
     "@angular/platform-browser-dynamic": "^20.1.6",
-    "@angular/router": "^20.1.6",
+    "@angular/router": "^20.1.7",
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
     "@types/lodash": "^4.17.20",
