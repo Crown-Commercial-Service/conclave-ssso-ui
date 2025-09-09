@@ -42,7 +42,7 @@
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
-    "ng-zorro-antd": "^20.1.2",
+    "ng-zorro-antd": "^20.2.1",
     "ngrx-store-freeze": "^0.2.4",
     "ngx-bootstrap": "^20.0.1",
     "ngx-intl-tel-input": "^17.0.0",
