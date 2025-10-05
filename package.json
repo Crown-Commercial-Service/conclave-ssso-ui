@@ -77,7 +77,7 @@
     "postcss": "^8.5.6",
     "ts-node": "^10.2.1",
     "tslint": "^6.1.0",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.3"
   },
   "overrides": {
     "angular-google-tag-manager": {
