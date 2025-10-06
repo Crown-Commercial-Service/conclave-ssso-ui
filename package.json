@@ -36,7 +36,7 @@
     "crypto": "^1.0.1",
     "crypto-js": "^4.2.0",
     "express": "^5.1.0",
-    "google-libphonenumber": "^3.2.42",
+    "google-libphonenumber": "^3.2.43",
     "govuk-frontend": "^3.13.1",
     "intl-tel-input": "^25.11.2",
     "jwt-decode": "^4.0.0",
