@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.3.8",
-    "@angular/cli": "^20.3.6",
+    "@angular/cli": "^20.3.9",
     "@angular/compiler-cli": "^20.3.6",
     "@ngrx/effects": "^20.0.1",
     "@ngrx/router-store": "^20.0.1",
