@@ -60,7 +60,7 @@
     "@angular/cli": "^20.3.9",
     "@angular/compiler-cli": "^20.3.10",
     "@ngrx/effects": "^20.1.0",
-    "@ngrx/router-store": "^20.0.1",
+    "@ngrx/router-store": "^20.1.0",
     "@ngrx/store": "^20.1.0",
     "@ngrx/store-devtools": "^20.1.0",
     "@types/crypto-js": "^4.2.1",
