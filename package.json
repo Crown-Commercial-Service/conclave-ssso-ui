@@ -46,7 +46,7 @@
     "ngrx-store-freeze": "^0.2.4",
     "ngx-bootstrap": "^19.0.2",
     "ngx-intl-tel-input": "^17.0.0",
-    "ngx-mat-select-search": "^8.0.2",
+    "ngx-mat-select-search": "^8.0.3",
     "rollbar": "^2.26.5",
     "rxjs": "^6.6.7",
     "rxjs-compat": "^6.6.7",
