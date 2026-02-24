@@ -30,7 +30,7 @@ export class DelegatedSuccessComponent implements OnInit {
       // );
       switch (this.userInfo.status) {
         case 'create': {
-          this.titleService.setTitle(`Delegated user successfully added - CCS`);
+          this.titleService.setTitle(`Delegated user successfully added - GCA`);
           break;
         }
         default: {

@@ -120,7 +120,7 @@ describe('ManageOrgRegNotifyAdminComponent', () => {
     fixture.detectChanges();
     const link = fixture.nativeElement.querySelector('.navigation-text');
     expect(link.textContent.trim()).toBe(
-      'Return to the Crown Commercial Services homepage'
+      'Return to the Government Commercial Agency homepage'
     );
     expect(link.getAttribute('href')).toBe(
       'https://www.crowncommercial.gov.uk'

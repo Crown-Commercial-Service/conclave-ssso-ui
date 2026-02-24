@@ -166,7 +166,7 @@ export class UserContactEditComponent
     this.dataLayerService.pushPageViewEvent();
     this.isOrgAdmin = JSON.parse(localStorage.getItem('isOrgAdmin') || 'false');
     this.titleService.setTitle(
-      `${this.isEdit ? 'Edit' : 'Add'} - User Contact - CCS`
+      `${this.isEdit ? 'Edit' : 'Add'} - User Contact - GCA`
     );
     this.sessionService.decrypt(SessionStorageKey.UserContactUsername)
     this.externalContactService.getContactReasons().subscribe({

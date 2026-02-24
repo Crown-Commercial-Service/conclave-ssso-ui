@@ -44,7 +44,7 @@ describe('ManageOrgRegErrorGenericComponent', () => {
     );
   });
 
-  it('should have a link to contact CCS', () => {
+  it('should have a link to contact GCA', () => {
     const contactLink = fixture.nativeElement.querySelector('#submitClaimLink');
     expect(contactLink.getAttribute('href')).toBe(
       'https://www.crowncommercial.gov.uk/contact'

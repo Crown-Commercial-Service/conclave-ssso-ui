@@ -74,9 +74,9 @@ export class ManageGroupEditRolesComponent extends BaseComponent implements OnIn
         });
         
         if (this.showRoleView) {
-            this.titleService.setTitle(`${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - CCS`);
+            this.titleService.setTitle(`${this.isEdit ? "Add/Remove Roles" : "Add Roles"}  - Manage Groups - GCA`);
         } else {
-            this.titleService.setTitle(`${this.isEdit ? "Add or remove services" : "Add services"}  - Manage Groups - CCS`);
+            this.titleService.setTitle(`${this.isEdit ? "Add or remove services" : "Add services"}  - Manage Groups - GCA`);
         }
         this.getOrganisationRoles();
         this.initialteServiceRoleGroup();        

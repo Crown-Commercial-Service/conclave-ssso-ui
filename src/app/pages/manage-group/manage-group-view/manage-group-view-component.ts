@@ -90,7 +90,7 @@ export class ManageGroupViewComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(
-      `${this.isEdit ? 'Edit' : 'View'} - Manage Groups - CCS`
+      `${this.isEdit ? 'Edit' : 'View'} - Manage Groups - GCA`
     );
     this.orgGroupService
       .getOrganisationGroup(this.organisationId, this.editingGroupId)

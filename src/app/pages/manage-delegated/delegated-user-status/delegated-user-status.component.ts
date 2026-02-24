@@ -87,13 +87,13 @@ export class DelegatedUserStatusComponent implements OnInit {
         case '001': {
           this.UserStatus = RouteData;
           this.titleService.setTitle(
-            `${'User from your Organisation'}   - CCS`
+            `${'User from your Organisation'}   - GCA`
           );
           break;
         }
         case '002': {
           this.UserStatus = RouteData;
-          this.titleService.setTitle(`${'User not found'}  - CCS`);
+          this.titleService.setTitle(`${'User not found'}  - GCA`);
           break;
         }
         case '003': {
@@ -109,7 +109,7 @@ export class DelegatedUserStatusComponent implements OnInit {
             endyear: [{ value: '', disabled: true }, [Validators.required]],
           });
           this.titleService.setTitle(
-            `${'View expired delegated access'}  - CCS`
+            `${'View expired delegated access'}  - GCA`
           );
           this.getUserDetails(RouteData);
           //statements;
@@ -117,7 +117,7 @@ export class DelegatedUserStatusComponent implements OnInit {
         }
         case '004': {
           this.UserStatus = RouteData;
-          this.titleService.setTitle(`${'Inactive User'}  - CCS`);
+          this.titleService.setTitle(`${'Inactive User'}  - GCA`);
           break;
         }
         default: {

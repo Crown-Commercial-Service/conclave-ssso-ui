@@ -125,7 +125,7 @@ export class ManageGroupOperationSuccessComponent
       default:
         break;
     }
-    this.titleService.setTitle(`Success - ${area} - Manage Groups - CCS`);
+    this.titleService.setTitle(`Success - ${area} - Manage Groups - GCA`);
     this.getUserList()
   }
 

@@ -61,8 +61,8 @@ describe('ManageGroupEditNameComponent', () => {
     component.isEdit = isEdit;
     component.ngOnInit();
     const expectedTitle = isEdit
-      ? 'Edit Name - Manage Groups - CCS'
-      : 'Create - Manage Groups - CCS';
+      ? 'Edit Name - Manage Groups - GCA'
+      : 'Create - Manage Groups - GCA';
     fixture.detectChanges();
     expect(titleService.setTitle).toHaveBeenCalledWith(expectedTitle);
   });

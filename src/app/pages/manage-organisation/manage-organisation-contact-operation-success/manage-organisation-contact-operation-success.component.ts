@@ -85,7 +85,7 @@ export class ManageOrganisationContactOperationSuccessComponent extends BaseComp
             default:
                 break
         }
-        this.titleService.setTitle(`Success - ${area} - CCS`);
+        this.titleService.setTitle(`Success - ${area} - GCA`);
     }
 
     onNavigateToProfileClick() {
