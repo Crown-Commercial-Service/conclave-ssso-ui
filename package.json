@@ -5,13 +5,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test:local": "CI=false ng test",
-    "test": "CI=true ng test",
+    "test:local": "cross-env CI=false ng test",
+    "test": "cross-env CI=true ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "type-check": "tsc --noEmit",
-    "test-headless:local": "CI=false ng test --watch=false --browsers=ChromeHeadless",
-    "test-headless": "CI=true ng test --watch=false --browsers=ChromeHeadless"
+    "test-headless:local": "cross-env CI=false ng test --watch=false --browsers=ChromeHeadless",
+    "test-headless": "cross-env CI=true ng test --watch=false --browsers=ChromeHeadless"
   },
   "private": true,
   "dependencies": {
@@ -68,6 +68,7 @@
     "@types/jquery": "^3.5.33",
     "@types/node": "^24.10.1",
     "codelyzer": "^6.0.2",
+    "cross-env": "^10.1.0",
     "jasmine-core": "~5.12.1",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",
