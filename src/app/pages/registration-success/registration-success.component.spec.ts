@@ -48,7 +48,7 @@ describe('RegistrationSuccessComponent', () => {
     expect(homepageLink).toBeTruthy();
     expect(homepageLink.href).toContain('/');
     expect(homepageLink.textContent).toContain(
-      'Return to the Crown Commercial Services homepage'
+      'Return to the Government Commercial Agency homepage'
     );
   });
 });

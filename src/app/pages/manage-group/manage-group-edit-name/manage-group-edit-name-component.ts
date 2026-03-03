@@ -76,7 +76,7 @@ export class ManageGroupEditNameComponent
   ngOnInit() {
     this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(
-      `${this.isEdit ? 'Edit Name' : 'Create'} - Manage Groups - CCS`
+      `${this.isEdit ? 'Edit Name' : 'Create'} - Manage Groups - GCA`
     );
     if(this.isEdit){
     this.groupName=sessionStorage.getItem('Gname') || ''

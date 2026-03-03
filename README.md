@@ -3,7 +3,7 @@ PPG UI Application
 
 Overview
 --------
-This is the code for the UI of Crown Commercial Service's (_CCS_)
+This is the code for the UI of Government Commercial Agency's (_GCA_)
 Public Procurement Gateway (_PPG_).
 
 Technology Overview

@@ -109,11 +109,11 @@ export class DelegatedAccessUserComponent implements OnInit {
       else if (this.pageAccessMode === 'edit') {
         this.getUserDetails(this.userDetails.userName, this.organisationId, this.userDetails.startDate, this.userDetails.endDate, this.userDetails.delegationAccepted)
         this.titleService.setTitle(
-          `${'Edit current delegated access'}   - CCS`
+          `${'Edit current delegated access'}   - GCA`
         );
       } else {
         this.titleService.setTitle(
-          `${'Delegate access to a user'}   - CCS`
+          `${'Delegate access to a user'}   - GCA`
         );
         this.getOrgRoles()
         setTimeout(() => {
