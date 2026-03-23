@@ -44,7 +44,7 @@ describe('ManageOrgRegFailureComponent', () => {
     );
   });
 
-  it('should open a new tab with the CCS contact page when "Contact CCS" link is clicked', () => {
+  it('should open a new tab with the GCA contact page when "Contact GCA" link is clicked', () => {
     const contactLink = fixture.nativeElement.querySelector('#contactCCSLink');
     contactLink.click();
     expect(contactLink.href).toBe('https://www.crowncommercial.gov.uk/contact');

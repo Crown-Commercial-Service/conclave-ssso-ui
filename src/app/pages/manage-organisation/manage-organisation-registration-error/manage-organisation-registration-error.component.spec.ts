@@ -53,7 +53,7 @@ describe('ManageOrgRegErrorComponent', () => {
     expect(link).toBeTruthy();
   });
 
-  it('should have a link to contact CCS', () => {
+  it('should have a link to contact GCA', () => {
     const link = fixture.nativeElement.querySelector(
       'a[href="https://www.crowncommercial.gov.uk/contact"]'
     );

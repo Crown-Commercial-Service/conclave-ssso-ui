@@ -78,7 +78,7 @@ describe('ManageGroupEditUsersConfirmComponent', () => {
 
   it('should set the page title on initialization', () => {
     expect(titleService.setTitle).toHaveBeenCalledWith(
-      'Confirm - Add/Remove Users - Manage Groups - CCS'
+      'Confirm - Add/Remove Users - Manage Groups - GCA'
     );
   });
 

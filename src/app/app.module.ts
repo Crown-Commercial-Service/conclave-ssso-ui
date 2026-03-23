@@ -6,7 +6,7 @@ import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromD
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateHttpLoader, provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
@@ -228,14 +228,6 @@ import { ManageUserReactivateConfirmComponent } from './pages/manage-user/manage
 import { ForceLogoutComponent } from './pages/force-logout/force-logout.component';
 
 
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
-}
-
 @NgModule({ declarations: [
         AppComponent,
         HomeComponent,
@@ -428,11 +420,10 @@ export function createTranslateLoader(http: HttpClient) {
         FormsModule,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (createTranslateLoader),
-                deps: [HttpClient]
-            }
+            loader: provideTranslateHttpLoader({
+                prefix: '../assets/i18n/',
+                suffix: '.json'
+            })
         }),
         StoreModule.forRoot({}),
         StoreModule.forFeature('ui-state', reducers.reducer),

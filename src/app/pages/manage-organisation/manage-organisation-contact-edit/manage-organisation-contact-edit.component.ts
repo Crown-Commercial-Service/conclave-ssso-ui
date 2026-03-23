@@ -181,7 +181,7 @@ export class ManageOrganisationContactEditComponent
     this.titleService.setTitle(
       `${this.isEdit ? 'Edit' : 'Add'} ${
         this.siteId == 0 ? '- Organisation Contact' : '- Site Contact'
-      } - CCS`
+      } - GCA`
     );
     this.externalContactService.getContactReasons().subscribe({
       next: (contactReasons: ContactReason[]) => {

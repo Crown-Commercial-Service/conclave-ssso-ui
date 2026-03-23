@@ -38,12 +38,12 @@ describe('BuyerErrorComponent', () => {
     );
   });
 
-  it('should have a link to contact CCS', () => {
+  it('should have a link to contact GCA', () => {
     const contactLink = fixture.nativeElement.querySelector(
       'a[href="https://www.crowncommercial.gov.uk/contact"]'
     );
     expect(contactLink).toBeTruthy();
-    expect(contactLink.textContent).toContain('Contact CCS');
+    expect(contactLink.textContent).toContain('Contact GCA');
     expect(contactLink.target).toBe('_blank');
   });
 

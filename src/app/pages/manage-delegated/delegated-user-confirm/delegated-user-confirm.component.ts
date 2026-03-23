@@ -49,11 +49,11 @@ export class DelegatedUserConfirmComponent implements OnInit {
     });
     if (this.pageAccessMode === "edit") {
       this.titleService.setTitle(
-        `Confirm Delegation - CCS`
+        `Confirm Delegation - GCA`
       );
     } else {
       this.titleService.setTitle(
-        `Confirm Delegation - CCS`
+        `Confirm Delegation - GCA`
       );
     }
    this.getSelectedRole()

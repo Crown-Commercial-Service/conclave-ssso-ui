@@ -129,7 +129,7 @@ describe('ManageGroupEditRolesComponent', () => {
 
     expect(component.organisationId).toBe('test-org-id');
     expect(component.titleService.getTitle()).toBe(
-      'Add or remove services - Manage Groups - CCS'
+      'Add or remove services - Manage Groups - GCA'
     );
     expect(component.orgRoleList).toEqual(mockRoleListResponse);
     expect(component.roleGridSource.length).toBe(mockRoleListResponse.length);

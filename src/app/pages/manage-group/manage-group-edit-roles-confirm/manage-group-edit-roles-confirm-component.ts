@@ -72,7 +72,7 @@ export class ManageGroupEditRolesConfirmComponent extends BaseComponent implemen
         if(this.showRoleView){
             this.titleService.setTitle(`Confirm - ${"Group - Roles"}`);
         } else {
-            this.titleService.setTitle(`Confirm services – Manage Groups - CCS`);
+            this.titleService.setTitle(`Confirm services – Manage Groups - GCA`);
         }
         this.getOrganisationRoles()
         this.initialteServiceRoleGroups()

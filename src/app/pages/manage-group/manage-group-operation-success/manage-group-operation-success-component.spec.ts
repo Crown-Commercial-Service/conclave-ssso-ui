@@ -77,7 +77,7 @@ describe('ManageGroupOperationSuccessComponent', () => {
     fixture.detectChanges();
 
     expect(titleService.setTitle).toHaveBeenCalledWith(
-      'Success - Create - Manage Groups - CCS'
+      'Success - Create - Manage Groups - GCA'
     );
   });
 

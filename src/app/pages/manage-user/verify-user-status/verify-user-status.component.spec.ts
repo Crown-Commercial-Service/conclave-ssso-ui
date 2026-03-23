@@ -74,7 +74,7 @@ describe('VerifyUserStatusComponent', () => {
 
     expect(component.userInfo).toEqual({ status: 'ERROR_USER_ALREADY_EXISTS' });
     expect(component.userStatus).toBe(0);
-    expect(titleService.setTitle).toHaveBeenCalledWith('Account already created  - CCS');
+    expect(titleService.setTitle).toHaveBeenCalledWith('Account already created  - GCA');
   });
 
   it('should handle UNAUTHORIZED status correctly', () => {
@@ -84,7 +84,7 @@ describe('VerifyUserStatusComponent', () => {
     fixture.detectChanges();
 
     expect(component.userStatus).toBe(1);
-    expect(titleService.setTitle).toHaveBeenCalledWith('User not created  - CCS');
+    expect(titleService.setTitle).toHaveBeenCalledWith('User not created  - GCA');
   });
 
   it('should handle link expired status correctly', () => {
@@ -94,7 +94,7 @@ describe('VerifyUserStatusComponent', () => {
     fixture.detectChanges();
 
     expect(component.userStatus).toBe(2);
-    expect(titleService.setTitle).toHaveBeenCalledWith('User not created  - CCS');
+    expect(titleService.setTitle).toHaveBeenCalledWith('User not created  - GCA');
   });
 
   it('should handle invalid user details status correctly', () => {
@@ -104,7 +104,7 @@ describe('VerifyUserStatusComponent', () => {
     fixture.detectChanges();
 
     expect(component.userStatus).toBe(3);
-    expect(titleService.setTitle).toHaveBeenCalledWith('Error  - CCS');
+    expect(titleService.setTitle).toHaveBeenCalledWith('Error  - GCA');
   });
 
   it('should handle unknown status correctly', () => {
