@@ -5476,7 +5476,7 @@ p + .govuk-heading-s,
   margin-bottom: 2.5rem;
 }
 .footer-global {
-  background-color: #2f2f2f;
+  background-color: #F5F5F5;
   color: #fff;
   padding-top: 3.125rem;
   margin-top: 3.125rem;
@@ -6086,7 +6086,7 @@ html {
   z-index: -1;
 }
 .footer-global:after {
-  background-color: #f2f2f2;
+  background-color: #F5F5F5;
   height: 26rem;
   left: -7.0625rem;
   top: -7.75rem;
