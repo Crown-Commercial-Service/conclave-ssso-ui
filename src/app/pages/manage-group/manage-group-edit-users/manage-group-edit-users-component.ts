@@ -94,7 +94,7 @@ export class ManageGroupEditUsersComponent
   ngOnInit() {
     this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(
-      `${this.isEdit ? 'Add/Remove Users' : 'Add Users'} - Manage Groups - CCS`
+      `${this.isEdit ? 'Add/Remove Users' : 'Add Users'} - Manage Groups - GCA`
     );
     this.getOrganisationUsers();
   }
