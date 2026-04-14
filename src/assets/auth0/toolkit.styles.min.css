@@ -1664,8 +1664,8 @@ p+.govuk-heading-s,
     padding: 7px 10px;
     border: 2px solid transparent;
     border-radius: 0;
-    color: #fff;
-    background-color: #00823b;
+    color: #000000 !important;
+    background-color: #91A107 !important;
     box-shadow: 0 2px 0 #003618;
     text-align: center;
     vertical-align: top;
