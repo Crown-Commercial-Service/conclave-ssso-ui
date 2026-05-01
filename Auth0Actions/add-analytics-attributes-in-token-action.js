@@ -14,7 +14,7 @@ exports.onExecutePostLogin = async (event, api) => {
   if (event.transaction?.protocol !== 'oidc-basic-profile') {
     return;
   }
-  const namespace = 'https://identify.crowncommercial.gov.uk';
+  const namespace = 'https://identify.gca.gov.uk';
   api.idToken.setCustomClaim(`${namespace}/analytics-sessionID`, event.session?.id);
   api.idToken.setCustomClaim(`${namespace}/analytics-state`, event.request.query.state);
   console.log('sessionid', event.session?.id);

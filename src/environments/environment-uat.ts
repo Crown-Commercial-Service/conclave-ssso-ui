@@ -5,41 +5,41 @@ export const environment = {
     api: {
       isApiGateWayEnabled: true,
       //security: 'https://uat-api-security.london.cloudapps.digital',
-      security: 'https://uat.api.crowncommercial.gov.uk',
+      security: 'https://uat.api.gca.gov.uk',
       //postgres: 'https://uat-api-core.london.cloudapps.digital',
-      postgres: 'https://uat.api.crowncommercial.gov.uk/dashboard-wrapper',
+      postgres: 'https://uat.api.gca.gov.uk/dashboard-wrapper',
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://uat.api.crowncommercial.gov.uk/user-profile',
-          organisation: 'https://uat.api.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://uat.api.crowncommercial.gov.uk/contact-service',
-          configuration: 'https://uat.api.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://uat.api.crowncommercial.gov.uk/organisation-profile/datamigration',
+          user: 'https://uat.api.gca.gov.uk/user-profile',
+          organisation: 'https://uat.api.gca.gov.uk/organisation-profile',
+          contact: 'https://uat.api.gca.gov.uk/contact-service',
+          configuration: 'https://uat.api.gca.gov.uk/configuration-service',
+          dataMigration: 'https://uat.api.gca.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
-          user: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/user-profile',
-          organisation: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/contact-service',
-          configuration: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/datamigration',
+          user: 'https://uat.ppg-sso-service.gca.gov.uk/user-profile',
+          organisation: 'https://uat.ppg-sso-service.gca.gov.uk/organisation-profile',
+          contact: 'https://uat.ppg-sso-service.gca.gov.uk/contact-service',
+          configuration: 'https://uat.ppg-sso-service.gca.gov.uk/configuration-service',
+          dataMigration: 'https://uat.ppg-sso-service.gca.gov.uk/organisation-profile/datamigration',
         }
       }
     },
     web: {
       //dashboard: 'https://uat-ccs-sso.london.cloudapps.digital'
-      dashboard: 'https://uat.identify.crowncommercial.gov.uk',
+      dashboard: 'https://uat.identify.gca.gov.uk',
       name: "UAT"
     },
-    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
-    ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
+    ccsContactUrl: "https://webuat.gca.gov.uk/contact",
+    ccsDashboardUrl: "https://webuat.gca.gov.uk"
   },
 
   googleTagMangerId: 'GTM-TZCX5VP',
   cookieExpirationTimeInMinutes: 525600,
   bulkUploadPollingFrequencyInSeconds: 5,
   bulkUploadMaxFileSizeInBytes:1048576,
-  bulkUploadTemplateFileUrl: 'https://uat.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
+  bulkUploadTemplateFileUrl: 'https://uat.api.gca.gov.uk/templates/DataMigrationTemplate.csv',
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
   mailDecryptKey:'conclavesimpleemailencrypt',

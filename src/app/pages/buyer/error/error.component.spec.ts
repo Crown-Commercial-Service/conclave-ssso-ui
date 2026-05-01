@@ -40,7 +40,7 @@ describe('BuyerErrorComponent', () => {
 
   it('should have a link to contact GCA', () => {
     const contactLink = fixture.nativeElement.querySelector(
-      'a[href="https://www.crowncommercial.gov.uk/contact"]'
+      'a[href="https://www.gca.gov.uk/contact"]'
     );
     expect(contactLink).toBeTruthy();
     expect(contactLink.textContent).toContain('Contact GCA');

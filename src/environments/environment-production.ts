@@ -10,26 +10,26 @@ export const environment = {
 
       isApiGateWayEnabled: true,
 
-      security: 'https://api.crowncommercial.gov.uk',
+      security: 'https://api.gca.gov.uk',
 
-      postgres: 'https://api.crowncommercial.gov.uk/dashboard-wrapper',
+      postgres: 'https://api.gca.gov.uk/dashboard-wrapper',
 
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
 
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://api.crowncommercial.gov.uk/user-profile',
-          organisation: 'https://api.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://api.crowncommercial.gov.uk/contact-service',
-          configuration: 'https://api.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://api.crowncommercial.gov.uk/organisation-profile/datamigration',
+          user: 'https://api.gca.gov.uk/user-profile',
+          organisation: 'https://api.gca.gov.uk/organisation-profile',
+          contact: 'https://api.gca.gov.uk/contact-service',
+          configuration: 'https://api.gca.gov.uk/configuration-service',
+          dataMigration: 'https://api.gca.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
-          user: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/user-profile',
-          organisation: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/contact-service',
-          configuration: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/datamigration',
+          user: 'https://prod.ppg-sso-service.gca.gov.uk/user-profile',
+          organisation: 'https://prod.ppg-sso-service.gca.gov.uk/organisation-profile',
+          contact: 'https://prod.ppg-sso-service.gca.gov.uk/contact-service',
+          configuration: 'https://prod.ppg-sso-service.gca.gov.uk/configuration-service',
+          dataMigration: 'https://prod.ppg-sso-service.gca.gov.uk/organisation-profile/datamigration',
         }
       }
 
@@ -37,13 +37,13 @@ export const environment = {
 
     web: {
 
-      dashboard: 'https://identify.crowncommercial.gov.uk',
+      dashboard: 'https://identify.gca.gov.uk',
       name: ""
 
     },
 
-    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact",
-    ccsDashboardUrl: "https://identify.crowncommercial.gov.uk"
+    ccsContactUrl: "https://www.gca.gov.uk/contact",
+    ccsDashboardUrl: "https://identify.gca.gov.uk"
 
   },
 
@@ -55,7 +55,7 @@ export const environment = {
 
   bulkUploadMaxFileSizeInBytes:1048576,
 
-  bulkUploadTemplateFileUrl: 'https://api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
+  bulkUploadTemplateFileUrl: 'https://api.gca.gov.uk/templates/DataMigrationTemplate.csv',
 
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
 

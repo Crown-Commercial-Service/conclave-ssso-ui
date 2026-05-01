@@ -10,26 +10,26 @@ export const environment = {
 
       isApiGateWayEnabled: true,
 
-      security: 'https://nft.api.crowncommercial.gov.uk',
+      security: 'https://nft.api.gca.gov.uk',
 
-      postgres: 'https://nft.api.crowncommercial.gov.uk/dashboard-wrapper',
+      postgres: 'https://nft.api.gca.gov.uk/dashboard-wrapper',
 
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
 
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://nft.api.crowncommercial.gov.uk/user-profile',
-          organisation: 'https://nft.api.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://nft.api.crowncommercial.gov.uk/contact-service',
-          configuration: 'https://nft.api.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://nft.api.crowncommercial.gov.uk/organisation-profile/datamigration',
+          user: 'https://nft.api.gca.gov.uk/user-profile',
+          organisation: 'https://nft.api.gca.gov.uk/organisation-profile',
+          contact: 'https://nft.api.gca.gov.uk/contact-service',
+          configuration: 'https://nft.api.gca.gov.uk/configuration-service',
+          dataMigration: 'https://nft.api.gca.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
-          user: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/user-profile',
-          organisation: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/contact-service',
-          configuration: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://nft.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/datamigration',
+          user: 'https://nft.ppg-sso-service.gca.gov.uk/user-profile',
+          organisation: 'https://nft.ppg-sso-service.gca.gov.uk/organisation-profile',
+          contact: 'https://nft.ppg-sso-service.gca.gov.uk/contact-service',
+          configuration: 'https://nft.ppg-sso-service.gca.gov.uk/configuration-service',
+          dataMigration: 'https://nft.ppg-sso-service.gca.gov.uk/organisation-profile/datamigration',
         }
       }
 
@@ -37,13 +37,13 @@ export const environment = {
 
     web: {
 
-      dashboard: 'https://nft.identify.crowncommercial.gov.uk',
+      dashboard: 'https://nft.identify.gca.gov.uk',
       name: "NFT"
 
     },
 
-    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
-    ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
+    ccsContactUrl: "https://webuat.gca.gov.uk/contact",
+    ccsDashboardUrl: "https://webuat.gca.gov.uk"
 
   },
 
@@ -55,7 +55,7 @@ export const environment = {
 
   bulkUploadMaxFileSizeInBytes:1048576,
 
-  bulkUploadTemplateFileUrl: 'https://nft.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
+  bulkUploadTemplateFileUrl: 'https://nft.api.gca.gov.uk/templates/DataMigrationTemplate.csv',
 
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
 
