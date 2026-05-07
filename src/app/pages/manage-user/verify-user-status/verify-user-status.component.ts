@@ -27,28 +27,28 @@ export class VerifyUserStatusComponent implements OnInit {
         case "ERROR_USER_ALREADY_EXISTS": {
           this.userStatus = 0
           this.titleService.setTitle(
-            `${ 'Account already created' }  - CCS`
+            `${ 'Account already created' }  - GCA`
           );
           break;
         }
         case 'UNAUTHORIZED': {
           this.userStatus = 1
           this.titleService.setTitle(
-            `${ 'User not created' }  - CCS`
+            `${ 'User not created' }  - GCA`
           );
           break;
         }
         case 'ERROR_LINK_EXPIRED': {
           this.userStatus = 2
           this.titleService.setTitle(
-            `${ 'User not created' }  - CCS`
+            `${ 'User not created' }  - GCA`
           );
           break;
         }
         case 'INVALID_USER_DETAIL': {
           this.userStatus = 3
           this.titleService.setTitle(
-            `${ 'Error' }  - CCS`
+            `${ 'Error' }  - GCA`
           );
           break;
         }

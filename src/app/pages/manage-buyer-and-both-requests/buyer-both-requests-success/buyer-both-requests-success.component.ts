@@ -24,13 +24,13 @@ export class BuyerBothRequestsSuccessComponent implements OnInit {
       switch (this.routeDetails.status) {
         case 'accept': {
           this.titleService.setTitle(
-            `Accept right to buy status – success - CCS`
+            `Accept right to buy status – success - GCA`
           );
           break;
         }
         case 'decline': {
           this.titleService.setTitle(
-            `Decline right to buy status – success - CCS`
+            `Decline right to buy status – success - GCA`
           );
           break;
         }

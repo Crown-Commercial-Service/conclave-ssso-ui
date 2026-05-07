@@ -48,11 +48,11 @@ export class MFAResetComponent extends BaseComponent implements OnInit {
       this.mfaService.resetMFA(para.t).toPromise().then(() => {
         this.resetSuccess = true;
         this.resultVerified = true;
-        this.titleService.setTitle(`Success - Additional security Reset - CCS`);
+        this.titleService.setTitle(`Success - Additional security Reset - GCA`);
       }).catch((er: any) => {
         this.resetSuccess = false;
         this.resultVerified = true;
-        this.titleService.setTitle(`Error - Additional security Reset - CCS`);
+        this.titleService.setTitle(`Error - Additional security Reset - GCA`);
         if (er.error.error == 'INVALID_TICKET') {
           this.userName = er.error.error_description;
           this.mfaReset = er.error.mfa_reset_inprogress;

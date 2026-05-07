@@ -55,15 +55,15 @@ describe('HomeComponent', () => {
     expect(orgDetails.textContent).toContain('Sample Organization');
   });
 
-  it('should render CCS modules correctly', () => {
+  it('should render GCA modules correctly', () => {
     component.ccsModules = [
       {
-        name: 'CCS Module 1',
+        name: 'GCA Module 1',
         description: 'Module 1 Description',
         route: '/ccs-module1',
       },
       {
-        name: 'CCS Module 2',
+        name: 'GCA Module 2',
         description: 'Module 2 Description',
         href: 'https://example.com',
       },
@@ -74,10 +74,10 @@ describe('HomeComponent', () => {
     );
     expect(ccsModuleElements.length).toBe(2);
     expect(ccsModuleElements[0].nativeElement.textContent).toContain(
-      'CCS Module 1'
+      'GCA Module 1'
     );
     expect(ccsModuleElements[1].nativeElement.textContent).toContain(
-      'CCS Module 2'
+      'GCA Module 2'
     );
   });
 });

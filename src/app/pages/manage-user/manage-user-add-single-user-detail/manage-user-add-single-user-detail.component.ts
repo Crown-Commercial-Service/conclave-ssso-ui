@@ -245,7 +245,7 @@ export class ManageUserAddSingleUserDetailComponent
 
     this.dataLayerService.pushPageViewEvent();
     this.titleService.setTitle(
-      `${this.isEdit ? 'Edit' : 'Add'} - Manage Users - CCS`
+      `${this.isEdit ? 'Edit' : 'Add'} - Manage Users - GAC`
     );
     this.authService.hasPermission('MANAGE_GROUPS').subscribe({
       next: (hasPermission: boolean) => {

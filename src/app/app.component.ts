@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
         };
         // Can be removed this event when tested by analytics team
         // this.gtmService.pushTag(gtmTag);
-        this.titleService.setTitle(data + ' - CCS');
+        this.titleService.setTitle(data + ' - GCA');
       }
     });
   }

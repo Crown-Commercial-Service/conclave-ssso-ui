@@ -96,7 +96,7 @@ describe('ManageGroupViewComponent', () => {
 
   it('should set the page title correctly', () => {
     expect(mockTitleService.setTitle).toHaveBeenCalledWith(
-      'View - Manage Groups - CCS'
+      'View - Manage Groups - GCA'
     );
   });
 
