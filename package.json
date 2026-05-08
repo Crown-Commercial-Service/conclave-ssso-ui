@@ -65,7 +65,7 @@
     "@ngrx/store-devtools": "^19.0.1",
     "@types/crypto-js": "^4.2.1",
     "@types/jasmine": "^5.1.13",
-    "@types/jquery": "^3.5.33",
+    "@types/jquery": "^4.0.0",
     "@types/node": "^25.6.2",
     "codelyzer": "^6.0.2",
     "cross-env": "^10.1.0",
