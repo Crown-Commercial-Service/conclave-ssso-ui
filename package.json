@@ -17,7 +17,7 @@
   "dependencies": {
     "@angular/animations": "^19.2.21",
     "@angular/cdk": "^19.2.19",
-    "@angular/common": "^19.2.8",
+    "@angular/common": "^19.2.21",
     "@angular/compiler": "^19.2.21",
     "@angular/core": "^19.2.21",
     "@angular/flex-layout": "^15.0.0-beta.42",
@@ -65,7 +65,7 @@
     "@ngrx/store-devtools": "^19.0.1",
     "@types/crypto-js": "^4.2.1",
     "@types/jasmine": "^5.1.13",
-    "@types/jquery": "^3.5.33",
+    "@types/jquery": "^4.0.0",
     "@types/node": "^25.6.2",
     "codelyzer": "^6.0.2",
     "cross-env": "^10.1.0",
