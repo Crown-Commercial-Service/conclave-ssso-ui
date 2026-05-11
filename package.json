@@ -53,7 +53,7 @@
     "save-dev": "0.0.1-security",
     "tslib": "^2.8.1",
     "webpack-dev-middleware": "^8.0.3",
-    "zone.js": "~0.15.0"
+    "zone.js": "~0.16.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.13",
