@@ -55,12 +55,12 @@ export const environment = {
   
             //dashboard: 'https://preprod-ccs-sso.london.cloudapps.digital' 
   
-            dashboard: 'https://preprod.identify.crowncommercial.gov.uk',
+            dashboard: 'https://preprod.identify.gca.gov.uk',
             name: "PRE-PROD"
         },
   
-        ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
-        ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
+        ccsContactUrl: "https://webuat.gca.gov.uk/contact",
+        ccsDashboardUrl: "https://webuat.gca.gov.uk"
   
     },
   
