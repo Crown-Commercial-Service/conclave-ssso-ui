@@ -29,7 +29,7 @@
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
     "@types/lodash": "^4.17.24",
-    "angular-google-tag-manager": "^1.11.0",
+    "angular-google-tag-manager": "^1.12.0",
     "angularx-qrcode": "^19.0.0",
     "bootstrap": "^5.3.8",
     "core-js": "^3.49.0",
