@@ -25,11 +25,11 @@ export const environment = {
       }
     },
     web: {
-      dashboard: 'https://test.identify.crowncommercial.gov.uk',
+      dashboard: 'https://test.identify.gca.gov.uk',
       name: "TEST"
     },
-    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
-    ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
+    ccsContactUrl: "https://webuat.gca.gov.uk/contact",
+    ccsDashboardUrl: "https://webuat.gca.gov.uk"
   },
   
   googleTagMangerId: 'GTM-TZCX5VP',
