@@ -27,11 +27,28 @@ function receiveMessage(e) {
     noticeToParentWindow(stat);
 }
 
+function getDashboardOrigin() {
+    if (window.location && window.location.origin) {
+        return window.location.origin;
+    }
+
+    const storedRedirectUri = this.localStorage.getItem('redirect_uri');
+    if (storedRedirectUri) {
+        try {
+            return new URL(storedRedirectUri).origin;
+        } catch (e) {
+            // Ignore invalid URL values and use configured fallback.
+        }
+    }
+
+    return '';
+}
+
 function noticeToParentWindow(stat) {
     if (stat == "changed" || stat == "error") {
         
         let secApiURl = this.localStorage.getItem('securityapiurl');
-        let redirect_uri = this.localStorage.getItem('redirect_uri') + '/authsuccess';
+        let redirect_uri = getDashboardOrigin() + '/authsuccess';
         let client_id = decrypt('client_id');
         let secApi = secApiURl + '/security/authorize?client_id=' + client_id
             + '&redirect_uri=' + redirect_uri + '&response_type=code' +

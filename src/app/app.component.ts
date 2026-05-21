@@ -31,14 +31,15 @@ export class AppComponent implements OnInit {
   public IsActivePage:string=''
   isAuthenticated: boolean = false;
   toggleControl = new FormControl(false);
-  opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/sessions/?origin=' + environment.uri.web.dashboard);
-  rpIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.web.dashboard + '/assets/rpIFrame.html');
+  opIFrameURL!: SafeResourceUrl;
+  rpIFrameURL!: SafeResourceUrl;
   ccsContactUrl: string = environment.uri.ccsContactUrl;
   constructor(private sanitizer: DomSanitizer, private globalRouteService: GlobalRouteService, private overlay: OverlayContainer, private translate: TranslateService, protected uiStore: Store<UIState>, private router: Router,
     private route: ActivatedRoute, public authService: AuthService, private gtmService: GoogleTagManagerService,
     public loadingIndicatorService: LoadingIndicatorService, private titleService: Title, private sessionService:SessionService) {
     translate.setDefaultLang('en');
     this.sideNavVisible$ = this.uiStore.pipe(select(getSideNavVisible));
+    this.updateIframeUrls();
     //this.gtmService.addGtmToDom();
     this.router.events.pipe(filter(event => event instanceof NavigationEnd), map(() => {
       let child = this.route.firstChild;
@@ -68,7 +69,45 @@ export class AppComponent implements OnInit {
     });
   }
 
+  private getDashboardOrigin() {
+    if (typeof window !== 'undefined' && window.location?.origin) {
+      return window.location.origin;
+    }
+
+    const storedRedirectUri = localStorage.getItem('redirect_uri');
+    if (storedRedirectUri) {
+      try {
+        return new URL(storedRedirectUri).origin;
+      } catch {
+        // Ignore invalid URL values and continue with configured fallback.
+      }
+    }
+
+    return environment.uri.web.dashboard;
+  }
+
+  private updateIframeUrls() {
+    const dashboardOrigin = this.getDashboardOrigin();
+    this.opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.uri.api.security + '/security/sessions/?origin=' + dashboardOrigin);
+    this.rpIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(dashboardOrigin + '/assets/rpIFrame.html');
+  }
+
+  private syncAuthStorageOrigins() {
+    const configuredSecurityApiUrl = environment.uri.api.security;
+    const runtimeDashboardOrigin = this.getDashboardOrigin();
+
+    if (localStorage.getItem('securityapiurl') !== configuredSecurityApiUrl) {
+      localStorage.setItem('securityapiurl', configuredSecurityApiUrl);
+    }
+
+    if (localStorage.getItem('redirect_uri') !== runtimeDashboardOrigin) {
+      localStorage.setItem('redirect_uri', runtimeDashboardOrigin);
+    }
+  }
+
   async ngOnInit() {        
+    this.syncAuthStorageOrigins();
+
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {        
         if(localStorage.getItem('user_name') === null){
@@ -118,12 +157,6 @@ export class AppComponent implements OnInit {
     });
     if (!this.sessionService.decrypt('client_id')) {
       this.sessionService.encrypt('client_id',environment.idam_client_id)
-    }
-    if (!localStorage.getItem('securityapiurl')) {
-      localStorage.setItem('securityapiurl', environment.uri.api.security);
-    }
-    if (!localStorage.getItem('redirect_uri')) {
-      localStorage.setItem('redirect_uri', environment.uri.web.dashboard);
     }
   }
 
