@@ -8,11 +8,22 @@ function onLoad() {
 }
 
 function check_session() {
-    let win = window.parent.document.getElementById("opIFrame").contentWindow;
+    let opIframe = window.parent.document.getElementById("opIFrame");
+    if (!opIframe || !opIframe.contentWindow) {
+        return;
+    }
+
+    let win = opIframe.contentWindow;
     let client_id = decrypt('client_id');
     let session_state = this.localStorage.getItem('session_state');
     let mes = client_id + ' ' + session_state;
-     win.postMessage(mes, this.localStorage.getItem('securityapiurl'));
+    let securityApiOrigin = getSecurityApiOrigin();
+    if (!securityApiOrigin) {
+        return;
+    }
+
+    // Post only to the expected Security API origin.
+    win.postMessage(mes, securityApiOrigin);
 }
 
 function setTimer() {
@@ -22,9 +33,23 @@ function setTimer() {
 
 
 function receiveMessage(e) {
-    if (e.origin !== this.localStorage.getItem('securityapiurl')) { return; }
+    if (e.origin !== getSecurityApiOrigin()) { return; }
     stat = e.data;
     noticeToParentWindow(stat);
+}
+
+function getSecurityApiOrigin() {
+    const securityApiUrl = this.localStorage.getItem('securityapiurl') || '';
+
+    if (!securityApiUrl) {
+        return '';
+    }
+
+    try {
+        return new URL(securityApiUrl).origin;
+    } catch (e) {
+        return securityApiUrl;
+    }
 }
 
 function getDashboardOrigin() {
