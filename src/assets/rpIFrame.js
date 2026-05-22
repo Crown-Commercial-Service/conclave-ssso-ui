@@ -8,6 +8,10 @@ function onLoad() {
 }
 
 function check_session() {
+    if (isTransientAuthRoute()) {
+        return;
+    }
+
     let opIframe = window.parent.document.getElementById("opIFrame");
     if (!opIframe || !opIframe.contentWindow) {
         return;
@@ -16,14 +20,26 @@ function check_session() {
     let win = opIframe.contentWindow;
     let client_id = decrypt('client_id');
     let session_state = this.localStorage.getItem('session_state');
+    if (!client_id || !session_state) {
+        return;
+    }
+
     let mes = client_id + ' ' + session_state;
     let securityApiOrigin = getSecurityApiOrigin();
     if (!securityApiOrigin) {
         return;
     }
 
+    if (!isOpIframeReady(opIframe, securityApiOrigin)) {
+        return;
+    }
+
     // Post only to the expected Security API origin.
-    win.postMessage(mes, securityApiOrigin);
+    try {
+        win.postMessage(mes, securityApiOrigin);
+    } catch (e) {
+        // Ignore transient frame navigation windows; next interval will retry.
+    }
 }
 
 function setTimer() {
@@ -52,6 +68,35 @@ function getSecurityApiOrigin() {
     }
 }
 
+function isOpIframeReady(opIframe, securityApiOrigin) {
+    if (!opIframe) {
+        return false;
+    }
+
+    const opIframeSrc = opIframe.getAttribute('src') || '';
+    if (!opIframeSrc) {
+        return false;
+    }
+
+    try {
+        const opIframeOrigin = new URL(opIframeSrc, window.parent.location.href).origin;
+        if (opIframeOrigin !== securityApiOrigin) {
+            return false;
+        }
+    } catch (e) {
+        return false;
+    }
+
+    try {
+        // Access succeeds only while same-origin with the parent (typically before the cross-origin OP iframe loads).
+        const currentOrigin = opIframe.contentWindow.location.origin;
+        return currentOrigin === securityApiOrigin;
+    } catch (e) {
+        // Cross-origin access throws once OP iframe is on Security API origin; that's the expected ready state.
+        return true;
+    }
+}
+
 function getDashboardOrigin() {
     if (window.location && window.location.origin) {
         return window.location.origin;
@@ -71,6 +116,9 @@ function getDashboardOrigin() {
 
 function noticeToParentWindow(stat) {
     if (stat == "changed" || stat == "error") {
+        if (isTransientAuthRoute()) {
+            return false;
+        }
         
         let secApiURl = this.localStorage.getItem('securityapiurl');
         let redirect_uri = getDashboardOrigin() + '/authsuccess';
@@ -82,6 +130,15 @@ function noticeToParentWindow(stat) {
         return false;
     } else {
         
+    }
+}
+
+function isTransientAuthRoute() {
+    try {
+        let path = (window.parent && window.parent.location && window.parent.location.pathname) || '';
+        return path.indexOf('/authsuccess') === 0 || path.indexOf('/mfa-selection') === 0;
+    } catch (e) {
+        return false;
     }
 }
 
