@@ -21,6 +21,7 @@ export class AuthService {
 
   public url: string = environment.uri.api.security;
   public authTokenRenewaltimerReference: any = undefined;
+  private logoutInProgress = false;
   servicePermission: ServicePermission[];
   ccsServices: CcsServiceInfo[] = [];
 
@@ -297,14 +298,23 @@ export class AuthService {
   }
 
   public logOutAndRedirect() {
+    if (this.logoutInProgress) {
+      return;
+    }
+
+    this.logoutInProgress = true;
     this.RollbarErrorService.RollbarDebug("logOutAndRedirect")
+    const signOutEndpoint = this.getSignOutEndpoint();
+
     return this.clearRefreshToken().toPromise().then(() => {
       this.signOut();
-      window.location.href = this.getSignOutEndpoint();
-    }),
-      catchError(error => {
-        return throwError(error);
-      });
+      window.location.href = signOutEndpoint;
+    }).catch((error) => {
+      // Wrapper sign-out can legitimately return 401 when session is already gone.
+      this.RollbarErrorService.RollbarDebug('clearRefreshTokenError:' + JSON.stringify(error));
+      this.signOut();
+      window.location.href = signOutEndpoint;
+    });
   }
 
   clearRefreshToken() {
