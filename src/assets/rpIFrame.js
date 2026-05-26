@@ -115,7 +115,7 @@ function getDashboardOrigin() {
 }
 
 function noticeToParentWindow(stat) {
-    if (stat == "changed" || stat == "error") {
+    if (stat == "changed") {
         if (isTransientAuthRoute()) {
             return false;
         }
@@ -129,7 +129,8 @@ function noticeToParentWindow(stat) {
         window.parent.location.href = secApi;
         return false;
     } else {
-        
+        // Ignore transient session-check errors to avoid auth redirect loops.
+        return false;
     }
 }
 
