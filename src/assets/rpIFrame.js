@@ -1,19 +1,33 @@
 var stat = "unchanged";
+var SESSION_DEBUG_KEY = 'sso_session_debug';
+var SESSION_FORCE_CHECK_KEY = 'sso_force_session_check';
 
 window.onload = onLoad();
 
 function onLoad() {
+    debugLog('onLoad', {
+        dashboardOrigin: getDashboardOrigin(),
+        securityApiOrigin: getSecurityApiOrigin(),
+        parentPath: getParentPathSafe()
+    });
     setTimer();
     window.addEventListener("message", receiveMessage, false);
 }
 
 function check_session() {
     if (isTransientAuthRoute()) {
+        debugLog('check_session skipped: transient route', { path: getParentPathSafe() });
+        return;
+    }
+
+    if (!shouldRunSessionCheck()) {
+        debugLog('check_session skipped: session check disabled for this origin pair');
         return;
     }
 
     let opIframe = window.parent.document.getElementById("opIFrame");
     if (!opIframe || !opIframe.contentWindow) {
+        debugLog('check_session skipped: opIFrame missing or not ready');
         return;
     }
 
@@ -21,24 +35,37 @@ function check_session() {
     let client_id = decrypt('client_id');
     let session_state = this.localStorage.getItem('session_state');
     if (!client_id || !session_state) {
+        debugLog('check_session skipped: missing client_id/session_state', {
+            hasClientId: !!client_id,
+            hasSessionState: !!session_state
+        });
         return;
     }
 
     let mes = client_id + ' ' + session_state;
     let securityApiOrigin = getSecurityApiOrigin();
     if (!securityApiOrigin) {
+        debugLog('check_session skipped: securityApiOrigin missing');
         return;
     }
 
     if (!isOpIframeReady(opIframe, securityApiOrigin)) {
+        debugLog('check_session skipped: opIFrame not yet on security api origin', {
+            opIframeSrc: opIframe.getAttribute('src') || ''
+        });
         return;
     }
 
     // Post only to the expected Security API origin.
     try {
+        debugLog('check_session postMessage', {
+            targetOrigin: securityApiOrigin,
+            parentPath: getParentPathSafe()
+        });
         win.postMessage(mes, securityApiOrigin);
     } catch (e) {
         // Ignore transient frame navigation windows; next interval will retry.
+        debugLog('check_session postMessage failed', { error: e && e.message ? e.message : 'unknown' });
     }
 }
 
@@ -49,8 +76,16 @@ function setTimer() {
 
 
 function receiveMessage(e) {
-    if (e.origin !== getSecurityApiOrigin()) { return; }
+    const expectedOrigin = getSecurityApiOrigin();
+    if (e.origin !== expectedOrigin) {
+        debugLog('receiveMessage ignored: unexpected origin', {
+            actualOrigin: e.origin,
+            expectedOrigin: expectedOrigin
+        });
+        return;
+    }
     stat = e.data;
+    debugLog('receiveMessage accepted', { stat: stat, origin: e.origin });
     noticeToParentWindow(stat);
 }
 
@@ -66,6 +101,58 @@ function getSecurityApiOrigin() {
     } catch (e) {
         return securityApiUrl;
     }
+}
+
+function shouldRunSessionCheck() {
+    const dashboardOrigin = getDashboardOrigin();
+    const securityApiOrigin = getSecurityApiOrigin();
+
+    if (!dashboardOrigin || !securityApiOrigin) {
+        debugLog('shouldRunSessionCheck=false: origin missing', {
+            dashboardOrigin: dashboardOrigin,
+            securityApiOrigin: securityApiOrigin
+        });
+        return false;
+    }
+
+    try {
+        const dashboardHost = new URL(dashboardOrigin).hostname;
+        const securityApiHost = new URL(securityApiOrigin).hostname;
+        const sameSite = getSiteFromHost(dashboardHost) === getSiteFromHost(securityApiHost);
+        const forceCheck = isForceSessionCheckEnabled();
+
+        debugLog('shouldRunSessionCheck evaluated', {
+            dashboardHost: dashboardHost,
+            securityApiHost: securityApiHost,
+            dashboardSite: getSiteFromHost(dashboardHost),
+            securityApiSite: getSiteFromHost(securityApiHost),
+            sameSite: sameSite,
+            forceCheck: forceCheck
+        });
+
+        return sameSite || forceCheck;
+    } catch (e) {
+        debugLog('shouldRunSessionCheck=false: invalid origin format');
+        return false;
+    }
+}
+
+function getSiteFromHost(hostname) {
+    if (!hostname) {
+        return '';
+    }
+
+    const parts = hostname.split('.');
+    if (parts.length <= 2) {
+        return hostname;
+    }
+
+    // Handle common UK public suffixes used by this service (for example, crowncommercial.gov.uk).
+    if (hostname.endsWith('.gov.uk') || hostname.endsWith('.co.uk') || hostname.endsWith('.org.uk')) {
+        return parts.slice(-3).join('.');
+    }
+
+    return parts.slice(-2).join('.');
 }
 
 function isOpIframeReady(opIframe, securityApiOrigin) {
@@ -117,6 +204,7 @@ function getDashboardOrigin() {
 function noticeToParentWindow(stat) {
     if (stat == "changed") {
         if (isTransientAuthRoute()) {
+            debugLog('noticeToParentWindow skipped redirect: transient route', { stat: stat });
             return false;
         }
         
@@ -126,11 +214,56 @@ function noticeToParentWindow(stat) {
         let secApi = secApiURl + '/security/authorize?client_id=' + client_id
             + '&redirect_uri=' + redirect_uri + '&response_type=code' +
             '&scope=email profile openid offline_access&prompt=none';
+        debugLog('noticeToParentWindow redirecting', {
+            stat: stat,
+            securityApiUrl: secApiURl,
+            redirectUri: redirect_uri,
+            parentPath: getParentPathSafe()
+        });
         window.parent.location.href = secApi;
         return false;
     } else {
         // Ignore transient session-check errors to avoid auth redirect loops.
+        debugLog('noticeToParentWindow ignored stat', { stat: stat });
         return false;
+    }
+}
+
+function isSessionDebugEnabled() {
+    try {
+        const query = new URLSearchParams(window.location.search);
+        return query.get('ssodebug') === '1' || localStorage.getItem(SESSION_DEBUG_KEY) === '1';
+    } catch (e) {
+        return localStorage.getItem(SESSION_DEBUG_KEY) === '1';
+    }
+}
+
+function isForceSessionCheckEnabled() {
+    try {
+        const query = new URLSearchParams(window.location.search);
+        return query.get('ssocheck') === '1' || localStorage.getItem(SESSION_FORCE_CHECK_KEY) === '1';
+    } catch (e) {
+        return localStorage.getItem(SESSION_FORCE_CHECK_KEY) === '1';
+    }
+}
+
+function debugLog(message, data) {
+    if (!isSessionDebugEnabled()) {
+        return;
+    }
+
+    if (data) {
+        console.info('[RP-SESSION]', message, data);
+    } else {
+        console.info('[RP-SESSION]', message);
+    }
+}
+
+function getParentPathSafe() {
+    try {
+        return (window.parent && window.parent.location && window.parent.location.pathname) || '';
+    } catch (e) {
+        return '';
     }
 }
 
