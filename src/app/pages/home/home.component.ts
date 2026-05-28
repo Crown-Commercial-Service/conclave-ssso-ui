@@ -49,14 +49,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
   idam_client_id: string = environment.idam_client_id;
   targetURL: string = environment.uri.api.security;
   accesstoken: any;
-  opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(
-    environment.uri.api.security +
-    '/security/sessions/?origin=' +
-    environment.uri.web.dashboard
-  );
-  rpIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(
-    environment.uri.web.dashboard + '/assets/rpIFrame.html'
-  );
+  opIFrameURL!: SafeResourceUrl;
+  rpIFrameURL!: SafeResourceUrl;
   ciiOrganisationId = localStorage.getItem('cii_organisation_id') || '';
   isOrgAdmin: boolean = false;
   constructor(
@@ -80,6 +74,14 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    const dashboardOrigin = this.getDashboardOrigin();
+    this.opIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(
+      environment.uri.api.security + '/security/sessions/?origin=' + dashboardOrigin
+    );
+    this.rpIFrameURL = this.sanitizer.bypassSecurityTrustResourceUrl(
+      dashboardOrigin + '/assets/rpIFrame.html'
+    );
+
     this.loadingIndicatorService.isLoading.next(true);
     this.loadingIndicatorService.isCustomLoading.next(true);
 
@@ -98,6 +100,23 @@ export class HomeComponent extends BaseComponent implements OnInit {
           this.router.navigateByUrl(urlTree.toString(), { replaceUrl: true });
         }
       });
+  }
+
+  private getDashboardOrigin() {
+    if (typeof window !== 'undefined' && window.location?.origin) {
+      return window.location.origin;
+    }
+
+    const storedRedirectUri = localStorage.getItem('redirect_uri');
+    if (storedRedirectUri) {
+      try {
+        return new URL(storedRedirectUri).origin;
+      } catch {
+        // Ignore invalid URL and use configured fallback.
+      }
+    }
+
+    return environment.uri.web.dashboard;
   }
 
   public checkValidOrganisation() {

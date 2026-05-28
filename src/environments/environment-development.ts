@@ -25,11 +25,11 @@ export const environment = {
         }
       },
       web: {
-        dashboard: 'https://dev.identify.crowncommercial.gov.uk',
+        dashboard: 'https://dev.identify.gca.gov.uk',
         name: "DEV"
       },
-      ccsContactUrl: "https://webdev.crowncommercial.gov.uk/contact",
-      ccsDashboardUrl: "https://webdev.crowncommercial.gov.uk"
+      ccsContactUrl: "https://webdev.gca.gov.uk/contact",
+      ccsDashboardUrl: "https://webdev.gca.gov.uk"
     },
     googleTagMangerId: 'GTM-TZCX5VP',
     cookieExpirationTimeInMinutes: 525600,

@@ -37,13 +37,13 @@ export const environment = {
 
     web: {
 
-      dashboard: 'https://nft.identify.crowncommercial.gov.uk',
+      dashboard: 'https://nft.identify.gca.gov.uk',
       name: "NFT"
 
     },
 
-    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
-    ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
+    ccsContactUrl: "https://webuat.gca.gov.uk/contact",
+    ccsDashboardUrl: "https://webuat.gca.gov.uk"
 
   },
 

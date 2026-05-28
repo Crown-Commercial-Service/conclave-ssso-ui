@@ -47,7 +47,7 @@ import { SessionService } from 'src/app/shared/session.service';
 export class ErrorComponent extends BaseComponent implements OnInit {
   resendForm!: FormGroup;
   submitted!: boolean;
-  public mainPageUrl: string = environment.uri.web.dashboard;
+  public mainPageUrl: string = '';
   public errorCode = '';
   expiredLinkErrorCodeValue: string = 'Access expired.';
   public formId : string = 'error';
@@ -88,6 +88,7 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     this.userName = this.sessionService.decrypt('user_name')
   }
   ngOnInit(): void {
+    this.mainPageUrl = this.getDashboardOrigin();
     
     var fragment=this.route.snapshot.fragment;
     if(fragment)
@@ -101,6 +102,23 @@ export class ErrorComponent extends BaseComponent implements OnInit {
     this.RollbarErrorService.RollbarDebug('Error Page:'.concat(this.errorCode));
     this.dataLayerService.pushPageViewEvent();
     this.dataLayerService.pushFormStartEvent(this.formId, this.resendForm);
+  }
+
+  private getDashboardOrigin() {
+    if (typeof window !== 'undefined' && window.location?.origin) {
+      return window.location.origin;
+    }
+
+    const storedRedirectUri = localStorage.getItem('redirect_uri');
+    if (storedRedirectUri) {
+      try {
+        return new URL(storedRedirectUri).origin;
+      } catch {
+        // Ignore invalid URL and use configured fallback.
+      }
+    }
+
+    return environment.uri.web.dashboard;
   }
 
   displayError(error: string) {
