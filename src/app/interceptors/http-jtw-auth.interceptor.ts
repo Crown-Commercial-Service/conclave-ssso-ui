@@ -45,12 +45,20 @@ export class HttpJwtAuthInterceptor implements HttpInterceptor {
                     return event;
                 }),
                 catchError((error: HttpErrorResponse) => {
-                    if (error.status == 401) {
+                    if (error.status == 401 && !this.isLogoutRequest(request.url)) {
                         this.authService.logOutAndRedirect();
                     }
                     return throwError(error);
                 }));
         }));
+    }
+
+    private isLogoutRequest(url: string) {
+        if (!url) {
+            return false;
+        }
+
+        return url.includes('/authorization/sign-out') || url.includes('/security/log-out');
     }
 
     getXsrfCookie() {

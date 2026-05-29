@@ -21,6 +21,7 @@ export class AuthService {
 
   public url: string = environment.uri.api.security;
   public authTokenRenewaltimerReference: any = undefined;
+  private logoutInProgress = false;
   servicePermission: ServicePermission[];
   ccsServices: CcsServiceInfo[] = [];
 
@@ -29,8 +30,33 @@ export class AuthService {
     this.servicePermission = [];
   }
 
+  private getDashboardOrigin() {
+    if (typeof window !== 'undefined' && window.location?.origin) {
+      return window.location.origin;
+    }
+
+    const storedRedirectUri = localStorage.getItem('redirect_uri');
+    if (storedRedirectUri) {
+      try {
+        return new URL(storedRedirectUri).origin;
+      } catch {
+        // Ignore invalid URL values and continue with configured fallback.
+      }
+    }
+
+    return environment.uri.web.dashboard;
+  }
+
+  private getAuthSuccessRedirectUri() {
+    return this.getDashboardOrigin() + '/authsuccess';
+  }
+
+  private getMfaSelectionRedirectUri() {
+    return this.getDashboardOrigin() + '/mfa-selection';
+  }
+
   login(username: string, password: string) {
-    var url = environment.uri.web.dashboard + '/authsuccess?code=' + username;
+    var url = this.getAuthSuccessRedirectUri() + '?code=' + username;
     window.location.href = url;
   }
 
@@ -153,7 +179,7 @@ export class AuthService {
     const options = {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     }
-    let body = `client_id=${environment.idam_client_id}&code=${code}&grant_type=authorization_code&code_verifier=${this.getCodeVerifier()}&redirect_uri=${environment.uri.web.dashboard + '/authsuccess'}`;
+    let body = `client_id=${environment.idam_client_id}&code=${code}&grant_type=authorization_code&code_verifier=${this.getCodeVerifier()}&redirect_uri=${this.getAuthSuccessRedirectUri()}`;
     this.RollbarErrorService.RollbarDebug('Token_req:'+ body)
     return this.httpService.post(`${this.url}/security/token`, body, options).pipe(
       map(data => {
@@ -208,7 +234,7 @@ export class AuthService {
 
   getSignOutEndpoint() {
     return environment.uri.api.security + '/security/log-out?client-id=' + environment.idam_client_id
-      + '&redirect-uri=' + environment.uri.web.dashboard;
+      + '&redirect-uri=' + this.getDashboardOrigin();
   }
 
   getAuthorizedEndpoint() {
@@ -221,7 +247,7 @@ export class AuthService {
     let url = environment.uri.api.security + '/security/authorize?scope=email profile openid offline_access&response_type=code&client_id='
       + environment.idam_client_id
       + '&code_challenge_method=S256' + '&code_challenge=' + codeChallenge
-      + '&redirect_uri=' + environment.uri.web.dashboard + '/authsuccess'
+      + '&redirect_uri=' + this.getAuthSuccessRedirectUri()
      this.RollbarErrorService.RollbarDebug("getAuthorizedEndpoint:"+url)
     return url;
   }
@@ -272,14 +298,23 @@ export class AuthService {
   }
 
   public logOutAndRedirect() {
+    if (this.logoutInProgress) {
+      return;
+    }
+
+    this.logoutInProgress = true;
     this.RollbarErrorService.RollbarDebug("logOutAndRedirect")
+    const signOutEndpoint = this.getSignOutEndpoint();
+
     return this.clearRefreshToken().toPromise().then(() => {
       this.signOut();
-      window.location.href = this.getSignOutEndpoint();
-    }),
-      catchError(error => {
-        return throwError(error);
-      });
+      window.location.href = signOutEndpoint;
+    }).catch((error) => {
+      // Wrapper sign-out can legitimately return 401 when session is already gone.
+      this.RollbarErrorService.RollbarDebug('clearRefreshTokenError:' + JSON.stringify(error));
+      this.signOut();
+      window.location.href = signOutEndpoint;
+    });
   }
 
   clearRefreshToken() {
@@ -342,14 +377,14 @@ export class AuthService {
   {
     let url = environment.uri.api.security + '/security/mfa/authorize?scope=email profile openid offline_access&response_type=code&client_id='
       + environment.idam_client_id
-      + '&redirect_uri=' + environment.uri.web.dashboard + '/mfa-selection'
+      + '&redirect_uri=' + this.getMfaSelectionRedirectUri()
     return url;
   }
   mfatoken(code: string): Observable<any> {
     const options = {
       headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     }
-    let body = `client_id=${environment.idam_client_id}&code=${code}&grant_type=authorization_code&code_verifier=${this.getCodeVerifier()}&redirect_uri=${environment.uri.web.dashboard + '/mfa-selection'}`;
+    let body = `client_id=${environment.idam_client_id}&code=${code}&grant_type=authorization_code&code_verifier=${this.getCodeVerifier()}&redirect_uri=${this.getMfaSelectionRedirectUri()}`;
     this.RollbarErrorService.RollbarDebug('Token_req:'+ body)
     return this.httpService.post(`${this.url}/security/mfa/token`, body, options).pipe(
       map(data => {

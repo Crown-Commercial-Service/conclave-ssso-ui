@@ -28,11 +28,11 @@ export const environment = {
     },
     web: {
       //dashboard: 'https://uat-ccs-sso.london.cloudapps.digital'
-      dashboard: 'https://uat.identify.crowncommercial.gov.uk',
+      dashboard: 'https://uat.identify.gca.gov.uk',
       name: "UAT"
     },
-    ccsContactUrl: "https://webuat.crowncommercial.gov.uk/contact",
-    ccsDashboardUrl: "https://webuat.crowncommercial.gov.uk"
+    ccsContactUrl: "https://webuat.gca.gov.uk/contact",
+    ccsDashboardUrl: "https://webuat.gca.gov.uk"
   },
 
   googleTagMangerId: 'GTM-TZCX5VP',

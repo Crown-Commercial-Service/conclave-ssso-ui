@@ -304,6 +304,23 @@ export class ViewVerifiedOrgComponent implements OnInit {
    return this.SharedDataService.getId(id,schema)
   }
 
+  private getDashboardOrigin() {
+    if (typeof window !== 'undefined' && window.location?.origin) {
+      return window.location.origin;
+    }
+
+    const storedRedirectUri = localStorage.getItem('redirect_uri');
+    if (storedRedirectUri) {
+      try {
+        return new URL(storedRedirectUri).origin;
+      } catch {
+        // Ignore invalid URL and use configured fallback.
+      }
+    }
+
+    return environment.uri.web.dashboard;
+  }
+
 
    public nevigateViewEdit() {
      let data = {
@@ -311,7 +328,7 @@ export class ViewVerifiedOrgComponent implements OnInit {
        Id: this.routeDetails.event.organisationId,
      };
      window.open(
-       environment.uri.web.dashboard +
+       this.getDashboardOrigin() +
        '/update-org-services/confirm?data=' +
        btoa(JSON.stringify(data)),
        '_blank'

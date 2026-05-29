@@ -30,12 +30,30 @@ export class MfaAuthenticationSetupSuccessComponent extends BaseComponent implem
         super(uiStore,viewportScroller,scrollHelper);
     }
     ngOnInit() {
-        const homeUrl = environment.uri.web.dashboard +'/home';
+        const homeUrl = this.getDashboardOrigin() + '/home';
                   setTimeout(() => {
                     window.location.href = homeUrl;
                   }, 5000);   
         this.dataLayerService.pushPageViewEvent();
     }
+
+    private getDashboardOrigin() {
+        if (typeof window !== 'undefined' && window.location?.origin) {
+            return window.location.origin;
+        }
+
+        const storedRedirectUri = localStorage.getItem('redirect_uri');
+        if (storedRedirectUri) {
+            try {
+                return new URL(storedRedirectUri).origin;
+            } catch {
+                // Ignore invalid URL and use configured fallback.
+            }
+        }
+
+        return environment.uri.web.dashboard;
+    }
+
     onLogOutClick()
     {
         this.authService.logOutAndRedirect();

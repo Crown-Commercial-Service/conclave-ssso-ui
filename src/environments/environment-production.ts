@@ -37,13 +37,13 @@ export const environment = {
 
     web: {
 
-      dashboard: 'https://identify.crowncommercial.gov.uk',
+      dashboard: 'https://identify.gca.gov.uk',
       name: ""
 
     },
 
-    ccsContactUrl: "https://www.crowncommercial.gov.uk/contact",
-    ccsDashboardUrl: "https://identify.crowncommercial.gov.uk"
+    ccsContactUrl: "https://www.gca.gov.uk/contact",
+    ccsDashboardUrl: "https://identify.gca.gov.uk"
 
   },
 
