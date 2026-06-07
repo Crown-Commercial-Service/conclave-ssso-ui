@@ -22,7 +22,7 @@
     "@angular/core": "^19.2.21",
     "@angular/flex-layout": "^15.0.0-beta.42",
     "@angular/forms": "^19.2.21",
-    "@angular/material": "^19.2.19",
+    "@angular/material": "^22.0.0",
     "@angular/platform-browser": "^19.2.21",
     "@angular/platform-browser-dynamic": "^19.2.21",
     "@angular/router": "^19.2.21",
