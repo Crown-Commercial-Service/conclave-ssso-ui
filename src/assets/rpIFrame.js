@@ -102,7 +102,7 @@ function getSiteFromHost(hostname) {
         return hostname;
     }
 
-    // Handle common UK public suffixes used by this service (for example, crowncommercial.gov.uk).
+    // Handle common UK public suffixes used by this service (for example, gca.gov.uk).
     if (hostname.endsWith('.gov.uk') || hostname.endsWith('.co.uk') || hostname.endsWith('.org.uk')) {
         return parts.slice(-3).join('.');
     }

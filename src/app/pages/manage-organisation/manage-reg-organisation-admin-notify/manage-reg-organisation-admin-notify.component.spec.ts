@@ -123,7 +123,7 @@ describe('ManageOrgRegNotifyAdminComponent', () => {
       'Return to the Government Commercial Agency homepage'
     );
     expect(link.getAttribute('href')).toBe(
-      'https://www.crowncommercial.gov.uk'
+      'https://www.gca.gov.uk'
     );
   });
 });
