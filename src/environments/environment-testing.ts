@@ -4,7 +4,7 @@ export const environment = {
   uri: {
     api: {
       isApiGateWayEnabled: true,
-      security: 'https://tst.api.crowncommercial.gov.uk',
+      security: 'https://tst.api.gca.gov.uk',
       postgres: 'https://tst.api.crowncommercial.gov.uk/dashboard-wrapper',
       cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
