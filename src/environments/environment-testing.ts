@@ -12,7 +12,7 @@ export const environment = {
           user: 'https://tst.api.gca.gov.uk/user-profile',
           organisation: 'https://tst.api.gca.gov.uk/organisation-profile',
           contact: 'https://tst.api.gca.gov.uk/contact-service',
-          configuration: 'https://tst.api.crowncommercial.gov.uk/configuration-service',
+          configuration: 'https://tst.api.gca.gov.uk/configuration-service',
           dataMigration: 'https://tst.api.gca.gov.uk/organisation-profile/migrations',
         },
         apiGatewayDisabled: {

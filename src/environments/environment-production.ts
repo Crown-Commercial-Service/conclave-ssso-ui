@@ -21,7 +21,7 @@ export const environment = {
           user: 'https://api.gca.gov.uk/user-profile',
           organisation: 'https://api.gca.gov.uk/organisation-profile',
           contact: 'https://api.gca.gov.uk/contact-service',
-          configuration: 'https://api.crowncommercial.gov.uk/configuration-service',
+          configuration: 'https://api.gca.gov.uk/configuration-service',
           dataMigration: 'https://api.gca.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {

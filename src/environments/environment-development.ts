@@ -12,7 +12,7 @@ export const environment = {
             user: 'https://dev.api.gca.gov.uk/aws/user-profile',
             organisation: 'https://dev.api.gca.gov.uk/aws/organisation-profile',
             contact: 'https://dev.api.gca.gov.uk/aws/contact-service',
-            configuration: 'https://dev.api.crowncommercial.gov.uk/aws/configuration-service',
+            configuration: 'https://dev.api.gca.gov.uk/aws/configuration-service',
             dataMigration: 'https://dev.api.gca.gov.uk/aws/organisation-profile/migrations',
           },
           apiGatewayDisabled: {
