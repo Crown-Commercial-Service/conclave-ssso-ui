@@ -10,11 +10,11 @@ export const environment = {
   
             isApiGateWayEnabled: true,
   
-            security: 'https://pre.api.crowncommercial.gov.uk',
+            security: 'https://pre.api.gca.gov.uk',
   
             //security: 'https://pre.api.crowncommercial.gov.uk', 
   
-            postgres: 'https://pre.api.crowncommercial.gov.uk/dashboard-wrapper',
+            postgres: 'https://pre.api.gca.gov.uk/dashboard-wrapper',
   
             //postgres: 'https://pre.api.crowncommercial.gov.uk/core', 
   
@@ -22,7 +22,7 @@ export const environment = {
   
                 apiGatewayEnabled: {
   
-                    user: 'https://pre.api.crowncommercial.gov.uk/user-profile',
+                    user: 'https://pre.api.gca.gov.uk/user-profile',
   
                     organisation: 'https://pre.api.crowncommercial.gov.uk/organisation-profile',
   

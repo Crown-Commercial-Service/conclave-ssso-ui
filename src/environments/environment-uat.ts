@@ -5,13 +5,13 @@ export const environment = {
     api: {
       isApiGateWayEnabled: true,
       //security: 'https://uat-api-security.london.cloudapps.digital',
-      security: 'https://uat.api.crowncommercial.gov.uk',
+      security: 'https://uat.api.gca.gov.uk',
       //postgres: 'https://uat-api-core.london.cloudapps.digital',
-      postgres: 'https://uat.api.crowncommercial.gov.uk/dashboard-wrapper',
+      postgres: 'https://uat.api.gca.gov.uk/dashboard-wrapper',
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://uat.api.crowncommercial.gov.uk/user-profile',
+          user: 'https://uat.api.gca.gov.uk/user-profile',
           organisation: 'https://uat.api.crowncommercial.gov.uk/organisation-profile',
           contact: 'https://uat.api.crowncommercial.gov.uk/contact-service',
           configuration: 'https://uat.api.crowncommercial.gov.uk/configuration-service',

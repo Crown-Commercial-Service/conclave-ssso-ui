@@ -10,15 +10,15 @@ export const environment = {
 
       isApiGateWayEnabled: true,
 
-      security: 'https://api.crowncommercial.gov.uk',
+      security: 'https://api.gca.gov.uk',
 
-      postgres: 'https://api.crowncommercial.gov.uk/dashboard-wrapper',
+      postgres: 'https://api.gca.gov.uk/dashboard-wrapper',
 
       //cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
 
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://api.crowncommercial.gov.uk/user-profile',
+          user: 'https://api.gca.gov.uk/user-profile',
           organisation: 'https://api.crowncommercial.gov.uk/organisation-profile',
           contact: 'https://api.crowncommercial.gov.uk/contact-service',
           configuration: 'https://api.crowncommercial.gov.uk/configuration-service',

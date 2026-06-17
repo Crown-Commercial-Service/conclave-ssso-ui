@@ -5,11 +5,11 @@ export const environment = {
     api: {
       isApiGateWayEnabled: true,
       security: 'https://tst.api.gca.gov.uk',
-      postgres: 'https://tst.api.crowncommercial.gov.uk/dashboard-wrapper',
+      postgres: 'https://tst.api.gca.gov.uk/dashboard-wrapper',
       cii: 'https://conclave-cii-integration-brash-shark-mk.london.cloudapps.digital',
       wrapper: {
         apiGatewayEnabled: {
-          user: 'https://tst.api.crowncommercial.gov.uk/user-profile',
+          user: 'https://tst.api.gca.gov.uk/user-profile',
           organisation: 'https://tst.api.crowncommercial.gov.uk/organisation-profile',
           contact: 'https://tst.api.crowncommercial.gov.uk/contact-service',
           configuration: 'https://tst.api.crowncommercial.gov.uk/configuration-service',
