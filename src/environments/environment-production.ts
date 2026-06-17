@@ -19,10 +19,10 @@ export const environment = {
       wrapper: {
         apiGatewayEnabled: {
           user: 'https://api.gca.gov.uk/user-profile',
-          organisation: 'https://api.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://api.crowncommercial.gov.uk/contact-service',
+          organisation: 'https://api.gca.gov.uk/organisation-profile',
+          contact: 'https://api.gca.gov.uk/contact-service',
           configuration: 'https://api.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://api.crowncommercial.gov.uk/organisation-profile/datamigration',
+          dataMigration: 'https://api.gca.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/user-profile',

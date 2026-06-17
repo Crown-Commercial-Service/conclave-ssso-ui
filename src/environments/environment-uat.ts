@@ -12,10 +12,10 @@ export const environment = {
       wrapper: {
         apiGatewayEnabled: {
           user: 'https://uat.api.gca.gov.uk/user-profile',
-          organisation: 'https://uat.api.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://uat.api.crowncommercial.gov.uk/contact-service',
+          organisation: 'https://uat.api.gca.gov.uk/organisation-profile',
+          contact: 'https://uat.api.gca.gov.uk/contact-service',
           configuration: 'https://uat.api.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://uat.api.crowncommercial.gov.uk/organisation-profile/datamigration',
+          dataMigration: 'https://uat.api.gca.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
           user: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/user-profile',

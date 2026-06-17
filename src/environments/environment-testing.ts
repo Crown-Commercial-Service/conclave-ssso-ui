@@ -10,10 +10,10 @@ export const environment = {
       wrapper: {
         apiGatewayEnabled: {
           user: 'https://tst.api.gca.gov.uk/user-profile',
-          organisation: 'https://tst.api.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://tst.api.crowncommercial.gov.uk/contact-service',
+          organisation: 'https://tst.api.gca.gov.uk/organisation-profile',
+          contact: 'https://tst.api.gca.gov.uk/contact-service',
           configuration: 'https://tst.api.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://tst.api.crowncommercial.gov.uk/organisation-profile/migrations',
+          dataMigration: 'https://tst.api.gca.gov.uk/organisation-profile/migrations',
         },
         apiGatewayDisabled: {
           user: 'https://test.ppg-sso-service.crowncommercial.gov.uk/user-profile',
