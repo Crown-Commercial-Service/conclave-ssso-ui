@@ -25,17 +25,17 @@ export const environment = {
           dataMigration: 'https://api.gca.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
-          user: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/user-profile',
-          organisation: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/contact-service',
-          configuration: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://prod.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/datamigration',
+          user: 'https://prod.ppg-sso-service.gca.gov.uk/user-profile',
+          organisation: 'https://prod.ppg-sso-service.gca.gov.uk/organisation-profile',
+          contact: 'https://prod.ppg-sso-service.gca.gov.uk/contact-service',
+          configuration: 'https://prod.ppg-sso-service.gca.gov.uk/configuration-service',
+          dataMigration: 'https://prod.ppg-sso-service.gca.gov.uk/organisation-profile/datamigration',
         }
       }
 
     },
 
-    web: {
+      web: {
 
       dashboard: 'https://identify.gca.gov.uk',
       name: ""
@@ -55,7 +55,7 @@ export const environment = {
 
   bulkUploadMaxFileSizeInBytes:1048576,
 
-  bulkUploadTemplateFileUrl: 'https://api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
+  bulkUploadTemplateFileUrl: 'https://api.gca.gov.uk/templates/DataMigrationTemplate.csv',
 
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
 

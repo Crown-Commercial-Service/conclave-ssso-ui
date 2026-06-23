@@ -18,11 +18,11 @@ export const environment = {
           dataMigration: 'https://uat.api.gca.gov.uk/organisation-profile/datamigration',
         },
         apiGatewayDisabled: {
-          user: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/user-profile',
-          organisation: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/organisation-profile',
-          contact: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/contact-service',
-          configuration: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/configuration-service',
-          dataMigration: 'https://uat.ppg-sso-service.crowncommercial.gov.uk/organisation-profile/datamigration',
+          user: 'https://uat.ppg-sso-service.gca.gov.uk/user-profile',
+          organisation: 'https://uat.ppg-sso-service.gca.gov.uk/organisation-profile',
+          contact: 'https://uat.ppg-sso-service.gca.gov.uk/contact-service',
+          configuration: 'https://uat.ppg-sso-service.gca.gov.uk/configuration-service',
+          dataMigration: 'https://uat.ppg-sso-service.gca.gov.uk/organisation-profile/datamigration',
         }
       }
     },
@@ -39,7 +39,7 @@ export const environment = {
   cookieExpirationTimeInMinutes: 525600,
   bulkUploadPollingFrequencyInSeconds: 5,
   bulkUploadMaxFileSizeInBytes:1048576,
-  bulkUploadTemplateFileUrl: 'https://uat.api.crowncommercial.gov.uk/templates/DataMigrationTemplate.csv',
+  bulkUploadTemplateFileUrl: 'https://uat.api.gca.gov.uk/templates/DataMigrationTemplate.csv',
   usedPasswordThreshold: 5, //This value should be changed when Auth0 password history policy changed,
   listPageSize: 10,
   mailDecryptKey:'conclavesimpleemailencrypt',
