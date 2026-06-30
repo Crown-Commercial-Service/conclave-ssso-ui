@@ -62,9 +62,26 @@ export class ForgotPasswordSuccessComponent extends BaseComponent implements OnI
         this.authService.logOutAndRedirect();
     }
 
+    private getDashboardOrigin() {
+        if (typeof window !== 'undefined' && window.location?.origin) {
+          return window.location.origin;
+        }
+
+        const storedRedirectUri = localStorage.getItem('redirect_uri');
+        if (storedRedirectUri) {
+          try {
+            return new URL(storedRedirectUri).origin;
+          } catch {
+            // Ignore invalid URL and use configured fallback.
+          }
+        }
+
+        return environment.uri.web.dashboard;
+      }
+
     getSignOutEndpoint() {
         return environment.uri.api.security + '/security/log-out?client-id=' + environment.idam_client_id
-          + '&redirect-uri=' + environment.uri.web.dashboard;
+          + '&redirect-uri=' + this.getDashboardOrigin();
       }
     
 
