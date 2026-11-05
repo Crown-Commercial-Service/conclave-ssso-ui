@@ -21,7 +21,7 @@ RUN npm run build
 # ---------- Step 2: Serve with NGINX ----------
 
 # Set the working directory
-FROM nginx:stable-alpine3.20-slim AS runtime
+FROM nginx:1.31.8-alpine3.24-slim AS runtime
 
 WORKDIR /usr/share/nginx/html
 
